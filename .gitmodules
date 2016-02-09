@@ -1,0 +1,3 @@
+[submodule "preboot"]
+	path = preboot
+	url = https://github.com/mdo/preboot
