@@ -1,0 +1,8 @@
+# Node modules folder
+node_modules
+
+# Vim stuff
+*.sw[po]
+
+# Backups
+*~
