@@ -1,0 +1,15 @@
+/**
+ * Dakara project
+ *
+ * Controls style file
+ */
+
+.make-controls(@height) {
+        > * {
+                .square(@height);
+                cursor: pointer;
+                text-align: center;
+                line-height: @height;
+                color: @body-background;
+        }
+}

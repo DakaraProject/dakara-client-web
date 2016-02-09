@@ -1,0 +1,123 @@
+/**
+ * Dakara project
+ *
+ * Playlist style file
+ */
+
+
+#playlist {
+        margin-top: @gap-vertical;
+
+        #player {
+                display: flex;
+                align-items: flex-start;
+                padding: @gap-vertical @gap-horizontal @gap-vertical 0;
+                background: darken(@brand-primary, 20%);
+                @player-controls-height: 60px;
+
+                .controls {
+                        .make-controls(@player-controls-height);
+
+                        > * {
+                                background: @brand-primary;
+                                font-size: 20pt;
+                                display: inline-block;
+
+                                &:nth-child(n+2) {
+                                        margin-left: @gap-horizontal;
+                                }
+
+                                &:hover {
+                                        background: lighten(@brand-primary, 7%);
+                                }
+                        }
+
+                        .play-pause {
+                        }
+
+                        .skip {
+                        }
+                }
+
+                .details {
+                        margin: 0 @gap-horizontal;
+                        color: @brand-primary;
+                        flex: 1;
+                        height: @player-controls-height;
+                        overflow: auto;
+
+                        .title {
+                                font-size: 18pt;
+                                font-weight: 300;
+                        }
+                }
+
+                .status {
+                        .current {
+                                font-size: @player-controls-height;
+                                font-weight: 100;
+                                color: @brand-primary;
+                                line-height: @player-controls-height;
+                        }
+                }
+        }
+
+        #entries {
+                .info {
+                        padding: 0 @gap-horizontal;
+                        background: @brand-primary;
+                        cursor: pointer;
+                        color: @body-background;
+                        display: flex;
+
+                        &:hover {
+                                background: lighten(@brand-primary, 7%);
+                        }
+
+                        div:last-child {
+                                flex: 1;
+                        }
+
+                        div:nth-child(n+2) {
+                                margin-left: @gap-horizontal;
+                        }
+
+                        .stat {
+                                display: inline-block;
+                                font-weight: 100;
+                                font-size: 30pt;
+                                vertical-align: middle;
+                        }
+
+                        .description {
+                                display: inline-block;
+                                .text-truncate();
+                                vertical-align: middle;
+                        }
+                }
+
+                ul.listing {
+                        @entries-height: 40px;
+                        .make-listing(@entries-height);
+                        max-height: @entries-height * 5;
+                        overflow: auto;
+
+                        .remove {
+                                background: @brand-danger;
+                                font-size: 15pt;
+                        }
+
+                        li:nth-child(2n) {
+                                .remove {
+                                        background: lighten(@brand-danger, 2.5%);
+                                }
+                        }
+
+                        li:hover {
+                                .remove {
+                                        background: lighten(@brand-danger, 7%);
+                                }
+                        }
+                }
+        }
+}

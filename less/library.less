@@ -1,0 +1,120 @@
+/**
+ * Dakara project
+ *
+ * Library style file
+ */
+
+#library {
+        margin-top: @gap-vertical;
+
+        #query {
+                display: flex;
+                padding: @gap-vertical 0;
+                background: darken(@brand-primary, 20%);
+                @query-controls-height: 40px;
+
+                .field {
+                        flex: 1;
+                        padding-right: @gap-horizontal;
+
+                        input {
+                                width: 100%;
+                                border: none;
+                                background: @black-70;
+                                color: @body-background;
+                                height: @query-controls-height;
+                                padding: 0 @gap-horizontal;
+                                box-sizing: border-box;
+
+                                &:hover {
+                                        background: lighten(@black-70, 7%);
+                                }
+                        }
+                }
+
+                .controls {
+                        .make-controls(@query-controls-height);
+
+                        .search {
+                                background: @brand-primary;
+                                font-size: 20pt;
+
+                                &:hover {
+                                        background: lighten(@brand-primary, 7%);
+                                }
+                        }
+                }
+        }
+
+        #results {
+                ul.listing {
+                        .make-listing(40px);
+
+                        .add {
+                                background: @brand-primary;
+                                font-size: 15pt;
+                        }
+
+                        li:nth-child(2n) {
+                                .add {
+                                        background: lighten(@brand-primary, 2.5%);
+                                }
+                        }
+
+                        li:hover {
+                                .add {
+                                        background: lighten(@brand-primary, 7%);
+                                }
+                        }
+                }
+        }
+
+        #paginator {
+                background: darken(@brand-primary, 20%);
+                display: flex;
+                @paginator-height: 50px;
+
+                .controls {
+                        .make-controls(@paginator-height);
+
+                        > * {
+                                background: @brand-primary;
+                                display: inline-block;
+                                font-size: 25pt;
+
+                                &:nth-child(n+2) {
+                                        margin-left: @gap-horizontal;
+                                }
+
+                                &:not(.disabled):hover {
+                                        background: lighten(@brand-primary, 7%);
+                                }
+                        }
+
+                        .disabled {
+                                cursor: default;
+                                background: darken(@brand-primary, 10%);
+                        }
+                }
+
+                .info {
+                        padding: 0 @gap-horizontal;
+                        color: @brand-primary;
+                        flex: 1;
+                        text-align: right;
+
+                        .stat {
+                                display: inline-block;
+                                font-weight: 300;
+                                font-size: 30pt;
+                                vertical-align: middle;
+                                line-height: @paginator-height;
+                        }
+
+                        .description {
+                                display: inline-block;
+                                vertical-align: middle;
+                        }
+                }
+        }
+}

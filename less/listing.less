@@ -1,0 +1,35 @@
+/**
+ * Dakara project
+ *
+ * Listing style file
+ */
+
+
+.make-listing(@height) {
+        margin: 0;
+        padding: 0;
+        background: @black-80;
+        list-style-type: none;
+
+        li {
+                display: flex;
+                padding-left: @gap-horizontal;
+
+                &:nth-child(2n) {
+                        background: lighten(@black-80, 2.5%);
+                }
+
+                &:hover {
+                        background: lighten(@black-80, 7%);
+                }
+
+                .data {
+                        flex: 1;
+                        line-height: @height;
+                }
+
+                .controls {
+                        .make-controls(@height);
+                }
+        }
+}
