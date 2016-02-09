@@ -5,4 +5,12 @@ Dakara web client
 
 Install Node JS, then in terminal:
 
-```npm install```
+```shell
+npm install
+```
+
+To clone submodules (after cloning this repo):
+
+```shell
+git submodule update --init --recursive
+```
