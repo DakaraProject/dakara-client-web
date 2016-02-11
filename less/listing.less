@@ -5,7 +5,7 @@
  */
 
 
-.make-listing(@height) {
+.make-listing(@height, @control-font-size: 1em) {
         margin: 0;
         padding: 0;
         background: @black-80;
@@ -30,7 +30,7 @@
                 }
 
                 .controls {
-                        .make-controls(@height);
+                        .make-controls(@height, @control-font-size);
                 }
         }
 }

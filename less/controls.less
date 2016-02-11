@@ -4,12 +4,52 @@
  * Controls style file
  */
 
-.make-controls(@height) {
+.make-controls(@height, @font-size) {
+        display: flex;
+
         > * {
                 .square(@height);
                 cursor: pointer;
                 text-align: center;
                 line-height: @height;
                 color: @body-background;
+                font-size: @font-size;
+
+                &:nth-child(n+2) {
+                        margin-left: @gap-horizontal;
+                }
+        }
+
+        .make-control(@color-enabled, @color-disabled, @color-activated) {
+                background: @color-enabled;
+
+                &.disabled {
+                        background: @color-disabled;
+                        cursor: default;
+                }
+
+                &:not(.disabled):hover {
+                        background: @color-activated;
+                }
+        }
+
+        > .control-primary {
+                .make-control(@brand-primary, @brand-primary-dark, @brand-primary-light);
+        }
+
+        > .control-success {
+                .make-control(@brand-success, @brand-success-dark, @brand-success-light);
+        }
+
+        > .control-warning {
+                .make-control(@brand-warning, @brand-warning-dark, @brand-warning-light);
+        }
+
+        > .control-danger {
+                .make-control(@brand-danger, @brand-danger-dark, @brand-danger-light);
+        }
+
+        > .control-info {
+                .make-control(@brand-info, @brand-info-dark, @brand-info-light);
         }
 }

@@ -33,26 +33,18 @@
                 }
 
                 .controls {
-                        .make-controls(@query-controls-height);
+                        .make-controls(@query-controls-height, 20pt);
 
                         .search {
-                                background: @brand-primary;
-                                font-size: 20pt;
-
-                                &:hover {
-                                        background: lighten(@brand-primary, 7%);
-                                }
                         }
                 }
         }
 
         #results {
                 ul.listing {
-                        .make-listing(40px);
+                        .make-listing(40px, 15pt);
 
                         .add {
-                                background: @brand-primary;
-                                font-size: 15pt;
                         }
 
                         li:nth-child(2n) {
@@ -63,7 +55,7 @@
 
                         li:hover {
                                 .add {
-                                        background: lighten(@brand-primary, 7%);
+                                        background: @brand-primary-light;
                                 }
                         }
                 }
@@ -75,26 +67,7 @@
                 @paginator-height: 50px;
 
                 .controls {
-                        .make-controls(@paginator-height);
-
-                        > * {
-                                background: @brand-primary;
-                                display: inline-block;
-                                font-size: 25pt;
-
-                                &:nth-child(n+2) {
-                                        margin-left: @gap-horizontal;
-                                }
-
-                                &:not(.disabled):hover {
-                                        background: lighten(@brand-primary, 7%);
-                                }
-                        }
-
-                        .disabled {
-                                cursor: default;
-                                background: darken(@brand-primary, 10%);
-                        }
+                        .make-controls(@paginator-height, 25pt);
                 }
 
                 .info {
