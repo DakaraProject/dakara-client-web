@@ -10,7 +10,7 @@
 
         #player {
                 display: flex;
-                align-items: flex-start;
+                align-items: center;
                 padding: @gap-vertical @gap-horizontal @gap-vertical 0;
                 background: darken(@brand-primary, 20%);
                 @player-controls-height: 60px;
@@ -43,8 +43,7 @@
                         margin: 0 @gap-horizontal;
                         color: @brand-primary;
                         flex: 1;
-                        height: @player-controls-height;
-                        overflow: auto;
+                        min-height: @player-controls-height;
 
                         .title {
                                 font-size: 18pt;
@@ -90,6 +89,7 @@
                         }
 
                         .description {
+                                margin-left: 5px;
                                 display: inline-block;
                                 .text-truncate();
                                 vertical-align: middle;
