@@ -68,31 +68,38 @@
                         cursor: pointer;
                         color: @body-background;
                         display: flex;
+                        align-items: center;
+
 
                         &:hover {
                                 background: lighten(@brand-primary, 7%);
                         }
 
-                        div:last-child {
-                                flex: 1;
-                        }
+                        .info-item {
+                                display: flex;
+                                align-items: center;
 
-                        div:nth-child(n+2) {
-                                margin-left: @gap-horizontal;
-                        }
+                                &:last-child {
+                                        flex: 1;
+                                }
 
-                        .stat {
-                                display: inline-block;
-                                font-weight: 100;
-                                font-size: 30pt;
-                                vertical-align: middle;
-                        }
+                                &:nth-child(n+2) {
+                                        margin-left: @gap-horizontal;
+                                }
 
-                        .description {
-                                margin-left: 5px;
-                                display: inline-block;
-                                .text-truncate();
-                                vertical-align: middle;
+                                .stat {
+                                        display: inline-block;
+                                        font-weight: 100;
+                                        font-size: 30pt;
+                                        vertical-align: middle;
+                                }
+
+                                .description {
+                                        margin-left: 5px;
+                                        display: inline-block;
+                                        vertical-align: middle;
+                                        flex: 1;
+                                }
                         }
                 }
 
