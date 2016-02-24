@@ -32,3 +32,17 @@ The ```watch``` version doesn't close Gulp at the end, it waits for changes in L
 
 With ```--production``` option, compress the CSS file and add ```min``` suffix.
 
+# Webpack
+
+Install webpack globally
+
+```shell
+sudo npm install -g webpack
+```
+
+build js bundle
+
+```shell
+webpack
+```
+
