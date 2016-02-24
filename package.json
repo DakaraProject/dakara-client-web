@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/Nadeflore/dakara-client-web#readme",
   "devDependencies": {
+    "babel-core": "^6.5.2",
+    "babel-loader": "^6.2.3",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-less": "^3.0.5",
@@ -25,8 +27,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-util": "^3.0.7",
     "minimist": "^1.2.0",
-    "babel-loader": "^6.2.3",
-    "babel-core": "^6.5.2"
+    "webpack": "^1.12.14"
   },
   "dependencies": {
     "normalize.css": "^3.0.3",
