@@ -44,7 +44,12 @@ var LibraryEntry = React.createClass({
         return (
                 <li>
                     <div className="data">
-                        {this.props.song.title}
+                        <div className="title">
+                            {this.props.song.title}
+                        </div>
+                        <div className="duration">
+                            {this.props.song.duration}
+                        </div>
                     </div>
                     <div className="controls" id={"song-" + this.props.song.id}>
                         <div className="add control-primary" onClick={this.handleAdd}>
@@ -208,7 +213,6 @@ var Player = React.createClass({
         var playerStatus = this.props.playerStatus;
         var timing = playerStatus.timing;
         if (timing){
-            timing = timing.substring(3,8);
             previousTiming = timing;
         } else {
             timing = previousTiming;
@@ -217,8 +221,10 @@ var Player = React.createClass({
         var songName;
         var playIcon = "fa fa-";
         var playingId;
+        var duration;
         if (playerStatus.playlist_entry){
             songName = playerStatus.playlist_entry.song.title;
+            duration = playerStatus.playlist_entry.song.duration;
             playingId = playerStatus.playlist_entry.id;
             playIcon += playerStatus.paused ? "play" : "pause";
         } else {
@@ -260,6 +266,7 @@ var Player = React.createClass({
             </div>
             <div className="status">
                 <span id="playlist-current-timing" className="current">{timing}</span>
+                <span id="playlist-total-timing" className="current">{duration}</span>
             </div>
         </div>
         );
@@ -276,7 +283,12 @@ var PlaylistEntry = React.createClass({
         return (
             <li>
                 <div className="data">
-                    {this.props.entry.song.title} 
+                    <div className="title">
+                        {this.props.entry.song.title}
+                    </div>
+                    <div className="duration">
+                        {this.props.entry.song.duration}
+                    </div>
                 </div>
                 <div className="controls">
                     <div className="remove control-danger" onClick={this.handleRemove}>
@@ -300,12 +312,6 @@ var Playlist = React.createClass({
     render: function() {
         var playingId = this.props.playingId; 
         var list = this.props.entries.results;
-        var playingIndex = list.map(function(item) { return item.id; })
-               .indexOf(playingId);
-        //remove current playing id from list
-        if (playingIndex > -1){
-            list.splice(playingIndex,1);
-        } 
         var playlistEntries;
         var next;
         if (!this.state.collapsed){
@@ -313,15 +319,14 @@ var Playlist = React.createClass({
             playlistEntries = list.map(function(entry) {
                 return ( <PlaylistEntry entry={entry} removeEntry={removeEntry}/> );
             });
-        } else {
-            if (list[0]){
-                next = (
-                    <div className="info-item" id="playlist-info-next">
-                        <span className="stat">Next</span>
-                        <span className="description">{list[0].song.title}</span>
-                    </div>
-                );
-            }
+        } 
+        if (list[0]){
+            next = (
+                <div className="info-item" id="playlist-info-next">
+                    <span className="stat">Next</span>
+                    <span className="description">{list[0].song.title}</span>
+                </div>
+            );
         }
         
         var playlistSize = this.props.entries.count;
