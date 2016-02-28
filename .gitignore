@@ -9,3 +9,6 @@ node_modules
 
 # Generated CSS files
 css/dakara*.css
+
+# Output package directory
+dist
