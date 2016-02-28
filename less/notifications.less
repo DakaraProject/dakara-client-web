@@ -1,0 +1,19 @@
+/**
+ * Dakara project
+ *
+ * Notifications style file
+ */
+
+
+.notification {
+        color: @body-background;
+        padding: 0 @gap-horizontal;
+
+}
+.make-notification(@color) {
+        background-color: @color;
+}
+
+.notification-success {
+        .make-notification(@brand-success);
+}
