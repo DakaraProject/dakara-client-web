@@ -6,12 +6,12 @@
 
 #library {
         margin-top: @gap-vertical;
+        @library-controls-height: 50px;
 
         #query {
                 display: flex;
                 padding: @gap-vertical 0;
                 background: darken(@brand-primary, 20%);
-                @query-controls-height: 40px;
 
                 .field {
                         flex: 1;
@@ -22,18 +22,20 @@
                                 border: none;
                                 background: @black-70;
                                 color: @body-background;
-                                height: @query-controls-height;
+                                height: @library-controls-height;
                                 padding: 0 @gap-horizontal;
                                 box-sizing: border-box;
 
                                 &:hover {
                                         background: lighten(@black-70, 7%);
                                 }
+
+                                .placeholder(darken(@body-background, 5%));
                         }
                 }
 
                 .controls {
-                        .make-controls(@query-controls-height, 20pt);
+                        .make-controls(@library-controls-height, 20pt);
 
                         .search {
                         }
@@ -42,7 +44,7 @@
 
         #results {
                 ul.listing {
-                        .make-listing(40px, 15pt);
+                        .make-listing(@library-controls-height, 18pt);
 
                         .add {
                         }

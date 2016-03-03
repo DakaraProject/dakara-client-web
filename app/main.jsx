@@ -53,7 +53,7 @@ var LibraryEntry = React.createClass({
                     </div>
                     <div className="controls" id={"song-" + this.props.song.id}>
                         <div className="add control-primary" onClick={this.handleAdd}>
-                            <i className="fa fa-play"></i>
+                            <i className="fa fa-plus"></i>
                         </div>
                     </div>
                 </li>
@@ -146,7 +146,7 @@ var Library = React.createClass({
         <div>
             <form id="query" onSubmit={this.handleSubmit}>
                 <div className="field">
-                    <input type="text" value={this.state.search} onChange={this.handleSearchChange}/>
+                    <input type="text" value={this.state.search} onChange={this.handleSearchChange} placeholder="What will you sing?"/>
                 </div>
                 <div className="controls">
                     <div className="search control-primary" onClick={this.handleSearch}>
@@ -265,8 +265,8 @@ var Player = React.createClass({
                 <span className="title">{songName}</span>
             </div>
             <div className="status">
-                <span id="playlist-current-timing" className="current">{timing}</span>
-                <span id="playlist-total-timing" className="current">{duration}</span>
+                <div id="playlist-current-timing" className="current">{timing}</div>
+                <div id="playlist-total-timing" className="duration">{duration}</div>
             </div>
         </div>
         );

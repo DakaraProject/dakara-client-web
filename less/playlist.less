@@ -38,11 +38,22 @@
                 }
 
                 .status {
+                        @ratio: 0.8;
+                        color: @brand-primary;
+                        display: flex;
+                        flex-direction: column;
+
                         .current {
-                                font-size: @player-controls-height;
+                                font-size: @player-controls-height * @ratio;
                                 font-weight: 100;
-                                color: @brand-primary;
-                                line-height: @player-controls-height;
+                                line-height: @player-controls-height * @ratio;
+                                flex: 1;
+                        }
+
+                        .duration {
+                                font-size: @player-controls-height * (1 - @ratio);
+                                line-height: @player-controls-height * (1 - @ratio);
+                                text-align: right;
                         }
                 }
         }
@@ -55,6 +66,7 @@
                         color: @body-background;
                         display: flex;
                         align-items: center;
+                        justify-content: space-between;
 
 
                         &:hover {
@@ -64,14 +76,6 @@
                         .info-item {
                                 display: flex;
                                 align-items: center;
-
-                                &:last-child {
-                                        flex: 1;
-                                }
-
-                                &:nth-child(n+2) {
-                                        margin-left: @gap-horizontal;
-                                }
 
                                 .stat {
                                         display: inline-block;
@@ -91,8 +95,8 @@
                 }
 
                 ul.listing {
-                        @entries-height: 40px;
-                        .make-listing(@entries-height, 15pt);
+                        @entries-height: 50px;
+                        .make-listing(@entries-height, 18pt);
                         max-height: @entries-height * 5;
                         overflow: auto;
 

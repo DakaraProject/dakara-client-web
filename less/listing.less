@@ -13,7 +13,6 @@
 
         li {
                 display: flex;
-                padding-left: @gap-horizontal;
 
                 &:nth-child(2n) {
                         background: lighten(@black-80, 2.5%);
@@ -24,9 +23,21 @@
                 }
 
                 .data {
-                        flex: 1;
+                        display: flex;
                         line-height: @height;
-                        .text-truncate();
+                        flex: 1;
+
+                        .title {
+                                flex: 1;
+                                width: 0; // dummy value, has to exist
+                                padding: 0 @gap-horizontal;
+                                .text-truncate();
+                        }
+
+                        .duration {
+                                font-size: small;
+                                padding: 0 @gap-horizontal;
+                        }
                 }
 
                 .controls {
