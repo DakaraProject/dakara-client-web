@@ -103,6 +103,10 @@ var Library = React.createClass({
         this.refreshEntries(this.props.url + "library/songs/?title=" + encodeURIComponent(this.state.search));                
     },
 
+    handleClear: function(e) {
+        this.setState({search: ''});                
+    },
+
     addToPlaylist: function(songId) {
         $.ajax({
         url: this.props.url + "playlist/",
@@ -146,7 +150,12 @@ var Library = React.createClass({
         <div>
             <form id="query" onSubmit={this.handleSubmit}>
                 <div className="field">
-                    <input type="text" value={this.state.search} onChange={this.handleSearchChange} placeholder="What will you sing?"/>
+                    <div className="fake-input">
+                        <input type="text" value={this.state.search} onChange={this.handleSearchChange} placeholder="What will you sing?"/>
+                        <div className="clear" onClick={this.handleClear}>
+                            <i className="fa fa-times"></i>
+                        </div>
+                    </div>
                 </div>
                 <div className="controls">
                     <div className="search control-primary" onClick={this.handleSearch}>

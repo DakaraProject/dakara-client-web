@@ -17,7 +17,8 @@
                         flex: 1;
                         padding-right: @gap-horizontal;
 
-                        input {
+                        .fake-input {
+                                display: flex;
                                 width: 100%;
                                 border: none;
                                 background: @black-70;
@@ -30,7 +31,18 @@
                                         background: lighten(@black-70, 7%);
                                 }
 
-                                .placeholder(darken(@body-background, 5%));
+                                input {
+                                    flex: 1;
+                                    .placeholder(darken(@body-background, 5%));
+                                    background: none;
+                                    border: none;
+                                    outline: none;
+                                    height: @library-controls-height;
+                                }
+
+                                .clear {
+                                    .make-controls(@library-controls-height, 20pt);
+                                }
                         }
                 }
 
