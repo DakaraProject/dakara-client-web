@@ -9,53 +9,67 @@
         margin-top: @gap-vertical;
 
         #player {
-                display: flex;
-                align-items: center;
-                padding: @gap-vertical @gap-horizontal @gap-vertical 0;
                 background: darken(@brand-primary, 20%);
-                @player-controls-height: 60px;
 
-                .controls {
-                        .make-controls(@player-controls-height, 20pt);
+                .top {
+                    display: flex;
+                    align-items: center;
+                    padding: @gap-vertical @gap-horizontal @gap-vertical 0;
+                    @player-controls-height: 60px;
 
-                        .play-pause {
-                        }
+                    .controls {
+                            .make-controls(@player-controls-height, 20pt);
 
-                        .skip {
-                        }
+                            .play-pause {
+                            }
+
+                            .skip {
+                            }
+                    }
+
+                    .details {
+                            margin: 0 @gap-horizontal;
+                            color: @brand-primary;
+                            flex: 1;
+                            min-height: @player-controls-height;
+
+                            .title {
+                                    font-size: 18pt;
+                                    font-weight: 300;
+                            }
+                    }
+
+                    .status {
+                            @ratio: 0.8;
+                            color: @brand-primary;
+                            display: flex;
+                            flex-direction: column;
+
+                            .current {
+                                    font-size: @player-controls-height * @ratio;
+                                    font-weight: 100;
+                                    line-height: @player-controls-height * @ratio;
+                                    flex: 1;
+                            }
+
+                            .duration {
+                                    font-size: @player-controls-height * (1 - @ratio);
+                                    line-height: @player-controls-height * (1 - @ratio);
+                                    text-align: right;
+                            }
+                    }
+              }
+
+            .progressbar {
+                width: 100%;
+                height: 4px;
+
+                .progress {
+                    height: 100%;
+                    background: @brand-primary-dark;
                 }
+            }
 
-                .details {
-                        margin: 0 @gap-horizontal;
-                        color: @brand-primary;
-                        flex: 1;
-                        min-height: @player-controls-height;
-
-                        .title {
-                                font-size: 18pt;
-                                font-weight: 300;
-                        }
-                }
-
-                .status {
-                        @ratio: 0.8;
-                        color: @brand-primary;
-                        display: flex;
-                        flex-direction: column;
-
-                        .current {
-                                font-size: @player-controls-height * @ratio;
-                                font-weight: 100;
-                                line-height: @player-controls-height * @ratio;
-                                flex: 1;
-                        }
-
-                        .duration {
-                                font-size: @player-controls-height * (1 - @ratio);
-                                line-height: @player-controls-height * (1 - @ratio);
-                                text-align: right;
-                        }
-                }
         }
 
         #entries {

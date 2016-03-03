@@ -18,6 +18,11 @@ function getCookie(name) {
     return cookieValue;
 }
 
+function parseTime(time) {
+    s = time.split(':');
+    return (+s[0]) * 60 + (+s[1]);
+}
+
 var csrftoken = getCookie('csrftoken');
 
 function csrfSafeMethod(method) {
@@ -231,14 +236,21 @@ var Player = React.createClass({
         var playIcon = "fa fa-";
         var playingId;
         var duration;
+        var progress;
         if (playerStatus.playlist_entry){
             songName = playerStatus.playlist_entry.song.title;
             duration = playerStatus.playlist_entry.song.duration;
+
+            progress = parseTime(timing) * 100 / parseTime(duration); 
+
             playingId = playerStatus.playlist_entry.id;
             playIcon += playerStatus.paused ? "play" : "pause";
         } else {
             playIcon += "stop";
+            progress = 0 
         }
+
+        var progressStyle = { width: progress + "%"};
 
         var waitingPause = false;
         if (this.state.pauseCmd != null) {
@@ -260,22 +272,28 @@ var Player = React.createClass({
             skipBtn = <i className="fa fa-step-forward"></i>
         }
 
+
         return (
         <div id="player">
-            <div className="controls">
-                <div className={"play-pause control-primary" + (playerStatus.playlist_entry && !waitingPause ? "" : " disabled")} onClick={this.handlePlayPause}>
-                    {playPausebtn} 
+            <div className="top">
+                <div className="controls">
+                    <div className={"play-pause control-primary" + (playerStatus.playlist_entry && !waitingPause ? "" : " disabled")} onClick={this.handlePlayPause}>
+                        {playPausebtn} 
+                    </div>
+                    <div className={"skip control-primary" + (playerStatus.playlist_entry && !waitingSkip ? "" : " disabled")} onClick={this.handleSkip}>
+                        {skipBtn}
+                    </div>
                 </div>
-                <div className={"skip control-primary" + (playerStatus.playlist_entry && !waitingSkip ? "" : " disabled")} onClick={this.handleSkip}>
-                    {skipBtn}
+                <div id="playlist-current-song" className="details">
+                    <span className="title">{songName}</span>
+                </div>
+                <div className="status">
+                    <div id="playlist-current-timing" className="current">{timing}</div>
+                    <div id="playlist-total-timing" className="duration">{duration}</div>
                 </div>
             </div>
-            <div id="playlist-current-song" className="details">
-                <span className="title">{songName}</span>
-            </div>
-            <div className="status">
-                <div id="playlist-current-timing" className="current">{timing}</div>
-                <div id="playlist-total-timing" className="duration">{duration}</div>
+            <div className="progressbar">
+                <div className="progress" style={progressStyle}></div>
             </div>
         </div>
         );
