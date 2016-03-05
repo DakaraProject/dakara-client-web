@@ -1,26 +1,57 @@
-# dakara-client-web
-Dakara web client
+# Dakara web client
 
-## Install dependencies
+Web client for the Dakara project.
 
-Install Node JS, then in terminal:
+### Installation
+
+To install Dakara completely, you have to get all the parts of the project.
+Installation guidelines are provided over here:
+
+* [Dakara server](https://github.com/Nadeflore/dakara-server/);
+* [Dakara player VLC](https://github.com/Nadeflore/dakara-player-vlc/).
+
+#### Clone the submodules
+
+Dakara web client relies on other projects not provided by any package manager:
+
+* [Preboot](http://getpreboot.com/), a LESS framework.
+
+You can clone the repo with its submodules in one command:
 
 ```shell
-sudo npm install -g gulp
-npm install
+git clone --recursive git://github.com/Nadeflore/dakara-client-web.git
 ```
 
-The first command install Gulp at system level, which is required for transpilation. The second installs Gulp modules in the folder, so it must be entered in the repo folder.
-
-To clone submodules (after cloning this repo):
+If you have cloned the repo alone, don't panic, you can still get the submodules after:
 
 ```shell
 git submodule update --init --recursive
 ```
 
-# Gulp commands
+#### System requirements
 
-Less to CSS transpilation:
+* [NodeJS](https://nodejs.org/), to transpile the sources.
+
+You need also some NodeJS modules installed at system level:
+
+```shell
+sudo npm install -g gulp
+sudo npm install -g webpack
+```
+
+#### Node dependencies
+
+Install dependencies, at root level of the repo:
+
+```shell
+npm install
+```
+
+### Running the stuff
+
+#### Gulp commands
+
+To transpile LESS into CSS:
 
 ```shell
 gulp css
@@ -28,21 +59,14 @@ gulp css
 gulp css-watch
 ```
 
-The ```watch``` version doesn't close Gulp at the end, it waits for changes in Less files.
+The `watch` version doesn't close Gulp at the end, it waits for changes in Less files.
 
-With ```--production``` option, compress the CSS file and add ```min``` suffix.
+With `--production` option, compress the CSS file and add `min` suffix.
 
-# Webpack
+#### Webpack commands
 
-Install webpack globally
-
-```shell
-sudo npm install -g webpack
-```
-
-build js bundle
+To build JS bundle:
 
 ```shell
 webpack
 ```
-
