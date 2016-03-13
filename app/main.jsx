@@ -1,6 +1,8 @@
 var $ = jQuery = require('jquery');
 var React = require('react');
 var ReactDOM = require('react-dom');
+var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
+var sprintf = require('sprintf-js').sprintf;
 
 function getCookie(name) {
     var cookieValue = null;
@@ -18,9 +20,11 @@ function getCookie(name) {
     return cookieValue;
 }
 
-function parseTime(time) {
-    s = time.split(':');
-    return (+s[0]) * 60 + (+s[1]);
+function formatTime(seconds) {
+    var hours = Math.floor(seconds / 3600);
+    var remaining = seconds % 3600;
+    var minsec = sprintf("%02d:%02d", Math.floor(remaining / 60), remaining % 60);
+    return (hours == 0 ? '' : (hours + ":")) + minsec;
 }
 
 var csrftoken = getCookie('csrftoken');
@@ -38,14 +42,25 @@ $.ajaxSetup({
     }
 });
 
-var previousTiming;
-
 var LibraryEntry = React.createClass({
+    getInitialState: function() {
+        return {displayNotification: false};
+    },
+    clearNotifications: function() {
+        this.setState({displayNotification: false});
+    },
     handleAdd: function() {
+        this.setState({displayNotification: true});
+        setTimeout(this.clearNotifications,10000);
         var songId = this.props.song.id;
         this.props.addToPlaylist(songId);
     },
     render: function() {
+        var notificationMessage;
+        if(this.state.displayNotification){
+            notificationMessage = <div>Added !</div>   
+        }
+
         return (
                 <li>
                     <div className="data">
@@ -53,7 +68,7 @@ var LibraryEntry = React.createClass({
                             {this.props.song.title}
                         </div>
                         <div className="duration">
-                            {this.props.song.duration}
+                            {formatTime(this.props.song.duration)}
                         </div>
                     </div>
                     <div className="controls" id={"song-" + this.props.song.id}>
@@ -61,6 +76,9 @@ var LibraryEntry = React.createClass({
                             <i className="fa fa-plus"></i>
                         </div>
                     </div>
+                    <ReactCSSTransitionGroup transitionName="notification" transitionEnterTimeout={2000} transitionLeaveTimeout={2000}>
+                        {notificationMessage}
+                    </ReactCSSTransitionGroup>
                 </li>
         );
     }
@@ -146,7 +164,7 @@ var Library = React.createClass({
     render: function() {
         var addToPlaylist = this.addToPlaylist;
         var list = this.state.libraryEntries.results.map(function(entry){
-            return (<LibraryEntry song={entry} addToPlaylist={addToPlaylist}/>);
+            return (<LibraryEntry key={entry.id} song={entry} addToPlaylist={addToPlaylist}/>);
         });
         var count = this.state.libraryEntries.count;
         var hasNext = this.state.libraryEntries.next;
@@ -225,13 +243,6 @@ var Player = React.createClass({
 
     render: function() {
         var playerStatus = this.props.playerStatus;
-        var timing = playerStatus.timing;
-        if (timing){
-            previousTiming = timing;
-        } else {
-            timing = previousTiming;
-            console.error("timing null");
-        }
         var songName;
         var playIcon = "fa fa-";
         var playingId;
@@ -241,13 +252,14 @@ var Player = React.createClass({
             songName = playerStatus.playlist_entry.song.title;
             duration = playerStatus.playlist_entry.song.duration;
 
-            progress = parseTime(timing) * 100 / parseTime(duration); 
+            progress = playerStatus.timing * 100 / duration; 
 
             playingId = playerStatus.playlist_entry.id;
             playIcon += playerStatus.paused ? "play" : "pause";
         } else {
             playIcon += "stop";
-            progress = 0 
+            progress = 0;
+            duration = 0;
         }
 
         var progressStyle = { width: progress + "%"};
@@ -288,8 +300,8 @@ var Player = React.createClass({
                     <span className="title">{songName}</span>
                 </div>
                 <div className="status">
-                    <div id="playlist-current-timing" className="current">{timing}</div>
-                    <div id="playlist-total-timing" className="duration">{duration}</div>
+                    <div id="playlist-current-timing" className="current">{formatTime(playerStatus.timing)}</div>
+                    <div id="playlist-total-timing" className="duration">{formatTime(duration)}</div>
                 </div>
             </div>
             <div className="progressbar">
@@ -302,11 +314,19 @@ var Player = React.createClass({
 });
 
 var PlaylistEntry = React.createClass({
+    getInitialState: function() {
+        return {displayNotification: false};
+    },
     handleRemove: function(e){
-            this.props.removeEntry(this.props.entry.id);
+        this.setState({displayNotification: true});   
+        this.props.removeEntry(this.props.entry.id);
     },
 
     render: function(){
+        var notificationMessage;
+        if(this.state.displayNotification){
+            notificationMessage = <div>Deleted !</div>   
+        }
         return (
             <li>
                 <div className="data">
@@ -314,7 +334,7 @@ var PlaylistEntry = React.createClass({
                         {this.props.entry.song.title}
                     </div>
                     <div className="duration">
-                        {this.props.entry.song.duration}
+                        {formatTime(this.props.entry.song.duration)}
                     </div>
                 </div>
                 <div className="controls">
@@ -322,6 +342,9 @@ var PlaylistEntry = React.createClass({
                         <i className="fa fa-times"></i>
                     </div>
                 </div>
+                <ReactCSSTransitionGroup transitionName="notification" transitionEnterTimeout={2000}>
+                    {notificationMessage}
+                </ReactCSSTransitionGroup>
             </li>
         );
     }
@@ -339,17 +362,29 @@ var Playlist = React.createClass({
     render: function() {
         var playingId = this.props.playingId; 
         var list = this.props.entries.results;
-        var playlistEntries;
+        var playlistContent;
         var next;
+        var playlistDuration = 0;
+        for(entry of list){
+            playlistDuration += +(entry.song.duration);
+        }
+
         if (!this.state.collapsed){
             var removeEntry = this.props.removeEntry;
-            playlistEntries = list.map(function(entry) {
-                return ( <PlaylistEntry entry={entry} removeEntry={removeEntry}/> );
+            var playlistEntries = list.map(function(entry) {
+                return ( <PlaylistEntry key={entry.id} entry={entry} removeEntry={removeEntry}/> );
             });
+            playlistContent = (
+                <ul id="entries-listing" className="listing">
+                    <ReactCSSTransitionGroup transitionName="transition" transitionEnterTimeout={2000} transitionLeaveTimeout={2000}>
+                        {playlistEntries}
+                    </ReactCSSTransitionGroup>
+                </ul>
+                )
         } 
         if (list[0]){
             next = (
-                <div className="info-item" id="playlist-info-next">
+                <div className="info-item">
                     <span className="stat">Next</span>
                     <span className="description">{list[0].song.title}</span>
                 </div>
@@ -360,15 +395,19 @@ var Playlist = React.createClass({
 
         return (
         <div id="entries">
-            <ul id="entries-listing" className="listing">
-                {playlistEntries}
-            </ul>
+            <ReactCSSTransitionGroup transitionName="collapse" transitionEnterTimeout={2000} transitionLeaveTimeout={2000}>
+                {playlistContent}
+            </ReactCSSTransitionGroup>
             <div className="info" onClick={this.handleCollapse}> 
-                <div className="info-item" id="playlist-info-amount">
+                <div className="info-item">
                     <span className="stat">{playlistSize}</span>
                     <span className="description">song{playlistSize == 1? '': 's'}<br/>in playlist</span>
                 </div>
                 {next}
+                <div className="info-item">
+                    <span className="stat">{formatTime(playlistDuration)}</span>
+                    <span className="description">in <br/> playlist</span>
+                </div>
             </div>
         </div>
         );
@@ -377,7 +416,7 @@ var Playlist = React.createClass({
 
 var PlayerBox = React.createClass({
     getInitialState: function() {
-        return {playerStatus: {}, playlistEntries: {count: 0, results: []}};
+        return {playerStatus: {playlist_entry: null,timing:0}, playlistEntries: {count: 0, results: []}};
     },
 
     sendPlayerCommand : function(cmd) {
