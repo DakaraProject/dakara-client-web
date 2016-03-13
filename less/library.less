@@ -33,11 +33,15 @@
 
                                 input {
                                     flex: 1;
-                                    .placeholder(darken(@body-background, 5%));
+                                    .placeholder(@black-80);
                                     background: none;
                                     border: none;
                                     outline: none;
                                     height: @library-controls-height;
+
+                                    &::-moz-placeholder {
+                                            opacity: 1;
+                                    }
                                 }
 
                                 .clear {
