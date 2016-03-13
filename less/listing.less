@@ -14,6 +14,7 @@
 
         li {
                 display: flex;
+                position: relative;
 
                 &:nth-child(2n) {
                         background: lighten(@black-80, 2.5%);
@@ -46,29 +47,30 @@
                 }
 
                 .notification {
-                        width: 50%;
-                        box-sizing: border-box;
-                }
+                        width: 100%;
+                        height: @height;
+                        line-height: @height;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        // box-sizing: border-box;
 
-                &.notified {
-                        width: 200%;
-                }
+                        &.notified-enter {
+                                left: 100%;
 
-                &.notified-enter {
-                        margin-left: 0;
-
-                        &.notified-enter-active {
-                                margin-left: -100%;
-                                transition margin-left: 300ms ease-out;
+                                &.notified-enter-active {
+                                        left: 0;
+                                        transition: left 300ms ease-out;
+                                }
                         }
-                }
 
-                &.notified-leave {
-                        margin-left: -100%;
+                        &.notified-leave {
+                                left: 0;
 
-                        &.notified-leave-active {
-                                margin-left: 0;
-                                transition margin-left: 300ms ease-out;
+                                &.notified-leave-active {
+                                        left: 100%;
+                                        transition: left 150ms ease-out;
+                                }
                         }
                 }
         }

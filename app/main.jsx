@@ -51,14 +51,14 @@ var LibraryEntry = React.createClass({
     },
     handleAdd: function() {
         this.setState({displayNotification: true});
-        setTimeout(this.clearNotifications,10000);
+        setTimeout(this.clearNotifications,2000);
         var songId = this.props.song.id;
         this.props.addToPlaylist(songId);
     },
     render: function() {
         var notificationMessage;
         if(this.state.displayNotification){
-            notificationMessage = <div>Added !</div>   
+            notificationMessage = <div className="notification notification-success">Added !</div>   
         }
 
         return (
@@ -76,7 +76,7 @@ var LibraryEntry = React.createClass({
                             <i className="fa fa-plus"></i>
                         </div>
                     </div>
-                    <ReactCSSTransitionGroup transitionName="notification" transitionEnterTimeout={2000} transitionLeaveTimeout={2000}>
+                    <ReactCSSTransitionGroup transitionName="notified" transitionEnterTimeout={300} transitionLeaveTimeout={150}>
                         {notificationMessage}
                     </ReactCSSTransitionGroup>
                 </li>
@@ -317,15 +317,18 @@ var PlaylistEntry = React.createClass({
     getInitialState: function() {
         return {displayNotification: false};
     },
-    handleRemove: function(e){
-        this.setState({displayNotification: true});   
+    remove: function () {
         this.props.removeEntry(this.props.entry.id);
+    },
+    handleRemove: function(e){
+        this.setState({displayNotification: true});
+        setTimeout(this.remove, 2000);
     },
 
     render: function(){
         var notificationMessage;
         if(this.state.displayNotification){
-            notificationMessage = <div>Deleted !</div>   
+            notificationMessage = <div className="notification notification-danger">Deleted !</div>
         }
         return (
             <li>
@@ -342,7 +345,7 @@ var PlaylistEntry = React.createClass({
                         <i className="fa fa-times"></i>
                     </div>
                 </div>
-                <ReactCSSTransitionGroup transitionName="notification" transitionEnterTimeout={2000}>
+                <ReactCSSTransitionGroup transitionName="notified" transitionEnterTimeout={300} transitionLeaveTimeout={0}>
                     {notificationMessage}
                 </ReactCSSTransitionGroup>
             </li>
