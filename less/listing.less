@@ -6,92 +6,91 @@
 
 
 .make-listing(@height, @control-font-size: 1em) {
-        margin: 0;
-        padding: 0;
-        background: @black-80;
-        list-style-type: none;
-        overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    background: @black-80;
+    list-style-type: none;
+    overflow-x: hidden;
 
-        li {
-                display: flex;
-                position: relative;
+    li {
+        display: flex;
+        position: relative;
 
-                &:nth-child(2n) {
-                        background: lighten(@black-80, 2.5%);
-                }
-
-                &:hover {
-                        background: lighten(@black-80, 7%);
-                }
-
-                &.add-remove-enter {
-                        overflow: hidden;
-                        height: 0;
-
-                        &.add-remove-enter-active {
-                            height: @height;
-                            transition: height 300ms ease-out;
-                        }
-                }
-
-                &.add-remove-leave {
-                        overflow: hidden;
-                        height: @height;
-
-                        &.add-remove-leave-active {
-                            height: 0;
-                            transition: height 150ms ease-out;
-                        }
-                }
-
-                .data {
-                        display: flex;
-                        line-height: @height;
-                        flex: 1;
-
-                        .title {
-                                flex: 1;
-                                width: 0; // dummy value, has to exist
-                                padding: 0 @gap-horizontal;
-                                .text-truncate();
-                        }
-
-                        .duration {
-                                font-size: small;
-                                padding: 0 @gap-horizontal;
-                        }
-                }
-
-                .controls {
-                        .make-controls(@height, @control-font-size);
-                }
-
-                .notification {
-                        width: 100%;
-                        height: @height;
-                        line-height: @height;
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        // box-sizing: border-box;
-
-                        &.notified-enter {
-                                left: 100%;
-
-                                &.notified-enter-active {
-                                        left: 0;
-                                        transition: left 300ms ease-out;
-                                }
-                        }
-
-                        &.notified-leave {
-                                left: 0;
-
-                                &.notified-leave-active {
-                                        left: 100%;
-                                        transition: left 150ms ease-out;
-                                }
-                        }
-                }
+        &:nth-child(2n) {
+            background: lighten(@black-80, 2.5%);
         }
+
+        &:hover {
+            background: lighten(@black-80, 7%);
+        }
+
+        &.add-remove-enter {
+            overflow: hidden;
+            height: 0;
+
+            &.add-remove-enter-active {
+                height: @height;
+                transition: height 300ms ease-out;
+            }
+        }
+
+        &.add-remove-leave {
+            overflow: hidden;
+            height: @height;
+
+            &.add-remove-leave-active {
+                height: 0;
+                transition: height 150ms ease-out;
+            }
+        }
+
+        .data {
+            display: flex;
+            line-height: @height;
+            flex: 1;
+
+            .title {
+                flex: 1;
+                width: 0; // dummy value, has to exist
+                padding: 0 @gap-horizontal;
+                .text-truncate();
+            }
+
+            .duration {
+                font-size: small;
+                padding: 0 @gap-horizontal;
+            }
+        }
+
+        .controls {
+            .make-controls(@height, @control-font-size);
+        }
+
+        .notification {
+            width: 100%;
+            height: @height;
+            line-height: @height;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            &.notified-enter {
+                left: 100%;
+
+                &.notified-enter-active {
+                    left: 0;
+                    transition: left 300ms ease-out;
+                }
+            }
+
+            &.notified-leave {
+                left: 0;
+
+                &.notified-leave-active {
+                    left: 100%;
+                    transition: left 150ms ease-out;
+                }
+            }
+        }
+    }
 }

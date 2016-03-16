@@ -6,149 +6,147 @@
 
 
 #playlist {
-        margin-top: @gap-vertical;
+    margin-top: @gap-vertical;
 
-        #player {
-                background: darken(@brand-primary, 20%);
+    #player {
+        background: darken(@brand-primary, 20%);
 
-                .top {
-                    display: flex;
-                    align-items: center;
-                    padding: @gap-vertical @gap-horizontal @gap-vertical 0;
-                    @player-controls-height: 60px;
+        .top {
+            display: flex;
+            align-items: center;
+            padding: @gap-vertical @gap-horizontal @gap-vertical 0;
+            @player-controls-height: 60px;
 
-                    .controls {
-                            .make-controls(@player-controls-height, 20pt);
+            .controls {
+                .make-controls(@player-controls-height, 20pt);
 
-                            .play-pause {
-                            }
+                .play-pause {
+                }
 
-                            .skip {
-                            }
-                    }
-
-                    .details {
-                            margin: 0 @gap-horizontal;
-                            color: @brand-primary;
-                            flex: 1;
-                            min-height: @player-controls-height;
-
-                            .title {
-                                    font-size: 18pt;
-                                    font-weight: 300;
-                            }
-                    }
-
-                    .status {
-                            @ratio: 0.8;
-                            color: @brand-primary;
-                            display: flex;
-                            flex-direction: column;
-
-                            .current {
-                                    font-size: @player-controls-height * @ratio;
-                                    font-weight: 100;
-                                    line-height: @player-controls-height * @ratio;
-                                    flex: 1;
-                            }
-
-                            .duration {
-                                    font-size: @player-controls-height * (1 - @ratio);
-                                    line-height: @player-controls-height * (1 - @ratio);
-                                    text-align: right;
-                            }
-                    }
-              }
-
-            .progressbar {
-                width: 100%;
-                height: 4px;
-
-                .progress {
-                    height: 100%;
-                    background: @brand-primary-dark;
+                .skip {
                 }
             }
 
-        }
+            .details {
+                margin: 0 @gap-horizontal;
+                color: @brand-primary;
+                flex: 1;
+                min-height: @player-controls-height;
 
-        #entries {
-                .info {
-                        padding: 0 @gap-horizontal;
-                        background: @brand-primary;
-                        cursor: pointer;
-                        color: @body-background;
-                        display: flex;
-                        align-items: center;
-                        justify-content: space-between;
+                .title {
+                    font-size: 18pt;
+                    font-weight: 300;
+                }
+            }
 
+            .status {
+                @ratio: 0.8;
+                color: @brand-primary;
+                display: flex;
+                flex-direction: column;
 
-                        &:hover {
-                                background: @brand-primary-light;
-                        }
-
-                        .info-item {
-                                display: flex;
-                                align-items: center;
-
-                                .stat {
-                                        display: inline-block;
-                                        font-weight: 100;
-                                        font-size: 30pt;
-                                        vertical-align: middle;
-                                }
-
-                                .description {
-                                        margin-left: 5px;
-                                        display: inline-block;
-                                        vertical-align: middle;
-                                        flex: 1;
-                                }
-                        }
-
+                .current {
+                    font-size: @player-controls-height * @ratio;
+                    font-weight: 100;
+                    line-height: @player-controls-height * @ratio;
+                    flex: 1;
                 }
 
-                .listing {
-                        @entries-height: 50px;
-                        @entries-list-height: @entries-height * 5;
-                        .make-listing(@entries-height, 18pt);
-                        max-height: @entries-list-height;
-                        overflow-y: auto;
-
-                        &.collapse-enter {
-                                overflow: hidden;
-                                max-height: 0;
-
-                                &.collapse-enter-active {
-                                        max-height: @entries-list-height;
-                                        transition: max-height 300ms ease-out;
-                                }
-                        }
-
-                        &.collapse-leave {
-                                overflow: hidden;
-                                max-height: @entries-list-height;
-
-                                &.collapse-leave-active {
-                                        max-height: 0;
-                                        transition: max-height 150ms ease-out;
-                                }
-                        }
-
-                        .remove {
-                        }
-
-                        li:nth-child(2n) {
-                                .remove {
-                                        background: lighten(@brand-danger, 2.5%);
-                                }
-                        }
-
-                        li:hover {
-                                .remove {
-                                        background: @brand-danger-light;
-                                }
-                        }
+                .duration {
+                    font-size: @player-controls-height * (1 - @ratio);
+                    line-height: @player-controls-height * (1 - @ratio);
+                    text-align: right;
                 }
+            }
         }
+
+        .progressbar {
+            width: 100%;
+            height: 4px;
+
+            .progress {
+                height: 100%;
+                background: @brand-primary-dark;
+            }
+        }
+    }
+
+    #entries {
+        .info {
+            padding: 0 @gap-horizontal;
+            background: @brand-primary;
+            cursor: pointer;
+            color: @body-background;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+
+            &:hover {
+                background: @brand-primary-light;
+            }
+
+            .info-item {
+                display: flex;
+                align-items: center;
+
+                .stat {
+                    display: inline-block;
+                    font-weight: 100;
+                    font-size: 30pt;
+                    vertical-align: middle;
+                }
+
+                .description {
+                    margin-left: 5px;
+                    display: inline-block;
+                    vertical-align: middle;
+                    flex: 1;
+                }
+            }
+        }
+
+        .listing {
+            @entries-height: 50px;
+            @entries-list-height: @entries-height * 5;
+            .make-listing(@entries-height, 18pt);
+            max-height: @entries-list-height;
+            overflow-y: auto;
+
+            &.collapse-enter {
+                overflow: hidden;
+                max-height: 0;
+
+                &.collapse-enter-active {
+                    max-height: @entries-list-height;
+                    transition: max-height 300ms ease-out;
+                }
+            }
+
+            &.collapse-leave {
+                overflow: hidden;
+                max-height: @entries-list-height;
+
+                &.collapse-leave-active {
+                    max-height: 0;
+                    transition: max-height 150ms ease-out;
+                }
+            }
+
+            .remove {
+            }
+
+            li:nth-child(2n) {
+                .remove {
+                    background: lighten(@brand-danger, 2.5%);
+                }
+            }
+
+            li:hover {
+                .remove {
+                    background: @brand-danger-light;
+                }
+            }
+        }
+    }
 }

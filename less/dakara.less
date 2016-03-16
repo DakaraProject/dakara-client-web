@@ -19,60 +19,60 @@
  */
 
 * {
-        font-family: Roboto, @font-family-sans-serif;
+    font-family: Roboto, @font-family-sans-serif;
 
-        .selection() {
-                background: @brand-primary;
-                color: @body-background;
-        }
+    .selection() {
+        background: @brand-primary;
+        color: @body-background;
+    }
 
-        &::-moz-selection {
-                .selection;
-        }
+    &::-moz-selection {
+        .selection;
+    }
 
-        &::selection {
-                .selection;
-        }
+    &::selection {
+        .selection;
+    }
 }
 
 html {
-        body {
-                .center-block();
-                max-width: @width;
-                background: @body-background;
-                color: @text-color;
-                display: flex;
-                min-height: 100vh;
-                flex-direction: column;
+    body {
+        .center-block();
+        max-width: @width;
+        background: @body-background;
+        color: @text-color;
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
 
-                header {
-                        background: @black-80;
-                        padding: @gap-vertical @gap-horizontal;
+        header {
+            background: @black-80;
+            padding: @gap-vertical @gap-horizontal;
 
-                        h1 {
-                                margin: 0;
-                                font-size: 50pt;
-                                font-weight: 100;
-                        }
-                }
-
-                #content {
-                        flex: 1;
-                }
-
-                footer {
-                        margin-top: @gap-vertical;
-                        padding: @gap-vertical @gap-horizontal;
-                        background: @black-80;
-                        text-align: right;
-
-                        h2 {
-                                margin: 0;
-                                font-size: 15pt;
-                                font-weight: 300;
-                        }
-                }
+            h1 {
+                margin: 0;
+                font-size: 50pt;
+                font-weight: 100;
+            }
         }
+
+        #content {
+            flex: 1;
+        }
+
+        footer {
+            margin-top: @gap-vertical;
+            padding: @gap-vertical @gap-horizontal;
+            background: @black-80;
+            text-align: right;
+
+            h2 {
+                margin: 0;
+                font-size: 15pt;
+                font-weight: 300;
+            }
+        }
+    }
 }
 
 /**
