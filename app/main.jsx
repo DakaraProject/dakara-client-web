@@ -58,7 +58,7 @@ var LibraryEntry = React.createClass({
     render: function() {
         var notificationMessage;
         if(this.state.displayNotification){
-            notificationMessage = <div className="notification notification-success">Added !</div>   
+            notificationMessage = <div className="notification success">Added !</div>   
         }
 
         return (
@@ -330,7 +330,7 @@ var PlaylistEntry = React.createClass({
     render: function(){
         var notificationMessage;
         if(this.state.displayNotification){
-            notificationMessage = <div className="notification notification-danger">Deleted !</div>
+            notificationMessage = <div className="notification danger">Deleted !</div>
         }
         return (
             <li>

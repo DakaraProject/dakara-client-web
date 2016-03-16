@@ -9,15 +9,54 @@
     color: @body-background;
     padding: 0 @gap-horizontal;
 
-}
-.make-notification(@color) {
-    background-color: @color;
+    .make-notification(@color) {
+        background: @color;
+    }
+
+    &.primary{
+        .make-notification(@brand-primary);
+    }
+
+    &.success{
+        .make-notification(@brand-success);
+    }
+
+    &.warning{
+        .make-notification(@brand-warning);
+    }
+
+    &.danger{
+        .make-notification(@brand-danger);
+    }
+
+    &.info{
+        .make-notification(@brand-info);
+    }
 }
 
-.notification-success {
-    .make-notification(@brand-success);
-}
+// lighten notification when on even line of a list
+li:nth-child(2n) .notification {
+    .make-notification-line-even(@color-lighter) {
+        background: @color-lighter;
+    }
 
-.notification-danger {
-    .make-notification(@brand-danger);
+    &.primary{
+        .make-notification-line-even(@brand-primary-lighter);
+    }
+
+    &.success{
+        .make-notification-line-even(@brand-success-lighter);
+    }
+
+    &.warning{
+        .make-notification-line-even(@brand-warning-lighter);
+    }
+
+    &.danger{
+        .make-notification-line-even(@brand-danger-lighter);
+    }
+
+    &.info{
+        .make-notification-line-even(@brand-info-lighter);
+    }
 }
