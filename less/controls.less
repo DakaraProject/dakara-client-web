@@ -66,39 +66,43 @@
 // lighten control when on even line of a list
 li:nth-child(2n) .controls {
     .control {
-        .make-control-line-even(@color-lighter) {
+        .make-control-line-even(@color-lighter, @color-dark-light) {
             background: @color-lighter;
+
+            &.disabled {
+                background: @color-dark-light;
+            }
         }
 
         &.primary {
-            .make-control-line-even(@brand-primary-lighter);
+            .make-control-line-even(@brand-primary-lighter, lighten(@brand-primary-dark, 2.5%));
         }
 
         &.success {
-            .make-control-line-even(@brand-success-lighter);
+            .make-control-line-even(@brand-success-lighter, lighten(@brand-success-dark, 2.5%));
         }
 
         &.warning {
-            .make-control-line-even(@brand-warning-lighter);
+            .make-control-line-even(@brand-warning-lighter, lighten(@brand-warning-dark, 2.5%));
         }
 
         &.danger {
-            .make-control-line-even(@brand-danger-lighter);
+            .make-control-line-even(@brand-danger-lighter, lighten(@brand-danger-dark, 2.5%));
         }
 
         &.info {
-            .make-control-line-even(@brand-info-lighter);
+            .make-control-line-even(@brand-info-lighter, lighten(@brand-info-dark, 2.5%));
         }
     }
 }
 
 // lighten control when line hovered on a list
 li:hover .controls {
-    .control {
-        .make-control-line-hover(@color-light) {
-            background: @color-light;
-        }
+    .make-control-line-hover(@color-light) {
+        background: @color-light;
+    }
 
+    .control:not(.disabled) {
         &.primary {
             .make-control-line-hover(@brand-primary-light);
         }
@@ -117,6 +121,28 @@ li:hover .controls {
 
         &.info {
             .make-control-line-hover(@brand-info-light);
+        }
+    }
+
+    .control.disabled {
+        &.primary {
+            .make-control-line-hover(lighten(@brand-primary-dark, 5%));
+        }
+
+        &.success {
+            .make-control-line-hover(lighten(@brand-success-dark, 5%));
+        }
+
+        &.warning {
+            .make-control-line-hover(lighten(@brand-warning-dark, 5%));
+        }
+
+        &.danger {
+            .make-control-line-hover(lighten(@brand-danger-dark, 5%));
+        }
+
+        &.info {
+            .make-control-line-hover(lighten(@brand-info-dark, 5%));
         }
     }
 }
