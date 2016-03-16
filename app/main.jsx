@@ -378,8 +378,8 @@ var Playlist = React.createClass({
                 return ( <PlaylistEntry key={entry.id} entry={entry} removeEntry={removeEntry}/> );
             });
             playlistContent = (
-                <ul id="entries-listing" className="listing">
-                    <ReactCSSTransitionGroup transitionName="transition" transitionEnterTimeout={2000} transitionLeaveTimeout={2000}>
+                <ul className="listing">
+                    <ReactCSSTransitionGroup transitionName="add-remove" transitionEnterTimeout={300} transitionLeaveTimeout={150}>
                         {playlistEntries}
                     </ReactCSSTransitionGroup>
                 </ul>
@@ -398,7 +398,7 @@ var Playlist = React.createClass({
 
         return (
         <div id="entries">
-            <ReactCSSTransitionGroup transitionName="collapse" transitionEnterTimeout={2000} transitionLeaveTimeout={2000}>
+            <ReactCSSTransitionGroup transitionName="collapse" transitionEnterTimeout={300} transitionLeaveTimeout={150}>
                 {playlistContent}
             </ReactCSSTransitionGroup>
             <div className="info" onClick={this.handleCollapse}> 
@@ -409,7 +409,7 @@ var Playlist = React.createClass({
                 {next}
                 <div className="info-item">
                     <span className="stat">{formatTime(playlistDuration)}</span>
-                    <span className="description">in <br/> playlist</span>
+                    <span className="description">of songs<br/>remaining</span>
                 </div>
             </div>
         </div>

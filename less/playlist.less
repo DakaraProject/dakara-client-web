@@ -108,11 +108,32 @@
 
                 }
 
-                ul.listing {
+                .listing {
                         @entries-height: 50px;
+                        @entries-list-height: @entries-height * 5;
                         .make-listing(@entries-height, 18pt);
-                        max-height: @entries-height * 5;
+                        max-height: @entries-list-height;
                         overflow-y: auto;
+
+                        &.collapse-enter {
+                                overflow: hidden;
+                                max-height: 0;
+
+                                &.collapse-enter-active {
+                                        max-height: @entries-list-height;
+                                        transition: max-height 300ms ease-out;
+                                }
+                        }
+
+                        &.collapse-leave {
+                                overflow: hidden;
+                                max-height: @entries-list-height;
+
+                                &.collapse-leave-active {
+                                        max-height: 0;
+                                        transition: max-height 150ms ease-out;
+                                }
+                        }
 
                         .remove {
                         }

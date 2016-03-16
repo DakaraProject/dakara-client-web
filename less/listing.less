@@ -24,6 +24,26 @@
                         background: lighten(@black-80, 7%);
                 }
 
+                &.add-remove-enter {
+                        overflow: hidden;
+                        height: 0;
+
+                        &.add-remove-enter-active {
+                            height: @height;
+                            transition: height 300ms ease-out;
+                        }
+                }
+
+                &.add-remove-leave {
+                        overflow: hidden;
+                        height: @height;
+
+                        &.add-remove-leave-active {
+                            height: 0;
+                            transition: height 150ms ease-out;
+                        }
+                }
+
                 .data {
                         display: flex;
                         line-height: @height;
