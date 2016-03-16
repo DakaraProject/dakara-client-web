@@ -5,15 +5,20 @@
  */
 
 .make-controls(@height, @font-size) {
+    .control {
+        .square(@height);
+        line-height: @height;
+        font-size: @font-size;
+    }
+}
+
+.controls {
     display: flex;
 
-    > * {
-        .square(@height);
+    .control {
         cursor: pointer;
         text-align: center;
-        line-height: @height;
         color: @body-background;
-        font-size: @font-size;
 
         &:nth-child(n+2) {
             margin-left: @gap-horizontal;
@@ -22,38 +27,96 @@
         img {
             vertical-align: middle;
         }
-    }
 
-    .make-control(@color-enabled, @color-disabled, @color-activated) {
-        background: @color-enabled;
+        .make-control(@color-enabled, @color-disabled, @color-activated) {
+            background: @color-enabled;
 
-        &.disabled {
-            background: @color-disabled;
-            cursor: default;
+            &.disabled {
+                background: @color-disabled;
+                cursor: default;
+            }
+
+            &:not(.disabled):hover {
+                background: @color-activated;
+            }
         }
 
-        &:not(.disabled):hover {
-            background: @color-activated;
+        &.primary{
+            .make-control(@brand-primary, @brand-primary-dark, @brand-primary-light);
+        }
+
+        &.success{
+            .make-control(@brand-success, @brand-success-dark, @brand-success-light);
+        }
+
+        &.warning{
+            .make-control(@brand-warning, @brand-warning-dark, @brand-warning-light);
+        }
+
+        &.danger{
+            .make-control(@brand-danger, @brand-danger-dark, @brand-danger-light);
+        }
+
+        &.info{
+            .make-control(@brand-info, @brand-info-dark, @brand-info-light);
         }
     }
+}
 
-    > .control-primary {
-        .make-control(@brand-primary, @brand-primary-dark, @brand-primary-light);
+// lighten control when on even line of a list
+li:nth-child(2n) .controls {
+    .control {
+        .make-control-line-even(@color-lighter) {
+            background: @color-lighter;
+        }
+
+        &.primary {
+            .make-control-line-even(@brand-primary-lighter);
+        }
+
+        &.success {
+            .make-control-line-even(@brand-success-lighter);
+        }
+
+        &.warning {
+            .make-control-line-even(@brand-warning-lighter);
+        }
+
+        &.danger {
+            .make-control-line-even(@brand-danger-lighter);
+        }
+
+        &.info {
+            .make-control-line-even(@brand-info-lighter);
+        }
     }
+}
 
-    > .control-success {
-        .make-control(@brand-success, @brand-success-dark, @brand-success-light);
-    }
+// lighten control when line hovered on a list
+li:hover .controls {
+    .control {
+        .make-control-line-hover(@color-light) {
+            background: @color-light;
+        }
 
-    > .control-warning {
-        .make-control(@brand-warning, @brand-warning-dark, @brand-warning-light);
-    }
+        &.primary {
+            .make-control-line-hover(@brand-primary-light);
+        }
 
-    > .control-danger {
-        .make-control(@brand-danger, @brand-danger-dark, @brand-danger-light);
-    }
+        &.success {
+            .make-control-line-hover(@brand-success-light);
+        }
 
-    > .control-info {
-        .make-control(@brand-info, @brand-info-dark, @brand-info-light);
+        &.warning {
+            .make-control-line-hover(@brand-warning-light);
+        }
+
+        &.danger {
+            .make-control-line-hover(@brand-danger-light);
+        }
+
+        &.info {
+            .make-control-line-hover(@brand-info-light);
+        }
     }
 }

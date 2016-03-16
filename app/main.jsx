@@ -72,7 +72,7 @@ var LibraryEntry = React.createClass({
                         </div>
                     </div>
                     <div className="controls" id={"song-" + this.props.song.id}>
-                        <div className="add control-primary" onClick={this.handleAdd}>
+                        <div className="add control primary" onClick={this.handleAdd}>
                             <i className="fa fa-plus"></i>
                         </div>
                     </div>
@@ -175,13 +175,15 @@ var Library = React.createClass({
                 <div className="field">
                     <div className="fake-input">
                         <input type="text" value={this.state.search} onChange={this.handleSearchChange} placeholder="What will you sing?"/>
-                        <div className="clear" onClick={this.handleClear}>
-                            <i className="fa fa-times"></i>
+                        <div className="controls">
+                            <div className="clear control" onClick={this.handleClear}>
+                                <i className="fa fa-times"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div className="controls">
-                    <div className="search control-primary" onClick={this.handleSearch}>
+                    <div className="search control primary" onClick={this.handleSearch}>
                         <i className="fa fa-search"></i>
                     </div>
                 </div>
@@ -193,16 +195,16 @@ var Library = React.createClass({
             </div>
             <nav id="paginator">
                 <div className="controls">
-                    <div className={"first control-primary" + (hasPrevious? "" : " disabled")} onClick={this.handleFirst}>
+                    <div className={"first control primary" + (hasPrevious? "" : " disabled")} onClick={this.handleFirst}>
                         <i className="fa fa-angle-double-left"></i>
                     </div>
-                    <div className={"previous control-primary" + (hasPrevious? "" : " disabled")} onClick={this.handlePrevious}>
+                    <div className={"previous control primary" + (hasPrevious? "" : " disabled")} onClick={this.handlePrevious}>
                         <i className="fa fa-angle-left"></i>
                     </div>
-                    <div className={"next control-primary" + (hasNext? "" : " disabled")} onClick={this.handleNext}>
+                    <div className={"next control primary" + (hasNext? "" : " disabled")} onClick={this.handleNext}>
                         <i className="fa fa-angle-right"></i>
                     </div>
-                    <div className={"last control-primary" + (hasNext? "" : " disabled")} onClick={this.handleLast}>
+                    <div className={"last control primary" + (hasNext? "" : " disabled")} onClick={this.handleLast}>
                         <i className="fa fa-angle-double-right"></i>
                     </div>
                 </div>
@@ -289,10 +291,10 @@ var Player = React.createClass({
         <div id="player">
             <div className="top">
                 <div className="controls">
-                    <div className={"play-pause control-primary" + (playerStatus.playlist_entry && !waitingPause ? "" : " disabled")} onClick={this.handlePlayPause}>
+                    <div className={"play-pause control primary" + (playerStatus.playlist_entry && !waitingPause ? "" : " disabled")} onClick={this.handlePlayPause}>
                         {playPausebtn} 
                     </div>
-                    <div className={"skip control-primary" + (playerStatus.playlist_entry && !waitingSkip ? "" : " disabled")} onClick={this.handleSkip}>
+                    <div className={"skip control primary" + (playerStatus.playlist_entry && !waitingSkip ? "" : " disabled")} onClick={this.handleSkip}>
                         {skipBtn}
                     </div>
                 </div>
@@ -341,7 +343,7 @@ var PlaylistEntry = React.createClass({
                     </div>
                 </div>
                 <div className="controls">
-                    <div className="remove control-danger" onClick={this.handleRemove}>
+                    <div className="remove control danger" onClick={this.handleRemove}>
                         <i className="fa fa-times"></i>
                     </div>
                 </div>
