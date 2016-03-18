@@ -35,7 +35,6 @@ git submodule update --init --recursive
 You need also some NodeJS modules installed at system level:
 
 ```shell
-sudo npm install -g gulp
 sudo npm install -g webpack
 ```
 
@@ -49,24 +48,10 @@ npm install
 
 ### Running the stuff
 
-#### Gulp commands
-
-To transpile LESS into CSS:
-
-```shell
-gulp css
-# or
-gulp css-watch
-```
-
-The `watch` version doesn't close Gulp at the end, it waits for changes in Less files.
-
-With `--production` option, compress the CSS file and add `min` suffix.
-
-#### Webpack commands
-
-To build JS bundle:
+To build JS bundle and transpile LESS into CSS:
 
 ```shell
 webpack
 ```
+
+The `-w` option doesn't close webpack at the end, it waits for changes in Less or js files.

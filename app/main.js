@@ -4,6 +4,8 @@ var ReactDOM = require('react-dom');
 var utils = require('./dakara-utils');
 var PlayerBox = require('./components/PlayerBox');
 
+require("../less/dakara.less");
+
 var csrftoken = utils.getCookie('csrftoken');
 
 function csrfSafeMethod(method) {
