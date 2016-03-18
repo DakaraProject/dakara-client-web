@@ -11,7 +11,7 @@ var PlaylistEntry = React.createClass({
     },
     handleRemove: function(e){
         this.setState({displayNotification: true});
-        setTimeout(this.remove, 2000);
+        setTimeout(this.remove, 500);
     },
 
     render: function(){
