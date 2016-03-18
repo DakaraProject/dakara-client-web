@@ -1,10 +1,10 @@
 module.exports = {
   entry: [
-    './app/main.jsx'
+    './app/main.js'
   ],
   module: {
     loaders: [
-      {test: /\.jsx$/, include: __dirname + '/app', loader: "babel-loader"}
+      {test: /\.js$/, include: __dirname + '/app', loader: "babel-loader"}
     ]
   },
   output: {
