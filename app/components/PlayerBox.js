@@ -23,7 +23,7 @@ var PlayerBox = React.createClass({
         }); 
     },
 
-    removeEntry : function(entryId) {
+    removeEntry : function(entryId, onErrorCallback) {
         $.ajax({
         url: this.props.url + "playlist/" + entryId + "/",
         dataType: 'json',
@@ -32,7 +32,8 @@ var PlayerBox = React.createClass({
             this.loadStatusFromServer();
         }.bind(this),
         error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString() + xhr.responseText);
+            onErrorCallback();
+            console.error(this.props.url, status, err.toString() + xhr.responseText);
         }.bind(this)
         }); 
     },

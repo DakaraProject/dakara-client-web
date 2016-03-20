@@ -6,14 +6,14 @@ var LibraryEntry = React.createClass({
     getInitialState: function() {
         return {displayNotification: false};
     },
-    clearNotifications: function() {
+    clearNotification: function() {
         this.setState({displayNotification: false});
     },
     handleAdd: function() {
         this.setState({displayNotification: true});
-        setTimeout(this.clearNotifications,2000);
+        setTimeout(this.clearNotification,2000);
         var songId = this.props.song.id;
-        this.props.addToPlaylist(songId);
+        this.props.addToPlaylist(songId, this.clearNotification);
     },
     render: function() {
         var notificationMessage;

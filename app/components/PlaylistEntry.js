@@ -7,7 +7,10 @@ var PlaylistEntry = React.createClass({
         return {displayNotification: false};
     },
     remove: function () {
-        this.props.removeEntry(this.props.entry.id);
+        this.props.removeEntry(this.props.entry.id, this.clearNotification);
+    },
+    clearNotification: function() {
+        this.setState({displayNotification: false});
     },
     handleRemove: function(e){
         this.setState({displayNotification: true});
@@ -34,7 +37,7 @@ var PlaylistEntry = React.createClass({
                         <i className="fa fa-times"></i>
                     </div>
                 </div>
-                <ReactCSSTransitionGroup transitionName="notified" transitionEnterTimeout={300} transitionLeaveTimeout={0}>
+                <ReactCSSTransitionGroup transitionName="notified" transitionEnterTimeout={300} transitionLeaveTimeout={150}>
                     {notificationMessage}
                 </ReactCSSTransitionGroup>
             </li>

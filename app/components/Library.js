@@ -48,7 +48,7 @@ var Library = React.createClass({
         this.setState({search: ''});                
     },
 
-    addToPlaylist: function(songId) {
+    addToPlaylist: function(songId, onErrorCallback) {
         $.ajax({
         url: this.props.url + "playlist/",
         dataType: 'json',
@@ -58,7 +58,8 @@ var Library = React.createClass({
             this.props.loadStatusFromServer();
         }.bind(this),
         error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString() + xhr.responseText);
+            onErrorCallback();
+            console.error(this.props.url, status, err.toString() + xhr.responseText);
         }.bind(this)
         }); 
     },
