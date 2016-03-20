@@ -9,7 +9,7 @@ var PlayerBox = React.createClass({
         return {playerStatus: {playlist_entry: null,timing:0}, playlistEntries: {count: 0, results: []}};
     },
 
-    sendPlayerCommand : function(cmd) {
+    sendPlayerCommand : function(cmd, onErrorCallback) {
         $.ajax({
         url: this.props.url + "playlist/player/manage/",
         dataType: 'json',
@@ -18,21 +18,23 @@ var PlayerBox = React.createClass({
         success: function(data) {
         }.bind(this),
         error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString() + xhr.responseText);
+            onErrorCallback("Error " + (cmd.pause != null ? "pausing" : "skipping") + " " + err.toString());
+            console.error(this.props.url, status, err.toString() + xhr.responseText);
         }.bind(this)
         }); 
     },
 
-    removeEntry : function(entryId, onErrorCallback) {
+    removeEntry : function(entryId, callback) {
         $.ajax({
         url: this.props.url + "playlist/" + entryId + "/",
         dataType: 'json',
         type: 'DELETE',
         success: function(data) {
+            callback(true);
             this.loadStatusFromServer();
         }.bind(this),
         error: function(xhr, status, err) {
-            onErrorCallback();
+            callback(false);
             console.error(this.props.url, status, err.toString() + xhr.responseText);
         }.bind(this)
         }); 

@@ -41,6 +41,10 @@
             &.add-remove-leave-active {
                 height: 0;
                 .transition(height 150ms ease-out);
+
+                &.delayed {
+                    .transition-delay(500ms);
+                }
             }
         }
 
@@ -66,7 +70,7 @@
             .make-controls(@height, @control-font-size);
         }
 
-        .notification {
+        .notified {
             width: 100%;
             height: @height;
             line-height: @height;
@@ -94,3 +98,4 @@
         }
     }
 }
+

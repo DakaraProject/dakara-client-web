@@ -14,7 +14,7 @@
         .top {
             display: flex;
             align-items: center;
-            padding: @gap-vertical @gap-horizontal @gap-vertical 0;
+            padding: @gap-vertical 0;
             @player-controls-height: 60px;
 
             .controls {
@@ -26,36 +26,73 @@
                 .skip {
                 }
             }
-
+            
             .details {
-                margin: 0 @gap-horizontal;
-                color: @brand-primary;
                 flex: 1;
-                min-height: @player-controls-height;
-
-                .title {
-                    font-size: 18pt;
-                    font-weight: 300;
-                }
-            }
-
-            .status {
-                @ratio: 0.8;
-                color: @brand-primary;
                 display: flex;
-                flex-direction: column;
+                color: @brand-primary;
+                margin-left: @gap-horizontal;
+                position: relative;
+                overflow: hidden;
 
-                .current {
-                    font-size: @player-controls-height * @ratio;
-                    font-weight: 100;
-                    line-height: @player-controls-height * @ratio;
+
+                .data {
+                    padding-right: @gap-horizontal;
                     flex: 1;
+                    height: @player-controls-height;
+
+                    .title {
+                        font-size: 18pt;
+                        font-weight: 300;
+                    }
                 }
 
-                .duration {
-                    font-size: @player-controls-height * (1 - @ratio);
-                    line-height: @player-controls-height * (1 - @ratio);
-                    text-align: right;
+                .status {
+                    @ratio: 0.8;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    margin-right: @gap-horizontal;
+                    @player-status-height: 1 * @player-controls-height;
+
+                    .current {
+                        font-size: @player-status-height * @ratio;
+                        font-weight: 100;
+                        line-height: @player-status-height * @ratio;
+                    }
+
+                    .duration {
+                        font-size: @player-status-height * (1 - @ratio);
+                        line-height: @player-status-height * (1 - @ratio);
+                        text-align: right;
+                    }
+                }
+
+                .notification {
+                    position: absolute;
+                    width: 100%;
+                    line-height: @player-controls-height;
+                    height: @player-controls-height;
+                    top: 0;
+                    left: 0;
+
+                    &.notified-enter {
+                        left: 100%;
+
+                        &.notified-enter-active {
+                            left: 0;
+                            .transition(left 300ms ease-out);
+                        }
+                    }
+
+                    &.notified-leave {
+                        left: 0;
+
+                        &.notified-leave-active {
+                            left: 100%;
+                            .transition(left 150ms ease-out);
+                        }
+                    }
                 }
             }
         }

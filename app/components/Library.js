@@ -48,17 +48,18 @@ var Library = React.createClass({
         this.setState({search: ''});                
     },
 
-    addToPlaylist: function(songId, onErrorCallback) {
+    addToPlaylist: function(songId, callback) {
         $.ajax({
         url: this.props.url + "playlist/",
         dataType: 'json',
         type: 'POST',
         data: {"song": songId},
         success: function(data) {
+            callback(true);
             this.props.loadStatusFromServer();
         }.bind(this),
         error: function(xhr, status, err) {
-            onErrorCallback();
+            callback(false);
             console.error(this.props.url, status, err.toString() + xhr.responseText);
         }.bind(this)
         }); 

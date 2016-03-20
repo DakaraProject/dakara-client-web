@@ -28,7 +28,7 @@ var Playlist = React.createClass({
             });
             playlistContent = (
                 <ul className="listing">
-                    <ReactCSSTransitionGroup transitionName="add-remove" transitionEnterTimeout={300} transitionLeaveTimeout={150}>
+                    <ReactCSSTransitionGroup transitionName="add-remove" transitionEnterTimeout={300} transitionLeaveTimeout={650}>
                         {playlistEntries}
                     </ReactCSSTransitionGroup>
                 </ul>

@@ -4,26 +4,46 @@ var utils = require('../dakara-utils');
 
 var PlaylistEntry = React.createClass({
     getInitialState: function() {
-        return {displayNotification: false};
-    },
-    remove: function () {
-        this.props.removeEntry(this.props.entry.id, this.clearNotification);
+        return {notification: null};
     },
     clearNotification: function() {
-        this.setState({displayNotification: false});
+        this.setState({notification: null});
+    },
+    handleReponse: function(status){
+        if (status) {
+           this.setState({
+                notification: {
+                    message: "Successfuly removed!",
+                    type: "warning"
+                }
+            });
+        } else {
+            this.setState({
+                notification: {
+                    message: "Error attempting to remove song from playlist",
+                    type: "danger"
+                }
+            });
+            setTimeout(this.clearNotification, 5000);
+        }
     },
     handleRemove: function(e){
-        this.setState({displayNotification: true});
-        setTimeout(this.remove, 500);
+       this.setState({
+            notification: {
+                message: "Pending...",
+                type: "warning"
+            }
+        });
+        this.props.removeEntry(this.props.entry.id, this.handleReponse);
     },
 
     render: function(){
-        var notificationMessage;
-        if(this.state.displayNotification){
-            notificationMessage = <div className="notification danger">Deleted !</div>
+        var message;
+        if(this.state.notification != null){
+            message = <div className="notified"><div className={"notification " + this.state.notification.type}>{this.state.notification.message}</div></div>
         }
         return (
-            <li>
+            <li className={this.state.notification ? "delayed":""}>
                 <div className="data">
                     <div className="title">
                         {this.props.entry.song.title}
@@ -38,7 +58,7 @@ var PlaylistEntry = React.createClass({
                     </div>
                 </div>
                 <ReactCSSTransitionGroup transitionName="notified" transitionEnterTimeout={300} transitionLeaveTimeout={150}>
-                    {notificationMessage}
+                    {message}
                 </ReactCSSTransitionGroup>
             </li>
         );

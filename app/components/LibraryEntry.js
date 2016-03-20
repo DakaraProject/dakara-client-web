@@ -4,21 +4,45 @@ var utils = require('../dakara-utils');
 
 var LibraryEntry = React.createClass({
     getInitialState: function() {
-        return {displayNotification: false};
+        return {notification: null};
     },
     clearNotification: function() {
-        this.setState({displayNotification: false});
+        this.setState({notification: null});
+    },
+    handleReponse: function(status){
+        if (status) {
+            this.setState({
+                notification: {
+                    message: "Successfuly added!",
+                    type: "success"
+                }
+            });
+            setTimeout(this.clearNotification, 2000);
+        } else {
+            this.setState({
+                notification: {
+                    message: "Error attempting to add song to playlist",
+                    type: "danger"
+                }
+            });
+            setTimeout(this.clearNotification, 5000);
+        }
     },
     handleAdd: function() {
-        this.setState({displayNotification: true});
-        setTimeout(this.clearNotification,2000);
+        this.setState({
+            notification: {
+                message: "Pending...",
+                type: "success"
+            }
+        });
+        setTimeout(this.clearSuccess,2000);
         var songId = this.props.song.id;
-        this.props.addToPlaylist(songId, this.clearNotification);
+        this.props.addToPlaylist(songId, this.handleReponse);
     },
     render: function() {
-        var notificationMessage;
-        if(this.state.displayNotification){
-            notificationMessage = <div className="notification success">Added !</div>   
+        var message;
+        if(this.state.notification != null){
+            message = <div className="notified"><div className={"notification " + this.state.notification.type}>{this.state.notification.message}</div></div>
         }
 
         return (
@@ -37,7 +61,7 @@ var LibraryEntry = React.createClass({
                         </div>
                     </div>
                     <ReactCSSTransitionGroup transitionName="notified" transitionEnterTimeout={300} transitionLeaveTimeout={150}>
-                        {notificationMessage}
+                        {message}
                     </ReactCSSTransitionGroup>
                 </li>
         );
