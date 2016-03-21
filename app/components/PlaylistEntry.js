@@ -14,7 +14,7 @@ var PlaylistEntry = React.createClass({
            this.setState({
                 notification: {
                     message: "Successfuly removed!",
-                    type: "warning"
+                    type: "success"
                 }
             });
         } else {
@@ -31,7 +31,7 @@ var PlaylistEntry = React.createClass({
        this.setState({
             notification: {
                 message: "Pending...",
-                type: "warning"
+                type: "success"
             }
         });
         this.props.removeEntry(this.props.entry.id, this.handleReponse);
@@ -53,7 +53,7 @@ var PlaylistEntry = React.createClass({
                     </div>
                 </div>
                 <div className="controls">
-                    <div className="remove control danger" onClick={this.handleRemove}>
+                    <div className="remove control warning" onClick={this.handleRemove}>
                         <i className="fa fa-times"></i>
                     </div>
                 </div>
