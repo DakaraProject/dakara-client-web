@@ -9,16 +9,17 @@ var PlayerBox = React.createClass({
         return {playerStatus: {playlist_entry: null,timing:0}, playlistEntries: {count: 0, results: []}};
     },
 
-    sendPlayerCommand : function(cmd, onErrorCallback) {
+    sendPlayerCommand : function(cmd, callback) {
         $.ajax({
         url: this.props.url + "playlist/player/manage/",
         dataType: 'json',
         type: 'PUT',
         data: cmd,
         success: function(data) {
+           callback(true, cmd);
         }.bind(this),
         error: function(xhr, status, err) {
-            onErrorCallback("Error " + (cmd.pause != null ? "pausing" : "skipping") + " " + err.toString());
+            callback(false, cmd);
             console.error(this.props.url, status, err.toString() + xhr.responseText);
         }.bind(this)
         }); 

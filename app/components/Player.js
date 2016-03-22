@@ -4,29 +4,54 @@ var utils = require('../dakara-utils');
 
 var Player = React.createClass({
     getInitialState: function() {
-        return {pauseCmd: null, skip: -1, notificationMessage: null};
+        return {pauseCmd: null, skip: -1, notification: null};
     },
 
     clearNotification: function() {
-        this.setState({notificationMessage: null});
+        this.setState({notification: null});
     },
 
-    displayNotification: function(message){
-        this.setState({notificationMessage: message});
-        setTimeout(this.clearNotification,2000);
+    handleReponse: function(status, cmd){
+        var cmdString;
+        if (cmd.pause != null){
+            if (cmd.pause){
+                cmdString = "pause"; 
+            } else {
+                cmdString = "unpause"; 
+            }
+        } else if (cmd.skip != null){
+            cmdString = "skip";
+        }
+        if (status) {
+            /*this.setState({
+                notification: {
+                    message: "Successfuly added!",
+                    type: "success"
+                }
+            });
+            setTimeout(this.clearNotification, 2000);*/
+        } else {
+            this.setState({
+                notification: {
+                    message: "Error attempting to do " + cmdString,
+                    type: "danger"
+                }
+            });
+            setTimeout(this.clearNotification, 5000);
+        }
     },
 
     handlePlayPause: function(e){
         if (this.props.playerStatus.playlist_entry){
             var pause = !this.props.playerStatus.paused;
             this.setState({pauseCmd: pause});
-            this.props.sendPlayerCommand({"pause": pause}, this.displayNotification);
+            this.props.sendPlayerCommand({"pause": pause}, this.handleReponse);
         }
     },
 
     handleSkip: function(e){
         if (this.props.playerStatus.playlist_entry){
-            this.props.sendPlayerCommand({"skip": true}, this.displayNotification);
+            this.props.sendPlayerCommand({"skip": true}, this.handleReponse);
             this.setState({pauseCmd: null, skip: this.props.playerStatus.playlist_entry.id});
         }
     },
@@ -74,9 +99,9 @@ var Player = React.createClass({
             skipBtn = <i className="fa fa-step-forward"></i>
         }
 
-        var notificationMessage;
-        if(this.state.notificationMessage != null){
-            notificationMessage = <div className="notification danger">{this.state.notificationMessage}</div>   
+        var message;
+        if(this.state.notification != null){
+            message = <div className="notified"><div className={"notification " + this.state.notification.type}>{this.state.notification.message}</div></div>
         }
 
         return (
@@ -99,7 +124,7 @@ var Player = React.createClass({
                         <div id="playlist-total-timing" className="duration">{utils.formatTime(duration)}</div>
                     </div>
                     <ReactCSSTransitionGroup transitionName="notified" transitionEnterTimeout={300} transitionLeaveTimeout={150}>
-                        {notificationMessage}
+                        {message}
                     </ReactCSSTransitionGroup>
                 </div>
             </div>
