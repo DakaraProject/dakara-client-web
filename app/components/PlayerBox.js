@@ -6,7 +6,7 @@ var Library = require('./Library');
 
 var PlayerBox = React.createClass({
     getInitialState: function() {
-        return {playerStatus: {playlist_entry: null,timing:0}, playlistEntries: {count: 0, results: []}};
+        return {playerStatus: {playlist_entry: null,timing:0}, playlistEntries: {count: 0, results: []}, userCmd: {pause: false, skip: false}};
     },
 
     sendPlayerCommand : function(cmd, callback) {
@@ -16,7 +16,8 @@ var PlayerBox = React.createClass({
         type: 'PUT',
         data: cmd,
         success: function(data) {
-           callback(true, cmd);
+            callback(true, cmd);
+            this.loadStatusFromServer();
         }.bind(this),
         error: function(xhr, status, err) {
             callback(false, cmd);
@@ -65,6 +66,17 @@ var PlayerBox = React.createClass({
             console.error(this.props.url, status, err.toString());
           }.bind(this)
         });
+        $.ajax({
+            url: this.props.url + "playlist/player/manage/",
+            dataType: 'json',
+            cache: false,
+            success: function(data) {
+              this.setState({userCmd: data});
+            }.bind(this),
+            error: function(xhr, status, err) {
+              console.error(this.props.url, status, err.toString());
+            }.bind(this)
+        });
 
     },
 
@@ -82,7 +94,7 @@ var PlayerBox = React.createClass({
         return (
             <div>
                 <div id="playlist">
-                    <Player playerStatus={this.state.playerStatus} sendPlayerCommand={this.sendPlayerCommand}/>
+                    <Player playerStatus={this.state.playerStatus} sendPlayerCommand={this.sendPlayerCommand} userCmd={this.state.userCmd}/>
                     <Playlist entries={this.state.playlistEntries} playingId={playingId} removeEntry={this.removeEntry}/>
                 </div>
                 <div id="library">

@@ -4,7 +4,7 @@ var utils = require('../dakara-utils');
 
 var Player = React.createClass({
     getInitialState: function() {
-        return {pauseCmd: null, skip: -1, notification: null};
+        return {notification: null};
     },
 
     clearNotification: function() {
@@ -23,17 +23,19 @@ var Player = React.createClass({
             cmdString = "skip";
         }
         if (status) {
-            /*this.setState({
-                notification: {
-                    message: "Successfuly added!",
-                    type: "success"
-                }
-            });
-            setTimeout(this.clearNotification, 2000);*/
+            if (cmd.skip){
+                this.setState({
+                    notification: {
+                        message: "Skipped!",
+                        type: "success"
+                    }
+                });
+                setTimeout(this.clearNotification, 2000);
+            }
         } else {
             this.setState({
                 notification: {
-                    message: "Error attempting to do " + cmdString,
+                    message: "Error attempting to " + cmdString,
                     type: "danger"
                 }
             });
@@ -43,16 +45,20 @@ var Player = React.createClass({
 
     handlePlayPause: function(e){
         if (this.props.playerStatus.playlist_entry){
-            var pause = !this.props.playerStatus.paused;
-            this.setState({pauseCmd: pause});
+            var pause = !this.props.userCmd.pause;
             this.props.sendPlayerCommand({"pause": pause}, this.handleReponse);
         }
     },
 
     handleSkip: function(e){
         if (this.props.playerStatus.playlist_entry){
+           this.setState({
+                notification: {
+                    message: "Pending...",
+                    type: "success"
+                }
+            });
             this.props.sendPlayerCommand({"skip": true}, this.handleReponse);
-            this.setState({pauseCmd: null, skip: this.props.playerStatus.playlist_entry.id});
         }
     },
 
@@ -70,7 +76,7 @@ var Player = React.createClass({
             progress = playerStatus.timing * 100 / duration; 
 
             playingId = playerStatus.playlist_entry.id;
-            playIcon += playerStatus.paused ? "play" : "pause";
+            playIcon += this.props.userCmd.pause ? "play" : "pause";
         } else {
             playIcon += "stop";
             progress = 0;
@@ -79,25 +85,9 @@ var Player = React.createClass({
 
         var progressStyle = { width: progress + "%"};
 
-        var waitingPause = false;
-        if (this.state.pauseCmd != null) {
-            waitingPause = (this.state.pauseCmd != playerStatus.paused);
-        }
-        var waitingSkip = (this.state.skip == playingId);
+        var playPausebtn = <i className={playIcon}></i>
 
-        var playPausebtn;
-        if (waitingPause) {
-            playPausebtn = <img src="/static/pending.gif"/>
-        } else {
-            playPausebtn = <i className={playIcon}></i>
-        }
-
-        var skipBtn;
-        if (waitingSkip) {
-            skipBtn = <img src="/static/pending.gif"/>
-        } else {
-            skipBtn = <i className="fa fa-step-forward"></i>
-        }
+        var skipBtn = <i className="fa fa-step-forward"></i>
 
         var message;
         if(this.state.notification != null){
@@ -108,10 +98,10 @@ var Player = React.createClass({
         <div id="player">
             <div className="top">
                 <div className="controls">
-                    <div className={"play-pause control primary" + (playerStatus.playlist_entry && !waitingPause ? "" : " disabled")} onClick={this.handlePlayPause}>
+                    <div className={"play-pause control primary" + (playerStatus.playlist_entry ? "" : " disabled")} onClick={this.handlePlayPause}>
                         {playPausebtn} 
                     </div>
-                    <div className={"skip control primary" + (playerStatus.playlist_entry && !waitingSkip ? "" : " disabled")} onClick={this.handleSkip}>
+                    <div className={"skip control primary" + (playerStatus.playlist_entry ? "" : " disabled")} onClick={this.handleSkip}>
                         {skipBtn}
                     </div>
                 </div>
