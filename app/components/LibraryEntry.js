@@ -31,7 +31,7 @@ var LibraryEntry = React.createClass({
     handleAdd: function() {
         this.setState({
             notification: {
-                message: "Pending...",
+                message: "Adding...",
                 type: "success"
             }
         });

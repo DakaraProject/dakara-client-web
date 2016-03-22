@@ -30,7 +30,7 @@ var PlaylistEntry = React.createClass({
     handleRemove: function(e){
        this.setState({
             notification: {
-                message: "Pending...",
+                message: "Removing...",
                 type: "success"
             }
         });

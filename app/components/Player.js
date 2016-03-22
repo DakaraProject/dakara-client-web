@@ -54,7 +54,7 @@ var Player = React.createClass({
         if (this.props.playerStatus.playlist_entry){
            this.setState({
                 notification: {
-                    message: "Pending...",
+                    message: "Skipping...",
                     type: "success"
                 }
             });
