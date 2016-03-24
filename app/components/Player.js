@@ -4,11 +4,32 @@ var utils = require('../dakara-utils');
 
 var Player = React.createClass({
     getInitialState: function() {
-        return {notification: null};
+        return {notifications: []};
     },
 
     clearNotification: function() {
-        this.setState({notification: null});
+        var newNotifications = this.state.notifications;
+        newNotifications.shift();
+        this.setState({notifications: newNotifications});
+        if (newNotifications.length > 0) {
+            setTimeout(this.clearNotification, newNotifications[0].timeout);
+        }
+    },
+
+    addNotification: function(message, type, timeout){
+        var newNotifications = this.state.notifications.concat({
+                id : Math.floor((Math.random() * 100000)),
+                message: message,
+                type: type,
+                timeout: timeout
+            });
+
+        this.setState({
+            notifications: newNotifications
+        });
+        if (newNotifications.length == 1) {
+            setTimeout(this.clearNotification, timeout);
+        }
     },
 
     handleReponse: function(status, cmd){
@@ -24,22 +45,10 @@ var Player = React.createClass({
         }
         if (status) {
             if (cmd.skip){
-                this.setState({
-                    notification: {
-                        message: "Skipped!",
-                        type: "success"
-                    }
-                });
-                setTimeout(this.clearNotification, 2000);
+                this.addNotification("Skipped!", "success", 2000);
             }
         } else {
-            this.setState({
-                notification: {
-                    message: "Error attempting to " + cmdString,
-                    type: "danger"
-                }
-            });
-            setTimeout(this.clearNotification, 5000);
+            this.addNotification("Error attempting to " + cmdString, "danger", 5000);
         }
     },
 
@@ -52,12 +61,6 @@ var Player = React.createClass({
 
     handleSkip: function(e){
         if (this.props.playerStatus.playlist_entry){
-           this.setState({
-                notification: {
-                    message: "Skipping...",
-                    type: "success"
-                }
-            });
             this.props.sendPlayerCommand({"skip": true}, this.handleReponse);
         }
     },
@@ -90,8 +93,8 @@ var Player = React.createClass({
         var skipBtn = <i className="fa fa-step-forward"></i>
 
         var message;
-        if(this.state.notification != null){
-            message = <div className="notified"><div className={"notification " + this.state.notification.type}>{this.state.notification.message}</div></div>
+        if(this.state.notifications.length > 0){
+            message = <div key={this.state.notifications[0].id} className="notified"><div className={"notification " + this.state.notifications[0].type}>{this.state.notifications[0].message}</div></div>
         }
 
         return (
