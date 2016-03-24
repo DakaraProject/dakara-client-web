@@ -6,7 +6,21 @@ var Library = require('./Library');
 
 var PlayerBox = React.createClass({
     getInitialState: function() {
-        return {playerStatus: {playlist_entry: null,timing:0}, playlistEntries: {count: 0, results: []}, userCmd: {pause: false, skip: false}};
+        return {
+            playerStatus: {
+                playlist_entry: null,
+                timing: 0
+            },
+            playlistEntries: {
+                count: 0,
+                results: []
+            },
+            userCmd: {
+                pause: false,
+                skip: false
+            },
+            playerErrorsOldId: []
+        };
     },
 
     sendPlayerCommand : function(cmd, callback) {
@@ -77,7 +91,33 @@ var PlayerBox = React.createClass({
               console.error(this.props.url, status, err.toString());
             }.bind(this)
         });
+        $.ajax({
+            url: this.props.url + "playlist/player/errors/",
+            dataType: 'json',
+            cache: false,
+            success: this.addPlayerErrors,
+            error: function(xhr, status, err) {
+              console.error(this.props.url, status, err.toString());
+            }.bind(this)
+        });
+    },
 
+    addPlayerErrors: function (data) {
+        // add player errors to notification if they are new
+        if (data) {
+            var errorsId = [];
+            for (error of data) {
+                if (this.state.playerErrorsOldId.indexOf(error.id) == -1) {
+                    errorsId.push(error.id);
+                    this.refs.player.addNotification(
+                            "Error with " + error.song.title + ": " + error.error_message,
+                            "danger",
+                            5000
+                            );
+                }
+            }
+            this.setState({playerErrorsOldId: this.state.playerErrorsOldId.concat(errorsId)});
+        }
     },
 
     componentDidMount: function() {
@@ -94,7 +134,7 @@ var PlayerBox = React.createClass({
         return (
             <div>
                 <div id="playlist">
-                    <Player playerStatus={this.state.playerStatus} sendPlayerCommand={this.sendPlayerCommand} userCmd={this.state.userCmd}/>
+                    <Player ref={'player'} playerStatus={this.state.playerStatus} sendPlayerCommand={this.sendPlayerCommand} userCmd={this.state.userCmd}/>
                     <Playlist entries={this.state.playlistEntries} playingId={playingId} removeEntry={this.removeEntry}/>
                 </div>
                 <div id="library">
