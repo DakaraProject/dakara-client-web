@@ -69,7 +69,6 @@ var Player = React.createClass({
         var playerStatus = this.props.playerStatus;
         var songName;
         var playIcon = "fa fa-";
-        var playingId;
         var duration;
         var progress;
         if (playerStatus.playlist_entry){
@@ -78,7 +77,6 @@ var Player = React.createClass({
 
             progress = playerStatus.timing * 100 / duration; 
 
-            playingId = playerStatus.playlist_entry.id;
             playIcon += this.props.userCmd.pause ? "play" : "pause";
         } else {
             playIcon += "stop";

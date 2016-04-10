@@ -66,6 +66,28 @@
             }
         }
 
+        .playlist-entry {
+            line-height: @height;
+            background: @black-60;
+            color: @black-80;
+
+
+            .play-time {
+                padding: 0 @gap-horizontal;
+                i {
+                    padding-right: 3px;  
+                }
+            }
+        }
+
+        &:nth-child(2n) .playlist-entry {
+            background: lighten(@black-60, 2.5%);
+        }
+
+        &:hover .playlist-entry {
+            background: lighten(@black-60, 7%);
+        }
+
         .controls {
             .make-controls(@height, @control-font-size);
         }

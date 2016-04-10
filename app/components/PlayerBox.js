@@ -126,16 +126,11 @@ var PlayerBox = React.createClass({
     },
 
     render: function() {
-        var playingId;
-        if (this.state.playerStatus.playlist_entry){
-            playingId = this.state.playerStatus.playlist_entry.id;
-        }
-
         return (
             <div>
                 <div id="playlist">
                     <Player ref={'player'} playerStatus={this.state.playerStatus} sendPlayerCommand={this.sendPlayerCommand} userCmd={this.state.userCmd}/>
-                    <Playlist entries={this.state.playlistEntries} playingId={playingId} removeEntry={this.removeEntry}/>
+                    <Playlist entries={this.state.playlistEntries} playerStatus={this.state.playerStatus} removeEntry={this.removeEntry}/>
                 </div>
                 <div id="library">
                     <Library url={this.props.url} pollInterval={this.props.pollInterval} loadStatusFromServer={this.loadStatusFromServer}/>

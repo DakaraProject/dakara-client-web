@@ -17,6 +17,11 @@ var DakaraUtils = {
         return cookieValue;
     },
 
+    formatHourTime: function(timestamp) {
+        var date = new Date(timestamp);
+        return sprintf("%02d:%02d",date.getHours(), date.getMinutes());
+    },
+
     formatTime: function(seconds) {
         var hours = Math.floor(seconds / 3600);
         var remaining = seconds % 3600;
