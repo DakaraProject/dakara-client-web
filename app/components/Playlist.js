@@ -26,7 +26,7 @@ var Playlist = React.createClass({
         //compute time when each song is going to be played
         var timeOfPlay = {};
         for(entry of list){
-            timeOfPlay[entry.song.id] = currentTime + remainingTime * 1000;
+            timeOfPlay[entry.id] = currentTime + remainingTime * 1000;
             remainingTime += +(entry.song.duration);
         }
         var playListEndTime = currentTime + remainingTime * 1000;
@@ -34,7 +34,7 @@ var Playlist = React.createClass({
         if (!this.state.collapsed){
             var removeEntry = this.props.removeEntry;
             var playlistEntries = list.map(function(entry) {
-                return ( <PlaylistEntry key={entry.id} entry={entry} timeOfPlay={timeOfPlay[entry.song.id]} removeEntry={removeEntry}/> );
+                return ( <PlaylistEntry key={entry.id} entry={entry} timeOfPlay={timeOfPlay[entry.id]} removeEntry={removeEntry}/> );
             });
             playlistContent = (
                 <ul className="listing">
