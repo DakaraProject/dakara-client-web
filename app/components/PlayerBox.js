@@ -133,7 +133,7 @@ var PlayerBox = React.createClass({
                     <Playlist entries={this.state.playlistEntries} playerStatus={this.state.playerStatus} removeEntry={this.removeEntry}/>
                 </div>
                 <div id="library">
-                    <Library url={this.props.url} pollInterval={this.props.pollInterval} loadStatusFromServer={this.loadStatusFromServer}/>
+                    <Library url={this.props.url} pollInterval={this.props.pollInterval} playlistEntries={this.state.playlistEntries} playerStatus={this.state.playerStatus} loadStatusFromServer={this.loadStatusFromServer}/>
                 </div>
             </div>
         );

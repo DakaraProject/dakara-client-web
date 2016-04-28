@@ -44,6 +44,18 @@ var LibraryEntry = React.createClass({
         if(this.state.notification != null){
             message = <div className="notified"><div className={"notification " + this.state.notification.type}>{this.state.notification.message}</div></div>
         }
+        var timeOfPlay;
+        if (this.props.timeOfPlay) {
+            timeOfPlay = (
+                <div className="playlist-info">
+                    <div className="play-time">
+                        <i className="fa fa-clock-o"></i>
+                        {utils.formatHourTime(this.props.timeOfPlay)}
+                    </div>
+                </div>
+            );
+        }
+   
 
         return (
                 <li>
@@ -55,6 +67,7 @@ var LibraryEntry = React.createClass({
                             {utils.formatTime(this.props.song.duration)}
                         </div>
                     </div>
+                    {timeOfPlay}
                     <div className="controls" id={"song-" + this.props.song.id}>
                         <div className="add control primary" onClick={this.handleAdd}>
                             <i className="fa fa-plus"></i>

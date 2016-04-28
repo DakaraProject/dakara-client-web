@@ -82,13 +82,31 @@ var Library = React.createClass({
     },
 
     render: function() {
+        var currentTime = new Date().getTime();
+        //compute time when each song is going to be played
+        var remainingTime = 0;
+        var playerStatus = this.props.playerStatus;
+        if (playerStatus.playlist_entry) {
+            remainingTime = playerStatus.playlist_entry.song.duration - playerStatus.timing;
+        }
+        var timeOfPlay = {};
+        for(entry of this.props.playlistEntries.results){
+            if (!timeOfPlay[entry.song.id]) {
+                timeOfPlay[entry.song.id] = currentTime + remainingTime * 1000;
+            }
+            remainingTime += +(entry.song.duration);
+        }
+
+        var playListEndTime = currentTime + remainingTime * 1000;
         var addToPlaylist = this.addToPlaylist;
         var list = this.state.libraryEntries.results.map(function(entry){
-            return (<LibraryEntry key={entry.id} song={entry} addToPlaylist={addToPlaylist}/>);
+            return (<LibraryEntry key={entry.id} song={entry} timeOfPlay={timeOfPlay[entry.id]} addToPlaylist={addToPlaylist}/>);
         });
         var count = this.state.libraryEntries.count;
         var hasNext = this.state.libraryEntries.next;
         var hasPrevious = this.state.libraryEntries.previous;
+
+
         return (
         <div>
             <form id="query" onSubmit={this.handleSubmit}>

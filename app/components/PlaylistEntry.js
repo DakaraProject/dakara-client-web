@@ -52,7 +52,7 @@ var PlaylistEntry = React.createClass({
                         {utils.formatTime(this.props.entry.song.duration)}
                     </div>
                 </div>
-                <div className="playlist-entry">
+                <div className="playlist-info">
                     <div className="play-time">
                         <i className="fa fa-clock-o"></i>
                         {utils.formatHourTime(this.props.timeOfPlay)}
