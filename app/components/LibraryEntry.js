@@ -45,7 +45,16 @@ var LibraryEntry = React.createClass({
             message = <div className="notified"><div className={"notification " + this.state.notification.type}>{this.state.notification.message}</div></div>
         }
         var timeOfPlay;
-        if (this.props.timeOfPlay) {
+        if (this.props.isPlaying) {
+            timeOfPlay = (
+                <div className="playlist-info">
+                    <div className="play-time">
+                        <i className="fa fa-play"></i>
+                        Playing 
+                    </div>
+                </div>
+            );
+        } else if (this.props.timeOfPlay) {
             timeOfPlay = (
                 <div className="playlist-info">
                     <div className="play-time">
