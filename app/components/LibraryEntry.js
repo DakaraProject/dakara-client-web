@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 var utils = require('../dakara-utils');
+var SongPreview = require('./SongPreview');
 
 var LibraryEntry = React.createClass({
     getInitialState: function() {
@@ -48,9 +49,8 @@ var LibraryEntry = React.createClass({
         if (this.props.isPlaying) {
             timeOfPlay = (
                 <div className="playlist-info">
-                    <div className="play-time">
+                    <div className="playing">
                         <i className="fa fa-play"></i>
-                        Playing 
                     </div>
                 </div>
             );
@@ -68,14 +68,7 @@ var LibraryEntry = React.createClass({
 
         return (
                 <li>
-                    <div className="data">
-                        <div className="title">
-                            {this.props.song.title}
-                        </div>
-                        <div className="duration">
-                            {utils.formatTime(this.props.song.duration)}
-                        </div>
-                    </div>
+                    <SongPreview song={this.props.song}/>
                     {timeOfPlay}
                     <div className="controls" id={"song-" + this.props.song.id}>
                         <div className="add control primary" onClick={this.handleAdd}>

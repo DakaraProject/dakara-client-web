@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 var utils = require('../dakara-utils');
+var SongPreview = require('./SongPreview');
 
 var PlaylistEntry = React.createClass({
     getInitialState: function() {
@@ -44,14 +45,7 @@ var PlaylistEntry = React.createClass({
         }
         return (
             <li className={this.state.notification ? "delayed":""}>
-                <div className="data">
-                    <div className="title">
-                        {this.props.entry.song.title}
-                    </div>
-                    <div className="duration">
-                        {utils.formatTime(this.props.entry.song.duration)}
-                    </div>
-                </div>
+                <SongPreview song={this.props.entry.song} />
                 <div className="playlist-info">
                     <div className="play-time">
                         <i className="fa fa-clock-o"></i>
