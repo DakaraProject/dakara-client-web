@@ -7,10 +7,10 @@ var SongPreview = React.createClass({
         var work;
         if (song.works.length > 0) {
             var w = song.works[0];
-            var title = (<span className="title">{w.work.title}</span>);
+            var title = (<span className="work-title">{w.work.title}</span>);
             var subtitle;
             if (w.work.subtitle) {
-                 subtitle = (<span className="subtitle">{w.work.subtitle}</span>);
+                 subtitle = (<span className="work-subtitle">{w.work.subtitle}</span>);
             }
             var link = (<span className="link-type">{w.link_type}</span>);
             var linkNb;
@@ -25,7 +25,7 @@ var SongPreview = React.createClass({
             }
             work = (
                     <div className="work">
-                        <i className={work_icon}></i><span className="link">{link}{linkNb}</span>{title}{subtitle}
+                        {title}{subtitle}<span className="link">{link}{linkNb}</span><i className={work_icon}></i>
                     </div>
                 );
         }
@@ -40,18 +40,14 @@ var SongPreview = React.createClass({
 
         return (
                 <div className="data">
-                    <div className="song-details">
-                        <div className="top">
-                            <div className="title">
-                                {song.title}
-                            </div>
-                        </div>
-                        <div className="bottom">
-                            {artists}
-                            {work}
-                        </div>
+                    <div className="title">
+                        {song.title}
                     </div>
-                    <div className="song-duration">
+                    <div className="details">
+                        {work}
+                        {artists}
+                    </div>
+                    <div className="duration">
                         {utils.formatTime(this.props.song.duration)}
                     </div>
                 </div>

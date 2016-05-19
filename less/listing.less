@@ -51,67 +51,76 @@
         .data {
             flex: 1;
             display: flex;
+            // line-height: @height;
+            align-items: center;
 
-            .song-details {
+            .title {
+                // display: flex;
                 flex: 1;
+                width: 0;
+                .text-truncate();
+                padding: 0 @gap-horizontal;
+            }
+
+            .details {
                 display: flex;
-                flex-direction: column;
-                justify-content: center;
+                font-size: 90%;
+                margin-right: @gap-horizontal;
 
-                .top > *, .bottom > * {
-                    padding-left: @gap-horizontal;
-                    .text-truncate();
-                }
-                .top {
-                    display: flex;
+                .artists {
 
-                    .title {
+                    .artist:not(:last-child)::after {
+                        content: ", ";
                     }
                 }
-                .bottom {
-                    display: flex;
-                    font-size: small;
 
-                    .artists {
-                        .artist:not(:last-child)::after {
-                            content: ", ";
-                        }
+                .work {
+                    .link {
+                        border: solid 1px @black-70;
+                        margin-left: 0.5em;
+                        padding: 0 2px;
+                        font-size: 90%;
                     }
-                    .work {
-                        .link {
-                            display: inline-block;
-                            //background: @black-70;
-                            //color: @black-80;
-                            border: solid 1px @black-70;
-                            margin-right: 0.5em;
-                            padding: 0 2px;
-                            font-size: 90%;
-                        }
-                        .subtitle {
-                            opacity: 0.65;
-                            margin-left: 0.5em;
-                        }
-                        i {
-                            margin-right: 0.5em;
-                        }
-                       
+
+                    .work-subtitle {
+                        opacity: 0.65;
+                        margin-left: 0.5em;
                     }
-                    .detail {
+
+                    .work-title {
                     }
+
+                    i {
+                        margin-left: 0.5em;
+                    }
+                }
+
+                .work + .artists {
+                    margin-left: @gap-horizontal;
                 }
             }
 
-            .song-duration {
-                font-size: small;
+            .duration {
+                font-size: 90%;
+                padding: 0 @gap-horizontal;
                 line-height: @height;
-                padding-right: @gap-horizontal;
+                background: @black-60;
+                color: @black-80;
             }
+        }
+
+        &:nth-child(2n) .data .duration {
+            background: lighten(@black-60, 2.5%);
+        }
+
+        &:hover .data .duration {
+            background: lighten(@black-60, 7%);
         }
 
         .playlist-info {
             line-height: @height;
-            background: @black-60;
-            color: @black-80;
+            background: @brand-info;
+            color: @black-90;
             text-align: center;
 
 
@@ -119,7 +128,7 @@
                 min-width: (2 * @height);
 
                 i {
-                    padding-right: 0.5em;  
+                    padding-right: 0.5em;
                 }
             }
 
@@ -129,11 +138,11 @@
         }
 
         &:nth-child(2n) .playlist-info {
-            background: lighten(@black-60, 2.5%);
+            background: @brand-info-lighter;
         }
 
         &:hover .playlist-info {
-            background: lighten(@black-60, 7%);
+            background: @brand-info-light;
         }
 
         .controls {
