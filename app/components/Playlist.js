@@ -56,9 +56,8 @@ var Playlist = React.createClass({
         if (list.length != 0 || playerStatus.playlist_entry) { 
             endingInfo = (
                 <div className="info-item">
-                    <i className="fa fa-clock-o"></i>
                     <span className="stat">{utils.formatHourTime(playListEndTime)}</span>
-                    <span className="description">Ending<br/>at</span>
+                    <span className="description">Ending<br/>time</span>
                 </div>
                 );
         }
