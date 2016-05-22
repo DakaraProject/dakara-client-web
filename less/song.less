@@ -1,0 +1,38 @@
+/**
+ * Dakara project
+ *
+ * Listing style file
+ */
+
+.make-song-preview-details(@font-size, @border-color) {
+    display: flex;
+    flex-direction: column;
+    font-size: @font-size;
+
+    .artists {
+        .artist:not(:last-child)::after {
+            content: ", ";
+        }
+    }
+
+    .work {
+        .link {
+            border: solid 1px @border-color;
+            margin-left: 0.5em;
+            padding: 0 2px;
+            font-size: 90%;
+        }
+
+        .work-subtitle {
+            opacity: 0.65;
+            margin-left: 0.5em;
+        }
+
+        .work-title {
+        }
+
+        i {
+            margin-left: 0.5em;
+        }
+    }
+}

@@ -48,56 +48,22 @@
             }
         }
 
-        .data {
+        .song-preview {
             flex: 1;
             display: flex;
-            // line-height: @height;
             align-items: center;
 
             .title {
-                // display: flex;
                 flex: 1;
                 width: 0;
                 .text-truncate();
                 padding: 0 @gap-horizontal;
             }
 
-            .details {
-                display: flex;
-                font-size: 90%;
+            .song-preview-details{
+                .make-song-preview-details(85%, @black-70);
                 margin-right: @gap-horizontal;
-
-                .artists {
-
-                    .artist:not(:last-child)::after {
-                        content: ", ";
-                    }
-                }
-
-                .work {
-                    .link {
-                        border: solid 1px @black-70;
-                        margin-left: 0.5em;
-                        padding: 0 2px;
-                        font-size: 90%;
-                    }
-
-                    .work-subtitle {
-                        opacity: 0.65;
-                        margin-left: 0.5em;
-                    }
-
-                    .work-title {
-                    }
-
-                    i {
-                        margin-left: 0.5em;
-                    }
-                }
-
-                .work + .artists {
-                    margin-left: @gap-horizontal;
-                }
+                align-items: flex-end;
             }
 
             .duration {
@@ -109,11 +75,11 @@
             }
         }
 
-        &:nth-child(2n) .data .duration {
+        &:nth-child(2n) .song-preview .duration {
             background: lighten(@black-60, 2.5%);
         }
 
-        &:hover .data .duration {
+        &:hover .song-preview .duration {
             background: lighten(@black-60, 7%);
         }
 

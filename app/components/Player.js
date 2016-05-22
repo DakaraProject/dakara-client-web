@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 var utils = require('../dakara-utils');
+var SongPreviewDetails = require('./SongPreviewDetails');
 
 var Player = React.createClass({
     getInitialState: function() {
@@ -67,13 +68,22 @@ var Player = React.createClass({
 
     render: function() {
         var playerStatus = this.props.playerStatus;
-        var songName;
+        var song;
+        var songData;
         var playIcon = "fa fa-";
         var duration;
         var progress;
         if (playerStatus.playlist_entry){
-            songName = playerStatus.playlist_entry.song.title;
+            song = playerStatus.playlist_entry.song;
             duration = playerStatus.playlist_entry.song.duration;
+            songData = (
+                    <div className="song-info">
+                        <div className="title">
+                            {song.title}
+                        </div>
+                        <SongPreviewDetails song={song} />
+                    </div>
+                    );
 
             progress = playerStatus.timing * 100 / duration; 
 
@@ -86,18 +96,18 @@ var Player = React.createClass({
 
         var progressStyle = { width: progress + "%"};
 
-        var playPausebtn = <i className={playIcon}></i>
+        var playPausebtn = (<i className={playIcon}></i>);
 
-        var skipBtn = <i className="fa fa-step-forward"></i>
+        var skipBtn = (<i className="fa fa-step-forward"></i>);
 
         var message;
         if(this.state.notifications.length > 0){
-            message = <div key={this.state.notifications[0].id} className="notified"><div className={"notification " + this.state.notifications[0].type}>{this.state.notifications[0].message}</div></div>
+            message = (<div key={this.state.notifications[0].id} className="notified"><div className={"notification " + this.state.notifications[0].type}>{this.state.notifications[0].message}</div></div>);
         }
 
         return (
         <div id="player">
-            <div className="top">
+            <div className="display">
                 <div className="controls">
                     <div className={"play-pause control primary" + (playerStatus.playlist_entry ? "" : " disabled")} onClick={this.handlePlayPause}>
                         {playPausebtn} 
@@ -106,10 +116,8 @@ var Player = React.createClass({
                         {skipBtn}
                     </div>
                 </div>
-                <div className="details">
-                    <div className="data">
-                        <span className="title">{songName}</span>
-                    </div>
+                <div className="song">
+                    {songData}
                     <div className="status">
                         <div id="playlist-current-timing" className="current">{utils.formatTime(playerStatus.timing)}</div>
                         <div id="playlist-total-timing" className="duration">{utils.formatTime(duration)}</div>

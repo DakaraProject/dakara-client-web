@@ -11,11 +11,11 @@
     #player {
         background: darken(@brand-primary, 20%);
 
-        .top {
+        .display {
             display: flex;
             align-items: center;
             padding: @gap-vertical 0;
-            @player-controls-height: 60px;
+            @player-controls-height: 70px;
 
             .controls {
                 .make-controls(@player-controls-height, 20pt);
@@ -27,23 +27,30 @@
                 }
             }
 
-            .details {
+            .song {
                 flex: 1;
                 display: flex;
+                justify-content: flex-end;
                 color: @brand-primary;
                 margin-left: @gap-horizontal;
                 position: relative;
                 overflow: hidden;
 
 
-                .data {
+                .song-info {
                     padding-right: @gap-horizontal;
                     flex: 1;
                     height: @player-controls-height;
+                    display: flex;
+                    flex-direction: column;
 
                     .title {
                         font-size: 18pt;
                         font-weight: 300;
+                    }
+
+                    .song-preview-details {
+                        .make-song-preview-details(90%, darken(@brand-primary, 10%));
                     }
                 }
 
