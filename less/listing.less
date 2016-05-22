@@ -52,18 +52,46 @@
             flex: 1;
             display: flex;
             align-items: center;
+            padding-left: @gap-horizontal;
 
             .title {
                 flex: 1;
                 width: 0;
                 .text-truncate();
-                padding: 0 @gap-horizontal;
             }
 
-            .song-preview-details{
+            .song-preview-details {
                 .make-song-preview-details(85%, @black-70);
                 margin-right: @gap-horizontal;
                 align-items: flex-end;
+            }
+
+            .song-tag-list {
+
+                .tag {
+                    font-size: 80%;
+                    padding: 0 2px;
+                    display: inline-block;
+
+                        margin-right: 0.5em;
+                }
+
+                .tag-color-0 {
+                    border: solid 1px @brand-info;
+                    color: @brand-info;
+                }
+                .tag-color-1 {
+                    border: solid 1px @brand-success;
+                    color: @brand-success;
+                }
+                .tag-color-2 {
+                    border: solid 1px @brand-warning;
+                    color: @brand-warning;
+                }
+                .tag-color-3 {
+                    border: solid 1px @brand-danger;
+                    color: @brand-danger;
+                }
             }
 
             .duration {
