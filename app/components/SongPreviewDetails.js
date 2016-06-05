@@ -1,4 +1,5 @@
 var React = require('react');
+var Highlighter = require('react-highlight-words').default;
 
 var SongPreviewDetails = React.createClass({
     render: function() {
@@ -6,7 +7,12 @@ var SongPreviewDetails = React.createClass({
         var work;
         if (song.works.length > 0) {
             var w = song.works[0];
-            var title = (<span className="work-title">{w.work.title}</span>);
+            var title = (<span className="work-title">
+                    <Highlighter
+                        searchWords={[this.props.search]}
+                        textToHighlight={w.work.title}
+                    />
+                </span>);
             var subtitle;
             if (w.work.subtitle) {
                  subtitle = (<span className="work-subtitle">{w.work.subtitle}</span>);
@@ -32,8 +38,13 @@ var SongPreviewDetails = React.createClass({
         var artists;
         if(song.artists.length > 0) {
             artistsList = song.artists.map(function(artist) {
-                return (<span className="artist">{artist.name}</span>);
-            });
+                return (<span className="artist">
+                        <Highlighter
+                            searchWords={[this.props.search]}
+                            textToHighlight={artist.name}
+                        />
+                    </span>);
+            }.bind(this));
             artists = (<div className="artists">{artistsList}</div>);
         }
 

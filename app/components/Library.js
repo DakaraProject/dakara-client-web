@@ -4,7 +4,7 @@ var LibraryEntry = require('./LibraryEntry');
 
 var Library = React.createClass({
     getInitialState: function() {
-        return {libraryEntries: {count: 0, results: []}, search: ""};
+        return {libraryEntries: {count: 0, results: []}, search: "", currentSearch: ""};
     },
 
     componentDidMount: function() {
@@ -21,13 +21,13 @@ var Library = React.createClass({
 
     handleFirst: function() {
         if (this.state.libraryEntries.previous) {
-            this.refreshEntries(this.props.url + "library/songs/?title=" + encodeURIComponent(this.state.search));
+            this.refreshEntries(this.props.url + "library/songs/?query=" + encodeURIComponent(this.state.currentSearch));
         }
     },
 
     handleLast: function() {
         if (this.state.libraryEntries.next) {
-            this.refreshEntries(this.props.url + "library/songs/?page=last&title=" + encodeURIComponent(this.state.search));
+            this.refreshEntries(this.props.url + "library/songs/?page=last&query=" + encodeURIComponent(this.state.currentSearch));
         }
     },
 
@@ -41,7 +41,8 @@ var Library = React.createClass({
     },
 
     handleSearch: function(e) {
-        this.refreshEntries(this.props.url + "library/songs/?title=" + encodeURIComponent(this.state.search));                
+        this.refreshEntries(this.props.url + "library/songs/?query=" + encodeURIComponent(this.state.search));                
+        this.setState({currentSearch: this.state.search});
     },
 
     handleClear: function(e) {
@@ -103,8 +104,8 @@ var Library = React.createClass({
         var addToPlaylist = this.addToPlaylist;
         var list = this.state.libraryEntries.results.map(function(entry){
             var isPlaying = entry.id == playingId;
-            return (<LibraryEntry key={entry.id} song={entry} timeOfPlay={timeOfPlay[entry.id]} isPlaying={isPlaying} addToPlaylist={addToPlaylist}/>);
-        });
+            return (<LibraryEntry key={entry.id} song={entry} search={this.state.currentSearch} timeOfPlay={timeOfPlay[entry.id]} isPlaying={isPlaying} addToPlaylist={addToPlaylist}/>);
+        }.bind(this));
         var count = this.state.libraryEntries.count;
         var hasNext = this.state.libraryEntries.next;
         var hasPrevious = this.state.libraryEntries.previous;
