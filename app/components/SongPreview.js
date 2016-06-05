@@ -15,7 +15,7 @@ var SongPreview = React.createClass({
                     </div>
                     <SongPreviewDetails song={song} />
                     <div className="duration">
-                        {utils.formatTime(song.duration)}
+                        {utils.formatDuration(song.duration)}
                     </div>
                 </div>
             )

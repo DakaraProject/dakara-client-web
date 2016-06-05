@@ -120,7 +120,7 @@ var Player = React.createClass({
                     {songData}
                     <div className="status">
                         <div id="playlist-current-timing" className="current">{utils.formatTime(playerStatus.timing)}</div>
-                        <div id="playlist-total-timing" className="duration">{utils.formatTime(duration)}</div>
+                        <div id="playlist-total-timing" className="duration">{utils.formatDuration(duration)}</div>
                     </div>
                     <ReactCSSTransitionGroup transitionName="notified" transitionEnterTimeout={300} transitionLeaveTimeout={150}>
                         {message}
