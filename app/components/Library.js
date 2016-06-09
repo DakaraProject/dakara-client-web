@@ -4,7 +4,23 @@ var LibraryEntry = require('./LibraryEntry');
 
 var Library = React.createClass({
     getInitialState: function() {
-        return {libraryEntries: {count: 0, results: []}, search: "", currentSearch: ""};
+        var query_empty = {
+                artists: [],
+                works: [],
+                titles: [],
+                remaining: []
+            };
+
+        return {
+            query_empty: query_empty,
+            libraryEntries: {
+                count: 0,
+                results: [],
+                query: query_empty
+            },
+            search: "",
+            currentSearch: ""
+        };
     },
 
     componentDidMount: function() {
@@ -104,7 +120,7 @@ var Library = React.createClass({
         var addToPlaylist = this.addToPlaylist;
         var list = this.state.libraryEntries.results.map(function(entry){
             var isPlaying = entry.id == playingId;
-            return (<LibraryEntry key={entry.id} song={entry} search={this.state.currentSearch} timeOfPlay={timeOfPlay[entry.id]} isPlaying={isPlaying} addToPlaylist={addToPlaylist}/>);
+            return (<LibraryEntry key={entry.id} song={entry} query={('query' in this.state.libraryEntries) ? this.state.libraryEntries.query:this.state.query_empty} timeOfPlay={timeOfPlay[entry.id]} isPlaying={isPlaying} addToPlaylist={addToPlaylist}/>);
         }.bind(this));
         var count = this.state.libraryEntries.count;
         var hasNext = this.state.libraryEntries.next;

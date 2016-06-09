@@ -14,11 +14,13 @@ var SongPreview = React.createClass({
                     <div className="title">
                         <Highlighter
                             highlightClassName='highlight'
-                            searchWords={[this.props.search]}
+                            searchWords={this.props.query.titles.concat(
+                                    this.props.query.remaining
+                                    )}
                             textToHighlight={song.title}
                         />
                     </div>
-                    <SongPreviewDetails song={song} search={this.props.search}/>
+                    <SongPreviewDetails song={song} query={this.props.query}/>
                     <div className="duration">
                         {utils.formatDuration(song.duration)}
                     </div>

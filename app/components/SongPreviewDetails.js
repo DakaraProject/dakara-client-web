@@ -9,7 +9,9 @@ var SongPreviewDetails = React.createClass({
             var w = song.works[0];
             var title = (<span className="work-title">
                     <Highlighter
-                        searchWords={[this.props.search]}
+                        searchWords={this.props.query.works.concat(
+                                this.props.query.remaining
+                                )}
                         textToHighlight={w.work.title}
                     />
                 </span>);
@@ -40,7 +42,9 @@ var SongPreviewDetails = React.createClass({
             artistsList = song.artists.map(function(artist) {
                 return (<span className="artist">
                         <Highlighter
-                            searchWords={[this.props.search]}
+                            searchWords={this.props.query.artists.concat(
+                                    this.props.query.remaining
+                                    )}
                             textToHighlight={artist.name}
                         />
                     </span>);

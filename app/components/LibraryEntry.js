@@ -68,7 +68,7 @@ var LibraryEntry = React.createClass({
 
         return (
                 <li>
-                    <SongPreview song={this.props.song} search={this.props.search}/>
+                    <SongPreview song={this.props.song} query={this.props.query}/>
                     {timeOfPlay}
                     <div className="controls" id={"song-" + this.props.song.id}>
                         <div className="add control primary" onClick={this.handleAdd}>
