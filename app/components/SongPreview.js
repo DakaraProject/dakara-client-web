@@ -7,11 +7,9 @@ var Highlighter = require('react-highlight-words').default;
 var SongPreview = React.createClass({
     render: function() {
         var song = this.props.song;
-
-        return (
-                <div className="song-preview">
-                    <SongTagList tags={song.tags} />
-                    <div className="title">
+        var title;
+        if (this.props.query != undefined) {
+            title = (
                         <Highlighter
                             highlightClassName='highlight'
                             searchWords={this.props.query.titles.concat(
@@ -19,7 +17,15 @@ var SongPreview = React.createClass({
                                     )}
                             textToHighlight={song.title}
                         />
-                    </div>
+                    )
+        } else {
+            title = song.title
+        }
+
+        return (
+                <div className="song-preview">
+                    <SongTagList tags={song.tags} />
+                    <div className="title">{title}</div>
                     <SongPreviewDetails song={song} query={this.props.query}/>
                     <div className="duration">
                         {utils.formatDuration(song.duration)}

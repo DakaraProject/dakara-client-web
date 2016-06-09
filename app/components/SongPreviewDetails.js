@@ -7,29 +7,38 @@ var SongPreviewDetails = React.createClass({
         var work;
         if (song.works.length > 0) {
             var w = song.works[0];
-            var title = (<span className="work-title">
-                    <Highlighter
-                        searchWords={this.props.query.works.concat(
-                                this.props.query.remaining
-                                )}
-                        textToHighlight={w.work.title}
-                    />
-                </span>);
+            var title;
+            if (this.props.query != undefined) {
+                title = (<span className="work-title">
+                        <Highlighter
+                            searchWords={this.props.query.works.concat(
+                                    this.props.query.remaining
+                                    )}
+                            textToHighlight={w.work.title}
+                        />
+                    </span>);
+            } else {
+                title = w.work.title;
+            }
+
             var subtitle;
             if (w.work.subtitle) {
                  subtitle = (<span className="work-subtitle">{w.work.subtitle}</span>);
             }
+
             var link = (<span className="link-type">{w.link_type}</span>);
             var linkNb;
             if (w.link_type_number) {
                 linkNb = (<span className="link-nb">{w.link_type_number}</span>);
             }
+
             var work_icon;
             if (w.work.work_type && w.work.work_type.icon_name) {
                 work_icon = "fa fa-" + w.work.work_type.icon_name;
             } else {
                 work_icon = "fa fa-picture-o";
             }
+
             work = (
                     <div className="work">
                         {title}{subtitle}<span className="link">{link}{linkNb}</span><i className={work_icon}></i>
@@ -39,14 +48,28 @@ var SongPreviewDetails = React.createClass({
 
         var artists;
         if(song.artists.length > 0) {
-            artistsList = song.artists.map(function(artist) {
-                return (<span className="artist">
+            var displayArtist;
+            if (this.props.query != undefined) {
+                displayArtist = function(artist, query) {
+                    return (
                         <Highlighter
-                            searchWords={this.props.query.artists.concat(
-                                    this.props.query.remaining
+                            searchWords={query.artists.concat(
+                                    query.remaining
                                     )}
                             textToHighlight={artist.name}
                         />
+                    );
+                };
+            } else {
+                displayArtist = function(artist, query) {
+                    return artist.name;
+                };
+            }
+
+            var artistsList = song.artists.map(function(artist) {
+                var artist;
+                return (<span className="artist">
+                        {displayArtist(artist, this.props.query)}
                     </span>);
             }.bind(this));
             artists = (<div className="artists">{artistsList}</div>);
