@@ -27,9 +27,6 @@ var SongPreview = React.createClass({
                     <SongTagList tags={song.tags} />
                     <div className="title">{title}</div>
                     <SongPreviewDetails song={song} query={this.props.query}/>
-                    <div className="duration">
-                        {utils.formatDuration(song.duration)}
-                    </div>
                 </div>
             )
     }

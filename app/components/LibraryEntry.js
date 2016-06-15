@@ -1,7 +1,7 @@
 var React = require('react');
 var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 var utils = require('../dakara-utils');
-var SongPreview = require('./SongPreview');
+var SongDisplay = require('./SongDisplay');
 
 var LibraryEntry = React.createClass({
     getInitialState: function() {
@@ -68,7 +68,7 @@ var LibraryEntry = React.createClass({
 
         return (
                 <li>
-                    <SongPreview song={this.props.song} query={this.props.query}/>
+                    <SongDisplay song={this.props.song} query={this.props.query}/>
                     {timeOfPlay}
                     <div className="controls" id={"song-" + this.props.song.id}>
                         <div className="add control primary" onClick={this.handleAdd}>

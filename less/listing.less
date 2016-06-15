@@ -47,70 +47,75 @@
                 }
             }
         }
-
-        .song-preview {
+        
+        .song-display {
             flex: 1;
             display: flex;
-            align-items: center;
-            padding-left: @gap-horizontal;
-            position: relative;
-            overflow-y: hidden;
 
-            .title {
+            .song-preview {
                 flex: 1;
-                width: 0;
-                .text-truncate();
-                font-size: 1.05em;
-            }
+                display: flex;
+                align-items: center;
+                padding-left: @gap-horizontal;
+                position: relative;
+                overflow-y: hidden;
 
-            .song-preview-details {
-                .make-song-preview-details(0.9em, @black-70);
-                margin-right: @gap-horizontal;
-                align-items: flex-end;
-            }
-
-            .song-tag-list {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                font-size: 0.6em;
-                line-height: 1em;
-
-                .tag {
-                    padding: 0 @gap-horizontal;
-                    display: inline-block;
-                    color: fade(black, 50%);
-                    font-weight: 700;
+                .title {
+                    flex: 1;
+                    width: 0;
+                    .text-truncate();
+                    font-size: 1.05em;
                 }
 
-                .make-tag(@color) {
-                    background-color: @color;
-                    //color: darken(@color, 25%);
+                .song-preview-details {
+                    .make-song-preview-details(0.9em, @black-70);
+                    margin-right: @gap-horizontal;
+                    align-items: flex-end;
                 }
 
-                .tag-color-0 {
-                    .make-tag(#1b9e77); 
-                }
-                .tag-color-1 {
-                    .make-tag(#d95f02); 
-                }
-                .tag-color-2 {
-                    .make-tag(#7570b3); 
-                }
-                .tag-color-3 {
-                    .make-tag(#e7298a); 
-                }
-                .tag-color-4 {
-                    .make-tag(#66a61e); 
-                }
-                .tag-color-5 {
-                    .make-tag(#e6ab02); 
-                }
-                .tag-color-6 {
-                    .make-tag(#a6761d); 
-                }
-                .tag-color-7 {
-                    .make-tag(#666666); 
+                .song-tag-list {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    font-size: 0.6em;
+                    line-height: 1em;
+
+                    .tag {
+                        padding: 0 @gap-horizontal;
+                        display: inline-block;
+                        color: fade(black, 50%);
+                        font-weight: 700;
+                    }
+
+                    .make-tag(@color) {
+                        background-color: @color;
+                        //color: darken(@color, 25%);
+                    }
+
+                    .tag-color-0 {
+                        .make-tag(#1b9e77); 
+                    }
+                    .tag-color-1 {
+                        .make-tag(#d95f02); 
+                    }
+                    .tag-color-2 {
+                        .make-tag(#7570b3); 
+                    }
+                    .tag-color-3 {
+                        .make-tag(#e7298a); 
+                    }
+                    .tag-color-4 {
+                        .make-tag(#66a61e); 
+                    }
+                    .tag-color-5 {
+                        .make-tag(#e6ab02); 
+                    }
+                    .tag-color-6 {
+                        .make-tag(#a6761d); 
+                    }
+                    .tag-color-7 {
+                        .make-tag(#666666); 
+                    }
                 }
             }
 
@@ -124,11 +129,11 @@
             }
         }
 
-        &:nth-child(2n) .song-preview .duration {
+        &:nth-child(2n) .song-display .duration {
             background: lighten(@black-60, 2.5%);
         }
 
-        &:hover .song-preview .duration {
+        &:hover .song-display .duration {
             background: lighten(@black-60, 7%);
         }
 
