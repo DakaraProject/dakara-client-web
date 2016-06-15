@@ -53,7 +53,8 @@ var Library = React.createClass({
     },
 
     handleClear: function(e) {
-        this.setState({search: ''});                
+        this.setState({search: '', currentSearch: ''});                
+        this.refreshEntries(this.props.url + "library/songs/");                
     },
 
     addToPlaylist: function(songId, callback) {
