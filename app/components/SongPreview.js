@@ -1,10 +1,13 @@
 var React = require('react');
-var utils = require('../dakara-utils');
 var SongPreviewDetails = require('./SongPreviewDetails');
 var SongTagList = require('./SongTagList');
 var Highlighter = require('react-highlight-words').default;
 
 var SongPreview = React.createClass({
+    handleExpand: function() {
+        this.props.handleExpand(); 
+    },
+
     render: function() {
         var song = this.props.song;
         var title;
@@ -23,7 +26,7 @@ var SongPreview = React.createClass({
         }
 
         return (
-                <div className="song-preview">
+                <div className="song-preview" onClick={this.handleExpand}>
                     <SongTagList tags={song.tags} />
                     <div className="title">{title}</div>
                     <SongPreviewDetails song={song} query={this.props.query}/>

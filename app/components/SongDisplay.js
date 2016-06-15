@@ -1,13 +1,30 @@
 var React = require('react');
 var utils = require('../dakara-utils');
 var SongPreview = require('./SongPreview');
+var SongView = require('./SongView');
 
 var SongDisplay = React.createClass({
+    getInitialState: function() {
+        return {
+            expanded: false
+        }
+    },
+
+    handleExpand: function() {
+        this.setState({expanded: true});
+    },
+
     render: function() {
         var song = this.props.song;
+        var songDisplay;
+        if (this.state.expanded){
+            songDisplay = (<SongView song={song}/>)    
+        } else {
+            songDisplay = (<SongPreview song={song} query={this.props.query} handleExpand={this.handleExpand}/>);
+        }
         return (
                 <div className="song-display">
-                    <SongPreview song={song} query={this.props.query}/>
+                    {songDisplay}
                     <div className="duration">
                         {utils.formatDuration(song.duration)}
                     </div>

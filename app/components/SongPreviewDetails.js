@@ -41,7 +41,7 @@ var SongPreviewDetails = React.createClass({
 
             work = (
                     <div className="work">
-                        {title}{subtitle}<span className="link">{link}{linkNb}</span><i className={work_icon}></i>
+                        {title}{subtitle}<span className="work-link">{link}{linkNb}</span><i className={work_icon}></i>
                     </div>
                 );
         }
