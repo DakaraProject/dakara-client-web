@@ -67,7 +67,12 @@ var PlayerBox = React.createClass({
             }.bind(this),
             error: function(xhr, status, err) {
               console.error(this.props.url, status, err.toString());
-            }.bind(this)
+            }.bind(this),
+            statusCode: {
+                403: function() {
+                   window.location = this.props.url + "api-auth/login/?next=/"; 
+                }.bind(this)
+            }
         });
         $.ajax({
           url: this.props.url + "playlist/",
