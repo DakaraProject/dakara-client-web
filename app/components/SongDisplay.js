@@ -14,11 +14,15 @@ var SongDisplay = React.createClass({
         this.setState({expanded: true});
     },
 
+    handleClose: function() {
+        this.setState({expanded: false});
+    },
+
     render: function() {
         var song = this.props.song;
         var songDisplay;
         if (this.state.expanded){
-            songDisplay = (<SongView song={song}/>)    
+            songDisplay = (<SongView song={song} handleClose={this.handleClose}/>)    
         } else {
             songDisplay = (<SongPreview song={song} query={this.props.query} handleExpand={this.handleExpand}/>);
         }

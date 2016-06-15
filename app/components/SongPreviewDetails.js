@@ -1,5 +1,6 @@
 var React = require('react');
 var Highlighter = require('react-highlight-words').default;
+var WorkDisplay = require('./WorkDisplay');
 
 var SongPreviewDetails = React.createClass({
     render: function() {
@@ -7,43 +8,7 @@ var SongPreviewDetails = React.createClass({
         var work;
         if (song.works.length > 0) {
             var w = song.works[0];
-            var title;
-            if (this.props.query != undefined) {
-                title = (<span className="work-title">
-                        <Highlighter
-                            searchWords={this.props.query.works.concat(
-                                    this.props.query.remaining
-                                    )}
-                            textToHighlight={w.work.title}
-                        />
-                    </span>);
-            } else {
-                title = w.work.title;
-            }
-
-            var subtitle;
-            if (w.work.subtitle) {
-                 subtitle = (<span className="work-subtitle">{w.work.subtitle}</span>);
-            }
-
-            var link = (<span className="link-type">{w.link_type}</span>);
-            var linkNb;
-            if (w.link_type_number) {
-                linkNb = (<span className="link-nb">{w.link_type_number}</span>);
-            }
-
-            var work_icon;
-            if (w.work.work_type && w.work.work_type.icon_name) {
-                work_icon = "fa fa-" + w.work.work_type.icon_name;
-            } else {
-                work_icon = "fa fa-picture-o";
-            }
-
-            work = (
-                    <div className="work">
-                        {title}{subtitle}<span className="work-link">{link}{linkNb}</span><i className={work_icon}></i>
-                    </div>
-                );
+            work = (<WorkDisplay work={w} query={this.props.query}/>);
         }
 
         var artists;
