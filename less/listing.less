@@ -12,7 +12,8 @@
     list-style-type: none;
     overflow-x: hidden;
 
-    > li {
+    > li,
+    > span > li { // the span is necessary for dealing with the transitions
         display: flex;
         position: relative;
 
@@ -73,55 +74,17 @@
                     align-items: flex-end;
                 }
 
-
                 .song-tag-list {
                     position: absolute;
                     bottom: 0;
                     left: 0;
                     font-size: 0.6em;
                     line-height: 1em;
-
-                    .tag {
-                        padding: 0 @gap-horizontal;
-                        display: inline-block;
-                        color: fade(black, 50%);
-                        font-weight: 700;
-                    }
-
-                    .make-tag(@color) {
-                        background-color: @color;
-                        //color: darken(@color, 25%);
-                    }
-
-                    .tag-color-0 {
-                        .make-tag(#1b9e77); 
-                    }
-                    .tag-color-1 {
-                        .make-tag(#d95f02); 
-                    }
-                    .tag-color-2 {
-                        .make-tag(#7570b3); 
-                    }
-                    .tag-color-3 {
-                        .make-tag(#e7298a); 
-                    }
-                    .tag-color-4 {
-                        .make-tag(#66a61e); 
-                    }
-                    .tag-color-5 {
-                        .make-tag(#e6ab02); 
-                    }
-                    .tag-color-6 {
-                        .make-tag(#a6761d); 
-                    }
-                    .tag-color-7 {
-                        .make-tag(#666666); 
-                    }
                 }
             }
 
             .song-view {
-                .make-song-view(0.80 * @height, @control-font-size, @control-font-size, @control-font-size);
+                .make-song-view(0.75 * @height, @control-font-size, @control-font-size * 0.85, @control-font-size);
 
                 .collapse {
                     line-height: @height;
@@ -133,6 +96,7 @@
             .duration {
                 display: flex;
                 align-items: flex-end;
+                background: darken(@black-80, 5%);
 
                 .duration-content {
                     font-size: 0.85em;
@@ -154,34 +118,41 @@
         }
 
         .playlist-info {
-            line-height: @height;
-            background: @brand-info;
-            color: @black-90;
-            text-align: center;
+            display: flex;
+            align-items: flex-end;
+            background: darken(@black-80, 6%);
+
+            .playlist-info-content {
+                line-height: @height;
+                background: @brand-info;
+                color: @black-90;
+                text-align: center;
 
 
-            .play-time {
-                min-width: (2 * @height);
+                .play-time {
+                    min-width: (2 * @height);
 
-                i {
-                    padding-right: 0.5em;
+                    i {
+                        padding-right: 0.5em;
+                    }
                 }
-            }
 
-            .playing {
-                width: @height;
+                .playing {
+                    width: @height;
+                }
             }
         }
 
-        &:nth-child(2n) .playlist-info {
+        &:nth-child(2n) .playlist-info .playlist-info-content {
             background: @brand-info-lighter;
         }
 
-        &:hover .playlist-info {
+        &:hover .playlist-info .playlist-info-content {
             background: @brand-info-light;
         }
 
         .controls {
+            background: darken(@black-80, 7%);
             .make-controls(@height, @control-font-size);
         }
 

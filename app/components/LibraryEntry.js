@@ -48,7 +48,7 @@ var LibraryEntry = React.createClass({
         var timeOfPlay;
         if (this.props.isPlaying) {
             timeOfPlay = (
-                <div className="playlist-info">
+                <div className="playlist-info-content">
                     <div className="playing">
                         <i className="fa fa-play"></i>
                     </div>
@@ -56,7 +56,7 @@ var LibraryEntry = React.createClass({
             );
         } else if (this.props.timeOfPlay) {
             timeOfPlay = (
-                <div className="playlist-info">
+                <div className="playlist-info-content">
                     <div className="play-time">
                         <i className="fa fa-clock-o"></i>
                         {utils.formatHourTime(this.props.timeOfPlay)}
@@ -64,12 +64,13 @@ var LibraryEntry = React.createClass({
                 </div>
             );
         }
-   
 
         return (
                 <li>
                     <SongDisplay song={this.props.song} query={this.props.query} setExpendedId={this.props.setExpendedId} setSearch={this.props.setSearch} expanded={this.props.expanded}/>
-                    {timeOfPlay}
+                    <div className="playlist-info">
+                        {timeOfPlay}
+                    </div>
                     <div className="controls" id={"song-" + this.props.song.id}>
                         <div className="add control primary" onClick={this.handleAdd}>
                             <i className="fa fa-plus"></i>

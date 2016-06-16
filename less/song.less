@@ -51,15 +51,16 @@
 }
 
 .make-song-view(@height, @title-font-size, @type-font-size, @control-font-size) {
-    @link-border-color: black;
+    @color-light: darken(@black-60, 6%);
+    @color-dark: darken(@black-80, 1%);
     flex: 1;
 
     .title {
-        background: @black-60;
-        color: @black-80;
+        background: @color-light;
+        color: @color-dark;
         font-size: @title-font-size;
         font-weight: 300;
-        padding: @gap-vertical / 2 @gap-horizontal;
+        padding: 0 @gap-horizontal;
     }
 
     .works {
@@ -85,15 +86,15 @@
                     display: flex;
                     align-items: center;
 
-                    .make-song-work(@link-border-color);
+                    .make-song-work(darken(@black-70, 2%));
 
                     .work-link {
                         flex: 1;
                     }
 
                     .work-type {
-                        background: @black-60;
-                        color: @black-80;
+                        background: @color-light;
+                        color: @color-dark;
                     }
                 }
 
@@ -107,6 +108,14 @@
                 .controls {
                     .make-controls(@height, @control-font-size);
                 }
+
+                &:nth-child(2n) .work .work-type {
+                    background: lighten(@color-light, 2%);
+                }
+
+                &:hover .work .work-type {
+                    background: lighten(@color-light, 3.5%);
+                }
             }
         }
     }
@@ -115,6 +124,57 @@
     }
 
     .tags {
+        background: @color-dark;
+        line-height: @height;
     }
 
+    li {
+        background: @color-dark;
+
+        &:nth-child(2n) {
+            background: lighten(@color-dark, 1.25%);
+        }
+
+        &:hover {
+            background: lighten(@color-dark, 3.5%);
+        }
+    }
+
+}
+
+.tag {
+    padding: 0 @gap-horizontal;
+    display: inline-block;
+    color: fade(black, 50%);
+    font-weight: 700;
+
+    .make-tag(@color) {
+        background-color: @color;
+        //color: darken(@color, 25%);
+    }
+
+    &.tag-color-0 {
+        .make-tag(#1b9e77); 
+    }
+    &.tag-color-1 {
+        .make-tag(#d95f02); 
+    }
+    &.tag-color-2 {
+        .make-tag(#7570b3); 
+    }
+    &.tag-color-3 {
+        .make-tag(#e7298a); 
+    }
+    &.tag-color-4 {
+        .make-tag(#66a61e); 
+    }
+    &.tag-color-5 {
+        .make-tag(#e6ab02); 
+    }
+    &.tag-color-6 {
+        .make-tag(#a6761d); 
+    }
+    &.tag-color-7 {
+        .make-tag(#666666); 
+    }
 }
