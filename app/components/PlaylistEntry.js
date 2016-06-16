@@ -47,9 +47,11 @@ var PlaylistEntry = React.createClass({
             <li className={this.state.notification ? "delayed":""}>
                 <SongDisplay song={this.props.entry.song} />
                 <div className="playlist-info">
-                    <div className="play-time">
-                        <i className="fa fa-clock-o"></i>
-                        {utils.formatHourTime(this.props.timeOfPlay)}
+                    <div className="playlist-info-content">
+                        <div className="play-time">
+                            <i className="fa fa-clock-o"></i>
+                            {utils.formatHourTime(this.props.timeOfPlay)}
+                        </div>
                     </div>
                 </div>
                 <div className="controls">

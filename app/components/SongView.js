@@ -35,7 +35,7 @@ var SongView = React.createClass({
 
         return (
                 <div className="song-view">
-                    <div className="title-header">
+                    <div className="title-header" onClick={this.handleClose}>
                         {title}
                         {detail}
                     </div>
@@ -47,9 +47,6 @@ var SongView = React.createClass({
                     </div>
                     <div className="tags">
                         <SongTagList tags={song.tags} />
-                    </div>
-                    <div className="collapse" onClick={this.handleClose}>
-                        <i className="fa fa-caret-up"></i>
                     </div>
                 </div>
             )
