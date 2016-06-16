@@ -20,8 +20,8 @@ var Library = React.createClass({
     },
 
     setSearch: function(search) {
-        this.setState({search: search});
-        handleSearch();
+        this.refreshEntries(this.props.url + "library/songs/?query=" + encodeURIComponent(search));                
+        this.setState({search: search, currentSearch: search, expandedId: null});
     },
 
     componentDidMount: function() {

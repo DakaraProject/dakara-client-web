@@ -1,14 +1,11 @@
 var React = require('react');
 var SongTagList = require('./SongTagList');
-var WorkDisplay = require('./WorkDisplay');
+var WorkEntry = require('./WorkEntry');
+var ArtistEntry = require('./ArtistEntry');
 
 var SongView = React.createClass({
     handleClose: function() {
         this.props.handleClose()
-    },
-
-    handleSearchWork: function(work) {
-        this.props.setSearch('work:""' + work.title + '""');
     },
 
     render: function() {
@@ -22,14 +19,7 @@ var SongView = React.createClass({
 
         var workList = song.works.map(function(work) {
             return (
-                    <li>
-                        <WorkDisplay work={work}/>
-                        <div className="controls">
-                            <div className="control primary">
-                                <i className="fa fa-search"></i>
-                            </div>
-                        </div>
-                    </li>
+                    <WorkEntry work={work} setSearch={this.props.setSearch}/> 
                     );
         }.bind(this));
 
@@ -37,16 +27,7 @@ var SongView = React.createClass({
 
         var artistList = song.artists.map(function(artist) {
             return (
-                    <li>
-                        <div className="artist-name">
-                            {artist.name}
-                        </div>
-                        <div className="controls">
-                            <div className="control primary">
-                                <i className="fa fa-search"></i>
-                            </div>
-                        </div>
-                    </li>
+                    <ArtistEntry artist={artist} setSearch={this.props.setSearch}/>
                     );
         }.bind(this));
 
