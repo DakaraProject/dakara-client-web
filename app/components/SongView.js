@@ -7,10 +7,18 @@ var SongView = React.createClass({
         this.props.handleClose()
     },
 
+    handleSearchWork: function(work) {
+        this.props.setSearch('work:""' + work.title + '""');
+    },
+
     render: function() {
         var song = this.props.song;
 
-        var title = song.title;
+        var title = (<div className="title">{song.title}</div>);
+        var detail;
+        if(song.detail) {
+            detail = (<div className="detail">{song.detail}</div>);
+        }
 
         var workList = song.works.map(function(work) {
             return (
@@ -23,16 +31,32 @@ var SongView = React.createClass({
                         </div>
                     </li>
                     );
-        });
+        }.bind(this));
 
         var works = (<ul className="works-list">{workList}</ul>);
 
-        var artists;
+        var artistList = song.artists.map(function(artist) {
+            return (
+                    <li>
+                        <div className="artist-name">
+                            {artist.name}
+                        </div>
+                        <div className="controls">
+                            <div className="control primary">
+                                <i className="fa fa-search"></i>
+                            </div>
+                        </div>
+                    </li>
+                    );
+        }.bind(this));
+
+        var artists = (<ul className="artists-list">{artistList}</ul>);
 
         return (
                 <div className="song-view">
-                    <div className="title">
+                    <div className="title-header">
                         {title}
+                        {detail}
                     </div>
                     <div className="works">
                         {works}

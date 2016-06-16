@@ -10,8 +10,18 @@ var Library = React.createClass({
                 results: [],
             },
             search: "",
-            currentSearch: ""
+            currentSearch: "",
+            expandedId: null
         };
+    },
+
+    setExpendedId: function(id) {
+        this.setState({expandedId: id});  
+    },
+
+    setSearch: function(search) {
+        this.setState({search: search});
+        handleSearch();
     },
 
     componentDidMount: function() {
@@ -49,7 +59,7 @@ var Library = React.createClass({
 
     handleSearch: function(e) {
         this.refreshEntries(this.props.url + "library/songs/?query=" + encodeURIComponent(this.state.search));                
-        this.setState({currentSearch: this.state.search});
+        this.setState({currentSearch: this.state.search, expandedId: null});
     },
 
     handleClear: function(e) {
@@ -112,7 +122,7 @@ var Library = React.createClass({
         var addToPlaylist = this.addToPlaylist;
         var list = this.state.libraryEntries.results.map(function(entry){
             var isPlaying = entry.id == playingId;
-            return (<LibraryEntry key={entry.id} song={entry} query={this.state.libraryEntries.query} timeOfPlay={timeOfPlay[entry.id]} isPlaying={isPlaying} addToPlaylist={addToPlaylist}/>);
+            return (<LibraryEntry key={entry.id} song={entry} query={this.state.libraryEntries.query} timeOfPlay={timeOfPlay[entry.id]} isPlaying={isPlaying} addToPlaylist={addToPlaylist} setExpendedId={this.setExpendedId} setSearch={this.setSearch} expanded={this.state.expandedId == entry.id}/>);
         }.bind(this));
         var count = this.state.libraryEntries.count;
         var hasNext = this.state.libraryEntries.next;
