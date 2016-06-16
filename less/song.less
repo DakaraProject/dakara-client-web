@@ -50,37 +50,54 @@
     }
 }
 
-.make-song-view(@height, @title-font-size, @type-font-size, @control-font-size) {
-    @color-light: darken(@black-60, 6%);
-    @color-dark: darken(@black-80, 1%);
+.make-song-view(@height, @height-header, @type-font-size, @control-font-size) {
+    @color-light: darken(@black-60, 7%);
+    @color-dark: darken(@black-80, 2%);
     flex: 1;
 
-    .title {
-        background: @color-light;
-        color: @color-dark;
-        font-size: @title-font-size;
-        font-weight: 300;
+    .title-header {
         padding: 0 @gap-horizontal;
+        height: @height-header;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        * {
+            display: inline;
+        }
+
+        .title {
+            font-size: 1.05em;
+        }
+
+        .detail {
+            margin-left: 0.5em;
+            opacity: 0.65;
+        }
+    }
+
+    .make-sublisting() {
+        margin: 0;
+        padding: 0;
+        // background: @black-80;
+        list-style-type: none;
+        overflow-x: hidden;
+
+        > li {
+            display: flex;
+            padding-left: @gap-horizontal;
+
+            .controls {
+                .make-controls(@height, @control-font-size);
+            }
+        }
     }
 
     .works {
-        .header {
-            margin: 0 @gap-horizontal;
-            line-height: @height;
-            // background: 
-        }
-
         .works-list {
-            margin: 0;
-            padding: 0;
-            // background: @black-80;
-            list-style-type: none;
-            overflow-x: hidden;
+            .make-sublisting();
 
             > li {
-                display: flex;
-                padding-left: @gap-horizontal;
-
                 .work {
                     flex: 1;
                     display: flex;
@@ -105,9 +122,6 @@
                     text-align: center;
                 }
 
-                .controls {
-                    .make-controls(@height, @control-font-size);
-                }
 
                 &:nth-child(2n) .work .work-type {
                     background: lighten(@color-light, 2%);
@@ -121,6 +135,20 @@
     }
 
     .artists {
+        .artists-list {
+            .make-sublisting();
+
+            > li {
+                .artist {
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+
+                    .artist-name {
+                    }
+                }
+            }
+        }
     }
 
     .tags {

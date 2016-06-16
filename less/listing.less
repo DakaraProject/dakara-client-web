@@ -60,6 +60,7 @@
                 padding-left: @gap-horizontal;
                 position: relative;
                 overflow-y: hidden;
+                cursor: pointer;
 
                 .title {
                     flex: 1;
@@ -84,18 +85,10 @@
             }
 
             .song-view {
-                .make-song-view(0.75 * @height, @control-font-size, @control-font-size * 0.85, @control-font-size);
-
-                .collapse {
-                    line-height: @height;
-                    font-size: @control-font-size;
-                    margin: 0 @gap-horizontal;
-                }
+                .make-song-view(0.75 * @height, @height, @control-font-size * 0.85, @control-font-size);
             }
 
             .duration {
-                display: flex;
-                align-items: flex-end;
                 background: darken(@black-80, 5%);
 
                 .duration-content {
@@ -118,8 +111,6 @@
         }
 
         .playlist-info {
-            display: flex;
-            align-items: flex-end;
             background: darken(@black-80, 6%);
 
             .playlist-info-content {
