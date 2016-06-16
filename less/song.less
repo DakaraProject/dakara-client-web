@@ -1,8 +1,30 @@
 /**
  * Dakara project
  *
- * Listing style file
+ * Song style file
  */
+
+.make-song-work(@border-color) {
+    .work-link {
+        .work-link-content {
+            border: solid 1px @border-color;
+            margin-left: 0.5em;
+            padding: 0 2px;
+            font-size: 90%;
+        }
+    }
+
+    .work-subtitle {
+        opacity: 0.65;
+        margin-left: 0.5em;
+    }
+
+    .work-title {
+    }
+
+    .work-type {
+    }
+}
 
 .make-song-preview-details(@font-size, @border-color) {
     display: flex;
@@ -16,23 +38,83 @@
     }
 
     .work {
-        .link {
-            border: solid 1px @border-color;
-            margin-left: 0.5em;
-            padding: 0 2px;
-            font-size: 90%;
-        }
+        .make-song-work(@border-color);
 
-        .work-subtitle {
-            opacity: 0.65;
-            margin-left: 0.5em;
-        }
-
-        .work-title {
+        * {
+            display: inline;
         }
 
         i {
             margin-left: 0.5em;
         }
     }
+}
+
+.make-song-view(@height, @title-font-size, @type-font-size, @control-font-size) {
+    @link-border-color: black;
+    flex: 1;
+
+    .title {
+        background: @black-60;
+        color: @black-80;
+        font-size: @title-font-size;
+        font-weight: 300;
+        padding: @gap-vertical / 2 @gap-horizontal;
+    }
+
+    .works {
+        .header {
+            margin: 0 @gap-horizontal;
+            line-height: @height;
+            // background: 
+        }
+
+        .works-list {
+            margin: 0;
+            padding: 0;
+            // background: @black-80;
+            list-style-type: none;
+            overflow-x: hidden;
+
+            > li {
+                display: flex;
+                padding-left: @gap-horizontal;
+
+                .work {
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+
+                    .make-song-work(@link-border-color);
+
+                    .work-link {
+                        flex: 1;
+                    }
+
+                    .work-type {
+                        background: @black-60;
+                        color: @black-80;
+                    }
+                }
+
+                .work-type {
+                    font-size: @type-font-size;
+                    line-height: @height;
+                    width: @height;
+                    text-align: center;
+                }
+
+                .controls {
+                    .make-controls(@height, @control-font-size);
+                }
+            }
+        }
+    }
+
+    .artists {
+    }
+
+    .tags {
+    }
+
 }

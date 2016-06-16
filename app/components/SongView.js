@@ -17,7 +17,7 @@ var SongView = React.createClass({
                     <li>
                         <WorkDisplay work={work}/>
                         <div className="controls">
-                            <div className="search control">
+                            <div className="control primary">
                                 <i className="fa fa-search"></i>
                             </div>
                         </div>

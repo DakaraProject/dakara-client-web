@@ -30,7 +30,9 @@ var SongDisplay = React.createClass({
                 <div className="song-display">
                     {songDisplay}
                     <div className="duration">
-                        {utils.formatDuration(song.duration)}
+                        <div className="duration-content">
+                            {utils.formatDuration(song.duration)}
+                        </div>
                     </div>
                 </div>
             )
