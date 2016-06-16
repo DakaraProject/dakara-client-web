@@ -15,7 +15,7 @@ var Library = React.createClass({
         };
     },
 
-    setExpendedId: function(id) {
+    setExpandedId: function(id) {
         this.setState({expandedId: id});  
     },
 
@@ -122,7 +122,7 @@ var Library = React.createClass({
         var addToPlaylist = this.addToPlaylist;
         var list = this.state.libraryEntries.results.map(function(entry){
             var isPlaying = entry.id == playingId;
-            return (<LibraryEntry key={entry.id} song={entry} query={this.state.libraryEntries.query} timeOfPlay={timeOfPlay[entry.id]} isPlaying={isPlaying} addToPlaylist={addToPlaylist} setExpendedId={this.setExpendedId} setSearch={this.setSearch} expanded={this.state.expandedId == entry.id}/>);
+            return (<LibraryEntry key={entry.id} song={entry} query={this.state.libraryEntries.query} timeOfPlay={timeOfPlay[entry.id]} isPlaying={isPlaying} addToPlaylist={addToPlaylist} setExpandedId={this.setExpandedId} setSearch={this.setSearch} expanded={this.state.expandedId == entry.id}/>);
         }.bind(this));
         var count = this.state.libraryEntries.count;
         var hasNext = this.state.libraryEntries.next;

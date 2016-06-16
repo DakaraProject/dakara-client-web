@@ -23,6 +23,10 @@ var PlayerBox = React.createClass({
         };
     },
 
+    setSearch: function(search) {
+        this.refs['library'].setSearch(search); 
+    },
+
     sendPlayerCommand : function(cmd, callback) {
         $.ajax({
         url: this.props.url + "playlist/player/manage/",
@@ -135,10 +139,10 @@ var PlayerBox = React.createClass({
             <div>
                 <div id="playlist">
                     <Player ref={'player'} playerStatus={this.state.playerStatus} sendPlayerCommand={this.sendPlayerCommand} userCmd={this.state.userCmd}/>
-                    <Playlist entries={this.state.playlistEntries} playerStatus={this.state.playerStatus} removeEntry={this.removeEntry}/>
+                    <Playlist entries={this.state.playlistEntries} playerStatus={this.state.playerStatus} removeEntry={this.removeEntry} setSearch={this.setSearch}/>
                 </div>
                 <div id="library">
-                    <Library url={this.props.url} pollInterval={this.props.pollInterval} playlistEntries={this.state.playlistEntries} playerStatus={this.state.playerStatus} loadStatusFromServer={this.loadStatusFromServer}/>
+                    <Library ref="library" url={this.props.url} pollInterval={this.props.pollInterval} playlistEntries={this.state.playlistEntries} playerStatus={this.state.playerStatus} loadStatusFromServer={this.loadStatusFromServer}/>
                 </div>
             </div>
         );

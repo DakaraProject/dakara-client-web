@@ -4,6 +4,14 @@ var utils = require('../dakara-utils');
 var SongDisplay = require('./SongDisplay');
 
 var LibraryEntry = React.createClass({
+    handleExpand: function() {
+        this.props.setExpandedId(this.props.song.id);
+    },
+
+    handleClose: function() {
+        this.props.setExpandedId(null);
+    },
+
     getInitialState: function() {
         return {notification: null};
     },
@@ -67,7 +75,7 @@ var LibraryEntry = React.createClass({
 
         return (
                 <li>
-                    <SongDisplay song={this.props.song} query={this.props.query} setExpendedId={this.props.setExpendedId} setSearch={this.props.setSearch} expanded={this.props.expanded}/>
+                    <SongDisplay song={this.props.song} query={this.props.query} handleExpand={this.handleExpand} handleClose={this.handleClose} setSearch={this.props.setSearch} expanded={this.props.expanded}/>
                     <div className="playlist-info">
                         {timeOfPlay}
                     </div>

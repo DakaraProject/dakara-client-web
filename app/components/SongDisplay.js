@@ -4,21 +4,14 @@ var SongPreview = require('./SongPreview');
 var SongView = require('./SongView');
 
 var SongDisplay = React.createClass({
-    handleExpand: function() {
-        this.props.setExpendedId(this.props.song.id);
-    },
-
-    handleClose: function() {
-        this.props.setExpendedId(null);
-    },
 
     render: function() {
         var song = this.props.song;
         var songDisplay;
         if (this.props.expanded){
-            songDisplay = (<SongView song={song} handleClose={this.handleClose} setSearch={this.props.setSearch}/>)    
+            songDisplay = (<SongView song={song} handleClose={this.props.handleClose} setSearch={this.props.setSearch}/>)    
         } else {
-            songDisplay = (<SongPreview song={song} query={this.props.query} handleExpand={this.handleExpand}/>);
+            songDisplay = (<SongPreview song={song} query={this.props.query} handleExpand={this.props.handleExpand}/>);
         }
         return (
                 <div className="song-display">

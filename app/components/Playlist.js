@@ -5,10 +5,17 @@ var PlaylistEntry = require('./PlaylistEntry');
 
 var Playlist = React.createClass({
     handleCollapse: function() {
-        this.setState({collapsed: !this.state.collapsed});
+        this.setState({collapsed: !this.state.collapsed, expandedId: null});
     },
     getInitialState: function() {
-        return {collapsed: true};
+        return {
+            collapsed: true,
+            expandedId: null
+        };
+    },
+
+    setExpandedId: function(id) {
+        this.setState({expandedId: id});  
     },
 
     render: function() {
@@ -34,8 +41,8 @@ var Playlist = React.createClass({
         if (!this.state.collapsed){
             var removeEntry = this.props.removeEntry;
             var playlistEntries = list.map(function(entry) {
-                return ( <PlaylistEntry key={entry.id} entry={entry} timeOfPlay={timeOfPlay[entry.id]} removeEntry={removeEntry}/> );
-            });
+                return ( <PlaylistEntry key={entry.id} entry={entry} timeOfPlay={timeOfPlay[entry.id]} removeEntry={removeEntry} setExpandedId={this.setExpandedId} setSearch={this.props.setSearch} expanded={this.state.expandedId == entry.id}/> );
+            }.bind(this));
             playlistContent = (
                 <ul className="listing">
                     <ReactCSSTransitionGroup transitionName="add-remove" transitionEnterTimeout={300} transitionLeaveTimeout={650}>
