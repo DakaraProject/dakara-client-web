@@ -17,10 +17,10 @@ var SongDisplay = React.createClass({
         }
         return (
                 <div className="song-display">
-                    <ReactCSSTransitionGroup transitionName="expand-view" transitionEnterTimeout={300} transitionLeaveTimeout={150}>
+                    <ReactCSSTransitionGroup transitionName="expand-view" transitionEnterTimeout={600} transitionLeaveTimeout={300}>
                         {songView}
                     </ReactCSSTransitionGroup>
-                    <ReactCSSTransitionGroup transitionName="expand-preview" transitionEnterTimeout={150} transitionLeaveTimeout={1}>
+                    <ReactCSSTransitionGroup transitionName="expand-preview" transitionEnterTimeout={300} transitionLeaveTimeout={1}>
                         {songPreview}
                     </ReactCSSTransitionGroup>
                     <div className="duration">

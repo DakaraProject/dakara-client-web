@@ -114,18 +114,18 @@
                     max-height: @height;
 
                     &.expand-view-enter-active {
-                        max-height: @height * 100;
-                        .transition(max-height 300ms ease-out);
+                        max-height: @height * 10;
+                        .transition(max-height 600ms ease-out);
                     }
                 }
 
                 &.expand-view-leave {
                     overflow: hidden;
-                    max-height: @height * 100;
+                    max-height: @height * 10;
 
                     &.expand-view-leave-active {
                         height: @height;
-                        .transition(max-height 150ms ease-out);
+                        .transition(max-height 300ms ease-out);
                     }
                 }
             }
