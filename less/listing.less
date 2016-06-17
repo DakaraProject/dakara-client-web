@@ -53,6 +53,11 @@
             flex: 1;
             display: flex;
 
+            > span:first-child:not(:empty), > span:empty + span {
+                flex: 1;
+                display: flex;
+            }
+
             .song-preview {
                 flex: 1;
                 display: flex;
