@@ -53,7 +53,8 @@
             flex: 1;
             display: flex;
 
-            > span:first-child:not(:empty), > span:empty + span {
+            > span:first-child:not(:empty),
+            > span:empty + span {
                 flex: 1;
                 display: flex;
             }
@@ -87,10 +88,46 @@
                     font-size: 0.6em;
                     line-height: 1em;
                 }
+
+                &.expand-preview-enter {
+                    display: none;
+
+                    &.expand-preview-enter-active {
+                        display: block;
+                    }
+                }
+
+                &.expand-preview-leave {
+                    display: block;
+
+                    &.expand-preveiw-leave-active {
+                        display: none;
+                    }
+                }
             }
 
             .song-view {
                 .make-song-view(0.75 * @height, @height, @control-font-size * 0.85, @control-font-size);
+
+                &.expand-view-enter {
+                    overflow: hidden;
+                    max-height: @height;
+
+                    &.expand-view-enter-active {
+                        max-height: @height * 100;
+                        .transition(max-height 300ms ease-out);
+                    }
+                }
+
+                &.expand-view-leave {
+                    overflow: hidden;
+                    max-height: @height * 100;
+
+                    &.expand-view-leave-active {
+                        height: @height;
+                        .transition(max-height 150ms ease-out);
+                    }
+                }
             }
 
             .duration {
