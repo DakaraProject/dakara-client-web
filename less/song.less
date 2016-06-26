@@ -177,7 +177,19 @@
 
     .make-tag(@color) {
         background-color: @color;
-        //color: darken(@color, 25%);
+        
+        &.clickable {
+            cursor: pointer;
+
+            &:hover {
+                background-color: lighten(@color, 5%);
+            }
+
+            i {
+                margin-right: 0.5em;
+                font-size: 1.2em;
+            }
+        }
     }
 
     &.tag-color-0 {

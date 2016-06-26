@@ -42,7 +42,7 @@ var SongExpandedDetails = React.createClass({
                         {artists}
                     </div>
                     <div className="tags">
-                        <SongTagList tags={song.tags} />
+                        <SongTagList tags={song.tags} setSearch={this.props.setSearch}/>
                     </div>
                 </div>
             )
