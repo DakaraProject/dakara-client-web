@@ -53,79 +53,73 @@
             flex: 1;
             display: flex;
 
-            > span:first-child:not(:empty),
-            > span:empty + span {
-                flex: 1;
-                display: flex;
-            }
-
-            .song-preview {
-                flex: 1;
-                display: flex;
-                align-items: center;
-                padding-left: @gap-horizontal;
-                position: relative;
-                overflow-y: hidden;
-                cursor: pointer;
-
-                .title {
-                    flex: 1;
-                    width: 0;
-                    .text-truncate();
-                    font-size: 1.05em;
-                }
-
-                .song-preview-details {
-                    .make-song-preview-details(0.9em, @black-70);
-                    margin-right: @gap-horizontal;
-                    align-items: flex-end;
-                }
-
-                .song-tag-list {
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    font-size: 0.6em;
-                    line-height: 1em;
-                }
-
-                &.expand-preview-enter {
-                    display: none;
-
-                    &.expand-preview-enter-active {
-                        display: block;
-                    }
-                }
-
-                &.expand-preview-leave {
-                    display: block;
-
-                    &.expand-preveiw-leave-active {
-                        display: none;
-                    }
-                }
-            }
-
             .song-view {
-                .make-song-view(0.75 * @height, @height, @control-font-size * 0.85, @control-font-size);
+                flex: 1;
 
-                &.expand-view-enter {
-                    overflow: hidden;
-                    max-height: @height;
+                .song-preview {
+                    display: flex;
+                    align-items: center;
+                    padding-left: @gap-horizontal;
+                    position: relative;
+                    overflow-y: hidden;
+                    cursor: pointer;
+                    height: @height;
 
-                    &.expand-view-enter-active {
-                        max-height: @height * 10;
-                        .transition(max-height 600ms ease-out);
+                    .title-header {
+                        flex: 1;
+                        width: 0;
+
+                        * {
+                            display: inline;
+                        }
+
+                        .title {
+                            .text-truncate();
+                            font-size: 1.05em;
+                        }
+
+                        .detail {
+                            margin-left: 0.5em;
+                            opacity: 0.65;
+                        }
+                    }
+
+                    .song-preview-details {
+                        .make-song-preview-details(0.9em, @black-70);
+                        margin-right: @gap-horizontal;
+                        align-items: flex-end;
+                    }
+
+                    .song-tag-list {
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        font-size: 0.6em;
+                        line-height: 1em;
                     }
                 }
 
-                &.expand-view-leave {
-                    overflow: hidden;
-                    max-height: @height * 10;
+                .song-expanded-details {
+                    .make-song-view(0.75 * @height, @height, @control-font-size * 0.85, @control-font-size);
 
-                    &.expand-view-leave-active {
-                        height: @height;
-                        .transition(max-height 300ms ease-out);
+                    &.expand-view-enter {
+                        overflow: hidden;
+                        max-height: 0;
+
+                        &.expand-view-enter-active {
+                            max-height: @height * 10;
+                            .transition(max-height 600ms ease-out);
+                        }
+                    }
+
+                    &.expand-view-leave {
+                        overflow: hidden;
+                        max-height: @height * 10;
+
+                        &.expand-view-leave-active {
+                            max-height: 0;
+                            .transition(max-height 300ms ease-out);
+                        }
                     }
                 }
             }

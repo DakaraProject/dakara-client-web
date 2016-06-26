@@ -3,7 +3,7 @@ var SongTagList = require('./SongTagList');
 var WorkEntry = require('./WorkEntry');
 var ArtistEntry = require('./ArtistEntry');
 
-var SongView = React.createClass({
+var SongExpandedDetails = React.createClass({
     handleClose: function() {
         this.props.handleClose()
     },
@@ -34,11 +34,7 @@ var SongView = React.createClass({
         var artists = (<ul className="artists-list">{artistList}</ul>);
 
         return (
-                <div className="song-view">
-                    <div className="title-header" onClick={this.handleClose}>
-                        {title}
-                        {detail}
-                    </div>
+                <div className="song-expanded-details">
                     <div className="works">
                         {works}
                     </div>
@@ -53,4 +49,4 @@ var SongView = React.createClass({
     }
 });
 
-module.exports = SongView;
+module.exports = SongExpandedDetails;

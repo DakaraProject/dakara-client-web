@@ -10,11 +10,8 @@ var PlaylistEntry = React.createClass({
     clearNotification: function() {
         this.setState({notification: null});
     },
-    handleExpand: function() {
-        this.props.setExpandedId(this.props.entry.id);
-    },
-    handleClose: function() {
-        this.props.setExpandedId(null);
+    handleExpand: function(expand) {
+        this.props.setExpandedId(expand ? this.props.entry.id : null);
     },
     handleReponse: function(status){
         if (status) {
@@ -51,7 +48,7 @@ var PlaylistEntry = React.createClass({
         }
         return (
             <li className={this.state.notification ? "delayed":""}>
-                <SongDisplay song={this.props.entry.song} handleExpand={this.handleExpand} handleClose={this.handleClose} setSearch={this.props.setSearch} expanded={this.props.expanded}/>
+                <SongDisplay song={this.props.entry.song} handleExpand={this.handleExpand} setSearch={this.props.setSearch} expanded={this.props.expanded}/>
                 <div className="playlist-info">
                     <div className="playlist-info-content">
                         <div className="play-time">
