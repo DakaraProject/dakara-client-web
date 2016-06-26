@@ -33,7 +33,7 @@ var SongPreview = React.createClass({
         var tags;
         var songPreviewDetails;
         if (!this.props.expanded) {
-            tags = (<SongTagList tags={song.tags} />);
+            tags = (<SongTagList tags={song.tags} query={this.props.query}/>);
             songPreviewDetails = (<SongPreviewDetails song={song} query={this.props.query}/>);
         }
 

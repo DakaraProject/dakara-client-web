@@ -9,11 +9,11 @@ var SongTagList = React.createClass({
 
     render: function() {
         var tags = this.props.tags;
-        var classExtra = "";
+        var classClickable = "";
         var handleSearch;
         var searchIcon;
         if (this.props.setSearch) {
-            classExtra = " clickable";
+            classClickable = " clickable";
             handleSearch = function(base, tagName) {
                 return this.handleSearch.bind(base, tagName);
             }.bind(this);
@@ -24,9 +24,13 @@ var SongTagList = React.createClass({
 
         var tagList = tags.map(function(tag) {
             var boundClick = handleSearch(this, tag.name);
+            var classDisabled = "";
+            if (this.props.query && this.props.query.tags.length && this.props.query.tags.indexOf(tag.name) == -1) {
+                classDisabled = " disabled";
+            }
 
             return (
-                    <div className={'tag tag-color-' + tag.color_id + classExtra} key={tag.name} onClick={boundClick}>
+                    <div className={'tag tag-color-' + tag.color_id + classClickable + classDisabled} key={tag.name} onClick={boundClick}>
                         {searchIcon}
                         {tag.name}
                     </div>
