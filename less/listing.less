@@ -148,13 +148,14 @@
 
         .playlist-info {
             background: darken(@black-80, 6%);
+            display: flex;
+            align-items: flex-start;
 
             .playlist-info-content {
                 line-height: @height;
                 background: @brand-info;
                 color: @black-90;
                 text-align: center;
-
 
                 .play-time {
                     min-width: (2 * @height);
@@ -166,6 +167,26 @@
 
                 .playing {
                     width: @height;
+                }
+
+                &.playlist-info-enter {
+                    max-width: 0;
+                    overflow: hidden;
+
+                    &.playlist-info-enter-active {
+                        max-width: (2 * @height);
+                        .transition(max-width 300ms ease-out);
+                    }
+                }
+
+                &.playlist-info-leave {
+                    max-width: (2 * @height);
+                    overflow: hidden;
+
+                    &.playlist-info-leave-active {
+                        max-width: 0;
+                        .transition(max-width 150ms ease-out);
+                    }
                 }
             }
         }
