@@ -24,7 +24,7 @@ var PlayerBox = React.createClass({
     },
 
     setSearch: function(search) {
-        this.refs['library'].setSearch(search); 
+        this.refs['library'].setQuery(search); 
     },
 
     sendPlayerCommand : function(cmd, callback) {
