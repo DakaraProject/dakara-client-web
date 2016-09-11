@@ -129,6 +129,23 @@ var PlayerBox = React.createClass({
         }
     },
 
+    addToPlaylist: function(songId, callback) {
+        $.ajax({
+            url: this.props.url + "playlist/",
+            dataType: 'json',
+            type: 'POST',
+            data: {"song": songId},
+            success: function(data) {
+                callback(true);
+                this.loadStatusFromServer();
+            }.bind(this),
+            error: function(xhr, status, err) {
+                callback(false);
+                console.error(this.props.url, status, err.toString() + xhr.responseText);
+            }.bind(this)
+        }); 
+    },
+
     componentDidMount: function() {
       this.loadStatusFromServer();
       setInterval(this.loadStatusFromServer, this.props.pollInterval);
@@ -142,7 +159,7 @@ var PlayerBox = React.createClass({
                     <Playlist entries={this.state.playlistEntries} playerStatus={this.state.playerStatus} removeEntry={this.removeEntry} setSearch={this.setSearch}/>
                 </div>
                 <div id="library">
-                    <Library ref="library" url={this.props.url} pollInterval={this.props.pollInterval} playlistEntries={this.state.playlistEntries} playerStatus={this.state.playerStatus} loadStatusFromServer={this.loadStatusFromServer}/>
+                    <Library ref="library" url={this.props.url} pollInterval={this.props.pollInterval} playlistEntries={this.state.playlistEntries} playerStatus={this.state.playerStatus} addToPlaylist={this.addToPlaylist}/>
                 </div>
             </div>
         );

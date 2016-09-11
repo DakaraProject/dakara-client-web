@@ -3,7 +3,7 @@ var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 var utils = require('../dakara-utils');
 var SongDisplay = require('./SongDisplay');
 
-var LibraryEntry = React.createClass({
+var SongLibraryEntry = React.createClass({
     handleExpand: function(expand) {
         this.props.setExpandedId(expand ? this.props.song.id : null);
     },
@@ -87,4 +87,4 @@ var LibraryEntry = React.createClass({
     }
 });
 
-module.exports = LibraryEntry;
+module.exports = SongLibraryEntry;
