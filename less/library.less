@@ -8,95 +8,150 @@
     margin-top: @gap-vertical;
     @library-controls-height: 50px;
 
-    #query {
-        display: flex;
-        padding: @gap-vertical 0;
-        background: darken(@brand-primary, 20%);
+    .library-item {
+        /* Here goes the styles for the library pages
+         * These pages are:
+         *     Songs library,
+         *     Artists library,
+         *     Works library (and all the different works, like Anime, Game...)
+         * The current class gathers all the common elements needed by the different pages
+         */
+        #query {
+            /* Query box for searching items depending on the page
+             * That is, songs for Songs library, artists for Artists library and works
+             * (anime, game...) for Works library
+             */
+            display: flex;
+            padding: @gap-vertical 0;
+            background: darken(@brand-primary, 20%);
 
-        .field {
-            flex: 1;
-            padding-right: @gap-horizontal;
+            .field {
+                flex: 1;
+                padding-right: @gap-horizontal;
 
-            .fake-input {
-                display: flex;
-                width: 100%;
-                border: none;
-                background: @black-70;
-                color: @body-background;
-                height: @library-controls-height;
-                padding: 0 0 0 @gap-horizontal;
-                box-sizing: border-box;
-
-                &:hover {
-                    background: lighten(@black-70, 7%);
-                }
-
-                input {
-                    flex: 1;
-                    .placeholder(@black-80);
-                    background: none;
+                .fake-input {
+                    display: flex;
+                    width: 100%;
                     border: none;
-                    outline: none;
+                    background: @black-70;
+                    color: @body-background;
                     height: @library-controls-height;
+                    padding: 0 0 0 @gap-horizontal;
+                    box-sizing: border-box;
 
-                    &::-moz-placeholder {
-                        opacity: 1;
+                    &:hover {
+                        background: lighten(@black-70, 7%);
+                    }
+
+                    input {
+                        flex: 1;
+                        .placeholder(@black-80);
+                        background: none;
+                        border: none;
+                        outline: none;
+                        height: @library-controls-height;
+
+                        &::-moz-placeholder {
+                            opacity: 1;
+                        }
+                    }
+
+                    .controls {
+                        .make-controls(@library-controls-height, 15pt);
+
+                        .clear {
+                        }
                     }
                 }
+            }
 
-                .controls {
-                    .make-controls(@library-controls-height, 15pt);
+            .controls {
+                .make-controls(@library-controls-height, 20pt);
 
-                    .clear {
-                    }
+                .search {
                 }
             }
         }
 
-        .controls {
-            .make-controls(@library-controls-height, 20pt);
+        #results {
+            /* Here goes the listing of the items listed in the page
+             * The items are collected through the search process
+             * So there can be listed songs, artists, works (animes, games)
+             */
+            .listing {
+                .make-listing(@library-controls-height, 18pt);
 
-            .search {
+                .add {
+                }
+            }
+        }
+
+        #paginator {
+            /* The paginator supplies the interface to change page of results
+             */
+            background: darken(@brand-primary, 20%);
+            display: flex;
+            @paginator-height: 50px;
+
+            .controls {
+                .make-controls(@paginator-height, 25pt);
+            }
+
+            .info {
+                padding: 0 @gap-horizontal;
+                color: @brand-primary;
+                flex: 1;
+                text-align: right;
+
+                .stat {
+                    display: inline-block;
+                    font-weight: 100;
+                    font-size: 30pt;
+                    vertical-align: middle;
+                    line-height: @paginator-height;
+                }
+
+                .description {
+                    margin-left: 5px;
+                    display: inline-block;
+                    vertical-align: middle;
+                }
             }
         }
     }
 
-    #results {
-        .listing {
-            .make-listing(@library-controls-height, 18pt);
-
-            .add {
-            }
-        }
-    }
-
-    #paginator {
-        background: darken(@brand-primary, 20%);
+    #library-chooser {
+        /* Navigator for choosing which library to display
+         * The different libraries are Songs (which is the home library), Artists and all the
+         * different Works (animes, games...)
+         */
         display: flex;
-        @paginator-height: 50px;
 
-        .controls {
-            .make-controls(@paginator-height, 25pt);
-        }
+        .library-tab {
+            .library-tab-item {
+                /* This is a common library tab, it has to be of neutral color
+                 */
+                flex: 1;
+                background: @black-70;
 
-        .info {
-            padding: 0 @gap-horizontal;
-            color: @brand-primary;
-            flex: 1;
-            text-align: right;
+                &:nth-chil(2n) {
+                    background: lighten(@black-70, 10%);
+                }
 
-            .stat {
-                display: inline-block;
-                font-weight: 100;
-                font-size: 30pt;
-                vertical-align: middle;
-                line-height: @paginator-height;
+                &.active {
+                    background: lighten(@black-70, 15%);
+                }
             }
 
-            .description {
-                margin-left: 5px;
-                display: inline-block;
-                vertical-align: middle;
+            #library-tab-song {
+                /* This is the home library tab, it has to stand out even when not selected
+                 */
+                color: black;
+                background: @brand-primary;
+
+                &.active {
+                    background: lighten(@brand-primary, 15%);
+                }
             }
         }
     }
