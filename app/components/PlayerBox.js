@@ -152,6 +152,12 @@ var PlayerBox = React.createClass({
       setInterval(this.loadStatusFromServer, utils.params.pollInterval);
     },
 
+    switchPage: function(page) {
+        var query = $.extend(true, {}, this.props.location.query, {page: page});
+        var location = $.extend(true, {}, this.props.location, {query: query});
+        this.props.history.push(location);
+    },
+
     render: function() {
         return (
             <div>
@@ -160,7 +166,7 @@ var PlayerBox = React.createClass({
                     <Playlist entries={this.state.playlistEntries} playerStatus={this.state.playerStatus} removeEntry={this.removeEntry} setSearch={this.setSearch}/>
                 </div>
                 <div id="library">
-                    <Library ref="library" url={this.props.url} pollInterval={this.props.pollInterval} playlistEntries={this.state.playlistEntries} playerStatus={this.state.playerStatus} addToPlaylist={this.addToPlaylist}/>
+                    <Library ref="library" switchPage={this.switchPage} page={this.props.location.query.page} playlistEntries={this.state.playlistEntries} playerStatus={this.state.playerStatus} addToPlaylist={this.addToPlaylist}/>
                 </div>
             </div>
         );

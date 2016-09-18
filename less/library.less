@@ -79,6 +79,7 @@
              * So there can be listed songs, artists, works (animes, games)
              */
             .listing {
+                min-height: 10 * @library-controls-height;
                 .make-listing(@library-controls-height, 18pt);
 
                 .add {
@@ -128,10 +129,14 @@
         display: flex;
 
         .library-tab {
-            .library-tab-item {
+            flex: 1;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+
+            &.library-tab-item {
                 /* This is a common library tab, it has to be of neutral color
                  */
-                flex: 1;
                 background: @black-70;
 
                 &:nth-chil(2n) {
@@ -143,7 +148,7 @@
                 }
             }
 
-            #library-tab-song {
+            &#library-tab-song {
                 /* This is the home library tab, it has to stand out even when not selected
                  */
                 color: black;

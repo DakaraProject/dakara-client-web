@@ -3,6 +3,9 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var utils = require('./dakara-utils');
 var PlayerBox = require('./components/PlayerBox');
+var Router = require('react-router').Router;
+var Route = require('react-router').Route;
+var hashHistory = require('react-router').hashHistory;
 
 require("../less/dakara.less");
 
@@ -22,7 +25,10 @@ $.ajaxSetup({
 });
 
 ReactDOM.render(
-    <PlayerBox url="/" pollInterval={1000}/>,
+    <Router history={hashHistory}>
+        <Route path="/" component={PlayerBox}/>
+    </Router>
+    ,
     document.getElementById('content')
 );
 
