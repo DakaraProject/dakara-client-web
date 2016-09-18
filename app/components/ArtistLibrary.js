@@ -3,6 +3,7 @@ var React = require('react');
 var ArtistLibraryEntry = require('./ArtistLibraryEntry');
 var SearchBox = require('./SearchBox');
 var Paginator = require('./Paginator');
+var utils = require('../dakara-utils');
 
 var SongLibrary = React.createClass({
     getInitialState: function() {
@@ -38,7 +39,7 @@ var SongLibrary = React.createClass({
     },
 
     refreshEntries: function() {
-        url = this.props.url + "library/artists/?page=" + this.state.currentPage + "&query=" + encodeURIComponent(this.state.currentQuery)
+        url = utils.params.url + "library/artists/?page=" + this.state.currentPage + "&query=" + encodeURIComponent(this.state.currentQuery)
         $.ajax({
             url: url,
             dataType: 'json',
@@ -47,7 +48,7 @@ var SongLibrary = React.createClass({
                 this.setState({libraryEntries: data});
             }.bind(this),
             error: function(xhr, status, err) {
-                console.error(this.props.url, status, err.toString());
+                console.error(url, status, err.toString());
             }.bind(this)
         });
     },

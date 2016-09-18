@@ -3,6 +3,7 @@ var React = require('react');
 var Player = require('./Player');
 var Playlist = require('./Playlist');
 var Library = require('./Library');
+var utils = require('../dakara-utils');
 
 var PlayerBox = React.createClass({
     getInitialState: function() {
@@ -29,7 +30,7 @@ var PlayerBox = React.createClass({
 
     sendPlayerCommand : function(cmd, callback) {
         $.ajax({
-        url: this.props.url + "playlist/player/manage/",
+        url: utils.params.url + "playlist/player/manage/",
         dataType: 'json',
         type: 'PUT',
         data: cmd,
@@ -39,14 +40,14 @@ var PlayerBox = React.createClass({
         }.bind(this),
         error: function(xhr, status, err) {
             callback(false, cmd);
-            console.error(this.props.url, status, err.toString() + xhr.responseText);
+            console.error(utils.params.url, status, err.toString() + xhr.responseText);
         }.bind(this)
         }); 
     },
 
     removeEntry : function(entryId, callback) {
         $.ajax({
-        url: this.props.url + "playlist/" + entryId + "/",
+        url: utils.params.url + "playlist/" + entryId + "/",
         dataType: 'json',
         type: 'DELETE',
         success: function(data) {
@@ -55,7 +56,7 @@ var PlayerBox = React.createClass({
         }.bind(this),
         error: function(xhr, status, err) {
             callback(false);
-            console.error(this.props.url, status, err.toString() + xhr.responseText);
+            console.error(utils.params.url, status, err.toString() + xhr.responseText);
         }.bind(this)
         }); 
     },
@@ -63,50 +64,50 @@ var PlayerBox = React.createClass({
 
     loadStatusFromServer: function() {
         $.ajax({
-            url: this.props.url + "playlist/player/status/",
+            url: utils.params.url + "playlist/player/status/",
             dataType: 'json',
             cache: false,
             success: function(data) {
               this.setState({playerStatus: data});
             }.bind(this),
             error: function(xhr, status, err) {
-              console.error(this.props.url, status, err.toString());
+              console.error(utils.params.url, status, err.toString());
             }.bind(this),
             statusCode: {
                 403: function() {
-                   window.location = this.props.url + "api-auth/login/?next=/"; 
+                   window.location = utils.params.url + "api-auth/login/?next=/"; 
                 }.bind(this)
             }
         });
         $.ajax({
-          url: this.props.url + "playlist/",
+          url: utils.params.url + "playlist/",
           dataType: 'json',
           cache: false,
           success: function(data) {
             this.setState({playlistEntries: data});
           }.bind(this),
           error: function(xhr, status, err) {
-            console.error(this.props.url, status, err.toString());
+            console.error(utils.params.url, status, err.toString());
           }.bind(this)
         });
         $.ajax({
-            url: this.props.url + "playlist/player/manage/",
+            url: utils.params.url + "playlist/player/manage/",
             dataType: 'json',
             cache: false,
             success: function(data) {
               this.setState({userCmd: data});
             }.bind(this),
             error: function(xhr, status, err) {
-              console.error(this.props.url, status, err.toString());
+              console.error(utils.params.url, status, err.toString());
             }.bind(this)
         });
         $.ajax({
-            url: this.props.url + "playlist/player/errors/",
+            url: utils.params.url + "playlist/player/errors/",
             dataType: 'json',
             cache: false,
             success: this.addPlayerErrors,
             error: function(xhr, status, err) {
-              console.error(this.props.url, status, err.toString());
+              console.error(utils.params.url, status, err.toString());
             }.bind(this)
         });
     },
@@ -131,7 +132,7 @@ var PlayerBox = React.createClass({
 
     addToPlaylist: function(songId, callback) {
         $.ajax({
-            url: this.props.url + "playlist/",
+            url: utils.params.url + "playlist/",
             dataType: 'json',
             type: 'POST',
             data: {"song": songId},
@@ -141,14 +142,14 @@ var PlayerBox = React.createClass({
             }.bind(this),
             error: function(xhr, status, err) {
                 callback(false);
-                console.error(this.props.url, status, err.toString() + xhr.responseText);
+                console.error(utils.params.url, status, err.toString() + xhr.responseText);
             }.bind(this)
         }); 
     },
 
     componentDidMount: function() {
       this.loadStatusFromServer();
-      setInterval(this.loadStatusFromServer, this.props.pollInterval);
+      setInterval(this.loadStatusFromServer, utils.params.pollInterval);
     },
 
     render: function() {
