@@ -3,7 +3,7 @@ var WorkDisplay = require('./WorkDisplay');
 
 var WorkEntry = React.createClass({
     handleSearchWork: function() {
-        this.props.setSearch('work:""' + this.props.work.work.title + '""');
+        this.props.setQuery('work:""' + this.props.work.work.title + '""');
     },
 
     render: function() {

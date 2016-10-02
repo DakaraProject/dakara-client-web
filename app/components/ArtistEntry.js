@@ -2,7 +2,7 @@ var React = require('react');
 
 var ArtistEntry = React.createClass({
     handleSearchArtist: function() {
-        this.props.setSearch('artist:""' + this.props.artist.name + '""');
+        this.props.setQuery('artist:""' + this.props.artist.name + '""');
     },
 
     render: function() {

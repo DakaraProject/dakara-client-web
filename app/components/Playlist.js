@@ -15,7 +15,7 @@ var Playlist = React.createClass({
     },
 
     setExpandedId: function(id) {
-        this.setState({expandedId: id});  
+        this.setState({expandedId: id});
     },
 
     render: function() {
@@ -41,11 +41,22 @@ var Playlist = React.createClass({
         if (!this.state.collapsed){
             var removeEntry = this.props.removeEntry;
             var playlistEntries = list.map(function(entry) {
-                return ( <PlaylistEntry key={entry.id} entry={entry} timeOfPlay={timeOfPlay[entry.id]} removeEntry={removeEntry} setExpandedId={this.setExpandedId} setSearch={this.props.setSearch} expanded={this.state.expandedId == entry.id}/> );
+                return ( <PlaylistEntry
+                            key={entry.id}
+                            entry={entry}
+                            timeOfPlay={timeOfPlay[entry.id]}
+                            removeEntry={removeEntry}
+                            setExpandedId={this.setExpandedId}
+                            expanded={this.state.expandedId == entry.id}
+                        /> );
             }.bind(this));
             playlistContent = (
                 <ul className="listing">
-                    <ReactCSSTransitionGroup transitionName="add-remove" transitionEnterTimeout={300} transitionLeaveTimeout={650}>
+                    <ReactCSSTransitionGroup
+                        transitionName="add-remove"
+                        transitionEnterTimeout={300}
+                        transitionLeaveTimeout={650}
+                    >
                         {playlistEntries}
                     </ReactCSSTransitionGroup>
                 </ul>
@@ -73,7 +84,11 @@ var Playlist = React.createClass({
 
         return (
         <div id="entries">
-            <ReactCSSTransitionGroup transitionName="collapse" transitionEnterTimeout={300} transitionLeaveTimeout={150}>
+            <ReactCSSTransitionGroup
+                transitionName="collapse"
+                transitionEnterTimeout={300}
+                transitionLeaveTimeout={150}
+            >
                 {playlistContent}
             </ReactCSSTransitionGroup>
             <div className="info" onClick={this.handleCollapse}> 

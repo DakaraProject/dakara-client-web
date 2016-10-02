@@ -48,7 +48,11 @@ var PlaylistEntry = React.createClass({
         }
         return (
             <li className={this.state.notification ? "delayed":""}>
-                <SongDisplay song={this.props.entry.song} handleExpand={this.handleExpand} setSearch={this.props.setSearch} expanded={this.props.expanded}/>
+                <SongDisplay
+                    song={this.props.entry.song}
+                    handleExpand={this.handleExpand}
+                    expanded={this.props.expanded}
+                />
                 <div className="playlist-info">
                     <div className="playlist-info-content">
                         <div className="play-time">
@@ -62,7 +66,11 @@ var PlaylistEntry = React.createClass({
                         <i className="fa fa-times"></i>
                     </div>
                 </div>
-                <ReactCSSTransitionGroup transitionName="notified" transitionEnterTimeout={300} transitionLeaveTimeout={150}>
+                <ReactCSSTransitionGroup
+                    transitionName="notified"
+                    transitionEnterTimeout={300}
+                    transitionLeaveTimeout={150}
+                >
                     {message}
                 </ReactCSSTransitionGroup>
             </li>

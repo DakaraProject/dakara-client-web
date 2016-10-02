@@ -3,30 +3,44 @@ var SongLibrary = require('./SongLibrary');
 var ArtistLibrary = require('./ArtistLibrary');
 var Library = React.createClass({
 
-    setQuery: function(query) {
-        this.refs['songLibrary'].setQuery(query); 
-    },
-
     render: function() {
         var library;
         var isHomeActive;
-        switch(this.props.page) {
+        switch(this.props.libraryName) {
             case "artist":
-                library = ( <ArtistLibrary ref="artistLibrary" url={this.props.url} /> );
+                library = ( <ArtistLibrary
+                                ref="artistLibrary"
+                                url={this.props.url}
+                                libraryParams={this.props.libraryParams}
+                            /> );
                 isHomeActive = false;
                 break;
             default:
-                library = ( <SongLibrary ref="songLibrary" url={this.props.url} playlistEntries={this.props.playlistEntries} playerStatus={this.props.playerStatus} addToPlaylist={this.props.addToPlaylist}/> );
+                library = ( <SongLibrary
+                                ref="songLibrary"
+                                libraryParams={this.props.libraryParams}
+                                playlistEntries={this.props.playlistEntries}
+                                playerStatus={this.props.playerStatus}
+                                addToPlaylist={this.props.addToPlaylist}
+                                navigator={this.props.navigator}
+                            /> );
                 isHomeActive = true;
         }
         return (
         <div>
             <nav id="library-chooser">
-                <div className={"library-tab" + (isHomeActive ? " active" : "")} id="library-tab-song" onClick={function() { this.props.switchPage("home")}.bind(this)}>
+                <div
+                    className={"library-tab" + (isHomeActive ? " active" : "")}
+                    id="library-tab-song"
+                    onClick={function() {this.props.navigator.setLibrary("home")}.bind(this)}
+                >
                     Home
                 </div>
-                <div className={"library-tab library-tab-item" + (!isHomeActive ? " active" : "")} onClick={function() { this.props.switchPage("artist")}.bind(this)}>
-                    Artists 
+                <div
+                    className={"library-tab library-tab-item" + (!isHomeActive ? " active" : "")}
+                    onClick={function() {this.props.navigator.setLibrary("artist")}.bind(this)}
+                >
+                    Artists
                 </div>
             </nav>
             {library}

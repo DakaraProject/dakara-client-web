@@ -8,6 +8,10 @@ var SongExpandedDetails = React.createClass({
         this.props.handleClose()
     },
 
+    contextTypes: {
+        navigator: React.PropTypes.object
+    },
+
     render: function() {
         var song = this.props.song;
 
@@ -19,7 +23,7 @@ var SongExpandedDetails = React.createClass({
 
         var workList = song.works.map(function(work) {
             return (
-                    <WorkEntry work={work} setSearch={this.props.setSearch}/> 
+                    <WorkEntry work={work} setQuery={this.context.navigator.setQuerySong}/>
                     );
         }.bind(this));
 
@@ -27,7 +31,7 @@ var SongExpandedDetails = React.createClass({
 
         var artistList = song.artists.map(function(artist) {
             return (
-                    <ArtistEntry artist={artist} setSearch={this.props.setSearch}/>
+                    <ArtistEntry artist={artist} setQuery={this.context.navigator.setQuerySong}/>
                     );
         }.bind(this));
 
@@ -42,7 +46,7 @@ var SongExpandedDetails = React.createClass({
                         {artists}
                     </div>
                     <div className="tags">
-                        <SongTagList tags={song.tags} setSearch={this.props.setSearch}/>
+                        <SongTagList tags={song.tags} setQuery={this.context.navigator.setQuerySong}/>
                     </div>
                 </div>
             )

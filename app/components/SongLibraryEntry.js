@@ -70,8 +70,19 @@ var SongLibraryEntry = React.createClass({
 
         return (
                 <li>
-                    <SongDisplay song={this.props.song} query={this.props.query} handleExpand={this.handleExpand} setSearch={this.props.setSearch} expanded={this.props.expanded}/>
-                    <ReactCSSTransitionGroup component="div" className="playlist-info" transitionName="playlist-info" transitionEnterTimeout={300} transitionLeaveTimeout={150}>
+                    <SongDisplay
+                        song={this.props.song}
+                        query={this.props.query}
+                        handleExpand={this.handleExpand}
+                        expanded={this.props.expanded}
+                    />
+                    <ReactCSSTransitionGroup
+                        component="div"
+                        className="playlist-info"
+                        transitionName="playlist-info"
+                        transitionEnterTimeout={300}
+                        transitionLeaveTimeout={150}
+                    >
                         {timeOfPlay}
                     </ReactCSSTransitionGroup>
                     <div className="controls" id={"song-" + this.props.song.id}>
@@ -79,7 +90,11 @@ var SongLibraryEntry = React.createClass({
                             <i className="fa fa-plus"></i>
                         </div>
                     </div>
-                    <ReactCSSTransitionGroup transitionName="notified" transitionEnterTimeout={300} transitionLeaveTimeout={150}>
+                    <ReactCSSTransitionGroup
+                        transitionName="notified"
+                        transitionEnterTimeout={300}
+                        transitionLeaveTimeout={150}
+                    >
                         {message}
                     </ReactCSSTransitionGroup>
                 </li>

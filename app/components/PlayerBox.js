@@ -1,5 +1,6 @@
 var $ = jQuery = require('jquery');
 var React = require('react');
+var withRouter = require('react-router').withRouter;
 var Player = require('./Player');
 var Playlist = require('./Playlist');
 var Library = require('./Library');
@@ -22,10 +23,6 @@ var PlayerBox = React.createClass({
             },
             playerErrorsOldId: []
         };
-    },
-
-    setSearch: function(search) {
-        this.refs['library'].setQuery(search); 
     },
 
     sendPlayerCommand : function(cmd, callback) {
@@ -152,21 +149,155 @@ var PlayerBox = React.createClass({
       setInterval(this.loadStatusFromServer, utils.params.pollInterval);
     },
 
-    switchPage: function(page) {
-        var query = $.extend(true, {}, this.props.location.query, {page: page});
+    setLibrary: function(library) {
+        /* Switch the library tab
+         * Reinitialize the library params
+         *
+         * @param library
+         *  name of the library to display
+         */
+        this.pushQueryString({
+            library: library,
+            query: "",
+            page: 1,
+            expanded: null
+        })
+    },
+
+    setQuerySong: function(query) {
+        /* Switch current library to Song
+         * Perform the search query
+         * Reinitialize the the other library params
+         *
+         * @param query
+         *  string to search, formatted with the query mini language
+         */
+        this.pushQueryString({
+            library: 'home',
+            query: query,
+            page: 1,
+            expanded: null
+        })
+    },
+
+    setQueryCurrent: function(query) {
+        /* Perform the search query
+         * Reinitialize the the other library params
+         *
+         * @param query
+         *  string to search, formatted with the query mini language
+         */
+        this.pushQueryString({
+            query: query,
+            page: 1,
+            expanded: null
+        })
+    },
+
+    setPage: function(page) {
+        /* Change the page for the listing
+         *
+         * @param page
+         *  page number
+         */
+        this.pushQueryString({
+            page: page,
+            expanded: null
+        })
+    },
+
+    setExpanded: function(id) {
+        /* Expand the corresponding item, collapse any other expanded item
+         *
+         * @param id
+         *  ID of the item to expand
+         *  if null, collapse everything and expand nothing
+         */
+        this.pushQueryString({
+            expanded: id
+        })
+    },
+
+    pushQueryString: function(queryDict) {
+        /* Change the query string of the URL
+         *
+         * @param queryDict
+         *  dictionnary of query string elements to add or update
+         *  there is no control over the accepted keys
+         */
+        var query = $.extend(true, {}, this.props.location.query, queryDict);
         var location = $.extend(true, {}, this.props.location, {query: query});
-        this.props.history.push(location);
+        this.props.router.push(location);
+    },
+
+    getCurrentLibraryParams: function() {
+        /* Return a dictionary containing the display parameters of the current library
+         *
+         * @return
+         *  dictionnary containing:
+         *      query: for the search query,
+         *      page: the page number,
+         *      expanded: the id of the expanded item in the list
+         */
+        return {
+            query: this.props.location.query.query || "",
+            page: this.props.location.query.page || 1,
+            expanded: this.props.location.query.expanded || null
+        }
+    },
+
+    getChildContext: function() {
+        /* Populate the context
+         */
+        return {
+            // populate the navigator
+            navigator: {
+                setQuerySong: this.setQuerySong
+            }
+        }
+    },
+
+    getNavigator: function() {
+        /* Populate the navigator for passing through the props
+         */
+        return {
+            setLibrary: this.setLibrary,
+            setQueryCurrent: this.setQueryCurrent,
+            setPage: this.setPage,
+            setExpanded: this.setExpanded
+        }
+    },
+
+    childContextTypes: {
+        navigator: React.PropTypes.object
     },
 
     render: function() {
         return (
             <div>
                 <div id="playlist">
-                    <Player ref={'player'} playerStatus={this.state.playerStatus} sendPlayerCommand={this.sendPlayerCommand} userCmd={this.state.userCmd}/>
-                    <Playlist entries={this.state.playlistEntries} playerStatus={this.state.playerStatus} removeEntry={this.removeEntry} setSearch={this.setSearch}/>
+                    <Player
+                        ref="player"
+                        playerStatus={this.state.playerStatus}
+                        sendPlayerCommand={this.sendPlayerCommand}
+                        userCmd={this.state.userCmd}
+                    />
+                    <Playlist
+                        entries={this.state.playlistEntries}
+                        playerStatus={this.state.playerStatus}
+                        removeEntry={this.removeEntry}
+                    />
                 </div>
                 <div id="library">
-                    <Library ref="library" switchPage={this.switchPage} page={this.props.location.query.page} playlistEntries={this.state.playlistEntries} playerStatus={this.state.playerStatus} addToPlaylist={this.addToPlaylist}/>
+                    <Library
+                        ref="library"
+                        libraryName={this.props.location.query.library}
+                        libraryParams={this.getCurrentLibraryParams()}
+                        playlistEntries={this.state.playlistEntries}
+                        playerStatus={this.state.playerStatus}
+                        addToPlaylist={this.addToPlaylist}
+                        navigator={this.getNavigator()}
+                    />
                 </div>
             </div>
         );
@@ -174,4 +305,4 @@ var PlayerBox = React.createClass({
 
 }); 
 
-module.exports = PlayerBox;
+module.exports = withRouter(PlayerBox);
