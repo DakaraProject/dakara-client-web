@@ -10,8 +10,8 @@ var Library = React.createClass({
             case "artist":
                 library = ( <ArtistLibrary
                                 ref="artistLibrary"
-                                url={this.props.url}
                                 libraryParams={this.props.libraryParams}
+                                navigator={this.props.navigator}
                             /> );
                 isHomeActive = false;
                 break;

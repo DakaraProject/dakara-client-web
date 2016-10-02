@@ -4,8 +4,13 @@ var utils = require('../dakara-utils');
 
 var SongLibraryEntry = React.createClass({
     handleSearch: function() {
-      this.props.setSongQuery("artist:\"" + this.props.artist.name + "\"");  
+      this.context.navigator.setQuerySong("artist:\"" + this.props.artist.name + "\"");
     },
+
+    contextTypes: {
+        navigator: React.PropTypes.object
+    },
+
     render: function() {
         return (
                 <li>
