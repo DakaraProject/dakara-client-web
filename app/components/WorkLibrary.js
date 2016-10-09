@@ -1,11 +1,11 @@
 var $ = jQuery = require('jquery');
 var React = require('react');
-var ArtistLibraryEntry = require('./ArtistLibraryEntry');
+var WorkLibraryEntry = require('./WorkLibraryEntry');
 var SearchBox = require('./SearchBox');
 var Paginator = require('./Paginator');
 var utils = require('../dakara-utils');
 
-var ArtistLibrary = React.createClass({
+var WorkLibrary = React.createClass({
     getInitialState: function() {
         return {
             libraryEntries: {
@@ -60,7 +60,7 @@ var ArtistLibrary = React.createClass({
     },
 
     refreshEntries: function() {
-        url = utils.params.url + "library/artists/?page=" + this.props.libraryParams.page + "&query=" + encodeURIComponent(this.props.libraryParams.query)
+        url = utils.params.url + "library/works/?type=" + this.props.type.query_name + "&page=" + this.props.libraryParams.page + "&query=" + encodeURIComponent(this.props.libraryParams.query)
         $.ajax({
             url: url,
             dataType: 'json',
@@ -76,20 +76,21 @@ var ArtistLibrary = React.createClass({
 
     render: function() {
         var list = this.state.libraryEntries.results.map(function(entry){
-            return (<ArtistLibraryEntry
+            return (<WorkLibraryEntry
                         key={entry.id}
-                        artist={entry}
+                        work={entry}
+                        queryName={this.props.type.query_name}
                         query={this.state.libraryEntries.query}
                     />);
         }.bind(this));
         var count = this.state.libraryEntries.count;
-
+        var statsCountDescription = this.props.type.name.toLowerCase() + (count == 1? '': 's')
         return (
         <div id="artist-library" className="library-item">
             <SearchBox
                 ref="searchBox"
                 setQuery={this.setQuery}
-                placeholder="Who are you looking for?"
+                placeholder={"What " + this.props.type.name.toLowerCase() + " do you want?"}
             />
             <div id="results">
                 <ul id="results-listing" className="listing">
@@ -105,7 +106,7 @@ var ArtistLibrary = React.createClass({
                 <div className="info">
                     <div className="info-item" id="library-amount">
                         <span className="stat">{count}</span>
-                        <span className="description">artist{count == 1? '': 's'} found</span>
+                        <span className="description">{statsCountDescription} found</span>
                     </div>
                 </div>
             </nav>
@@ -114,4 +115,4 @@ var ArtistLibrary = React.createClass({
     }
 });
 
-module.exports = ArtistLibrary;
+module.exports = WorkLibrary;
