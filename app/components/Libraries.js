@@ -5,7 +5,7 @@ var ArtistLibrary = require('./ArtistLibrary');
 var WorkLibrary = require('./WorkLibrary');
 var utils = require('../dakara-utils');
 
-var Library = React.createClass({
+var Libraries = React.createClass({
 
     getInitialState: function() {
         return {
@@ -88,29 +88,37 @@ var Library = React.createClass({
                     className={"library-tab library-tab-item" + classActive}
                     onClick={onClickFunction}
                 >
-                    <i className={"fa fa-" + workType.icon_name}></i>
-                    {workType.name + "s"}
+                    <span className="tab-icon">
+                        <i className={"fa fa-" + workType.icon_name}></i>
+                    </span>
+                    <span className="tab-name">
+                        {workType.name + "s"}
+                    </span>
                 </div>
-                    
                     )
         }.bind(this));
         return (
-        <div>
+        <div id="libraries">
             <nav id="library-chooser">
                 <div
                     className={"library-tab" + (libraryName == "home" ? " active" : "")}
                     id="library-tab-song"
                     onClick={function() {this.props.navigator.setLibrary("home")}.bind(this)}
                 >
-                    <i className="fa fa-home"></i>
-                    
+                    <span className="tab-icon">
+                        <i className="fa fa-home"></i>
+                    </span>
                 </div>
                 <div
                     className={"library-tab library-tab-item" + (libraryName == "artist" ? " active" : "")}
                     onClick={function() {this.props.navigator.setLibrary("artist")}.bind(this)}
                 >
-                    🎤
+                    <span className="tab-icon">
+                        <i className="fa fa-music"></i>
+                    </span>
+                    <span className="tab-name">
                     Artists
+                    </span>
                 </div>
                 {workTabs}
             </nav>
@@ -120,4 +128,4 @@ var Library = React.createClass({
     }
 });
 
-module.exports = Library;
+module.exports = Libraries;

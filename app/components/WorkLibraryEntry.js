@@ -13,8 +13,8 @@ var WorkLibraryEntry = React.createClass({
 
     render: function() {
         return (
-                <li>
-                    <div className="work-name">
+                <li className="library-entry listing-entry">
+                    <div className="entry-info">
                         {this.props.work.title}
                     </div>
                     <div className="controls"> 

@@ -69,7 +69,7 @@ var SongLibraryEntry = React.createClass({
         }
 
         return (
-                <li>
+                <li className="library-entry listing-entry">
                     <SongDisplay
                         song={this.props.song}
                         query={this.props.query}

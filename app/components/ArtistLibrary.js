@@ -85,17 +85,15 @@ var ArtistLibrary = React.createClass({
         var count = this.state.libraryEntries.count;
 
         return (
-        <div id="artist-library" className="library-item">
+        <div id="artist-library" className="library">
             <SearchBox
                 ref="searchBox"
                 setQuery={this.setQuery}
                 placeholder="Who are you looking for?"
             />
-            <div id="results">
-                <ul id="results-listing" className="listing">
-                    {list}
-                </ul>
-            </div>
+            <ul id="library-entries" className="listing">
+                {list}
+            </ul>
             <nav id="paginator">
                 <Paginator
                     current={this.state.libraryEntries.current}

@@ -51,15 +51,16 @@ var Playlist = React.createClass({
                         /> );
             }.bind(this));
             playlistContent = (
-                <ul className="listing">
-                    <ReactCSSTransitionGroup
-                        transitionName="add-remove"
-                        transitionEnterTimeout={300}
-                        transitionLeaveTimeout={650}
-                    >
-                        {playlistEntries}
-                    </ReactCSSTransitionGroup>
-                </ul>
+                <ReactCSSTransitionGroup
+                    component="ul"
+                    id="playlist-entries"
+                    className="listing"
+                    transitionName="add-remove"
+                    transitionEnterTimeout={300}
+                    transitionLeaveTimeout={650}
+                >
+                    {playlistEntries}
+                </ReactCSSTransitionGroup>
                 )
         } 
         if (list[0]){
@@ -83,8 +84,10 @@ var Playlist = React.createClass({
         var playlistSize = this.props.entries.count;
 
         return (
-        <div id="entries">
+        <div id="playlist">
             <ReactCSSTransitionGroup
+                component="div"
+                className="playlist-collapse-content"
                 transitionName="collapse"
                 transitionEnterTimeout={300}
                 transitionLeaveTimeout={150}

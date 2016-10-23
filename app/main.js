@@ -2,7 +2,7 @@ var $ = jQuery = require('jquery');
 var React = require('react');
 var ReactDOM = require('react-dom');
 var utils = require('./dakara-utils');
-var PlayerBox = require('./components/PlayerBox');
+var Dakara = require('./components/Dakara');
 var Router = require('react-router').Router;
 var Route = require('react-router').Route;
 var browserHistory = require('react-router').browserHistory;
@@ -26,7 +26,7 @@ $.ajaxSetup({
 
 ReactDOM.render(
     <Router history={browserHistory}>
-        <Route path="/" component={PlayerBox}/>
+        <Route path="/" component={Dakara}/>
     </Router>
     ,
     document.getElementById('content')

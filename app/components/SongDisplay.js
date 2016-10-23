@@ -20,7 +20,7 @@ var SongDisplay = React.createClass({
                                 expanded={this.props.expanded}
                             />);
         return (
-                <div className="song-display">
+                <div className="entry-info">
                     <div className="song-view">
                         {songPreview}
                         <ReactCSSTransitionGroup

@@ -3,10 +3,10 @@ var React = require('react');
 var withRouter = require('react-router').withRouter;
 var Player = require('./Player');
 var Playlist = require('./Playlist');
-var Library = require('./Library');
+var Libraries = require('./Libraries');
 var utils = require('../dakara-utils');
 
-var PlayerBox = React.createClass({
+var Dakara = React.createClass({
     getInitialState: function() {
         return {
             playerStatus: {
@@ -274,8 +274,8 @@ var PlayerBox = React.createClass({
 
     render: function() {
         return (
-            <div>
-                <div id="playlist">
+            <div id="dakara">
+                <div id="playerbox">
                     <Player
                         ref="player"
                         playerStatus={this.state.playerStatus}
@@ -288,21 +288,18 @@ var PlayerBox = React.createClass({
                         removeEntry={this.removeEntry}
                     />
                 </div>
-                <div id="library">
-                    <Library
-                        ref="library"
-                        libraryName={this.props.location.query.library}
-                        libraryParams={this.getCurrentLibraryParams()}
-                        playlistEntries={this.state.playlistEntries}
-                        playerStatus={this.state.playerStatus}
-                        addToPlaylist={this.addToPlaylist}
-                        navigator={this.getNavigator()}
-                    />
-                </div>
+                <Libraries
+                    libraryName={this.props.location.query.library}
+                    libraryParams={this.getCurrentLibraryParams()}
+                    playlistEntries={this.state.playlistEntries}
+                    playerStatus={this.state.playerStatus}
+                    addToPlaylist={this.addToPlaylist}
+                    navigator={this.getNavigator()}
+                />
             </div>
         );
     }
 
 }); 
 
-module.exports = withRouter(PlayerBox);
+module.exports = withRouter(Dakara);

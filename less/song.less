@@ -4,6 +4,103 @@
  * Song style file
  */
 
+.listing-entry {
+    .entry-info {
+            .song-view {
+                flex: 1;
+
+                .song-preview {
+                    display: flex;
+                    align-items: center;
+                    padding-left: @gap-horizontal;
+                    position: relative;
+                    overflow-y: hidden;
+                    cursor: pointer;
+                    height: @listing-entry-height;
+
+                    .title-header {
+                        flex: 1;
+                        width: 0;
+
+                        * {
+                            display: inline;
+                        }
+
+                        .title {
+                            .text-truncate();
+                            font-size: 1.05em;
+                        }
+
+                        .detail {
+                            margin-left: 0.5em;
+                            opacity: 0.65;
+                        }
+                    }
+
+                    .song-preview-details {
+                        .make-song-preview-details(0.9em, @black-70);
+                        margin-right: @gap-horizontal;
+                        align-items: flex-end;
+                    }
+
+                    .song-tag-list {
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        font-size: 0.6em;
+                        line-height: 1em;
+                    }
+                }
+
+                .song-expanded-details {
+                    @height: 0.75 * @listing-entry-height;
+                    .make-song-view(@height, @listing-entry-height, @listing-entry-control-font-size * 0.85, @listing-entry-control-font-size);
+
+                    &.expand-view-enter {
+                        overflow: hidden;
+                        max-height: 0;
+
+                        &.expand-view-enter-active {
+                            max-height: @height * 10;
+                            .transition(max-height 600ms ease-out);
+                        }
+                    }
+
+                    &.expand-view-leave {
+                        overflow: hidden;
+                        max-height: @height * 10;
+
+                        &.expand-view-leave-active {
+                            max-height: 0;
+                            .transition(max-height 300ms ease-out);
+                        }
+                    }
+                }
+            }
+
+            .duration {
+                background: darken(@black-80, 5%);
+
+                .duration-content {
+                    font-size: 0.85em;
+                    line-height: @listing-entry-height;
+                    width: @listing-entry-height;
+                    background: @black-60;
+                    color: @black-80;
+                    text-align: center;
+                }
+            }
+        }
+
+        &:nth-child(2n) .entry-info .duration .duration-content {
+            background: lighten(@black-60, 2.5%);
+        }
+
+        &:hover .entry-info .duration .duration-content {
+            background: lighten(@black-60, 7%);
+        }
+    }
+
 .make-song-work(@border-color) {
     .work-link {
         .work-link-content {
@@ -50,7 +147,7 @@
     }
 }
 
-.make-song-view(@height, @height-header, @type-font-size, @control-font-size) {
+.make-song-view(@height, @height-header, @type-font-size, @listing-entry-control-font-size) {
     @color-light: darken(@black-60, 7%);
     @color-dark: darken(@black-80, 2%);
 
@@ -87,7 +184,7 @@
             padding-left: @gap-horizontal;
 
             .controls {
-                .make-controls(@height, @control-font-size);
+                .make-controls(@height, @listing-entry-control-font-size);
             }
         }
     }

@@ -4,11 +4,10 @@
  * Library style file
  */
 
-#library {
+#libraries {
     margin-top: @gap-vertical;
-    @library-controls-height: 50px;
 
-    .library-item {
+    .library {
         /* Here goes the styles for the library pages
          * These pages are:
          *     Songs library,
@@ -16,7 +15,7 @@
          *     Works library (and all the different works, like Anime, Game...)
          * The current class gathers all the common elements needed by the different pages
          */
-        #query {
+        #library-searchbox {
             /* Query box for searching items depending on the page
              * That is, songs for Songs library, artists for Artists library and works
              * (anime, game...) for Works library
@@ -35,7 +34,7 @@
                     border: none;
                     background: @black-70;
                     color: @body-background;
-                    height: @library-controls-height;
+                    height: @library-searchbox-height;
                     padding: 0 0 0 @gap-horizontal;
                     box-sizing: border-box;
 
@@ -49,7 +48,7 @@
                         background: none;
                         border: none;
                         outline: none;
-                        height: @library-controls-height;
+                        height: @library-searchbox-height;
 
                         &::-moz-placeholder {
                             opacity: 1;
@@ -57,7 +56,7 @@
                     }
 
                     .controls {
-                        .make-controls(@library-controls-height, 15pt);
+                        .make-controls(@library-searchbox-height, 15pt);
 
                         .clear {
                         }
@@ -66,21 +65,20 @@
             }
 
             .controls {
-                .make-controls(@library-controls-height, 20pt);
+                .make-controls(@library-searchbox-height, 20pt);
 
                 .search {
                 }
             }
         }
 
-        #results {
+        #library-entries {
             /* Here goes the listing of the items listed in the page
              * The items are collected through the search process
              * So there can be listed songs, artists, works (animes, games)
              */
-            .listing {
-                min-height: 10 * @library-controls-height;
-                .make-listing(@library-controls-height, 18pt);
+            &.listing {
+                min-height: 10 * @listing-entry-height;
 
                 .add {
                 }
@@ -92,7 +90,6 @@
              */
             background: darken(@brand-primary, 20%);
             display: flex;
-            @paginator-height: 50px;
 
             .controls {
                 .make-controls(@paginator-height, 25pt);
@@ -130,37 +127,62 @@
 
         .library-tab {
             flex: 1;
-            height: 50px;
-            line-height: 50px;
-            text-align: center;
-
-            &:hover:not(.active) {
-                    background: lighten(@black-70, 12%);
-            }
+            height: @library-chooser-height;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
 
             &.library-tab-item {
                 /* This is a common library tab, it has to be of neutral color
                  */
-                background: @black-70;
+                background: @black-80;
 
                 &:nth-child(2n) {
-                    background: lighten(@black-70, 10%);
+                    background: lighten(@black-80, 2.5%);
                 }
 
                 &.active {
-                    background: lighten(@black-70, 15%);
+                    background: @text-color;
+                    color: @black-80;
+                }
+
+                &:hover:not(.active) {
+                    background: lighten(@black-80, 7%);
+                }
+
+                .tab-icon {
+                    font-size: @library-chooser-icon-font-size;
                 }
             }
 
             &#library-tab-song {
                 /* This is the home library tab, it has to stand out even when not selected
                  */
+                width: @library-chooser-height;
                 color: black;
                 background: @brand-primary;
+                flex: initial;
 
                 &.active {
+                    background: lighten(@brand-primary, 7.5%);
+                }
+
+                &:hover:not(.active) {
                     background: lighten(@brand-primary, 15%);
                 }
+
+                .tab-icon {
+                    font-size: @library-chooser-icon-font-size-home;
+                }
+            }
+
+            .tab-name {
+                margin-left: 0.5em;
+            }
+
+            .tab-icon, .tab-name {
+                display: inline-block;
             }
         }
     }

@@ -85,18 +85,17 @@ var WorkLibrary = React.createClass({
         }.bind(this));
         var count = this.state.libraryEntries.count;
         var statsCountDescription = this.props.type.name.toLowerCase() + (count == 1? '': 's')
+        var libraryName = this.props.type.query_name;
         return (
-        <div id="artist-library" className="library-item">
+        <div id={libraryName + "-library"} className="library">
             <SearchBox
                 ref="searchBox"
                 setQuery={this.setQuery}
                 placeholder={"What " + this.props.type.name.toLowerCase() + " do you want?"}
             />
-            <div id="results">
-                <ul id="results-listing" className="listing">
-                    {list}
-                </ul>
-            </div>
+            <ul id="library-entries" className="listing">
+                {list}
+            </ul>
             <nav id="paginator">
                 <Paginator
                     current={this.state.libraryEntries.current}

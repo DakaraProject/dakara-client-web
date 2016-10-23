@@ -46,8 +46,13 @@ var PlaylistEntry = React.createClass({
         if(this.state.notification != null){
             message = <div className="notified"><div className={"notification " + this.state.notification.type}>{this.state.notification.message}</div></div>
         }
+        var className = "playlist-entry listing-entry";
+        if (this.state.notification) {
+            className += " delayed";
+        }
+
         return (
-            <li className={this.state.notification ? "delayed":""}>
+            <li className={className}>
                 <SongDisplay
                     song={this.props.entry.song}
                     handleExpand={this.handleExpand}
