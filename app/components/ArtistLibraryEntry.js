@@ -15,7 +15,11 @@ var ArtistLibraryEntry = React.createClass({
         return (
                 <li className="library-entry listing-entry">
                     <div className="entry-info">
-                        {this.props.artist.name}
+                        <div className="artist-view">
+                            <div className="artist-name">
+                                {this.props.artist.name}
+                            </div>
+                        </div>
                     </div>
                     <div className="controls"> 
                         <div className="search control primary" onClick={this.handleSearch}>

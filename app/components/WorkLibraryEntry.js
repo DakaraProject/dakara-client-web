@@ -15,7 +15,11 @@ var WorkLibraryEntry = React.createClass({
         return (
                 <li className="library-entry listing-entry">
                     <div className="entry-info">
-                        {this.props.work.title}
+                        <div className="work-view">
+                            <div className="work-name">
+                                {this.props.work.title}
+                            </div>
+                        </div>
                     </div>
                     <div className="controls"> 
                         <div className="search control primary" onClick={this.handleSearch}>
