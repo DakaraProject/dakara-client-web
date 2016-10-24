@@ -8,7 +8,7 @@
 .listing {
     margin: 0;
     padding: 0;
-    background: @black-80;
+    background: @neutral-mid;
     list-style-type: none;
     overflow-x: hidden;
 
@@ -17,11 +17,11 @@
         position: relative;
 
         &:nth-child(2n) {
-            background: lighten(@black-80, 2.5%);
+            background: @neutral-mid-light;
         }
 
         &:hover {
-            background: lighten(@black-80, 7%);
+            background: @neutral-mid-lighter;
         }
 
         &.add-remove-enter {
@@ -55,7 +55,7 @@
 
 
         .playlist-info {
-            background: darken(@black-80, 6%);
+            background: darken(@neutral-mid, 6%);
             display: flex;
             align-items: flex-start;
 
@@ -100,15 +100,15 @@
         }
 
         &:nth-child(2n) .playlist-info .playlist-info-content {
-            background: @brand-info-lighter;
-        }
-
-        &:hover .playlist-info .playlist-info-content {
             background: @brand-info-light;
         }
 
+        &:hover .playlist-info .playlist-info-content {
+            background: @brand-info-lighter;
+        }
+
         .controls {
-            background: darken(@black-80, 7%);
+            background: darken(@neutral-mid, 7%);
             .make-controls(@listing-entry-height, @listing-entry-control-font-size);
         }
 

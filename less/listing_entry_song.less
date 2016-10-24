@@ -6,100 +6,100 @@
 
 .listing-entry {
     .entry-info {
-            .song-view {
-                flex: 1;
+        .song-view {
+            flex: 1;
 
-                .song-preview {
-                    display: flex;
-                    align-items: center;
-                    padding-left: @gap-horizontal;
-                    position: relative;
-                    overflow-y: hidden;
-                    cursor: pointer;
-                    height: @listing-entry-height;
+            .song-preview {
+                display: flex;
+                align-items: center;
+                padding-left: @gap-horizontal;
+                position: relative;
+                overflow-y: hidden;
+                cursor: pointer;
+                height: @listing-entry-height;
 
-                    .title-header {
-                        flex: 1;
-                        width: 0;
+                .title-header {
+                    flex: 1;
+                    width: 0;
 
-                        * {
-                            display: inline;
-                        }
-
-                        .title {
-                            .text-truncate();
-                            font-size: 1.05em;
-                        }
-
-                        .detail {
-                            margin-left: 0.5em;
-                            opacity: 0.65;
-                        }
+                    * {
+                        display: inline;
                     }
 
-                    .song-preview-details {
-                        .make-song-preview-details(0.9em, @black-70);
-                        margin-right: @gap-horizontal;
-                        align-items: flex-end;
+                    .title {
+                        .text-truncate();
+                        font-size: 1.05em;
                     }
 
-                    .song-tag-list {
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        font-size: 0.6em;
-                        line-height: 1em;
+                    .detail {
+                        margin-left: 0.5em;
+                        opacity: 0.65;
                     }
                 }
 
-                .song-expanded-details {
-                    @height: 0.75 * @listing-entry-height;
-                    .make-song-view(@height, @listing-entry-height, @listing-entry-control-font-size * 0.85, @listing-entry-control-font-size);
+                .song-preview-details {
+                    .make-song-preview-details(0.9em, @black-70);
+                    margin-right: @gap-horizontal;
+                    align-items: flex-end;
+                }
 
-                    &.expand-view-enter {
-                        overflow: hidden;
-                        max-height: 0;
+                .song-tag-list {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    font-size: 0.6em;
+                    line-height: 1em;
+                }
+            }
 
-                        &.expand-view-enter-active {
-                            max-height: @height * 10;
-                            .transition(max-height 600ms ease-out);
-                        }
-                    }
+            .song-expanded-details {
+                @height: 0.75 * @listing-entry-height;
+                .make-song-view(@height, @listing-entry-height, @listing-entry-control-font-size * 0.85, @listing-entry-control-font-size);
 
-                    &.expand-view-leave {
-                        overflow: hidden;
+                &.expand-view-enter {
+                    overflow: hidden;
+                    max-height: 0;
+
+                    &.expand-view-enter-active {
                         max-height: @height * 10;
+                        .transition(max-height 600ms ease-out);
+                    }
+                }
 
-                        &.expand-view-leave-active {
-                            max-height: 0;
-                            .transition(max-height 300ms ease-out);
-                        }
+                &.expand-view-leave {
+                    overflow: hidden;
+                    max-height: @height * 10;
+
+                    &.expand-view-leave-active {
+                        max-height: 0;
+                        .transition(max-height 300ms ease-out);
                     }
                 }
             }
+        }
 
-            .duration {
-                background: darken(@black-80, 5%);
+        .duration {
+            background: darken(@neutral-mid, 5%);
 
-                .duration-content {
-                    font-size: 0.85em;
-                    line-height: @listing-entry-height;
-                    width: @listing-entry-height;
-                    background: @black-60;
-                    color: @black-80;
-                    text-align: center;
-                }
+            .duration-content {
+                font-size: 0.85em;
+                line-height: @listing-entry-height;
+                width: @listing-entry-height;
+                background: @text-light;
+                color: @neutral-mid;
+                text-align: center;
             }
-        }
-
-        &:nth-child(2n) .entry-info .duration .duration-content {
-            background: lighten(@black-60, 2.5%);
-        }
-
-        &:hover .entry-info .duration .duration-content {
-            background: lighten(@black-60, 7%);
         }
     }
+
+    &:nth-child(2n) .entry-info .duration .duration-content {
+        background: @neutral-clear-light;
+    }
+
+    &:hover .entry-info .duration .duration-content {
+        background: @neutral-clear-lighter;
+    }
+}
 
 .make-song-work(@border-color) {
     .work-link {
@@ -148,8 +148,8 @@
 }
 
 .make-song-view(@height, @height-header, @type-font-size, @listing-entry-control-font-size) {
-    @color-light: darken(@black-60, 7%);
-    @color-dark: darken(@black-80, 2%);
+    @color-light: darken(@neutral-clear, 7%);
+    @color-dark: darken(@neutral-mid, 2%);
 
     .title-header {
         padding: 0 @gap-horizontal;

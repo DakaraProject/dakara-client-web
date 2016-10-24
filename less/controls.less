@@ -4,7 +4,7 @@
  * Controls style file
  */
 
-.make-controls(@height, @font-size) {
+.make-controls(@height, @font-size: 1em) {
     .control {
         .square(@height);
         line-height: @height;
@@ -18,7 +18,7 @@
     .control {
         cursor: pointer;
         text-align: center;
-        color: @body-background;
+        color: @text-dark;
 
         &:nth-child(n+2) {
             margin-left: @gap-horizontal;
@@ -42,23 +42,23 @@
         }
 
         &.primary{
-            .make-control(@brand-primary, @brand-primary-dark, @brand-primary-light);
+            .make-control(@brand-primary, @brand-primary-dark, @brand-primary-lighter);
         }
 
         &.success{
-            .make-control(@brand-success, @brand-success-dark, @brand-success-light);
+            .make-control(@brand-success, @brand-success-dark, @brand-success-lighter);
         }
 
         &.warning{
-            .make-control(@brand-warning, @brand-warning-dark, @brand-warning-light);
+            .make-control(@brand-warning, @brand-warning-dark, @brand-warning-lighter);
         }
 
         &.danger{
-            .make-control(@brand-danger, @brand-danger-dark, @brand-danger-light);
+            .make-control(@brand-danger, @brand-danger-dark, @brand-danger-lighter);
         }
 
         &.info{
-            .make-control(@brand-info, @brand-info-dark, @brand-info-light);
+            .make-control(@brand-info, @brand-info-dark, @brand-info-lighter);
         }
     }
 }
@@ -66,83 +66,67 @@
 // lighten control when on even line of a list
 li:nth-child(2n) .controls {
     .control {
-        .make-control-line-even(@color-lighter, @color-dark-light) {
-            background: @color-lighter;
+        .make-control-line-even(@color-normal, @color-disabled) {
+            background: @color-normal;
 
             &.disabled {
-                background: @color-dark-light;
+                background: @color-disabled;
             }
         }
 
         &.primary {
-            .make-control-line-even(@brand-primary-lighter, lighten(@brand-primary-dark, 2.5%));
+            .make-control-line-even(@brand-primary-light, @brand-primary-darkened);
         }
 
         &.success {
-            .make-control-line-even(@brand-success-lighter, lighten(@brand-success-dark, 2.5%));
+            .make-control-line-even(@brand-success-light, @brand-success-darkened);
         }
 
         &.warning {
-            .make-control-line-even(@brand-warning-lighter, lighten(@brand-warning-dark, 2.5%));
+            .make-control-line-even(@brand-warning-light, @brand-warning-darkened);
         }
 
         &.danger {
-            .make-control-line-even(@brand-danger-lighter, lighten(@brand-danger-dark, 2.5%));
+            .make-control-line-even(@brand-danger-light, @brand-danger-darkened);
         }
 
         &.info {
-            .make-control-line-even(@brand-info-lighter, lighten(@brand-info-dark, 2.5%));
+            .make-control-line-even(@brand-info-light, @brand-info-darkened);
         }
     }
 }
 
 // lighten control when line hovered on a list
 li:hover .controls {
-    .make-control-line-hover(@color-light) {
-        background: @color-light;
-    }
+    .control {
+        .make-control-line-hover(@color-normal, @color-disabled) {
+            &:not(.disabled) {
+                background: @color-normal;
+            }
 
-    .control:not(.disabled) {
+            &.disabled {
+                background: @color-disabled;
+            }
+        }
+
         &.primary {
-            .make-control-line-hover(@brand-primary-light);
+            .make-control-line-hover(@brand-primary-lighter, @brand-primary-darkish);
         }
 
         &.success {
-            .make-control-line-hover(@brand-success-light);
+            .make-control-line-hover(@brand-success-lighter, @brand-success-darkish);
         }
 
         &.warning {
-            .make-control-line-hover(@brand-warning-light);
+            .make-control-line-hover(@brand-warning-lighter, @brand-warning-darkish);
         }
 
         &.danger {
-            .make-control-line-hover(@brand-danger-light);
+            .make-control-line-hover(@brand-danger-lighter, @brand-danger-darkish);
         }
 
         &.info {
-            .make-control-line-hover(@brand-info-light);
-        }
-    }
-
-    .control.disabled {
-        &.primary {
-            .make-control-line-hover(lighten(@brand-primary-dark, 5%));
-        }
-
-        &.success {
-            .make-control-line-hover(lighten(@brand-success-dark, 5%));
-        }
-
-        &.warning {
-            .make-control-line-hover(lighten(@brand-warning-dark, 5%));
-        }
-
-        &.danger {
-            .make-control-line-hover(lighten(@brand-danger-dark, 5%));
-        }
-
-        &.info {
-            .make-control-line-hover(lighten(@brand-info-dark, 5%));
+            .make-control-line-hover(@brand-info-lighter, @brand-info-darkish);
         }
     }
 }

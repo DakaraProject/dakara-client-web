@@ -22,7 +22,7 @@
              */
             display: flex;
             padding: @gap-vertical 0;
-            background: darken(@brand-primary, 20%);
+            background: @brand-primary-darker;
 
             .field {
                 flex: 1;
@@ -32,14 +32,14 @@
                     display: flex;
                     width: 100%;
                     border: none;
-                    background: @black-70;
-                    color: @body-background;
+                    background: @neutral-soft;
+                    color: @text-dark;
                     height: @library-searchbox-height;
                     padding: 0 0 0 @gap-horizontal;
                     box-sizing: border-box;
 
                     &:hover {
-                        background: lighten(@black-70, 7%);
+                        background: @neutral-soft-lighter;
                     }
 
                     input {
@@ -88,7 +88,7 @@
         #paginator {
             /* The paginator supplies the interface to change page of results
              */
-            background: darken(@brand-primary, 20%);
+            background: @brand-primary-darker;
             display: flex;
 
             .controls {
@@ -136,19 +136,19 @@
             &.library-tab-item {
                 /* This is a common library tab, it has to be of neutral color
                  */
-                background: @black-80;
+                background: @neutral-mid;
 
                 &:nth-child(2n) {
-                    background: lighten(@black-80, 2.5%);
+                    background: @neutral-mid-light;
                 }
 
                 &.active {
-                    background: @text-color;
-                    color: @black-80;
+                    background: @neutral-clear;
+                    color: @neutral-mid;
                 }
 
                 &:hover:not(.active) {
-                    background: lighten(@black-80, 7%);
+                    background: @neutral-mid-lighter;
                 }
 
                 .tab-icon {
@@ -160,7 +160,7 @@
                 /* This is the home library tab, it has to stand out even when not selected
                  */
                 width: @library-chooser-height;
-                color: black;
+                color: @text-dark;
                 background: @brand-primary;
                 flex: initial;
 
