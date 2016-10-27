@@ -19,6 +19,9 @@ var WorkLibraryEntry = React.createClass({
                             <div className="work-name">
                                 {this.props.work.title}
                             </div>
+                            <div className="count">
+                                {this.props.work.song_count}
+                            </div>
                         </div>
                     </div>
                     <div className="controls"> 

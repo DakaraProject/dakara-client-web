@@ -4,15 +4,36 @@
  * Generic listing entry style file
  * i.e. for artists and works
  */
+.listing-entry {
+    .entry-info {
+        .artist-view,
+        .work-view {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding-left: @gap-horizontal;
 
-.artist-view,
-.work-view {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    padding-left: @gap-horizontal;
+            .artist-name,
+            .work-name {
+                flex: 1;
+            }
+            .count {
+                background: darken(@neutral-mid, 5%);
+                font-size: 0.85em;
+                line-height: @listing-entry-height;
+                width: @listing-entry-height;
+                background: @text-light;
+                color: @neutral-mid;
+                text-align: center;
+            }
+        }
+    }
 
-    .artist-name,
-    .work-name {
+    &:nth-child(2n) .entry-info .count {
+        background: @neutral-clear-light;
+    }
+
+    &:hover .entry-info .count {
+        background: @neutral-clear-lighter;
     }
 }

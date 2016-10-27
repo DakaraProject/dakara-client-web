@@ -19,6 +19,9 @@ var ArtistLibraryEntry = React.createClass({
                             <div className="artist-name">
                                 {this.props.artist.name}
                             </div>
+                            <div className="count">
+                                {this.props.artist.song_count}
+                            </div>
                         </div>
                     </div>
                     <div className="controls"> 
