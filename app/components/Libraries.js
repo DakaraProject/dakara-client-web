@@ -101,7 +101,7 @@ var Libraries = React.createClass({
         <div id="libraries">
             <nav id="library-chooser">
                 <div
-                    className={"library-tab" + (libraryName == "home" ? " active" : "")}
+                    className={"library-tab library-tab-item" + (libraryName == "home" ? " active" : "")}
                     id="library-tab-song"
                     onClick={function() {this.props.navigator.setLibrary("home")}.bind(this)}
                 >

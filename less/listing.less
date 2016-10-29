@@ -8,13 +8,14 @@
 .listing {
     margin: 0;
     padding: 0;
-    background: @neutral-mid;
+    background: darken(@neutral-mid, 3%);
     list-style-type: none;
     overflow-x: hidden;
 
     .listing-entry {
         display: flex;
         position: relative;
+        background: @neutral-mid;
 
         &:nth-child(2n) {
             background: @neutral-mid-light;

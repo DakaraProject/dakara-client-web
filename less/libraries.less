@@ -133,6 +133,10 @@
             justify-content: center;
             cursor: pointer;
 
+            &.active {
+                cursor: default;
+            }
+
             &.library-tab-item {
                 /* This is a common library tab, it has to be of neutral color
                  */
@@ -160,17 +164,7 @@
                 /* This is the home library tab, it has to stand out even when not selected
                  */
                 width: @library-chooser-height;
-                color: @text-dark;
-                background: @brand-primary;
                 flex: initial;
-
-                &.active {
-                    background: lighten(@brand-primary, 7.5%);
-                }
-
-                &:hover:not(.active) {
-                    background: lighten(@brand-primary, 15%);
-                }
 
                 .tab-icon {
                     font-size: @library-chooser-icon-font-size-home;
