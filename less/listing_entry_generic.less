@@ -14,8 +14,22 @@
             padding-left: @gap-horizontal;
 
             .artist-name,
-            .work-name {
+            .work-header {
                 flex: 1;
+            }
+
+            .work-header {
+                * {
+                    display: inline;
+                }
+
+                .work-title {
+                }
+
+                .work-subtitle {
+                    opacity: 0.65;
+                    margin-left: 0.5em;
+                }
             }
 
             .count {
