@@ -13,17 +13,19 @@
     overflow-x: hidden;
 
     .listing-entry {
-        display: flex;
-        position: relative;
         background: @neutral-mid;
+
+        .hoverizable, &.hoverizable {
+            &:hover {
+                background: @neutral-mid-lighter;
+            }
+        
+        }
 
         &:nth-child(2n) {
             background: @neutral-mid-light;
         }
 
-        &:hover {
-            background: @neutral-mid-lighter;
-        }
 
         &.add-remove-enter {
             overflow: hidden;
@@ -54,59 +56,6 @@
             display: flex;
         }
 
-
-        .playlist-info {
-            background: darken(@neutral-mid, 6%);
-            display: flex;
-            align-items: flex-start;
-
-            .playlist-info-content {
-                line-height: @listing-entry-height;
-                background: @brand-info;
-                color: @black-90;
-                text-align: center;
-
-                .play-time {
-                    min-width: (2 * @listing-entry-height);
-
-                    i {
-                        padding-right: 0.5em;
-                    }
-                }
-
-                .playing {
-                    width: @listing-entry-height;
-                }
-
-                &.playlist-info-enter {
-                    max-width: 0;
-                    overflow: hidden;
-
-                    &.playlist-info-enter-active {
-                        max-width: (2 * @listing-entry-height);
-                        .transition(max-width 300ms ease-out);
-                    }
-                }
-
-                &.playlist-info-leave {
-                    max-width: (2 * @listing-entry-height);
-                    overflow: hidden;
-
-                    &.playlist-info-leave-active {
-                        max-width: 0;
-                        .transition(max-width 150ms ease-out);
-                    }
-                }
-            }
-        }
-
-        &:nth-child(2n) .playlist-info .playlist-info-content {
-            background: @brand-info-light;
-        }
-
-        &:hover .playlist-info .playlist-info-content {
-            background: @brand-info-lighter;
-        }
 
         .controls {
             background: darken(@neutral-mid, 7%);

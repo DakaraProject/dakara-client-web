@@ -64,7 +64,7 @@
 }
 
 // lighten control when on even line of a list
-li:nth-child(2n) .controls {
+.listing-entry:nth-child(2n) .controls {
     .control {
         .make-control-line-even(@color-normal, @color-disabled) {
             background: @color-normal;
@@ -97,7 +97,7 @@ li:nth-child(2n) .controls {
 }
 
 // lighten control when line hovered on a list
-li:hover .controls {
+.hoverizable:hover .controls {
     .control {
         .make-control-line-hover(@color-normal, @color-disabled) {
             &:not(.disabled) {

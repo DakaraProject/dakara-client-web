@@ -9,15 +9,15 @@ var ArtistEntry = React.createClass({
 
         var artist = this.props.artist;
         return (
-                <li>
-                    <div className="artist">
-                        <div className="artist-name">
-                            {artist.name}
-                        </div>
-                    </div>
+                <li className="entry">
                     <div className="controls">
                         <div className="control primary" onClick={this.handleSearchArtist}>
                             <i className="fa fa-search"></i>
+                        </div>
+                    </div>
+                    <div className="artist">
+                        <div className="name">
+                            {artist.name}
                         </div>
                     </div>
                 </li>

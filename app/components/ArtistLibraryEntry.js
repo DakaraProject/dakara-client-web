@@ -13,7 +13,7 @@ var ArtistLibraryEntry = React.createClass({
 
     render: function() {
         return (
-                <li className="library-entry listing-entry">
+                <li className="library-entry listing-entry listing-entry-artist">
                     <div className="entry-info">
                         <div className="artist-view">
                             <div className="artist-name">
