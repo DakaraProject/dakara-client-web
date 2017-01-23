@@ -46,7 +46,7 @@ var PlaylistEntry = React.createClass({
         if(this.state.notification != null){
             message = <div className="notified"><div className={"notification " + this.state.notification.type}>{this.state.notification.message}</div></div>
         }
-        var className = "playlist-entry listing-entry listing-entry-song";
+        var className = "playlist-entry listing-entry listing-entry-song hoverizable";
         if (this.state.notification) {
             className += " delayed";
         }

@@ -13,7 +13,7 @@ var ArtistLibraryEntry = React.createClass({
 
     render: function() {
         return (
-                <li className="library-entry listing-entry listing-entry-artist">
+                <li className="library-entry listing-entry listing-entry-artist hoverizable">
                     <div className="entry-info">
                         <div className="artist-view">
                             <div className="artist-name">
