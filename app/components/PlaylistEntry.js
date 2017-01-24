@@ -7,12 +7,19 @@ var PlaylistEntry = React.createClass({
     getInitialState: function() {
         return {notification: null};
     },
+
+    contextTypes: {
+        navigator: React.PropTypes.object
+    },
+
     clearNotification: function() {
         this.setState({notification: null});
     },
+
     handleExpand: function(expand) {
-        this.props.setExpandedId(expand ? this.props.entry.id : null);
+        this.context.navigator.setQuerySong("title:\"\"" + this.props.entry.song.title + "\"\"");
     },
+
     handleReponse: function(status){
         if (status) {
            this.setState({
@@ -57,7 +64,6 @@ var PlaylistEntry = React.createClass({
                     <SongDisplay
                         song={this.props.entry.song}
                         handleExpand={this.handleExpand}
-                        expanded={this.props.expanded}
                     />
                     <div className="playlist-info">
                         <div className="playlist-info-content">
