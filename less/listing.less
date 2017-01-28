@@ -4,29 +4,57 @@
  * Listing style file
  */
 
+/* Provides:
+
+`listing` class.
+
+*/
+
+/* `listing` class:
+
+The `listing` class is aimed to stylize every basic list of the Dakara Project.
+It makes a list with no borders where the entries look like rows with
+alternated colors. Each row can have an appearance/disappearance animation
+where the line grows or shrink vertically from the top. Each row can have a
+notification which consists in an over-layer sliding in and out from the right
+border.
+
+The rows can have a different hover color whith is manually set with the
+`hoverizable` class. It can be applied to each listing entries or any of its
+child.
+
+The class does not assume anything about its use, wether it will contain
+flex-box elements or any other funny stuff.
+
+*/
 
 .listing {
     margin: 0;
     padding: 0;
-    background: darken(@neutral-mid, 3%);
     list-style-type: none;
     overflow-x: hidden;
 
-    .listing-entry {
-        background: @neutral-mid;
+    // background is darker than actual rows in order to separate them
+    // when the listing has a fixed height
+    background: darken(@neutral-mid, 3%);
 
-        .hoverizable, &.hoverizable {
-            &:hover {
-                background: @neutral-mid-lighter;
-            }
-        
-        }
+    .listing-entry {
+        // normal and alternate row colors
+        background: @neutral-mid;
 
         &:nth-child(2n) {
             background: @neutral-mid-light;
         }
 
+        // optionnal hoverizable feature
+        // can be applied to the listing-entry itself or any of its children
+        .hoverizable, &.hoverizable {
+            &:hover {
+                background: @neutral-mid-lighter;
+            }
+        }
 
+        // appearance transition
         &.add-remove-enter {
             overflow: hidden;
             height: 0;
@@ -37,6 +65,7 @@
             }
         }
 
+        // disappearance transition
         &.add-remove-leave {
             overflow: hidden;
             height: @listing-entry-height;
@@ -51,16 +80,19 @@
             }
         }
 
+        // XXX should not be there
         .entry-info {
             flex: 1;
             display: flex;
         }
 
-
+        // manage controls
         .controls {
-            background: darken(@neutral-mid, 7%);
             .make-controls(@listing-entry-height, @listing-entry-control-font-size);
         }
+
+        // notification
+        position: relative;
 
         .notified {
             width: 100%;
@@ -70,6 +102,7 @@
             top: 0;
             left: 0;
 
+            // notification transition appearance
             &.notified-enter {
                 left: 100%;
 
@@ -79,6 +112,7 @@
                 }
             }
 
+            // notification transition disappearance
             &.notified-leave {
                 left: 0;
 
@@ -90,4 +124,3 @@
         }
     }
 }
-

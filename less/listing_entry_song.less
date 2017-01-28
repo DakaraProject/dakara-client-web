@@ -4,57 +4,38 @@
  * Song style file
  */
 
-.listing-entry.listing-entry-song {
-    position: relative;
+/* Provides:
 
+`listing-entry-song` subclass.
+`tag` class.
+
+*/
+
+/* `listing-entry-song` subclass:
+
+The `listing-entry-song` class is a specialization of the `listing-entry` class
+defined in the `listing` module, which is aimed to stylize the specific elements
+of a list of songs.
+
+The song can be represented in a compact, one-line view or in an expanded,
+multi-lines view. More elements are present in the expanded view, which takes
+usually more space and have larger margins compared to the compact view. The
+compact view stays even if the expandes view is displayed, it only contains less
+elements. The expanded view has a appearance/disappearance animation where the
+expanded line grows or shrink vertically from the top.
+
+*/
+
+.listing-entry.listing-entry-song {
+    // this list entry is not hoverizable, in order to make only the compact
+    // view react to hover
+
+    // song compact view
+    // this class must be used with the `hoverizable` subclass
     .song-compact {
         display: flex;
 
-        .playlist-info {
-            background: darken(@neutral-mid, 6%);
-            display: flex;
-            align-items: flex-start;
-
-            .playlist-info-content {
-                line-height: @listing-entry-height;
-                background: @brand-info;
-                color: @black-90;
-                text-align: center;
-
-                .play-time {
-                    min-width: (2 * @listing-entry-height);
-
-                    i {
-                        padding-right: 0.5em;
-                    }
-                }
-
-                .playing {
-                    width: @listing-entry-height;
-                }
-
-                &.playlist-info-enter {
-                    max-width: 0;
-                    overflow: hidden;
-
-                    &.playlist-info-enter-active {
-                        max-width: (2 * @listing-entry-height);
-                        .transition(max-width 300ms ease-out);
-                    }
-                }
-
-                &.playlist-info-leave {
-                    max-width: (2 * @listing-entry-height);
-                    overflow: hidden;
-
-                    &.playlist-info-leave-active {
-                        max-width: 0;
-                        .transition(max-width 150ms ease-out);
-                    }
-                }
-            }
-        }
-
+        // TODO simplify that
         .song-display {
             .song-view {
                 flex: 1;
@@ -70,6 +51,8 @@
 
                     .title-header {
                         flex: 1;
+
+                        // this is a hack
                         width: 0;
 
                         * {
@@ -101,12 +84,11 @@
                         line-height: 1em;
                     }
                 }
-
             }
 
+            // class for song duration
+            // TODO simplify that: does it really need a `content`?
             .duration {
-                background: darken(@neutral-mid, 5%);
-
                 .duration-content {
                     font-size: 0.85em;
                     line-height: @listing-entry-height;
@@ -118,29 +100,82 @@
             }
         }
 
-        &:hover .song-display .duration .duration-content {
-            background: @neutral-clear-lighter;
+        // class for data relative to the status of the song in the playlist
+        // TODO should be at the same level of `duration`...
+        // TODO simplify that: does it really need a `content`?
+        .playlist-info {
+            display: flex;
+            align-items: flex-start;
+
+            .playlist-info-content {
+                line-height: @listing-entry-height;
+                background: @brand-info;
+                color: @text-dark;
+                text-align: center;
+
+                .play-time {
+                    min-width: (2 * @listing-entry-height);
+
+                    i {
+                        padding-right: 0.5em;
+                    }
+                }
+
+                .playing {
+                    width: @listing-entry-height;
+                }
+
+                // appearance transition of the playlist info class
+                &.playlist-info-enter {
+                    max-width: 0;
+                    overflow: hidden;
+
+                    &.playlist-info-enter-active {
+                        max-width: (2 * @listing-entry-height);
+                        .transition(max-width 300ms ease-out);
+                    }
+                }
+
+                // disappearance transition of the playlist info class
+                &.playlist-info-leave {
+                    max-width: (2 * @listing-entry-height);
+                    overflow: hidden;
+
+                    &.playlist-info-leave-active {
+                        max-width: 0;
+                        .transition(max-width 150ms ease-out);
+                    }
+                }
+            }
         }
 
-        &:hover .playlist-info .playlist-info-content {
-            background: @brand-info-lighter;
+        // hover of the compact view
+        &:hover {
+            .song-display .duration .duration-content {
+                background: @neutral-clear-lighter;
+            }
+
+            .playlist-info .playlist-info-content {
+                background: @brand-info-lighter;
+            }
         }
     }
 
-    &:nth-child(2n) .song-display .duration .duration-content {
-        background: @neutral-clear-light;
+    // alternatiion of the compact view
+    &:nth-child(2n) {
+        .song-display .duration .duration-content {
+            background: @neutral-clear-light;
+        }
+
+        .playlist-info .playlist-info-content {
+            background: @brand-info-light;
+        }
     }
 
-    &:nth-child(2n) .playlist-info .playlist-info-content {
-        background: @brand-info-light;
-    }
-
+    // song expanded view
+    // should not be used with the `hoverized` subclass
     .song-expanded-details {
         @height: 0.75 * @listing-entry-height;
-        @color-light: darken(@neutral-clear, 7%);
-        @color-dark: darken(@neutral-mid, 2%);
-//                .make-song-view(@height, @listing-entry-height, @listing-entry-control-font-size * 0.85, @listing-entry-control-font-size);
-
         padding: 0.5 * @gap-vertical 0;
 
         .artists, .works {
@@ -161,7 +196,7 @@
                    padding-left: 0.5em; 
                 }
             }
-            
+
             .list {
                 list-style-type: none;
                 padding: 0;
@@ -183,7 +218,7 @@
                 .artist {
                     flex: 1;
                     padding: 0 @gap-horizontal;
-                } 
+                }
             }
         }
 
@@ -194,10 +229,11 @@
 
                     flex: 1;
                     padding: 0 @gap-horizontal;
-                    * {
-                        display: inline;   
+
+                    > * {
+                        display: inline;
                     }
-                } 
+                }
             }
         }
 
@@ -205,6 +241,7 @@
             line-height: @height;
         }
 
+        // appearance transition of the expanded view
         &.expand-view-enter {
             overflow: hidden;
             max-height: 0;
@@ -215,6 +252,7 @@
             }
         }
 
+        // disappearance transition of the expanded view
         &.expand-view-leave {
             overflow: hidden;
             max-height: @height * 10;
@@ -225,7 +263,6 @@
             }
         }
     }
-
 }
 
 .make-song-work(@border-color, @link-font-size: 0.9em) {
@@ -389,10 +426,21 @@
 
 }
 */
+
+/* `tag` class:
+
+The `tag` class is a basic style for tags in musics. It can be extended with 8
+different colorized subclasses.
+
+Its size is determined in the `listing-entry-song` class, whether the song is
+displayed in compact or in expanded view.
+
+*/
+
 .tag {
     padding: 0 @gap-horizontal;
     display: inline-block;
-    color: fade(black, 50%);
+    color: fade(@text-dark, 50%);
     font-weight: 700;
 
     &.clickable {
@@ -410,7 +458,7 @@
 
     .make-tag(@color) {
         background-color: @color;
-        
+
         &.clickable {
             &:hover {
                 background-color: lighten(@color, 5%);
