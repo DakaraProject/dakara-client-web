@@ -2,9 +2,9 @@ var React = require('react');
 var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 var utils = require('../dakara-utils');
 
-var ArtistLibraryEntry = React.createClass({
+var WorkLibraryEntry = React.createClass({
     handleSearch: function() {
-      this.context.navigator.setQuerySong("artist:\"\"" + this.props.artist.name + "\"\"");
+      this.context.navigator.setQuerySong(this.props.queryName + ":\"\"" + this.props.work.title + "\"\"");
     },
 
     contextTypes: {
@@ -13,14 +13,19 @@ var ArtistLibraryEntry = React.createClass({
 
     render: function() {
         return (
-                <li className="library-entry listing-entry listing-entry-artist hoverizable">
+                <li className="library-entry listing-entry listing-entry-work hoverizable">
                     <div className="entry-info">
-                        <div className="artist-view">
-                            <div className="artist-name">
-                                {this.props.artist.name}
+                        <div className="work-view">
+                            <div className="work-header">
+                                <div className="work-title">
+                                    {this.props.work.title}
+                                </div>
+                                <div className="work-subtitle">
+                                    {this.props.work.subtitle}
+                                </div>
                             </div>
                             <div className="count">
-                                {this.props.artist.song_count}
+                                {this.props.work.song_count}
                             </div>
                         </div>
                     </div>
@@ -34,4 +39,4 @@ var ArtistLibraryEntry = React.createClass({
     }
 });
 
-module.exports = ArtistLibraryEntry;
+module.exports = WorkLibraryEntry;

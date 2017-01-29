@@ -31,7 +31,7 @@ var SearchBox = React.createClass({
 
     render: function() {
         return (
-            <form id="query" onSubmit={this.handleSubmit}>
+            <form id="library-searchbox" onSubmit={this.handleSubmit}>
                 <div className="field">
                     <div className="fake-input">
                         <input type="text" value={this.state.query} onChange={this.handleQueryChange} placeholder={this.props.placeholder}/>
