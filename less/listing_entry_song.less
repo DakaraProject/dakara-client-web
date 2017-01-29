@@ -64,7 +64,7 @@ expanded line grows or shrink vertically from the top.
                             font-size: 1.05em;
                         }
 
-                        .detail {
+                        .version {
                             margin-left: 0.5em;
                             opacity: 0.65;
                         }
@@ -176,11 +176,11 @@ expanded line grows or shrink vertically from the top.
     // should not be used with the `hoverized` subclass
     .song-expanded-details {
         @height: 0.75 * @listing-entry-height;
-        padding: 0.5 * @gap-vertical 0;
+        padding-bottom: @height;
 
-        .artists, .works {
+        .expanded-item {
             &:not(:last-child) {
-                margin-bottom: 0.5 * @gap-vertical;
+                margin-bottom: @height;;
             }
 
             .header {
@@ -188,6 +188,10 @@ expanded line grows or shrink vertically from the top.
                 padding: 0 @gap-horizontal;
                 margin: 0;
                 font-weight: normal;
+                // background: @neutral-clear;
+                // color: @neutral-mid;
+                box-sizing: border-box;
+                width: 120px;
 
                 .icon {
                 }
@@ -206,10 +210,23 @@ expanded line grows or shrink vertically from the top.
                     height: @height;
                     display: flex;
 
+
+                    .artist,.work {
+                        background: @neutral-mid-lighter;
+                    }
+
+                    &:nth-child(odd) .artist,.work {
+                        background: @neutral-mid-light;
+                    }
+
                     .controls {
                         .make-controls(@height, 0.85 * @listing-entry-control-font-size);
                     }
                 }
+            }
+
+            .text {
+                padding: 0 @gap-horizontal;
             }
         }
 
@@ -237,8 +254,50 @@ expanded line grows or shrink vertically from the top.
             }
         }
 
-        .tags {
+        .expanded-detail {
             line-height: @height;
+
+            .group {
+                display: flex;
+            }
+
+            // &:nth-child(odd) .header {
+            //     background: @neutral-clear-light;
+            // }
+
+            .text,.song-tag-list {
+                background: @neutral-mid-lighter;
+            }
+
+            &:nth-child(odd) .text,.song-tag-list {
+                background: @neutral-mid-light;
+            }
+
+            .header {
+                padding: 0 @gap-horizontal;
+                margin: 0;
+                font-weight: normal;
+                // background: @neutral-clear;
+                // color: @neutral-mid;
+                box-sizing: border-box;
+                width: 150px;
+
+                .icon {
+                }
+
+                .name {
+                   padding-left: 0.5em; 
+                }
+            }
+
+            .text, .song-tag-list {
+                flex: 1;
+
+            }
+
+            .text {
+                padding: 0 @gap-horizontal;
+            }
         }
 
         // appearance transition of the expanded view
