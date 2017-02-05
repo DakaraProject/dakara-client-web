@@ -1,0 +1,53 @@
+/**
+ * Dakara project
+ *
+ * Generic listing entry style file
+ * i.e. for artists and works
+ */
+.listing-entry {
+    .entry-info {
+        .artist-view,
+        .work-view {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding-left: @gap-horizontal;
+
+            .artist-name,
+            .work-header {
+                flex: 1;
+            }
+
+            .work-header {
+                * {
+                    display: inline;
+                }
+
+                .work-title {
+                }
+
+                .work-subtitle {
+                    opacity: 0.65;
+                    margin-left: 0.5em;
+                }
+            }
+
+            .count {
+                background: @neutral-clear;
+                font-size: 0.85em;
+                line-height: @listing-entry-height;
+                width: @listing-entry-height;
+                color: @neutral-mid;
+                text-align: center;
+            }
+        }
+    }
+
+    &:nth-child(2n) .entry-info .count {
+        background: @neutral-clear-light;
+    }
+
+    &:hover .entry-info .count {
+        background: @neutral-clear-lighter;
+    }
+}

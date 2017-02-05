@@ -5,11 +5,11 @@
  */
 
 
-#playlist {
+#playerbox {
     margin-top: @gap-vertical;
 
     #player {
-        background: darken(@brand-primary, 20%);
+        background: @brand-primary-darker;
 
         .display {
             display: flex;
@@ -119,7 +119,7 @@
         }
     }
 
-    #entries {
+    #playlist {
         .info {
             padding: 0 @gap-horizontal;
             background: @brand-primary;
@@ -129,9 +129,8 @@
             align-items: center;
             justify-content: space-between;
 
-
             &:hover {
-                background: @brand-primary-light;
+                background: @brand-primary-lighter;
             }
 
             .info-item {
@@ -161,9 +160,7 @@
         }
 
         .listing {
-            @entries-height: 50px;
-            @entries-list-height: @entries-height * 5;
-            .make-listing(@entries-height, 18pt);
+            @entries-list-height: @listing-entry-height * 5;
             max-height: @entries-list-height;
             overflow-y: auto;
 

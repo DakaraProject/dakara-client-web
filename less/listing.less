@@ -5,24 +5,24 @@
  */
 
 
-.make-listing(@height, @control-font-size: 1em) {
+.listing {
     margin: 0;
     padding: 0;
-    background: @black-80;
+    background: darken(@neutral-mid, 3%);
     list-style-type: none;
     overflow-x: hidden;
 
-    > li,
-    > span > li { // the span is necessary for dealing with the transitions
+    .listing-entry {
         display: flex;
         position: relative;
+        background: @neutral-mid;
 
         &:nth-child(2n) {
-            background: lighten(@black-80, 2.5%);
+            background: @neutral-mid-light;
         }
 
         &:hover {
-            background: lighten(@black-80, 7%);
+            background: @neutral-mid-lighter;
         }
 
         &.add-remove-enter {
@@ -30,14 +30,14 @@
             height: 0;
 
             &.add-remove-enter-active {
-                height: @height;
+                height: @listing-entry-height;
                 .transition(height 300ms ease-out);
             }
         }
 
         &.add-remove-leave {
             overflow: hidden;
-            height: @height;
+            height: @listing-entry-height;
 
             &.add-remove-leave-active {
                 height: 0;
@@ -48,117 +48,26 @@
                 }
             }
         }
-        
-        .song-display {
+
+        .entry-info {
             flex: 1;
             display: flex;
-
-            .song-view {
-                flex: 1;
-
-                .song-preview {
-                    display: flex;
-                    align-items: center;
-                    padding-left: @gap-horizontal;
-                    position: relative;
-                    overflow-y: hidden;
-                    cursor: pointer;
-                    height: @height;
-
-                    .title-header {
-                        flex: 1;
-                        width: 0;
-
-                        * {
-                            display: inline;
-                        }
-
-                        .title {
-                            .text-truncate();
-                            font-size: 1.05em;
-                        }
-
-                        .detail {
-                            margin-left: 0.5em;
-                            opacity: 0.65;
-                        }
-                    }
-
-                    .song-preview-details {
-                        .make-song-preview-details(0.9em, @black-70);
-                        margin-right: @gap-horizontal;
-                        align-items: flex-end;
-                    }
-
-                    .song-tag-list {
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        font-size: 0.6em;
-                        line-height: 1em;
-                    }
-                }
-
-                .song-expanded-details {
-                    .make-song-view(0.75 * @height, @height, @control-font-size * 0.85, @control-font-size);
-
-                    &.expand-view-enter {
-                        overflow: hidden;
-                        max-height: 0;
-
-                        &.expand-view-enter-active {
-                            max-height: @height * 10;
-                            .transition(max-height 600ms ease-out);
-                        }
-                    }
-
-                    &.expand-view-leave {
-                        overflow: hidden;
-                        max-height: @height * 10;
-
-                        &.expand-view-leave-active {
-                            max-height: 0;
-                            .transition(max-height 300ms ease-out);
-                        }
-                    }
-                }
-            }
-
-            .duration {
-                background: darken(@black-80, 5%);
-
-                .duration-content {
-                    font-size: 0.85em;
-                    line-height: @height;
-                    width: @height;
-                    background: @black-60;
-                    color: @black-80;
-                    text-align: center;
-                }
-            }
         }
 
-        &:nth-child(2n) .song-display .duration .duration-content {
-            background: lighten(@black-60, 2.5%);
-        }
-
-        &:hover .song-display .duration .duration-content {
-            background: lighten(@black-60, 7%);
-        }
 
         .playlist-info {
-            background: darken(@black-80, 6%);
+            background: darken(@neutral-mid, 6%);
             display: flex;
             align-items: flex-start;
 
             .playlist-info-content {
-                line-height: @height;
+                line-height: @listing-entry-height;
                 background: @brand-info;
                 color: @black-90;
                 text-align: center;
 
                 .play-time {
-                    min-width: (2 * @height);
+                    min-width: (2 * @listing-entry-height);
 
                     i {
                         padding-right: 0.5em;
@@ -166,7 +75,7 @@
                 }
 
                 .playing {
-                    width: @height;
+                    width: @listing-entry-height;
                 }
 
                 &.playlist-info-enter {
@@ -174,13 +83,13 @@
                     overflow: hidden;
 
                     &.playlist-info-enter-active {
-                        max-width: (2 * @height);
+                        max-width: (2 * @listing-entry-height);
                         .transition(max-width 300ms ease-out);
                     }
                 }
 
                 &.playlist-info-leave {
-                    max-width: (2 * @height);
+                    max-width: (2 * @listing-entry-height);
                     overflow: hidden;
 
                     &.playlist-info-leave-active {
@@ -192,22 +101,22 @@
         }
 
         &:nth-child(2n) .playlist-info .playlist-info-content {
-            background: @brand-info-lighter;
-        }
-
-        &:hover .playlist-info .playlist-info-content {
             background: @brand-info-light;
         }
 
+        &:hover .playlist-info .playlist-info-content {
+            background: @brand-info-lighter;
+        }
+
         .controls {
-            background: darken(@black-80, 7%);
-            .make-controls(@height, @control-font-size);
+            background: darken(@neutral-mid, 7%);
+            .make-controls(@listing-entry-height, @listing-entry-control-font-size);
         }
 
         .notified {
             width: 100%;
-            height: @height;
-            line-height: @height;
+            height: @listing-entry-height;
+            line-height: @listing-entry-height;
             position: absolute;
             top: 0;
             left: 0;

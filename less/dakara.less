@@ -23,7 +23,7 @@
 
     .selection() {
         background: @brand-primary;
-        color: @body-background;
+        color: @text-dark;
     }
 
     &::-moz-selection {
@@ -37,24 +37,24 @@
 
 mark {
     background: @brand-primary;
-    color: @body-background;
+    color: @text-dark;
 }
 
 html {
     body {
         .center-block();
-        max-width: @width;
+        max-width: @page-width;
         background: @body-background;
-        color: @text-color;
+        color: @text-light;
         display: flex;
         min-height: 100vh;
         flex-direction: column;
 
         header,
         footer,
-        #playlist,
-        #library {
-            .box-shadow(0 0 20px rgba(0, 0, 0, 0.5));
+        #playerbox,
+        #libraries {
+            .box-shadow(0 0 20px fade(black, 50%));
         }
 
         header {
@@ -92,8 +92,9 @@ html {
  */
 
 @import "controls.less";
-@import "song.less";
 @import "listing.less";
+@import "listing_entry_song.less";
+@import "listing_entry_generic.less";
 @import "notifications.less";
-@import "playlist.less";
-@import "library.less";
+@import "playerbox.less";
+@import "libraries.less";
