@@ -1,13 +1,9 @@
-var $ = require('jquery');
-var React = require('react');
-var ReactDOM = require('react-dom');
-var utils = require('./dakara-utils');
-var Dakara = require('./components/Dakara');
-var Router = require('react-router').Router;
-var Route = require('react-router').Route;
-var browserHistory = require('react-router').browserHistory;
-
-require("../less/dakara.less");
+import $ from 'jquery';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import utils from './dakara-utils';
+import Dakara from './components/Dakara';
+import {Router, Route, browserHistory} from 'react-router';
 
 var csrftoken = utils.getCookie('csrftoken');
 

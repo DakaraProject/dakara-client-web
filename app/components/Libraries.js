@@ -1,9 +1,9 @@
-var $ = require('jquery');
-var React = require('react');
-var SongLibrary = require('./SongLibrary');
-var ArtistLibrary = require('./ArtistLibrary');
-var WorkLibrary = require('./WorkLibrary');
-var utils = require('../dakara-utils');
+import $ from 'jquery';
+import React from 'react';
+import SongLibrary from './SongLibrary';
+import ArtistLibrary from './ArtistLibrary';
+import WorkLibrary from './WorkLibrary';
+import utils from '../dakara-utils';
 
 var Libraries = React.createClass({
 

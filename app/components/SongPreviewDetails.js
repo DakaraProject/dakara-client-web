@@ -1,6 +1,6 @@
-var React = require('react');
-var Highlighter = require('react-highlight-words').default;
-var WorkDisplay = require('./WorkDisplay');
+import React from 'react';
+import Highlighter from 'react-highlight-words';
+import WorkDisplay from './WorkDisplay';
 
 var SongPreviewDetails = React.createClass({
     render: function() {

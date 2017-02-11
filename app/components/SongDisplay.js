@@ -1,8 +1,8 @@
-var React = require('react');
-var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
-var utils = require('../dakara-utils');
-var SongPreview = require('./SongPreview');
-var SongExpandedDetails = require('./SongExpandedDetails');
+import React from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import utils from '../dakara-utils';
+import SongPreview from './SongPreview';
+import SongExpandedDetails from './SongExpandedDetails';
 
 var SongDisplay = React.createClass({
 

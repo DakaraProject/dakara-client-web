@@ -1,7 +1,7 @@
-var React = require('react');
-var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
-var utils = require('../dakara-utils');
-var PlaylistEntry = require('./PlaylistEntry');
+import React from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import utils from '../dakara-utils';
+import PlaylistEntry from './PlaylistEntry';
 
 var Playlist = React.createClass({
     handleCollapse: function() {

@@ -1,9 +1,9 @@
-var $ = require('jquery');
-var React = require('react');
-var ArtistLibraryEntry = require('./ArtistLibraryEntry');
-var SearchBox = require('./SearchBox');
-var Paginator = require('./Paginator');
-var utils = require('../dakara-utils');
+import $ from 'jquery';
+import React from 'react';
+import ArtistLibraryEntry from './ArtistLibraryEntry';
+import SearchBox from './SearchBox';
+import Paginator from './Paginator';
+import utils from '../dakara-utils';
 
 var ArtistLibrary = React.createClass({
     getInitialState: function() {

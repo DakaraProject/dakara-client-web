@@ -1,10 +1,10 @@
-var $ = require('jquery');
-var React = require('react');
-var withRouter = require('react-router').withRouter;
-var Player = require('./Player');
-var Playlist = require('./Playlist');
-var Libraries = require('./Libraries');
-var utils = require('../dakara-utils');
+import $ from 'jquery';
+import React from 'react';
+import {withRouter} from 'react-router';
+import Player from './Player';
+import Playlist from './Playlist';
+import Libraries from './Libraries';
+import utils from '../dakara-utils';
 
 var Dakara = React.createClass({
     getInitialState: function() {

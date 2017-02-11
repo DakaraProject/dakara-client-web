@@ -1,5 +1,5 @@
-var React = require('react');
-var WorkDisplay = require('./WorkDisplay');
+import React from 'react';
+import WorkDisplay from './WorkDisplay';
 
 var WorkEntry = React.createClass({
     handleSearchWork: function() {

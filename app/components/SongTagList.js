@@ -1,4 +1,4 @@
-var React = require('react');
+import React from 'react';
 
 var SongTagList = React.createClass({
     handleSearch: function(tagName) {

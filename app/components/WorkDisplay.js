@@ -1,5 +1,5 @@
-var React = require('react');
-var Highlighter = require('react-highlight-words').default;
+import React from 'react';
+import Highlighter from 'react-highlight-words';
 
 var WorkDisplay = React.createClass({
     render: function() {

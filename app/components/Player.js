@@ -1,7 +1,7 @@
-var React = require('react');
-var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
-var utils = require('../dakara-utils');
-var SongPreviewDetails = require('./SongPreviewDetails');
+import React from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import utils from '../dakara-utils';
+import SongPreviewDetails from './SongPreviewDetails';
 
 var Player = React.createClass({
     getInitialState: function() {

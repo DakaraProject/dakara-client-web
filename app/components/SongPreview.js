@@ -1,7 +1,7 @@
-var React = require('react');
-var SongPreviewDetails = require('./SongPreviewDetails');
-var SongTagList = require('./SongTagList');
-var Highlighter = require('react-highlight-words').default;
+import React from 'react';
+import SongPreviewDetails from './SongPreviewDetails';
+import SongTagList from './SongTagList';
+import Highlighter from 'react-highlight-words';
 
 var SongPreview = React.createClass({
     handleExpand: function() {

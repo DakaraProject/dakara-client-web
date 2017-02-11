@@ -1,7 +1,7 @@
-var React = require('react');
-var SongTagList = require('./SongTagList');
-var WorkEntry = require('./WorkEntry');
-var ArtistEntry = require('./ArtistEntry');
+import React from 'react';
+import SongTagList from './SongTagList';
+import WorkEntry from './WorkEntry';
+import ArtistEntry from './ArtistEntry';
 
 var SongExpandedDetails = React.createClass({
     handleClose: function() {

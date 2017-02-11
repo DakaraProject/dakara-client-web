@@ -1,5 +1,5 @@
-var sprintf = require('sprintf-js').sprintf;
-var $ = require('jquery');
+import {sprintf} from 'sprintf-js';
+import $ from 'jquery';
 
 var DakaraUtils = {
     getCookie: function(name) {
