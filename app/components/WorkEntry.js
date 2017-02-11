@@ -1,13 +1,13 @@
 import React from 'react';
 import WorkDisplay from './WorkDisplay';
 
-var WorkEntry = React.createClass({
-    handleSearchWork: function() {
+export default class WorkEntry extends React.Component {
+    handleSearchWork = () => {
         var work = this.props.work.work;
         this.props.setQuery(work.work_type.query_name + ':""' + work.title + '""');
-    },
+    }
 
-    render: function() {
+    render() {
         var work = this.props.work;
 
         return (
@@ -21,6 +21,4 @@ var WorkEntry = React.createClass({
                 </li>
         );
     }
-});
-
-module.exports = WorkEntry;
+}

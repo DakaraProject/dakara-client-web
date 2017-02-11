@@ -3,12 +3,12 @@ import SongPreviewDetails from './SongPreviewDetails';
 import SongTagList from './SongTagList';
 import Highlighter from 'react-highlight-words';
 
-var SongPreview = React.createClass({
-    handleExpand: function() {
+export default class SongPreview extends React.Component {
+    handleExpand = () => {
         this.props.handleExpand(!this.props.expanded);
-    },
+    }
 
-    render: function() {
+    render() {
         var song = this.props.song;
         var titleContent;
         if (this.props.query != undefined) {
@@ -48,6 +48,4 @@ var SongPreview = React.createClass({
                 </div>
             )
     }
-});
-
-module.exports = SongPreview;
+}

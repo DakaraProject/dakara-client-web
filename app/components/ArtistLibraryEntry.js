@@ -2,16 +2,16 @@ import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import utils from '../dakara-utils';
 
-var ArtistLibraryEntry = React.createClass({
-    handleSearch: function() {
+export default class ArtistLibraryEntry extends React.Component {
+    handleSearch = () => {
       this.context.navigator.setQuerySong("artist:\"\"" + this.props.artist.name + "\"\"");
-    },
+    }
 
-    contextTypes: {
+    static contextTypes = {
         navigator: React.PropTypes.object
-    },
+    }
 
-    render: function() {
+    render() {
         return (
                 <li className="library-entry listing-entry">
                     <div className="entry-info">
@@ -32,6 +32,4 @@ var ArtistLibraryEntry = React.createClass({
                 </li>
         );
     }
-});
-
-module.exports = ArtistLibraryEntry;
+}

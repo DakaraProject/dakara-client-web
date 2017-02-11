@@ -3,16 +3,16 @@ import SongTagList from './SongTagList';
 import WorkEntry from './WorkEntry';
 import ArtistEntry from './ArtistEntry';
 
-var SongExpandedDetails = React.createClass({
-    handleClose: function() {
+export default class SongExpandedDetails extends React.Component {
+    handleClose = () => {
         this.props.handleClose()
-    },
+    }
 
-    contextTypes: {
+    static contextTypes = {
         navigator: React.PropTypes.object
-    },
+    }
 
-    render: function() {
+    render() {
         var song = this.props.song;
 
         var title = (<div className="title">{song.title}</div>);
@@ -51,6 +51,4 @@ var SongExpandedDetails = React.createClass({
                 </div>
             )
     }
-});
-
-module.exports = SongExpandedDetails;
+}

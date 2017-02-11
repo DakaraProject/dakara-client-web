@@ -1,13 +1,13 @@
 import React from 'react';
 
-var SongTagList = React.createClass({
-    handleSearch: function(tagName) {
+export default class SongTagList extends React.Component {
+    handleSearch = (tagName) => {
         if (this.props.setQuery) {
             this.props.setQuery("#" + tagName);
         }
-    },
+    }
 
-    render: function() {
+    render() {
         var tags = this.props.tags;
         var classClickable = "";
         var handleSearch;
@@ -43,6 +43,4 @@ var SongTagList = React.createClass({
                 </div>
                 );
     }
-});
-
-module.exports = SongTagList;
+}

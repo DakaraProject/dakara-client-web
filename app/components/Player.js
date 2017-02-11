@@ -3,21 +3,19 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import utils from '../dakara-utils';
 import SongPreviewDetails from './SongPreviewDetails';
 
-var Player = React.createClass({
-    getInitialState: function() {
-        return {notifications: []};
-    },
+export default class Player extends React.Component {
+    state = {notifications: []}
 
-    clearNotification: function() {
+    clearNotification = () => {
         var newNotifications = this.state.notifications;
         newNotifications.shift();
         this.setState({notifications: newNotifications});
         if (newNotifications.length > 0) {
             setTimeout(this.clearNotification, newNotifications[0].timeout);
         }
-    },
+    }
 
-    addNotification: function(message, type, timeout){
+    addNotification = (message, type, timeout) =>{
         var newNotifications = this.state.notifications.concat({
                 id : Math.floor((Math.random() * 100000)),
                 message: message,
@@ -31,9 +29,9 @@ var Player = React.createClass({
         if (newNotifications.length == 1) {
             setTimeout(this.clearNotification, timeout);
         }
-    },
+    }
 
-    handleReponse: function(status, cmd){
+    handleReponse = (status, cmd) =>{
         var cmdString;
         if (cmd.pause != null){
             if (cmd.pause){
@@ -51,22 +49,22 @@ var Player = React.createClass({
         } else {
             this.addNotification("Error attempting to " + cmdString, "danger", 5000);
         }
-    },
+    }
 
-    handlePlayPause: function(e){
+    handlePlayPause = (e) =>{
         if (this.props.playerStatus.playlist_entry){
             var pause = !this.props.userCmd.pause;
             this.props.sendPlayerCommand({"pause": pause}, this.handleReponse);
         }
-    },
+    }
 
-    handleSkip: function(e){
+    handleSkip = (e) =>{
         if (this.props.playerStatus.playlist_entry){
             this.props.sendPlayerCommand({"skip": true}, this.handleReponse);
         }
-    },
+    }
 
-    render: function() {
+    render() {
         var playerStatus = this.props.playerStatus;
         var song;
         var songData;
@@ -134,6 +132,4 @@ var Player = React.createClass({
         );
 
     }
-});
-
-module.exports = Player;
+}

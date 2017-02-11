@@ -4,9 +4,9 @@ import utils from '../dakara-utils';
 import SongPreview from './SongPreview';
 import SongExpandedDetails from './SongExpandedDetails';
 
-var SongDisplay = React.createClass({
+export default class SongDisplay extends React.Component {
 
-    render: function() {
+    render() {
         var song = this.props.song;
         var songExpandedDetails;
         if (this.props.expanded){
@@ -40,6 +40,4 @@ var SongDisplay = React.createClass({
                 </div>
             )
     }
-});
-
-module.exports = SongDisplay;
+}

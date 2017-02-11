@@ -5,15 +5,13 @@ import ArtistLibrary from './ArtistLibrary';
 import WorkLibrary from './WorkLibrary';
 import utils from '../dakara-utils';
 
-var Libraries = React.createClass({
+export default class Libraries extends React.Component {
 
-    getInitialState: function() {
-        return {
-            workTypes: [],
-        }
-    },
+    state = {
+        workTypes: [],
+    }
 
-    refreshWorkTypes: function() {
+    refreshWorkTypes = () => {
         var url = utils.params.url + "library/work-types/";
         $.ajax({
             url: url,
@@ -28,13 +26,13 @@ var Libraries = React.createClass({
                 console.error(url, status, err.toString());
             }.bind(this)
         });
-    },
+    }
 
-    componentDidMount: function() {
+    componentDidMount() {
         this.refreshWorkTypes();
-    },
+    }
 
-    render: function() {
+    render() {
         var library;
         var libraryName = "";
         if (this.props.libraryName) {
@@ -126,6 +124,4 @@ var Libraries = React.createClass({
         </div>
         );
     }
-});
-
-module.exports = Libraries;
+}

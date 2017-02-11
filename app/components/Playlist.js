@@ -3,22 +3,21 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import utils from '../dakara-utils';
 import PlaylistEntry from './PlaylistEntry';
 
-var Playlist = React.createClass({
-    handleCollapse: function() {
+export default class Playlist extends React.Component {
+    state = {
+        collapsed: true,
+        expandedId: null
+    }
+
+    handleCollapse = () => {
         this.setState({collapsed: !this.state.collapsed, expandedId: null});
-    },
-    getInitialState: function() {
-        return {
-            collapsed: true,
-            expandedId: null
-        };
-    },
+    }
 
-    setExpandedId: function(id) {
+    setExpandedId = (id) => {
         this.setState({expandedId: id});
-    },
+    }
 
-    render: function() {
+    render() {
         var currentTime = new Date().getTime();
         var list = this.props.entries.results;
         var playlistContent;
@@ -105,6 +104,4 @@ var Playlist = React.createClass({
         </div>
         );
     }
-});
-
-module.exports = Playlist;
+}

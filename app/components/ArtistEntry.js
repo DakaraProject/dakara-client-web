@@ -1,11 +1,11 @@
 import React from 'react';
 
-var ArtistEntry = React.createClass({
-    handleSearchArtist: function() {
+export default class ArtistEntry extends React.Component {
+    handleSearchArtist = () => {
         this.props.setQuery('artist:""' + this.props.artist.name + '""');
-    },
+    }
 
-    render: function() {
+    render() {
 
         var artist = this.props.artist;
         return (
@@ -23,6 +23,4 @@ var ArtistEntry = React.createClass({
                 </li>
                 );
     }
-});
-
-module.exports = ArtistEntry;
+}

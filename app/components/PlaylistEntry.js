@@ -3,17 +3,18 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import utils from '../dakara-utils';
 import SongDisplay from './SongDisplay';
 
-var PlaylistEntry = React.createClass({
-    getInitialState: function() {
-        return {notification: null};
-    },
-    clearNotification: function() {
+export default class PlaylistEntry extends React.Component {
+    state = {notification: null}
+
+    clearNotification = () => {
         this.setState({notification: null});
-    },
-    handleExpand: function(expand) {
+    }
+
+    handleExpand = (expand) => {
         this.props.setExpandedId(expand ? this.props.entry.id : null);
-    },
-    handleReponse: function(status){
+    }
+
+    handleReponse = (status) =>{
         if (status) {
            this.setState({
                 notification: {
@@ -30,8 +31,9 @@ var PlaylistEntry = React.createClass({
             });
             setTimeout(this.clearNotification, 5000);
         }
-    },
-    handleRemove: function(e){
+    }
+
+    handleRemove = (e) =>{
        this.setState({
             notification: {
                 message: "Removing...",
@@ -39,9 +41,9 @@ var PlaylistEntry = React.createClass({
             }
         });
         this.props.removeEntry(this.props.entry.id, this.handleReponse);
-    },
+    }
 
-    render: function(){
+    render(){
         var message;
         if(this.state.notification != null){
             message = <div className="notified"><div className={"notification " + this.state.notification.type}>{this.state.notification.message}</div></div>
@@ -81,6 +83,4 @@ var PlaylistEntry = React.createClass({
             </li>
         );
     }
-});
-
-module.exports = PlaylistEntry;
+}

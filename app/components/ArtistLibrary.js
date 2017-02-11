@@ -5,27 +5,25 @@ import SearchBox from './SearchBox';
 import Paginator from './Paginator';
 import utils from '../dakara-utils';
 
-var ArtistLibrary = React.createClass({
-    getInitialState: function() {
-        return {
-            libraryEntries: {
-                current: 1,
-                count: 0,
-                results: [],
-            },
-        };
-    },
+export default class ArtistLibrary extends React.Component {
+    state = {
+        libraryEntries: {
+            current: 1,
+            count: 0,
+            results: [],
+        }
+    }
 
-    setQuery: function(query) {
+    setQuery = (query) => {
         /* Search a query
          *
          * @param query
          *  string to search
          */
         this.props.navigator.setQueryCurrent(query)
-    },
+    }
 
-    setCurrentPage: function(pageNumber) {
+    setCurrentPage = (pageNumber) => {
         /* Change the page
          * Is passed to the paginator
          *
@@ -33,17 +31,17 @@ var ArtistLibrary = React.createClass({
          *  page number
          */
         this.props.navigator.setPage(pageNumber);
-    },
+    }
 
-    componentDidMount: function() {
+    componentDidMount() {
         /* Listener for the component
          * When the component is initialized
          */
         this.refreshEntries();
         this.refs['searchBox'].setQuery(this.props.libraryParams.query);
-    },
+    }
 
-    componentDidUpdate: function(prevProps, prevState) {
+    componentDidUpdate(prevProps, prevState) {
         /* Listener for the component
          * When the component is updated
          */
@@ -57,9 +55,9 @@ var ArtistLibrary = React.createClass({
         if (queryHasChanged) {
             this.refs['searchBox'].setQuery(this.props.libraryParams.query);
         }
-    },
+    }
 
-    refreshEntries: function() {
+    refreshEntries = () => {
         var url = utils.params.url + "library/artists/?page=" + this.props.libraryParams.page + "&query=" + encodeURIComponent(this.props.libraryParams.query)
         $.ajax({
             url: url,
@@ -72,9 +70,9 @@ var ArtistLibrary = React.createClass({
                 console.error(url, status, err.toString());
             }.bind(this)
         });
-    },
+    }
 
-    render: function() {
+    render() {
         var list = this.state.libraryEntries.results.map(function(entry){
             return (<ArtistLibraryEntry
                         key={entry.id}
@@ -110,6 +108,4 @@ var ArtistLibrary = React.createClass({
         </div>
         );
     }
-});
-
-module.exports = ArtistLibrary;
+}

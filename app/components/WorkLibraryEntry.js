@@ -2,16 +2,16 @@ import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import utils from '../dakara-utils';
 
-var WorkLibraryEntry = React.createClass({
-    handleSearch: function() {
+export default class WorkLibraryEntry extends React.Component {
+    handleSearch = () => {
       this.context.navigator.setQuerySong(this.props.queryName + ":\"\"" + this.props.work.title + "\"\"");
-    },
+    }
 
-    contextTypes: {
+    static contextTypes = {
         navigator: React.PropTypes.object
-    },
+    }
 
-    render: function() {
+    render() {
         return (
                 <li className="library-entry listing-entry">
                     <div className="entry-info">
@@ -37,6 +37,4 @@ var WorkLibraryEntry = React.createClass({
                 </li>
         );
     }
-});
-
-module.exports = WorkLibraryEntry;
+}
