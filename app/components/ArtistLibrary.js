@@ -1,4 +1,4 @@
-var $ = jQuery = require('jquery');
+var $ = require('jquery');
 var React = require('react');
 var ArtistLibraryEntry = require('./ArtistLibraryEntry');
 var SearchBox = require('./SearchBox');
@@ -60,7 +60,7 @@ var ArtistLibrary = React.createClass({
     },
 
     refreshEntries: function() {
-        url = utils.params.url + "library/artists/?page=" + this.props.libraryParams.page + "&query=" + encodeURIComponent(this.props.libraryParams.query)
+        var url = utils.params.url + "library/artists/?page=" + this.props.libraryParams.page + "&query=" + encodeURIComponent(this.props.libraryParams.query)
         $.ajax({
             url: url,
             dataType: 'json',

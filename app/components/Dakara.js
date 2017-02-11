@@ -1,4 +1,4 @@
-var $ = jQuery = require('jquery');
+var $ = require('jquery');
 var React = require('react');
 var withRouter = require('react-router').withRouter;
 var Player = require('./Player');
@@ -113,7 +113,7 @@ var Dakara = React.createClass({
         // add player errors to notification if they are new
         if (data) {
             var errorsId = [];
-            for (error of data) {
+            for (var error of data) {
                 if (this.state.playerErrorsOldId.indexOf(error.id) == -1) {
                     errorsId.push(error.id);
                     this.refs.player.addNotification(

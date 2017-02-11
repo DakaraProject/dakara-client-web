@@ -32,7 +32,7 @@ var Playlist = React.createClass({
 
         //compute time when each song is going to be played
         var timeOfPlay = {};
-        for(entry of list){
+        for(var entry of list){
             timeOfPlay[entry.id] = currentTime + remainingTime * 1000;
             remainingTime += +(entry.song.duration);
         }

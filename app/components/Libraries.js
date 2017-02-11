@@ -1,4 +1,4 @@
-var $ = jQuery = require('jquery');
+var $ = require('jquery');
 var React = require('react');
 var SongLibrary = require('./SongLibrary');
 var ArtistLibrary = require('./ArtistLibrary');
@@ -14,7 +14,7 @@ var Libraries = React.createClass({
     },
 
     refreshWorkTypes: function() {
-        url = utils.params.url + "library/work-types/";
+        var url = utils.params.url + "library/work-types/";
         $.ajax({
             url: url,
             dataType: 'json',
@@ -50,7 +50,7 @@ var Libraries = React.createClass({
         } else {
             var foundWorkType;
             for (var i in this.state.workTypes) {
-                    workType = this.state.workTypes[i];
+                    var workType = this.state.workTypes[i];
                 if (libraryName == workType.query_name) {
                     foundWorkType = workType;
                     break;

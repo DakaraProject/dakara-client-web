@@ -1,4 +1,4 @@
-var $ = jQuery = require('jquery');
+var $ = require('jquery');
 var React = require('react');
 var SongLibraryEntry = require('./SongLibraryEntry');
 var SearchBox = require('./SearchBox');
@@ -64,7 +64,7 @@ var SongLibrary = React.createClass({
     },
 
     refreshEntries: function() {
-        url = utils.params.url + "library/songs/?page=" + this.props.libraryParams.page + "&query=" + encodeURIComponent(this.props.libraryParams.query)
+        var url = utils.params.url + "library/songs/?page=" + this.props.libraryParams.page + "&query=" + encodeURIComponent(this.props.libraryParams.query)
         $.ajax({
             url: url,
             dataType: 'json',
@@ -89,7 +89,7 @@ var SongLibrary = React.createClass({
             remainingTime = playerStatus.playlist_entry.song.duration - playerStatus.timing;
         }
         var timeOfPlay = {};
-        for(entry of this.props.playlistEntries.results){
+        for(var entry of this.props.playlistEntries.results){
             if (!timeOfPlay[entry.song.id]) {
                 timeOfPlay[entry.song.id] = currentTime + remainingTime * 1000;
             }
