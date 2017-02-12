@@ -44,8 +44,8 @@ var WorkEntry = React.createClass({
         }
 
         return (
-                <li className="entry">
-                    <div className="controls">
+                <li className="sublisting-entry">
+                    <div className="controls subcontrols">
                         <div className="control primary" onClick={this.handleSearchWork}>
                             <i className="fa fa-search"></i>
                         </div>

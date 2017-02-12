@@ -43,19 +43,18 @@ var SongExpandedDetails = React.createClass({
                         );
             }.bind(this));
 
-            return ( 
-                    <div className="group">
+            return (
+                    <div className="works expanded-item">
                         <h4 className="header">
                             <span className="icon">
                                 <i className={"fa fa-" + workType.icon_name}></i>
                             </span>
-                            <span className="name">{workType.name + 's'}</span>
+                            <span className="name">{workType.name + (worksForTypeList.length > 1 ? 's' : '')}</span>
                         </h4>
-                        <ul className="list">{worksForTypeList}</ul>
+                        <ul className="sublisting">{worksForTypeList}</ul>
                     </div>
                 )
-        }.bind(this))   
-
+        }.bind(this))
 
         var artistList = song.artists.map(function(artist) {
             return (
@@ -66,35 +65,72 @@ var SongExpandedDetails = React.createClass({
         var artists;
         if (song.artists.length > 0) {
             artists = (
-                    <div className="group">
+                    <div className="artists expanded-item">
                         <h4 className="header">
                             <span className="icon">
                                 <i className="fa fa-music"></i>
                             </span>
-                            <span className="name">Artists</span>
+                            <span className="name">Artist{song.artists.length > 1 ? 's' : ''}</span>
                         </h4>
-                        <ul className="list">{artistList}</ul>
+                        <ul className="sublisting">{artistList}</ul>
+                    </div>
+                );
+        }
+
+        var detailSong;
+        if (song.detail) {
+            detailSong = (
+                    <div className="detail-song expanded-item">
+                        <h4 className="header">
+                            <span className="icon">
+                                <i className="fa fa-file-text"></i>
+                            </span>
+                            <span className="name">Music details</span>
+                        </h4>
+                        <div className="text">{song.detail}</div>
+                    </div>
+                );
+        }
+
+        var detailVideo;
+        if (song.detail_video) {
+            detailVideo = (
+                    <div className="detail_video expanded-item">
+                        <h4 className="header">
+                            <span className="icon">
+                                <i className="fa fa-file-text"></i>
+                            </span>
+                            <span className="name">Video details</span>
+                        </h4>
+                        <div className="text">{song.detail_video}</div>
+                    </div>
+                );
+        }
+
+        var tags;
+        if (song.tags.length > 0) {
+            tags = (
+                    <div className="tags expanded-item">
+                        <h4 className="header">
+                            <span className="icon">
+                                <i className="fa fa-tags"></i>
+                            </span>
+                            <span className="name">Tags</span>
+                        </h4>
+                        <SongTagList tags={song.tags} setQuery={this.context.navigator.setQuerySong}/>
                     </div>
                 );
         }
 
         return (
-                <div className="song-expanded-details">
-                    {artists ? (
-                        <div className="artists">
-                            {artists}
-                        </div>
-                    ) : null}
-                    {worksRenderList ? (
-                        <div className="works">
-                            {worksRenderList}
-                        </div>
-                    ) : null}
-                    {song.tags.length > 0 ? (
-                        <div className="tags">
-                            <SongTagList tags={song.tags} setQuery={this.context.navigator.setQuerySong}/>
-                        </div>
-                    ) : null}
+                <div className="song-expanded-details-container">
+                    <div className="song-expanded-details">
+                        {artists}
+                        {worksRenderList}
+                        {detailSong}
+                        {detailVideo}
+                        {tags}
+                    </div>
                 </div>
             )
     }

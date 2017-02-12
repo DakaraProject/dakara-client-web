@@ -64,7 +64,7 @@ expanded line grows or shrink vertically from the top.
                             font-size: 1.05em;
                         }
 
-                        .detail {
+                        .version {
                             margin-left: 0.5em;
                             opacity: 0.65;
                         }
@@ -176,78 +176,108 @@ expanded line grows or shrink vertically from the top.
     // should not be used with the `hoverized` subclass
     .song-expanded-details {
         @height: 0.75 * @listing-entry-height;
-        padding: 0.5 * @gap-vertical 0;
+        display: table;
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 @gap-vertical;
 
-        .artists, .works {
+        .expanded-item {
+            display: table-row;
+
             &:not(:last-child) {
-                margin-bottom: 0.5 * @gap-vertical;
+                padding-bottom: 0.5 * @gap-vertical;
             }
 
             .header {
-                line-height: @height;
+                display: table-cell;
                 padding: 0 @gap-horizontal;
                 margin: 0;
                 font-weight: normal;
+                white-space: nowrap;
+                vertical-align: top;
 
                 .icon {
                 }
 
                 .name {
                    padding-left: 0.5em; 
+                   line-height: @height;
                 }
             }
 
-            .list {
+            .sublisting-entry, .text, .song-tag-list {
+                background: darken(@neutral-mid, 2%);
+
+                .listing-entry:nth-child(even)& {
+                    background: darken(@neutral-mid-light, 3%);
+                }
+            }
+
+            .sublisting {
                 list-style-type: none;
                 padding: 0;
+                display: table-cell;
+                width: 100%;
 
-                .entry {
+                .sublisting-entry {
                     line-height: @height;
                     height: @height;
                     display: flex;
+
+                    &:nth-child(even) {
+                        background: darken(@neutral-mid, 1%);
+
+                        .listing-entry:nth-child(even)& {
+                            background: darken(@neutral-mid-light, 2%);
+                        }
+                    }
+
 
                     .controls {
                         .make-controls(@height, 0.85 * @listing-entry-control-font-size);
                     }
                 }
             }
+
+            .text {
+                padding: 0 @gap-horizontal;
+                line-height: @height;
+            }
+
+            .song-tag-list {
+                line-height: @height;
+            }
         }
 
         .artists {
-            .entry {
-                .artist {
-                    flex: 1;
-                    padding: 0 @gap-horizontal;
-                }
+            .artist {
+                flex: 1;
+                padding: 0 @gap-horizontal;
             }
         }
 
         .works {
-            .entry {
-                .work {
-                    .make-song-work(@black-70, 0.81em);
+            .work {
+                .make-song-work(@black-70, 0.81em);
 
-                    flex: 1;
-                    padding: 0 @gap-horizontal;
+                flex: 1;
+                padding: 0 @gap-horizontal;
 
-                    > * {
-                        display: inline;
-                    }
+                > * {
+                    display: inline;
                 }
             }
         }
+    }
 
-        .tags {
-            line-height: @height;
-        }
-
+    .song-expanded-details-container {
         // appearance transition of the expanded view
         &.expand-view-enter {
             overflow: hidden;
             max-height: 0;
 
             &.expand-view-enter-active {
-                max-height: @height * 10;
+                max-height: 10 * 0.75 * @listing-entry-height;
                 .transition(max-height 600ms ease-out);
             }
         }
@@ -255,7 +285,7 @@ expanded line grows or shrink vertically from the top.
         // disappearance transition of the expanded view
         &.expand-view-leave {
             overflow: hidden;
-            max-height: @height * 10;
+            max-height: 10 * 0.75 * @listing-entry-height;
 
             &.expand-view-leave-active {
                 max-height: 0;

@@ -50,7 +50,7 @@ properties. Extra subclasses are available for the color of the control.
             }
 
             &:not(.disabled):hover {
-                background: @color-activated;
+                background: @color-activated !important;
             }
         }
 
@@ -77,7 +77,9 @@ properties. Extra subclasses are available for the color of the control.
 }
 
 // lighten control on even line of a `listing` list
-.listing-entry:nth-child(2n) .controls {
+.listing-entry:nth-child(even) .controls:not(.subcontrols),
+.sublisting-entry:nth-child(even) .controls.subcontrols {
+// .listing-entry:nth-child(even) .controls {
     .control {
         .make-control-line-even(@color-normal, @color-disabled) {
             background: @color-normal;

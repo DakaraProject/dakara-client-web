@@ -9,8 +9,8 @@ var ArtistEntry = React.createClass({
 
         var artist = this.props.artist;
         return (
-                <li className="entry">
-                    <div className="controls">
+                <li className="sublisting-entry">
+                    <div className="controls subcontrols">
                         <div className="control primary" onClick={this.handleSearchArtist}>
                             <i className="fa fa-search"></i>
                         </div>
