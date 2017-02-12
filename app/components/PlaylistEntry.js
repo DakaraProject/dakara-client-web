@@ -17,7 +17,10 @@ var PlaylistEntry = React.createClass({
     },
 
     handleExpand: function(expand) {
-        this.context.navigator.setQuerySong("title:\"\"" + this.props.entry.song.title + "\"\"");
+        this.context.navigator.setQuerySongAndExpanded(
+            "title:\"\"" + this.props.entry.song.title + "\"\"",
+            this.props.entry.song.id
+        );
     },
 
     handleReponse: function(status){
@@ -46,6 +49,7 @@ var PlaylistEntry = React.createClass({
             }
         });
         this.props.removeEntry(this.props.entry.id, this.handleReponse);
+
     },
 
     render: function(){
