@@ -26,11 +26,10 @@ var SongPreview = React.createClass({
         }
         var title = (<div className="title">{titleContent}</div>);
 
-        var version;
-        if (song.version) {
-            version = (<div className="version">{song.version} version</div>);
+        var detail;
+        if (song.detail && this.props.expanded) {
+            detail = (<div className="detail">{song.detail}</div>);
         }
-
         var tags;
         var songPreviewDetails;
         if (!this.props.expanded) {
@@ -42,7 +41,7 @@ var SongPreview = React.createClass({
                 <div className="song-preview" onClick={this.handleExpand}>
                     <div className="title-header">
                         {title}
-                        {version}
+                        {detail}
                     </div>
                     {songPreviewDetails}
                     {tags}
