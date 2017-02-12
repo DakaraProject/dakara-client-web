@@ -7,12 +7,22 @@ var PlaylistEntry = React.createClass({
     getInitialState: function() {
         return {notification: null};
     },
+
+    contextTypes: {
+        navigator: React.PropTypes.object
+    },
+
     clearNotification: function() {
         this.setState({notification: null});
     },
+
     handleExpand: function(expand) {
-        this.props.setExpandedId(expand ? this.props.entry.id : null);
+        this.context.navigator.setQuerySongAndExpanded(
+            "title:\"\"" + this.props.entry.song.title + "\"\"",
+            this.props.entry.song.id
+        );
     },
+
     handleReponse: function(status){
         if (status) {
            this.setState({
@@ -39,6 +49,7 @@ var PlaylistEntry = React.createClass({
             }
         });
         this.props.removeEntry(this.props.entry.id, this.handleReponse);
+
     },
 
     render: function(){
@@ -46,38 +57,39 @@ var PlaylistEntry = React.createClass({
         if(this.state.notification != null){
             message = <div className="notified"><div className={"notification " + this.state.notification.type}>{this.state.notification.message}</div></div>
         }
-        var className = "playlist-entry listing-entry";
+        var className = "playlist-entry listing-entry listing-entry-song hoverizable";
         if (this.state.notification) {
             className += " delayed";
         }
 
         return (
             <li className={className}>
-                <SongDisplay
-                    song={this.props.entry.song}
-                    handleExpand={this.handleExpand}
-                    expanded={this.props.expanded}
-                />
-                <div className="playlist-info">
-                    <div className="playlist-info-content">
-                        <div className="play-time">
-                            <i className="fa fa-clock-o"></i>
-                            {utils.formatHourTime(this.props.timeOfPlay)}
+                <div className="song-compact">
+                    <SongDisplay
+                        song={this.props.entry.song}
+                        handleExpand={this.handleExpand}
+                    />
+                    <div className="playlist-info">
+                        <div className="playlist-info-content">
+                            <div className="play-time">
+                                <i className="fa fa-clock-o"></i>
+                                {utils.formatHourTime(this.props.timeOfPlay)}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="controls">
-                    <div className="remove control warning" onClick={this.handleRemove}>
-                        <i className="fa fa-times"></i>
+                    <div className="controls">
+                        <div className="remove control warning" onClick={this.handleRemove}>
+                            <i className="fa fa-times"></i>
+                        </div>
                     </div>
+                    <ReactCSSTransitionGroup
+                        transitionName="notified"
+                        transitionEnterTimeout={300}
+                        transitionLeaveTimeout={150}
+                    >
+                        {message}
+                    </ReactCSSTransitionGroup>
                 </div>
-                <ReactCSSTransitionGroup
-                    transitionName="notified"
-                    transitionEnterTimeout={300}
-                    transitionLeaveTimeout={150}
-                >
-                    {message}
-                </ReactCSSTransitionGroup>
             </li>
         );
     }

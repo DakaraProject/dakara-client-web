@@ -13,7 +13,7 @@ var WorkLibraryEntry = React.createClass({
 
     render: function() {
         return (
-                <li className="library-entry listing-entry">
+                <li className="library-entry listing-entry listing-entry-work hoverizable">
                     <div className="entry-info">
                         <div className="work-view">
                             <div className="work-header">

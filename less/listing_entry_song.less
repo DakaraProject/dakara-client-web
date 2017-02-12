@@ -4,122 +4,319 @@
  * Song style file
  */
 
-.listing-entry {
-    .entry-info {
-        .song-view {
-            flex: 1;
+/* Provides:
 
-            .song-preview {
-                display: flex;
-                align-items: center;
-                padding-left: @gap-horizontal;
-                position: relative;
-                overflow-y: hidden;
-                cursor: pointer;
-                height: @listing-entry-height;
+`listing-entry-song` subclass.
+`tag` class.
 
-                .title-header {
-                    flex: 1;
-                    width: 0;
+*/
 
-                    * {
-                        display: inline;
+/* `listing-entry-song` subclass:
+
+The `listing-entry-song` class is a specialization of the `listing-entry` class
+defined in the `listing` module, which is aimed to stylize the specific elements
+of a list of songs.
+
+The song can be represented in a compact, one-line view or in an expanded,
+multi-lines view. More elements are present in the expanded view, which takes
+usually more space and have larger margins compared to the compact view. The
+compact view stays even if the expandes view is displayed, it only contains less
+elements. The expanded view has a appearance/disappearance animation where the
+expanded line grows or shrink vertically from the top.
+
+*/
+
+.listing-entry.listing-entry-song {
+    // this list entry is not hoverizable, in order to make only the compact
+    // view react to hover
+
+    // song compact view
+    // this class must be used with the `hoverizable` subclass
+    .song-compact {
+        display: flex;
+
+        // TODO simplify that
+        .song-display {
+            .song-view {
+                flex: 1;
+
+                .song-preview {
+                    display: flex;
+                    align-items: center;
+                    padding-left: @gap-horizontal;
+                    position: relative;
+                    overflow-y: hidden;
+                    cursor: pointer;
+                    height: @listing-entry-height;
+
+                    .title-header {
+                        flex: 1;
+
+                        // this is a hack
+                        width: 0;
+
+                        * {
+                            display: inline;
+                        }
+
+                        .title {
+                            .text-truncate();
+                            font-size: 1.05em;
+                        }
+
+                        .version {
+                            margin-left: 0.5em;
+                            opacity: 0.65;
+                        }
                     }
 
-                    .title {
-                        .text-truncate();
-                        font-size: 1.05em;
+                    .song-preview-details {
+                        .make-song-preview-details(0.9em, @black-70);
+                        margin-right: @gap-horizontal;
+                        align-items: flex-end;
                     }
 
-                    .detail {
-                        margin-left: 0.5em;
-                        opacity: 0.65;
+                    .song-tag-list {
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        font-size: 0.6em;
+                        line-height: 1em;
                     }
-                }
-
-                .song-preview-details {
-                    .make-song-preview-details(0.9em, @black-70);
-                    margin-right: @gap-horizontal;
-                    align-items: flex-end;
-                }
-
-                .song-tag-list {
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    font-size: 0.6em;
-                    line-height: 1em;
                 }
             }
 
-            .song-expanded-details {
-                @height: 0.75 * @listing-entry-height;
-                .make-song-view(@height, @listing-entry-height, @listing-entry-control-font-size * 0.85, @listing-entry-control-font-size);
-
-                &.expand-view-enter {
-                    overflow: hidden;
-                    max-height: 0;
-
-                    &.expand-view-enter-active {
-                        max-height: @height * 10;
-                        .transition(max-height 600ms ease-out);
-                    }
-                }
-
-                &.expand-view-leave {
-                    overflow: hidden;
-                    max-height: @height * 10;
-
-                    &.expand-view-leave-active {
-                        max-height: 0;
-                        .transition(max-height 300ms ease-out);
-                    }
+            // class for song duration
+            // TODO simplify that: does it really need a `content`?
+            .duration {
+                .duration-content {
+                    font-size: 0.85em;
+                    line-height: @listing-entry-height;
+                    width: @listing-entry-height;
+                    background: @text-light;
+                    color: @neutral-mid;
+                    text-align: center;
                 }
             }
         }
 
-        .duration {
-            background: darken(@neutral-mid, 5%);
+        // class for data relative to the status of the song in the playlist
+        // TODO should be at the same level of `duration`...
+        // TODO simplify that: does it really need a `content`?
+        .playlist-info {
+            display: flex;
+            align-items: flex-start;
 
-            .duration-content {
-                font-size: 0.85em;
+            .playlist-info-content {
                 line-height: @listing-entry-height;
-                width: @listing-entry-height;
-                background: @text-light;
-                color: @neutral-mid;
+                background: @brand-info;
+                color: @text-dark;
                 text-align: center;
+
+                .play-time {
+                    min-width: (2 * @listing-entry-height);
+
+                    i {
+                        padding-right: 0.5em;
+                    }
+                }
+
+                .playing {
+                    width: @listing-entry-height;
+                }
+
+                // appearance transition of the playlist info class
+                &.playlist-info-enter {
+                    max-width: 0;
+                    overflow: hidden;
+
+                    &.playlist-info-enter-active {
+                        max-width: (2 * @listing-entry-height);
+                        .transition(max-width 300ms ease-out);
+                    }
+                }
+
+                // disappearance transition of the playlist info class
+                &.playlist-info-leave {
+                    max-width: (2 * @listing-entry-height);
+                    overflow: hidden;
+
+                    &.playlist-info-leave-active {
+                        max-width: 0;
+                        .transition(max-width 150ms ease-out);
+                    }
+                }
+            }
+        }
+
+        // hover of the compact view
+        &:hover {
+            .song-display .duration .duration-content {
+                background: @neutral-clear-lighter;
+            }
+
+            .playlist-info .playlist-info-content {
+                background: @brand-info-lighter;
             }
         }
     }
 
-    &:nth-child(2n) .entry-info .duration .duration-content {
-        background: @neutral-clear-light;
+    // alternatiion of the compact view
+    &:nth-child(2n) {
+        .song-display .duration .duration-content {
+            background: @neutral-clear-light;
+        }
+
+        .playlist-info .playlist-info-content {
+            background: @brand-info-light;
+        }
     }
 
-    &:hover .entry-info .duration .duration-content {
-        background: @neutral-clear-lighter;
+    // song expanded view
+    // should not be used with the `hoverized` subclass
+    .song-expanded-details {
+        @height: 0.75 * @listing-entry-height;
+        display: table;
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 @gap-vertical;
+
+        .expanded-item {
+            display: table-row;
+
+            &:not(:last-child) {
+                padding-bottom: 0.5 * @gap-vertical;
+            }
+
+            .header {
+                display: table-cell;
+                padding: 0 @gap-horizontal;
+                margin: 0;
+                font-weight: normal;
+                white-space: nowrap;
+                vertical-align: top;
+
+                .icon {
+                }
+
+                .name {
+                   padding-left: 0.5em; 
+                   line-height: @height;
+                }
+            }
+
+            .sublisting-entry, .text, .song-tag-list {
+                background: darken(@neutral-mid, 2%);
+
+                .listing-entry:nth-child(even)& {
+                    background: darken(@neutral-mid-light, 3%);
+                }
+            }
+
+            .sublisting {
+                list-style-type: none;
+                padding: 0;
+                display: table-cell;
+                width: 100%;
+
+                .sublisting-entry {
+                    line-height: @height;
+                    height: @height;
+                    display: flex;
+
+                    &:nth-child(even) {
+                        background: darken(@neutral-mid, 1%);
+
+                        .listing-entry:nth-child(even)& {
+                            background: darken(@neutral-mid-light, 2%);
+                        }
+                    }
+
+
+                    .controls {
+                        .make-controls(@height, 0.85 * @listing-entry-control-font-size);
+                    }
+                }
+            }
+
+            .text {
+                padding: 0 @gap-horizontal;
+                line-height: @height;
+            }
+
+            .song-tag-list {
+                line-height: @height;
+            }
+        }
+
+        .artists {
+            .artist {
+                flex: 1;
+                padding: 0 @gap-horizontal;
+            }
+        }
+
+        .works {
+            .work {
+                .make-song-work(@black-70, 0.81em);
+
+                flex: 1;
+                padding: 0 @gap-horizontal;
+
+                > * {
+                    display: inline;
+                }
+            }
+        }
+    }
+
+    .song-expanded-details-container {
+        // appearance transition of the expanded view
+        &.expand-view-enter {
+            overflow: hidden;
+            max-height: 0;
+
+            &.expand-view-enter-active {
+                max-height: 10 * 0.75 * @listing-entry-height;
+                .transition(max-height 600ms ease-out);
+            }
+        }
+
+        // disappearance transition of the expanded view
+        &.expand-view-leave {
+            overflow: hidden;
+            max-height: 10 * 0.75 * @listing-entry-height;
+
+            &.expand-view-leave-active {
+                max-height: 0;
+                .transition(max-height 300ms ease-out);
+            }
+        }
     }
 }
 
-.make-song-work(@border-color) {
-    .work-link {
-        .work-link-content {
-            border: solid 1px @border-color;
-            margin-left: 0.5em;
-            padding: 0 2px;
-            font-size: 90%;
-        }
-    }
-
-    .work-subtitle {
-        opacity: 0.65;
+.make-song-work(@border-color, @link-font-size: 0.9em) {
+    > *:not(:first-child) {
         margin-left: 0.5em;
     }
 
-    .work-title {
+    .link {
+        .link-content {
+            text-transform: uppercase;
+            border: solid 1px @border-color;
+            padding: 0 2px;
+            font-size: @link-font-size;
+        }
     }
 
-    .work-type {
+    .subtitle {
+        opacity: 0.65;
+    }
+
+    .title {
+    }
+
+    .type {
     }
 }
 
@@ -140,13 +337,10 @@
         * {
             display: inline;
         }
-
-        i {
-            margin-left: 0.5em;
-        }
     }
 }
 
+/*
 .make-song-view(@height, @height-header, @type-font-size, @listing-entry-control-font-size) {
     @color-light: darken(@neutral-clear, 7%);
     @color-dark: darken(@neutral-mid, 2%);
@@ -247,10 +441,6 @@
         }
     }
 
-    .tags {
-        background: @color-dark;
-        line-height: @height;
-    }
 
     li {
         background: @color-dark;
@@ -265,32 +455,48 @@
     }
 
 }
+*/
+
+/* `tag` class:
+
+The `tag` class is a basic style for tags in musics. It can be extended with 8
+different colorized subclasses.
+
+Its size is determined in the `listing-entry-song` class, whether the song is
+displayed in compact or in expanded view.
+
+*/
 
 .tag {
     padding: 0 @gap-horizontal;
     display: inline-block;
-    color: fade(black, 50%);
+    color: fade(@text-dark, 50%);
     font-weight: 700;
+
+    &.clickable {
+        cursor: pointer;
+
+        i {
+            margin-right: 0.5em;
+            font-size: 1.2em;
+        }
+    }
+
+    &.disabled {
+        opacity: 0.5;
+    }
 
     .make-tag(@color) {
         background-color: @color;
-        
-        &.clickable {
-            cursor: pointer;
 
+        &.clickable {
             &:hover {
                 background-color: lighten(@color, 5%);
-            }
-
-            i {
-                margin-right: 0.5em;
-                font-size: 1.2em;
             }
         }
 
         &.disabled {
             background-color: desaturate(@color, 50%);
-            opacity: 0.5;
         }
     }
 

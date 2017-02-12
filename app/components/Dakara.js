@@ -180,6 +180,22 @@ var Dakara = React.createClass({
         })
     },
 
+    setQuerySongAndExpanded: function(query, expandedId) {
+        /* Switch current library to Song
+         * Perform the search query
+         * Reinitialize the the other library params
+         *
+         * @param query
+         *  string to search, formatted with the query mini language
+         */
+        this.pushQueryString({
+            library: 'home',
+            query: query,
+            page: 1,
+            expanded: expandedId
+        })
+    },
+
     setQueryCurrent: function(query) {
         /* Perform the search query
          * Reinitialize the the other library params
@@ -252,7 +268,8 @@ var Dakara = React.createClass({
         return {
             // populate the navigator
             navigator: {
-                setQuerySong: this.setQuerySong
+                setQuerySong: this.setQuerySong,
+                setQuerySongAndExpanded: this.setQuerySongAndExpanded
             }
         }
     },

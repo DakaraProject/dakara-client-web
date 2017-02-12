@@ -6,7 +6,7 @@ var WorkDisplay = React.createClass({
         var w = this.props.work;
         var title;
         if (this.props.query != undefined) {
-            title = (<div className="work-title">
+            title = (<div className="title">
                     <Highlighter
                         searchWords={this.props.query.works.concat(
                                 this.props.query.remaining
@@ -15,12 +15,12 @@ var WorkDisplay = React.createClass({
                     />
                 </div>);
         } else {
-            title = (<div className="work-title">{w.work.title}</div>);
+            title = (<div className="title">{w.work.title}</div>);
         }
 
         var subtitle;
         if (w.work.subtitle) {
-             subtitle = (<div className="work-subtitle">{w.work.subtitle}</div>);
+             subtitle = (<div className="subtitle">{w.work.subtitle}</div>);
         }
 
         var link = (<span className="link-type">{w.link_type}</span>);
@@ -38,7 +38,7 @@ var WorkDisplay = React.createClass({
 
         return (
                 <div className="work">
-                    {title}{subtitle}<div className="work-link"><span className="work-link-content">{link}{linkNb}</span></div><div className="work-type"><i className={work_icon}></i></div>
+                    {title}{subtitle}<div className="link"><span className="link-content">{link}{linkNb}</span></div><div className="type"><i className={work_icon}></i></div>
                 </div>
             )
     }
