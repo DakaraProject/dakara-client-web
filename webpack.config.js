@@ -2,7 +2,8 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
   entry: [
-    './app/main.js'
+    './app/main.js',
+    './less/dakara.less'
   ],
   module: {
     loaders: [
