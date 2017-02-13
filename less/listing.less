@@ -4,27 +4,57 @@
  * Listing style file
  */
 
+/* Provides:
+
+`listing` class.
+
+*/
+
+/* `listing` class:
+
+The `listing` class is aimed to stylize every basic list of the Dakara Project.
+It makes a list with no borders where the entries look like rows with
+alternated colors. Each row can have an appearance/disappearance animation
+where the line grows or shrink vertically from the top. Each row can have a
+notification which consists in an over-layer sliding in and out from the right
+border.
+
+The rows can have a different hover color whith is manually set with the
+`hoverizable` class. It can be applied to each listing entries or any of its
+child.
+
+The class does not assume anything about its use, wether it will contain
+flex-box elements or any other funny stuff.
+
+*/
 
 .listing {
     margin: 0;
     padding: 0;
-    background: darken(@neutral-mid, 3%);
     list-style-type: none;
     overflow-x: hidden;
 
+    // background is darker than actual rows in order to separate them
+    // when the listing has a fixed height
+    background: darken(@neutral-mid, 3%);
+
     .listing-entry {
-        display: flex;
-        position: relative;
+        // normal and alternate row colors
         background: @neutral-mid;
 
         &:nth-child(2n) {
             background: @neutral-mid-light;
         }
 
-        &:hover {
-            background: @neutral-mid-lighter;
+        // optionnal hoverizable feature
+        // can be applied to the listing-entry itself or any of its children
+        .hoverizable, &.hoverizable {
+            &:hover {
+                background: @neutral-mid-lighter;
+            }
         }
 
+        // appearance transition
         &.add-remove-enter {
             overflow: hidden;
             height: 0;
@@ -35,6 +65,7 @@
             }
         }
 
+        // disappearance transition
         &.add-remove-leave {
             overflow: hidden;
             height: @listing-entry-height;
@@ -49,69 +80,19 @@
             }
         }
 
+        // XXX should not be there
         .entry-info {
             flex: 1;
             display: flex;
         }
 
-
-        .playlist-info {
-            background: darken(@neutral-mid, 6%);
-            display: flex;
-            align-items: flex-start;
-
-            .playlist-info-content {
-                line-height: @listing-entry-height;
-                background: @brand-info;
-                color: @black-90;
-                text-align: center;
-
-                .play-time {
-                    min-width: (2 * @listing-entry-height);
-
-                    i {
-                        padding-right: 0.5em;
-                    }
-                }
-
-                .playing {
-                    width: @listing-entry-height;
-                }
-
-                &.playlist-info-enter {
-                    max-width: 0;
-                    overflow: hidden;
-
-                    &.playlist-info-enter-active {
-                        max-width: (2 * @listing-entry-height);
-                        .transition(max-width 300ms ease-out);
-                    }
-                }
-
-                &.playlist-info-leave {
-                    max-width: (2 * @listing-entry-height);
-                    overflow: hidden;
-
-                    &.playlist-info-leave-active {
-                        max-width: 0;
-                        .transition(max-width 150ms ease-out);
-                    }
-                }
-            }
-        }
-
-        &:nth-child(2n) .playlist-info .playlist-info-content {
-            background: @brand-info-light;
-        }
-
-        &:hover .playlist-info .playlist-info-content {
-            background: @brand-info-lighter;
-        }
-
+        // manage controls
         .controls {
-            background: darken(@neutral-mid, 7%);
             .make-controls(@listing-entry-height, @listing-entry-control-font-size);
         }
+
+        // notification
+        position: relative;
 
         .notified {
             width: 100%;
@@ -121,6 +102,7 @@
             top: 0;
             left: 0;
 
+            // notification transition appearance
             &.notified-enter {
                 left: 100%;
 
@@ -130,6 +112,7 @@
                 }
             }
 
+            // notification transition disappearance
             &.notified-leave {
                 left: 0;
 
@@ -141,4 +124,3 @@
         }
     }
 }
-

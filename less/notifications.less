@@ -4,6 +4,21 @@
  * Notifications style file
  */
 
+/* Provides:
+
+`notification` class.
+
+*/
+
+/* `notification` class:
+
+The notification class defines the look and feel of notification messages.
+However, it does not define the way they appear or disappear (it should). The
+`notification` class has subclasses for colors.
+
+The class provides also alterations when used with the class `listing-entry`.
+
+*/
 
 .notification {
     color: @body-background;
@@ -36,7 +51,7 @@
 }
 
 // lighten notification when on even line of a list
-li:nth-child(2n) .notification {
+.listing-entry:nth-child(2n) .notification {
     .make-notification-line-even(@color-lighter) {
         background: @color-lighter;
     }

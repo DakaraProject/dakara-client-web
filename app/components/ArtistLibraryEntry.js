@@ -13,7 +13,7 @@ export default class ArtistLibraryEntry extends React.Component {
 
     render() {
         return (
-                <li className="library-entry listing-entry">
+                <li className="library-entry listing-entry listing-entry-artist hoverizable">
                     <div className="entry-info">
                         <div className="artist-view">
                             <div className="artist-name">

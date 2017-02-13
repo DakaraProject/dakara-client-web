@@ -2,6 +2,7 @@ import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import utils from '../dakara-utils';
 import SongDisplay from './SongDisplay';
+import SongExpandedDetails from './SongExpandedDetails';
 
 export default class SongLibraryEntry extends React.Component {
     state = {notification: null}
@@ -71,34 +72,50 @@ export default class SongLibraryEntry extends React.Component {
             );
         }
 
+
+        var songExpandedDetails;
+        if (this.props.expanded){
+            songExpandedDetails = (<SongExpandedDetails song={this.props.song} />)
+        }
+
         return (
-                <li className="library-entry listing-entry">
-                    <SongDisplay
-                        song={this.props.song}
-                        query={this.props.query}
-                        handleExpand={this.handleExpand}
-                        expanded={this.props.expanded}
-                    />
-                    <ReactCSSTransitionGroup
-                        component="div"
-                        className="playlist-info"
-                        transitionName="playlist-info"
-                        transitionEnterTimeout={300}
-                        transitionLeaveTimeout={150}
-                    >
-                        {timeOfPlay}
-                    </ReactCSSTransitionGroup>
-                    <div className="controls" id={"song-" + this.props.song.id}>
-                        <div className="add control primary" onClick={this.handleAdd}>
-                            <i className="fa fa-plus"></i>
+                <li className="library-entry listing-entry listing-entry-song">
+                    <div className="song-compact hoverizable">
+                        <SongDisplay
+                            song={this.props.song}
+                            query={this.props.query}
+                            handleExpand={this.handleExpand}
+                            expanded={this.props.expanded}
+                        />
+                        <ReactCSSTransitionGroup
+                            component="div"
+                            className="playlist-info"
+                            transitionName="playlist-info"
+                            transitionEnterTimeout={300}
+                            transitionLeaveTimeout={150}
+                        >
+                            {timeOfPlay}
+                        </ReactCSSTransitionGroup>
+                        <div className="controls" id={"song-" + this.props.song.id}>
+                            <div className="add control primary" onClick={this.handleAdd}>
+                                <i className="fa fa-plus"></i>
+                            </div>
                         </div>
+                        <ReactCSSTransitionGroup
+                            transitionName="notified"
+                            transitionEnterTimeout={300}
+                            transitionLeaveTimeout={150}
+                        >
+                            {message}
+                        </ReactCSSTransitionGroup>
                     </div>
                     <ReactCSSTransitionGroup
-                        transitionName="notified"
-                        transitionEnterTimeout={300}
-                        transitionLeaveTimeout={150}
+                        component="div"
+                        transitionName="expand-view"
+                        transitionEnterTimeout={600}
+                        transitionLeaveTimeout={300}
                     >
-                        {message}
+                        {songExpandedDetails}
                     </ReactCSSTransitionGroup>
                 </li>
         );

@@ -9,15 +9,15 @@ export default class ArtistEntry extends React.Component {
 
         var artist = this.props.artist;
         return (
-                <li>
-                    <div className="artist">
-                        <div className="artist-name">
-                            {artist.name}
-                        </div>
-                    </div>
-                    <div className="controls">
+                <li className="sublisting-entry">
+                    <div className="controls subcontrols">
                         <div className="control primary" onClick={this.handleSearchArtist}>
                             <i className="fa fa-search"></i>
+                        </div>
+                    </div>
+                    <div className="artist">
+                        <div className="name">
+                            {artist.name}
                         </div>
                     </div>
                 </li>

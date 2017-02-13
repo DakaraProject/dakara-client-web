@@ -4,15 +4,28 @@
  * Controls style file
  */
 
-.make-controls(@height, @font-size: 1em) {
-    .control {
-        .square(@height);
-        line-height: @height;
-        font-size: @font-size;
-    }
-}
+/* Provides:
+
+`controls` class.
+`make-controls` function.
+
+*/
+
+/* `controls` class:
+
+The `controls` class is a manager for buttons, i.e. controls, which change feel
+and color depending on hover and activation. If contained in a `listing-entry`
+class line, they also depend on their parent hover and alteration. The class
+does not set the size of the controls, this is performed by the `make-controls`
+function.
+
+It provides a `control` subclass for those elements, which has the basic
+properties. Extra subclasses are available for the color of the control.
+
+*/
 
 .controls {
+    // maybe not necessary
     display: flex;
 
     .control {
@@ -20,7 +33,7 @@
         text-align: center;
         color: @text-dark;
 
-        &:nth-child(n+2) {
+        &:not(:first-child) {
             margin-left: @gap-horizontal;
         }
 
@@ -37,7 +50,7 @@
             }
 
             &:not(.disabled):hover {
-                background: @color-activated;
+                background: @color-activated !important;
             }
         }
 
@@ -63,8 +76,10 @@
     }
 }
 
-// lighten control when on even line of a list
-li:nth-child(2n) .controls {
+// lighten control on even line of a `listing` list
+.listing-entry:nth-child(even) .controls:not(.subcontrols),
+.sublisting-entry:nth-child(even) .controls.subcontrols {
+// .listing-entry:nth-child(even) .controls {
     .control {
         .make-control-line-even(@color-normal, @color-disabled) {
             background: @color-normal;
@@ -97,7 +112,7 @@ li:nth-child(2n) .controls {
 }
 
 // lighten control when line hovered on a list
-li:hover .controls {
+.hoverizable:hover .controls {
     .control {
         .make-control-line-hover(@color-normal, @color-disabled) {
             &:not(.disabled) {
@@ -128,5 +143,20 @@ li:hover .controls {
         &.info {
             .make-control-line-hover(@brand-info-lighter, @brand-info-darkish);
         }
+    }
+}
+
+/* `make-controls` function:
+
+The function has to be called wherever a `controls` class is used. It defines
+the size of the controls.
+
+*/
+
+.make-controls(@height, @font-size: 1em) {
+    .control {
+        .square(@height);
+        line-height: @height;
+        font-size: @font-size;
     }
 }

@@ -26,10 +26,11 @@ export default class SongPreview extends React.Component {
         }
         var title = (<div className="title">{titleContent}</div>);
 
-        var detail;
-        if (song.detail && this.props.expanded) {
-            detail = (<div className="detail">{song.detail}</div>);
+        var version;
+        if (song.version) {
+            version = (<div className="version">{song.version} version</div>);
         }
+
         var tags;
         var songPreviewDetails;
         if (!this.props.expanded) {
@@ -41,7 +42,7 @@ export default class SongPreview extends React.Component {
                 <div className="song-preview" onClick={this.handleExpand}>
                     <div className="title-header">
                         {title}
-                        {detail}
+                        {version}
                     </div>
                     {songPreviewDetails}
                     {tags}
