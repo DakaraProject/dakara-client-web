@@ -1,10 +1,10 @@
-var React = require('react');
-var utils = require('../dakara-utils');
-var SongPreview = require('./SongPreview');
+import React from 'react';
+import utils from '../dakara-utils';
+import SongPreview from './SongPreview';
 
-var SongDisplay = React.createClass({
+export default class SongDisplay extends React.Component {
 
-    render: function() {
+    render() {
         var song = this.props.song;
 
         var songPreview = (<SongPreview
@@ -26,6 +26,4 @@ var SongDisplay = React.createClass({
                 </div>
             )
     }
-});
-
-module.exports = SongDisplay;
+}

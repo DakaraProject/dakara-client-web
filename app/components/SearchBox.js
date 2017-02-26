@@ -1,35 +1,33 @@
-var React = require('react');
+import React from 'react';
 
-var SearchBox = React.createClass({
-    getInitialState: function() {
-        return {
-            query: ""
-        };
-    },
+export default class SearchBox extends React.Component {
+    state = {
+        query: ""
+    }
 
-    handleQueryChange: function(e) {
+    handleQueryChange = (e) => {
         this.setState({query: e.target.value});
-    },
+    }
 
-    handleSubmit: function(e) {
+    handleSubmit = (e) => {
         e.preventDefault();
         this.handleSearch();
-    },
+    }
 
-    handleSearch: function() {
+    handleSearch = () => {
         this.props.setQuery(this.state.query);
-    },
+    }
 
-    handleClear: function() {
+    handleClear = () => {
         this.setState({query: ''});                
         this.props.setQuery('');
-    },
+    }
 
-    setQuery: function(query) {
+    setQuery = (query) => {
         this.setState({query: query});
-    },
+    }
 
-    render: function() {
+    render() {
         return (
             <form id="library-searchbox" onSubmit={this.handleSubmit}>
                 <div className="field">
@@ -50,6 +48,4 @@ var SearchBox = React.createClass({
             </form>
         );
     }
-});
-
-module.exports = SearchBox; 
+}

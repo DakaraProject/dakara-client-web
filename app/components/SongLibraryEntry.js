@@ -1,20 +1,21 @@
-var React = require('react');
-var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
-var utils = require('../dakara-utils');
-var SongDisplay = require('./SongDisplay');
-var SongExpandedDetails = require('./SongExpandedDetails');
+import React from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import utils from '../dakara-utils';
+import SongDisplay from './SongDisplay';
+import SongExpandedDetails from './SongExpandedDetails';
 
-var SongLibraryEntry = React.createClass({
-    handleExpand: function(expand) {
+export default class SongLibraryEntry extends React.Component {
+    state = {notification: null}
+
+    handleExpand = (expand) => {
         this.props.setExpandedId(expand ? this.props.song.id : null);
-    },
-    getInitialState: function() {
-        return {notification: null};
-    },
-    clearNotification: function() {
+    }
+
+    clearNotification = () => {
         this.setState({notification: null});
-    },
-    handleReponse: function(status){
+    }
+
+    handleReponse = (status) =>{
         if (status) {
             this.setState({
                 notification: {
@@ -32,8 +33,9 @@ var SongLibraryEntry = React.createClass({
             });
             setTimeout(this.clearNotification, 5000);
         }
-    },
-    handleAdd: function() {
+    }
+
+    handleAdd = () => {
         this.setState({
             notification: {
                 message: "Adding...",
@@ -43,8 +45,9 @@ var SongLibraryEntry = React.createClass({
         setTimeout(this.clearSuccess,2000);
         var songId = this.props.song.id;
         this.props.addToPlaylist(songId, this.handleReponse);
-    },
-    render: function() {
+    }
+
+    render() {
         var message;
         if(this.state.notification != null){
             message = <div className="notified"><div className={"notification " + this.state.notification.type}>{this.state.notification.message}</div></div>
@@ -117,6 +120,4 @@ var SongLibraryEntry = React.createClass({
                 </li>
         );
     }
-});
-
-module.exports = SongLibraryEntry;
+}

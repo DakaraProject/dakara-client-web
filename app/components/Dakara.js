@@ -1,31 +1,29 @@
-var $ = require('jquery');
-var React = require('react');
-var withRouter = require('react-router').withRouter;
-var Player = require('./Player');
-var Playlist = require('./Playlist');
-var Libraries = require('./Libraries');
-var utils = require('../dakara-utils');
+import $ from 'jquery';
+import React from 'react';
+import {withRouter} from 'react-router';
+import Player from './Player';
+import Playlist from './Playlist';
+import Libraries from './Libraries';
+import utils from '../dakara-utils';
 
-var Dakara = React.createClass({
-    getInitialState: function() {
-        return {
-            playerStatus: {
-                playlist_entry: null,
-                timing: 0
-            },
-            playlistEntries: {
-                count: 0,
-                results: []
-            },
-            userCmd: {
-                pause: false,
-                skip: false
-            },
-            playerErrorsOldId: []
-        };
-    },
+export default withRouter(class Dakara extends React.Component {
+    state = {
+        playerStatus: {
+            playlist_entry: null,
+            timing: 0
+        },
+        playlistEntries: {
+            count: 0,
+            results: []
+        },
+        userCmd: {
+            pause: false,
+            skip: false
+        },
+        playerErrorsOldId: []
+    }
 
-    sendPlayerCommand : function(cmd, callback) {
+    sendPlayerCommand  = (cmd, callback) => {
         $.ajax({
         url: utils.params.url + "playlist/player/manage/",
         dataType: 'json',
@@ -40,9 +38,9 @@ var Dakara = React.createClass({
             console.error(utils.params.url, status, err.toString() + xhr.responseText);
         }.bind(this)
         }); 
-    },
+    }
 
-    removeEntry : function(entryId, callback) {
+    removeEntry  = (entryId, callback) => {
         $.ajax({
         url: utils.params.url + "playlist/" + entryId + "/",
         dataType: 'json',
@@ -56,10 +54,10 @@ var Dakara = React.createClass({
             console.error(utils.params.url, status, err.toString() + xhr.responseText);
         }.bind(this)
         }); 
-    },
+    }
 
 
-    loadStatusFromServer: function() {
+    loadStatusFromServer = () => {
         $.ajax({
             url: utils.params.url + "playlist/player/status/",
             dataType: 'json',
@@ -107,9 +105,9 @@ var Dakara = React.createClass({
               console.error(utils.params.url, status, err.toString());
             }.bind(this)
         });
-    },
+    }
 
-    addPlayerErrors: function (data) {
+    addPlayerErrors =  (data) => {
         // add player errors to notification if they are new
         if (data) {
             var errorsId = [];
@@ -125,9 +123,9 @@ var Dakara = React.createClass({
             }
             this.setState({playerErrorsOldId: this.state.playerErrorsOldId.concat(errorsId)});
         }
-    },
+    }
 
-    addToPlaylist: function(songId, callback) {
+    addToPlaylist = (songId, callback) => {
         $.ajax({
             url: utils.params.url + "playlist/",
             dataType: 'json',
@@ -142,14 +140,14 @@ var Dakara = React.createClass({
                 console.error(utils.params.url, status, err.toString() + xhr.responseText);
             }.bind(this)
         }); 
-    },
+    }
 
-    componentDidMount: function() {
+    componentDidMount() {
       this.loadStatusFromServer();
       setInterval(this.loadStatusFromServer, utils.params.pollInterval);
-    },
+    }
 
-    setLibrary: function(library) {
+    setLibrary = (library) => {
         /* Switch the library tab
          * Reinitialize the library params
          *
@@ -162,9 +160,9 @@ var Dakara = React.createClass({
             page: 1,
             expanded: null
         })
-    },
+    }
 
-    setQuerySong: function(query) {
+    setQuerySong = (query) => {
         /* Switch current library to Song
          * Perform the search query
          * Reinitialize the the other library params
@@ -178,9 +176,9 @@ var Dakara = React.createClass({
             page: 1,
             expanded: null
         })
-    },
+    }
 
-    setQuerySongAndExpanded: function(query, expandedId) {
+    setQuerySongAndExpanded = (query, expandedId) => {
         /* Switch current library to Song
          * Perform the search query
          * Reinitialize the the other library params
@@ -194,9 +192,9 @@ var Dakara = React.createClass({
             page: 1,
             expanded: expandedId
         })
-    },
+    }
 
-    setQueryCurrent: function(query) {
+    setQueryCurrent = (query) => {
         /* Perform the search query
          * Reinitialize the the other library params
          *
@@ -208,9 +206,9 @@ var Dakara = React.createClass({
             page: 1,
             expanded: null
         })
-    },
+    }
 
-    setPage: function(page) {
+    setPage = (page) => {
         /* Change the page for the listing
          *
          * @param page
@@ -220,9 +218,9 @@ var Dakara = React.createClass({
             page: page,
             expanded: null
         })
-    },
+    }
 
-    setExpanded: function(id) {
+    setExpanded = (id) => {
         /* Expand the corresponding item, collapse any other expanded item
          *
          * @param id
@@ -232,9 +230,9 @@ var Dakara = React.createClass({
         this.pushQueryString({
             expanded: id
         })
-    },
+    }
 
-    pushQueryString: function(queryDict) {
+    pushQueryString = (queryDict) => {
         /* Change the query string of the URL
          *
          * @param queryDict
@@ -244,9 +242,9 @@ var Dakara = React.createClass({
         var query = $.extend(true, {}, this.props.location.query, queryDict);
         var location = $.extend(true, {}, this.props.location, {query: query});
         this.props.router.push(location);
-    },
+    }
 
-    getCurrentLibraryParams: function() {
+    getCurrentLibraryParams = () => {
         /* Return a dictionary containing the display parameters of the current library
          *
          * @return
@@ -260,9 +258,9 @@ var Dakara = React.createClass({
             page: this.props.location.query.page || 1,
             expanded: this.props.location.query.expanded || null
         }
-    },
+    }
 
-    getChildContext: function() {
+    getChildContext = () => {
         /* Populate the context
          */
         return {
@@ -272,9 +270,9 @@ var Dakara = React.createClass({
                 setQuerySongAndExpanded: this.setQuerySongAndExpanded
             }
         }
-    },
+    }
 
-    getNavigator: function() {
+    getNavigator = () => {
         /* Populate the navigator for passing through the props
          */
         return {
@@ -283,13 +281,13 @@ var Dakara = React.createClass({
             setPage: this.setPage,
             setExpanded: this.setExpanded
         }
-    },
+    }
 
-    childContextTypes: {
+    static childContextTypes = {
         navigator: React.PropTypes.object
-    },
+    }
 
-    render: function() {
+    render() {
         return (
             <div id="dakara">
                 <div id="playerbox">
@@ -317,6 +315,4 @@ var Dakara = React.createClass({
         );
     }
 
-}); 
-
-module.exports = withRouter(Dakara);
+})

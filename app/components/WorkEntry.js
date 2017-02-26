@@ -1,12 +1,12 @@
-var React = require('react');
+import React from 'react';
 
-var WorkEntry = React.createClass({
-    handleSearchWork: function() {
+export default class WorkEntry extends React.Component {
+    handleSearchWork = () => {
         var work = this.props.work.work;
         this.props.setQuery(work.work_type.query_name + ':""' + work.title + '""');
-    },
+    }
 
-    render: function() {
+    render() {
         var work = this.props.work;
         var title;
         if (this.props.query != undefined) {
@@ -62,6 +62,4 @@ var WorkEntry = React.createClass({
                 </li>
         );
     }
-});
-
-module.exports = WorkEntry;
+}

@@ -1,29 +1,31 @@
-var React = require('react');
-var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
-var utils = require('../dakara-utils');
-var SongDisplay = require('./SongDisplay');
+import React from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import utils from '../dakara-utils';
+import SongDisplay from './SongDisplay';
 
-var PlaylistEntry = React.createClass({
-    getInitialState: function() {
-        return {notification: null};
-    },
+export default class PlaylistEntry extends React.Component {
+    state = {notification: null}
 
-    contextTypes: {
-        navigator: React.PropTypes.object
-    },
-
-    clearNotification: function() {
+    clearNotification = () => {
         this.setState({notification: null});
-    },
+    }
 
-    handleExpand: function(expand) {
+    static contextTypes = {
+        navigator: React.PropTypes.object
+    }
+
+    clearNotification = () => {
+        this.setState({notification: null});
+    }
+
+    handleExpand = (expand) => {
         this.context.navigator.setQuerySongAndExpanded(
             "title:\"\"" + this.props.entry.song.title + "\"\"",
             this.props.entry.song.id
         );
-    },
+    }
 
-    handleReponse: function(status){
+    handleReponse = (status) =>{
         if (status) {
            this.setState({
                 notification: {
@@ -40,8 +42,9 @@ var PlaylistEntry = React.createClass({
             });
             setTimeout(this.clearNotification, 5000);
         }
-    },
-    handleRemove: function(e){
+    }
+
+    handleRemove = (e) =>{
        this.setState({
             notification: {
                 message: "Removing...",
@@ -50,9 +53,9 @@ var PlaylistEntry = React.createClass({
         });
         this.props.removeEntry(this.props.entry.id, this.handleReponse);
 
-    },
+    }
 
-    render: function(){
+    render(){
         var message;
         if(this.state.notification != null){
             message = <div className="notified"><div className={"notification " + this.state.notification.type}>{this.state.notification.message}</div></div>
@@ -93,6 +96,4 @@ var PlaylistEntry = React.createClass({
             </li>
         );
     }
-});
-
-module.exports = PlaylistEntry;
+}

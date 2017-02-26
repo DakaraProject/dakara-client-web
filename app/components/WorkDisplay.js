@@ -1,8 +1,8 @@
-var React = require('react');
-var Highlighter = require('react-highlight-words').default;
+import React from 'react';
+import Highlighter from 'react-highlight-words';
 
-var WorkDisplay = React.createClass({
-    render: function() {
+export default class WorkDisplay extends React.Component {
+    render() {
         var w = this.props.work;
         var title;
         if (this.props.query != undefined) {
@@ -42,6 +42,4 @@ var WorkDisplay = React.createClass({
                 </div>
             )
     }
-});
-
-module.exports = WorkDisplay;
+}

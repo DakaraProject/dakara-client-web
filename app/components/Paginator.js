@@ -1,40 +1,40 @@
-var React = require('react');
+import React from 'react';
 
-var Paginator = React.createClass({
+export default class Paginator extends React.Component {
 
-    hasNext: function() {
+    hasNext = () => {
         return this.props.current != this.props.last;
-    },
+    }
 
-    hasPrevious: function() {
+    hasPrevious = () => {
         return this.props.current != 1;
-    },
+    }
 
-    handleNext: function() {
+    handleNext = () => {
         if (this.hasNext()) {
             this.props.setCurrentPage(this.props.current + 1);
         }
-    },
+    }
 
-    handlePrevious: function() {
+    handlePrevious = () => {
         if (this.hasPrevious()) {
             this.props.setCurrentPage(this.props.current - 1);
         }
-    },
+    }
 
-    handleFirst: function() {
+    handleFirst = () => {
         if (this.hasPrevious()) {
             this.props.setCurrentPage(1);
         }
-    },
+    }
 
-    handleLast: function() {
+    handleLast = () => {
         if (this.hasNext()) {
             this.props.setCurrentPage(this.props.last);
         }
-    },
+    }
 
-    render: function() {
+    render() {
         var hasNext = this.hasNext();
         var hasPrevious = this.hasPrevious();
 
@@ -55,6 +55,4 @@ var Paginator = React.createClass({
             </div>
         );
     }
-});
-
-module.exports = Paginator;
+}

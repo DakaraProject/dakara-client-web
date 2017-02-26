@@ -1,9 +1,9 @@
-var React = require('react');
-var Highlighter = require('react-highlight-words').default;
-var WorkDisplay = require('./WorkDisplay');
+import React from 'react';
+import Highlighter from 'react-highlight-words';
+import WorkDisplay from './WorkDisplay';
 
-var SongPreviewDetails = React.createClass({
-    render: function() {
+export default class SongPreviewDetails extends React.Component {
+    render() {
         var song = this.props.song;
         var work;
         if (song.works.length > 0) {
@@ -47,6 +47,4 @@ var SongPreviewDetails = React.createClass({
                 </div>
             )
     }
-});
-
-module.exports = SongPreviewDetails;
+}
