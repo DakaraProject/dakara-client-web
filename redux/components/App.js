@@ -1,23 +1,26 @@
 import React, { Component } from 'react'
 import SongPageList from '../containers/SongPageList'
-import { connect } from 'react-redux'
-import { loadSongs } from '../actions'
+import LoginForm from '../containers/LoginForm'
 
 class App extends Component {
-    componentDidMount() {
-        this.props.loadSongs()
-    }
-
     render() {
-        return (
-          <div>
-              <SongPageList />
-          </div>
-        )
+        if (this.props.isLoggedIn) {
+            return (
+                <div>
+                    <SongPageList />
+                    <button onClick={this.props.logout}>
+                        Logout
+                    </button>
+                </div>
+                )
+        } else {
+            return (
+                <div>
+                    <LoginForm />
+                </div>
+                )
+        }
     }
 }
 
-export default connect(() => ({}), {
-  loadSongs,
-})(App)
-
+export default App
