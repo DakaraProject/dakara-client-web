@@ -12,7 +12,6 @@ const fetchSongs = (pageNumber, token) => ({
   [CALL_API]: {
       endpoint: `/library/songs/?page=${pageNumber}`,
       method: 'GET',
-      headers: {Authorization: 'Token ' + token},
       types: [SONGS_REQUEST, SONGS_SUCCESS, SONGS_FAILURE]
     }
 })
@@ -49,8 +48,7 @@ const sendLoginRequest = (username, password) => ({
   [CALL_API]: {
       endpoint: '/api-token-auth/',
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({username, password}),
+      json: {username, password},
       types: [LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE]
     }
 })

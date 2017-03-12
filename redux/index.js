@@ -7,11 +7,13 @@ import { Provider } from 'react-redux'
 import reducer from  './reducers'
 import ReduxThunk from 'redux-thunk'
 import persistState from 'redux-localstorage'
+import apiJsonTokenMiddleware from './middleware/apiJsonToken'
 
 const store = createStore(
     reducer,
     compose(
         applyMiddleware(
+            apiJsonTokenMiddleware,
             ReduxThunk,
             apiMiddleware
         ),
