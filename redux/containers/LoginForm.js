@@ -25,6 +25,7 @@ let LoginForm = ({ dispatch }) => {
         </div>
     )
 }
+
 LoginForm = connect()(LoginForm)
 
 export default LoginForm

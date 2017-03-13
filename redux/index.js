@@ -26,4 +26,4 @@ ReactDOM.render(
         <AppPage />
     </Provider>,
     document.getElementById('content')
-);
+)

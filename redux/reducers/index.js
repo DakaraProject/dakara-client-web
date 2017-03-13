@@ -39,10 +39,13 @@ function libraryEntries(state = defaultLibraryEntries, action) {
 }
 
 
+/**
+ * Root reducer
+ */
+
 const rootReducer = combineReducers({
     token,
     libraryEntries
 })
-
 
 export default rootReducer

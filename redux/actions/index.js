@@ -1,4 +1,4 @@
-import { CALL_API } from 'redux-api-middleware';
+import { CALL_API } from 'redux-api-middleware'
 
 /**
  * Get a page of songs
@@ -9,11 +9,11 @@ export const SONGS_SUCCESS = 'SONGS_SUCCESS'
 export const SONGS_FAILURE = 'SONGS_FAILURE'
 
 const fetchSongs = (pageNumber, token) => ({
-  [CALL_API]: {
-      endpoint: `/library/songs/?page=${pageNumber}`,
-      method: 'GET',
-      types: [SONGS_REQUEST, SONGS_SUCCESS, SONGS_FAILURE]
-    }
+    [CALL_API]: {
+            endpoint: `/library/songs/?page=${pageNumber}`,
+            method: 'GET',
+            types: [SONGS_REQUEST, SONGS_SUCCESS, SONGS_FAILURE]
+        }
 })
 
 /**
@@ -45,12 +45,12 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_FAILURE = 'LOGIN_FAILURE'
 
 const sendLoginRequest = (username, password) => ({
-  [CALL_API]: {
-      endpoint: '/api-token-auth/',
-      method: 'POST',
-      json: {username, password},
-      types: [LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE]
-    }
+    [CALL_API]: {
+            endpoint: '/api-token-auth/',
+            method: 'POST',
+            json: {username, password},
+            types: [LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE]
+        }
 })
 
 /**

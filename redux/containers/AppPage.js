@@ -3,7 +3,7 @@ import App from '../components/App'
 import { logout } from '../actions'
 
 const mapStateToProps = (state) => ({
-  isLoggedIn: !!state.token
+    isLoggedIn: !!state.token
 })
 
 const AppPage = connect(
