@@ -8,7 +8,7 @@ const mapStateToProps = (state) => ({
 
 const SongPageList = connect(
     mapStateToProps,
-    {loadSongs}
+    { loadSongs }
 )(SongsList)
 
 export default SongPageList

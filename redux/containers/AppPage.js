@@ -8,7 +8,7 @@ const mapStateToProps = (state) => ({
 
 const AppPage = connect(
     mapStateToProps,
-    {logout}
+    { logout }
 )(App)
 
 export default AppPage
