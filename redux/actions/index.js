@@ -1,18 +1,18 @@
 import { CALL_API } from 'redux-api-middleware'
 
 /**
- * Get a page of songs
+ * Get a page of libraryEntries
  */
 
-export const SONGS_REQUEST = 'SONGS_REQUEST'
-export const SONGS_SUCCESS = 'SONGS_SUCCESS'
-export const SONGS_FAILURE = 'SONGS_FAILURE'
+export const LIBRARY_REQUEST = 'LIBRARY_REQUEST'
+export const LIBRARY_SUCCESS = 'LIBRARY_SUCCESS'
+export const LIBRARY_FAILURE = 'LIBRARY_FAILURE'
 
-const fetchSongs = (pageNumber, token) => ({
+const fetchLibraryEntries = (url) => ({
     [CALL_API]: {
-            endpoint: `/api/library/songs/?page=${pageNumber}`,
+            endpoint: url,
             method: 'GET',
-            types: [SONGS_REQUEST, SONGS_SUCCESS, SONGS_FAILURE]
+            types: [LIBRARY_REQUEST, LIBRARY_SUCCESS, LIBRARY_FAILURE]
         }
 })
 
@@ -20,19 +20,17 @@ const fetchSongs = (pageNumber, token) => ({
  * Load a page of songs from server
  * @param pageNumber page to load
  */
-export const loadSongs = (pageNumber = 1) => (dispatch, getState) => {
-    const state = getState()
+export const loadLibraryEntries = (libraryType = "songs", workType, pageNumber = 1) => (dispatch, getState) => {
+/*    const state = getState()
     if(pageNumber == state.libraryEntries.current) {
         return null
-    }
+    }*/
 
-    // check token exists
-    const token = state.token
-    if (!token) {
-        return null
+    let url = `/api/library/${libraryType}/?page=${pageNumber}`
+    if (workType) {
+        url += `&type=${workType}`
     }
-
-    return dispatch(fetchSongs(pageNumber, token))
+    return dispatch(fetchLibraryEntries(url))
 }
 
 

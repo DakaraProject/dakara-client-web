@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import { browserHistory } from 'react-router';
-import SongPageList from '../containers/SongPageList'
-import LoginForm from '../containers/LoginForm'
+import { browserHistory, Link } from 'react-router';
 
 class App extends Component {
     componentWillMount() {
@@ -19,10 +17,14 @@ class App extends Component {
     render() {
         return (
             <div>
-                <SongPageList />
                 <button onClick={this.props.logout}>
                     Logout
                 </button>
+                <Link to="/library">Library</Link>
+                <Link to="/user">User</Link>
+
+                <div>player</div>
+                {this.props.children}
             </div>
         )
     }

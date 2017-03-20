@@ -1,4 +1,4 @@
-import { SONGS_REQUEST, SONGS_SUCCESS, SONGS_FAILURE } from '../actions'
+import { LIBRARY_REQUEST, LIBRARY_SUCCESS, LIBRARY_FAILURE } from '../actions'
 import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from '../actions'
 import { LOGOUT } from '../actions'
 import { combineReducers } from 'redux'
@@ -31,7 +31,7 @@ const defaultLibraryEntries =  {
 }
 
 function libraryEntries(state = defaultLibraryEntries, action) {
-    if (action.type === SONGS_SUCCESS) {
+    if (action.type === LIBRARY_SUCCESS) {
         return action.payload;
     } else {
         return state;

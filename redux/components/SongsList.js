@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import Song from './Song'
 
 class SongsList extends Component {
-    componentDidMount() {
-        this.props.loadSongs()
+    componentWillMount() {
+        this.props.loadSongs("songs")
     }
 
     render() {
