@@ -3,7 +3,22 @@ import Song from './Song'
 
 class SongsList extends Component {
     componentWillMount() {
-        this.props.loadSongs("songs")
+        this.refreshEntries()
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.location.query.page != prevProps.location.query.page) {
+            this.refreshEntries()
+        }
+    }
+
+    refreshEntries = () => {
+        const pageNumber = this.props.location.query.page
+        if (pageNumber) {
+            this.props.loadSongs("songs", {pageNumber})
+        } else {
+            this.props.loadSongs("songs")
+        }
     }
 
     render() {

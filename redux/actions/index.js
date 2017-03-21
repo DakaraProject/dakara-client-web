@@ -22,16 +22,12 @@ const fetchLibraryEntries = (url) => ({
  * @param workType precise type of library entries when it is a work
  * @param pageNumber page to load
  */
-export const loadLibraryEntries = (libraryType = "songs", workType, pageNumber = 1) => (dispatch, getState) => {
-/*    const state = getState()
-    if(pageNumber == state.libraryEntries.current) {
-        return null
-    }*/
-
+export const loadLibraryEntries = (libraryType = "songs", { workType, pageNumber = 1 } = {}) => (dispatch, getState) => {
     let url = `/api/library/${libraryType}/?page=${pageNumber}`
     if (workType) {
         url += `&type=${workType}`
     }
+
     return dispatch(fetchLibraryEntries(url))
 }
 

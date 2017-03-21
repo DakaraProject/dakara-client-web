@@ -10,7 +10,7 @@ class WorksList extends Component {
         // since there is only one `WorksList` component, it is not unmounted
         // when navigating through work types, so we have to watch when the
         // component is updated wether we have jumped to another work type
-        if(this.props.workType != prevProps.workType) {
+        if (this.props.workType != prevProps.workType || this.props.location.query.page != prevProps.location.query.page) {
             this.refreshEntries()
         }
     }
@@ -18,8 +18,14 @@ class WorksList extends Component {
     refreshEntries = () => {
         // we have to get the singular form of the new work type
         // the plural form is given by the URL as a parameter
-        const workTypeSingular = this.props.workType.slice(0, -1);
-        this.props.loadWorks("works", workTypeSingular)
+        const workType = this.props.workType.slice(0, -1);
+
+        const pageNumber = this.props.location.query.page
+        if (pageNumber) {
+            this.props.loadWorks("works", {workType, pageNumber})
+        } else {
+            this.props.loadWorks("works", {workType})
+        }
     }
 
     render() {
