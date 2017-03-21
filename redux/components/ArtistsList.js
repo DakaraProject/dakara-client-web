@@ -7,18 +7,26 @@ class ArtistsList extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.location.query.page != prevProps.location.query.page) {
+        if (this.props.location.query.page != prevProps.location.query.page ||
+            this.props.location.query.search != prevProps.location.query.search) {
             this.refreshEntries()
         }
     }
 
     refreshEntries = () => {
         const pageNumber = this.props.location.query.page
+        const query = this.props.location.query.search
+        let args = {}
+
         if (pageNumber) {
-            this.props.loadArtists("artists", pageNumber)
-        } else {
-            this.props.loadArtists("artists")
+            args.pageNumber = pageNumber
         }
+
+        if (query) {
+            args.query = query
+        }
+
+        this.props.loadArtists("artists", args)
     }
 
     render() {
