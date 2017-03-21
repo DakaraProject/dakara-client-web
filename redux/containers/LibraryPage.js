@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { browserHistory, Link } from 'react-router'
-import SongPageList from './SongPageList'
+import SongsPageList from './SongsPageList'
 
 class App extends Component {
     render() {

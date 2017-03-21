@@ -17,7 +17,9 @@ const fetchLibraryEntries = (url) => ({
 })
 
 /**
- * Load a page of songs from server
+ * Load a page of library entries from server
+ * @param libraryType type of library entries
+ * @param workType precise type of library entries when it is a work
  * @param pageNumber page to load
  */
 export const loadLibraryEntries = (libraryType = "songs", workType, pageNumber = 1) => (dispatch, getState) => {

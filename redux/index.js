@@ -5,7 +5,7 @@ import AppPage from './containers/AppPage'
 import LoginForm from './containers/LoginForm'
 import User from './components/User'
 import LibraryPage from './containers/LibraryPage'
-import SongPageList from './containers/SongPageList'
+import SongsPageList from './containers/SongsPageList'
 import ArtistsPageList from './containers/ArtistsPageList'
 import WorksPageList from './containers/WorksPageList'
 import { createStore, applyMiddleware, compose } from 'redux'
@@ -35,7 +35,7 @@ ReactDOM.render(
                 <IndexRedirect to="library" />
                 <Route path="library" component={LibraryPage}>
                     <IndexRedirect to="songs" />
-                    <Route path="songs" component={SongPageList}/>
+                    <Route path="songs" component={SongsPageList}/>
                     <Route path="artists" component={ArtistsPageList}/>
                     <Route path=":workType" component={WorksPageList}/>
                 </Route>

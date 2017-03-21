@@ -6,9 +6,9 @@ const mapStateToProps = (state) => ({
     songs: state.libraryEntries.results
 })
 
-const SongPageList = connect(
+const SongsPageList = connect(
     mapStateToProps,
     { loadSongs: loadLibraryEntries }
 )(SongsList)
 
-export default SongPageList
+export default SongsPageList
