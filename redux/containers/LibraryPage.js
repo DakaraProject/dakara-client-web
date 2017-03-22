@@ -2,8 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory, Link } from 'react-router'
 import SongsPageList from './SongsPageList'
+import { loadWorkTypes } from '../actions'
 
 class LibraryPage extends Component {
+    componentWillMount() {
+        this.props.loadWorkTypes()
+    }
+
     render() {
 
         // you MUST provide the current `pathname`, otherwize (when providing
@@ -18,6 +23,20 @@ class LibraryPage extends Component {
         // search bar
         const queryFromUrl = this.props.location.query.search
         let query
+
+        // Work Types links
+        const workTypesLinks = this.props.workTypes.map(function(workType) {
+                    return (
+                            <li>
+                                <Link
+                                    to={"/library/"+workType.query_name+"s"}
+                                    activeStyle={{ color: 'red' }}
+                                >
+                                    {workType.name+"s"}
+                                </Link>
+                            </li>
+                           )
+        })
 
         return (
             <div>
@@ -35,8 +54,8 @@ class LibraryPage extends Component {
                 <ul>
                     <li><Link to="/library/songs" activeStyle={{ color: 'red' }}>Songs</Link></li>
                     <li><Link to="/library/artists" activeStyle={{ color: 'red' }}>Artists</Link></li>
-                    <li><Link to="/library/animes" activeStyle={{ color: 'red' }}>Animes</Link></li>
-                    <li><Link to="/library/games" activeStyle={{ color: 'red' }}>Games</Link></li>
+                    {workTypesLinks}
+
                 </ul>
                 {this.props.children}
                 <nav>
@@ -52,13 +71,15 @@ class LibraryPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    currentPageNumber: state.libraryEntries.current,
-    entriesCount: state.libraryEntries.count,
-    lastPageNumber: state.libraryEntries.last
+    currentPageNumber: state.library.entries.current,
+    entriesCount: state.library.entries.count,
+    lastPageNumber: state.library.entries.last,
+    workTypes: state.library.workTypes.results
 })
 
 LibraryPage = connect(
-    mapStateToProps
+    mapStateToProps,
+    { loadWorkTypes }
 )(LibraryPage)
 
 export default LibraryPage

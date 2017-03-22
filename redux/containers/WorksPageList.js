@@ -3,7 +3,7 @@ import WorksList from '../components/WorksList'
 import { loadLibraryEntries } from '../actions'
 
 const mapStateToProps = (state, ownProps) => ({
-    works: state.libraryEntries.results,
+    works: state.library.entries.results,
     workType: ownProps.params.workType
 })
 

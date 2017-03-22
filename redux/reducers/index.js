@@ -1,5 +1,6 @@
 import { LIBRARY_REQUEST, LIBRARY_SUCCESS, LIBRARY_FAILURE } from '../actions'
 import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from '../actions'
+import { WORKTYPES_REQUEST, WORKTYPES_SUCCESS, WORKTYPES_FAILURE } from '../actions'
 import { LOGOUT } from '../actions'
 import { combineReducers } from 'redux'
 
@@ -30,7 +31,7 @@ const defaultLibraryEntries =  {
         results: [],
 }
 
-function libraryEntries(state = defaultLibraryEntries, action) {
+function entries(state = defaultLibraryEntries, action) {
     if (action.type === LIBRARY_SUCCESS) {
         return action.payload;
     } else {
@@ -38,6 +39,30 @@ function libraryEntries(state = defaultLibraryEntries, action) {
     }
 }
 
+/**
+ * Work Types 
+ */
+
+const defaultWorkTypes =  {
+        results: []
+}
+
+function workTypes(state = defaultWorkTypes, action) {
+    if (action.type === WORKTYPES_SUCCESS) {
+        return action.payload;
+    } else {
+        return state;
+    }
+}
+
+/**
+ * Library related state
+ */
+
+const library = combineReducers({
+        entries,
+        workTypes
+})
 
 /**
  * Root reducer
@@ -45,7 +70,7 @@ function libraryEntries(state = defaultLibraryEntries, action) {
 
 const rootReducer = combineReducers({
     token,
-    libraryEntries
+    library
 })
 
 export default rootReducer

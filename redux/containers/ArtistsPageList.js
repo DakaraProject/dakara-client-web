@@ -3,7 +3,7 @@ import ArtistsList from '../components/ArtistsList'
 import { loadLibraryEntries } from '../actions'
 
 const mapStateToProps = (state) => ({
-    artists: state.libraryEntries.results
+    artists: state.library.entries.results
 })
 
 const ArtistPageList = connect(

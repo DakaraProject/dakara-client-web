@@ -65,6 +65,29 @@ export const login = (username, password) => (dispatch) => {
     return dispatch(sendLoginRequest(username, password))
 }
 
+/**
+ * Get work types 
+ */
+
+export const WORKTYPES_REQUEST = 'WORKTYPES_REQUEST'
+export const WORKTYPES_SUCCESS = 'WORKTYPES_SUCCESS'
+export const WORKTYPES_FAILURE = 'WORKTYPES_FAILURE'
+
+const sendWorkTypesRequest = () => ({
+    [CALL_API]: {
+            endpoint: '/api/library/work-types/',
+            method: 'GET',
+            types: [WORKTYPES_REQUEST, WORKTYPES_SUCCESS, WORKTYPES_FAILURE]
+        }
+})
+
+/**
+ * Load work types from the server 
+ */
+export const loadWorkTypes = () => (dispatch) => {
+    return dispatch(sendWorkTypesRequest())
+}
+
 
 /**
  * Logout
