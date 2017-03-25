@@ -23,6 +23,7 @@ class LoginForm extends React.Component {
 
         return (
             <div>
+                <p>{this.props.message}</p>
                 <form onSubmit={e => {
                     e.preventDefault()
                     login(username.value, password.value)
@@ -43,7 +44,8 @@ class LoginForm extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    isLoggedIn: !!state.token
+    isLoggedIn: !!state.token,
+    message: state.loginPage.message
 })
 
 LoginForm = connect(

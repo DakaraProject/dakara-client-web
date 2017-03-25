@@ -60,8 +60,58 @@ function workTypes(state = defaultWorkTypes, action) {
  */
 
 const library = combineReducers({
-        entries,
-        workTypes
+    entries,
+    workTypes
+})
+
+
+/**
+ * Login Page message
+ */
+
+function loginMessage(state = null, action) {
+    const payload = action.payload
+    if (action.type === LOGIN_FAILURE) {
+        if (action.error = true && payload.name == "ApiError") {
+            const errors = payload.response.non_field_errors
+            if(errors && errors.length > 0) {
+                return errors[0]
+            } else {
+                return payload.message
+            } 
+        } else {
+            return "Unknown error."
+        }
+    } else if (action.type == LOGIN_REQUEST && action.error == true && payload.name == "RequestError") {
+        return "Unable to contact server."
+    } else if (action.type == LOGIN_SUCCESS || action.type == LOGIN_FAILURE) {
+        return null 
+    }
+
+    return state
+}
+
+/**
+ * Login Page loading 
+ */
+
+function loginLoading(state = false, action) {
+    if (action.type === LOGIN_REQUEST) {
+        return !action.error
+    } else if (action.type == LOGIN_SUCCESS || action.type == LOGIN_FAILURE) {
+        return false
+    }
+
+    return state
+}
+
+/**
+ * Login Page state
+ */
+
+const loginPage = combineReducers({
+    message: loginMessage,
+    isLoading: loginLoading
 })
 
 /**
@@ -70,7 +120,8 @@ const library = combineReducers({
 
 const rootReducer = combineReducers({
     token,
-    library
+    library,
+    loginPage
 })
 
 export default rootReducer
