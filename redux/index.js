@@ -36,9 +36,9 @@ ReactDOM.render(
                 <Route component={LoggedinPage}>
                     <IndexRedirect to="library" />
                     <Route path="library" component={LibraryPage}>
-                        <IndexRedirect to="songs" />
-                        <Route path="songs" component={LibraryListSongPage}/>
-                        <Route path="artists" component={LibraryListArtistPage}/>
+                        <IndexRedirect to="song" />
+                        <Route path="song" component={LibraryListSongPage}/>
+                        <Route path="artist" component={LibraryListArtistPage}/>
                         <Route path=":workType" component={LibraryListWorkPage}/>
                     </Route>
                     <Route path="user" component={User}/>

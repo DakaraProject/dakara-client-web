@@ -24,13 +24,7 @@ class LibraryListAbstract extends Component {
     }
 
     refreshEntries = () => {
-        // we have to get the singular form of the new work type
-        // the plural form is given by the URL as a parameter
-        let workType = this.props.workType
-        if (workType) {
-            workType = workType.slice(0, -1)
-        }
-
+        const workType = this.props.workType
         const pageNumber = this.props.location.query.page
         const query = this.props.location.query.search
         let args = {workType}

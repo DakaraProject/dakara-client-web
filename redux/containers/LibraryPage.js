@@ -16,7 +16,7 @@ class LibraryTab extends Component {
         }
         return (
                 <Link
-                    to={"/library/" + props.queryName + "s"}
+                    to={"/library/" + props.queryName }
                     className={"library-tab " + (props.extraClassName || "")}
                     activeClassName="active"
                 >
