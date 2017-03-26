@@ -4,6 +4,7 @@ node_modules
 # Vim stuff
 *.sw[po]
 *.vim
+*.lvimrc
 
 # Backups
 *~
