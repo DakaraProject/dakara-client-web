@@ -27,7 +27,7 @@
     "less-loader": "^2.2.2",
     "redux-devtools": "^3.3.2",
     "style-loader": "^0.13.0",
-    "webpack": "^1.12.14"
+    "webpack": "^2.3.2"
   },
   "dependencies": {
     "babel-preset-react": "^6.5.0",
