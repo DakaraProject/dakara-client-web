@@ -1,14 +1,14 @@
 import { connect } from 'react-redux'
-import SongsList from '../components/SongsList'
+import LibraryListSong from '../components/LibraryListSong'
 import { loadLibraryEntries } from '../actions'
 
 const mapStateToProps = (state) => ({
     songs: state.library.entries.results
 })
 
-const SongsPageList = connect(
+const LibraryListSongPage = connect(
     mapStateToProps,
-    { loadSongs: loadLibraryEntries }
-)(SongsList)
+    { loadLibraryEntries }
+)(LibraryListSong)
 
-export default SongsPageList
+export default LibraryListSongPage

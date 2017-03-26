@@ -1,15 +1,14 @@
 import { connect } from 'react-redux'
-import App from '../components/App'
+import Header from '../components/Header'
 import { logout } from '../actions'
 
 const mapStateToProps = (state) => ({
     isLoggedIn: !!state.token
 })
 
-const AppPage = connect(
+const HeaderPage = connect(
     mapStateToProps,
     { logout }
-)(App)
+)(Header)
 
-export default AppPage
-
+export default HeaderPage

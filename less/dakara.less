@@ -40,12 +40,15 @@ mark {
     color: @text-dark;
 }
 
+body {
+    background: @body-background;
+    color: @text-light;
+}
+
 html {
-    body {
+    #main {
         .center-block();
         max-width: @page-width;
-        background: @body-background;
-        color: @text-light;
         display: flex;
         min-height: 100vh;
         flex-direction: column;
@@ -55,17 +58,6 @@ html {
         #playerbox,
         #libraries {
             .box-shadow(0 0 20px fade(black, 50%));
-        }
-
-        header {
-            background: @black-80;
-            padding: @gap-vertical @gap-horizontal;
-
-            h1 {
-                margin: 0;
-                font-size: 50pt;
-                font-weight: 100;
-            }
         }
 
         #content {
@@ -98,3 +90,4 @@ html {
 @import "notifications.less";
 @import "playerbox.less";
 @import "libraries.less";
+@import "header.less";

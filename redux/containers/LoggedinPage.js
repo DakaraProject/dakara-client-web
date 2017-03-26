@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { browserHistory, Link } from 'react-router';
+import { browserHistory } from 'react-router';
+import { connect } from 'react-redux'
 
-class App extends Component {
+class LoggedinPage extends Component {
     componentWillMount() {
         if (!this.props.isLoggedIn) {
             browserHistory.push("/login")
@@ -17,12 +18,6 @@ class App extends Component {
     render() {
         return (
             <div>
-                <button onClick={this.props.logout}>
-                    Logout
-                </button>
-                <Link to="/library">Library</Link>
-                <Link to="/user">User</Link>
-
                 <div>player</div>
                 {this.props.children}
             </div>
@@ -30,4 +25,13 @@ class App extends Component {
     }
 }
 
-export default App
+const mapStateToProps = (state) => ({
+    isLoggedIn: !!state.token
+})
+
+LoggedinPage = connect(
+    mapStateToProps
+)(LoggedinPage)
+
+export default LoggedinPage
+

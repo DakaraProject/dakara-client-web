@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory, Link } from 'react-router'
-import SongsPageList from './SongsPageList'
 import { loadWorkTypes } from '../actions'
 
 class LibraryPage extends Component {

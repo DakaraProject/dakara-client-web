@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
-import Work from './Work'
 
-class WorksList extends Component {
+class LibraryListAbstract extends Component {
     componentDidMount() {
         this.refreshEntries()
     }
 
     componentDidUpdate(prevProps) {
-        // since there is only one `WorksList` component, it is not unmounted
+        // since there is only one `LibraryListWork` component, it is not unmounted
         // when navigating through work types, so we have to watch when the
         // component is updated wether we have jumped to another work type
         if (this.props.workType != prevProps.workType ||
@@ -17,10 +16,20 @@ class WorksList extends Component {
         }
     }
 
+    /**
+     * To be override by the child class
+     * to return library name
+     */
+    getLibraryName() {
+    }
+
     refreshEntries = () => {
         // we have to get the singular form of the new work type
         // the plural form is given by the URL as a parameter
-        const workType = this.props.workType.slice(0, -1);
+        let workType = this.props.workType
+        if (workType) {
+            workType = workType.slice(0, -1)
+        }
 
         const pageNumber = this.props.location.query.page
         const query = this.props.location.query.search
@@ -34,22 +43,8 @@ class WorksList extends Component {
             args.query = query
         }
 
-        this.props.loadWorks("works", args)
-    }
-
-    render() {
-        const works = this.props.works
-        return (
-              <ul>
-                {works.map(work =>
-                  <Work
-                    key={work.id}
-                    work={work}
-                  />
-                )}
-              </ul>
-              )
+        this.props.loadLibraryEntries(this.getLibraryName(), args)
     }
 }
 
-export default WorksList
+export default LibraryListAbstract

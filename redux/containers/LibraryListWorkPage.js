@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import WorksList from '../components/WorksList'
+import LibraryListWork from '../components/LibraryListWork'
 import { loadLibraryEntries } from '../actions'
 
 const mapStateToProps = (state, ownProps) => ({
@@ -7,9 +7,9 @@ const mapStateToProps = (state, ownProps) => ({
     workType: ownProps.params.workType
 })
 
-const WorkPageList = connect(
+const LibraryListWorkPage = connect(
     mapStateToProps,
-    { loadWorks: loadLibraryEntries }
-)(WorksList)
+    { loadLibraryEntries }
+)(LibraryListWork)
 
-export default WorkPageList
+export default LibraryListWorkPage
