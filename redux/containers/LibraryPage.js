@@ -92,7 +92,11 @@ class LibraryPage extends Component {
                                 placeholder="Type something here..."
                             />
                             <div className="controls">
-                                <div className="clear control" onClick={this.handleClear}>
+                                <div className="clear control" onClick={e => {
+                                        query.value = ""
+                                        browserHistory.push({pathname})
+                                    }
+                                }>
                                     <i className="fa fa-times"></i>
                                 </div>
                             </div>
