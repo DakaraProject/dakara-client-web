@@ -18,7 +18,7 @@ class LoggedinPage extends Component {
     render() {
         return (
             <div>
-                <div>player</div>
+                <div id="playerbox">player</div>
                 {this.props.children}
             </div>
         )
