@@ -6,6 +6,7 @@ import { CALL_API } from 'redux-api-middleware'
  * login request will go without it).
  * It adds also a support for JSON data passed as object. The object is
  * converted into string and an appropriate header for content type is added.
+ * It adds a meta to the types.
  */
 const apiJsonTokenMiddleware = ({getState, dispatch}) => next => action => {
     let call_api = action[CALL_API]
@@ -32,6 +33,24 @@ const apiJsonTokenMiddleware = ({getState, dispatch}) => next => action => {
             // delete the `json` key so as the API Middleware to get correct
             // inputs
             delete call_api.json
+        }
+
+        // set a common meta to types without meta before
+        const meta = call_api.meta
+        if (meta) {
+            const newTypes = call_api.types.map((type) => {
+                // if the meta is allready an object
+                if (type instanceof Object) {
+                    return { ...type, meta: { ...meta, ...type.meta }}
+                }
+
+                return { type, meta }
+            })
+
+            // replace `type` and delete the `meta` key so as the API Middleware
+            // to get correct inputs
+            call_api.types = newTypes
+            delete call_api.meta
         }
     }
 

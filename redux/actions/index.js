@@ -8,11 +8,12 @@ export const LIBRARY_REQUEST = 'LIBRARY_REQUEST'
 export const LIBRARY_SUCCESS = 'LIBRARY_SUCCESS'
 export const LIBRARY_FAILURE = 'LIBRARY_FAILURE'
 
-const fetchLibraryEntries = (url) => ({
+const fetchLibraryEntries = (url, libraryType) => ({
     [CALL_API]: {
             endpoint: url,
             method: 'GET',
-            types: [LIBRARY_REQUEST, LIBRARY_SUCCESS, LIBRARY_FAILURE]
+            types: [LIBRARY_REQUEST, LIBRARY_SUCCESS, LIBRARY_FAILURE],
+            meta: { libraryType }
         }
 })
 
@@ -35,7 +36,7 @@ export const loadLibraryEntries = (libraryType = "songs", { workType, query, pag
         url += `&query=${query}`
     }
 
-    return dispatch(fetchLibraryEntries(url))
+    return dispatch(fetchLibraryEntries(url, libraryType))
 }
 
 
@@ -66,7 +67,7 @@ export const login = (username, password) => (dispatch) => {
 }
 
 /**
- * Get work types 
+ * Get work types
  */
 
 export const WORKTYPES_REQUEST = 'WORKTYPES_REQUEST'
@@ -88,7 +89,6 @@ export const loadWorkTypes = () => (dispatch) => {
     return dispatch(sendWorkTypesRequest())
 }
 
-
 /**
  * Logout
  */
@@ -101,3 +101,60 @@ export const LOGOUT = 'LOGOUT'
 export const logout = () => ({
     type: LOGOUT
 })
+
+/**
+ * Clear library song list notification
+ */
+
+export const CLEAR_SONG_LIST_NOTIFICATION = 'CLEAR_SONG_LIST_NOTIFICATION'
+
+/**
+ * Clear the notification for the given song
+ * @param songId the ID of the song to clear the notification
+ */
+export const clearSongListNotification = (songId) => ({
+    type: CLEAR_SONG_LIST_NOTIFICATION,
+    songId
+})
+
+/**
+ * Add song to playlist
+ */
+
+export const ADDPLAYLIST_REQUEST = 'ADDPLAYLIST_REQUEST'
+export const ADDPLAYLIST_SUCCESS = 'ADDPLAYLIST_SUCCESS'
+export const ADDPLAYLIST_FAILURE = 'ADDPLAYLIST_FAILURE'
+
+const sendAddPlaylistRequest = (songId) => ({
+    [CALL_API]: {
+            endpoint: '/api/playlist/',
+            method: 'POST',
+            json: {song: songId},
+            types: [
+                ADDPLAYLIST_REQUEST,
+                {
+                    type: ADDPLAYLIST_SUCCESS,
+                    meta: {delayedAction: {
+                        action: clearSongListNotification(songId),
+                        delay: 2000
+                    }}
+                },
+                {
+                    type: ADDPLAYLIST_FAILURE,
+                    meta: {delayedAction: {
+                        action: clearSongListNotification(songId),
+                        delay: 5000
+                    }}
+                },
+            ],
+            meta: { songId }
+        }
+})
+
+/**
+ * Request to add a song to the playlist
+ * @param songId ID of the song to add
+ */
+export const addSongToPlaylist = (songId) => (dispatch) => {
+    return dispatch(sendAddPlaylistRequest(songId))
+}

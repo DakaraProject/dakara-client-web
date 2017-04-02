@@ -1,6 +1,6 @@
 import React from 'react'
 import LibraryListAbstract from './LibraryListAbstract'
-import Song from './Song'
+import LibraryEntrySongPage from '../containers/LibraryEntrySongPage'
 
 class LibraryListSong extends LibraryListAbstract {
     getLibraryName() {
@@ -8,15 +8,20 @@ class LibraryListSong extends LibraryListAbstract {
     }
 
     render() {
-        const songs = this.props.songs
+        const songs = this.props.entries.results
+        let libraryEntrySongList
+        if (this.props.entries.type === 'songs') {
+            libraryEntrySongList = songs.map((song) => {
+                return (<LibraryEntrySongPage
+                        key={song.id}
+                        song={song}
+                    />)
+            })
+        }
+
         return (
-              <ul>
-                {songs.map(song =>
-                  <Song
-                    key={song.id}
-                    song={song}
-                  />
-                )}
+              <ul id="library-entries" className="listing">
+                  {libraryEntrySongList}
               </ul>
               )
     }

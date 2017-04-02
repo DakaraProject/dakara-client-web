@@ -1,6 +1,8 @@
 import { LIBRARY_REQUEST, LIBRARY_SUCCESS, LIBRARY_FAILURE } from '../actions'
 import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from '../actions'
 import { WORKTYPES_REQUEST, WORKTYPES_SUCCESS, WORKTYPES_FAILURE } from '../actions'
+import { ADDPLAYLIST_REQUEST, ADDPLAYLIST_SUCCESS, ADDPLAYLIST_FAILURE } from '../actions'
+import { CLEAR_SONG_LIST_NOTIFICATION } from '../actions'
 import { LOGOUT } from '../actions'
 import { combineReducers } from 'redux'
 
@@ -29,18 +31,19 @@ const defaultLibraryEntries =  {
         last: 0,
         count: 0,
         results: [],
+        type: ''
 }
 
 function entries(state = defaultLibraryEntries, action) {
     if (action.type === LIBRARY_SUCCESS) {
-        return action.payload;
+        return {...action.payload, type:action.meta.libraryType};
     } else {
         return state;
     }
 }
 
 /**
- * Work Types 
+ * Work Types
  */
 
 const defaultWorkTypes =  {
@@ -56,12 +59,55 @@ function workTypes(state = defaultWorkTypes, action) {
 }
 
 /**
+ * Add song to playlist message
+ */
+
+function songListNotifications(state = {}, action) {
+    let songId
+    switch (action.type) {
+        case ADDPLAYLIST_REQUEST:
+            songId = action.meta.songId
+            return {...state, [songId]: {
+                    message: "Adding...",
+                    type: "success"
+                }
+            }
+
+        case ADDPLAYLIST_SUCCESS:
+            songId = action.meta.songId
+            return {...state, [songId]: {
+                    message: "Successfuly added!",
+                    type: "success"
+                }
+            }
+
+        case ADDPLAYLIST_FAILURE:
+            songId = action.meta.songId
+            return {...state, [songId]: {
+                    message: "Error attempting to add song to playlist",
+                    type: "danger"
+                }
+            }
+
+        case CLEAR_SONG_LIST_NOTIFICATION:
+            songId = action.songId
+            let newState = { ...state }
+            delete newState[songId]
+            return newState
+
+        default:
+            return state
+    }
+}
+
+/**
  * Library related state
  */
 
 const library = combineReducers({
     entries,
-    workTypes
+    workTypes,
+    songListNotifications
 })
 
 
@@ -74,11 +120,11 @@ function loginMessage(state = null, action) {
     if (action.type === LOGIN_FAILURE) {
         if (action.error = true && payload.name == "ApiError") {
             const errors = payload.response.non_field_errors
-            if(errors && errors.length > 0) {
+            if (errors && errors.length > 0) {
                 return errors[0]
             } else {
                 return payload.message
-            } 
+            }
         } else {
             return "Unknown error."
         }

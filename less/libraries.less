@@ -97,27 +97,24 @@
         }
     }
 
-    .library {
-        /* Here goes the styles for the library pages
-         * These pages are:
-         *     Songs library,
-         *     Artists library,
-         *     Works library (and all the different works, like Anime, Game...)
-         * The current class gathers all the common elements needed by the different pages
+    /* Here goes the styles for the library pages
+     * These pages are:
+     *     Songs library,
+     *     Artists library,
+     *     Works library (and all the different works, like Anime, Game...)
+     * The current class gathers all the common elements needed by the different pages
+     */
+    #library-entries {
+        /* Here goes the listing of the items listed in the page
+         * The items are collected through the search process
+         * So there can be listed songs, artists, works (animes, games)
          */
-        #library-entries {
-            /* Here goes the listing of the items listed in the page
-             * The items are collected through the search process
-             * So there can be listed songs, artists, works (animes, games)
-             */
-            &.listing {
-                min-height: 10 * @listing-entry-height;
+        &.listing {
+            min-height: 10 * @listing-entry-height;
 
-                .add {
-                }
+            .add {
             }
         }
-
     }
 
     #library-chooser {

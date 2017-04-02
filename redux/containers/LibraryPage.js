@@ -70,6 +70,7 @@ class LibraryPage extends Component {
         const workTypesTabs = this.props.workTypes.map(function(workType) {
                     return (
                             <LibraryTab
+                                key={workType.query_name}
                                 queryName={workType.query_name}
                                 iconName={workType.icon_name}
                                 name={workType.name + "s"}
