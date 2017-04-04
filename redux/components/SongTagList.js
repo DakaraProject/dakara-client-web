@@ -2,34 +2,32 @@ import React, { Component } from 'react'
 
 export default class SongTagList extends Component {
     render() {
-        var tags = this.props.tags
+        var { tags, setQuery, query } = this.props
         var classClickable = ""
-        var handleSearch
         var searchIcon
-        if (this.props.setQuery) {
+        if (setQuery) {
             classClickable = " clickable"
-            handleSearch = function(base, tagName) {
-                return this.handleSearch.bind(base, tagName)
-            }.bind(this)
             searchIcon = (<i className="fa fa-search"></i>)
-        } else {
-            handleSearch = function(base, tagName) {}
         }
 
         var tagList = tags.map(function(tag) {
-            var boundClick = handleSearch(this, tag.name)
+            // Grey out tag when searching a tag other than this
             var classDisabled = ""
-            if (this.props.query && this.props.query.tags.length && this.props.query.tags.indexOf(tag.name) == -1) {
+            if (query && query.tags.length && query.tags.indexOf(tag.name) == -1) {
                 classDisabled = " disabled"
             }
 
             return (
-                    <div className={'tag tag-color-' + tag.color_id + classClickable + classDisabled} key={tag.name} onClick={boundClick}>
+                    <div
+                        className={'tag tag-color-' + tag.color_id + classClickable + classDisabled}
+                        key={tag.name}
+                        onClick={() => setQuery && setQuery("#" + tag.name)}
+                    >
                         {searchIcon}
                         {tag.name}
                     </div>
                     )
-        }.bind(this))
+        })
 
         return (
                 <div className="song-tag-list">

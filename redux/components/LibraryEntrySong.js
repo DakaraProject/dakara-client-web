@@ -1,11 +1,18 @@
 import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import { browserHistory } from 'react-router'
 import utils from '../utils'
 import LibraryEntrySongDisplay from './LibraryEntrySongDisplay'
-// import SongExpandedDetails from './SongExpandedDetails'
+import LibraryEntrySongExpanded from './LibraryEntrySongExpanded'
 
 export default class LibraryEntrySong extends Component {
+    setExpanded = (expanded) => {
+        const { location } = this.props
+        browserHistory.push({pathname: location.pathname, query: {...location.query, expanded}})
+    }
     render() {
+        const { location, song, query } = this.props
+        const expanded = location.query.expanded == song.id
         let notification
         if (this.props.notification){
             notification = (
@@ -37,20 +44,24 @@ export default class LibraryEntrySong extends Component {
         //     )
         // }
 
-        // var songExpandedDetails
-        // if (this.props.expanded){
-        //     songExpandedDetails = (<SongExpandedDetails song={this.props.song} />)
-        // }
+        var songExpandedDetails
+        if (expanded){
+            songExpandedDetails = (
+                    <LibraryEntrySongExpanded
+                        song={this.props.song}
+                        location={location}
+                    />)
+        }
 
         return (
                 <li className="library-entry listing-entry listing-entry-song">
                     <div className="song-compact hoverizable">
                         <LibraryEntrySongDisplay
-                            song={this.props.song}
-                            query={this.props.query}
+                            song={song}
+                            query={query}
+                            expanded={expanded}
+                            handleClick={() => expanded ? this.setExpanded(null) : this.setExpanded(song.id)}
                         />
-                            {/* handleExpand={this.handleExpand} */}
-                            {/* expanded={this.props.expanded} */}
 
                         {/* <ReactCSSTransitionGroup */}
                         {/*     component="div" */}
@@ -81,14 +92,14 @@ export default class LibraryEntrySong extends Component {
                             {notification}
                         </ReactCSSTransitionGroup>
                     </div>
-                    {/* <ReactCSSTransitionGroup */}
-                    {/*     component="div" */}
-                    {/*     transitionName="expand-view" */}
-                    {/*     transitionEnterTimeout={600} */}
-                    {/*     transitionLeaveTimeout={300} */}
-                    {/* > */}
-                    {/*     {songExpandedDetails} */}
-                    {/* </ReactCSSTransitionGroup> */}
+                    <ReactCSSTransitionGroup
+                        component="div"
+                        transitionName="expand-view"
+                        transitionEnterTimeout={600}
+                        transitionLeaveTimeout={300}
+                    >
+                        {songExpandedDetails}
+                    </ReactCSSTransitionGroup>
                 </li>
         )
     }

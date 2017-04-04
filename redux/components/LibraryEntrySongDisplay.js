@@ -8,9 +8,9 @@ export default class SongDisplay extends Component {
         var songPreview = (<LibraryEntrySongPreview
                                 song={song}
                                 query={this.props.query}
+                                handleClick={this.props.handleClick}
+                                expanded={this.props.expanded}
                             />)
-                                // handleExpand={this.props.handleExpand}
-                                // expanded={this.props.expanded}
 
         return (
                 <div className="song-display entry-info">

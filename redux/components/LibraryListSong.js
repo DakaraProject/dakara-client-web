@@ -15,6 +15,7 @@ class LibraryListSong extends LibraryListAbstract {
                 return (<LibraryEntrySongPage
                         key={song.id}
                         song={song}
+                        location={this.props.location}
                     />)
             })
         }
