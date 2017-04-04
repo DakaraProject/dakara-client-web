@@ -33,7 +33,7 @@ export const loadLibraryEntries = (libraryType = "songs", { workType, query, pag
 
     // query
     if (query) {
-        url += `&query=${query}`
+        url += `&query=${encodeURIComponent(query)}`
     }
 
     return dispatch(fetchLibraryEntries(url, libraryType))
