@@ -8,7 +8,14 @@ import LibraryEntrySongExpanded from './LibraryEntrySongExpanded'
 export default class LibraryEntrySong extends Component {
     setExpanded = (expanded) => {
         const { location } = this.props
-        browserHistory.push({pathname: location.pathname, query: {...location.query, expanded}})
+        const query = location.query
+        if (expanded) {
+            query.expanded = expanded
+        } else {
+            // Remove param from url
+            delete query.expanded
+        }
+        browserHistory.push({pathname: location.pathname, query})
     }
     render() {
         const { location, song, query } = this.props
