@@ -1,6 +1,6 @@
 import React from 'react'
 import LibraryListAbstract from './LibraryListAbstract'
-import Artist from './Artist'
+import LibraryEntryArtist from './LibraryEntryArtist'
 
 class LibraryListArtist extends LibraryListAbstract {
     getLibraryName() {
@@ -10,9 +10,9 @@ class LibraryListArtist extends LibraryListAbstract {
     render() {
         const artists = this.props.artists
         return (
-              <ul>
+              <ul id="library-entries" className="listing">
                 {artists.map(artist =>
-                  <Artist
+                  <LibraryEntryArtist
                     key={artist.id}
                     artist={artist}
                   />
