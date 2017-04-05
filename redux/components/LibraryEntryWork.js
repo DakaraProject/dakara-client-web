@@ -27,9 +27,9 @@ export default class LibraryEntryWork extends React.Component {
                         </div>
                     </div>
                     <div className="controls"> 
-                        <div className="search control primary" onClick={this.handleSearch}>
+                        <button className="search control primary" onClick={this.handleSearch}>
                             <i className="fa fa-search"></i>
-                        </div>
+                        </button>
                     </div>
                 </li>
         );
