@@ -5,8 +5,28 @@ import { loadWorkTypes } from '../actions'
 import Paginator from '../components/Paginator'
 
 class LibraryPage extends Component {
+    state = {
+        query: ""
+    }
+
     componentWillMount() {
         this.props.loadWorkTypes()
+    }
+
+    componentDidMount() {
+        this.updateQueryFromLocation()
+    }
+
+    componentDidUpdate(prevProps) {
+        const newSearch = this.props.location.query.search
+        if (newSearch != prevProps.location.query.search && newSearch ) {
+            this.updateQueryFromLocation()
+        }
+    }
+
+    updateQueryFromLocation = () => {
+        const query = this.props.location.query.search || ''
+        this.setState({query})
     }
 
     getLibraryName = () => {
@@ -58,10 +78,6 @@ class LibraryPage extends Component {
         // info bar
         const entriesCount = this.props.entriesCount
 
-        // search bar
-        const queryFromUrl = this.props.location.query.search
-        let query
-
         // library name
         const libraryName = this.getLibraryName()
         const libraryPlaceholder = this.getLibraryPlaceholder(libraryName)
@@ -107,20 +123,18 @@ class LibraryPage extends Component {
 
                 <form id="library-searchbox" onSubmit={e => {
                     e.preventDefault()
-                    browserHistory.push({pathname, query: {search: query.value}})
+                    browserHistory.push({pathname, query: {search: this.state.query}})
                 }}>
                     <div className="field">
                         <div className="fake-input">
                             <input
-                                ref={node => {
-                                    query = node
-                                }}
-                                defaultValue={queryFromUrl || ''}
                                 placeholder={libraryPlaceholder}
+                                value={this.state.query}
+                                onChange={e => this.setState({query: e.target.value})}
                             />
                             <div className="controls">
                                 <div className="clear control" onClick={e => {
-                                        query.value = ""
+                                        this.setState({query: ""})
                                         browserHistory.push({pathname})
                                     }
                                 }>
