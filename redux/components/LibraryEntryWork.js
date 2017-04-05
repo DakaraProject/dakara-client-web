@@ -2,22 +2,27 @@ import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { browserHistory } from 'react-router'
 
-export default class LibraryEntryArtist extends React.Component {
+export default class LibraryEntryWork extends React.Component {
     handleSearch = () => {
-        const newSearch = "artist:\"\"" + this.props.artist.name + "\"\"";
+        const newSearch = this.props.workType + ":\"\"" + this.props.work.title + "\"\""
         browserHistory.push({pathname: "/library/song", query: { search: newSearch}})
     }
 
     render() {
         return (
-                <li className="library-entry listing-entry listing-entry-artist hoverizable">
+                <li className="library-entry listing-entry listing-entry-work hoverizable">
                     <div className="entry-info">
-                        <div className="artist-view">
-                            <div className="artist-name">
-                                {this.props.artist.name}
+                        <div className="work-view">
+                            <div className="work-header">
+                                <div className="work-title">
+                                    {this.props.work.title}
+                                </div>
+                                <div className="work-subtitle">
+                                    {this.props.work.subtitle}
+                                </div>
                             </div>
                             <div className="count">
-                                {this.props.artist.song_count}
+                                {this.props.work.song_count}
                             </div>
                         </div>
                     </div>

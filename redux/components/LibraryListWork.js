@@ -1,6 +1,6 @@
 import React from 'react'
 import LibraryListAbstract from './LibraryListAbstract'
-import Work from './Work'
+import LibraryEntryWork from './LibraryEntryWork'
 
 class LibraryListWork extends LibraryListAbstract {
     getLibraryName() {
@@ -10,11 +10,12 @@ class LibraryListWork extends LibraryListAbstract {
     render() {
         const works = this.props.works
         return (
-              <ul>
+              <ul id="library-entries" className="listing">
                 {works.map(work =>
-                  <Work
+                  <LibraryEntryWork
                     key={work.id}
                     work={work}
+                    workType={this.props.workType}
                   />
                 )}
               </ul>
