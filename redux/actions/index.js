@@ -158,3 +158,26 @@ const sendAddPlaylistRequest = (songId) => ({
 export const addSongToPlaylist = (songId) => (dispatch) => {
     return dispatch(sendAddPlaylistRequest(songId))
 }
+
+/**
+ * Get player status 
+ */
+
+export const PLAYERSTATUS_REQUEST = 'PLAYERSTATUS_REQUEST'
+export const PLAYERSTATUS_SUCCESS = 'PLAYERSTATUS_SUCCESS'
+export const PLAYERSTATUS_FAILURE = 'PLAYERSTATUS_FAILURE'
+
+const fetchPlayerStatus = () => ({
+    [CALL_API]: {
+            endpoint: "/api/playlist/player/status/",
+            method: 'GET',
+            types: [PLAYERSTATUS_REQUEST, PLAYERSTATUS_SUCCESS, PLAYERSTATUS_FAILURE],
+        }
+})
+
+/**
+ * Request player status 
+ */
+export const loadPlayerStatus = () => (dispatch, getState) => {
+    return dispatch(fetchPlayerStatus())
+}

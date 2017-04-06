@@ -2,6 +2,7 @@ import { LIBRARY_REQUEST, LIBRARY_SUCCESS, LIBRARY_FAILURE } from '../actions'
 import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from '../actions'
 import { WORKTYPES_REQUEST, WORKTYPES_SUCCESS, WORKTYPES_FAILURE } from '../actions'
 import { ADDPLAYLIST_REQUEST, ADDPLAYLIST_SUCCESS, ADDPLAYLIST_FAILURE } from '../actions'
+import { PLAYERSTATUS_REQUEST, PLAYERSTATUS_SUCCESS, PLAYERSTATUS_FAILURE } from '../actions'
 import { CLEAR_SONG_LIST_NOTIFICATION } from '../actions'
 import { LOGOUT } from '../actions'
 import { combineReducers } from 'redux'
@@ -161,13 +162,39 @@ const loginPage = combineReducers({
 })
 
 /**
+ * Player status from server
+ */
+
+const defaultPlayerStatus = {
+    playlist_entry: null,
+    timing: 0
+}
+
+function playerStatus(state = defaultPlayerStatus, action) {
+    if (action.type === PLAYERSTATUS_SUCCESS) {
+        return action.payload
+    } else {
+        return state
+    }
+}
+
+/**
+ * Player related state
+ */
+
+const player = combineReducers({
+    status: playerStatus
+})
+
+/**
  * Root reducer
  */
 
 const rootReducer = combineReducers({
     token,
     library,
-    loginPage
+    loginPage,
+    player
 })
 
 export default rootReducer

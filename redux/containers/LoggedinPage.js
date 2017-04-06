@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux'
+import PlayerPage from './PlayerPage'
 
 class LoggedinPage extends Component {
     componentWillMount() {
@@ -18,7 +19,10 @@ class LoggedinPage extends Component {
     render() {
         return (
             <div>
-                <div id="playerbox">player</div>
+                <div id="playerbox">
+                    <PlayerPage/>
+                    playlist
+                </div>
                 {this.props.children}
             </div>
         )
