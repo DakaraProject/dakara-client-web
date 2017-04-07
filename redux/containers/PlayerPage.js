@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import Player from '../components/Player'
-import { loadPlayerStatus } from '../actions'
+import { loadPlayerStatus, sendPlayerCommands } from '../actions'
 
 const mapStateToProps = (state) => ({
     playerStatus: state.player.status
@@ -8,7 +8,7 @@ const mapStateToProps = (state) => ({
 
 const PlayerPage = connect(
     mapStateToProps,
-    { loadPlayerStatus }
+    { loadPlayerStatus, sendPlayerCommands }
 )(Player)
 
 export default PlayerPage

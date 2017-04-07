@@ -104,7 +104,7 @@ export default class Player extends React.Component {
             progress = playerStatus.timing * 100 / duration; 
 
             // TODO user playercmd pause status instead of player pause status
-            playIcon += playerStatus.pause ? "play" : "pause";
+            playIcon += playerStatus.paused ? "play" : "pause";
         } else {
             playIcon += "stop";
             progress = 0;
@@ -126,12 +126,18 @@ export default class Player extends React.Component {
         <div id="player">
             <div className="display">
                 <div className="controls">
-                    <div className={"play-pause control primary" + (playerStatus.playlist_entry ? "" : " disabled")} onClick={this.handlePlayPause}>
-                        {playPausebtn} 
-                    </div>
-                    <div className={"skip control primary" + (playerStatus.playlist_entry ? "" : " disabled")} onClick={this.handleSkip}>
+                    <button
+                        className={"play-pause control primary" + (playerStatus.playlist_entry ? "" : " disabled")}
+                        onClick={() => this.props.sendPlayerCommands({pause: !playerStatus.paused})}
+                    >
+                        {playPausebtn}
+                    </button>
+                    <button
+                        className={"skip control primary" + (playerStatus.playlist_entry ? "" : " disabled")}
+                        onClick={() => this.props.sendPlayerCommands({skip: true})}
+                    >
                         {skipBtn}
-                    </div>
+                    </button>
                 </div>
                 <div className="song">
                     {songData}

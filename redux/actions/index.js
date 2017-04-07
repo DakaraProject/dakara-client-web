@@ -165,3 +165,24 @@ export const loadPlayerStatus = () => ({
             types: [PLAYERSTATUS_REQUEST, PLAYERSTATUS_SUCCESS, PLAYERSTATUS_FAILURE],
         }
 })
+
+/**
+ * Send player commands
+ */
+
+export const PLAYERCOMMANDS_REQUEST = 'PLAYERCOMMANDS_REQUEST'
+export const PLAYERCOMMANDS_SUCCESS = 'PLAYERCOMMANDS_SUCCESS'
+export const PLAYERCOMMANDS_FAILURE = 'PLAYERCOMMANDS_FAILURE'
+
+/**
+ * Send commands to the player
+ * @param commands : object containing pause and skip commands booleans
+ */
+export const sendPlayerCommands = (commands) => ({
+    [CALL_API]: {
+            endpoint: "/api/playlist/player/manage/",
+            method: 'PUT',
+            json: commands,
+            types: [PLAYERCOMMANDS_REQUEST, PLAYERCOMMANDS_SUCCESS, PLAYERCOMMANDS_FAILURE],
+        }
+})
