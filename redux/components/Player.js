@@ -64,13 +64,26 @@ export default class Player extends React.Component {
         }
     }
 */
-    componentDidMount() {
-        this.props.loadPlayerStatus();
-        setInterval(this.props.loadPlayerStatus, 1000);
+    pollPlayerStatus = () => {
+        if (!this.props.playerStatus.isFetching) {
+            this.props.loadPlayerStatus()
+            this.timeout = setTimeout(this.pollPlayerStatus, 1000);
+        }
     }
 
+    componentWillMount() {
+        // start polling server
+        this.pollPlayerStatus()
+    }
+
+    componentWillUnmount() {
+        // Stop polling server
+        clearTimeout(this.timeout)
+    }
+
+
     render() {
-        const playerStatus = this.props.playerStatus;
+        const playerStatus = this.props.playerStatus.data;
         let song;
         let songData;
         let playIcon = "fa fa-";

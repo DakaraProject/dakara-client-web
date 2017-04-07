@@ -166,15 +166,23 @@ const loginPage = combineReducers({
  */
 
 const defaultPlayerStatus = {
-    playlist_entry: null,
-    timing: 0
+    data: {
+        playlist_entry: null,
+        timing: 0
+    },
+    isFetching: false
 }
 
 function playerStatus(state = defaultPlayerStatus, action) {
-    if (action.type === PLAYERSTATUS_SUCCESS) {
-        return action.payload
-    } else {
-        return state
+    switch (action.type) {
+        case PLAYERSTATUS_REQUEST:
+            return { ...state, isFetching: true }
+        case PLAYERSTATUS_SUCCESS:
+            return { data: action.payload, isFetching: false }
+        case PLAYERSTATUS_FAILURE:
+            return { ...state, isFetching: false }
+        default:
+            return state
     }
 }
 
