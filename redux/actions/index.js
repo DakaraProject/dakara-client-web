@@ -23,7 +23,7 @@ const fetchLibraryEntries = (url, libraryType) => ({
  * @param workType precise type of library entries when it is a work
  * @param pageNumber page to load
  */
-export const loadLibraryEntries = (libraryType = "songs", { workType, query, pageNumber = 1 } = {}) => (dispatch, getState) => {
+export const loadLibraryEntries = (libraryType = "songs", { workType, query, pageNumber = 1 } = {}) => {
     let url = `/api/library/${libraryType}/?page=${pageNumber}`
 
     // if `libraryType` is 'work', a `workType` has to be passed
@@ -36,7 +36,7 @@ export const loadLibraryEntries = (libraryType = "songs", { workType, query, pag
         url += `&query=${encodeURIComponent(query)}`
     }
 
-    return dispatch(fetchLibraryEntries(url, libraryType))
+    return fetchLibraryEntries(url, libraryType)
 }
 
 
@@ -48,7 +48,12 @@ export const LOGIN_REQUEST = 'LOGIN_REQUEST'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_FAILURE = 'LOGIN_FAILURE'
 
-const sendLoginRequest = (username, password) => ({
+/**
+ * Login user to the server
+ * @param username username
+ * @param password password
+ */
+export const login  = (username, password) => ({
     [CALL_API]: {
             endpoint: '/api/token-auth/',
             method: 'POST',
@@ -58,15 +63,6 @@ const sendLoginRequest = (username, password) => ({
 })
 
 /**
- * Login user to the server
- * @param username username
- * @param password password
- */
-export const login = (username, password) => (dispatch) => {
-    return dispatch(sendLoginRequest(username, password))
-}
-
-/**
  * Get work types
  */
 
@@ -74,20 +70,16 @@ export const WORKTYPES_REQUEST = 'WORKTYPES_REQUEST'
 export const WORKTYPES_SUCCESS = 'WORKTYPES_SUCCESS'
 export const WORKTYPES_FAILURE = 'WORKTYPES_FAILURE'
 
-const sendWorkTypesRequest = () => ({
+/**
+ * Load work types from the server 
+ */
+export const loadWorkTypes = () => ({
     [CALL_API]: {
             endpoint: '/api/library/work-types/',
             method: 'GET',
             types: [WORKTYPES_REQUEST, WORKTYPES_SUCCESS, WORKTYPES_FAILURE]
         }
 })
-
-/**
- * Load work types from the server 
- */
-export const loadWorkTypes = () => (dispatch) => {
-    return dispatch(sendWorkTypesRequest())
-}
 
 /**
  * Logout
@@ -125,7 +117,11 @@ export const ADDPLAYLIST_REQUEST = 'ADDPLAYLIST_REQUEST'
 export const ADDPLAYLIST_SUCCESS = 'ADDPLAYLIST_SUCCESS'
 export const ADDPLAYLIST_FAILURE = 'ADDPLAYLIST_FAILURE'
 
-const sendAddPlaylistRequest = (songId) => ({
+/**
+ * Request to add a song to the playlist
+ * @param songId ID of the song to add
+ */
+export const addSongToPlaylist = (songId) => ({
     [CALL_API]: {
             endpoint: '/api/playlist/',
             method: 'POST',
@@ -152,14 +148,6 @@ const sendAddPlaylistRequest = (songId) => ({
 })
 
 /**
- * Request to add a song to the playlist
- * @param songId ID of the song to add
- */
-export const addSongToPlaylist = (songId) => (dispatch) => {
-    return dispatch(sendAddPlaylistRequest(songId))
-}
-
-/**
  * Get player status 
  */
 
@@ -167,17 +155,13 @@ export const PLAYERSTATUS_REQUEST = 'PLAYERSTATUS_REQUEST'
 export const PLAYERSTATUS_SUCCESS = 'PLAYERSTATUS_SUCCESS'
 export const PLAYERSTATUS_FAILURE = 'PLAYERSTATUS_FAILURE'
 
-const fetchPlayerStatus = () => ({
+/**
+ * Request player status 
+ */
+export const loadPlayerStatus = () => ({
     [CALL_API]: {
             endpoint: "/api/playlist/player/status/",
             method: 'GET',
             types: [PLAYERSTATUS_REQUEST, PLAYERSTATUS_SUCCESS, PLAYERSTATUS_FAILURE],
         }
 })
-
-/**
- * Request player status 
- */
-export const loadPlayerStatus = () => (dispatch, getState) => {
-    return dispatch(fetchPlayerStatus())
-}
