@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux'
 import PlayerPage from './PlayerPage'
+import PlaylistPage from './PlaylistPage'
 
 class LoggedinPage extends Component {
     componentWillMount() {
@@ -21,7 +22,7 @@ class LoggedinPage extends Component {
             <div>
                 <div id="playerbox">
                     <PlayerPage/>
-                    playlist
+                    <PlaylistPage/>
                 </div>
                 {this.props.children}
             </div>

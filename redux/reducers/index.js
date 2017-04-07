@@ -2,8 +2,12 @@ import { LIBRARY_REQUEST, LIBRARY_SUCCESS, LIBRARY_FAILURE } from '../actions'
 import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from '../actions'
 import { WORKTYPES_REQUEST, WORKTYPES_SUCCESS, WORKTYPES_FAILURE } from '../actions'
 import { ADDPLAYLIST_REQUEST, ADDPLAYLIST_SUCCESS, ADDPLAYLIST_FAILURE } from '../actions'
+import { REMOVEPLAYLISTENTRY_REQUEST, REMOVEPLAYLISTENTRY_SUCCESS, REMOVEPLAYLISTENTRY_FAILURE } from '../actions'
 import { PLAYERSTATUS_REQUEST, PLAYERSTATUS_SUCCESS, PLAYERSTATUS_FAILURE } from '../actions'
+import { PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE } from '../actions'
 import { CLEAR_SONG_LIST_NOTIFICATION } from '../actions'
+import { CLEAR_PLAYLIST_ENTRY_NOTIFICATION } from '../actions'
+import { PLAYLIST_TOOGLE_COLLAPSED } from '../actions'
 import { LOGOUT } from '../actions'
 import { combineReducers } from 'redux'
 
@@ -187,11 +191,99 @@ function playerStatus(state = defaultPlayerStatus, action) {
 }
 
 /**
+ * Playlist from server
+ */
+
+const defaultPlaylist = {
+    data: {
+        count: 0,
+        results: []
+    },
+    isFetching: false
+}
+
+function playlistEntries(state = defaultPlaylist, action) {
+    switch (action.type) {
+        case PLAYLIST_REQUEST:
+            return { ...state, isFetching: true }
+        case PLAYLIST_SUCCESS:
+            return { data: action.payload, isFetching: false }
+        case PLAYLIST_FAILURE:
+            return { ...state, isFetching: false }
+        default:
+            return state
+    }
+}
+
+/** Playlist collapsed status
+ */
+
+function playlistCollapsed(state = true, action) {
+    if (action.type === PLAYLIST_TOOGLE_COLLAPSED) {
+        return !state
+    }
+
+    return state
+}
+
+/**
+ * Remove song from playlist message
+ */
+
+function playlistNotifications(state = {}, action) {
+    let entryId
+    switch (action.type) {
+        case REMOVEPLAYLISTENTRY_REQUEST:
+            entryId = action.meta.entryId
+            return {...state, [entryId]: {
+                    message: "Removing...",
+                    type: "success"
+                }
+            }
+
+        case REMOVEPLAYLISTENTRY_SUCCESS:
+            entryId = action.meta.entryId
+            return {...state, [entryId]: {
+                    message: "Successfuly removed!",
+                    type: "success"
+                }
+            }
+
+        case REMOVEPLAYLISTENTRY_FAILURE:
+            entryId = action.meta.entryId
+            return {...state, [entryId]: {
+                    message: "Error attempting to remove song from playlist",
+                    type: "danger"
+                }
+            }
+
+        case CLEAR_PLAYLIST_ENTRY_NOTIFICATION:
+            entryId = action.entryId
+            let newState = { ...state }
+            delete newState[entryId]
+            return newState
+
+        default:
+            return state
+    }
+}
+/**
+ * Playlist related state
+ */
+
+const playlist = combineReducers({
+    entries: playlistEntries,
+    collapsed: playlistCollapsed,
+    notifications: playlistNotifications
+})
+
+/**
  * Player related state
  */
 
 const player = combineReducers({
-    status: playerStatus
+    status: playerStatus,
+    playlist
 })
 
 /**

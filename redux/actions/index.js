@@ -148,6 +148,52 @@ export const addSongToPlaylist = (songId) => ({
 })
 
 /**
+ * Clear playlist entry notification
+ */
+
+export const CLEAR_PLAYLIST_ENTRY_NOTIFICATION = 'CLEAR_PLAYLIST_ENTRY_NOTIFICATION'
+
+/**
+ * Clear the notification for the given playlist entry 
+ * @param entryId the ID of the entry to clear the notification from
+ */
+export const clearPlaylistEntryNotification = (entryId) => ({
+    type: CLEAR_PLAYLIST_ENTRY_NOTIFICATION,
+    entryId
+})
+
+/**
+ * Remove song from playlist
+ */
+
+export const REMOVEPLAYLISTENTRY_REQUEST = 'REMOVEPLAYLISTENTRY_REQUEST'
+export const REMOVEPLAYLISTENTRY_SUCCESS = 'REMOVEPLAYLISTENTRY_SUCCESS'
+export const REMOVEPLAYLISTENTRY_FAILURE = 'REMOVEPLAYLISTENTRY_FAILURE'
+
+/**
+ * Request to remove an entry from the playlist
+ * @param entryId Id of the entry to remove
+ */
+export const removeEntryFromPlaylist = (entryId) => ({
+    [CALL_API]: {
+            endpoint: `/api/playlist/${entryId}/`,
+            method: 'DELETE',
+            types: [
+                REMOVEPLAYLISTENTRY_REQUEST,
+                REMOVEPLAYLISTENTRY_SUCCESS,
+                {
+                    type: REMOVEPLAYLISTENTRY_FAILURE,
+                    meta: {delayedAction: {
+                        action: clearPlaylistEntryNotification(entryId),
+                        delay: 5000
+                    }}
+                },
+            ],
+            meta: { entryId }
+        }
+})
+
+/**
  * Get player status 
  */
 
@@ -185,4 +231,36 @@ export const sendPlayerCommands = (commands) => ({
             json: commands,
             types: [PLAYERCOMMANDS_REQUEST, PLAYERCOMMANDS_SUCCESS, PLAYERCOMMANDS_FAILURE],
         }
+})
+
+/**
+ * Get playlist entries 
+ */
+
+export const PLAYLIST_REQUEST = 'PLAYLIST_REQUEST'
+export const PLAYLIST_SUCCESS = 'PLAYLIST_SUCCESS'
+export const PLAYLIST_FAILURE = 'PLAYLIST_FAILURE'
+
+/**
+ * Request playlist 
+ */
+export const loadPlaylist = () => ({
+    [CALL_API]: {
+            endpoint: "/api/playlist/",
+            method: 'GET',
+            types: [PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE],
+        }
+})
+
+/**
+ * Toogle playlist collasped state
+ */
+
+export const PLAYLIST_TOOGLE_COLLAPSED = 'PLAYLIST_TOOGLE_COLLAPSED'
+
+/**
+ * Toogle the collapsed state of the playlist
+ */
+export const toogleCollapsedPlaylist = () => ({
+    type: PLAYLIST_TOOGLE_COLLAPSED
 })
