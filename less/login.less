@@ -1,0 +1,54 @@
+/**
+ * Dakara project
+ *
+ * Login page style file
+ */
+
+#login-page {
+    
+    .login-form {
+        background: @brand-primary-darker;
+        
+        .field-row {
+            display: flex;
+            padding-top: @gap-vertical;
+
+            input {
+                flex: 1;
+                padding-left: @gap-horizontal;
+                border: none;
+                outline: none;
+                background: @neutral-soft;
+                color: @text-dark;
+                height: @library-searchbox-height;
+                margin: 0 0 0 @gap-horizontal;
+                box-sizing: border-box;
+                .placeholder(@black-80);
+
+                &:hover {
+                    background: @neutral-soft-lighter;
+                }
+            }
+
+            .icon-box {
+                .square(@library-searchbox-height);
+                line-height: @library-searchbox-height;
+                text-align: center;
+                color: @text-dark;
+                background: @brand-primary-dark;
+                font-size: 17pt;
+            }
+        }
+
+        .controls {
+                padding: @gap-vertical 0;
+                width: 100%;
+            
+            .control {
+                height: @library-searchbox-height;
+                width: 100%;
+                font-size: 12pt;
+            }
+        }
+    }
+}

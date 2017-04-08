@@ -22,21 +22,43 @@ class LoginForm extends React.Component {
         let password
 
         return (
-            <div>
+            <div id="login-page">
                 <p>{this.props.message}</p>
-                <form onSubmit={e => {
-                    e.preventDefault()
-                    login(username.value, password.value)
-                }}>
-                    <input ref={node => {
-                        username = node
-                    }} />
-                    <input type="password" ref={node => {
-                        password = node
-                    }} />
-                    <button type="submit">
-                        Login
-                    </button>
+                <form
+                    onSubmit={e => {
+                        e.preventDefault()
+                        login(username.value, password.value)
+                    }}
+                    className="login-form"
+                >
+                    <div className="field-row">
+                        <div className="icon-box">
+                            <i className="fa fa-user"></i>
+                        </div>
+                        <input
+                            ref={node => {
+                                username = node
+                            }}
+                            placeholder="Username..."
+                        />
+                    </div>
+                    <div className="field-row">
+                        <div className="icon-box">
+                            <i className="fa fa-lock"></i>
+                        </div>
+                        <input
+                            type="password"
+                            ref={node => {
+                                password = node
+                            }}
+                            placeholder="Password..."
+                        />
+                    </div>
+                    <div className="controls">
+                        <button type="submit" className="control primary">
+                            Login
+                        </button>
+                    </div>
                 </form>
             </div>
         )
