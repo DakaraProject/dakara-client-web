@@ -31,25 +31,25 @@ export default class LibraryEntrySong extends Component {
             )
         }
 
-        // var timeOfPlay
-        // if (this.props.isPlaying) {
-        //     timeOfPlay = (
-        //         <div className="playlist-info-content" key="playing">
-        //             <div className="playing">
-        //                 <i className="fa fa-play"></i>
-        //             </div>
-        //         </div>
-        //     )
-        // } else if (this.props.timeOfPlay) {
-        //     timeOfPlay = (
-        //         <div className="playlist-info-content" key="queueing">
-        //             <div className="play-time">
-        //                 <i className="fa fa-clock-o"></i>
-        //                 {utils.formatHourTime(this.props.timeOfPlay)}
-        //             </div>
-        //         </div>
-        //     )
-        // }
+        var timeOfPlay
+        if (this.props.isPlaying) {
+            timeOfPlay = (
+                <div className="playlist-info-content" key="playing">
+                    <div className="playing">
+                        <i className="fa fa-play"></i>
+                    </div>
+                </div>
+            )
+        } else if (this.props.timeOfPlay) {
+            timeOfPlay = (
+                <div className="playlist-info-content" key="queueing">
+                    <div className="play-time">
+                        <i className="fa fa-clock-o"></i>
+                        {utils.formatHourTime(this.props.timeOfPlay)}
+                    </div>
+                </div>
+            )
+        }
 
         var songExpandedDetails
         if (expanded){
@@ -70,15 +70,15 @@ export default class LibraryEntrySong extends Component {
                             handleClick={() => expanded ? this.setExpanded(null) : this.setExpanded(song.id)}
                         />
 
-                        {/* <ReactCSSTransitionGroup */}
-                        {/*     component="div" */}
-                        {/*     className="playlist-info" */}
-                        {/*     transitionName="playlist-info" */}
-                        {/*     transitionEnterTimeout={300} */}
-                        {/*     transitionLeaveTimeout={150} */}
-                        {/* > */}
-                        {/*     {timeOfPlay} */}
-                        {/* </ReactCSSTransitionGroup> */}
+                        <ReactCSSTransitionGroup
+                            component="div"
+                            className="playlist-info"
+                            transitionName="playlist-info"
+                            transitionEnterTimeout={300}
+                            transitionLeaveTimeout={150}
+                        >
+                            {timeOfPlay}
+                        </ReactCSSTransitionGroup>
 
                         <div className="controls" id={"song-" + this.props.song.id}>
                             <button
