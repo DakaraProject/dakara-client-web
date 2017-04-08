@@ -5,13 +5,68 @@
  */
 
 #login-page {
-    
+    background: @brand-primary-darker;
+    color: @brand-primary;
+    margin-top: @gap-vertical;
+
+    .page-head {
+        display: flex;
+
+        > * {
+            height: @listing-entry-height;
+            line-height: @listing-entry-height;
+        }
+
+        h2 {
+            margin: @gap-vertical @gap-horizontal;
+            font-weight: 100;
+            font-size: 20pt;
+        }
+
+        .message {
+            flex: 1;
+            margin: @gap-vertical 0;
+            position: relative;
+            overflow: hidden;
+
+            .notified {
+                position: absolute;
+                width: 100%;
+                top: 0;
+                left: 0;
+
+                &.notified-enter {
+                    left: 100%;
+
+                    &.notified-enter-active {
+                        left: 0;
+                        .transition(left 300ms ease-out);
+                    }
+                }
+
+                &.notified-leave {
+                    left: 0;
+
+                    &.notified-leave-active {
+                        left: 100%;
+                        .transition(left 150ms ease-out);
+                    }
+                }
+
+                .notification {
+                    .text-truncate();
+                }
+            }
+        }
+
+    }
+
+
     .login-form {
-        background: @brand-primary-darker;
-        
+
         .field-row {
             display: flex;
-            padding-top: @gap-vertical;
+            padding-bottom: @gap-vertical;
 
             input {
                 flex: 1;
@@ -41,9 +96,9 @@
         }
 
         .controls {
-                padding: @gap-vertical 0;
+                padding-bottom: @gap-vertical;
                 width: 100%;
-            
+
             .control {
                 height: @library-searchbox-height;
                 width: 100%;

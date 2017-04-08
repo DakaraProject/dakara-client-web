@@ -11,7 +11,9 @@ import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from '../actions'
 
 function message(state = null, action) {
     const payload = action.payload
-    if (action.type === LOGIN_FAILURE) {
+    if (action.type == LOGIN_REQUEST && !action.error) {
+        return null
+    } else if (action.type === LOGIN_FAILURE) {
         if (action.error = true && payload.name == "ApiError") {
             const errors = payload.response.non_field_errors
             if (errors && errors.length > 0) {
