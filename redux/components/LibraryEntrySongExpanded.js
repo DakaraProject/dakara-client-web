@@ -37,12 +37,16 @@ export default class LibraryEntrySongExpanded extends React.Component {
 
             var worksForTypeList = worksList.map(function(work) {
                 return (
-                        <SongExpandedWorkEntry work={work} setQuery={this.setQuery}/>
+                        <SongExpandedWorkEntry
+                            key={work.work.id}
+                            work={work}
+                            setQuery={this.setQuery}
+                        />
                         );
             }.bind(this));
 
             return (
-                    <div className="works expanded-item">
+                    <div key={workType.query_name} className="works expanded-item">
                         <h4 className="header">
                             <span className="icon">
                                 <i className={"fa fa-" + workType.icon_name}></i>
@@ -56,7 +60,11 @@ export default class LibraryEntrySongExpanded extends React.Component {
 
         var artistList = song.artists.map(function(artist) {
             return (
-                    <SongExpandedArtistEntry artist={artist} setQuery={this.setQuery}/>
+                    <SongExpandedArtistEntry
+                        key={artist.id}
+                        artist={artist}
+                        setQuery={this.setQuery}
+                    />
                     );
         }.bind(this));
 
