@@ -67,8 +67,8 @@ export default class Player extends React.Component {
     pollPlayerStatus = () => {
         if (!this.props.playerStatus.isFetching) {
             this.props.loadPlayerStatus()
-            this.timeout = setTimeout(this.pollPlayerStatus, 1000);
         }
+        this.timeout = setTimeout(this.pollPlayerStatus, utils.params.pollInterval);
     }
 
     componentWillMount() {

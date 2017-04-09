@@ -20,8 +20,8 @@ export default class Playlist extends React.Component {
     pollPlaylist = () => {
         if (!this.props.playlist.entries.isFetching) {
             this.props.loadPlaylist()
-            this.timeout = setTimeout(this.pollPlaylist, 1000);
         }
+        this.timeout = setTimeout(this.pollPlaylist, utils.params.pollInterval);
     }
 
     componentWillMount() {

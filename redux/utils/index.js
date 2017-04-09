@@ -19,4 +19,9 @@ export default {
         var minsec = sprintf("%01d:%02d", Math.floor(remaining / 60), remaining % 60);
         return (hours == 0 ? '' : (hours + ":")) + minsec;
     },
+
+    params: {
+        baseUrl: "/api/",
+        pollInterval: 1000
+    }
 }

@@ -1,4 +1,7 @@
 import { CALL_API } from 'redux-api-middleware'
+import utils from '../utils'
+
+const { baseUrl } = utils.params
 
 /**
  * Get a page of libraryEntries
@@ -24,7 +27,7 @@ const fetchLibraryEntries = (url, libraryType) => ({
  * @param pageNumber page to load
  */
 export const loadLibraryEntries = (libraryType = "songs", { workType, query, pageNumber = 1 } = {}) => {
-    let url = `/api/library/${libraryType}/?page=${pageNumber}`
+    let url = `${baseUrl}library/${libraryType}/?page=${pageNumber}`
 
     // if `libraryType` is 'work', a `workType` has to be passed
     if (workType) {
@@ -55,7 +58,7 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE'
  */
 export const login  = (username, password) => ({
     [CALL_API]: {
-            endpoint: '/api/token-auth/',
+            endpoint: `${baseUrl}token-auth/`,
             method: 'POST',
             json: {username, password},
             types: [LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE]
@@ -75,7 +78,7 @@ export const WORKTYPES_FAILURE = 'WORKTYPES_FAILURE'
  */
 export const loadWorkTypes = () => ({
     [CALL_API]: {
-            endpoint: '/api/library/work-types/',
+            endpoint: `${baseUrl}library/work-types/`,
             method: 'GET',
             types: [WORKTYPES_REQUEST, WORKTYPES_SUCCESS, WORKTYPES_FAILURE]
         }
@@ -123,7 +126,7 @@ export const ADDPLAYLIST_FAILURE = 'ADDPLAYLIST_FAILURE'
  */
 export const addSongToPlaylist = (songId) => ({
     [CALL_API]: {
-            endpoint: '/api/playlist/',
+            endpoint: `${baseUrl}playlist/`,
             method: 'POST',
             json: {song: songId},
             types: [
@@ -176,7 +179,7 @@ export const REMOVEPLAYLISTENTRY_FAILURE = 'REMOVEPLAYLISTENTRY_FAILURE'
  */
 export const removeEntryFromPlaylist = (entryId) => ({
     [CALL_API]: {
-            endpoint: `/api/playlist/${entryId}/`,
+            endpoint: `${baseUrl}playlist/${entryId}/`,
             method: 'DELETE',
             types: [
                 REMOVEPLAYLISTENTRY_REQUEST,
@@ -206,7 +209,7 @@ export const PLAYERSTATUS_FAILURE = 'PLAYERSTATUS_FAILURE'
  */
 export const loadPlayerStatus = () => ({
     [CALL_API]: {
-            endpoint: "/api/playlist/player/status/",
+            endpoint: `${baseUrl}playlist/player/`,
             method: 'GET',
             types: [PLAYERSTATUS_REQUEST, PLAYERSTATUS_SUCCESS, PLAYERSTATUS_FAILURE],
         }
@@ -226,7 +229,7 @@ export const PLAYERCOMMANDS_FAILURE = 'PLAYERCOMMANDS_FAILURE'
  */
 export const sendPlayerCommands = (commands) => ({
     [CALL_API]: {
-            endpoint: "/api/playlist/player/manage/",
+            endpoint: `${baseUrl}playlist/player/manage/`,
             method: 'PUT',
             json: commands,
             types: [PLAYERCOMMANDS_REQUEST, PLAYERCOMMANDS_SUCCESS, PLAYERCOMMANDS_FAILURE],
@@ -246,7 +249,7 @@ export const PLAYLIST_FAILURE = 'PLAYLIST_FAILURE'
  */
 export const loadPlaylist = () => ({
     [CALL_API]: {
-            endpoint: "/api/playlist/",
+            endpoint: `${baseUrl}playlist/`,
             method: 'GET',
             types: [PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE],
         }
