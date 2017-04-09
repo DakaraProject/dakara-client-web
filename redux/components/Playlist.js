@@ -41,7 +41,7 @@ export default class Playlist extends React.Component {
         var next;
         // compute time remaing for currently playing song
         var remainingTime = 0;
-        var playerStatus = this.props.playerStatus.data;
+        var playerStatus = this.props.playerStatus.data.status;
         if (playerStatus.playlist_entry) {
             remainingTime = playerStatus.playlist_entry.song.duration - playerStatus.timing;
         }

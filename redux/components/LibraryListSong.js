@@ -13,7 +13,7 @@ class LibraryListSong extends LibraryListAbstract {
         //compute time when each song is going to be played
         var currentTime = new Date().getTime();
         var remainingTime = 0;
-        var playerStatus = this.props.playerStatus;
+        var playerStatus = this.props.playerStatus.status;
         var playingId;
         if (playerStatus.playlist_entry) {
             playingId = playerStatus.playlist_entry.song.id;

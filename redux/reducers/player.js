@@ -12,8 +12,15 @@ import { PLAYERSTATUS_REQUEST, PLAYERSTATUS_SUCCESS, PLAYERSTATUS_FAILURE } from
 
 const defaultPlayerStatus = {
     data: {
-        playlist_entry: null,
-        timing: 0
+        status: {
+            playlist_entry: null,
+            timing: 0
+        },
+        manage: {
+            pause: false,
+            skip: false
+        },
+        errors: []
     },
     isFetching: false
 }

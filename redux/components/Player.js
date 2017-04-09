@@ -83,7 +83,7 @@ export default class Player extends React.Component {
 
 
     render() {
-        const playerStatus = this.props.playerStatus.data;
+        const { status: playerStatus, manage: playerCommand } = this.props.playerStatus.data;
         let song;
         let songData;
         let playIcon = "fa fa-";
@@ -103,8 +103,8 @@ export default class Player extends React.Component {
 
             progress = playerStatus.timing * 100 / duration; 
 
-            // TODO user playercmd pause status instead of player pause status
-            playIcon += playerStatus.paused ? "play" : "pause";
+            // use playercmd pause status instead of player pause status
+            playIcon += playerCommand.pause ? "play" : "pause";
         } else {
             playIcon += "stop";
             progress = 0;
@@ -128,7 +128,10 @@ export default class Player extends React.Component {
                 <div className="controls">
                     <button
                         className={"play-pause control primary" + (playerStatus.playlist_entry ? "" : " disabled")}
-                        onClick={() => this.props.sendPlayerCommands({pause: !playerStatus.paused})}
+                        onClick={() => {
+                                this.props.sendPlayerCommands({pause: !playerCommand.pause})
+                            }
+                        }
                     >
                         {playPausebtn}
                     </button>
