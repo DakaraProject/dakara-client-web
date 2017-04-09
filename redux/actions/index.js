@@ -133,10 +133,13 @@ export const addSongToPlaylist = (songId) => ({
                 ADDPLAYLIST_REQUEST,
                 {
                     type: ADDPLAYLIST_SUCCESS,
-                    meta: {delayedAction: {
-                        action: clearSongListNotification(songId),
-                        delay: 2000
-                    }}
+                    meta: {
+                        delayedAction: {
+                            action: clearSongListNotification(songId),
+                            delay: 2000
+                        },
+                        action: loadPlaylist()
+                    }
                 },
                 {
                     type: ADDPLAYLIST_FAILURE,
@@ -183,13 +186,20 @@ export const removeEntryFromPlaylist = (entryId) => ({
             method: 'DELETE',
             types: [
                 REMOVEPLAYLISTENTRY_REQUEST,
-                REMOVEPLAYLISTENTRY_SUCCESS,
+                {
+                    type: REMOVEPLAYLISTENTRY_SUCCESS,
+                    meta: {
+                        action: loadPlaylist()
+                    }
+                },
                 {
                     type: REMOVEPLAYLISTENTRY_FAILURE,
-                    meta: {delayedAction: {
-                        action: clearPlaylistEntryNotification(entryId),
-                        delay: 5000
-                    }}
+                    meta: {
+                        delayedAction: {
+                            action: clearPlaylistEntryNotification(entryId),
+                            delay: 5000
+                        }
+                    }
                 },
             ],
             meta: { entryId }
@@ -232,7 +242,16 @@ export const sendPlayerCommands = (commands) => ({
             endpoint: `${baseUrl}playlist/player/manage/`,
             method: 'PUT',
             json: commands,
-            types: [PLAYERCOMMANDS_REQUEST, PLAYERCOMMANDS_SUCCESS, PLAYERCOMMANDS_FAILURE],
+            types: [
+                PLAYERCOMMANDS_REQUEST,
+                {
+                    type: PLAYERCOMMANDS_SUCCESS,
+                    meta: {
+                        action: loadPlayerStatus()
+                    }
+                },
+                PLAYERCOMMANDS_FAILURE
+            ],
         }
 })
 

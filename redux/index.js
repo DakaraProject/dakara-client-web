@@ -16,7 +16,7 @@ import reducer from  './reducers'
 import ReduxThunk from 'redux-thunk'
 import persistState from 'redux-localstorage'
 import apiJsonTokenMiddleware from './middleware/apiJsonToken'
-import delayedActionMiddleware from './middleware/delayedActionMiddleware'
+import metaActionMiddleware from './middleware/metaActionMiddleware'
 
 const store = createStore(
     reducer,
@@ -25,7 +25,7 @@ const store = createStore(
             apiJsonTokenMiddleware,
             ReduxThunk,
             apiMiddleware,
-            delayedActionMiddleware
+            metaActionMiddleware
         ),
         persistState('token')
     )
