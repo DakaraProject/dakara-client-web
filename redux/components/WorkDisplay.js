@@ -3,35 +3,56 @@ import Highlighter from 'react-highlight-words'
 
 export default class WorkDisplay extends Component {
     render() {
-        var w = this.props.work
-        var title
+        const workLink = this.props.work
+
+        /**
+         * Work title with highlight
+         */
+        // TODO: This code is duplicated in SongExpandedWorkEntry
+
+        let title
         if (this.props.query != undefined) {
             title = (<div className="title">
                     <Highlighter
                         searchWords={this.props.query.works.concat(
                                 this.props.query.remaining
                                 )}
-                        textToHighlight={w.work.title}
+                        textToHighlight={workLink.work.title}
                     />
                 </div>)
         } else {
-            title = (<div className="title">{w.work.title}</div>)
+            title = (<div className="title">{workLink.work.title}</div>)
         }
 
-        var subtitle
-        if (w.work.subtitle) {
-             subtitle = (<div className="subtitle">{w.work.subtitle}</div>)
+        /**
+         * Subtitle if any
+         */
+
+        let subtitle
+        if (workLink.work.subtitle) {
+             subtitle = (<div className="subtitle">{workLink.work.subtitle}</div>)
         }
 
-        var link = (<span className="link-type">{w.link_type}</span>)
-        var linkNb
-        if (w.link_type_number) {
-            linkNb = (<span className="link-nb">{w.link_type_number}</span>)
+        /**
+         * Link between song and work infos
+         * with number if any
+         */
+
+        const link = (<span className="link-type">{workLink.link_type}</span>)
+        let linkNb
+        if (workLink.link_type_number) {
+            linkNb = (<span className="link-nb">{workLink.link_type_number}</span>)
         }
 
-        var work_icon
-        if (w.work.work_type && w.work.work_type.icon_name) {
-            work_icon = "fa fa-" + w.work.work_type.icon_name
+        /**
+         * Display work icon
+         * or default icon if none
+         */
+        // TODO: set default icon from server
+
+        let work_icon
+        if (workLink.work.work_type && workLink.work.work_type.icon_name) {
+            work_icon = "fa fa-" + workLink.work.work_type.icon_name
         } else {
             work_icon = "fa fa-picture-o"
         }

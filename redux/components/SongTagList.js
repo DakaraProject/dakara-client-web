@@ -2,17 +2,23 @@ import React, { Component } from 'react'
 
 export default class SongTagList extends Component {
     render() {
-        var { tags, setQuery, query } = this.props
-        var classClickable = ""
-        var searchIcon
+        /**
+         * Display Tags
+         * display as cliquable tags if a setQuery prop is passed
+         */
+
+        const { tags, setQuery, query } = this.props
+        let classClickable = ""
+        let searchIcon
         if (setQuery) {
+            // Set clickable and add search icon
             classClickable = " clickable"
             searchIcon = (<i className="fa fa-search"></i>)
         }
 
-        var tagList = tags.map(function(tag) {
+        const tagList = tags.map( tag => {
             // Grey out tag when searching a tag other than this
-            var classDisabled = ""
+            let classDisabled = ""
             if (query && query.tags.length && query.tags.indexOf(tag.name) == -1) {
                 classDisabled = " disabled"
             }
@@ -33,6 +39,6 @@ export default class SongTagList extends Component {
                 <div className="song-tag-list">
                     {tagList}
                 </div>
-                )
+        )
     }
 }

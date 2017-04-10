@@ -6,6 +6,12 @@ import Highlighter from 'react-highlight-words'
 export default class SongPreview extends Component {
     render() {
         const song = this.props.song
+
+        /**
+         * Song title
+         * highlighted with search query
+         */
+
         let titleContent
         if (this.props.query != undefined) {
             titleContent = (
@@ -23,10 +29,20 @@ export default class SongPreview extends Component {
 
         const title = (<div className="title">{titleContent}</div>)
 
+        /**
+         * Song version
+         */
+
         let version
         if (song.version) {
             version = (<div className="version">{song.version} version</div>)
         }
+
+
+        /**
+         * Tags and SongPreviewDetails
+         * SongPreviewDetails contains highlighted artists and works info
+         */
 
         let tags
         let songPreviewDetails

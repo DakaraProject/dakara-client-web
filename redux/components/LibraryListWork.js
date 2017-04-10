@@ -23,7 +23,7 @@ class LibraryListWork extends LibraryListAbstract {
               <ul id="library-entries" className="listing">
                 {libraryEntryWorkList}
               </ul>
-              )
+        )
     }
 }
 

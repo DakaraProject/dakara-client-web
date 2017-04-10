@@ -6,6 +6,9 @@ import LibraryEntrySongDisplay from './LibraryEntrySongDisplay'
 import LibraryEntrySongExpanded from './LibraryEntrySongExpanded'
 
 export default class LibraryEntrySong extends Component {
+    /**
+     * Toogle expanded view of song
+     */
     setExpanded = (expanded) => {
         const { location } = this.props
         const query = location.query
@@ -17,9 +20,15 @@ export default class LibraryEntrySong extends Component {
         }
         browserHistory.push({pathname: location.pathname, query})
     }
+
     render() {
-        const { location, song, query } = this.props
+        const { location, song, query, isPlaying, timeOfPlay } = this.props
         const expanded = location.query.expanded == song.id
+
+        /**
+         * Notification message
+         */
+
         let notification
         if (this.props.notification){
             notification = (
@@ -31,17 +40,22 @@ export default class LibraryEntrySong extends Component {
             )
         }
 
-        var timeOfPlay
-        if (this.props.isPlaying) {
-            timeOfPlay = (
+        /**
+         * Playlist info
+         * Box displaying time of play or currently playing status
+         */
+
+        let playlistInfo
+        if (isPlaying) {
+            playlistInfo = (
                 <div className="playlist-info-content" key="playing">
                     <div className="playing">
                         <i className="fa fa-play"></i>
                     </div>
                 </div>
             )
-        } else if (this.props.timeOfPlay) {
-            timeOfPlay = (
+        } else if (timeOfPlay) {
+            playlistInfo = (
                 <div className="playlist-info-content" key="queueing">
                     <div className="play-time">
                         <i className="fa fa-clock-o"></i>
@@ -50,6 +64,12 @@ export default class LibraryEntrySong extends Component {
                 </div>
             )
         }
+
+        /**
+         * Expanded details
+         * block containing additional info on song
+         * only displayed when song is expanded
+         */
 
         var songExpandedDetails
         if (expanded){
@@ -77,7 +97,7 @@ export default class LibraryEntrySong extends Component {
                             transitionEnterTimeout={300}
                             transitionLeaveTimeout={150}
                         >
-                            {timeOfPlay}
+                            {playlistInfo}
                         </ReactCSSTransitionGroup>
 
                         <div className="controls" id={"song-" + this.props.song.id}>

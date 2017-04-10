@@ -1,11 +1,14 @@
-import React from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import React, { Component } from 'react'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { browserHistory } from 'react-router'
 
-export default class LibraryEntryArtist extends React.Component {
+export default class LibraryEntryArtist extends Component {
     handleSearch = () => {
-        const newSearch = "artist:\"\"" + this.props.artist.name + "\"\"";
-        browserHistory.push({pathname: "/library/song", query: { search: newSearch}})
+        const newSearch = "artist:\"\"" + this.props.artist.name + "\"\""
+        browserHistory.push({
+            pathname: "/library/song",
+            query: { search: newSearch}
+        })
     }
 
     render() {
@@ -27,6 +30,6 @@ export default class LibraryEntryArtist extends React.Component {
                         </button>
                     </div>
                 </li>
-        );
+        )
     }
 }

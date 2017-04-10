@@ -1,27 +1,14 @@
-import React from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import utils from '../utils';
-import PlaylistEntry from './PlaylistEntry';
+import React, { Component } from 'react'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import utils from '../utils'
+import PlaylistEntry from './PlaylistEntry'
 
-export default class Playlist extends React.Component {
-/*    state = {
-        collapsed: true,
-        expandedId: null
-    }
-
-    handleCollapse = () => {
-        this.setState({collapsed: !this.state.collapsed, expandedId: null});
-    }
-
-    setExpandedId = (id) => {
-        this.setState({expandedId: id});
-    }
-*/
+export default class Playlist extends Component {
     pollPlaylist = () => {
         if (!this.props.playlist.entries.isFetching) {
             this.props.loadPlaylist()
         }
-        this.timeout = setTimeout(this.pollPlaylist, utils.params.pollInterval);
+        this.timeout = setTimeout(this.pollPlaylist, utils.params.pollInterval)
     }
 
     componentWillMount() {
@@ -35,37 +22,47 @@ export default class Playlist extends React.Component {
     }
 
     render() {
-        var currentTime = new Date().getTime();
-        var list = this.props.playlist.entries.data.results;
-        var playlistContent;
-        var next;
+        /**
+         * Compute time of play of each song
+         */
+
+        const currentTime = new Date().getTime()
+        const list = this.props.playlist.entries.data.results
+        let playlistContent
+        let next
+
         // compute time remaing for currently playing song
-        var remainingTime = 0;
-        var playerStatus = this.props.playerStatus.data.status;
+        let remainingTime = 0
+        const playerStatus = this.props.playerStatus.data.status
         if (playerStatus.playlist_entry) {
-            remainingTime = playerStatus.playlist_entry.song.duration - playerStatus.timing;
+            remainingTime = playerStatus.playlist_entry.song.duration - playerStatus.timing
         }
 
         //compute time when each song is going to be played
-        var timeOfPlay = {};
-        for(var entry of list){
-            timeOfPlay[entry.id] = currentTime + remainingTime * 1000;
-            remainingTime += +(entry.song.duration);
+        const timeOfPlay = {}
+        for(let entry of list){
+            timeOfPlay[entry.id] = currentTime + remainingTime * 1000
+            remainingTime += +(entry.song.duration)
         }
-        var playListEndTime = currentTime + remainingTime * 1000;
+        const playListEndTime = currentTime + remainingTime * 1000
+
+        /**
+         * Display entries when playlist is not collapsed
+         */
 
         if (!this.props.playlist.collapsed){
-            const removeEntry = this.props.removeEntryFromPlaylist;
+            const removeEntry = this.props.removeEntryFromPlaylist
             const notifications = this.props.playlist.notifications
-            const playlistEntries = list.map((entry) => {
-                return ( <PlaylistEntry
+            const playlistEntries = list.map( entry => (
+                        <PlaylistEntry
                             key={entry.id}
                             entry={entry}
                             timeOfPlay={timeOfPlay[entry.id]}
                             removeEntry={removeEntry}
                             notification={notifications[entry.id]}
-                        /> );
-            })
+                        />
+            ))
+
             playlistContent = (
                 <ReactCSSTransitionGroup
                     component="ul"
@@ -78,26 +75,43 @@ export default class Playlist extends React.Component {
                     {playlistEntries}
                 </ReactCSSTransitionGroup>
                 )
-        } 
+        }
+
+
+        /**
+         * If there is at least one song in playlist
+         * display the next song in taskbar
+         */
+
         if (list[0]){
             next = (
                 <div className="info-item">
                     <span className="stat">Next</span>
                     <span className="description">{list[0].song.title}</span>
                 </div>
-            );
+            )
         }
-        var endingInfo;
+
+        /**
+         * Display playlist en time
+         * when playlist is not empty
+         */
+
+        let endingInfo
         if (list.length != 0 || playerStatus.playlist_entry) { 
             endingInfo = (
                 <div className="info-item">
                     <span className="stat">{utils.formatHourTime(playListEndTime)}</span>
                     <span className="description">Ending<br/>time</span>
                 </div>
-                );
+                )
         }
 
-        var playlistSize = this.props.playlist.entries.data.count;
+        /**
+         * Playlist size
+         */
+
+        let playlistSize = this.props.playlist.entries.data.count
 
         return (
         <div id="playlist">
@@ -119,6 +133,6 @@ export default class Playlist extends React.Component {
                 {endingInfo}
             </div>
         </div>
-        );
+        )
     }
 }

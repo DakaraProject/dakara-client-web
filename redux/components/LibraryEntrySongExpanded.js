@@ -1,74 +1,84 @@
-import React from 'react';
+import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
-import SongTagList from './SongTagList';
-import SongExpandedWorkEntry from './SongExpandedWorkEntry';
-import SongExpandedArtistEntry from './SongExpandedArtistEntry';
+import SongTagList from './SongTagList'
+import SongExpandedWorkEntry from './SongExpandedWorkEntry'
+import SongExpandedArtistEntry from './SongExpandedArtistEntry'
 
-export default class LibraryEntrySongExpanded extends React.Component {
+export default class LibraryEntrySongExpanded extends Component {
+    /**
+     * Method used by child components WorkEntry and ArtistsEnty
+     * to set new search criteria
+     */
     setQuery = (search) => {
         const { location } = this.props
         browserHistory.push({pathname: location.pathname, query: {search}})
     }
 
     render() {
-        var song = this.props.song;
+        const song = this.props.song
 
-        var title = (<div className="title">{song.title}</div>);
-        var detail;
-        if(song.detail) {
-            detail = (<div className="detail">{song.detail}</div>);
-        }
+        /**
+         * Works
+         */
 
-        var worksByType = {};
+        // Generate object containing works by type
+        const worksByType = {}
 
-        for(var workItem of song.works) {
-            var workType = workItem.work.work_type.query_name;
-            var list = worksByType[workType];
+        for(let workItem of song.works) {
+            const workType = workItem.work.work_type.query_name
+            let list = worksByType[workType]
             if(!list) {
-                list = [];
-                worksByType[workType] = list;
+                list = []
+                worksByType[workType] = list
             }
-            list.push(workItem);
+            list.push(workItem)
         }
 
-        var worksRenderList = Object.keys(worksByType).map(function(key){
-            var worksList = worksByType[key];
-            var workType = worksList[0].work.work_type;
+        // Iterate over each work type
+        const worksRenderList = Object.keys(worksByType).map( key => {
+            const worksList = worksByType[key]
+            const workType = worksList[0].work.work_type
 
-            var worksForTypeList = worksList.map(function(work) {
-                return (
+            // Create SongExpandedWorkEntry for each work for this work type
+            const worksForTypeList = worksList.map( work => (
                         <SongExpandedWorkEntry
                             key={work.work.id}
                             work={work}
                             setQuery={this.setQuery}
                         />
-                        );
-            }.bind(this));
+            ))
 
+            // Display the list of works, preceded by the work type
             return (
                     <div key={workType.query_name} className="works expanded-item">
                         <h4 className="header">
                             <span className="icon">
                                 <i className={"fa fa-" + workType.icon_name}></i>
                             </span>
-                            <span className="name">{workType.name + (worksForTypeList.length > 1 ? 's' : '')}</span>
+                            <span className="name">
+                                {workType.name + (worksForTypeList.length > 1 ? 's' : '')}
+                            </span>
                         </h4>
                         <ul className="sublisting">{worksForTypeList}</ul>
                     </div>
                 )
-        }.bind(this))
+        })
 
-        var artistList = song.artists.map(function(artist) {
-            return (
+        /**
+         * Artists
+         */
+
+        // Create SongExpandedArtistEntry for each artist
+        const artistList = song.artists.map(artist => (
                     <SongExpandedArtistEntry
                         key={artist.id}
                         artist={artist}
                         setQuery={this.setQuery}
                     />
-                    );
-        }.bind(this));
+        ))
 
-        var artists;
+        // Display the list of works preceded by "Artist"
+        let artists
         if (song.artists.length > 0) {
             artists = (
                     <div className="artists expanded-item">
@@ -80,10 +90,14 @@ export default class LibraryEntrySongExpanded extends React.Component {
                         </h4>
                         <ul className="sublisting">{artistList}</ul>
                     </div>
-                );
+                )
         }
 
-        var detailSong;
+        /**
+         * Details
+         */
+
+        let detailSong
         if (song.detail) {
             detailSong = (
                     <div className="detail-song expanded-item">
@@ -95,10 +109,10 @@ export default class LibraryEntrySongExpanded extends React.Component {
                         </h4>
                         <div className="text">{song.detail}</div>
                     </div>
-                );
+                )
         }
 
-        var detailVideo;
+        let detailVideo
         if (song.detail_video) {
             detailVideo = (
                     <div className="detail_video expanded-item">
@@ -110,10 +124,14 @@ export default class LibraryEntrySongExpanded extends React.Component {
                         </h4>
                         <div className="text">{song.detail_video}</div>
                     </div>
-                );
+                )
         }
 
-        var tags;
+        /**
+         * Tags
+         */
+
+        let tags
         if (song.tags.length > 0) {
             tags = (
                     <div className="tags expanded-item">
@@ -125,7 +143,7 @@ export default class LibraryEntrySongExpanded extends React.Component {
                         </h4>
                         <SongTagList tags={song.tags} setQuery={this.setQuery}/>
                     </div>
-                );
+                )
         }
 
         return (

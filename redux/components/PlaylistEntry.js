@@ -1,66 +1,13 @@
-import React from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import React, { Component } from 'react'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { browserHistory } from 'react-router'
-import utils from '../utils';
-import SongDisplay from './LibraryEntrySongDisplay';
+import utils from '../utils'
+import SongDisplay from './LibraryEntrySongDisplay'
 
-export default class PlaylistEntry extends React.Component {
-/*
-    state = {notification: null}
-
-    clearNotification = () => {
-        this.setState({notification: null});
-    }
-
-    static contextTypes = {
-        navigator: React.PropTypes.object
-    }
-
-    clearNotification = () => {
-        this.setState({notification: null});
-    }
-
-    handleExpand = (expand) => {
-        this.context.navigator.setQuerySongAndExpanded(
-            "title:\"\"" + this.props.entry.song.title + "\"\"",
-            this.props.entry.song.id
-        );
-    }
-
-    handleReponse = (status) =>{
-        if (status) {
-           this.setState({
-                notification: {
-                    message: "Successfuly removed!",
-                    type: "success"
-                }
-            });
-        } else {
-            this.setState({
-                notification: {
-                    message: "Error attempting to remove song from playlist",
-                    type: "danger"
-                }
-            });
-            setTimeout(this.clearNotification, 5000);
-        }
-    }
-
-    handleRemove = (e) =>{
-       this.setState({
-            notification: {
-                message: "Removing...",
-                type: "success"
-            }
-        });
-        this.props.removeEntry(this.props.entry.id, this.handleReponse);
-
-    }
-*/
-
+export default class PlaylistEntry extends Component {
     handleSearch = () => {
         const song = this.props.entry.song
-        const newSearch = "title:\"\"" + song.title + "\"\"";
+        const newSearch = "title:\"\"" + song.title + "\"\""
         browserHistory.push({
             pathname: "/library/song",
             query: {
@@ -70,8 +17,8 @@ export default class PlaylistEntry extends React.Component {
     }
 
     render() {
-        var message;
-        var className = "playlist-entry listing-entry listing-entry-song hoverizable";
+        let message
+        let className = "playlist-entry listing-entry listing-entry-song hoverizable"
         if(this.props.notification){
             message = <div className="notified">
                         <div className={"notification " + this.props.notification.type}>
@@ -79,7 +26,7 @@ export default class PlaylistEntry extends React.Component {
                         </div>
                       </div>
 
-            className += " delayed";
+            className += " delayed"
         }
 
         return (
@@ -114,6 +61,6 @@ export default class PlaylistEntry extends React.Component {
                     </ReactCSSTransitionGroup>
                 </div>
             </li>
-        );
+        )
     }
 }

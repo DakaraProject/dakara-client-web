@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react'
 
-export default class SongExpandedArtistEntry extends React.Component {
+export default class SongExpandedArtistEntry extends Component {
     handleSearchArtist = () => {
-        this.props.setQuery('artist:""' + this.props.artist.name + '""');
+        this.props.setQuery('artist:""' + this.props.artist.name + '""')
     }
 
     render() {
-
-        var artist = this.props.artist;
+        const artist = this.props.artist
         return (
                 <li className="sublisting-entry">
                     <div className="controls subcontrols">
@@ -21,6 +20,6 @@ export default class SongExpandedArtistEntry extends React.Component {
                         </div>
                     </div>
                 </li>
-                );
+        )
     }
 }
