@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import utils from '../utils'
 import LibraryEntrySongPreview from './LibraryEntrySongPreview'
 
-export default class SongDisplay extends Component {
+export default class LibraryEntrySongDisplay extends Component {
     render() {
         var song = this.props.song
         var songPreview = (<LibraryEntrySongPreview
@@ -13,14 +13,10 @@ export default class SongDisplay extends Component {
                             />)
 
         return (
-                <div className="song-display entry-info">
-                    <div className="song-view">
-                        {songPreview}
-                    </div>
+                <div className="library-entry-song-display">
+                    {songPreview}
                     <div className="duration">
-                        <div className="duration-content">
-                            {utils.formatDuration(song.duration)}
-                        </div>
+                        {utils.formatDuration(song.duration)}
                     </div>
                 </div>
             )

@@ -81,8 +81,8 @@ export default class LibraryEntrySong extends Component {
         }
 
         return (
-                <li className="library-entry listing-entry listing-entry-song">
-                    <div className="song-compact hoverizable">
+                <li className="library-entry listing-entry library-entry-song">
+                    <div className="library-entry-song-compact hoverizable">
                         <LibraryEntrySongDisplay
                             song={song}
                             query={query}
@@ -102,7 +102,7 @@ export default class LibraryEntrySong extends Component {
 
                         <div className="controls" id={"song-" + this.props.song.id}>
                             <button
-                                className="add control primary"
+                                className="control primary"
                                 onClick={() => {
                                     this.props.addSongToPlaylist(this.props.song.id)
                                 }}

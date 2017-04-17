@@ -1,102 +1,94 @@
-/**
- * Dakara project
- *
- * Song style file
- */
+//
+// Dakara Project
+//
+// Song library entry style file
+//
 
-/* Provides:
 
-`listing-entry-song` subclass.
-`tag` class.
+// `listing-entry-song` subclass.
+// `tag` class.
 
-*/
 
-/* `listing-entry-song` subclass:
-
-The `listing-entry-song` class is a specialization of the `listing-entry` class
-defined in the `listing` module, which is aimed to stylize the specific elements
-of a list of songs.
-
-The song can be represented in a compact, one-line view or in an expanded,
-multi-lines view. More elements are present in the expanded view, which takes
-usually more space and have larger margins compared to the compact view. The
-compact view stays even if the expandes view is displayed, it only contains less
-elements. The expanded view has a appearance/disappearance animation where the
-expanded line grows or shrink vertically from the top.
-
-*/
-
-.listing-entry.listing-entry-song {
+// `listing-entry-song` subclass:
+//
+// The `listing-entry-song` class is a specialization of the `listing-entry`
+// class defined in the `listing` module, which is aimed to stylize the specific
+// elements of a list of songs.
+//
+// The song can be represented in a compact, one-line view or in an expanded,
+// multi-lines view. More elements are present in the expanded view, which takes
+// usually more space and have larger margins compared to the compact view. The
+// compact view stays even if the expandes view is displayed, it only contains
+// less elements. The expanded view has a appearance/disappearance animation
+// where the expanded line grows or shrink vertically from the top.
+.listing-entry.library-entry-song {
     // this list entry is not hoverizable, in order to make only the compact
     // view react to hover
 
     // song compact view
     // this class must be used with the `hoverizable` subclass
-    .song-compact {
+    .library-entry-song-compact {
         display: flex;
 
         // TODO simplify that
-        .song-display {
-            .song-view {
+        .library-entry-song-display {
+            flex: 1;
+            display: flex;
+
+            .library-entry-song-preview {
                 flex: 1;
+                display: flex;
+                align-items: center;
+                padding-left: @gap-horizontal;
+                position: relative;
+                overflow-y: hidden;
+                cursor: pointer;
+                height: @listing-entry-height;
 
-                .song-preview {
-                    display: flex;
-                    align-items: center;
-                    padding-left: @gap-horizontal;
-                    position: relative;
-                    overflow-y: hidden;
-                    cursor: pointer;
-                    height: @listing-entry-height;
+                .title-header {
+                    flex: 1;
 
-                    .title-header {
-                        flex: 1;
+                    // this is a hack
+                    width: 0;
 
-                        // this is a hack
-                        width: 0;
-
-                        * {
-                            display: inline;
-                        }
-
-                        .title {
-                            .text-truncate();
-                            font-size: 1.05em;
-                        }
-
-                        .version {
-                            margin-left: 0.5em;
-                            opacity: 0.65;
-                        }
+                    * {
+                        display: inline;
                     }
 
-                    .song-preview-details {
-                        .make-song-preview-details(0.9em, @black-70);
-                        margin-right: @gap-horizontal;
-                        align-items: flex-end;
+                    .title {
+                        .text-truncate();
+                        font-size: 1.05em;
                     }
 
-                    .song-tag-list {
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        font-size: 0.6em;
-                        line-height: 1em;
+                    .version {
+                        margin-left: 0.5em;
+                        opacity: 0.65;
                     }
+                }
+
+                .song-preview-details {
+                    .make-song-preview-details(0.9em, @black-70);
+                    margin-right: @gap-horizontal;
+                    align-items: flex-end;
+                }
+
+                .song-tag-list {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    font-size: 0.6em;
+                    line-height: 1em;
                 }
             }
 
             // class for song duration
-            // TODO simplify that: does it really need a `content`?
             .duration {
-                .duration-content {
-                    font-size: 0.85em;
-                    line-height: @listing-entry-height;
-                    width: @listing-entry-height;
-                    background: @text-light;
-                    color: @neutral-mid;
-                    text-align: center;
-                }
+                font-size: 0.85em;
+                line-height: @listing-entry-height;
+                width: @listing-entry-height;
+                background: @text-light;
+                color: @neutral-mid;
+                text-align: center;
             }
         }
 
@@ -151,7 +143,7 @@ expanded line grows or shrink vertically from the top.
 
         // hover of the compact view
         &:hover {
-            .song-display .duration .duration-content {
+            .library-entry-song-display .duration {
                 background: @neutral-clear-lighter;
             }
 
@@ -163,7 +155,7 @@ expanded line grows or shrink vertically from the top.
 
     // alternatiion of the compact view
     &:nth-child(2n) {
-        .song-display .duration .duration-content {
+        .library-entry-song-display .duration {
             background: @neutral-clear-light;
         }
 

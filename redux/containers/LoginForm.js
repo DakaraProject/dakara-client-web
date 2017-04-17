@@ -34,7 +34,7 @@ class LoginForm extends React.Component {
         }
 
         return (
-            <div id="login-page">
+            <div id="login" className="box">
                 <div className="page-head">
                     <h2>Login</h2>
                     <ReactCSSTransitionGroup

@@ -52,7 +52,7 @@ export default class SongPreview extends Component {
         }
 
         return (
-                <div className="song-preview" onClick={this.props.handleClick}>
+                <div className="library-entry-song-preview" onClick={this.props.handleClick}>
                     <div className="title-header">
                         {title}
                         {version}

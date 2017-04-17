@@ -106,7 +106,7 @@ class LibraryPage extends Component {
         }
 
         return (
-            <div id="libraries">
+            <div id="libraries" className="box">
                 <nav id="library-chooser">
                     <LibraryTab
                         queryName="song"

@@ -4,7 +4,7 @@ const path = require('path');
 module.exports = {
   entry: [
     './redux/index.js',
-    './less/dakara.less'
+    './less/main.less'
   ],
   module: {
     loaders: [

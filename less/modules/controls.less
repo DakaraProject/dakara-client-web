@@ -1,34 +1,29 @@
-/**
- * Dakara project
- *
- * Controls style file
- */
+//
+// Dakara Project
+//
+// Controls style file
+//
 
-/* Provides:
+// `controls` class
+// `make-controls` function
 
-`controls` class.
-`make-controls` function.
-
-*/
-
-/* `controls` class:
-
-The `controls` class is a manager for buttons, i.e. controls, which change feel
-and color depending on hover and activation. If contained in a `listing-entry`
-class line, they also depend on their parent hover and alteration. The class
-does not set the size of the controls, this is performed by the `make-controls`
-function.
-
-It provides a `control` subclass for those elements, which has the basic
-properties. Extra subclasses are available for the color of the control.
-
-*/
-
+// `controls` class:
+//
+// The `controls` class is a manager for buttons, i.e. controls, which change
+// feel and color depending on hover and activation. If contained in a
+// `listing-entry` class line, they also depend on their parent hover and
+// alteration. The class does not set the size of the controls, this is
+// performed by the `make-controls` function.
+//
+// It provides a `control` subclass for those elements, which has the basic
+// properties. Extra subclasses are available for the color of the control.
 .controls {
     // maybe not necessary
     display: flex;
 
+    // subclass for a control button
     .control {
+        display: block;
         cursor: pointer;
         text-align: center;
         color: @text-dark;
@@ -36,14 +31,17 @@ properties. Extra subclasses are available for the color of the control.
         outline: none;
         padding: 0;
 
+        // spacing between controls
         &:not(:first-child) {
             margin-left: @gap-horizontal;
         }
 
+        // if the control contains a picture, it is vertically centered
         img {
             vertical-align: middle;
         }
 
+        // maker for different type of control buttons
         .make-control(@color-enabled, @color-disabled, @color-activated) {
             background: @color-enabled;
 
@@ -52,7 +50,8 @@ properties. Extra subclasses are available for the color of the control.
                 cursor: default;
             }
 
-            &:not(.disabled):hover {
+            &:not(.disabled):hover,
+            &:not(.disabled):focus {
                 background: @color-activated !important;
             }
         }
@@ -79,10 +78,10 @@ properties. Extra subclasses are available for the color of the control.
     }
 }
 
+
 // lighten control on even line of a `listing` list
 .listing-entry:nth-child(even) .controls:not(.subcontrols),
 .sublisting-entry:nth-child(even) .controls.subcontrols {
-// .listing-entry:nth-child(even) .controls {
     .control {
         .make-control-line-even(@color-normal, @color-disabled) {
             background: @color-normal;
@@ -114,8 +113,10 @@ properties. Extra subclasses are available for the color of the control.
     }
 }
 
+
 // lighten control when line hovered on a list
-.hoverizable:hover .controls {
+.hoverizable:hover .controls,
+.hoverizable:focus .controls {
     .control {
         .make-control-line-hover(@color-normal, @color-disabled) {
             &:not(.disabled) {
@@ -149,13 +150,11 @@ properties. Extra subclasses are available for the color of the control.
     }
 }
 
-/* `make-controls` function:
 
-The function has to be called wherever a `controls` class is used. It defines
-the size of the controls.
-
-*/
-
+// `make-controls` function:
+//
+// The function has to be called wherever a `controls` class is used. It defines
+// the size of the controls.
 .make-controls(@height, @font-size: 1em) {
     .control {
         .square(@height);

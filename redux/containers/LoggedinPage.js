@@ -20,7 +20,7 @@ class LoggedinPage extends Component {
     render() {
         return (
             <div>
-                <div id="playerbox">
+                <div id="playerbox" className="box">
                     <PlayerPage/>
                     <PlaylistPage/>
                 </div>
