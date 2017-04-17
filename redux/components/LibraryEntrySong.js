@@ -48,19 +48,15 @@ export default class LibraryEntrySong extends Component {
         let playlistInfo
         if (isPlaying) {
             playlistInfo = (
-                <div className="playlist-info-content" key="playing">
-                    <div className="playing">
-                        <i className="fa fa-play"></i>
-                    </div>
+                <div className="playing" key="playing">
+                    <i className="fa fa-play"></i>
                 </div>
             )
         } else if (timeOfPlay) {
             playlistInfo = (
-                <div className="playlist-info-content" key="queueing">
-                    <div className="play-time">
-                        <i className="fa fa-clock-o"></i>
-                        {utils.formatHourTime(this.props.timeOfPlay)}
-                    </div>
+                <div className="queueing" key="queueing">
+                    <i className="fa fa-clock-o"></i>
+                    {utils.formatHourTime(this.props.timeOfPlay)}
                 </div>
             )
         }
@@ -121,6 +117,7 @@ export default class LibraryEntrySong extends Component {
                     </div>
                     <ReactCSSTransitionGroup
                         component="div"
+                        className='library-entry-song-expanded-container'
                         transitionName="expand-view"
                         transitionEnterTimeout={600}
                         transitionLeaveTimeout={300}

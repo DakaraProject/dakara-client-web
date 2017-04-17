@@ -5,15 +5,11 @@
 //
 
 
-// `listing-entry-song` subclass.
-// `tag` class.
-
-
-// `listing-entry-song` subclass:
+// `library-entry-song` subclass:
 //
-// The `listing-entry-song` class is a specialization of the `listing-entry`
-// class defined in the `listing` module, which is aimed to stylize the specific
-// elements of a list of songs.
+// This class is a specialization of the `listing-entry` class defined in the
+// `listing` module. It is aimed to stylize the specific elements of a list of
+// songs.
 //
 // The song can be represented in a compact, one-line view or in an expanded,
 // multi-lines view. More elements are present in the expanded view, which takes
@@ -21,16 +17,16 @@
 // compact view stays even if the expandes view is displayed, it only contains
 // less elements. The expanded view has a appearance/disappearance animation
 // where the expanded line grows or shrink vertically from the top.
+//
+// This list entry is not hoverizable, in order to make only the compact view
+// react to hover.
 .listing-entry.library-entry-song {
-    // this list entry is not hoverizable, in order to make only the compact
-    // view react to hover
 
     // song compact view
     // this class must be used with the `hoverizable` subclass
     .library-entry-song-compact {
         display: flex;
 
-        // TODO simplify that
         .library-entry-song-display {
             flex: 1;
             display: flex;
@@ -45,29 +41,26 @@
                 cursor: pointer;
                 height: @listing-entry-height;
 
-                .title-header {
+                .header {
                     flex: 1;
+                    .text-truncate();
 
                     // this is a hack
                     width: 0;
 
-                    * {
-                        display: inline;
-                    }
-
                     .title {
-                        .text-truncate();
+                        display: inline;
                         font-size: 1.05em;
                     }
 
                     .version {
+                        display: inline;
                         margin-left: 0.5em;
                         opacity: 0.65;
                     }
                 }
 
                 .song-preview-details {
-                    .make-song-preview-details(0.9em, @black-70);
                     margin-right: @gap-horizontal;
                     align-items: flex-end;
                 }
@@ -93,50 +86,43 @@
         }
 
         // class for data relative to the status of the song in the playlist
-        // TODO should be at the same level of `duration`...
-        // TODO simplify that: does it really need a `content`?
         .playlist-info {
-            display: flex;
-            align-items: flex-start;
+            line-height: @listing-entry-height;
+            background: @brand-info;
+            color: @text-dark;
+            text-align: center;
 
-            .playlist-info-content {
-                line-height: @listing-entry-height;
-                background: @brand-info;
-                color: @text-dark;
-                text-align: center;
+            .queueing {
+                min-width: (2 * @listing-entry-height);
 
-                .play-time {
-                    min-width: (2 * @listing-entry-height);
-
-                    i {
-                        padding-right: 0.5em;
-                    }
+                i {
+                    padding-right: 0.5em;
                 }
+            }
 
-                .playing {
-                    width: @listing-entry-height;
-                }
+            .playing {
+                width: @listing-entry-height;
+            }
 
-                // appearance transition of the playlist info class
-                &.playlist-info-enter {
-                    max-width: 0;
-                    overflow: hidden;
+            // appearance transition of the playlist info class
+            &.playlist-info-enter {
+                max-width: 0;
+                overflow: hidden;
 
-                    &.playlist-info-enter-active {
-                        max-width: (2 * @listing-entry-height);
-                        .transition(max-width 300ms ease-out);
-                    }
-                }
-
-                // disappearance transition of the playlist info class
-                &.playlist-info-leave {
+                &.playlist-info-enter-active {
                     max-width: (2 * @listing-entry-height);
-                    overflow: hidden;
+                    .transition(max-width 300ms ease-out);
+                }
+            }
 
-                    &.playlist-info-leave-active {
-                        max-width: 0;
-                        .transition(max-width 150ms ease-out);
-                    }
+            // disappearance transition of the playlist info class
+            &.playlist-info-leave {
+                max-width: (2 * @listing-entry-height);
+                overflow: hidden;
+
+                &.playlist-info-leave-active {
+                    max-width: 0;
+                    .transition(max-width 150ms ease-out);
                 }
             }
         }
@@ -147,7 +133,7 @@
                 background: @neutral-clear-lighter;
             }
 
-            .playlist-info .playlist-info-content {
+            .playlist-info {
                 background: @brand-info-lighter;
             }
         }
@@ -159,15 +145,15 @@
             background: @neutral-clear-light;
         }
 
-        .playlist-info .playlist-info-content {
+        .playlist-info {
             background: @brand-info-light;
         }
     }
 
     // song expanded view
     // should not be used with the `hoverized` subclass
-    .song-expanded-details {
-        @height: 0.75 * @listing-entry-height;
+    .library-entry-song-expanded-details {
+        @height: @sublisting-entry-height;
         display: table;
         width: 100%;
         border-collapse: separate;
@@ -197,38 +183,8 @@
                 }
             }
 
-            .sublisting-entry, .text, .song-tag-list {
+            .text, .song-tag-list {
                 background: darken(@neutral-mid, 2%);
-
-                .listing-entry:nth-child(even)& {
-                    background: darken(@neutral-mid-light, 3%);
-                }
-            }
-
-            .sublisting {
-                list-style-type: none;
-                padding: 0;
-                display: table-cell;
-                width: 100%;
-
-                .sublisting-entry {
-                    line-height: @height;
-                    height: @height;
-                    display: flex;
-
-                    &:nth-child(even) {
-                        background: darken(@neutral-mid, 1%);
-
-                        .listing-entry:nth-child(even)& {
-                            background: darken(@neutral-mid-light, 2%);
-                        }
-                    }
-
-
-                    .controls {
-                        .make-controls(@height, 0.85 * @listing-entry-control-font-size);
-                    }
-                }
             }
 
             .text {
@@ -249,20 +205,18 @@
         }
 
         .works {
-            .work {
-                .make-song-work(@black-70, 0.81em);
-
+            .work-display {
                 flex: 1;
                 padding: 0 @gap-horizontal;
 
-                > * {
-                    display: inline;
+                .link {
+                    font-size: 0.81em;
                 }
             }
         }
     }
 
-    .song-expanded-details-container {
+    .library-entry-song-expanded-subcontainer {
         // appearance transition of the expanded view
         &.expand-view-enter {
             overflow: hidden;
@@ -284,236 +238,5 @@
                 .transition(max-height 300ms ease-out);
             }
         }
-    }
-}
-
-.make-song-work(@border-color, @link-font-size: 0.9em) {
-    > *:not(:first-child) {
-        margin-left: 0.5em;
-    }
-
-    .link {
-        .link-content {
-            text-transform: uppercase;
-            border: solid 1px @border-color;
-            padding: 0 2px;
-            font-size: @link-font-size;
-        }
-    }
-
-    .subtitle {
-        opacity: 0.65;
-    }
-
-    .title {
-    }
-
-    .type {
-    }
-}
-
-.make-song-preview-details(@font-size, @border-color) {
-    display: flex;
-    flex-direction: column;
-    font-size: @font-size;
-
-    .artists {
-        .artist:not(:last-child)::after {
-            content: ", ";
-        }
-    }
-
-    .work {
-        .make-song-work(@border-color);
-
-        * {
-            display: inline;
-        }
-    }
-}
-
-/*
-.make-song-view(@height, @height-header, @type-font-size, @listing-entry-control-font-size) {
-    @color-light: darken(@neutral-clear, 7%);
-    @color-dark: darken(@neutral-mid, 2%);
-
-    .title-header {
-        padding: 0 @gap-horizontal;
-        height: @height-header;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-
-        * {
-            display: inline;
-        }
-
-        .title {
-            font-size: 1.05em;
-        }
-
-        .detail {
-            margin-left: 0.5em;
-            opacity: 0.65;
-        }
-    }
-
-    .make-sublisting() {
-        margin: 0;
-        padding: 0;
-        // background: @black-80;
-        list-style-type: none;
-        overflow-x: hidden;
-
-        > li {
-            display: flex;
-            padding-left: @gap-horizontal;
-
-            .controls {
-                .make-controls(@height, @listing-entry-control-font-size);
-            }
-        }
-    }
-
-    .works {
-        .works-list {
-            .make-sublisting();
-
-            > li {
-                .work {
-                    flex: 1;
-                    display: flex;
-                    align-items: center;
-
-                    .make-song-work(darken(@black-70, 2%));
-
-                    .work-link {
-                        flex: 1;
-                    }
-
-                    .work-type {
-                        background: @color-light;
-                        color: @color-dark;
-                    }
-                }
-
-                .work-type {
-                    font-size: @type-font-size;
-                    line-height: @height;
-                    width: @height;
-                    text-align: center;
-                }
-
-
-                &:nth-child(2n) .work .work-type {
-                    background: lighten(@color-light, 2%);
-                }
-
-                &:hover .work .work-type {
-                    background: lighten(@color-light, 3.5%);
-                }
-            }
-        }
-    }
-
-    .artists {
-        .artists-list {
-            .make-sublisting();
-
-            > li {
-                .artist {
-                    flex: 1;
-                    display: flex;
-                    align-items: center;
-
-                    .artist-name {
-                    }
-                }
-            }
-        }
-    }
-
-
-    li {
-        background: @color-dark;
-
-        &:nth-child(2n) {
-            background: lighten(@color-dark, 1.25%);
-        }
-
-        &:hover {
-            background: lighten(@color-dark, 3.5%);
-        }
-    }
-
-}
-*/
-
-/* `tag` class:
-
-The `tag` class is a basic style for tags in musics. It can be extended with 8
-different colorized subclasses.
-
-Its size is determined in the `listing-entry-song` class, whether the song is
-displayed in compact or in expanded view.
-
-*/
-
-.tag {
-    padding: 0 @gap-horizontal;
-    display: inline-block;
-    color: fade(@text-dark, 50%);
-    font-weight: 700;
-
-    &.clickable {
-        cursor: pointer;
-
-        i {
-            margin-right: 0.5em;
-            font-size: 1.2em;
-        }
-    }
-
-    &.disabled {
-        opacity: 0.5;
-    }
-
-    .make-tag(@color) {
-        background-color: @color;
-
-        &.clickable {
-            &:hover {
-                background-color: lighten(@color, 5%);
-            }
-        }
-
-        &.disabled {
-            background-color: desaturate(@color, 50%);
-        }
-    }
-
-    &.tag-color-0 {
-        .make-tag(#1b9e77); 
-    }
-    &.tag-color-1 {
-        .make-tag(#d95f02); 
-    }
-    &.tag-color-2 {
-        .make-tag(#7570b3); 
-    }
-    &.tag-color-3 {
-        .make-tag(#e7298a); 
-    }
-    &.tag-color-4 {
-        .make-tag(#66a61e); 
-    }
-    &.tag-color-5 {
-        .make-tag(#e6ab02); 
-    }
-    &.tag-color-6 {
-        .make-tag(#a6761d); 
-    }
-    &.tag-color-7 {
-        .make-tag(#666666); 
     }
 }

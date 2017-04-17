@@ -12,11 +12,11 @@ export default class SongPreview extends Component {
          * highlighted with search query
          */
 
-        let titleContent
+        let title
         if (this.props.query != undefined) {
-            titleContent = (
+            title = (
                         <Highlighter
-                            highlightClassName='highlight'
+                            className="title"
                             searchWords={this.props.query.titles.concat(
                                     this.props.query.remaining
                                     )}
@@ -24,10 +24,8 @@ export default class SongPreview extends Component {
                         />
                     )
         } else {
-            titleContent = song.title
+            title = (<span className="title">{song.title}</span>)
         }
-
-        const title = (<div className="title">{titleContent}</div>)
 
         /**
          * Song version
@@ -35,9 +33,8 @@ export default class SongPreview extends Component {
 
         let version
         if (song.version) {
-            version = (<div className="version">{song.version} version</div>)
+            version = (<span className="version">{song.version} version</span>)
         }
-
 
         /**
          * Tags and SongPreviewDetails
@@ -53,7 +50,7 @@ export default class SongPreview extends Component {
 
         return (
                 <div className="library-entry-song-preview" onClick={this.props.handleClick}>
-                    <div className="title-header">
+                    <div className="header">
                         {title}
                         {version}
                     </div>

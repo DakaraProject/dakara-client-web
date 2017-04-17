@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Highlighter from 'react-highlight-words'
-import WorkDisplay from './WorkDisplay'
+import SongPreviewWork from './SongPreviewWork'
 
 export default class SongPreviewDetails extends Component {
     render() {
@@ -15,7 +15,7 @@ export default class SongPreviewDetails extends Component {
         if (song.works.length > 0) {
             // display the first work only for this display
             let w = song.works[0]
-            work = (<WorkDisplay work={w} query={this.props.query}/>)
+            work = (<SongPreviewWork work={w} query={this.props.query}/>)
         }
 
         /**
@@ -41,7 +41,7 @@ export default class SongPreviewDetails extends Component {
                 displayArtist = (artist, query) => artist.name
             }
 
-            let artistsList = song.artists.map( artist => (
+            let artistsList = song.artists.map(artist => (
                     <span
                         className="artist"
                         key={artist.name}

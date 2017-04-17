@@ -98,7 +98,7 @@ export default class Playlist extends Component {
          */
 
         let endingInfo
-        if (list.length != 0 || playerStatus.playlist_entry) { 
+        if (list.length != 0 || playerStatus.playlist_entry) {
             endingInfo = (
                 <div className="info-item">
                     <span className="stat">{utils.formatHourTime(playListEndTime)}</span>
@@ -124,10 +124,14 @@ export default class Playlist extends Component {
             >
                 {playlistContent}
             </ReactCSSTransitionGroup>
-            <div className="info" onClick={this.props.toogleCollapsedPlaylist}> 
+            <div className="info" onClick={this.props.toogleCollapsedPlaylist}>
                 <div className="info-item">
                     <span className="stat">{playlistSize}</span>
-                    <span className="description">song{playlistSize == 1? '': 's'}<br/>in playlist</span>
+                    <span className="description">
+                        song{playlistSize == 1? '': 's'}
+                        <br/>
+                        in playlist
+                    </span>
                 </div>
                 {next}
                 {endingInfo}

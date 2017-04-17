@@ -1,0 +1,36 @@
+//
+// Dakara Project
+//
+// Work display style file
+//
+
+
+// `work-display` class:
+//
+// This module is used to style a work when it is displayed in line, wether in
+// compact or in expanded view.
+.work-display {
+    > span:not(:first-child) {
+        margin-left: 0.5em;
+    }
+
+    .link {
+        text-transform: uppercase;
+        border-style: solid;
+        border-width: 1px;
+        border-color: fade(@text-light, 65%);
+        padding: 0 2px;
+        font-size: 0.9em;
+        line-height: 2em;
+    }
+
+    .subtitle {
+        opacity: 0.65;
+    }
+
+    .title {
+    }
+
+    .type {
+    }
+}

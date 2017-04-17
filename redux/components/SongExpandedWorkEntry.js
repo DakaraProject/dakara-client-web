@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
+import WorkDisplay from './WorkDisplay'
 
-export default class SongExpandedWorkEntry extends Component {
+export default class SongExpandedWorkEntry extends WorkDisplay {
     handleSearchWork = () => {
         const work = this.props.work.work
         this.props.setQuery(work.work_type.query_name + ':""' + work.title + '""')
@@ -12,43 +13,21 @@ export default class SongExpandedWorkEntry extends Component {
         /**
          * Work title with highlight
          */
-        // TODO: highlight is not used
-        // This code is duplicated from WorkDisplay
-        // Except here we do not display icon
-        // Display link type with full name, add episode infos...
-        let title
-        if (this.props.query != undefined) {
-            title = (<div className="title">
-                    <Highlighter
-                        searchWords={this.props.query.works.concat(
-                                this.props.query.remaining
-                                )}
-                        textToHighlight={workLink.work.title}
-                    />
-                </div>)
-        } else {
-            title = (<div className="title">{workLink.work.title}</div>)
-        }
+
+        const title = this.getTitle()
 
         /**
          * Subtitle if any
          */
 
-        let subtitle
-        if (workLink.work.subtitle) {
-             subtitle = (<div className="subtitle">{workLink.work.subtitle}</div>)
-        }
+        const subtitle = this.getSubtitle()
 
         /**
          * Link between song and work infos
          * with number if any
          */
 
-        const link = (<span className="link-type">{workLink.link_type_name}</span>)
-        let linkNb
-        if (workLink.link_type_number) {
-            linkNb = (<span className="link-nb">{" " + workLink.link_type_number}</span>)
-        }
+        const link = this.getLink(workLink.link_type_name)
 
         /**
          * Episodes info if any
@@ -70,13 +49,10 @@ export default class SongExpandedWorkEntry extends Component {
                             <i className="fa fa-search"></i>
                         </div>
                     </div>
-                    <div className="work">
-                        {title}{subtitle}
-                        <div className="link">
-                            <span className="link-content">
-                                {link}{linkNb}
-                            </span>
-                        </div>
+                    <div className="work-display">
+                        {title}
+                        {subtitle}
+                        {link}
                         {episodes}
                     </div>
                 </li>

@@ -147,8 +147,8 @@ export default class LibraryEntrySongExpanded extends Component {
         }
 
         return (
-                <div className="song-expanded-details-container">
-                    <div className="song-expanded-details">
+                <div className="library-entry-song-expanded-subcontainer">
+                    <div className="library-entry-song-expanded-details">
                         {artists}
                         {worksRenderList}
                         {detailSong}

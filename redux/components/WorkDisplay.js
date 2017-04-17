@@ -2,74 +2,77 @@ import React, { Component } from 'react'
 import Highlighter from 'react-highlight-words'
 
 export default class WorkDisplay extends Component {
-    render() {
+    /**
+     * Work title
+     * @param query text used for query, found in `this.props.query`
+     */
+    getTitle = (query) => {
         const workLink = this.props.work
-
-        /**
-         * Work title with highlight
-         */
-        // TODO: This code is duplicated in SongExpandedWorkEntry
-
         let title
-        if (this.props.query != undefined) {
-            title = (<div className="title">
+        if (query != undefined) {
+            title = (
                     <Highlighter
-                        searchWords={this.props.query.works.concat(
-                                this.props.query.remaining
+                        className="title"
+                        searchWords={query.works.concat(
+                                query.remaining
                                 )}
                         textToHighlight={workLink.work.title}
                     />
-                </div>)
+                )
         } else {
-            title = (<div className="title">{workLink.work.title}</div>)
+            title = (<span className="title">{workLink.work.title}</span>)
         }
 
-        /**
-         * Subtitle if any
-         */
+        return title
+    }
 
+    /**
+     * Subtitle if any
+     */
+    getSubtitle = () => {
+        const workLink = this.props.work
         let subtitle
         if (workLink.work.subtitle) {
-             subtitle = (<div className="subtitle">{workLink.work.subtitle}</div>)
+            subtitle = (<span className="subtitle">
+                {workLink.work.subtitle}
+                </span>)
         }
 
-        /**
-         * Link between song and work infos
-         * with number if any
-         */
+        return subtitle
+    }
 
-        const link = (<span className="link-type">{workLink.link_type}</span>)
+    /**
+     * Link between song and work infos
+     * with number if any
+     * @param linkNameString work link name to display, as in
+     * `this.props.work.link_type` or `this.props.work.link_type_name`
+     */
+    getLink = (linkNameString) => {
+        const workLink = this.props.work
+
+        const linkName = (<span className="link-type">{linkNameString}</span>)
+
         let linkNb
         if (workLink.link_type_number) {
             linkNb = (<span className="link-nb">{workLink.link_type_number}</span>)
         }
 
-        /**
-         * Display work icon
-         * or default icon if none
-         */
-        // TODO: set default icon from server
+        const link = (
+                <span className="link">
+                    {linkName}
+                    {linkNb}
+                </span>
+            )
 
-        let work_icon
-        if (workLink.work.work_type && workLink.work.work_type.icon_name) {
-            work_icon = "fa fa-" + workLink.work.work_type.icon_name
-        } else {
-            work_icon = "fa fa-picture-o"
-        }
+        return link
+    }
 
+    render() {
         return (
-                <div className="work">
-                    {title}
-                    {subtitle}
-                    <div className="link">
-                        <span className="link-content">
-                            {link}
-                            {linkNb}
-                        </span>
-                    </div>
-                    <div className="type">
-                        <i className={work_icon}></i>
-                    </div>
+                <div className="work-display">
+                    {this.getTitle()}
+                    {this.getSubtitle()}
+                    {this.getLink(this.props.work.link_type)}
                 </div>
             )
     }
