@@ -1,17 +1,15 @@
-/**
- * Dakara project
- *
- * Library style file
- */
+//
+// Dakara project
+//
+// Library style file
+//
 
-#libraries {
-    margin-top: @gap-vertical;
+#library {
 
-    #library-searchbox {
-        /* Query box for searching items depending on the page
-         * That is, songs for Songs library, artists for Artists library and works
-         * (anime, game...) for Works library
-         */
+    // Query box for searching items depending on the page
+    // That is, songs for Songs library, artists for Artists library and works
+    // (anime, game...) for Works library
+    .library-searchbox {
         display: flex;
         padding: @gap-vertical 0;
         background: @brand-primary-darker;
@@ -34,7 +32,7 @@
                     background: @neutral-soft-lighter;
                 }
 
-                input {
+                .real-input {
                     color: inherit;
                     flex: 1;
                     .placeholder(@black-80);
@@ -65,23 +63,19 @@
         }
     }
 
-    #paginator {
-        /* The paginator supplies the interface to change page of results
-         */
+    // Library navigator which handles the paginaton and the counter of songs
+    // displayed
+    .library-navigator {
         background: @brand-primary-darker;
         display: flex;
 
-        .controls {
-            .make-controls(@paginator-height, 25pt);
-        }
-
-        .info {
+        .counter {
             padding: 0 @gap-horizontal;
             color: @brand-primary;
             flex: 1;
             text-align: right;
 
-            .stat {
+            .figure {
                 display: inline-block;
                 font-weight: 100;
                 font-size: 30pt;
@@ -89,7 +83,7 @@
                 line-height: @paginator-height;
             }
 
-            .description {
+            .text {
                 margin-left: 5px;
                 display: inline-block;
                 vertical-align: middle;
@@ -97,34 +91,26 @@
         }
     }
 
-    /* Here goes the styles for the library pages
-     * These pages are:
-     *     Songs library,
-     *     Artists library,
-     *     Works library (and all the different works, like Anime, Game...)
-     * The current class gathers all the common elements needed by the different pages
-     */
-    #library-entries {
-        /* Here goes the listing of the items listed in the page
-         * The items are collected through the search process
-         * So there can be listed songs, artists, works (animes, games)
-         */
+    // Here goes the styles for the library pages
+    // These pages are:
+    //     Songs library,
+    //     Artists library,
+    //     Works library (and all the different works, like Anime, Game...)
+    // The current class gathers all the common elements needed by the different pages
+    .library-entries {
         &.listing {
             min-height: 10 * @listing-entry-height;
-
-            .add {
-            }
         }
     }
 
-    #library-chooser {
-        /* Navigator for choosing which library to display
-         * The different libraries are Songs (which is the home library), Artists and all the
-         * different Works (animes, games...)
-         */
+    // Navigator for choosing which library to display
+    // The different libraries are Songs (which is the home library), Artists and all the
+    // different Works (animes, games...)
+    .library-chooser {
         display: flex;
 
-        .library-tab {
+        // This is a common library tab, it has to be of neutral color
+        .tab {
             flex: 1;
             height: @library-chooser-height;
             display: flex;
@@ -134,46 +120,42 @@
 
             &.active {
                 cursor: default;
+                background: @neutral-clear;
+                color: @neutral-mid;
             }
 
-            /* This is a common library tab, it has to be of neutral color
-             */
             background: @neutral-mid;
 
             &:nth-child(2n) {
                 background: @neutral-mid-light;
             }
 
-            &.active {
-                background: @neutral-clear;
-                color: @neutral-mid;
-            }
-
-            &:hover:not(.active) {
+            &:hover:not(.active),
+            &:focus:not(.active) {
                 background: @neutral-mid-lighter;
             }
 
-            .tab-icon {
+            .icon {
                 font-size: @library-chooser-icon-font-size;
             }
 
-            &.library-tab-home {
-                /* This is the home library tab, it has to stand out even when not selected
-                 */
+            .name {
+                margin-left: 0.5em;
+            }
+
+            .icon, .name {
+                display: inline-block;
+            }
+
+            // This is the home library tab, it has to stand out even when not
+            // selected, but not too much
+            &.home {
                 width: @library-chooser-height;
                 flex: initial;
 
                 .tab-icon {
                     font-size: @library-chooser-icon-font-size-home;
                 }
-            }
-
-            .tab-name {
-                margin-left: 0.5em;
-            }
-
-            .tab-icon, .tab-name {
-                display: inline-block;
             }
         }
     }

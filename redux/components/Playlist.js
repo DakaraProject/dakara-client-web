@@ -29,7 +29,6 @@ export default class Playlist extends Component {
         const currentTime = new Date().getTime()
         const list = this.props.playlist.entries.data.results
         let playlistContent
-        let next
 
         // compute time remaing for currently playing song
         let remainingTime = 0
@@ -80,12 +79,13 @@ export default class Playlist extends Component {
 
         /**
          * If there is at least one song in playlist
-         * display the next song in taskbar
+         * display the next song in info zone
          */
 
+        let next
         if (list[0]){
             next = (
-                <div className="info-item">
+                <div className="playlist-info-item">
                     <span className="stat">Next</span>
                     <span className="description">{list[0].song.title}</span>
                 </div>
@@ -97,10 +97,10 @@ export default class Playlist extends Component {
          * when playlist is not empty
          */
 
-        let endingInfo
+        let ending
         if (list.length != 0 || playerStatus.playlist_entry) {
-            endingInfo = (
-                <div className="info-item">
+            ending = (
+                <div className="playlist-info-item">
                     <span className="stat">{utils.formatHourTime(playListEndTime)}</span>
                     <span className="description">Ending<br/>time</span>
                 </div>
@@ -111,21 +111,9 @@ export default class Playlist extends Component {
          * Playlist size
          */
 
-        let playlistSize = this.props.playlist.entries.data.count
-
-        return (
-        <div id="playlist">
-            <ReactCSSTransitionGroup
-                component="div"
-                className="playlist-collapse-content"
-                transitionName="collapse"
-                transitionEnterTimeout={300}
-                transitionLeaveTimeout={150}
-            >
-                {playlistContent}
-            </ReactCSSTransitionGroup>
-            <div className="info" onClick={this.props.toogleCollapsedPlaylist}>
-                <div className="info-item">
+        const playlistSize = this.props.playlist.entries.data.count
+        const amount = (
+                <div className="playlist-info-item">
                     <span className="stat">{playlistSize}</span>
                     <span className="description">
                         song{playlistSize == 1? '': 's'}
@@ -133,8 +121,23 @@ export default class Playlist extends Component {
                         in playlist
                     </span>
                 </div>
+            )
+
+        return (
+        <div id="playlist">
+            <ReactCSSTransitionGroup
+                component="div"
+                className="playlist-entries-container"
+                transitionName="collapse"
+                transitionEnterTimeout={300}
+                transitionLeaveTimeout={150}
+            >
+                {playlistContent}
+            </ReactCSSTransitionGroup>
+            <div className="playlist-info" onClick={this.props.toogleCollapsedPlaylist}>
+                {amount}
                 {next}
-                {endingInfo}
+                {ending}
             </div>
         </div>
         )

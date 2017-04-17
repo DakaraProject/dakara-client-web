@@ -66,7 +66,7 @@ class LibraryPage extends Component {
                 return "Who are you looking for?"
 
             default:
-                return `What ${libraryName} do you want`
+                return `What ${libraryName} do you want?`
         }
     }
 
@@ -98,20 +98,20 @@ class LibraryPage extends Component {
         let infoCounter
         if (libraryName) {
             infoCounter = (
-                <div className="info-item" id="library-amount">
-                    <span className="stat">{entriesCount}</span>
-                    <span className="description">{libraryName}{entriesCount == 1? '': 's'} found</span>
+                <div className="counter">
+                    <span className="figure">{entriesCount}</span>
+                    <span className="text">{libraryName}{entriesCount == 1? '': 's'} found</span>
                 </div>
             )
         }
 
         return (
-            <div id="libraries" className="box">
-                <nav id="library-chooser">
+            <div id="library" className="box">
+                <nav className="library-chooser">
                     <LibraryTab
                         queryName="song"
                         iconName="home"
-                        extraClassName="library-tab-home"
+                        extraClassName="home"
                     />
                     <LibraryTab
                         queryName="artist"
@@ -121,13 +121,14 @@ class LibraryPage extends Component {
                     {workTypesTabs}
                 </nav>
 
-                <form id="library-searchbox" onSubmit={e => {
+                <form className="library-searchbox" onSubmit={e => {
                     e.preventDefault()
                     browserHistory.push({pathname, query: {search: this.state.query}})
                 }}>
                     <div className="field">
                         <div className="fake-input">
                             <input
+                                className="real-input"
                                 placeholder={libraryPlaceholder}
                                 value={this.state.query}
                                 onChange={e => this.setState({query: e.target.value})}
@@ -152,15 +153,13 @@ class LibraryPage extends Component {
 
                 {this.props.children}
 
-                <div id="paginator">
+                <div className="library-navigator">
                     <Paginator
                         location={this.props.location}
                         current={this.props.currentPageNumber}
                         last={this.props.lastPageNumber}
                     />
-                    <div className="info">
-                        {infoCounter}
-                    </div>
+                    {infoCounter}
                 </div>
             </div>
         )
@@ -173,18 +172,19 @@ class LibraryTab extends Component {
         let tabName
         if (props.name) {
             tabName = (
-                        <span className="tab-name">
+                        <span className="name">
                             {props.name}
                         </span>
                     )
         }
+
         return (
                 <Link
                     to={"/library/" + props.queryName }
-                    className={"library-tab " + (props.extraClassName || "")}
+                    className={"tab " + (props.extraClassName || "")}
                     activeClassName="active"
                 >
-                    <span className="tab-icon">
+                    <span className="icon">
                         <i className={"fa fa-" + props.iconName}></i>
                     </span>
                     {tabName}

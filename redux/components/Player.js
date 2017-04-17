@@ -73,6 +73,7 @@ export default class Player extends React.Component {
     render() {
         const { status: playerStatus, manage: playerCommand } = this.props.playerStatus.data
         let song
+        let songSubtitle
         let songData
         let playIcon = "fa fa-"
         let duration
@@ -85,11 +86,20 @@ export default class Player extends React.Component {
         if (playerStatus.playlist_entry){
             song = playerStatus.playlist_entry.song
             duration = playerStatus.playlist_entry.song.duration
+            if (song.subtitle) {
+                songSubtitle = (<span className="subtitle">
+                        {song.subtitle}
+                    </span>)
+            }
+
             songData = (
-                    <div className="song-info">
-                        <div className="title">
-                            {song.title}
-                        </div>
+                    <div className="song-preview">
+                        <span className="header">
+                            <span className="title">
+                                {song.title}
+                            </span>
+                            {songSubtitle}
+                        </span>
                         <SongPreviewDetails song={song} />
                     </div>
                     )
@@ -121,7 +131,7 @@ export default class Player extends React.Component {
                 <div className="controls">
                     <button
                         className={
-                            "play-pause control primary"
+                            "control primary"
                                 + (playerStatus.playlist_entry ? "" : " disabled")
                         }
                         onClick={() => {
@@ -133,7 +143,7 @@ export default class Player extends React.Component {
                     </button>
                     <button
                         className={
-                            "skip control primary"
+                            "control primary"
                                 + (playerStatus.playlist_entry ? "" : " disabled")
                         }
                         onClick={() => this.props.sendPlayerCommands({skip: true})}
@@ -143,11 +153,11 @@ export default class Player extends React.Component {
                 </div>
                 <div className="song">
                     {songData}
-                    <div className="status">
-                        <div id="playlist-current-timing" className="current">
+                    <div className="song-timing">
+                        <div className="current">
                             {utils.formatTime(playerStatus.timing)}
                         </div>
-                        <div id="playlist-total-timing" className="duration">
+                        <div className="duration">
                             {utils.formatDuration(duration)}
                         </div>
                     </div>
