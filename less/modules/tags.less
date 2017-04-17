@@ -34,7 +34,8 @@
         background-color: @color;
 
         &.clickable {
-            &:hover {
+            &:hover,
+            &:focus {
                 background-color: lighten(@color, 5%);
             }
         }
