@@ -15,40 +15,44 @@
 // It is important to know that forms are a moot point in CSS, as the standard
 // does not specify how to style `input`s. If porperties work on them, it is
 // because browser manufacturers decided so. But not all of them are supported.
-// Source: https://www.w3.org/TR/CSS21/conform.html#conformance
+// Sources:
+//     https://www.w3.org/TR/CSS21/conform.html#conformance
+//     https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element
 //
 // Input tags are wrapped into `input` class (for reasons related to the
-// previous paragraph).  Inputs can be faked with the `input.fake` class: in
+// previous paragraph). Inputs can be faked with the `input.fake` class: in
 // this case, the `input` class looks like the input tag. The corresponding
 // input tag must have the class `faked` to appear colorless. Focus cannot be
 // handled by native CSS in this case, you have to use some JS with the
-// `onFocus` and `onBlur` events.
+// `onFocus` and `onBlur` events of the faked input.
 .form {
     @field-height: @form-field-height;
     @control-font-size: @form-control-font-size;
 
     // The `block` subclass is appropriate for large forms involving several
-    // fields. The labels are in a column an their width is adjusted along the
-    // largest one.
-    // It contains a header area to put a title and display notifications
-    // related to the submission of the form.
+    // fields.
+    // It offers labels in a column style: their width is adjusted along the
+    // largest element. Labels can be a single icon (combined with a placeholder
+    // in the input tag), an icon and a text or a single text. As you wish.
+    // The subclass contains also a header area to put a title and display
+    // notifications related to the submission of the form.
     &.block {
-        // The set contains the fields of the form
+
+        // The set contains the fields of the form.
         .set {
             display: table;
             width: 100%;
             border-collapse: separate;
             border-spacing: 0 @gap-vertical;
 
-            // this rule remove the space at the top of the set due to
+            // this rule removes the space at the top of the set due to
             // `border-spacing`, but the rule is cancelled if there is a header
             // just before
             margin-top: -@gap-vertical;
 
-            // The field contains a label and an input
+            // The field contains a label and an input.
             .field {
                 display: table-row;
-
 
                 label {
                     // this allows to shrink the label 'column' as small as possible
@@ -78,7 +82,7 @@
                     }
                 }
 
-                // We cannot directly use `display: table-cell` on an `input`
+                // We cannot directly use `display: table-cell` on an input tag
                 // because this property seems to be not supported.
                 // We have to use a wrapper instead.
                 // Source: http://stackoverflow.com/a/15632230
@@ -89,7 +93,7 @@
             }
         }
 
-        // Buttons of the form
+        // Buttons of the form.
         .controls {
             display: flex;
             justify-content: flex-end;
@@ -102,7 +106,7 @@
             }
         }
 
-        // Title of the form
+        // Header of the form.
         .header {
             position: relative;
             overflow: hidden;
@@ -117,6 +121,7 @@
             }
 
             // notification
+            // TODO maybe factorize that
             .notified {
                 position: absolute;
                 width: 100%;
@@ -161,7 +166,7 @@
     &.inline {
         display: flex;
 
-        // The set contains the inputs of the form
+        // The set contains the inputs of the form.
         .set {
             flex: 1;
             display: flex;
@@ -169,6 +174,10 @@
 
             .input {
                 flex: initial;
+
+                &:not(:first-child) {
+                    margin-left: @gap-horizontal;
+                }
             }
         }
 
