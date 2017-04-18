@@ -1,25 +1,17 @@
-/**
- * Dakara project
- *
- * Notifications style file
- */
+//
+// Dakara project
+//
+// Notifications style file
+//
 
-/* Provides:
 
-`notification` class.
-
-*/
-
-/* `notification` class:
-
-The notification class defines the look and feel of notification messages.
-However, it does not define the way they appear or disappear (it should). The
-`notification` class has subclasses for colors.
-
-The class provides also alterations when used with the class `listing-entry`.
-
-*/
-
+// `notification` class:
+//
+// The notification class defines the look and feel of notification messages.
+// However, it does not define the way they appear or disappear (it should). The
+// `notification` class has subclasses for colors.
+//
+// The class provides also alterations when used with the class `listing-entry`.
 .notification {
     color: @body-background;
     padding: 0 @gap-horizontal;
@@ -29,50 +21,50 @@ The class provides also alterations when used with the class `listing-entry`.
         background: @color;
     }
 
-    &.primary{
+    &.primary {
         .make-notification(@brand-primary);
     }
 
-    &.success{
+    &.success {
         .make-notification(@brand-success);
     }
 
-    &.warning{
+    &.warning {
         .make-notification(@brand-warning);
     }
 
-    &.danger{
+    &.danger {
         .make-notification(@brand-danger);
     }
 
-    &.info{
+    &.info {
         .make-notification(@brand-info);
     }
-}
 
-// lighten notification when on even line of a list
-.listing-entry:nth-child(2n) .notification {
-    .make-notification-line-even(@color-lighter) {
-        background: @color-lighter;
-    }
+    // lighten notification when on even line of a list
+    .listing-entry:nth-child(2n) & {
+        .make-notification-line-even(@color-lighter) {
+            background: @color-lighter;
+        }
 
-    &.primary{
-        .make-notification-line-even(@brand-primary-light);
-    }
+        &.primary {
+            .make-notification-line-even(@brand-primary-light);
+        }
 
-    &.success{
-        .make-notification-line-even(@brand-success-light);
-    }
+        &.success {
+            .make-notification-line-even(@brand-success-light);
+        }
 
-    &.warning{
-        .make-notification-line-even(@brand-warning-light);
-    }
+        &.warning {
+            .make-notification-line-even(@brand-warning-light);
+        }
 
-    &.danger{
-        .make-notification-line-even(@brand-danger-light);
-    }
+        &.danger {
+            .make-notification-line-even(@brand-danger-light);
+        }
 
-    &.info{
-        .make-notification-line-even(@brand-info-light);
+        &.info {
+            .make-notification-line-even(@brand-info-light);
+        }
     }
 }

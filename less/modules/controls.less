@@ -4,8 +4,19 @@
 // Controls style file
 //
 
-// `controls` class
-// `make-controls` function
+
+// `make-controls` function:
+//
+// The function has to be called wherever a `controls` class is used. It defines
+// the size of the controls.
+.make-controls(@height, @font-size: 1em) {
+    .control {
+        .square(@height);
+        line-height: @height;
+        font-size: @font-size;
+    }
+}
+
 
 // `controls` class:
 //
@@ -147,18 +158,5 @@
         &.info {
             .make-control-line-hover(@brand-info-lighter, @brand-info-darkish);
         }
-    }
-}
-
-
-// `make-controls` function:
-//
-// The function has to be called wherever a `controls` class is used. It defines
-// the size of the controls.
-.make-controls(@height, @font-size: 1em) {
-    .control {
-        .square(@height);
-        line-height: @height;
-        font-size: @font-size;
     }
 }

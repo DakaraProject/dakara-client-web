@@ -4,42 +4,13 @@
 // Base main style file
 //
 
+
+// Base files are very generic rules and definitions for the project.
+
+
 @import (less) "../../node_modules/normalize.css/normalize.css";
 @import "../../preboot/less/preboot.less";
 @import "colors.less";
 @import "sizes.less";
 @import "fonts.less";
-
-//
-// Extra rules
-//
-
-// make links transparent
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
-// highlight tag
-mark {
-    background: @brand-primary;
-    color: @text-dark;
-}
-
-// selection highlighting
-// Firefox seems to still use its vendor pseudo selector, moreover we cannot
-// define the standard selector and Firefox' on the same line
-* {
-    .selection() {
-        background: @brand-primary;
-        color: @text-dark;
-    }
-
-    &::-moz-selection {
-        .selection;
-    }
-
-    &::selection {
-        .selection;
-    }
-}
+@import "extra.less";
