@@ -1,26 +1,32 @@
 //
 // Dakara Project
 //
-// Artist library entry style file
+// Work library entry style file
 //
 
 
-// `library-entry-artist` subclass:
+// `library-entry-work` subclass:
 //
 // This class is a specialization of the `listing-entry` class defined in the
 // `listing` module. It is aimed to stylize the specific elements of a list of
-// artists.
-.library-entry.library-entry-artist {
+// works.
+.library-entry.library-entry-work {
     display: flex;
 
-    .library-entry-artist-display {
+    .library-entry-work-display {
         flex: 1;
         display: flex;
+        align-items: center;
 
-        .name {
+        .header {
             flex: 1;
-            padding: 0 @gap-horizontal;
             line-height: @listing-entry-height;
+            padding: 0 @gap-horizontal;
+
+            .work-subtitle {
+                opacity: 0.65;
+                margin-left: 0.5em;
+            }
         }
 
         .songs-amount {

@@ -10,20 +10,18 @@ export default class LibraryEntryWork extends Component {
 
     render() {
         return (
-                <li className="library-entry listing-entry listing-entry-work hoverizable">
-                    <div className="entry-info">
-                        <div className="work-view">
-                            <div className="work-header">
-                                <div className="work-title">
-                                    {this.props.work.title}
-                                </div>
-                                <div className="work-subtitle">
-                                    {this.props.work.subtitle}
-                                </div>
-                            </div>
-                            <div className="count">
-                                {this.props.work.song_count}
-                            </div>
+                <li className="library-entry listing-entry library-entry-work hoverizable">
+                    <div className="library-entry-work-display">
+                        <div className="header">
+                            <span className="title">
+                                {this.props.work.title}
+                            </span>
+                            <span className="subtitle">
+                                {this.props.work.subtitle}
+                            </span>
+                        </div>
+                        <div className="songs-amount">
+                            {this.props.work.song_count}
                         </div>
                     </div>
                     <div className="controls"> 
