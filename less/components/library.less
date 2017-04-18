@@ -15,56 +15,21 @@
     // That is, songs for Songs library, artists for Artists library and works
     // (anime, game...) for Works library
     .library-searchbox {
-        display: flex;
         padding: @gap-vertical 0;
         background: @brand-primary-darker;
 
-        .field {
-            flex: 1;
-            padding-right: @gap-horizontal;
-
-            .fake-input {
+        .set {
+            .fake {
                 display: flex;
-                width: 100%;
-                border: none;
-                background: @neutral-soft;
-                color: @text-dark;
-                height: @library-searchbox-height;
-                padding: 0 0 0 @gap-horizontal;
-                box-sizing: border-box;
+                padding-right: 0;
 
-                &:hover,
-                &:focus {
-                    background: @neutral-soft-lighter;
-                }
-
-                .real-input {
-                    color: inherit;
+                .faked {
                     flex: 1;
-                    .placeholder(@black-80);
-                    background: none;
-                    border: none;
-                    outline: none;
-                    height: @library-searchbox-height;
-
-                    &::-moz-placeholder {
-                        opacity: 1;
-                    }
                 }
 
                 .controls {
                     .make-controls(@library-searchbox-height, 15pt);
-
-                    .clear {
-                    }
                 }
-            }
-        }
-
-        .controls {
-            .make-controls(@library-searchbox-height, 20pt);
-
-            .search {
             }
         }
     }

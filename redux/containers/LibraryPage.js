@@ -121,20 +121,37 @@ class LibraryPage extends Component {
                     {workTypesTabs}
                 </nav>
 
-                <form className="library-searchbox" onSubmit={e => {
-                    e.preventDefault()
-                    browserHistory.push({pathname, query: {search: this.state.query}})
-                }}>
-                    <div className="field">
-                        <div className="fake-input">
+                <form
+                    className="form inline library-searchbox"
+                    onSubmit={e => {
+                        e.preventDefault()
+                        browserHistory.push({pathname, query: {search: this.state.query}})
+                    }}
+                >
+                    <div className="set">
+                        <div className="input fake" id="library-searchbox-fake">
                             <input
-                                className="real-input"
+                                className="faked"
                                 placeholder={libraryPlaceholder}
                                 value={this.state.query}
                                 onChange={e => this.setState({query: e.target.value})}
+                                onFocus={() => {
+                                    document.getElementById(
+                                        'library-searchbox-fake'
+                                    ).classList.add(
+                                        'focus'
+                                    )
+                                }}
+                                onBlur={() => {
+                                    document.getElementById(
+                                        'library-searchbox-fake'
+                                    ).classList.remove(
+                                        'focus'
+                                    )
+                                }}
                             />
                             <div className="controls">
-                                <div className="clear control" onClick={e => {
+                                <div className="control" onClick={e => {
                                         this.setState({query: ""})
                                         browserHistory.push({pathname})
                                     }
@@ -145,7 +162,7 @@ class LibraryPage extends Component {
                         </div>
                     </div>
                     <div className="controls">
-                        <button type="submit" className="search control primary">
+                        <button type="submit" className="control primary">
                             <i className="fa fa-search"></i>
                         </button>
                     </div>
