@@ -37,11 +37,9 @@ export default class PlaylistEntry extends Component {
                         handleClick={this.handleSearch}
                     />
                     <div className="playlist-info">
-                        <div className="playlist-info-content">
-                            <div className="queueing">
-                                <i className="fa fa-clock-o"></i>
-                                {utils.formatHourTime(this.props.timeOfPlay)}
-                            </div>
+                        <div className="queueing">
+                            <i className="fa fa-clock-o"></i>
+                            {utils.formatHourTime(this.props.timeOfPlay)}
                         </div>
                     </div>
                     <div className="controls">

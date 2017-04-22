@@ -101,7 +101,7 @@ export default class Playlist extends Component {
             ending = (
                 <div className="item">
                     <span className="stat">{utils.formatHourTime(playListEndTime)}</span>
-                    <span className="description">Ending<br/>time</span>
+                    <span className="description">ending<br/>time</span>
                 </div>
                 )
         }

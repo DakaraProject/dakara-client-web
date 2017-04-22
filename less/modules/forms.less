@@ -102,7 +102,11 @@
                 height: @field-height;
                 line-height: @field-height;
                 padding: 0 @gap-horizontal;
-                font-size: 15pt;
+                font-size: @control-font-size;
+
+                .icon {
+                    font-size: 1.33em;
+                }
             }
         }
 
@@ -110,8 +114,8 @@
         .header {
             position: relative;
             overflow: hidden;
-            line-height: 30pt;
-            height: 30pt;
+            line-height: 2.5em;
+            height: 2.5em;
 
             h2 {
                 margin: 0;
@@ -184,6 +188,10 @@
         // Buttons of the form
         .controls {
             .make-controls(@field-height; @control-font-size);
+
+            .icon {
+                font-size: 1.33em;
+            }
         }
     }
 

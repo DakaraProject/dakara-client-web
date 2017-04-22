@@ -163,7 +163,7 @@ class LibraryPage extends Component {
                     </div>
                     <div className="controls">
                         <button type="submit" className="control primary">
-                            <i className="fa fa-search"></i>
+                            <i className="icon fa fa-search"></i>
                         </button>
                     </div>
                 </form>

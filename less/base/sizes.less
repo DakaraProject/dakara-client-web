@@ -6,15 +6,15 @@
 
 
 // gap sizes
-@gap-horizontal: 15px;
+@gap-horizontal: 1.5rem;
 @gap-vertical: 2 * @gap-horizontal;
 
 // page sizes
-@page-width: 900px;
+@page-width: 90rem;
 
 // listing sizes
-@listing-entry-height: 50px;
-@listing-entry-control-font-size: 18pt;
+@listing-entry-height: 5rem;
+@listing-entry-control-font-size: 1.5em;
 
 // sublisting sizes
 @sublisting-entry-height: 0.75 * @listing-entry-height;
@@ -22,13 +22,23 @@
 
 // form sizes
 @form-field-height: @listing-entry-height;
-@form-control-font-size: 20pt;
+@form-control-font-size: 1.25em;
 
 // library sizes
 @library-searchbox-height: @form-field-height;
 @library-chooser-height: @listing-entry-height;
 @library-chooser-icon-font-size-home: @listing-entry-control-font-size;
-@library-chooser-icon-font-size: 15pt;
+@library-chooser-icon-font-size: 1.25em;
 
 // paginator sizes
-@paginator-height: 50px;
+@paginator-height: 5rem;
+@paginator-font-size: 2em;
+
+// redefine rem value
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.6rem;
+}
