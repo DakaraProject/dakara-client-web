@@ -18,7 +18,7 @@ export default class PlaylistEntry extends Component {
 
     render() {
         let message
-        let className = "playlist-entry listing-entry library-entry-song hoverizable"
+        let className = "playlist-entry listing-entry library-entry library-entry-song hoverizable"
         if(this.props.notification){
             message = <div className="notified">
                         <div className={"notification " + this.props.notification.type}>

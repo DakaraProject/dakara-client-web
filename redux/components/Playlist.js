@@ -65,8 +65,7 @@ export default class Playlist extends Component {
             playlistContent = (
                 <ReactCSSTransitionGroup
                     component="ul"
-                    id="playlist-entries"
-                    className="listing"
+                    className="listing playlist-entries"
                     transitionName="add-remove"
                     transitionEnterTimeout={300}
                     transitionLeaveTimeout={650}
@@ -85,7 +84,7 @@ export default class Playlist extends Component {
         let next
         if (list[0]){
             next = (
-                <div className="playlist-info-item">
+                <div className="item">
                     <span className="stat">Next</span>
                     <span className="description">{list[0].song.title}</span>
                 </div>
@@ -100,7 +99,7 @@ export default class Playlist extends Component {
         let ending
         if (list.length != 0 || playerStatus.playlist_entry) {
             ending = (
-                <div className="playlist-info-item">
+                <div className="item">
                     <span className="stat">{utils.formatHourTime(playListEndTime)}</span>
                     <span className="description">Ending<br/>time</span>
                 </div>
@@ -113,7 +112,7 @@ export default class Playlist extends Component {
 
         const playlistSize = this.props.playlist.entries.data.count
         const amount = (
-                <div className="playlist-info-item">
+                <div className="item">
                     <span className="stat">{playlistSize}</span>
                     <span className="description">
                         song{playlistSize == 1? '': 's'}
@@ -134,7 +133,7 @@ export default class Playlist extends Component {
             >
                 {playlistContent}
             </ReactCSSTransitionGroup>
-            <div className="playlist-info" onClick={this.props.toogleCollapsedPlaylist}>
+            <div className="playlist-summary" onClick={this.props.toogleCollapsedPlaylist}>
                 {amount}
                 {next}
                 {ending}
