@@ -25,7 +25,7 @@ export default class SongTagList extends Component {
 
             return (
                     <div
-                        className={'tag tag-color-' + tag.color_id + classClickable + classDisabled}
+                        className={'tag color-' + tag.color_id + classClickable + classDisabled}
                         key={tag.name}
                         onClick={() => setQuery && setQuery("#" + tag.name)}
                     >

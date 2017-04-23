@@ -1,0 +1,249 @@
+//
+// Dakara Project
+//
+// Forms style file
+//
+
+
+// `form` class:
+//
+// This class provides the tools to create forms in the project. Forms come in
+// two ways: as block (common forms, for several fields, one per line) and as
+// inline (for one line). In each case, inputs will take all the space at their
+// disposal.
+//
+// It is important to know that forms are a moot point in CSS, as the standard
+// does not specify how to style `input`s. If porperties work on them, it is
+// because browser manufacturers decided so. But not all of them are supported.
+// Sources:
+//     https://www.w3.org/TR/CSS21/conform.html#conformance
+//     https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element
+//
+// Input tags are wrapped into `input` class (for reasons related to the
+// previous paragraph). Inputs can be faked with the `input.fake` class: in
+// this case, the `input` class looks like the input tag. The corresponding
+// input tag must have the class `faked` to appear colorless. Focus cannot be
+// handled by native CSS in this case, you have to use some JS with the
+// `onFocus` and `onBlur` events of the faked input.
+.form {
+    @field-height: @form-field-height;
+    @control-font-size: @form-control-font-size;
+
+    // The `block` subclass is appropriate for large forms involving several
+    // fields.
+    // It offers labels in a column style: their width is adjusted along the
+    // largest element. Labels can be a single icon (combined with a placeholder
+    // in the input tag), an icon and a text or a single text. As you wish.
+    // The subclass contains also a header area to put a title and display
+    // notifications related to the submission of the form.
+    &.block {
+
+        // The set contains the fields of the form.
+        .set {
+            display: table;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 @gap-vertical;
+
+            // this rule removes the space at the top of the set due to
+            // `border-spacing`, but the rule is cancelled if there is a header
+            // just before
+            margin-top: -@gap-vertical;
+
+            // The field contains a label and an input.
+            .field {
+                display: table-row;
+
+                label {
+                    // this allows to shrink the label 'column' as small as possible
+                    display: table-cell;
+
+                    // this allows the shrink to be exactly the length of the label,
+                    // but since the label is now un-breakable, it *must* be kept
+                    // short
+                    white-space: nowrap;
+
+                    // this allows to align in the middle if the field is one line
+                    // height (typical `input`) and align on the top for several
+                    // lines (typical `textarea`)
+                    vertical-align: top;
+                    line-height: @field-height;
+
+                    padding: 0 @gap-horizontal;
+
+                    .icon {
+                        font-size: 1.5em;
+                    }
+
+                    // if an icon and a name are set
+                    .icon + .name,
+                    .name + .icon {
+                        margin-left: 0.5em;
+                    }
+                }
+
+                // We cannot directly use `display: table-cell` on an input tag
+                // because this property seems to be not supported.
+                // We have to use a wrapper instead.
+                // Source: http://stackoverflow.com/a/15632230
+                .input {
+                    display: table-cell;
+                    width: 100%;
+                }
+            }
+        }
+
+        // Buttons of the form.
+        .controls {
+            display: flex;
+            justify-content: flex-end;
+
+            .control {
+                height: @field-height;
+                line-height: @field-height;
+                padding: 0 @gap-horizontal;
+                font-size: @control-font-size;
+
+                .icon {
+                    font-size: 1.33em;
+                }
+            }
+        }
+
+        // Header of the form.
+        .header {
+            position: relative;
+            overflow: hidden;
+            line-height: 2.5em;
+            height: 2.5em;
+
+            h2 {
+                margin: 0;
+                padding: 0 @gap-horizontal;
+                font-weight: 100;
+                font-size: xx-large;
+            }
+
+            // notification
+            // TODO maybe factorize that
+            .notified {
+                position: absolute;
+                width: 100%;
+                top: 0;
+                left: 0;
+
+                // notification appearance
+                &.notified-enter {
+                    left: 100%;
+
+                    &.notified-enter-active {
+                        left: 0;
+                        .transition(left 300ms ease-out);
+                    }
+                }
+
+                // notification disappearance
+                &.notified-leave {
+                    left: 0;
+
+                    &.notified-leave-active {
+                        left: 100%;
+                        .transition(left 150ms ease-out);
+                    }
+                }
+
+                .notification {
+                    .text-truncate();
+                }
+            }
+        }
+
+        // if the set is preceded by a header
+        .header + .set {
+            margin-top: 0;
+        }
+    }
+
+    // The `inline` subclass is appropriate for single-field forms.
+    // This subclass supports neither labels, nor titles, nor notifications. Use
+    // it for simple forms involving GET requests.
+    &.inline {
+        display: flex;
+
+        // The set contains the inputs of the form.
+        .set {
+            flex: 1;
+            display: flex;
+            padding-right: @gap-horizontal;
+
+            .input {
+                flex: initial;
+
+                &:not(:first-child) {
+                    margin-left: @gap-horizontal;
+                }
+            }
+        }
+
+        // Buttons of the form
+        .controls {
+            .make-controls(@field-height; @control-font-size);
+
+            .icon {
+                font-size: 1.33em;
+            }
+        }
+    }
+
+    // Visual aspect of the inputs and faked inputs
+    input, textarea, .input.fake {
+        padding: 0 @gap-horizontal;
+        width: 100%;
+        box-sizing: border-box;
+        border: none;
+        outline: none;
+        background: @neutral-soft;
+
+        &:hover {
+            background: @neutral-soft-lighter;
+        }
+
+        &:focus, &.focus {
+            background: @neutral-clear;
+        }
+    }
+
+    input.faked {
+        padding: 0;
+        background: none;
+    }
+
+    input, textarea {
+        color: @text-dark;
+        .placeholder(@black-80);
+
+        // override the way Firefox adds opacity
+        &::-moz-placeholder {
+            opacity: 1;
+        }
+
+        // Some browsers (Firefox) try to use system fonts
+        font-size: medium;
+        .make-font();
+    }
+
+    input, .fake {
+        height: @field-height;
+        display: block;
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 3 * @field-height;
+
+        // this simulates the correct space of single line `input`, but is
+        // pretty approximative
+        padding-top: calc(0.5 * @field-height ~"- 0.65em");
+        padding-bottom: calc(0.5 * @field-height ~"- 0.65em");
+    }
+}

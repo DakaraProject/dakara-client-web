@@ -19,7 +19,7 @@ class LibraryListArtist extends LibraryListAbstract {
             )
         }
         return (
-              <ul id="library-entries" className="listing">
+              <ul className="library-entries listing">
                 {libraryEntryArtistList}
               </ul>
               )

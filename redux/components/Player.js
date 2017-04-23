@@ -73,6 +73,7 @@ export default class Player extends React.Component {
     render() {
         const { status: playerStatus, manage: playerCommand } = this.props.playerStatus.data
         let song
+        let songSubtitle
         let songData
         let playIcon = "fa fa-"
         let duration
@@ -85,16 +86,25 @@ export default class Player extends React.Component {
         if (playerStatus.playlist_entry){
             song = playerStatus.playlist_entry.song
             duration = playerStatus.playlist_entry.song.duration
+            if (song.subtitle) {
+                songSubtitle = (<span className="subtitle">
+                        {song.subtitle}
+                    </span>)
+            }
+
             songData = (
-                    <div className="song-info">
-                        <div className="title">
-                            {song.title}
-                        </div>
+                    <div className="song-preview">
+                        <span className="header">
+                            <span className="title">
+                                {song.title}
+                            </span>
+                            {songSubtitle}
+                        </span>
                         <SongPreviewDetails song={song} />
                     </div>
                     )
 
-            progress = playerStatus.timing * 100 / duration; 
+            progress = playerStatus.timing * 100 / duration;
 
             // use playercmd pause status instead of player pause status
             playIcon += playerCommand.pause ? "play" : "pause"
@@ -120,7 +130,10 @@ export default class Player extends React.Component {
             <div className="display">
                 <div className="controls">
                     <button
-                        className={"play-pause control primary" + (playerStatus.playlist_entry ? "" : " disabled")}
+                        className={
+                            "control primary"
+                                + (playerStatus.playlist_entry ? "" : " disabled")
+                        }
                         onClick={() => {
                                 this.props.sendPlayerCommands({pause: !playerCommand.pause})
                             }
@@ -129,7 +142,10 @@ export default class Player extends React.Component {
                         {playPausebtn}
                     </button>
                     <button
-                        className={"skip control primary" + (playerStatus.playlist_entry ? "" : " disabled")}
+                        className={
+                            "control primary"
+                                + (playerStatus.playlist_entry ? "" : " disabled")
+                        }
                         onClick={() => this.props.sendPlayerCommands({skip: true})}
                     >
                         {skipBtn}
@@ -137,11 +153,11 @@ export default class Player extends React.Component {
                 </div>
                 <div className="song">
                     {songData}
-                    <div className="status">
-                        <div id="playlist-current-timing" className="current">
+                    <div className="song-timing">
+                        <div className="current">
                             {utils.formatTime(playerStatus.timing)}
                         </div>
-                        <div id="playlist-total-timing" className="duration">
+                        <div className="duration">
                             {utils.formatDuration(duration)}
                         </div>
                     </div>
@@ -157,6 +173,5 @@ export default class Player extends React.Component {
             </div>
         </div>
         )
-
     }
 }

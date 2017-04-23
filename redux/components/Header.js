@@ -16,7 +16,7 @@ class Header extends Component {
         }
 
         return (
-            <header>
+            <header className="box">
                 <h1>
                     <Link to="/">
                         Dakara

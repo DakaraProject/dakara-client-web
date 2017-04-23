@@ -1,0 +1,132 @@
+//
+// Dakara project
+//
+// Library style file
+//
+
+
+// `library` id:
+//
+// This component stylises the library, which contains a library chooser, a
+// searchbox, a container of library entries and a navigator.
+#library {
+
+    // Query box for searching items depending on the page
+    // That is, songs for Songs library, artists for Artists library and works
+    // (anime, game...) for Works library
+    .library-searchbox {
+        padding: @gap-vertical 0;
+        background: @brand-primary-darker;
+
+        .set {
+            .fake {
+                display: flex;
+                padding-right: 0;
+
+                .faked {
+                    flex: 1;
+                }
+
+                .controls {
+                    .make-controls(@library-searchbox-height, 1.25em);
+                }
+            }
+        }
+    }
+
+    // Library navigator which handles the paginaton and the counter of songs
+    // displayed
+    .library-navigator {
+        background: @brand-primary-darker;
+        display: flex;
+
+        .counter {
+            padding: 0 @gap-horizontal;
+            color: @brand-primary;
+            flex: 1;
+            text-align: right;
+
+            .figure {
+                display: inline-block;
+                font-weight: 100;
+                font-size: 2.5em;
+                vertical-align: middle;
+                line-height: @paginator-height;
+            }
+
+            .text {
+                margin-left: 0.4em;
+                display: inline-block;
+                vertical-align: middle;
+            }
+        }
+    }
+
+    // Here goes the styles for the library pages
+    // These pages are:
+    //     Songs library,
+    //     Artists library,
+    //     Works library (and all the different works, like Anime, Game...)
+    // The current class gathers all the common elements needed by the different pages
+    .library-entries {
+        &.listing {
+            min-height: 10 * @listing-entry-height;
+        }
+    }
+
+    // Navigator for choosing which library to display
+    // The different libraries are Songs (which is the home library), Artists and all the
+    // different Works (animes, games...)
+    .library-chooser {
+        display: flex;
+
+        // This is a common library tab, it has to be of neutral color
+        .tab {
+            flex: 1;
+            height: @library-chooser-height;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background: @neutral-mid;
+
+            &:nth-child(2n) {
+                background: @neutral-mid-light;
+            }
+
+            &.active {
+                cursor: default;
+                background: @neutral-clear;
+                color: @neutral-mid;
+            }
+
+            &:hover:not(.active),
+            &:focus:not(.active) {
+                background: @neutral-mid-lighter;
+            }
+
+            .icon {
+                font-size: @library-chooser-icon-font-size;
+            }
+
+            .name {
+                margin-left: 0.5em;
+            }
+
+            .icon, .name {
+                display: inline-block;
+            }
+
+            // This is the home library tab, it has to stand out even when not
+            // selected, but not too much
+            &.home {
+                width: @library-chooser-height;
+                flex: initial;
+
+                .icon {
+                    font-size: @library-chooser-icon-font-size-home;
+                }
+            }
+        }
+    }
+}

@@ -19,8 +19,8 @@ class LoggedinPage extends Component {
 
     render() {
         return (
-            <div>
-                <div id="playerbox">
+            <div id="logged-in">
+                <div className="box">
                     <PlayerPage/>
                     <PlaylistPage/>
                 </div>

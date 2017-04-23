@@ -9,7 +9,7 @@ export default class Paginator extends Component {
         const pathname = location.pathname
 
         return (
-            <nav className="paginator-controls controls">
+            <nav className="paginator controls">
                 <PaginatorLink
                     to={{pathname, query: {...location.query, page: 1}}}
                     disabled={!hasPrevious}

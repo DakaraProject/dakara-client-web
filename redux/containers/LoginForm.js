@@ -34,47 +34,60 @@ class LoginForm extends React.Component {
         }
 
         return (
-            <div id="login-page">
+            <div id="login" className="box">
                 <div className="page-head">
-                    <h2>Login</h2>
-                    <ReactCSSTransitionGroup
-                        transitionName="notified"
-                        transitionEnterTimeout={300}
-                        transitionLeaveTimeout={150}
-                        className="message"
-                    >
-                        {message}
-                    </ReactCSSTransitionGroup>
                 </div>
                 <form
                     onSubmit={e => {
                         e.preventDefault()
                         login(username.value, password.value)
                     }}
-                    className="login-form"
+                    className="form block"
                 >
-                    <div className="field-row">
-                        <div className="icon-box">
-                            <i className="fa fa-user"></i>
-                        </div>
-                        <input
-                            ref={node => {
-                                username = node
-                            }}
-                            placeholder="Username..."
-                        />
+                    <div className="header">
+                        <h2>Login</h2>
+                        <ReactCSSTransitionGroup
+                            transitionName="notified"
+                            transitionEnterTimeout={300}
+                            transitionLeaveTimeout={150}
+                        >
+                            {message}
+                        </ReactCSSTransitionGroup>
                     </div>
-                    <div className="field-row">
-                        <div className="icon-box">
-                            <i className="fa fa-lock"></i>
+                    <div className="set">
+                        <div className="field">
+                            <label htmlFor="username">
+                                <span className="icon">
+                                    <i className="fa fa-user"></i>
+                                </span>
+                            </label>
+                            <div className="input">
+                                <input
+                                    id="username"
+                                    ref={node => {
+                                        username = node
+                                    }}
+                                    placeholder="Username..."
+                                />
+                            </div>
                         </div>
-                        <input
-                            type="password"
-                            ref={node => {
-                                password = node
-                            }}
-                            placeholder="Password..."
-                        />
+                        <div className="field">
+                            <label htmlFor="password">
+                                <span className="icon">
+                                    <i className="fa fa-lock"></i>
+                                </span>
+                            </label>
+                            <div className="input">
+                                <input
+                                    id="password"
+                                    type="password"
+                                    ref={node => {
+                                        password = node
+                                    }}
+                                    placeholder="Password..."
+                                />
+                            </div>
+                        </div>
                     </div>
                     <div className="controls">
                         <button type="submit" className="control primary">

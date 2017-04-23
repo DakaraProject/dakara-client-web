@@ -18,7 +18,7 @@ export default class PlaylistEntry extends Component {
 
     render() {
         let message
-        let className = "playlist-entry listing-entry listing-entry-song hoverizable"
+        let className = "playlist-entry listing-entry library-entry library-entry-song hoverizable"
         if(this.props.notification){
             message = <div className="notified">
                         <div className={"notification " + this.props.notification.type}>
@@ -31,22 +31,20 @@ export default class PlaylistEntry extends Component {
 
         return (
             <li className={className}>
-                <div className="song-compact">
+                <div className="library-entry-song-compact">
                     <SongDisplay
                         song={this.props.entry.song}
                         handleClick={this.handleSearch}
                     />
                     <div className="playlist-info">
-                        <div className="playlist-info-content">
-                            <div className="play-time">
-                                <i className="fa fa-clock-o"></i>
-                                {utils.formatHourTime(this.props.timeOfPlay)}
-                            </div>
+                        <div className="queueing">
+                            <i className="fa fa-clock-o"></i>
+                            {utils.formatHourTime(this.props.timeOfPlay)}
                         </div>
                     </div>
                     <div className="controls">
                         <button
-                            className="remove control warning"
+                            className="control warning"
                             onClick={() => this.props.removeEntry(this.props.entry.id)}
                         >
                             <i className="fa fa-times"></i>
