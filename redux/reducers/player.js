@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import playlist from './playlist'
 import { PLAYERSTATUS_REQUEST, PLAYERSTATUS_SUCCESS, PLAYERSTATUS_FAILURE } from '../actions'
 import { PLAYERCOMMANDS_REQUEST, PLAYERCOMMANDS_SUCCESS, PLAYERCOMMANDS_FAILURE } from '../actions'
+import { CREATE_PLAYER_NOTIFICATION, CLEAR_PLAYER_NOTIFICATION } from '../actions'
 
 /**
  * This reducer contains player related state
@@ -141,10 +142,44 @@ const commands = combineReducers({
     skip
 })
 
+/**
+ * Player errors notification
+ *
+ * This is the error displayed in the interface
+ */
+
+function errorNotification(state = null, action) {
+    switch (action.type) {
+        case CREATE_PLAYER_NOTIFICATION:
+            return action.error
+
+        case CLEAR_PLAYER_NOTIFICATION:
+            if (!state) {
+                return null
+            }
+
+            // we delete the state and the notification only if it is the one we
+            // want to remove
+            if (state.id == action.errorId) {
+                return null
+            } else {
+                return state
+            }
+
+        default:
+            return state
+    }
+}
+
+/**
+ * Combine all the reducers
+ */
+
 const player = combineReducers({
     status,
     playlist,
-    commands
+    commands,
+    errorNotification
 })
 
 export default player

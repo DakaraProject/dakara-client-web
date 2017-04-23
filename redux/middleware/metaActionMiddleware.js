@@ -6,11 +6,12 @@
  *     `action`: an action to perform,
  *     `delay`: the delay in milliseconds before the passed `action` is
  *          dispatched.
+ * Also accept an action generator that takes the action on argument.
  */
 const metaActionMiddleware = ({getState, dispatch}) => next => action => {
     const meta = action.meta
     if (meta) {
-        const { delayedAction, action } = meta
+        const { delayedAction, action: actionMeta, actionGenerator } = meta
         if (delayedAction) {
             setTimeout(
                 () => {
@@ -20,8 +21,12 @@ const metaActionMiddleware = ({getState, dispatch}) => next => action => {
             )
         }
 
-        if (action) {
-            dispatch(action)
+        if (actionMeta) {
+            dispatch(actionMeta)
+        }
+
+        if (actionGenerator) {
+            dispatch(actionGenerator(action))
         }
     }
 

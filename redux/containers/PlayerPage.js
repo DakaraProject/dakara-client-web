@@ -4,7 +4,8 @@ import { loadPlayerStatus, sendPlayerCommands } from '../actions'
 
 const mapStateToProps = (state) => ({
     playerStatus: state.player.status,
-    commands: state.player.commands
+    commands: state.player.commands,
+    errorNotification: state.player.errorNotification
 })
 
 const PlayerPage = connect(

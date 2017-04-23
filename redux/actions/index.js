@@ -207,6 +207,32 @@ export const removeEntryFromPlaylist = (entryId) => ({
 })
 
 /**
+ * Player notifications
+ */
+
+export const CREATE_PLAYER_NOTIFICATION = "CREATE_PLAYER_NOTIFICATION"
+export const CLEAR_PLAYER_NOTIFICATION = "CLEAR_PLAYER_NOTIFICATION"
+
+export const clearPlayerNotification = (errorId) => ({
+    type: CLEAR_PLAYER_NOTIFICATION,
+    errorId
+})
+
+const createPlayerNotification = (id, message) => ({
+    type: CREATE_PLAYER_NOTIFICATION,
+    error: {
+        id,
+        message
+    },
+    meta: {
+        delayedAction: {
+            action: clearPlayerNotification(id),
+            delay: 5000
+        }
+    }
+})
+
+/**
  * Get player status 
  */
 
@@ -215,13 +241,58 @@ export const PLAYERSTATUS_SUCCESS = 'PLAYERSTATUS_SUCCESS'
 export const PLAYERSTATUS_FAILURE = 'PLAYERSTATUS_FAILURE'
 
 /**
+ * Action creator for player error notification
+ */
+const notifyOnError = (action) => (dispatch, getState) => {
+    // get the id of the latest new errors
+    const errorsNew = action.payload.errors
+
+    if (!errorsNew.length) {
+        return null
+    }
+
+    const latestErrorNew = errorsNew[errorsNew.length - 1]
+    const latestErrorNewId = latestErrorNew.id
+    const latestErrorNewMessage = latestErrorNew.error_message
+
+    // get the id of the latest current errors
+    const errors = getState().player.status.data.errors
+
+    let latestErrorId
+    if (errors.length) {
+        latestErrorId = errors[errors.length - 1].id
+    } else {
+        latestErrorId = -1
+    }
+
+    if (latestErrorNewId != latestErrorId) {
+        return dispatch(createPlayerNotification(
+            latestErrorNewId,
+            latestErrorNewMessage
+        ))
+
+    } else {
+        return null
+    }
+}
+
+/**
  * Request player status 
  */
 export const loadPlayerStatus = () => ({
     [CALL_API]: {
             endpoint: `${baseUrl}playlist/player/`,
             method: 'GET',
-            types: [PLAYERSTATUS_REQUEST, PLAYERSTATUS_SUCCESS, PLAYERSTATUS_FAILURE],
+            types: [
+                PLAYERSTATUS_REQUEST,
+                {
+                    type: PLAYERSTATUS_SUCCESS,
+                    meta: {
+                        actionGenerator: notifyOnError
+                    }
+                },
+                PLAYERSTATUS_FAILURE
+            ],
         }
 })
 
