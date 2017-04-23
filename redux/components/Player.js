@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import utils from '../utils'
 import SongPreviewDetails from './SongPreviewDetails'
 
-export default class Player extends React.Component {
+export default class Player extends Component {
     // TODO : old code related to player notifications
 /*    state = {notifications: []}
 
@@ -52,6 +52,10 @@ export default class Player extends React.Component {
         }
     }
 */
+    state = {
+        playPauseKey: 0
+    }
+
     pollPlayerStatus = () => {
         if (!this.props.playerStatus.isFetching) {
             this.props.loadPlayerStatus()
@@ -69,6 +73,14 @@ export default class Player extends React.Component {
         clearTimeout(this.timeout)
     }
 
+    componentWillReceiveProps(nextProps) {
+        const pendingNext = nextProps.commands.pause.pending
+        const pendingCurrent = this.props.commands.pause.pending
+
+        if (pendingNext && !pendingCurrent) {
+            this.setState({playPauseKey: this.state.playPauseKey + 1})
+        }
+    }
 
     render() {
         const { status: playerStatus, manage: playerCommand } = this.props.playerStatus.data
@@ -116,9 +128,31 @@ export default class Player extends React.Component {
 
         let progressStyle = { width: progress + "%"}
 
-        let playPausebtn = (<i className={playIcon}></i>)
+        /**
+         * Play/pause button
+         */
 
-        let skipBtn = (<i className="fa fa-step-forward"></i>)
+        let playPausebtn
+        let { pending: isPausing, error: pauseError } = this.props.commands.pause
+
+        if (!isPausing) {
+            playPausebtn = (
+                <span className="managed" key={this.state.playPauseKey}>
+                    <i className={playIcon}></i>
+                </span>
+            )
+        }
+
+        /**
+         * Skip button
+         */
+
+        let skipBtn
+        let { pending: isSkipping, error: skipError } = this.props.commands.skip
+
+        if (!isSkipping) {
+            skipBtn = (<i className="fa fa-step-forward managed"></i>)
+        }
 /*
         var message
         if(this.state.notifications.length > 0){
@@ -133,22 +167,36 @@ export default class Player extends React.Component {
                         className={
                             "control primary"
                                 + (playerStatus.playlist_entry ? "" : " disabled")
+                                + (pauseError ? " managed_error" : "")
                         }
                         onClick={() => {
                                 this.props.sendPlayerCommands({pause: !playerCommand.pause})
                             }
                         }
                     >
-                        {playPausebtn}
+                        <ReactCSSTransitionGroup
+                            transitionName="managed"
+                            transitionEnterTimeout={150}
+                            transitionLeaveTimeout={150}
+                        >
+                            {playPausebtn}
+                        </ReactCSSTransitionGroup>
                     </button>
                     <button
                         className={
                             "control primary"
                                 + (playerStatus.playlist_entry ? "" : " disabled")
+                                + (skipError ? " managed_error" : "")
                         }
                         onClick={() => this.props.sendPlayerCommands({skip: true})}
                     >
-                        {skipBtn}
+                        <ReactCSSTransitionGroup
+                            transitionName="managed"
+                            transitionEnterTimeout={150}
+                            transitionLeaveTimeout={150}
+                        >
+                            {skipBtn}
+                        </ReactCSSTransitionGroup>
                     </button>
                 </div>
                 <div className="song">

@@ -252,6 +252,9 @@ export const sendPlayerCommands = (commands) => ({
                 },
                 PLAYERCOMMANDS_FAILURE
             ],
+            meta: {
+                commands
+            }
         }
 })
 
