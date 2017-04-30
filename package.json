@@ -27,8 +27,7 @@
     "less": "^2.7.2",
     "less-loader": "^4.0.3",
     "redux-devtools": "^3.3.2",
-    "style-loader": "^0.16.1",
-    "webpack": "^2.3.3"
+    "style-loader": "^0.16.1"
   },
   "dependencies": {
     "normalize.css": "^6.0.0",
