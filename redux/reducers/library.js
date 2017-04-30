@@ -23,7 +23,7 @@ const defaultLibraryEntries =  {
 
 function entries(state = defaultLibraryEntries, action) {
     if (action.type === LIBRARY_SUCCESS) {
-        return {...action.payload, type:action.libraryType};
+        return {...action.response, type:action.libraryType};
     } else {
         return state;
     }
@@ -39,7 +39,7 @@ const defaultWorkTypes =  {
 
 function workTypes(state = defaultWorkTypes, action) {
     if (action.type === WORKTYPES_SUCCESS) {
-        return action.payload;
+        return action.response;
     } else {
         return state;
     }

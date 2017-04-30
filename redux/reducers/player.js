@@ -33,7 +33,7 @@ function status(state = defaultPlayerStatus, action) {
             return { ...state, isFetching: true }
 
         case PLAYERSTATUS_SUCCESS:
-            return { data: action.payload, isFetching: false }
+            return { data: action.response, isFetching: false }
 
         case PLAYERSTATUS_FAILURE:
             return { ...state, isFetching: false }

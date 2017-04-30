@@ -8,7 +8,7 @@ import { LOGOUT } from '../actions'
 
 function token(state = null, action) {
     if (action.type === LOGIN_SUCCESS) {
-        return action.payload.token
+        return action.response.token
     } else if (action.type === LOGOUT) {
         return null
     } else {

@@ -10,27 +10,26 @@ import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from '../actions'
  */
 
 function message(state = null, action) {
-    const payload = action.payload
-    if (action.type == LOGIN_REQUEST && !action.error) {
-        return null
-    } else if (action.type === LOGIN_FAILURE) {
-        if (action.error = true && payload.name == "ApiError") {
-            const errors = payload.response.non_field_errors
-            if (errors && errors.length > 0) {
-                return errors[0]
-            } else {
-                return payload.message
-            }
-        } else {
-            return "Unknown error."
-        }
-    } else if (action.type == LOGIN_REQUEST && action.error == true && payload.name == "RequestError") {
-        return "Unable to contact server."
-    } else if (action.type == LOGIN_SUCCESS || action.type == LOGIN_FAILURE) {
-        return null 
-    }
+    switch (action.type) {
+        case LOGIN_REQUEST:
+        case LOGIN_SUCCESS:
+            return null
 
-    return state
+        case LOGIN_FAILURE:
+            const { message, non_field_errors } = action.error
+            if (message) {
+                return message
+            }
+
+            if (non_field_errors) {
+                return non_field_errors.join(" ")
+            }
+
+            return "Unknown error."
+
+        default:
+            return state
+    }
 }
 
 /**

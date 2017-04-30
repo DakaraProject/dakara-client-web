@@ -230,7 +230,7 @@ export const PLAYERSTATUS_FAILURE = 'PLAYERSTATUS_FAILURE'
  */
 const notifyOnError = (dispatch, getState, action) => {
     // get the id of the latest new errors
-    const errorsNew = action.payload.errors
+    const errorsNew = action.response.errors
 
     if (!errorsNew.length) {
         return null

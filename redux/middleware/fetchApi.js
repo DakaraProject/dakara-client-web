@@ -110,7 +110,7 @@ export default ({getState, dispatch}) => next => action => {
         .then(response => {
             const newAction = actionWith({
                 type: successType,
-                payload: response
+                response
             })
             processAction(onSuccess, newAction)
             return next(newAction)

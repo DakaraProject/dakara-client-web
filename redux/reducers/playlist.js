@@ -25,7 +25,7 @@ function entries(state = defaultEntries, action) {
         case PLAYLIST_REQUEST:
             return { ...state, isFetching: true }
         case PLAYLIST_SUCCESS:
-            return { data: action.payload, isFetching: false }
+            return { data: action.response, isFetching: false }
         case PLAYLIST_FAILURE:
             return { ...state, isFetching: false }
         default:
