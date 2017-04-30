@@ -10,22 +10,20 @@ import LibraryListSongPage from './containers/LibraryListSongPage'
 import LibraryListArtistPage from './containers/LibraryListArtistPage'
 import LibraryListWorkPage from './containers/LibraryListWorkPage'
 import { createStore, applyMiddleware, compose } from 'redux'
-import { apiMiddleware } from 'redux-api-middleware'
 import { Provider } from 'react-redux'
 import reducer from  './reducers'
 import ReduxThunk from 'redux-thunk'
 import persistState from 'redux-localstorage'
-import apiJsonTokenMiddleware from './middleware/apiJsonToken'
-import metaActionMiddleware from './middleware/metaActionMiddleware'
+import fetchApiMiddleware from './middleware/fetchApi'
+import delayMiddleware from './middleware/delay'
 
 const store = createStore(
     reducer,
     compose(
         applyMiddleware(
-            apiJsonTokenMiddleware,
+            fetchApiMiddleware,
             ReduxThunk,
-            apiMiddleware,
-            metaActionMiddleware
+            delayMiddleware
         ),
         persistState('token')
     )

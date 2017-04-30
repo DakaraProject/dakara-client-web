@@ -39,15 +39,15 @@ function status(state = defaultPlayerStatus, action) {
             return { ...state, isFetching: false }
 
         case PLAYERCOMMANDS_SUCCESS:
-            if (action.meta && action.meta.commands &&
-                action.meta.commands.pause != undefined) {
+            if (action.commands &&
+                action.commands.pause != undefined) {
                 return {
                     ...state,
                     data: {
                         ...state.data,
                         manage: {
                             ...state.data.manage,
-                            pause: action.meta.commands.pause
+                            pause: action.commands.pause
                         }
                     }
                 }
@@ -70,7 +70,7 @@ const defaultSkip = {
 }
 
 function skip(state = defaultSkip, action) {
-    if (!(action.meta && action.meta.commands && action.meta.commands.skip)) {
+    if (!(action.commands && action.commands.skip)) {
         return state
     }
 
@@ -108,8 +108,8 @@ const defaultPause = {
 }
 
 function pause(state = defaultPause, action) {
-    if (!(action.meta && action.meta.commands &&
-        action.meta.commands.pause != undefined)) {
+    if (!(action.commands &&
+        action.commands.pause != undefined)) {
         return state
     }
 

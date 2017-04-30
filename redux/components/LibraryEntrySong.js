@@ -67,7 +67,7 @@ export default class LibraryEntrySong extends Component {
          * only displayed when song is expanded
          */
 
-        var songExpandedDetails
+        let songExpandedDetails
         if (expanded){
             songExpandedDetails = (
                     <LibraryEntrySongExpanded

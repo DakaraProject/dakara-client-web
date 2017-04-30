@@ -1,7 +1,13 @@
-import { CALL_API } from 'redux-api-middleware'
+import { FETCH_API } from '../middleware/fetchApi'
 import utils from '../utils'
 
 const { baseUrl } = utils.params
+
+
+const delay = (action, delay) => ({
+    ...action,
+    delay
+})
 
 /**
  * Get a page of libraryEntries
@@ -12,12 +18,12 @@ export const LIBRARY_SUCCESS = 'LIBRARY_SUCCESS'
 export const LIBRARY_FAILURE = 'LIBRARY_FAILURE'
 
 const fetchLibraryEntries = (url, libraryType) => ({
-    [CALL_API]: {
+    [FETCH_API]: {
             endpoint: url,
             method: 'GET',
-            types: [LIBRARY_REQUEST, LIBRARY_SUCCESS, LIBRARY_FAILURE],
-            meta: { libraryType }
-        }
+            types: [LIBRARY_REQUEST, LIBRARY_SUCCESS, LIBRARY_FAILURE]
+        },
+    libraryType
 })
 
 /**
@@ -57,7 +63,7 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE'
  * @param password password
  */
 export const login  = (username, password) => ({
-    [CALL_API]: {
+    [FETCH_API]: {
             endpoint: `${baseUrl}token-auth/`,
             method: 'POST',
             json: {username, password},
@@ -77,7 +83,7 @@ export const WORKTYPES_FAILURE = 'WORKTYPES_FAILURE'
  * Load work types from the server 
  */
 export const loadWorkTypes = () => ({
-    [CALL_API]: {
+    [FETCH_API]: {
             endpoint: `${baseUrl}library/work-types/`,
             method: 'GET',
             types: [WORKTYPES_REQUEST, WORKTYPES_SUCCESS, WORKTYPES_FAILURE]
@@ -125,32 +131,22 @@ export const ADDPLAYLIST_FAILURE = 'ADDPLAYLIST_FAILURE'
  * @param songId ID of the song to add
  */
 export const addSongToPlaylist = (songId) => ({
-    [CALL_API]: {
+    [FETCH_API]: {
             endpoint: `${baseUrl}playlist/`,
             method: 'POST',
             json: {song: songId},
             types: [
                 ADDPLAYLIST_REQUEST,
-                {
-                    type: ADDPLAYLIST_SUCCESS,
-                    meta: {
-                        delayedAction: {
-                            action: clearSongListNotification(songId),
-                            delay: 2000
-                        },
-                        action: loadPlaylist()
-                    }
-                },
-                {
-                    type: ADDPLAYLIST_FAILURE,
-                    meta: {delayedAction: {
-                        action: clearSongListNotification(songId),
-                        delay: 5000
-                    }}
-                },
+                ADDPLAYLIST_SUCCESS,
+                ADDPLAYLIST_FAILURE,
             ],
-            meta: { songId }
-        }
+            onSuccess: [
+                delay(clearSongListNotification(songId), 2000),
+                loadPlaylist()
+            ],
+            onFailure: delay(clearSongListNotification(songId), 5000)
+        },
+    songId
 })
 
 /**
@@ -181,29 +177,18 @@ export const REMOVEPLAYLISTENTRY_FAILURE = 'REMOVEPLAYLISTENTRY_FAILURE'
  * @param entryId Id of the entry to remove
  */
 export const removeEntryFromPlaylist = (entryId) => ({
-    [CALL_API]: {
+    [FETCH_API]: {
             endpoint: `${baseUrl}playlist/${entryId}/`,
             method: 'DELETE',
             types: [
                 REMOVEPLAYLISTENTRY_REQUEST,
-                {
-                    type: REMOVEPLAYLISTENTRY_SUCCESS,
-                    meta: {
-                        action: loadPlaylist()
-                    }
-                },
-                {
-                    type: REMOVEPLAYLISTENTRY_FAILURE,
-                    meta: {
-                        delayedAction: {
-                            action: clearPlaylistEntryNotification(entryId),
-                            delay: 5000
-                        }
-                    }
-                },
+                REMOVEPLAYLISTENTRY_SUCCESS,
+                REMOVEPLAYLISTENTRY_FAILURE,
             ],
-            meta: { entryId }
-        }
+            onSuccess: loadPlaylist(),
+            onFailure: delay(clearPlaylistEntryNotification(entryId), 5000)
+        },
+    entryId
 })
 
 /**
@@ -218,19 +203,19 @@ export const clearPlayerNotification = (errorId) => ({
     errorId
 })
 
-const createPlayerNotification = (id, message) => ({
-    type: CREATE_PLAYER_NOTIFICATION,
-    error: {
-        id,
-        message
-    },
-    meta: {
-        delayedAction: {
-            action: clearPlayerNotification(id),
-            delay: 5000
+const createPlayerNotification = (id, message) => (dispatch, getState) => {
+    dispatch(delay(clearPlayerNotification(id), 5000))
+    return dispatch(
+        {
+            type: CREATE_PLAYER_NOTIFICATION,
+            error: {
+                id,
+                message
+            }
         }
-    }
-})
+    )
+}
+
 
 /**
  * Get player status 
@@ -243,7 +228,7 @@ export const PLAYERSTATUS_FAILURE = 'PLAYERSTATUS_FAILURE'
 /**
  * Action creator for player error notification
  */
-const notifyOnError = (action) => (dispatch, getState) => {
+const notifyOnError = (dispatch, getState, action) => {
     // get the id of the latest new errors
     const errorsNew = action.payload.errors
 
@@ -280,19 +265,15 @@ const notifyOnError = (action) => (dispatch, getState) => {
  * Request player status 
  */
 export const loadPlayerStatus = () => ({
-    [CALL_API]: {
+    [FETCH_API]: {
             endpoint: `${baseUrl}playlist/player/`,
             method: 'GET',
             types: [
                 PLAYERSTATUS_REQUEST,
-                {
-                    type: PLAYERSTATUS_SUCCESS,
-                    meta: {
-                        actionGenerator: notifyOnError
-                    }
-                },
+                PLAYERSTATUS_SUCCESS,
                 PLAYERSTATUS_FAILURE
             ],
+            onSuccess: notifyOnError
         }
 })
 
@@ -309,24 +290,18 @@ export const PLAYERCOMMANDS_FAILURE = 'PLAYERCOMMANDS_FAILURE'
  * @param commands : object containing pause and skip commands booleans
  */
 export const sendPlayerCommands = (commands) => ({
-    [CALL_API]: {
+    [FETCH_API]: {
             endpoint: `${baseUrl}playlist/player/manage/`,
             method: 'PUT',
             json: commands,
             types: [
                 PLAYERCOMMANDS_REQUEST,
-                {
-                    type: PLAYERCOMMANDS_SUCCESS,
-                    meta: {
-                        action: loadPlayerStatus()
-                    }
-                },
+                PLAYERCOMMANDS_SUCCESS,
                 PLAYERCOMMANDS_FAILURE
             ],
-            meta: {
-                commands
-            }
-        }
+            onSuccess: loadPlayerStatus()
+        },
+    commands
 })
 
 /**
@@ -341,7 +316,7 @@ export const PLAYLIST_FAILURE = 'PLAYLIST_FAILURE'
  * Request playlist 
  */
 export const loadPlaylist = () => ({
-    [CALL_API]: {
+    [FETCH_API]: {
             endpoint: `${baseUrl}playlist/`,
             method: 'GET',
             types: [PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE],

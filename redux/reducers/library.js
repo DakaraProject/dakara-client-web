@@ -23,7 +23,7 @@ const defaultLibraryEntries =  {
 
 function entries(state = defaultLibraryEntries, action) {
     if (action.type === LIBRARY_SUCCESS) {
-        return {...action.payload, type:action.meta.libraryType};
+        return {...action.payload, type:action.libraryType};
     } else {
         return state;
     }
@@ -53,7 +53,7 @@ function songListNotifications(state = {}, action) {
     let songId
     switch (action.type) {
         case ADDPLAYLIST_REQUEST:
-            songId = action.meta.songId
+            songId = action.songId
             return {...state, [songId]: {
                     message: "Adding...",
                     type: "success"
@@ -61,7 +61,7 @@ function songListNotifications(state = {}, action) {
             }
 
         case ADDPLAYLIST_SUCCESS:
-            songId = action.meta.songId
+            songId = action.songId
             return {...state, [songId]: {
                     message: "Successfuly added!",
                     type: "success"
@@ -69,7 +69,7 @@ function songListNotifications(state = {}, action) {
             }
 
         case ADDPLAYLIST_FAILURE:
-            songId = action.meta.songId
+            songId = action.songId
             return {...state, [songId]: {
                     message: "Error attempting to add song to playlist",
                     type: "danger"

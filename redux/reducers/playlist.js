@@ -52,7 +52,7 @@ function notifications(state = {}, action) {
     let entryId
     switch (action.type) {
         case REMOVEPLAYLISTENTRY_REQUEST:
-            entryId = action.meta.entryId
+            entryId = action.entryId
             return {...state, [entryId]: {
                     message: "Removing...",
                     type: "success"
@@ -60,7 +60,7 @@ function notifications(state = {}, action) {
             }
 
         case REMOVEPLAYLISTENTRY_SUCCESS:
-            entryId = action.meta.entryId
+            entryId = action.entryId
             return {...state, [entryId]: {
                     message: "Successfuly removed!",
                     type: "success"
@@ -68,7 +68,7 @@ function notifications(state = {}, action) {
             }
 
         case REMOVEPLAYLISTENTRY_FAILURE:
-            entryId = action.meta.entryId
+            entryId = action.entryId
             return {...state, [entryId]: {
                     message: "Error attempting to remove song from playlist",
                     type: "danger"
