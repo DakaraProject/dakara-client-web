@@ -85,10 +85,11 @@
 
         // class for data relative to the status of the song in the playlist
         .playlist-info {
-            line-height: @listing-entry-height;
             background: @brand-info;
             color: @text-dark;
             text-align: center;
+            display: flex;
+            align-items: center;
 
             .queueing {
                 min-width: (2 * @listing-entry-height);
@@ -103,7 +104,7 @@
             }
 
             // appearance transition of the playlist info class
-            &.playlist-info-enter {
+            .playlist-info-enter {
                 max-width: 0;
                 overflow: hidden;
 
@@ -114,7 +115,7 @@
             }
 
             // disappearance transition of the playlist info class
-            &.playlist-info-leave {
+            .playlist-info-leave {
                 max-width: (2 * @listing-entry-height);
                 overflow: hidden;
 
