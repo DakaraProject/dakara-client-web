@@ -4,10 +4,6 @@ import utils from '../utils'
 import SongPreviewDetails from './SongPreviewDetails'
 
 export default class Player extends Component {
-    state = {
-        playPauseKey: 0
-    }
-
     pollPlayerStatus = () => {
         if (!this.props.playerStatus.isFetching) {
             this.props.loadPlayerStatus()
@@ -23,15 +19,6 @@ export default class Player extends Component {
     componentWillUnmount() {
         // Stop polling server
         clearTimeout(this.timeout)
-    }
-
-    componentWillReceiveProps(nextProps) {
-        const pendingNext = nextProps.commands.pause.pending
-        const pendingCurrent = this.props.commands.pause.pending
-
-        if (pendingNext && !pendingCurrent) {
-            this.setState({playPauseKey: this.state.playPauseKey + 1})
-        }
     }
 
     render() {
@@ -86,11 +73,15 @@ export default class Player extends Component {
          */
 
         let playPausebtn
-        let { pending: isPausing, error: pauseError } = this.props.commands.pause
+        let {
+            pending: isPausing,
+            error: pauseError,
+            counter: pauseCounter
+        } = this.props.commands.pause
 
         if (!isPausing) {
             playPausebtn = (
-                <span className="managed" key={this.state.playPauseKey}>
+                <span className="managed" key={pauseCounter}>
                     <i className={playIcon}></i>
                 </span>
             )

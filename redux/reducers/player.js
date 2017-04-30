@@ -104,7 +104,8 @@ function skip(state = defaultSkip, action) {
 
 const defaultPause = {
     pending: false,
-    error: false
+    error: false,
+    counter: 1
 }
 
 function pause(state = defaultPause, action) {
@@ -116,18 +117,22 @@ function pause(state = defaultPause, action) {
     switch (action.type) {
         case PLAYERCOMMANDS_REQUEST:
             return {
+                ...state,
                 pending: true,
                 error: false
             }
 
         case PLAYERCOMMANDS_SUCCESS:
             return {
+                ...state,
                 pending: false,
                 error: false,
+                counter: state.counter + 1
             }
 
         case PLAYERCOMMANDS_FAILURE:
             return {
+                ...state,
                 pending: false,
                 error: true,
             }
