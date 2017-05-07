@@ -24,19 +24,31 @@ const defaultPlayerStatus = {
         },
         errors: []
     },
-    isFetching: false
+    isFetching: false,
+    fetchError: false
 }
 
 function status(state = defaultPlayerStatus, action) {
     switch (action.type) {
         case PLAYERSTATUS_REQUEST:
-            return { ...state, isFetching: true }
+            return {
+                ...state,
+                isFetching: true
+            }
 
         case PLAYERSTATUS_SUCCESS:
-            return { data: action.response, isFetching: false }
+            return {
+                data: action.response,
+                isFetching: false,
+                fetchError: false
+            }
 
         case PLAYERSTATUS_FAILURE:
-            return { ...state, isFetching: false }
+            return {
+                ...state,
+                isFetching: false,
+                fetchError: true
+            }
 
         case PLAYERCOMMANDS_SUCCESS:
             if (action.commands &&

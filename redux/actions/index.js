@@ -218,7 +218,7 @@ const createPlayerNotification = (id, message) => (dispatch, getState) => {
 
 
 /**
- * Get player status 
+ * Get player status
  */
 
 export const PLAYERSTATUS_REQUEST = 'PLAYERSTATUS_REQUEST'
@@ -289,20 +289,37 @@ export const PLAYERCOMMANDS_FAILURE = 'PLAYERCOMMANDS_FAILURE'
  * Send commands to the player
  * @param commands : object containing pause and skip commands booleans
  */
-export const sendPlayerCommands = (commands) => ({
-    [FETCH_API]: {
-            endpoint: `${baseUrl}playlist/player/manage/`,
-            method: 'PUT',
-            json: commands,
-            types: [
-                PLAYERCOMMANDS_REQUEST,
-                PLAYERCOMMANDS_SUCCESS,
-                PLAYERCOMMANDS_FAILURE
-            ],
-            onSuccess: loadPlayerStatus()
+export const sendPlayerCommands = (commands) => {
+    let message
+    if (typeof commands.pause !== 'undefined') {
+        message = "Unable to set pause"
+    } else if (typeof commands.skip !== 'undefined') {
+        message = "Unable to skip"
+    } else {
+        throw Error("Commands have neither `pause` nor `skip`")
+    }
+
+    const onFailureAction = createPlayerNotification(
+        Date.now(), // id
+        message
+    )
+
+    return {
+        [FETCH_API]: {
+                endpoint: `${baseUrl}playlist/player/manage/`,
+                method: 'PUT',
+                json: commands,
+                types: [
+                    PLAYERCOMMANDS_REQUEST,
+                    PLAYERCOMMANDS_SUCCESS,
+                    PLAYERCOMMANDS_FAILURE
+                ],
+                onSuccess: loadPlayerStatus(),
+                onFailure: onFailureAction
         },
-    commands
-})
+        commands
+    }
+}
 
 /**
  * Get playlist entries 

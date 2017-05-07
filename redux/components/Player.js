@@ -23,6 +23,7 @@ export default class Player extends Component {
 
     render() {
         const { status: playerStatus, manage: playerCommand } = this.props.playerStatus.data
+        const { fetchError } = this.props.playerStatus
         let song
         let songSubtitle
         let songData
@@ -112,11 +113,33 @@ export default class Player extends Component {
                     className="notified"
                 >
                     <div className="notification danger">
+                        <div className="message">
                             {errorNotification.message}
+                        </div>
+                    </div>
+                </div>
+            )
+        } else if (fetchError) {
+            notificationBanner = (
+                <div
+                    key="fetchError"
+                    className="notified"
+                >
+                    <div className="notification danger">
+                        <div className="message">
+                            Unable to get status from server
+                        </div>
+                        <div className="animation">
+                            <span>·</span>
+                            <span>·</span>
+                            <span>·</span>
+                        </div>
                     </div>
                 </div>
             )
         }
+
+        const controlDisabled = !isPlaying || fetchError
 
         return (
         <div id="player">
@@ -125,14 +148,14 @@ export default class Player extends Component {
                     <button
                         className={
                             "control primary"
-                                + (isPlaying ? "" : " disabled")
+                                + (controlDisabled ? " disabled" : "")
                                 + (pauseError ? " managed_error" : "")
                         }
                         onClick={() => {
                                 this.props.sendPlayerCommands({pause: !playerCommand.pause})
                             }
                         }
-                        disabled={!isPlaying}
+                        disabled={controlDisabled}
                     >
                         <ReactCSSTransitionGroup
                             transitionName="managed"
@@ -145,11 +168,11 @@ export default class Player extends Component {
                     <button
                         className={
                             "control primary"
-                                + (isPlaying ? "" : " disabled")
+                                + (controlDisabled ? " disabled" : "")
                                 + (skipError ? " managed_error" : "")
                         }
                         onClick={() => this.props.sendPlayerCommands({skip: true})}
-                        disabled={!isPlaying}
+                        disabled={controlDisabled}
                     >
                         <ReactCSSTransitionGroup
                             transitionName="managed"
