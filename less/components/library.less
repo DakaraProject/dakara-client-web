@@ -69,8 +69,48 @@
     //     Works library (and all the different works, like Anime, Game...)
     // The current class gathers all the common elements needed by the different pages
     .library-entries {
-        &.listing {
-            min-height: 10 * @listing-entry-height;
+        min-height: 10 * @listing-entry-height;
+        background: darken(@neutral-mid, 3%);
+
+        &.fetch-error {
+            .notification {
+                height: @listing-entry-height;
+                line-height: @listing-entry-height;
+            }
+
+            // notification
+            position: relative;
+
+            .notified {
+                width: 100%;
+                height: @listing-entry-height;
+                line-height: @listing-entry-height;
+                position: absolute;
+                top: 0;
+                left: 0;
+
+                // notification transition appearance
+                &.notified-enter,
+                &.notified-appear {
+                    left: 100%;
+
+                    &.notified-enter-active,
+                    &.notified-appear-active {
+                        left: 0;
+                        .transition(left 300ms ease-out);
+                    }
+                }
+
+                // notification transition disappearance
+                &.notified-leave {
+                    left: 0;
+
+                    &.notified-leave-active {
+                        left: 100%;
+                        .transition(left 150ms ease-out);
+                    }
+                }
+            }
         }
     }
 

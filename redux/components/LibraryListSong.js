@@ -7,8 +7,8 @@ class LibraryListSong extends LibraryListAbstract {
         return "songs"
     }
 
-    render() {
-        const songs = this.props.entries.results
+    getLibraryEntryList = () => {
+        const songs = this.props.entries.data.results
 
         /**
          * Compute playlist info
@@ -52,11 +52,7 @@ class LibraryListSong extends LibraryListAbstract {
             ))
         }
 
-        return (
-              <ul className="library-entries listing">
-                  {libraryEntrySongList}
-              </ul>
-        )
+        return libraryEntrySongList
     }
 }
 

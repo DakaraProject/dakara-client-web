@@ -14,18 +14,44 @@ import { CLEAR_SONG_LIST_NOTIFICATION } from '../actions'
  */
 
 const defaultLibraryEntries =  {
-        current: 0,
+    data: {
+        current: 1,
         last: 0,
         count: 0,
-        results: [],
-        type: ''
+        results: []
+    },
+    type: '',
+    isFetching: false,
+    fetchError: false
 }
 
 function entries(state = defaultLibraryEntries, action) {
-    if (action.type === LIBRARY_SUCCESS) {
-        return {...action.response, type:action.libraryType};
-    } else {
-        return state;
+    switch (action.type) {
+        case LIBRARY_REQUEST:
+            return {
+                ...state,
+                isFetching: true,
+                fetchError: false
+            }
+
+        case LIBRARY_SUCCESS:
+            return {
+                data: action.response,
+                type: action.libraryType,
+                isFetching: false,
+                fetchError: false
+            }
+
+        case LIBRARY_FAILURE:
+            return {
+                data: defaultLibraryEntries.data,
+                type: action.libraryType,
+                isFetching: false,
+                fetchError: true
+            }
+
+        default:
+            return state
     }
 }
 

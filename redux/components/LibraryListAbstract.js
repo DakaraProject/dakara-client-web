@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 class LibraryListAbstract extends Component {
     componentDidMount() {
@@ -38,6 +39,43 @@ class LibraryListAbstract extends Component {
         }
 
         this.props.loadLibraryEntries(this.getLibraryName(), args)
+    }
+
+
+    /**
+     * To be override by the child class
+     * to return the list of library entries
+     */
+    getLibraryEntryList() {
+    }
+
+    render() {
+        const { isFetching, fetchError } = this.props.entries
+
+        if (fetchError) {
+            return (
+                <div className="library-entries fetch-error">
+                    <ReactCSSTransitionGroup
+                        transitionName="notified"
+                        transitionAppear={true}
+                        transitionEnterTimeout={150}
+                        transitionAppearTimeout={150}
+                        transitionLeaveTimeout={300}
+                    >
+                        <div className="notified notification danger">
+                            Error !
+                        </div>
+                    </ReactCSSTransitionGroup>
+                </div>
+            )
+        }
+
+        const libraryEntryList = this.getLibraryEntryList()
+        return (
+              <ul className="library-entries listing">
+                  {libraryEntryList}
+              </ul>
+        )
     }
 }
 

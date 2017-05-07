@@ -71,12 +71,15 @@ class LibraryPage extends Component {
     }
 
     render() {
+        const {
+            current: currentPageNumber,
+            last: lastPageNumber,
+            count: entriesCount
+        } = this.props.entries.data
+
         // you MUST provide the current `pathname`, otherwize (when providing
         // only `query`) it is undefined
         const pathname = this.props.location.pathname
-
-        // info bar
-        const entriesCount = this.props.entriesCount
 
         // library name
         const libraryName = this.getLibraryName()
@@ -173,8 +176,8 @@ class LibraryPage extends Component {
                 <div className="library-navigator">
                     <Paginator
                         location={this.props.location}
-                        current={this.props.currentPageNumber}
-                        last={this.props.lastPageNumber}
+                        current={currentPageNumber}
+                        last={lastPageNumber}
                     />
                     {infoCounter}
                 </div>
@@ -211,9 +214,7 @@ class LibraryTab extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    currentPageNumber: state.library.entries.current,
-    entriesCount: state.library.entries.count,
-    lastPageNumber: state.library.entries.last,
+    entries: state.library.entries,
     workTypes: state.library.workTypes.results
 })
 
