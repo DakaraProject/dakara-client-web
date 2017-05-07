@@ -36,9 +36,9 @@ export default class SongExpandedWorkEntry extends WorkDisplay {
         let episodes
         if(workLink.episodes) {
             episodes = (
-                    <div className="episodes">
+                    <span className="episodes">
                         Episode {workLink.episodes}
-                    </div>
+                    </span>
                     )
         }
 
