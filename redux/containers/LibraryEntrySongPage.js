@@ -3,7 +3,7 @@ import LibraryEntrySong from '../components/LibraryEntrySong'
 import { addSongToPlaylist } from '../actions'
 
 const mapStateToProps = (state, ownProps) => ({
-    query: state.library.entries.query,
+    query: state.library.entries.data.query,
     notification: state.library.songListNotifications[ownProps.song.id]
 })
 
