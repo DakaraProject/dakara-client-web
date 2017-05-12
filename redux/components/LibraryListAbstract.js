@@ -50,26 +50,6 @@ class LibraryListAbstract extends Component {
     }
 
     render() {
-        const { isFetching, fetchError } = this.props.entries
-
-        if (fetchError) {
-            return (
-                <div className="library-entries fetch-error">
-                    <ReactCSSTransitionGroup
-                        transitionName="notified"
-                        transitionAppear={true}
-                        transitionEnterTimeout={150}
-                        transitionAppearTimeout={150}
-                        transitionLeaveTimeout={300}
-                    >
-                        <div className="notified notification danger">
-                            Error !
-                        </div>
-                    </ReactCSSTransitionGroup>
-                </div>
-            )
-        }
-
         const libraryEntryList = this.getLibraryEntryList()
         return (
               <ul className="library-entries listing">

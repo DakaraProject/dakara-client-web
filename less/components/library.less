@@ -72,7 +72,13 @@
         min-height: 10 * @listing-entry-height;
         background: darken(@neutral-mid, 3%);
 
-        &.fetch-error {
+    }
+
+    // Style for library overlay
+    // containing error messages
+    // and pending notification
+    .library-overlay {
+        .notification-area {
             .notification {
                 height: @listing-entry-height;
                 line-height: @listing-entry-height;

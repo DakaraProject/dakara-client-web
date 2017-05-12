@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { browserHistory, Link } from 'react-router'
 import { loadWorkTypes } from '../actions'
 import Paginator from '../components/Paginator'
+import LibraryListOverlay from '../components/LibraryListOverlay'
 
 class LibraryPage extends Component {
     state = {
@@ -76,6 +77,8 @@ class LibraryPage extends Component {
             last: lastPageNumber,
             count: entriesCount
         } = this.props.entries.data
+
+        const { isFetching, fetchError } = this.props.entries
 
         // you MUST provide the current `pathname`, otherwize (when providing
         // only `query`) it is undefined
@@ -171,7 +174,12 @@ class LibraryPage extends Component {
                     </div>
                 </form>
 
-                {this.props.children}
+                <LibraryListOverlay
+                    isFetching={isFetching}
+                    fetchError={fetchError}
+                >
+                    {this.props.children}
+                </LibraryListOverlay>
 
                 <div className="library-navigator">
                     <Paginator
