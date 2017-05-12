@@ -16,7 +16,7 @@ import { CLEAR_SONG_LIST_NOTIFICATION } from '../actions'
 const defaultLibraryEntries =  {
     data: {
         current: 1,
-        last: 0,
+        last: 1,
         count: 0,
         results: []
     },
