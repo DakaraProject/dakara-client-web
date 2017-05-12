@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import Delayer from './Delayer'
 
 class LibraryListOverlay extends Component {
     render() {
@@ -10,6 +11,19 @@ class LibraryListOverlay extends Component {
                 <div className="notified notification danger">
                     Error !
                 </div>
+            )
+        }
+
+        let pending
+        if (isFetching) {
+            pending = (
+                <Delayer delay={200}>
+                    <div className="overlay">
+                        <div className="pending">
+                            Fetching...
+                        </div>
+                    </div>
+                </Delayer>
             )
         }
 
@@ -26,6 +40,8 @@ class LibraryListOverlay extends Component {
                         {notification}
                     </ReactCSSTransitionGroup>
                 </div>
+
+                {pending}
 
                 {this.props.children}
             </div>
