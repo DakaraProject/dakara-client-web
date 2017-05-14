@@ -62,46 +62,47 @@
         }
     }
 
-    // Here goes the styles for the library pages
-    // These pages are:
-    //     Songs library,
-    //     Artists library,
-    //     Works library (and all the different works, like Anime, Game...)
-    // The current class gathers all the common elements needed by the different pages
-    .library-entries {
-        min-height: 10 * @listing-entry-height;
-        background: darken(@neutral-mid, 3%);
-
-    }
-
-    // Style for library overlay
-    // containing error messages
-    // and pending notification
-    .library-overlay {
+    // Style for library list wrapper
+    // containing error messages,
+    // pending notification overlay,
+    // and library list
+    .library-list-wrapper {
         position: relative;
 
-        .overlay {
-            position: absolute;
-            z-index: 10;
-            background: rgba(0, 0, 0, 0.3);
-            width: 100%;
-            height: 100%;
-
-            .pending {
-                position: absolute;
-                top: 50%;
-                width: 100%;
-                text-align: center;
-                line-height: 100%;
-            }
-        }
-
-        // notification
+        // error notification
         .notification-area {
             .notified {
                 height: @listing-entry-height;
                 line-height: @listing-entry-height;
             }
+        }
+
+        // overlay
+        .overlay {
+            top: 0;
+            left: 0;
+            position: absolute;
+            background: rgba(0, 0, 0, 0.3);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .pending {
+            }
+        }
+
+        // Here goes the styles for the library pages
+        // These pages are:
+        //     Songs library,
+        //     Artists library,
+        //     Works library (and all the different works, like Anime, Game...)
+        // The current class gathers all the common elements needed by the different pages
+        .library-list {
+            min-height: 10 * @listing-entry-height;
+            background: darken(@neutral-mid, 3%);
+
         }
     }
 

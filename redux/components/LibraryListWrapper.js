@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import Delayer from './Delayer'
 
-class LibraryListOverlay extends Component {
+export default class LibraryListWrapper extends Component {
     render() {
         const { isFetching, fetchError } = this.props
         let notification
@@ -30,25 +30,23 @@ class LibraryListOverlay extends Component {
         }
 
         return (
-            <div className="library-overlay">
-                <div className="notification-area notifiable">
-                    <ReactCSSTransitionGroup
-                        transitionName="notified"
-                        transitionAppear={true}
-                        transitionEnterTimeout={150}
-                        transitionAppearTimeout={150}
-                        transitionLeaveTimeout={300}
-                    >
-                        {notification}
-                    </ReactCSSTransitionGroup>
-                </div>
-
-                {pending}
+            <div className="library-list-wrapper">
+                <ReactCSSTransitionGroup
+                    component="div"
+                    className="notification-area notifiable"
+                    transitionName="notified"
+                    transitionAppear={true}
+                    transitionEnterTimeout={150}
+                    transitionAppearTimeout={150}
+                    transitionLeaveTimeout={300}
+                >
+                    {notification}
+                </ReactCSSTransitionGroup>
 
                 {this.props.children}
+
+                {pending}
             </div>
         )
     }
 }
-
-export default LibraryListOverlay

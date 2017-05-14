@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { browserHistory, Link } from 'react-router'
 import { loadWorkTypes } from '../actions'
 import Paginator from '../components/Paginator'
-import LibraryListOverlay from '../components/LibraryListOverlay'
+import LibraryListWrapper from '../components/LibraryListWrapper'
 
 class LibraryPage extends Component {
     state = {
@@ -178,12 +178,12 @@ class LibraryPage extends Component {
                     </div>
                 </form>
 
-                <LibraryListOverlay
+                <LibraryListWrapper
                     isFetching={isFetching}
                     fetchError={fetchError}
                 >
                     {this.props.children}
-                </LibraryListOverlay>
+                </LibraryListWrapper>
 
                 <div className="library-navigator">
                     <Paginator

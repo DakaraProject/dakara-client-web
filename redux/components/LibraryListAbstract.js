@@ -52,7 +52,7 @@ class LibraryListAbstract extends Component {
     render() {
         const libraryEntryList = this.getLibraryEntryList()
         return (
-              <ul className="library-entries listing">
+              <ul className="library-list listing">
                   {libraryEntryList}
               </ul>
         )
