@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 
-export default class SongLibraryEntry extends Component {
+export default class Delayer extends Component {
     state = {display: false}
 
     componentWillMount() {
         setTimeout( () => {
                 this.setState({display: true})
             },
-            this.props.delay
+            this.props.delay || 0
         )
     }
 
