@@ -33,7 +33,7 @@ export default class LibraryEntrySong extends Component {
         if (this.props.notification){
             notification = (
                 <div className="notified">
-                    <div className={"notification " + this.props.notification.type}>
+                    <div className={"notification message " + this.props.notification.type}>
                         {this.props.notification.message}
                     </div>
                 </div>
@@ -78,7 +78,7 @@ export default class LibraryEntrySong extends Component {
 
         return (
                 <li className="library-entry listing-entry library-entry-song">
-                    <div className="library-entry-song-compact hoverizable">
+                    <div className="library-entry-song-compact hoverizable notifiable">
                         <LibraryEntrySongDisplay
                             song={song}
                             query={query}

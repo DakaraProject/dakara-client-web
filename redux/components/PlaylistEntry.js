@@ -21,7 +21,7 @@ export default class PlaylistEntry extends Component {
         let className = "playlist-entry listing-entry library-entry library-entry-song hoverizable"
         if(this.props.notification){
             message = <div className="notified">
-                        <div className={"notification " + this.props.notification.type}>
+                        <div className={"notification message " + this.props.notification.type}>
                             {this.props.notification.message}
                         </div>
                       </div>
@@ -31,7 +31,7 @@ export default class PlaylistEntry extends Component {
 
         return (
             <li className={className}>
-                <div className="library-entry-song-compact">
+                <div className="library-entry-song-compact notifiable">
                     <SongDisplay
                         song={this.props.entry.song}
                         handleClick={this.handleSearch}

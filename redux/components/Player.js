@@ -129,10 +129,10 @@ export default class Player extends Component {
                         <div className="message">
                             Unable to get status from server
                         </div>
-                        <div className="animation">
-                            <span>·</span>
-                            <span>·</span>
-                            <span>·</span>
+                        <div className="animation pending">
+                            <span className="point">·</span>
+                            <span className="point">·</span>
+                            <span className="point">·</span>
                         </div>
                     </div>
                 </div>
@@ -183,7 +183,7 @@ export default class Player extends Component {
                         </ReactCSSTransitionGroup>
                     </button>
                 </div>
-                <div className="song">
+                <div className="song notifiable">
                     {songData}
                     <div className="song-timing">
                         <div className="current">

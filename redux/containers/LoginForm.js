@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux'
 import { login } from '../actions'
 
-class LoginForm extends React.Component {
+class LoginForm extends Component {
     componentWillMount() {
         if (this.props.isLoggedIn) {
             browserHistory.push("/")
-        } 
+        }
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -26,7 +26,7 @@ class LoginForm extends React.Component {
         if (this.props.message) {
             message = (
                         <div className="notified">
-                            <div className="notification warning">
+                            <div className="notification warning message">
                                 {this.props.message}
                             </div>
                         </div>
@@ -35,8 +35,6 @@ class LoginForm extends React.Component {
 
         return (
             <div id="login" className="box">
-                <div className="page-head">
-                </div>
                 <form
                     onSubmit={e => {
                         e.preventDefault()
@@ -44,7 +42,7 @@ class LoginForm extends React.Component {
                     }}
                     className="form block"
                 >
-                    <div className="header">
+                    <div className="header notifiable">
                         <h2>Login</h2>
                         <ReactCSSTransitionGroup
                             transitionName="notified"

@@ -8,8 +8,10 @@ class LibraryListOverlay extends Component {
         let notification
         if (fetchError) {
             notification = (
-                <div className="notified notification danger">
-                    Error !
+                <div className="notified">
+                    <div className="notification danger message">
+                        Unable to get results
+                    </div>
                 </div>
             )
         }
@@ -29,7 +31,7 @@ class LibraryListOverlay extends Component {
 
         return (
             <div className="library-overlay">
-                <div className="notification-area">
+                <div className="notification-area notifiable">
                     <ReactCSSTransitionGroup
                         transitionName="notified"
                         transitionAppear={true}

@@ -8,8 +8,9 @@
 // `notification` class:
 //
 // The notification class defines the look and feel of notification messages.
-// However, it does not define the way they appear or disappear (it should). The
-// `notification` class has subclasses for colors.
+// It does not defines how the notification should appear. For this, use the
+// `notified` class on the element and the `notifiable` class on its parent
+// element. The `notifiable` class has subclasses for colors.
 //
 // The class provides also alterations when used with the class `listing-entry`.
 .notification {
@@ -65,6 +66,79 @@
 
         &.info {
             .make-notification-line-even(@brand-info-light);
+        }
+    }
+}
+
+// `notifiable` class:
+//
+// The notifiable class provides the way to make the notifiation appear. It also
+// contains rules for animations in the right corner of the notification banner.
+.notifiable {
+    position: relative;
+
+    .notified {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        // notification transition appearance
+        &.notified-appear,
+        &.notified-enter {
+            left: 100%;
+
+            &.notified-appear-active,
+            &.notified-enter-active {
+                left: 0;
+                .transition(left 300ms ease-out);
+            }
+        }
+
+        // notification transition disappearance
+        &.notified-leave {
+            left: 0;
+
+            &.notified-leave-active {
+                left: 100%;
+                .transition(left 150ms ease-out);
+            }
+        }
+
+        .notification {
+            display: flex;
+
+            .message {
+                flex: 1;
+                .text-truncate();
+            }
+
+            .animation {
+                // The `pending` animation class puts blinking dots (usually,
+                // three).
+                &.pending {
+                    margin-left: @gap-horizontal;
+                    font-size: 3em;
+
+                    .point {
+                        animation: ellipsis-animation 1s steps(3, start) infinite;
+
+                        &:nth-child(2) {
+                            animation-delay: 0.1s;
+                        }
+
+                        &:nth-child(3) {
+                            animation-delay: 0.2s;
+                        }
+
+                        @keyframes ellipsis-animation {
+                            to {
+                                visibility: hidden;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
