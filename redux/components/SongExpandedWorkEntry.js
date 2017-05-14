@@ -45,11 +45,11 @@ export default class SongExpandedWorkEntry extends WorkDisplay {
         return (
                 <li className="sublisting-entry">
                     <div className="controls subcontrols">
-                        <div className="control primary" onClick={this.handleSearchWork}>
+                        <button className="control primary" onClick={this.handleSearchWork}>
                             <span className="icon">
                                 <i className="fa fa-search"></i>
                             </span>
-                        </div>
+                        </button>
                     </div>
                     <div className="work-display">
                         {title}

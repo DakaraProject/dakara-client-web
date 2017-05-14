@@ -133,11 +133,15 @@ export default class Playlist extends Component {
             >
                 {playlistContent}
             </ReactCSSTransitionGroup>
-            <div className="playlist-summary" onClick={this.props.toogleCollapsedPlaylist}>
+            <a
+                className="playlist-summary"
+                onClick={this.props.toogleCollapsedPlaylist}
+                href="#"
+            >
                 {amount}
                 {next}
                 {ending}
-            </div>
+            </a>
         </div>
         )
     }

@@ -44,7 +44,14 @@ export default class SongPreview extends Component {
         let tags
         let songPreviewDetails
         if (!this.props.expanded) {
-            tags = (<SongTagList tags={song.tags} query={this.props.query}/>)
+            tags = (
+                <SongTagList
+                    tags={song.tags}
+                    query={this.props.query}
+                    unclickable={true}
+                />
+            )
+
             songPreviewDetails = (<SongPreviewDetails song={song} query={this.props.query}/>)
         }
 

@@ -16,6 +16,7 @@
     // the playlist will end.
     // Info don't have specific classes.
     .playlist-summary {
+        display: block;
         padding: 0 @gap-horizontal;
         background: @brand-primary;
         cursor: pointer;
@@ -24,7 +25,8 @@
         align-items: center;
         justify-content: space-between;
 
-        &:hover {
+        &:hover,
+        &:focus, {
             background: @brand-primary-lighter;
         }
 

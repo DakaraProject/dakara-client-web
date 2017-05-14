@@ -27,16 +27,28 @@ export default class SongTagList extends Component {
                 classDisabled = " disabled"
             }
 
-            return (
+            if (this.props.unclickable) {
+                return (
                     <div
                         className={'tag color-' + tag.color_id + classClickable + classDisabled}
                         key={tag.name}
-                        onClick={() => setQuery && setQuery("#" + tag.name)}
                     >
                         {searchIcon}
                         {tag.name}
                     </div>
-                    )
+                )
+            }
+
+            return (
+                <button
+                    className={'tag color-' + tag.color_id + classClickable + classDisabled}
+                    key={tag.name}
+                    onClick={() => setQuery && setQuery("#" + tag.name)}
+                >
+                    {searchIcon}
+                    {tag.name}
+                </button>
+            )
         })
 
         return (

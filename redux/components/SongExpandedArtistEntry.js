@@ -10,11 +10,11 @@ export default class SongExpandedArtistEntry extends Component {
         return (
                 <li className="sublisting-entry">
                     <div className="controls subcontrols">
-                        <div className="control primary" onClick={this.handleSearchArtist}>
+                        <button className="control primary" onClick={this.handleSearchArtist}>
                             <span className="icon">
                                 <i className="fa fa-search"></i>
                             </span>
-                        </div>
+                        </button>
                     </div>
                     <div className="artist">
                         <div className="name">
