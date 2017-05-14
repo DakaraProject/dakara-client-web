@@ -13,12 +13,14 @@
 // Its size is determined in the `listing-entry-song` class, whether the song is
 // displayed in compact or in expanded view.
 .tag {
+    .make-font();
     border: none;
     outline: none;
     padding: 0 @gap-horizontal;
     display: inline-block;
     color: fade(@text-dark, 50%);
     font-weight: 700;
+    font-size: medium;
 
     &.clickable {
         cursor: pointer;
