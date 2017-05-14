@@ -3,12 +3,16 @@ import React, { Component } from 'react'
 export default class Delayer extends Component {
     state = {display: false}
 
-    componentWillMount() {
-        setTimeout( () => {
+    componentDidMount() {
+        this.timeout = setTimeout( () => {
                 this.setState({display: true})
             },
-            this.props.delay || 0
+            this.props.delay
         )
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.timeout)
     }
 
     render() {
