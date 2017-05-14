@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router, Route, IndexRedirect, browserHistory } from 'react-router'
+import { Router, Route, Redirect, IndexRedirect, browserHistory } from 'react-router'
 import Main from './components/Main'
 import LoggedinPage from './containers/LoggedinPage'
 import LoginForm from './containers/LoginForm'
@@ -9,6 +9,8 @@ import LibraryPage from './containers/LibraryPage'
 import LibraryListSongPage from './containers/LibraryListSongPage'
 import LibraryListArtistPage from './containers/LibraryListArtistPage'
 import LibraryListWorkPage from './containers/LibraryListWorkPage'
+import NotFound from './components/NotFound'
+import NotFoundRedirector from './components/NotFoundRedirector'
 import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from  './reducers'
@@ -34,16 +36,18 @@ ReactDOM.render(
         <Router history={browserHistory}>
             <Route path="/" component={Main}>
                 <Route component={LoggedinPage}>
-                    <IndexRedirect to="library" />
+                    <IndexRedirect to="library"/>
                     <Route path="library" component={LibraryPage}>
-                        <IndexRedirect to="song" />
+                        <IndexRedirect to="song"/>
                         <Route path="song" component={LibraryListSongPage}/>
                         <Route path="artist" component={LibraryListArtistPage}/>
                         <Route path=":workType" component={LibraryListWorkPage}/>
                     </Route>
                     <Route path="user" component={User}/>
                 </Route>
-                <Route path="login" component={LoginForm} />
+                <Route path="login" component={LoginForm}/>
+                <Route path="404" component={NotFound}/>
+                <Route path="*" component={NotFoundRedirector}/>
             </Route>
         </Router>
     </Provider>,

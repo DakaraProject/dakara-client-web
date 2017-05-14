@@ -120,14 +120,20 @@ function work(state = {}, action) {
  */
 
 const defaultWorkTypes =  {
+    data: {
         results: []
+    },
+    hasFetched: false
 }
 
 function workTypes(state = defaultWorkTypes, action) {
     if (action.type === WORKTYPES_SUCCESS) {
-        return action.response;
+        return {
+            data: action.response,
+            hasFetched: true
+        }
     } else {
-        return state;
+        return state
     }
 }
 

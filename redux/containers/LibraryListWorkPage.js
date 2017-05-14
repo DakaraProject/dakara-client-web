@@ -4,6 +4,7 @@ import { loadLibraryEntries } from '../actions'
 
 const mapStateToProps = (state, ownProps) => ({
     entries: state.library.work[ownProps.params.workType],
+    workTypes: state.library.workTypes,
     workType: ownProps.params.workType
 })
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import { browserHistory } from 'react-router';
 
 class LibraryListAbstract extends Component {
     componentDidMount() {
@@ -26,8 +27,26 @@ class LibraryListAbstract extends Component {
 
     refreshEntries = () => {
         const workType = this.props.workType
+        const workTypes = this.props.workTypes
         const pageNumber = this.props.location.query.page
         const query = this.props.location.query.search
+
+        if (workType) {
+            const workTypeMatched = workTypes.data.results.find(
+                (workTypeObject) => workTypeObject.query_name == workType
+            )
+
+            if (!workTypeMatched) {
+                browserHistory.push({
+                    pathname: "/404",
+                    query: {from: this.props.location.pathname}
+                })
+                return
+            }
+
+        }
+
+
         let args = {workType}
 
         if (pageNumber) {

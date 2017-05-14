@@ -41,7 +41,7 @@ class LibraryPage extends Component {
 
             case 'LibraryListWork':
                 const workTypeQueryName = this.props.children.props.params.workType
-                const workTypes = this.props.library.workTypes.results
+                const workTypes = this.props.library.workTypes.data.results
                 const workType = workTypes.find(
                     (workType) => workType.query_name == workTypeQueryName
                 )
@@ -87,6 +87,11 @@ class LibraryPage extends Component {
     }
 
     render() {
+        const workTypes = this.props.library.workTypes
+        if (!workTypes.hasFetched) {
+            return null
+        }
+
         // library name
         const libraryName = this.getLibraryName()
         const libraryPlaceholder = this.getLibraryPlaceholder(libraryName)
@@ -112,7 +117,7 @@ class LibraryPage extends Component {
         const pathname = this.props.location.pathname
 
         // Work Types links
-        const workTypesTabs = this.props.library.workTypes.results.map(function(workType) {
+        const workTypesTabs = workTypes.data.results.map(function(workType) {
                     return (
                             <LibraryTab
                                 key={workType.query_name}

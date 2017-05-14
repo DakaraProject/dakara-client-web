@@ -8,7 +8,7 @@ class LoggedinPage extends Component {
     componentWillMount() {
         if (!this.props.isLoggedIn) {
             browserHistory.push("/login")
-        } 
+        }
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -18,6 +18,9 @@ class LoggedinPage extends Component {
     }
 
     render() {
+        if (!this.props.isLoggedIn) {
+            return null
+        }
         return (
             <div id="logged-in">
                 <div className="box">
