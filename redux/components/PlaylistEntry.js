@@ -38,7 +38,9 @@ export default class PlaylistEntry extends Component {
                     />
                     <div className="playlist-info">
                         <div className="queueing">
-                            <i className="fa fa-clock-o"></i>
+                            <span className="icon">
+                                <i className="fa fa-clock-o"></i>
+                            </span>
                             {utils.formatHourTime(this.props.timeOfPlay)}
                         </div>
                     </div>
@@ -47,7 +49,9 @@ export default class PlaylistEntry extends Component {
                             className="control warning"
                             onClick={() => this.props.removeEntry(this.props.entry.id)}
                         >
-                            <i className="fa fa-times"></i>
+                            <span className="icon">
+                                <i className="fa fa-times"></i>
+                            </span>
                         </button>
                     </div>
                     <ReactCSSTransitionGroup

@@ -26,7 +26,9 @@ export default class LibraryEntryWork extends Component {
                     </div>
                     <div className="controls"> 
                         <button className="search control primary" onClick={this.handleSearch}>
-                            <i className="fa fa-search"></i>
+                            <span className="icon">
+                                <i className="fa fa-search"></i>
+                            </span>
                         </button>
                     </div>
                 </li>

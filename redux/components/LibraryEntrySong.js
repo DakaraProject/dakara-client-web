@@ -49,13 +49,17 @@ export default class LibraryEntrySong extends Component {
         if (isPlaying) {
             playlistInfo = (
                 <div className="playing" key="playing">
-                    <i className="fa fa-play"></i>
+                    <span className="icon">
+                        <i className="fa fa-play"></i>
+                    </span>
                 </div>
             )
         } else if (timeOfPlay) {
             playlistInfo = (
                 <div className="queueing" key="queueing">
-                    <i className="fa fa-clock-o"></i>
+                    <span className="icon">
+                        <i className="fa fa-clock-o"></i>
+                    </span>
                     {utils.formatHourTime(this.props.timeOfPlay)}
                 </div>
             )
@@ -103,7 +107,9 @@ export default class LibraryEntrySong extends Component {
                                     this.props.addSongToPlaylist(this.props.song.id)
                                 }}
                             >
-                                <i className="fa fa-plus"></i>
+                                <span className="icon">
+                                    <i className="fa fa-plus"></i>
+                                </span>
                             </button>
                         </div>
 

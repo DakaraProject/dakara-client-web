@@ -41,7 +41,7 @@ export default class SongPreviewWork extends WorkDisplay {
                     {title}
                     {subtitle}
                     {link}
-                    <span className="type">
+                    <span className="type icon">
                         <i className={workIcon}></i>
                     </span>
                 </div>

@@ -14,25 +14,33 @@ export default class Paginator extends Component {
                     to={{pathname, query: {...location.query, page: 1}}}
                     disabled={!hasPrevious}
                 >
-                    <i className="fa fa-angle-double-left"></i>
+                    <span className="icon">
+                        <i className="fa fa-angle-double-left"></i>
+                    </span>
                 </PaginatorLink>
                 <PaginatorLink
                     to={{pathname, query: {...location.query, page: current - 1}}}
                     disabled={!hasPrevious}
                 >
-                    <i className="fa fa-angle-left"></i>
+                    <span className="icon">
+                        <i className="fa fa-angle-left"></i>
+                    </span>
                 </PaginatorLink>
                 <PaginatorLink
                     to={{pathname, query: {...location.query, page: current + 1}}}
                     disabled={!hasNext}
                 >
-                    <i className="fa fa-angle-right"></i>
+                    <span className="icon">
+                        <i className="fa fa-angle-right"></i>
+                    </span>
                 </PaginatorLink>
                 <PaginatorLink
                     to={{pathname, query: {...location.query, page: last}}}
                     disabled={!hasNext}
                 >
-                    <i className="fa fa-angle-double-right"></i>
+                    <span className="icon">
+                        <i className="fa fa-angle-double-right"></i>
+                    </span>
                 </PaginatorLink>
             </nav>
         );

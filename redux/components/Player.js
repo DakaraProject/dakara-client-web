@@ -82,7 +82,7 @@ export default class Player extends Component {
 
         if (!isPausing) {
             playPausebtn = (
-                <span className="managed" key={pauseCounter}>
+                <span className="managed icon" key={pauseCounter}>
                     <i className={playIcon}></i>
                 </span>
             )
@@ -96,7 +96,11 @@ export default class Player extends Component {
         let { pending: isSkipping, error: skipError } = this.props.commands.skip
 
         if (!isSkipping) {
-            skipBtn = (<i className="fa fa-step-forward managed"></i>)
+            skipBtn = (
+                <span className="managed icon">
+                    <i className="fa fa-step-forward"></i>
+                </span>
+            )
         }
 
         /**
@@ -142,44 +146,44 @@ export default class Player extends Component {
         const controlDisabled = !isPlaying || fetchError
 
         return (
-        <div id="player">
-            <div className="display">
-                <div className="controls">
-                    <button
-                        className={
-                            "control primary"
-                                + (controlDisabled ? " disabled" : "")
-                                + (pauseError ? " managed_error" : "")
-                        }
-                        onClick={() => {
+            <div id="player">
+                <div className="display">
+                    <div className="controls">
+                        <button
+                            className={
+                                "control primary"
+                                    + (controlDisabled ? " disabled" : "")
+                                    + (pauseError ? " managed_error" : "")
+                            }
+                            onClick={() => {
                                 this.props.sendPlayerCommands({pause: !playerCommand.pause})
                             }
-                        }
-                        disabled={controlDisabled}
-                    >
-                        <ReactCSSTransitionGroup
-                            transitionName="managed"
-                            transitionEnterTimeout={150}
-                            transitionLeaveTimeout={150}
+                            }
+                            disabled={controlDisabled}
                         >
-                            {playPausebtn}
-                        </ReactCSSTransitionGroup>
-                    </button>
-                    <button
-                        className={
-                            "control primary"
-                                + (controlDisabled ? " disabled" : "")
-                                + (skipError ? " managed_error" : "")
-                        }
-                        onClick={() => this.props.sendPlayerCommands({skip: true})}
-                        disabled={controlDisabled}
-                    >
-                        <ReactCSSTransitionGroup
-                            transitionName="managed"
-                            transitionEnterTimeout={150}
-                            transitionLeaveTimeout={150}
+                            <ReactCSSTransitionGroup
+                                transitionName="managed"
+                                transitionEnterTimeout={150}
+                                transitionLeaveTimeout={150}
+                            >
+                                {playPausebtn}
+                            </ReactCSSTransitionGroup>
+                        </button>
+                        <button
+                            className={
+                                "control primary"
+                                    + (controlDisabled ? " disabled" : "")
+                                    + (skipError ? " managed_error" : "")
+                            }
+                            onClick={() => this.props.sendPlayerCommands({skip: true})}
+                            disabled={controlDisabled}
                         >
-                            {skipBtn}
+                            <ReactCSSTransitionGroup
+                                transitionName="managed"
+                                transitionEnterTimeout={150}
+                                transitionLeaveTimeout={150}
+                            >
+                                {skipBtn}
                         </ReactCSSTransitionGroup>
                     </button>
                 </div>

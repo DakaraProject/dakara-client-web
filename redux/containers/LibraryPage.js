@@ -106,7 +106,7 @@ class LibraryPage extends Component {
             infoCounter = (
                 <div className="counter">
                     <span className="figure">{entriesCount}</span>
-                    <span className="text">{libraryName}{entriesCount == 1? '': 's'} found</span>
+                    <span className="text">{libraryName}{entriesCount == 1 ? '': 's'} found</span>
                 </div>
             )
         }
@@ -162,14 +162,18 @@ class LibraryPage extends Component {
                                         browserHistory.push({pathname})
                                     }
                                 }>
-                                    <i className="fa fa-times"></i>
+                                    <span className="icon">
+                                        <i className="fa fa-times"></i>
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="controls">
                         <button type="submit" className="control primary">
-                            <i className="icon fa fa-search"></i>
+                            <span className="icon">
+                                <i className="fa fa-search"></i>
+                            </span>
                         </button>
                     </div>
                 </form>

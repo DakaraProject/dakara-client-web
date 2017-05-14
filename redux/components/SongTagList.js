@@ -13,7 +13,11 @@ export default class SongTagList extends Component {
         if (setQuery) {
             // Set clickable and add search icon
             classClickable = " clickable"
-            searchIcon = (<i className="fa fa-search"></i>)
+            searchIcon = (
+                <span className="icon">
+                    <i className="fa fa-search"></i>
+                </span>
+            )
         }
 
         const tagList = tags.map( tag => {
