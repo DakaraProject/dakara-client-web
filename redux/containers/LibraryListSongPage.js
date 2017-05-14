@@ -3,7 +3,7 @@ import LibraryListSong from '../components/LibraryListSong'
 import { loadLibraryEntries } from '../actions'
 
 const mapStateToProps = (state) => ({
-    entries: state.library.entries,
+    entries: state.library.song,
     playlistEntries: state.player.playlist.entries.data,
     playerStatus: state.player.status.data
 })

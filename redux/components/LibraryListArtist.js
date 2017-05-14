@@ -9,15 +9,12 @@ class LibraryListArtist extends LibraryListAbstract {
 
     getLibraryEntryList = () => {
         const artists = this.props.entries.data.results
-        let libraryEntryArtistList
-        if (this.props.entries.type === "artists") {
-            libraryEntryArtistList = artists.map(artist =>
-                  <LibraryEntryArtist
-                    key={artist.id}
-                    artist={artist}
-                  />
-            )
-        }
+        const libraryEntryArtistList = artists.map(artist =>
+              <LibraryEntryArtist
+                key={artist.id}
+                artist={artist}
+              />
+        )
 
         return libraryEntryArtistList
     }

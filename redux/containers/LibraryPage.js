@@ -41,7 +41,7 @@ class LibraryPage extends Component {
 
             case 'LibraryListWork':
                 const workTypeQueryName = this.props.children.props.params.workType
-                const workTypes = this.props.workTypes
+                const workTypes = this.props.library.workTypes.results
                 const workType = workTypes.find(
                     (workType) => workType.query_name == workTypeQueryName
                 )
@@ -71,25 +71,48 @@ class LibraryPage extends Component {
         }
     }
 
+    getLibraryEntries = () => {
+        const libraryComponentName = this.props.children.type.WrappedComponent.name
+        switch (libraryComponentName) {
+            case 'LibraryListSong':
+                return this.props.library.song
+
+            case 'LibraryListArtist':
+                return this.props.library.artist
+
+            case 'LibraryListWork':
+                const workTypeQueryName = this.props.children.props.params.workType
+                return this.props.library.work[workTypeQueryName]
+        }
+    }
+
     render() {
+        // library name
+        const libraryName = this.getLibraryName()
+        const libraryPlaceholder = this.getLibraryPlaceholder(libraryName)
+
+        const libraryEntriesDefault = {
+            data: {current: 1, last: 1, count: 0},
+            isFetching: false,
+            fetchError: false
+        }
+
+        const libraryEntries = this.getLibraryEntries() || libraryEntriesDefault
+
         const {
             current: currentPageNumber,
             last: lastPageNumber,
             count: entriesCount
-        } = this.props.entries.data
+        } = libraryEntries.data
 
-        const { isFetching, fetchError } = this.props.entries
+        const { isFetching, fetchError } = libraryEntries
 
         // you MUST provide the current `pathname`, otherwize (when providing
         // only `query`) it is undefined
         const pathname = this.props.location.pathname
 
-        // library name
-        const libraryName = this.getLibraryName()
-        const libraryPlaceholder = this.getLibraryPlaceholder(libraryName)
-
         // Work Types links
-        const workTypesTabs = this.props.workTypes.map(function(workType) {
+        const workTypesTabs = this.props.library.workTypes.results.map(function(workType) {
                     return (
                             <LibraryTab
                                 key={workType.query_name}
@@ -226,8 +249,7 @@ class LibraryTab extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    entries: state.library.entries,
-    workTypes: state.library.workTypes.results
+    library: state.library,
 })
 
 LibraryPage = connect(

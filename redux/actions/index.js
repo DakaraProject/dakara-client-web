@@ -17,13 +17,14 @@ export const LIBRARY_REQUEST = 'LIBRARY_REQUEST'
 export const LIBRARY_SUCCESS = 'LIBRARY_SUCCESS'
 export const LIBRARY_FAILURE = 'LIBRARY_FAILURE'
 
-const fetchLibraryEntries = (url, libraryType) => ({
+const fetchLibraryEntries = (url, libraryType, workType) => ({
     [FETCH_API]: {
             endpoint: url,
             method: 'GET',
             types: [LIBRARY_REQUEST, LIBRARY_SUCCESS, LIBRARY_FAILURE]
         },
-    libraryType
+    libraryType,
+    workType
 })
 
 /**
@@ -45,7 +46,7 @@ export const loadLibraryEntries = (libraryType = "songs", { workType, query, pag
         url += `&query=${encodeURIComponent(query)}`
     }
 
-    return fetchLibraryEntries(url, libraryType)
+    return fetchLibraryEntries(url, libraryType, workType)
 }
 
 

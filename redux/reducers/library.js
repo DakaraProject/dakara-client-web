@@ -20,12 +20,15 @@ const defaultLibraryEntries =  {
         count: 0,
         results: []
     },
-    type: '',
     isFetching: false,
     fetchError: false
 }
 
-function entries(state = defaultLibraryEntries, action) {
+const generateLibraryReducer = libraryType => (state = defaultLibraryEntries, action) => {
+    if (action.libraryType != libraryType) {
+        return state
+    }
+
     switch (action.type) {
         case LIBRARY_REQUEST:
             return {
@@ -37,7 +40,6 @@ function entries(state = defaultLibraryEntries, action) {
         case LIBRARY_SUCCESS:
             return {
                 data: action.response,
-                type: action.libraryType,
                 isFetching: false,
                 fetchError: false
             }
@@ -45,7 +47,6 @@ function entries(state = defaultLibraryEntries, action) {
         case LIBRARY_FAILURE:
             return {
                 data: defaultLibraryEntries.data,
-                type: action.libraryType,
                 isFetching: false,
                 fetchError: true
             }
@@ -55,6 +56,65 @@ function entries(state = defaultLibraryEntries, action) {
     }
 }
 
+const song = generateLibraryReducer("songs")
+const artist = generateLibraryReducer("artists")
+
+function work(state = {}, action) {
+    if (action.type === WORKTYPES_SUCCESS) {
+        let newState = {...state}
+        for (let type of action.response.results) {
+            const name = type.query_name
+            if (newState[name] == undefined) {
+                newState[name] = defaultLibraryEntries
+            }
+        }
+
+        return newState
+    }
+
+    if (action.libraryType != "works") {
+        return state
+    }
+
+    const workType = action.workType
+
+    switch (action.type) {
+        case LIBRARY_REQUEST:
+            return {
+                ...state,
+                [workType]: {
+                    ...state[workType],
+                    isFetching: true,
+                    fetchError: false
+                }
+            }
+
+        case LIBRARY_SUCCESS:
+            return {
+                ...state,
+                [workType]: {
+                    ...state[workType],
+                    data: action.response,
+                    isFetching: false,
+                    fetchError: false
+                }
+            }
+
+        case LIBRARY_FAILURE:
+            return {
+                ...state,
+                [workType]: {
+                    ...state[workType],
+                    data: defaultLibraryEntries.data,
+                    isFetching: false,
+                    fetchError: true
+                }
+            }
+
+        default:
+            return state
+    }
+}
 /**
  * Work Types
  */
@@ -114,7 +174,9 @@ function songListNotifications(state = {}, action) {
 }
 
 const library = combineReducers({
-    entries,
+    song,
+    artist,
+    work,
     workTypes,
     songListNotifications
 })

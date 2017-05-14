@@ -39,9 +39,7 @@ class LibraryListSong extends LibraryListAbstract {
          * Create LibraryEntrySong for each song
          */
 
-        let libraryEntrySongList
-        if (this.props.entries.type === 'songs') {
-            libraryEntrySongList = songs.map( song => (
+         const libraryEntrySongList = songs.map( song => (
                 <LibraryEntrySongPage
                         key={song.id}
                         song={song}
@@ -50,7 +48,6 @@ class LibraryListSong extends LibraryListAbstract {
                         location={this.props.location}
                     />
             ))
-        }
 
         return libraryEntrySongList
     }
