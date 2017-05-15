@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import HeaderPage from '../containers/HeaderPage' 
 import Footer from './Footer' 
+import PlayerBoxPage from '../containers/PlayerBoxPage'
 
 class Main extends Component {
     render() {
@@ -8,6 +9,7 @@ class Main extends Component {
             <div id="main">
                 <HeaderPage/>
                 <div id="content">
+                    <PlayerBoxPage/>
                     {this.props.children}
                 </div>
                 <Footer/>
