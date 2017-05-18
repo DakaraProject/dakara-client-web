@@ -5,9 +5,10 @@ export default class NotFound extends Component {
     render() {
         const fromUrl = this.props.location.query.from
         return (
-                <div className="not-found">
+                <div className="box" id="not-found">
                     <h2>Not found</h2>
-                    <p>{fromUrl} did not match any route</p>
+                    <div className="from-url">{fromUrl}</div>
+                    <p>We're sorry, your request did not match any route…</p>
                 </div>
        )
     }
