@@ -1,0 +1,40 @@
+//
+// Dakara Project
+//
+// Not found page style file
+//
+
+#not-found {
+    background: @brand-danger-darker;
+    padding: @gap-vertical 0;
+    color: @brand-danger;
+
+    h2 {
+        margin-bottom: 0.5em;
+    }
+
+    .from-url {
+        display: inline-block;
+        font-size: 1.1em;
+        margin-right: 0;
+        margin-left: 0;
+        padding: 0 @gap-horizontal;
+        line-height: 1.5em;
+        background: @brand-danger;
+        color: @brand-danger-darker;
+    }
+
+    * {
+        .selection() {
+            background: @brand-danger;
+        }
+
+        &::-moz-selection {
+            .selection;
+        }
+
+        &::selection {
+            .selection;
+        }
+    }
+}
