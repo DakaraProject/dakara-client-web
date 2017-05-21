@@ -2,7 +2,7 @@ import { combineReducers } from 'redux'
 import { PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE } from '../actions'
 import { CLEAR_PLAYLIST_ENTRY_NOTIFICATION } from '../actions'
 import { PLAYLIST_TOOGLE_COLLAPSED } from '../actions'
-import { REMOVEPLAYLISTENTRY_REQUEST, REMOVEPLAYLISTENTRY_SUCCESS, REMOVEPLAYLISTENTRY_FAILURE } from '../actions'
+import { REMOVE_PLAYLIST_ENTRY_REQUEST, REMOVE_PLAYLIST_ENTRY_SUCCESS, REMOVE_PLAYLIST_ENTRY_FAILURE } from '../actions'
 
 /**
  * This reducer contains playlist related state
@@ -24,10 +24,13 @@ function entries(state = defaultEntries, action) {
     switch (action.type) {
         case PLAYLIST_REQUEST:
             return { ...state, isFetching: true }
+
         case PLAYLIST_SUCCESS:
             return { data: action.response, isFetching: false }
+
         case PLAYLIST_FAILURE:
             return { ...state, isFetching: false }
+
         default:
             return state
     }
@@ -51,7 +54,7 @@ function collapsed(state = true, action) {
 function notifications(state = {}, action) {
     let entryId
     switch (action.type) {
-        case REMOVEPLAYLISTENTRY_REQUEST:
+        case REMOVE_PLAYLIST_ENTRY_REQUEST:
             entryId = action.entryId
             return {...state, [entryId]: {
                     message: "Removing...",
@@ -59,7 +62,7 @@ function notifications(state = {}, action) {
                 }
             }
 
-        case REMOVEPLAYLISTENTRY_SUCCESS:
+        case REMOVE_PLAYLIST_ENTRY_SUCCESS:
             entryId = action.entryId
             return {...state, [entryId]: {
                     message: "Successfuly removed!",
@@ -67,7 +70,7 @@ function notifications(state = {}, action) {
                 }
             }
 
-        case REMOVEPLAYLISTENTRY_FAILURE:
+        case REMOVE_PLAYLIST_ENTRY_FAILURE:
             entryId = action.entryId
             return {...state, [entryId]: {
                     message: "Error attempting to remove song from playlist",

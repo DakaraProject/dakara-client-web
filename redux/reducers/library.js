@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import { LIBRARY_REQUEST, LIBRARY_SUCCESS, LIBRARY_FAILURE } from '../actions'
-import { ADDPLAYLIST_REQUEST, ADDPLAYLIST_SUCCESS, ADDPLAYLIST_FAILURE } from '../actions'
-import { WORKTYPES_REQUEST, WORKTYPES_SUCCESS, WORKTYPES_FAILURE } from '../actions'
+import { ADD_PLAYLIST_REQUEST, ADD_PLAYLIST_SUCCESS, ADD_PLAYLIST_FAILURE } from '../actions'
+import { WORK_TYPES_REQUEST, WORK_TYPES_SUCCESS, WORK_TYPES_FAILURE } from '../actions'
 import { CLEAR_SONG_LIST_NOTIFICATION } from '../actions'
 
 /**
@@ -60,7 +60,7 @@ const song = generateLibraryReducer("songs")
 const artist = generateLibraryReducer("artists")
 
 function work(state = {}, action) {
-    if (action.type === WORKTYPES_SUCCESS) {
+    if (action.type === WORK_TYPES_SUCCESS) {
         let newState = {...state}
         for (let type of action.response.results) {
             const name = type.query_name
@@ -127,7 +127,7 @@ const defaultWorkTypes =  {
 }
 
 function workTypes(state = defaultWorkTypes, action) {
-    if (action.type === WORKTYPES_SUCCESS) {
+    if (action.type === WORK_TYPES_SUCCESS) {
         return {
             data: action.response,
             hasFetched: true
@@ -144,7 +144,7 @@ function workTypes(state = defaultWorkTypes, action) {
 function songListNotifications(state = {}, action) {
     let songId
     switch (action.type) {
-        case ADDPLAYLIST_REQUEST:
+        case ADD_PLAYLIST_REQUEST:
             songId = action.songId
             return {...state, [songId]: {
                     message: "Adding...",
@@ -152,7 +152,7 @@ function songListNotifications(state = {}, action) {
                 }
             }
 
-        case ADDPLAYLIST_SUCCESS:
+        case ADD_PLAYLIST_SUCCESS:
             songId = action.songId
             return {...state, [songId]: {
                     message: "Successfuly added!",
@@ -160,7 +160,7 @@ function songListNotifications(state = {}, action) {
                 }
             }
 
-        case ADDPLAYLIST_FAILURE:
+        case ADD_PLAYLIST_FAILURE:
             songId = action.songId
             return {...state, [songId]: {
                     message: "Error attempting to add song to playlist",

@@ -87,9 +87,9 @@ export const setToken = (token) => ({
  * Get work types
  */
 
-export const WORKTYPES_REQUEST = 'WORKTYPES_REQUEST'
-export const WORKTYPES_SUCCESS = 'WORKTYPES_SUCCESS'
-export const WORKTYPES_FAILURE = 'WORKTYPES_FAILURE'
+export const WORK_TYPES_REQUEST = 'WORK_TYPES_REQUEST'
+export const WORK_TYPES_SUCCESS = 'WORK_TYPES_SUCCESS'
+export const WORK_TYPES_FAILURE = 'WORK_TYPES_FAILURE'
 
 /**
  * Load work types from the server 
@@ -98,7 +98,7 @@ export const loadWorkTypes = () => ({
     [FETCH_API]: {
             endpoint: `${baseUrl}library/work-types/`,
             method: 'GET',
-            types: [WORKTYPES_REQUEST, WORKTYPES_SUCCESS, WORKTYPES_FAILURE]
+            types: [WORK_TYPES_REQUEST, WORK_TYPES_SUCCESS, WORK_TYPES_FAILURE]
         }
 })
 
@@ -134,9 +134,9 @@ export const clearSongListNotification = (songId) => ({
  * Add song to playlist
  */
 
-export const ADDPLAYLIST_REQUEST = 'ADDPLAYLIST_REQUEST'
-export const ADDPLAYLIST_SUCCESS = 'ADDPLAYLIST_SUCCESS'
-export const ADDPLAYLIST_FAILURE = 'ADDPLAYLIST_FAILURE'
+export const ADD_PLAYLIST_REQUEST = 'ADD_PLAYLIST_REQUEST'
+export const ADD_PLAYLIST_SUCCESS = 'ADD_PLAYLIST_SUCCESS'
+export const ADD_PLAYLIST_FAILURE = 'ADD_PLAYLIST_FAILURE'
 
 /**
  * Request to add a song to the playlist
@@ -148,9 +148,9 @@ export const addSongToPlaylist = (songId) => ({
             method: 'POST',
             json: {song: songId},
             types: [
-                ADDPLAYLIST_REQUEST,
-                ADDPLAYLIST_SUCCESS,
-                ADDPLAYLIST_FAILURE,
+                ADD_PLAYLIST_REQUEST,
+                ADD_PLAYLIST_SUCCESS,
+                ADD_PLAYLIST_FAILURE,
             ],
             onSuccess: [
                 delay(clearSongListNotification(songId), 2000),
@@ -180,9 +180,9 @@ export const clearPlaylistEntryNotification = (entryId) => ({
  * Remove song from playlist
  */
 
-export const REMOVEPLAYLISTENTRY_REQUEST = 'REMOVEPLAYLISTENTRY_REQUEST'
-export const REMOVEPLAYLISTENTRY_SUCCESS = 'REMOVEPLAYLISTENTRY_SUCCESS'
-export const REMOVEPLAYLISTENTRY_FAILURE = 'REMOVEPLAYLISTENTRY_FAILURE'
+export const REMOVE_PLAYLIST_ENTRY_REQUEST = 'REMOVE_PLAYLIST_ENTRY_REQUEST'
+export const REMOVE_PLAYLIST_ENTRY_SUCCESS = 'REMOVE_PLAYLIST_ENTRY_SUCCESS'
+export const REMOVE_PLAYLIST_ENTRY_FAILURE = 'REMOVE_PLAYLIST_ENTRY_FAILURE'
 
 /**
  * Request to remove an entry from the playlist
@@ -193,9 +193,9 @@ export const removeEntryFromPlaylist = (entryId) => ({
             endpoint: `${baseUrl}playlist/${entryId}/`,
             method: 'DELETE',
             types: [
-                REMOVEPLAYLISTENTRY_REQUEST,
-                REMOVEPLAYLISTENTRY_SUCCESS,
-                REMOVEPLAYLISTENTRY_FAILURE,
+                REMOVE_PLAYLIST_ENTRY_REQUEST,
+                REMOVE_PLAYLIST_ENTRY_SUCCESS,
+                REMOVE_PLAYLIST_ENTRY_FAILURE,
             ],
             onSuccess: loadPlaylist(),
             onFailure: delay(clearPlaylistEntryNotification(entryId), 5000)
@@ -233,9 +233,9 @@ const createPlayerNotification = (id, message) => (dispatch, getState) => {
  * Get player status
  */
 
-export const PLAYERSTATUS_REQUEST = 'PLAYERSTATUS_REQUEST'
-export const PLAYERSTATUS_SUCCESS = 'PLAYERSTATUS_SUCCESS'
-export const PLAYERSTATUS_FAILURE = 'PLAYERSTATUS_FAILURE'
+export const PLAYER_STATUS_REQUEST = 'PLAYER_STATUS_REQUEST'
+export const PLAYER_STATUS_SUCCESS = 'PLAYER_STATUS_SUCCESS'
+export const PLAYER_STATUS_FAILURE = 'PLAYER_STATUS_FAILURE'
 
 /**
  * Action creator for player error notification
@@ -281,9 +281,9 @@ export const loadPlayerStatus = () => ({
             endpoint: `${baseUrl}playlist/player/`,
             method: 'GET',
             types: [
-                PLAYERSTATUS_REQUEST,
-                PLAYERSTATUS_SUCCESS,
-                PLAYERSTATUS_FAILURE
+                PLAYER_STATUS_REQUEST,
+                PLAYER_STATUS_SUCCESS,
+                PLAYER_STATUS_FAILURE
             ],
             onSuccess: notifyOnError
         }
@@ -293,9 +293,9 @@ export const loadPlayerStatus = () => ({
  * Send player commands
  */
 
-export const PLAYERCOMMANDS_REQUEST = 'PLAYERCOMMANDS_REQUEST'
-export const PLAYERCOMMANDS_SUCCESS = 'PLAYERCOMMANDS_SUCCESS'
-export const PLAYERCOMMANDS_FAILURE = 'PLAYERCOMMANDS_FAILURE'
+export const PLAYER_COMMANDS_REQUEST = 'PLAYER_COMMANDS_REQUEST'
+export const PLAYER_COMMANDS_SUCCESS = 'PLAYER_COMMANDS_SUCCESS'
+export const PLAYER_COMMANDS_FAILURE = 'PLAYER_COMMANDS_FAILURE'
 
 /**
  * Send commands to the player
@@ -322,9 +322,9 @@ export const sendPlayerCommands = (commands) => {
                 method: 'PUT',
                 json: commands,
                 types: [
-                    PLAYERCOMMANDS_REQUEST,
-                    PLAYERCOMMANDS_SUCCESS,
-                    PLAYERCOMMANDS_FAILURE
+                    PLAYER_COMMANDS_REQUEST,
+                    PLAYER_COMMANDS_SUCCESS,
+                    PLAYER_COMMANDS_FAILURE
                 ],
                 onSuccess: loadPlayerStatus(),
                 onFailure: onFailureAction

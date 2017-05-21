@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import playlist from './playlist'
-import { PLAYERSTATUS_REQUEST, PLAYERSTATUS_SUCCESS, PLAYERSTATUS_FAILURE } from '../actions'
-import { PLAYERCOMMANDS_REQUEST, PLAYERCOMMANDS_SUCCESS, PLAYERCOMMANDS_FAILURE } from '../actions'
+import { PLAYER_STATUS_REQUEST, PLAYER_STATUS_SUCCESS, PLAYER_STATUS_FAILURE } from '../actions'
+import { PLAYER_COMMANDS_REQUEST, PLAYER_COMMANDS_SUCCESS, PLAYER_COMMANDS_FAILURE } from '../actions'
 import { CREATE_PLAYER_NOTIFICATION, CLEAR_PLAYER_NOTIFICATION } from '../actions'
 
 /**
@@ -30,27 +30,27 @@ const defaultPlayerStatus = {
 
 function status(state = defaultPlayerStatus, action) {
     switch (action.type) {
-        case PLAYERSTATUS_REQUEST:
+        case PLAYER_STATUS_REQUEST:
             return {
                 ...state,
                 isFetching: true
             }
 
-        case PLAYERSTATUS_SUCCESS:
+        case PLAYER_STATUS_SUCCESS:
             return {
                 data: action.response,
                 isFetching: false,
                 fetchError: false
             }
 
-        case PLAYERSTATUS_FAILURE:
+        case PLAYER_STATUS_FAILURE:
             return {
                 ...state,
                 isFetching: false,
                 fetchError: true
             }
 
-        case PLAYERCOMMANDS_SUCCESS:
+        case PLAYER_COMMANDS_SUCCESS:
             if (action.commands &&
                 action.commands.pause != undefined) {
                 return {
@@ -87,19 +87,19 @@ function skip(state = defaultSkip, action) {
     }
 
     switch (action.type) {
-        case PLAYERCOMMANDS_REQUEST:
+        case PLAYER_COMMANDS_REQUEST:
             return {
                 pending: true,
                 error: false
             }
 
-        case PLAYERCOMMANDS_SUCCESS:
+        case PLAYER_COMMANDS_SUCCESS:
             return {
                 pending: false,
                 error: false,
             }
 
-        case PLAYERCOMMANDS_FAILURE:
+        case PLAYER_COMMANDS_FAILURE:
             return {
                 pending: false,
                 error: true,
@@ -127,14 +127,14 @@ function pause(state = defaultPause, action) {
     }
 
     switch (action.type) {
-        case PLAYERCOMMANDS_REQUEST:
+        case PLAYER_COMMANDS_REQUEST:
             return {
                 ...state,
                 pending: true,
                 error: false
             }
 
-        case PLAYERCOMMANDS_SUCCESS:
+        case PLAYER_COMMANDS_SUCCESS:
             return {
                 ...state,
                 pending: false,
@@ -142,7 +142,7 @@ function pause(state = defaultPause, action) {
                 counter: state.counter + 1
             }
 
-        case PLAYERCOMMANDS_FAILURE:
+        case PLAYER_COMMANDS_FAILURE:
             return {
                 ...state,
                 pending: false,
