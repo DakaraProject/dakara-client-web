@@ -5,7 +5,7 @@ class Footer extends Component {
         return (
             <footer className="box">
                 <h2>Dakara Project</h2>
-                <span className="version">Proof of Concept</span>
+                <p className="version">Proof of Concept</p>
             </footer>
         )
     }
