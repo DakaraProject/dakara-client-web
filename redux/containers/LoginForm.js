@@ -5,15 +5,25 @@ import { connect } from 'react-redux'
 import { login } from '../actions'
 
 class LoginForm extends Component {
+    redirect = () => {
+        const fromUrl = this.props.location.query.from
+
+        if (fromUrl) {
+            browserHistory.push(fromUrl)
+        } else {
+            browserHistory.push("/")
+        }
+    }
+
     componentWillMount() {
         if (this.props.isLoggedIn) {
-            browserHistory.push("/")
+            this.redirect()
         }
     }
 
     componentWillUpdate(nextProps, nextState) {
         if(nextProps.isLoggedIn) {
-            browserHistory.push("/")
+            this.redirect()
         }
     }
 

@@ -3,15 +3,25 @@ import { browserHistory } from 'react-router';
 import { connect } from 'react-redux'
 
 class LoggedinPage extends Component {
+    redirect = () => {
+        const { pathname, search } = this.props.location
+        browserHistory.push({
+            pathname: "/login",
+            query: {
+                from: pathname + search
+            }
+        })
+    }
+
     componentWillMount() {
         if (!this.props.isLoggedIn) {
-            browserHistory.push("/login")
+            this.redirect()
         }
     }
 
     componentWillUpdate(nextProps, nextState) {
         if(!nextProps.isLoggedIn) {
-            browserHistory.push("/login")
+            this.redirect()
         }
     }
 
@@ -19,6 +29,7 @@ class LoggedinPage extends Component {
         if (!this.props.isLoggedIn) {
             return null
         }
+
         return (
             <div id="logged-in">
                 {this.props.children}

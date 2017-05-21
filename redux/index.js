@@ -4,6 +4,7 @@ import { Router, Route, Redirect, IndexRedirect, browserHistory } from 'react-ro
 import Main from './components/Main'
 import LoggedinPage from './containers/LoggedinPage'
 import LoginForm from './containers/LoginForm'
+import LogoutPage from './containers/LogoutPage'
 import User from './components/User'
 import LibraryPage from './containers/LibraryPage'
 import LibraryListSongPage from './containers/LibraryListSongPage'
@@ -46,6 +47,7 @@ ReactDOM.render(
                     <Route path="user" component={User}/>
                 </Route>
                 <Route path="login" component={LoginForm}/>
+                <Route path="logout" component={LogoutPage}/>
                 <Route path="404" component={NotFound}/>
                 <Route path="*" component={NotFoundRedirector}/>
             </Route>

@@ -8,9 +8,7 @@ class Header extends Component {
             userSpace = (
                 <div className="user-space">
                     <Link to="/user" className="user-name">User</Link>
-                    <a href="#" onClick={this.props.logout} className="logout">
-                        Logout
-                    </a>
+                    <Link to="/logout" className="logout">Logout</Link>
                 </div>
                 )
         }
@@ -29,4 +27,3 @@ class Header extends Component {
 }
 
 export default Header
-
