@@ -1,0 +1,46 @@
+//
+// Dakara Project
+//
+// Header style file
+//
+
+
+header {
+    display: flex;
+    padding: @gap-vertical 0;
+    background: @black-80;
+
+    h1 {
+        flex: 1;
+        margin: 0 @gap-horizontal;
+        font-size: 4em;
+        font-weight: 100;
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+    }
+
+    .user-space {
+        margin: 0;
+        background: @black-70;
+        padding: @gap-horizontal 0;
+        text-align: right;
+
+        .user-name {
+            margin: 0 @gap-horizontal;
+            padding: 0;
+            display: block;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .logout {
+            margin: 0 @gap-horizontal;
+            padding: 0;
+            display: block;
+            font-size: small;
+        }
+    }
+}
