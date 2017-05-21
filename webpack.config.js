@@ -3,19 +3,19 @@ const path = require('path');
 
 module.exports = {
   entry: [
-    './redux/index.js',
-    './less/main.less'
+    './src/jsx/index.js',
+    './src/less/main.less'
   ],
   module: {
     loaders: [
       {
           loader: "babel-loader",
           test: /\.js$/,
-          include: path.resolve(__dirname, 'redux')
+          include: path.resolve(__dirname, 'src/jsx')
       },
       {
           test: /\.less$/,
-          include: path.resolve(__dirname, 'less'),
+          include: path.resolve(__dirname, 'src/less'),
           use: ExtractTextPlugin.extract({
               fallback: 'style-loader',
               use: [
@@ -35,6 +35,6 @@ module.exports = {
     path: path.resolve(__dirname, 'dist')
   },
   plugins: [
-      new ExtractTextPlugin("../css/dakara.css")
+      new ExtractTextPlugin("dakara.css")
   ]
 };

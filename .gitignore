@@ -13,4 +13,5 @@ node_modules
 css/dakara*.css
 
 # Output package directory
-dist
+dist/*
+!dist/index.html
