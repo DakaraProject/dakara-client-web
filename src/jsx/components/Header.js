@@ -5,9 +5,14 @@ class Header extends Component {
     render() {
         let userSpace
         if (this.props.isLoggedIn) {
+            let username
+            if (this.props.user) {
+                username = this.props.user.username
+            }
+
             userSpace = (
                 <div className="user-space">
-                    <Link to="/user" className="user-name">User</Link>
+                    <Link to="/user" className="user-name">{username}</Link>
                     <Link to="/logout" className="logout">Logout</Link>
                 </div>
                 )

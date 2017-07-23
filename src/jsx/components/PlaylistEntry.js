@@ -37,6 +37,9 @@ export default class PlaylistEntry extends Component {
                         handleClick={this.handleSearch}
                     />
                     <div className="playlist-info">
+                        <div className="owner">
+                            {this.props.entry.owner.username}
+                        </div>
                         <div className="queueing">
                             <span className="icon">
                                 <i className="fa fa-clock-o"></i>

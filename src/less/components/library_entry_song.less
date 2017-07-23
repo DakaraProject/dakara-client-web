@@ -93,10 +93,21 @@
             color: @text-dark;
             text-align: center;
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 0.5em;
+            box-sizing: border-box;
+            width: (2 * @listing-entry-height);
+            height: @listing-entry-height;
+
+            .owner {
+                font-size: 0.85em;
+                margin-bottom: 0.25em;
+                .text-truncate();
+            }
 
             .queueing {
-                min-width: (2 * @listing-entry-height);
+                font-size: 0.75em;
 
                 .icon {
                     padding-right: 0.5em;
@@ -104,11 +115,11 @@
             }
 
             .playing {
-                width: @listing-entry-height;
+                font-size: 0.75em;
             }
 
             // appearance transition of the playlist info class
-            .playlist-info-enter {
+            &.playlist-info-enter {
                 max-width: 0;
                 overflow: hidden;
 
@@ -119,7 +130,7 @@
             }
 
             // disappearance transition of the playlist info class
-            .playlist-info-leave {
+            &.playlist-info-leave {
                 max-width: (2 * @listing-entry-height);
                 overflow: hidden;
 
