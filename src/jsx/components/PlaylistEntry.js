@@ -3,6 +3,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { browserHistory } from 'react-router'
 import utils from '../utils'
 import SongDisplay from './LibraryEntrySongDisplay'
+import UserWidget from '../containers/UserWidget'
 
 export default class PlaylistEntry extends Component {
     handleSearch = () => {
@@ -37,12 +38,10 @@ export default class PlaylistEntry extends Component {
                         handleClick={this.handleSearch}
                     />
                     <div className="playlist-info">
-                        <div className="owner">
-                            <span className="icon">
-                                <i className="fa fa-user-o"></i>
-                            </span>
-                            {this.props.entry.owner.username}
-                        </div>
+                        <UserWidget
+                            className="owner"
+                            user={this.props.entry.owner}
+                        />
                         <div className="queueing">
                             <span className="icon">
                                 <i className="fa fa-clock-o"></i>

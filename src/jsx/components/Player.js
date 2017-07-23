@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import utils from '../utils'
 import SongPreviewDetails from './SongPreviewDetails'
+import UserWidget from '../containers/UserWidget'
 
 export default class Player extends Component {
     pollPlayerStatus = () => {
@@ -56,9 +57,14 @@ export default class Player extends Component {
                         </span>
                         <SongPreviewDetails song={song} />
                     </div>
-                    )
+                )
 
-            songOwner = playerStatus.playlist_entry.owner.username
+            songOwner = (
+                    <UserWidget
+                        user={playerStatus.playlist_entry.owner}
+                        className="song-owner"
+                    />
+                )
 
             progress = playerStatus.timing * 100 / duration;
 
@@ -192,12 +198,7 @@ export default class Player extends Component {
                 </div>
                 <div className="song notifiable">
                     {songData}
-                    <div className="song-owner">
-                        <span className="icon">
-                            <i className="fa fa-user-o"></i>
-                        </span>
-                        {songOwner}
-                    </div>
+                    {songOwner}
                     <div className="song-timing">
                         <div className="current">
                             {utils.formatTime(playerStatus.timing)}

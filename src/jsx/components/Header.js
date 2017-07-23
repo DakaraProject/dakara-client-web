@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router';
+import { Link } from 'react-router'
+import UserWidget from '../containers/UserWidget'
 
 class Header extends Component {
     render() {
@@ -7,7 +8,11 @@ class Header extends Component {
         if (this.props.isLoggedIn) {
             let username
             if (this.props.user) {
-                username = this.props.user.username
+                username = (
+                    <UserWidget
+                        user={this.props.user}
+                    />
+                )
             }
 
             userSpace = (
@@ -15,7 +20,7 @@ class Header extends Component {
                     <Link to="/user" className="user-name">{username}</Link>
                     <Link to="/logout" className="logout">Logout</Link>
                 </div>
-                )
+            )
         }
 
         return (

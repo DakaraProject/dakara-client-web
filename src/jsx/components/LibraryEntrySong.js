@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router'
 import utils from '../utils'
 import LibraryEntrySongDisplay from './LibraryEntrySongDisplay'
 import LibraryEntrySongExpanded from './LibraryEntrySongExpanded'
+import UserWidget from '../containers/UserWidget'
 
 export default class LibraryEntrySong extends Component {
     /**
@@ -69,12 +70,10 @@ export default class LibraryEntrySong extends Component {
 
             playlistInfoDiv = (
                         <div className="playlist-info">
-                            <div className="owner">
-                                <span className="icon">
-                                    <i className="fa fa-user-o"></i>
-                                </span>
-                                {playlistInfo.owner.username}
-                            </div>
+                            <UserWidget
+                                className="owner"
+                                user={playlistInfo.owner}
+                            />
                             {playQueueInfo}
                         </div>
                     )
