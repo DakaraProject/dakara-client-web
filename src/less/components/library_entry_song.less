@@ -104,6 +104,17 @@
                 font-size: 0.85em;
                 margin-bottom: 0.25em;
                 .text-truncate();
+
+                .icon {
+                    font-size: 0.8em;
+                    margin-right: 0.5em;
+
+                    // Hack for bolder icon
+                    // font awesome overrides font weight
+                    .fa {
+                        font-weight: bold;
+                    }
+                }
             }
 
             .queueing {

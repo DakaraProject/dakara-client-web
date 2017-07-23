@@ -27,6 +27,7 @@ export default class Player extends Component {
         let song
         let songSubtitle
         let songData
+        let songOwner
         let playIcon = "fa fa-"
         let duration
         let progress
@@ -56,6 +57,8 @@ export default class Player extends Component {
                         <SongPreviewDetails song={song} />
                     </div>
                     )
+
+            songOwner = playerStatus.playlist_entry.owner.username
 
             progress = playerStatus.timing * 100 / duration;
 
@@ -189,6 +192,12 @@ export default class Player extends Component {
                 </div>
                 <div className="song notifiable">
                     {songData}
+                    <div className="song-owner">
+                        <span className="icon">
+                            <i className="fa fa-user-o"></i>
+                        </span>
+                        {songOwner}
+                    </div>
                     <div className="song-timing">
                         <div className="current">
                             {utils.formatTime(playerStatus.timing)}

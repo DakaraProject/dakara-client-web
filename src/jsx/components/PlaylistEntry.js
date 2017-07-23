@@ -38,6 +38,9 @@ export default class PlaylistEntry extends Component {
                     />
                     <div className="playlist-info">
                         <div className="owner">
+                            <span className="icon">
+                                <i className="fa fa-user-o"></i>
+                            </span>
                             {this.props.entry.owner.username}
                         </div>
                         <div className="queueing">

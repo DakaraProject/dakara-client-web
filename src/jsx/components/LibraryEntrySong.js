@@ -70,6 +70,9 @@ export default class LibraryEntrySong extends Component {
             playlistInfoDiv = (
                         <div className="playlist-info">
                             <div className="owner">
+                                <span className="icon">
+                                    <i className="fa fa-user-o"></i>
+                                </span>
                                 {playlistInfo.owner.username}
                             </div>
                             {playQueueInfo}
