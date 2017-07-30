@@ -62,8 +62,10 @@
                 cursor: default;
             }
 
+            // this rule is weaker than the rule for even lines, so it
+            // has to be enforced manually
             &:not(.disabled):not([disabled]):hover,
-            &:not([disabled]):not([disabled]):focus {
+            &:not(.disabled):not([disabled]):focus {
                 background: @color-activated !important;
             }
         }
