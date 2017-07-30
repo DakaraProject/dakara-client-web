@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router'
 import utils from '../utils'
 import SongDisplay from './LibraryEntrySongDisplay'
 import UserWidget from '../containers/UserWidget'
+import { IsPlaylistManagerOrOwner } from '../containers/PlaylistPermissions'
 
 export default class PlaylistEntry extends Component {
     handleSearch = () => {
@@ -50,14 +51,16 @@ export default class PlaylistEntry extends Component {
                         </div>
                     </div>
                     <div className="controls">
-                        <button
-                            className="control warning"
-                            onClick={() => this.props.removeEntry(this.props.entry.id)}
-                        >
-                            <span className="icon">
-                                <i className="fa fa-times"></i>
-                            </span>
-                        </button>
+                        <IsPlaylistManagerOrOwner object={this.props.entry} disable>
+                            <button
+                                className="control warning"
+                                onClick={() => this.props.removeEntry(this.props.entry.id)}
+                            >
+                                <span className="icon">
+                                    <i className="fa fa-times"></i>
+                                </span>
+                            </button>
+                        </IsPlaylistManagerOrOwner>
                     </div>
                     <ReactCSSTransitionGroup
                         transitionName="notified"

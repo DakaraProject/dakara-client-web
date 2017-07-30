@@ -5,6 +5,7 @@ import utils from '../utils'
 import LibraryEntrySongDisplay from './LibraryEntrySongDisplay'
 import LibraryEntrySongExpanded from './LibraryEntrySongExpanded'
 import UserWidget from '../containers/UserWidget'
+import { IsPlaylistUser } from '../containers/PlaylistPermissions'
 
 export default class LibraryEntrySong extends Component {
     /**
@@ -115,16 +116,18 @@ export default class LibraryEntrySong extends Component {
                         </ReactCSSTransitionGroup>
 
                         <div className="controls" id={"song-" + this.props.song.id}>
-                            <button
-                                className="control primary"
-                                onClick={() => {
-                                    this.props.addSongToPlaylist(this.props.song.id)
-                                }}
-                            >
-                                <span className="icon">
-                                    <i className="fa fa-plus"></i>
-                                </span>
-                            </button>
+                            <IsPlaylistUser>
+                                <button
+                                    className="control primary"
+                                    onClick={() => {
+                                        this.props.addSongToPlaylist(this.props.song.id)
+                                    }}
+                                >
+                                    <span className="icon">
+                                        <i className="fa fa-plus"></i>
+                                    </span>
+                                </button>
+                            </IsPlaylistUser>
                         </div>
 
                         <ReactCSSTransitionGroup
