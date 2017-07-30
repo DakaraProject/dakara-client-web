@@ -56,13 +56,14 @@
         .make-control(@color-enabled, @color-disabled, @color-activated) {
             background: @color-enabled;
 
-            &.disabled {
+            &.disabled,
+            &[disabled] {
                 background: @color-disabled;
                 cursor: default;
             }
 
-            &:not(.disabled):hover,
-            &:not(.disabled):focus {
+            &:not(.disabled):not([disabled]):hover,
+            &:not([disabled]):not([disabled]):focus {
                 background: @color-activated !important;
             }
         }
@@ -97,7 +98,8 @@
         .make-control-line-even(@color-normal, @color-disabled) {
             background: @color-normal;
 
-            &.disabled {
+            &.disabled,
+            &[disabled] {
                 background: @color-disabled;
             }
         }
@@ -130,12 +132,13 @@
 .hoverizable:focus .controls {
     .control {
         .make-control-line-hover(@color-normal, @color-disabled) {
-            &:not(.disabled) {
+            &:not(.disabled):not([disabled]) {
                 background: @color-normal;
             }
 
-            &.disabled {
-                background: @color-disabled;
+            &.disabled,
+            &[disabled] {
+                background: @color-disabled !important;
             }
         }
 
