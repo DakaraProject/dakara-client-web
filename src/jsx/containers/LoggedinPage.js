@@ -30,7 +30,9 @@ class LoggedinPage extends Component {
     }
 
     render() {
-        if (!this.props.isLoggedIn) {
+        // Only render when we're logged in and
+        // We got current user info
+        if (!(this.props.isLoggedIn && this.props.hasUserInfo)) {
             return null
         }
 
@@ -43,7 +45,8 @@ class LoggedinPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    isLoggedIn: !!state.token
+    isLoggedIn: !!state.token,
+    hasUserInfo: !!state.users
 })
 
 LoggedinPage = connect(
