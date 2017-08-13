@@ -5,7 +5,7 @@ import Main from './components/Main'
 import LoggedinPage from './containers/LoggedinPage'
 import LoginForm from './containers/LoginForm'
 import LogoutPage from './containers/LogoutPage'
-import User from './components/User'
+import UserPage from './containers/UserPage'
 import LibraryPage from './containers/LibraryPage'
 import LibraryListSongPage from './containers/LibraryListSongPage'
 import LibraryListArtistPage from './containers/LibraryListArtistPage'
@@ -45,7 +45,7 @@ ReactDOM.render(
                         <Route path="artist" component={LibraryListArtistPage}/>
                         <Route path=":workType" component={LibraryListWorkPage}/>
                     </Route>
-                    <Route path="user" component={User}/>
+                    <Route path="user" component={UserPage}/>
                 </Route>
                 <Route path="login" component={LoginForm}/>
                 <Route path="logout" component={LogoutPage}/>

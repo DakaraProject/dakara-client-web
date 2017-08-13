@@ -383,3 +383,32 @@ export const loadCurrentUser = () => ({
             types: [CURRENT_USER_REQUEST, CURRENT_USER_SUCCESS, CURRENT_USER_FAILURE],
         }
 })
+
+
+/**
+ * Update user password
+ */
+
+export const UPDATE_PASSWORD_REQUEST = 'UPDATE_PASSWORD_REQUEST'
+export const UPDATE_PASSWORD_SUCCESS = 'UPDATE_PASSWORD_SUCCESS'
+export const UPDATE_PASSWORD_FAILURE = 'UPDATE_PASSWORD_FAILURE'
+
+/**
+ * Request to update user password
+ * @param songId ID of the song to add
+ */
+export const updatePassword = (userId, oldPassword, newPassword) => ({
+    [FETCH_API]: {
+            endpoint: `${baseUrl}users/${userId}/`,
+            method: 'PUT',
+            json: {
+                old_password: oldPassword,
+                password: newPassword
+            },
+            types: [
+                UPDATE_PASSWORD_REQUEST,
+                UPDATE_PASSWORD_SUCCESS,
+                UPDATE_PASSWORD_FAILURE,
+            ]
+        }
+})

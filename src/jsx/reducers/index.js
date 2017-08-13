@@ -4,6 +4,7 @@ import token from './token'
 import loginPage from './loginPage'
 import player from './player'
 import users from './users'
+import userPage from './userPage'
 
 /**
  * Root reducer
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     library,
     loginPage,
     player,
-    users
+    users,
+    userPage
 })
 
 export default rootReducer
