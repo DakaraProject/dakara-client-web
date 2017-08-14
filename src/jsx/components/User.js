@@ -15,15 +15,43 @@ class User extends Component {
     render() {
         const { user, formResponse, updatePassword } = this.props
         let oldPassword, newPassword
+        let permissions = []
+
+        // superuser
+        if (user.is_superuser) {
+            permissions.push((
+                <p>You are super user.</p>
+            ))
+        }
+
+        // users permission
+        if (user.users_permission_level) {
+            permissions.push((
+                <p>You are users {permissionLevels[user.users_permission_level]}.</p>
+            ))
+        }
+
+        // library permission
+        if (user.library_permission_level) {
+            permissions.push((
+                <p>You are library {permissionLevels[user.library_permission_level]}.</p>
+            ))
+        }
+
+        // playlist permission
+        if (user.playlist_permission_level) {
+            permissions.push((
+                <p>You are playlist {permissionLevels[user.playlist_permission_level]}.</p>
+            ))
+        }
 
         return (
-            <div className="box">
-                <div>
-                    Username: { user.username }
-                    superUser:{ user.is_superuser ? 'true': 'false' }
-                    user app level :{ permissionLevels[user.users_permission_level] }
-                    library app level :{permissionLevels[user.library_permission_level] }
-                    playlist app level :{ permissionLevels[user.playlist_permission_level] }
+            <div className="box" id="user">
+                <div className="header">
+                    <h1>{user.username}</h1>
+                </div>
+                <div className="permissions">
+                    {permissions}
                 </div>
                 <FormBlock
                     title="Change password"
