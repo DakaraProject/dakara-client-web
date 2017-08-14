@@ -41,12 +41,12 @@ class Users extends Component {
             }
 
             return (
-                <tr className="listing-entry notifiable" key={entry.id}>
-                    <td>{entry.username}</td>
-                    <td>{entry.is_superuser ? "✓" : null}</td>
-                    <td>{permissionLevels[entry.users_permission_level]}</td>
-                    <td>{permissionLevels[entry.library_permission_level]}</td>
-                    <td>{permissionLevels[entry.playlist_permission_level]}</td>
+                <tr className="listing-entry user-listing-entry notifiable hoverizable" key={entry.id}>
+                    <td className="username">{entry.username}</td>
+                    <td className="permission superuser">{entry.is_superuser ? "✓" : null}</td>
+                    <td className="permission">{permissionLevels[entry.users_permission_level]}</td>
+                    <td className="permission">{permissionLevels[entry.library_permission_level]}</td>
+                    <td className="permission">{permissionLevels[entry.playlist_permission_level]}</td>
                     <td className="controls">
                         <button
                             className="control danger"
@@ -71,14 +71,14 @@ class Users extends Component {
                 <div className="header">
                     <h1>Users management</h1>
                 </div>
-                <table className="listing">
+                <table className="listing users-listing">
                     <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Superuser</th>
-                            <th>Users app</th>
-                            <th>Library app</th>
-                            <th>Playlist app</th>
+                        <tr className="listing-header">
+                            <th className="username">Username</th>
+                            <th className="permission">Is superuser</th>
+                            <th className="permission">Users rights</th>
+                            <th className="permission">Library rights</th>
+                            <th className="permission">Playlist rights</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -86,11 +86,13 @@ class Users extends Component {
                         {userList}
                     </tbody>
                 </table>
-                <Paginator
-                    location={location}
-                    current={current}
-                    last={last}
-                />
+                <div className="navigator">
+                    <Paginator
+                        location={location}
+                        current={current}
+                        last={last}
+                    />
+                </div>
                 <FormBlock
                     title="Create user"
                     onSubmit={e => {
