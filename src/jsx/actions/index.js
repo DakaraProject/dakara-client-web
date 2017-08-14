@@ -51,28 +51,6 @@ export const loadLibraryEntries = (libraryType = "songs", { workType, query, pag
 
 
 /**
- * Login
- */
-
-export const LOGIN_REQUEST = 'LOGIN_REQUEST'
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-export const LOGIN_FAILURE = 'LOGIN_FAILURE'
-
-/**
- * Login user to the server
- * @param username username
- * @param password password
- */
-export const login  = (username, password) => ({
-    [FETCH_API]: {
-            endpoint: `${baseUrl}token-auth/`,
-            method: 'POST',
-            json: {username, password},
-            types: [LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE]
-        }
-})
-
-/**
  * Token
  */
 
@@ -334,7 +312,7 @@ export const sendPlayerCommands = (commands) => {
 }
 
 /**
- * Get playlist entries 
+ * Get playlist entries
  */
 
 export const PLAYLIST_REQUEST = 'PLAYLIST_REQUEST'
@@ -384,14 +362,44 @@ export const loadCurrentUser = () => ({
         }
 })
 
+/**
+ * Form notifications
+ */
+
+export const FORM_REQUEST = 'FORM_REQUEST'
+export const FORM_SUCCESS = 'FORM_SUCCESS'
+export const FORM_FAILURE = 'FORM_FAILURE'
+export const FORM_CLEAR = 'FORM_CLEAR'
+
+export const clearForm = (formName) => ({
+    type: FORM_CLEAR,
+    formName
+})
+
+/**
+ * Login
+ */
+
+/**
+ * Login user to the server
+ * @param username username
+ * @param password password
+ */
+export const login  = (username, password) => ({
+    [FETCH_API]: {
+            endpoint: `${baseUrl}token-auth/`,
+            method: 'POST',
+            json: {username, password},
+            types: [FORM_REQUEST, FORM_SUCCESS, FORM_FAILURE]
+        },
+    formName: 'login',
+    successMessage: null
+})
+
 
 /**
  * Update user password
  */
-
-export const UPDATE_PASSWORD_REQUEST = 'UPDATE_PASSWORD_REQUEST'
-export const UPDATE_PASSWORD_SUCCESS = 'UPDATE_PASSWORD_SUCCESS'
-export const UPDATE_PASSWORD_FAILURE = 'UPDATE_PASSWORD_FAILURE'
 
 /**
  * Request to update user password
@@ -406,9 +414,12 @@ export const updatePassword = (userId, oldPassword, newPassword) => ({
                 password: newPassword
             },
             types: [
-                UPDATE_PASSWORD_REQUEST,
-                UPDATE_PASSWORD_SUCCESS,
-                UPDATE_PASSWORD_FAILURE,
+                FORM_REQUEST,
+                FORM_SUCCESS,
+                FORM_FAILURE,
             ]
-        }
+        },
+    formName: 'updatePassword',
+    successMessage: "Password sucessfully updated!"
 })
+

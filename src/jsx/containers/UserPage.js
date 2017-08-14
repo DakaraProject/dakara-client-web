@@ -1,15 +1,15 @@
 import { connect } from 'react-redux'
 import User from '../components/User'
-import { updatePassword } from '../actions'
+import { updatePassword, clearForm } from '../actions'
 
 const mapStateToProps = (state) => ({
     user: state.users,
-    message: state.userPage.message
+    formResponse: state.forms.updatePassword
 })
 
 const UserPage = connect(
     mapStateToProps,
-    { updatePassword }
+    { updatePassword, clearForm }
 )(User)
 
 export default UserPage

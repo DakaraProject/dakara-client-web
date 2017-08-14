@@ -28,16 +28,19 @@ class LoginForm extends Component {
     }
 
     render() {
-        const { login } = this.props
+        const { login, formResponse } = this.props
         let username
         let password
 
         let message
-        if (this.props.message) {
+        if (formResponse) {
             message = (
                         <div className="notified">
-                            <div className="notification warning message">
-                                {this.props.message}
+                            <div
+                                className={"notification message " +
+                                    formResponse.type}
+                            >
+                                {formResponse.message}
                             </div>
                         </div>
                     )
@@ -110,7 +113,7 @@ class LoginForm extends Component {
 
 const mapStateToProps = (state) => ({
     isLoggedIn: !!state.token,
-    message: state.loginPage.message
+    formResponse: state.forms.login
 })
 
 LoginForm = connect(
