@@ -46,7 +46,16 @@ export const FormBlock = ({title, onSubmit, submitText, response, children}) => 
 
 export class Field extends Component {
     render() {
-        const { id, type, reference, placeholder, label, response } = this.props
+        const {
+            id,
+            type,
+            reference,
+            placeholder,
+            label,
+            response,
+            children,
+            defaultValue
+        } = this.props
 
         // field error
         let message
@@ -73,8 +82,10 @@ export class Field extends Component {
                     <input
                         id={id}
                         ref={reference}
-                        placeholder={placeholder}
                         type={type}
+                        placeholder={placeholder}
+                        value={children}
+                        defaultValue={defaultValue}
                     />
                     <ReactCSSTransitionGroup
                         transitionName="error"
