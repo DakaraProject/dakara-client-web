@@ -89,6 +89,31 @@
                 .input {
                     display: table-cell;
                     width: 100%;
+
+                    .notification {
+                        .error {
+                            padding: @gap-vertical * 0.25;
+                        }
+
+                        &.error-enter {
+                            max-height: 0;
+
+                            &.error-enter-active {
+                                max-height: calc(~"1em + " @gap-vertical * 2);
+                                .transition(max-height 300ms ease-out);
+                            }
+                        }
+
+                        // notification transition disappearance
+                        &.error-leave {
+                            max-height: calc(~"1em + " @gap-vertical * 2);
+
+                            &.error-leave-active {
+                                max-height: 0;
+                                .transition(max-height 100ms ease-out);
+                            }
+                        }
+                    }
                 }
             }
         }

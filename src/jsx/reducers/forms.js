@@ -18,21 +18,29 @@ export default function forms(state = {}, action) {
     return state
 }
 
+const defaultState = {
+    global: null,
+    fields: {}
+}
+
 function form(state, action) {
     switch (action.type) {
         case FORM_REQUEST:
         case FORM_CLEAR:
-            return null
+            return defaultState
 
         case FORM_SUCCESS:
             const { successMessage } = action
             if (successMessage === null) {
-                return null
+                return defaultState
             }
 
             return {
-                message: successMessage || "Success",
-                type: "success"
+                global: {
+                    message: successMessage || "Success",
+                    type: "success"
+                },
+                fields: {}
             }
 
         case FORM_FAILURE:
@@ -46,16 +54,32 @@ function form(state, action) {
             }
 
             // DRF globar error
+            let global
             if (non_field_errors) {
-                return {
+                global = {
                     message: non_field_errors.join(" "),
                     type: "danger"
                 }
             }
 
+            // DRF field error
+            delete action.error.non_field_errors
+            const fields = action.error
+
+            // if no error have been caught
+            if (!global && Object.keys(fields).length === 0) {
+                return {
+                    global: {
+                        message: "Unknow error",
+                        type: "danger"
+                    },
+                    fields: {}
+                }
+            }
+
             return {
-                message: "Unknow error",
-                type: "danger"
+                global,
+                fields
             }
 
         default:
