@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux'
 import { login } from '../actions'
+import { FormBlock, Field } from '../components/Form.js'
 
 class LoginForm extends Component {
     redirect = () => {
@@ -32,80 +32,41 @@ class LoginForm extends Component {
         let username
         let password
 
-        let message
-        if (formResponse) {
-            message = (
-                        <div className="notified">
-                            <div
-                                className={"notification message " +
-                                    formResponse.type}
-                            >
-                                {formResponse.message}
-                            </div>
-                        </div>
-                    )
-        }
-
         return (
             <div id="login" className="box">
-                <form
+                <FormBlock
                     onSubmit={e => {
                         e.preventDefault()
                         login(username.value, password.value)
                     }}
-                    className="form block"
+                    title="Login"
+                    submitText="Login"
+                    response={formResponse}
                 >
-                    <div className="header notifiable">
-                        <h2>Login</h2>
-                        <ReactCSSTransitionGroup
-                            transitionName="notified"
-                            transitionEnterTimeout={300}
-                            transitionLeaveTimeout={150}
-                        >
-                            {message}
-                        </ReactCSSTransitionGroup>
-                    </div>
-                    <div className="set">
-                        <div className="field">
-                            <label htmlFor="username">
-                                <span className="icon">
-                                    <i className="fa fa-user"></i>
-                                </span>
-                            </label>
-                            <div className="input">
-                                <input
-                                    id="username"
-                                    ref={node => {
-                                        username = node
-                                    }}
-                                    placeholder="Username..."
-                                />
-                            </div>
-                        </div>
-                        <div className="field">
-                            <label htmlFor="password">
-                                <span className="icon">
-                                    <i className="fa fa-lock"></i>
-                                </span>
-                            </label>
-                            <div className="input">
-                                <input
-                                    id="password"
-                                    type="password"
-                                    ref={node => {
-                                        password = node
-                                    }}
-                                    placeholder="Password..."
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="controls">
-                        <button type="submit" className="control primary">
-                            Login
-                        </button>
-                    </div>
-                </form>
+                    <Field
+                        id="username"
+                        label={(
+                            <span className="icon">
+                                <i className="fa fa-user"></i>
+                            </span>
+                        )}
+                        reference={n => {username = n}}
+                        placeholder="Username..."
+                        response={formResponse}
+                    />
+                    <Field
+                        id="password"
+                        label={(
+                            <span className="icon">
+                                <i className="fa fa-lock"></i>
+                            </span>
+                        )}
+                        reference={n => {password = n}}
+                        placeholder="Password..."
+                        response={formResponse}
+                        type="password"
+                    />
+                </FormBlock>
             </div>
         )
     }

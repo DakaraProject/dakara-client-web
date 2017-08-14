@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { FormBlock, Field } from '../components/Form.js'
 
 export const permissionLevels = {
     u: "user",
@@ -15,17 +15,6 @@ class User extends Component {
     render() {
         const { user, formResponse, updatePassword } = this.props
         let oldPassword, newPassword
-        let message
-
-        if (formResponse) {
-            message = (
-                    <div className="notified">
-                        <div className={"notification message " + formResponse.type}>
-                            {formResponse.message}
-                        </div>
-                    </div>
-                    )
-        }
 
         return (
             <div className="box">
@@ -36,59 +25,30 @@ class User extends Component {
                     library app level :{permissionLevels[user.library_permission_level] }
                     playlist app level :{ permissionLevels[user.playlist_permission_level] }
                 </div>
-                <form
+                <FormBlock
+                    title="Change password"
                     onSubmit={e => {
                         e.preventDefault()
                         updatePassword(user.id, oldPassword.value, newPassword.value)
                     }}
-                    className="form block"
+                    submitText="Change password"
+                    response={formResponse}
                 >
-                    <div className="header notifiable">
-                        <h2>Change password</h2>
-                        <ReactCSSTransitionGroup
-                            transitionName="notified"
-                            transitionEnterTimeout={300}
-                            transitionLeaveTimeout={150}
-                        >
-                            {message}
-                        </ReactCSSTransitionGroup>
-                    </div>
-                    <div className="set">
-                        <div className="field">
-                            <label htmlFor="oldpassword">
-                                Current password
-                            </label>
-                            <div className="input">
-                                <input
-                                    id="oldpassword"
-                                    ref={node => {
-                                        oldPassword = node
-                                    }}
-                                    type="password"
-                                />
-                            </div>
-                        </div>
-                        <div className="field">
-                            <label htmlFor="password">
-                                New password
-                            </label>
-                            <div className="input">
-                                <input
-                                    id="password"
-                                    type="password"
-                                    ref={node => {
-                                        newPassword = node
-                                    }}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="controls">
-                        <button type="submit" className="control primary">
-                            Change password
-                        </button>
-                    </div>
-                </form>
+                    <Field
+                        id="old_password"
+                        reference={n => {oldPassword = n}}
+                        type="password"
+                        label="Current password"
+                        response={formResponse}
+                    />
+                    <Field
+                        id="password"
+                        reference={n => {newPassword = n}}
+                        type="password"
+                        label="New password"
+                        response={formResponse}
+                    />
+                </FormBlock>
             </div>
         )
     }
