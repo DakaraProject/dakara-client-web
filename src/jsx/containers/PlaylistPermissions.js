@@ -52,7 +52,7 @@ class BasePermission extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    user: state.users
+    user: state.authenticatedUsers
 })
 
 

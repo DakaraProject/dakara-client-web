@@ -18,7 +18,8 @@ class Header extends Component {
             userSpace = (
                 <div className="user-space">
                     <Link to="/user" className="user-name">{username}</Link>
-                    <Link to="/logout" className="logout">Logout</Link>
+                    <Link to="/users" className="navlink">Users</Link>
+                    <Link to="/logout" className="navlink">Logout</Link>
                 </div>
             )
         }

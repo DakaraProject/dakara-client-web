@@ -6,6 +6,7 @@ import LoggedinPage from './containers/LoggedinPage'
 import LoginForm from './containers/LoginForm'
 import LogoutPage from './containers/LogoutPage'
 import UserPage from './containers/UserPage'
+import UsersPage from './containers/UsersPage'
 import LibraryPage from './containers/LibraryPage'
 import LibraryListSongPage from './containers/LibraryListSongPage'
 import LibraryListArtistPage from './containers/LibraryListArtistPage'
@@ -46,6 +47,7 @@ ReactDOM.render(
                         <Route path=":workType" component={LibraryListWorkPage}/>
                     </Route>
                     <Route path="user" component={UserPage}/>
+                    <Route path="users" component={UsersPage}/>
                 </Route>
                 <Route path="login" component={LoginForm}/>
                 <Route path="logout" component={LogoutPage}/>

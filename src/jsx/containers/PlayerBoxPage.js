@@ -27,7 +27,7 @@ class PlayerBoxPage extends Component {
 
 const mapStateToProps = (state) => ({
     isLoggedIn: !!state.token,
-    hasUserInfo: !!state.users
+    hasUserInfo: !!state.authenticatedUsers
 })
 
 PlayerBoxPage = connect(

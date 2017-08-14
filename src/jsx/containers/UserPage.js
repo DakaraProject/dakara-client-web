@@ -3,7 +3,7 @@ import User from '../components/User'
 import { updatePassword, clearForm } from '../actions'
 
 const mapStateToProps = (state) => ({
-    user: state.users,
+    user: state.authenticatedUsers,
     formResponse: state.forms.updatePassword
 })
 

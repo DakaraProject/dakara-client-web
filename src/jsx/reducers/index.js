@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import library from './library'
 import token from './token'
 import player from './player'
+import authenticatedUsers from './authenticatedUsers'
 import users from './users'
 import forms from './forms'
 
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
     library,
     player,
     users,
+    authenticatedUsers,
     forms
 })
 

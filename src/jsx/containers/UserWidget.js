@@ -22,7 +22,7 @@ class UserWidget extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    currentUser: state.users
+    currentUser: state.authenticatedUsers
 })
 
 UserWidget = connect(

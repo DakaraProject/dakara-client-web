@@ -46,7 +46,7 @@ class LoggedinPage extends Component {
 
 const mapStateToProps = (state) => ({
     isLoggedIn: !!state.token,
-    hasUserInfo: !!state.users
+    hasUserInfo: !!state.authenticatedUsers
 })
 
 LoggedinPage = connect(

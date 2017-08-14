@@ -44,16 +44,31 @@ function form(state, action) {
             }
 
         case FORM_FAILURE:
-            const { message, non_field_errors } = action.error
+            const { message, non_field_errors, detail } = action.error
             // fetch API error
             if (message) {
                 return {
-                    message: message,
-                    type: "danger"
+                    global: {
+                        message: message,
+                        type: "danger"
+                    },
+                    fields: {}
                 }
             }
 
-            // DRF globar error
+            // DRF global error
+            if (detail) {
+                return {
+                    global: {
+                        message: detail,
+                        type: "danger"
+                    },
+                    fields: {}
+                }
+            }
+
+
+            // DRF global form error
             let global
             if (non_field_errors) {
                 global = {

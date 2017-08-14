@@ -3,7 +3,7 @@ import Header from '../components/Header'
 
 const mapStateToProps = (state) => ({
     isLoggedIn: !!state.token,
-    user: state.users
+    user: state.authenticatedUsers
 })
 
 const HeaderPage = connect(

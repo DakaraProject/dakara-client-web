@@ -423,3 +423,103 @@ export const updatePassword = (userId, oldPassword, newPassword) => ({
     successMessage: "Password sucessfully updated!"
 })
 
+
+/**
+ * Create user
+ */
+
+/**
+ * Request to create new user
+ * @param username username
+ * @param password password
+ */
+export const createUser = (username, password) => ({
+    [FETCH_API]: {
+            endpoint: `${baseUrl}users/`,
+            method: 'POST',
+            json: {
+                username,
+                password
+            },
+            types: [
+                FORM_REQUEST,
+                FORM_SUCCESS,
+                FORM_FAILURE,
+            ],
+            onSuccess: refreshUsers
+        },
+    formName: 'createUser',
+    successMessage: "User sucessfully created!"
+})
+
+
+/**
+ * Get user list
+ */
+
+export const USER_LIST_REQUEST = "USER_LIST_REQUEST"
+export const USER_LIST_SUCCESS = "USER_LIST_SUCCESS"
+export const USER_LIST_FAILURE = "USER_LIST_FAILURE"
+
+/**
+ * Action creator to refresh users in the current page
+ */
+const refreshUsers = (dispatch, getState) => {
+    const page = getState().users.entries.data.current
+    return dispatch(getUsers(page))
+}
+
+const refreshUsersDelayed = (dispatch, getState) => {
+    const page = getState().users.entries.data.current
+    return dispatch(delay(getUsers(page), 3000))
+}
+
+/**
+ * Request to retrieve user list
+ * @param page page to display
+ */
+export const getUsers = (page = 1) => ({
+    [FETCH_API]: {
+            endpoint: `${baseUrl}users/?page=${page}`,
+            method: 'GET',
+            types: [USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LIST_FAILURE],
+        }
+})
+
+/**
+ * Delete user
+ */
+
+export const USER_DELETE_REQUEST = "USER_DELETE_REQUEST"
+export const USER_DELETE_SUCCESS = "USER_DELETE_SUCCESS"
+export const USER_DELETE_FAILURE = "USER_DELETE_FAILURE"
+
+/**
+ * Requerst to delete one user
+ * @param userId ID of user to delete
+ */
+export const deleteUser = (userId) => ({
+    [FETCH_API]: {
+            endpoint: `${baseUrl}users/${userId}/`,
+            method: 'DELETE',
+            types: [USER_DELETE_REQUEST, USER_DELETE_SUCCESS, USER_DELETE_FAILURE],
+        onSuccess: refreshUsersDelayed,
+        onFailure: delay(clearUsersEntryNotification(userId), 5000)
+        },
+    userId
+})
+
+/**
+ * Clear users entry notification
+ */
+
+export const CLEAR_USERS_ENTRY_NOTIFICATION="CLEAR_USERS_ENTRY_NOTIFICATION"
+
+/**
+ * Clear one nofitication
+ * @param userId line to clear
+ */
+export const clearUsersEntryNotification = (userId) => ({
+    type: CLEAR_USERS_ENTRY_NOTIFICATION,
+    userId
+})
