@@ -33,6 +33,7 @@ class FormBlock extends Component {
     componentDidUpdate(prevProps) {
         const { formName, formsResponse, noClearOnSuccess } = this.props
         const response = formsResponse[formName]
+        const prevResponse = prevProps.formsResponse[formName]
 
         if (noClearOnSuccess) {
             return
@@ -41,8 +42,8 @@ class FormBlock extends Component {
         // If there is a success notification
         if (response && response.global && response.global.type == 'success') {
             // and there was no response, or a different notification before
-            if ( !prevProps.response ||
-                    this.props.response.global != prevProps.response.global) {
+            if ( !prevResponse ||
+                    response.global != prevResponse.global) {
                 this.setState( {
                     formValues: {}
                 })
