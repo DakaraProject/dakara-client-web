@@ -71,21 +71,23 @@ class Users extends Component {
                 <div className="header">
                     <h1>Users management</h1>
                 </div>
-                <table className="listing users-listing notifiable">
-                    <thead>
-                        <tr className="listing-header">
-                            <th className="username">Username</th>
-                            <th className="permission">Is superuser</th>
-                            <th className="permission">Users rights</th>
-                            <th className="permission">Library rights</th>
-                            <th className="permission">Playlist rights</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {userList}
-                    </tbody>
-                </table>
+                <div className="users-listing-container">
+                    <table className="listing users-listing notifiable">
+                        <thead>
+                            <tr className="listing-header">
+                                <th className="username">Username</th>
+                                <th className="permission">Is superuser</th>
+                                <th className="permission">Users rights</th>
+                                <th className="permission">Library rights</th>
+                                <th className="permission">Playlist rights</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {userList}
+                        </tbody>
+                    </table>
+                </div>
                 <div className="navigator">
                     <Paginator
                         location={location}
