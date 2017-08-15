@@ -417,7 +417,8 @@ export const updatePassword = (userId, oldPassword, newPassword) => ({
                 FORM_REQUEST,
                 FORM_SUCCESS,
                 FORM_FAILURE,
-            ]
+            ],
+            onSuccess: delay(clearForm('updatePassword'),3000)
         },
     formName: 'updatePassword',
     successMessage: "Password sucessfully updated!"
@@ -446,7 +447,10 @@ export const createUser = (username, password) => ({
                 FORM_SUCCESS,
                 FORM_FAILURE,
             ],
-            onSuccess: refreshUsers
+            onSuccess: [
+                refreshUsers,
+                delay(clearForm('createUser'),3000)
+            ]
         },
     formName: 'createUser',
     successMessage: "User sucessfully created!"
