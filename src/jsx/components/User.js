@@ -64,11 +64,13 @@ class User extends Component {
                         id="old_password"
                         type="password"
                         label="Current password"
+                        required
                     />
                     <Field
                         id="password"
                         type="password"
                         label="New password"
+                        required
                     />
                 </FormBlock>
             </div>

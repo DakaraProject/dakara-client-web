@@ -48,6 +48,7 @@ class LoginForm extends Component {
                             </span>
                         )}
                         placeholder="Username..."
+                        required
                     />
                     <Field
                         id="password"
@@ -58,6 +59,7 @@ class LoginForm extends Component {
                         )}
                         placeholder="Password..."
                         type="password"
+                        required
                     />
                 </FormBlock>
             </div>

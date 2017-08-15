@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { setFormValidationErrors } from '../actions'
 
 
 /**
@@ -61,6 +62,40 @@ class FormBlock extends Component {
         })
     }
 
+    /** Method called before submit to validate fields
+     * @return boolean indicating validation success
+     */
+    validate = () => {
+        const { setFormValidationErrors, formName, children } = this.props
+        const { formValues } = this.state
+
+        // Check fields validations
+        let fieldsErrors = {}
+        React.Children.map(this.props.children, field => {
+            const { id, required } = field.props
+            const value = formValues[id]
+            // process each check for this field
+            // for each failure, add error message to table
+            const errors = []
+            if (!value && required) {
+                errors.push("This field is required.")
+            }
+
+            if (errors.length !== 0) {
+                fieldsErrors[id] = errors
+            }
+        })
+
+        if (Object.keys(fieldsErrors).length !== 0) {
+            // Validation errors
+            // Dispatch action to set errors
+            setFormValidationErrors(formName, null, fieldsErrors)
+            return false
+        }
+
+        return true
+    }
+
 
     render() {
         const {title, onSubmit, submitText, formName, formsResponse, children} = this.props
@@ -107,7 +142,9 @@ class FormBlock extends Component {
             <form
                 onSubmit={e => {
                     e.preventDefault()
-                    onSubmit(formValues)
+                    if(this.validate()) {
+                        onSubmit(formValues)
+                    }
                 }}
                 className="form block"
             >
@@ -139,7 +176,8 @@ const mapStateToProps = (state) => ({
 })
 
 FormBlock = connect(
-    mapStateToProps
+    mapStateToProps,
+    { setFormValidationErrors }
 )(FormBlock)
 
 export { FormBlock }

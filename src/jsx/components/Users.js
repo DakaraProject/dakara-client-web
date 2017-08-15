@@ -114,11 +114,13 @@ class Users extends Component {
                     <Field
                         id="username"
                         label="Username"
+                        required
                     />
                     <Field
                         id="password"
                         type="password"
                         label="Password"
+                        required
                     />
                 </FormBlock>
             </div>

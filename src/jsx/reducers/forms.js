@@ -1,4 +1,4 @@
-import { FORM_REQUEST, FORM_SUCCESS, FORM_FAILURE, FORM_CLEAR } from '../actions'
+import { FORM_REQUEST, FORM_SUCCESS, FORM_FAILURE, FORM_CLEAR, FORM_SET_VALIDATION_ERRORS } from '../actions'
 
 /**
  * This reducer contains forms state
@@ -44,6 +44,7 @@ function form(state, action) {
             }
 
         case FORM_FAILURE:
+        case FORM_SET_VALIDATION_ERRORS:
             const { message, non_field_errors, detail } = action.error
             // fetch API error
             if (message) {
@@ -68,7 +69,7 @@ function form(state, action) {
             }
 
 
-            // DRF global form error
+            // DRF global form error or validation error
             let global
             if (non_field_errors) {
                 global = {
@@ -77,7 +78,7 @@ function form(state, action) {
                 }
             }
 
-            // DRF field error
+            // DRF field error or field validation errors
             delete action.error.non_field_errors
             const fields = action.error
 
