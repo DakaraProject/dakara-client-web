@@ -4,8 +4,26 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 export class FormBlock extends Component {
 
     state = {
-        formValues: {}
+        formValues: {
+        }
     }
+
+    componentWillMount() {
+        const { formValues } = this.state
+        const newFormValues = {}
+
+        React.Children.map(this.props.children, field => {
+            newFormValues[field.props.id] = field.props.defaultValue || ""
+        })
+
+        this.setState({
+            formValues: {
+                ...formValues,
+                ...newFormValues
+            }
+        })
+    }
+
 
     setFieldValue = (fieldId, value) => {
         const { formValues } = this.state
@@ -41,13 +59,21 @@ export class FormBlock extends Component {
 
         // Add props to fields
         const fields = React.Children.map(children,
-                (field) => React.cloneElement(field,
-                    {
-                        response,
-                        setValue: this.setFieldValue,
-                        formValues,
+                (field) => {
+                    const id = field.props.id
+                    let fieldErrors
+                    if (response) {
+                        fieldErrors = response.fields[id]
                     }
-                )
+
+                    return React.cloneElement(field,
+                        {
+                            fieldErrors, 
+                            setValue: this.setFieldValue,
+                            value: formValues[id],
+                        }
+                    )
+                }
             )
 
         return (
@@ -82,6 +108,7 @@ export class FormBlock extends Component {
 }
 
 export class Field extends Component {
+
     render() {
         const {
             id,
@@ -89,29 +116,20 @@ export class Field extends Component {
             placeholder,
             label,
             setValue,
-            formValues,
-            response,
+            value,
+            fieldErrors,
         } = this.props
 
         // field error
         let message
-        if (response) {
-            const fieldErrors = response.fields[id]
+        if (fieldErrors) {
+            const messageContent = fieldErrors.map((fieldError, id) => (
+                <div className="error" key={id}>{fieldError}</div>
+            ))
 
-            if (fieldErrors) {
-                const messageContent = fieldErrors.map((fieldError, id) => (
-                    <div className="error" key={id}>{fieldError}</div>
-                ))
-
-                message = (
-                    <div className="notification danger">{messageContent}</div>
-                )
-            }
-        }
-
-        let value = ""
-        if (formValues && formValues[id]) {
-            value = formValues[id]
+            message = (
+                <div className="notification danger">{messageContent}</div>
+            )
         }
 
         return (
@@ -124,7 +142,7 @@ export class Field extends Component {
                         id={id}
                         type={type}
                         placeholder={placeholder}
-                        value={value}
+                        value={value || ""}
                         onChange={e => {setValue(id, e.target.value)}}
                     />
                     <ReactCSSTransitionGroup
