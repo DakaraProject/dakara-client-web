@@ -24,6 +24,20 @@ export class FormBlock extends Component {
         })
     }
 
+    componentDidUpdate(prevProps) {
+        const { response } = this.props
+
+        // If there is a success notification
+        if (response && response.global && response.global.type == 'success') {
+            // and there was no response, or a different notification before
+            if ( !prevProps.response ||
+                    this.props.response.global != prevProps.response.global) {
+                this.setState( {
+                    formValues: {}
+                })
+            }
+        }
+    }
 
     setFieldValue = (fieldId, value) => {
         const { formValues } = this.state
