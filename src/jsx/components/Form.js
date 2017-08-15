@@ -1,47 +1,84 @@
 import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-export const FormBlock = ({title, onSubmit, submitText, response, children}) => {
-    // global notification message
-    let message
-    if (response && response.global) {
-        message = (
-                    <div className="notified">
-                        <div
-                            className={"notification message " +
-                                response.global.type}
-                        >
-                            {response.global.message}
-                        </div>
-                    </div>
-                )
+export class FormBlock extends Component {
+
+    state = {
+        formValues: {}
     }
 
-    return (
-        <form
-            onSubmit={onSubmit}
-            className="form block"
-        >
-            <div className="header notifiable">
-                <h2>{title}</h2>
-                <ReactCSSTransitionGroup
-                    transitionName="notified"
-                    transitionEnterTimeout={300}
-                    transitionLeaveTimeout={150}
-                >
-                    {message}
-                </ReactCSSTransitionGroup>
-            </div>
-            <div className="set">
-                {children}
-            </div>
-            <div className="controls">
-                <button type="submit" className="control primary">
-                    {submitText}
-                </button>
-            </div>
-        </form>
-    )
+    setFieldValue = (fieldId, value) => {
+        const { formValues } = this.state
+        this.setState({
+            formValues: {
+                ...formValues,
+                [fieldId]: value
+            }
+        })
+    }
+
+
+    render() {
+        const {title, onSubmit, submitText, response, children} = this.props
+
+        const { formValues } = this.state
+
+        // global notification message
+        let message
+        if (response && response.global) {
+            message = (
+                        <div className="notified">
+                            <div
+                                className={"notification message " +
+                                    response.global.type}
+                            >
+                                {response.global.message}
+                            </div>
+                        </div>
+                    )
+        }
+
+
+        // Add props to fields
+        const fields = React.Children.map(children,
+                (field) => React.cloneElement(field,
+                    {
+                        response,
+                        setValue: this.setFieldValue,
+                        formValues,
+                    }
+                )
+            )
+
+        return (
+            <form
+                onSubmit={e => {
+                    e.preventDefault()
+                    onSubmit(formValues)
+                }}
+                className="form block"
+            >
+                <div className="header notifiable">
+                    <h2>{title}</h2>
+                    <ReactCSSTransitionGroup
+                        transitionName="notified"
+                        transitionEnterTimeout={300}
+                        transitionLeaveTimeout={150}
+                    >
+                        {message}
+                    </ReactCSSTransitionGroup>
+                </div>
+                <div className="set">
+                    {fields}
+                </div>
+                <div className="controls">
+                    <button type="submit" className="control primary">
+                        {submitText}
+                    </button>
+                </div>
+            </form>
+        )
+    }
 }
 
 export class Field extends Component {
@@ -49,12 +86,11 @@ export class Field extends Component {
         const {
             id,
             type,
-            reference,
             placeholder,
             label,
+            setValue,
+            formValues,
             response,
-            children,
-            defaultValue
         } = this.props
 
         // field error
@@ -73,6 +109,11 @@ export class Field extends Component {
             }
         }
 
+        let value = ""
+        if (formValues && formValues[id]) {
+            value = formValues[id]
+        }
+
         return (
             <div className="field">
                 <label htmlFor={id}>
@@ -81,11 +122,10 @@ export class Field extends Component {
                 <div className="input">
                     <input
                         id={id}
-                        ref={reference}
                         type={type}
                         placeholder={placeholder}
-                        value={children}
-                        defaultValue={defaultValue}
+                        value={value}
+                        onChange={e => {setValue(id, e.target.value)}}
                     />
                     <ReactCSSTransitionGroup
                         transitionName="error"

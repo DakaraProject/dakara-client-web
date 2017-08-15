@@ -27,7 +27,6 @@ class Users extends Component {
     render() {
         const { createUser, deleteUser, formResponse, entries, notifications, location } = this.props
         const { current, last } = entries.data
-        let username, password
 
         const userList = entries.data.results.map((entry) => {
             let message
@@ -97,25 +96,20 @@ class Users extends Component {
                 </div>
                 <FormBlock
                     title="Create user"
-                    onSubmit={e => {
-                        e.preventDefault()
-                        createUser(username.value, password.value)
+                    onSubmit={formValues => {
+                        createUser(formValues.username, formValues.password)
                     }}
                     submitText="Create"
                     response={formResponse}
                 >
                     <Field
                         id="username"
-                        reference={n => {username = n}}
                         label="Username"
-                        response={formResponse}
                     />
                     <Field
                         id="password"
-                        reference={n => {password = n}}
                         type="password"
                         label="Password"
-                        response={formResponse}
                     />
                 </FormBlock>
             </div>

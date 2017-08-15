@@ -29,15 +29,12 @@ class LoginForm extends Component {
 
     render() {
         const { login, formResponse } = this.props
-        let username
-        let password
 
         return (
             <div id="login" className="box">
                 <FormBlock
-                    onSubmit={e => {
-                        e.preventDefault()
-                        login(username.value, password.value)
+                    onSubmit={values => {
+                        login(values.username, values.password)
                     }}
                     title="Login"
                     submitText="Login"
@@ -50,9 +47,7 @@ class LoginForm extends Component {
                                 <i className="fa fa-user"></i>
                             </span>
                         )}
-                        reference={n => {username = n}}
                         placeholder="Username..."
-                        response={formResponse}
                     />
                     <Field
                         id="password"
@@ -61,9 +56,7 @@ class LoginForm extends Component {
                                 <i className="fa fa-lock"></i>
                             </span>
                         )}
-                        reference={n => {password = n}}
                         placeholder="Password..."
-                        response={formResponse}
                         type="password"
                     />
                 </FormBlock>
