@@ -175,7 +175,10 @@ export const removeEntryFromPlaylist = (entryId) => ({
                 REMOVE_PLAYLIST_ENTRY_SUCCESS,
                 REMOVE_PLAYLIST_ENTRY_FAILURE,
             ],
-            onSuccess: loadPlaylist(),
+            onSuccess: [
+                loadPlaylist(),
+                delay(clearPlaylistEntryNotification(entryId), 3000)
+            ],
             onFailure: delay(clearPlaylistEntryNotification(entryId), 5000)
         },
     entryId
@@ -507,7 +510,10 @@ export const deleteUser = (userId) => ({
             endpoint: `${baseUrl}users/${userId}/`,
             method: 'DELETE',
             types: [USER_DELETE_REQUEST, USER_DELETE_SUCCESS, USER_DELETE_FAILURE],
-        onSuccess: refreshUsersDelayed,
+        onSuccess: [
+            refreshUsersDelayed,
+            delay(clearUsersEntryNotification(userId), 3000)
+        ],
         onFailure: delay(clearUsersEntryNotification(userId), 5000)
         },
     userId
