@@ -25,6 +25,14 @@
 // specialization for the list simply removes the marker. For the table, it
 // removes all the quirks of its default display and corrects the behavior of
 // the `controls` class.
+//
+// In the case of notification on table rows, the class notifiable has to be
+// on the table.
+// This is because position relative does not work on table rows.
+// cf: https://www.w3.org/TR/CSS21/visuren.html#propdef-position
+// known limitations:
+//      - Only allows tables up to 10 rows, but can be increased.
+//      - Each row must have a fixed height of `listing-entry-height`.
 .listing {
     margin: 0;
     padding: 0;
@@ -120,5 +128,19 @@ table.listing {
     // remove default bold
     .listing-header > th {
         font-weight: normal;
+    }
+
+    // Hack, to position each notification on its line,
+    // since we can't position relative to the tr
+    .listing-entry {
+        .loop-notified-offset(@n) when (@n > 0) {
+            .loop-notified-offset(@n - 1);
+            &:nth-child(@{n}) .notified {
+                top: @n * @listing-entry-height;
+            }
+        }
+
+        // This value can be increased when using tables with more rows
+        .loop-notified-offset(10);
     }
 }

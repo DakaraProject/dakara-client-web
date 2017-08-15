@@ -41,7 +41,7 @@ class Users extends Component {
             }
 
             return (
-                <tr className="listing-entry user-listing-entry notifiable hoverizable" key={entry.id}>
+                <tr className="listing-entry user-listing-entry hoverizable" key={entry.id}>
                     <td className="username">{entry.username}</td>
                     <td className="permission superuser">{entry.is_superuser ? "✓" : null}</td>
                     <td className="permission">{permissionLevels[entry.users_permission_level]}</td>
@@ -71,7 +71,7 @@ class Users extends Component {
                 <div className="header">
                     <h1>Users management</h1>
                 </div>
-                <table className="listing users-listing">
+                <table className="listing users-listing notifiable">
                     <thead>
                         <tr className="listing-header">
                             <th className="username">Username</th>
