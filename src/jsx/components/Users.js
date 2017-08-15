@@ -26,7 +26,7 @@ class Users extends Component {
     }
 
     render() {
-        const { createUser, deleteUser, formResponse, entries, notifications, location } = this.props
+        const { createUser, deleteUser, entries, notifications, location } = this.props
         const { current, last } = entries.data
 
         const userList = entries.data.results.map((entry) => {
@@ -109,7 +109,7 @@ class Users extends Component {
                         createUser(formValues.username, formValues.password)
                     }}
                     submitText="Create"
-                    response={formResponse}
+                    formName="createUser"
                 >
                     <Field
                         id="username"

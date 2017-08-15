@@ -28,7 +28,7 @@ class LoginForm extends Component {
     }
 
     render() {
-        const { login, formResponse } = this.props
+        const { login } = this.props
 
         return (
             <div id="login" className="box">
@@ -38,7 +38,7 @@ class LoginForm extends Component {
                     }}
                     title="Login"
                     submitText="Login"
-                    response={formResponse}
+                    formName="login"
                 >
                     <Field
                         id="username"
@@ -67,11 +67,10 @@ class LoginForm extends Component {
 
 const mapStateToProps = (state) => ({
     isLoggedIn: !!state.token,
-    formResponse: state.forms.login
 })
 
 LoginForm = connect(
-    mapStateToProps, 
+    mapStateToProps,
     { login }
 )(LoginForm)
 

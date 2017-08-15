@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-export class FormBlock extends Component {
+
+/**
+ * FormBlock component
+ * For creating forms
+ */
+class FormBlock extends Component {
 
     state = {
         formValues: {
@@ -25,7 +31,8 @@ export class FormBlock extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { response, noClearOnSuccess } = this.props
+        const { formName, formsResponse, noClearOnSuccess } = this.props
+        const response = formsResponse[formName]
 
         if (noClearOnSuccess) {
             return
@@ -55,7 +62,8 @@ export class FormBlock extends Component {
 
 
     render() {
-        const {title, onSubmit, submitText, response, children} = this.props
+        const {title, onSubmit, submitText, formName, formsResponse, children} = this.props
+        const response = formsResponse[formName]
 
         const { formValues } = this.state
 
@@ -125,6 +133,20 @@ export class FormBlock extends Component {
     }
 }
 
+const mapStateToProps = (state) => ({
+    formsResponse: state.forms
+})
+
+FormBlock = connect(
+    mapStateToProps
+)(FormBlock)
+
+export { FormBlock }
+
+/**
+ * Form Field component
+ * Should be used as a direct child of a Form
+ */
 export class Field extends Component {
 
     render() {

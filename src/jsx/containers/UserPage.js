@@ -4,7 +4,6 @@ import { updatePassword, clearForm } from '../actions'
 
 const mapStateToProps = (state) => ({
     user: state.authenticatedUsers,
-    formResponse: state.forms.updatePassword
 })
 
 const UserPage = connect(

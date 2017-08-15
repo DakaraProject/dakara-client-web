@@ -14,7 +14,7 @@ export default class UserEdit extends Component {
     }
 
     render() {
-        const { location, formResponse, updateUser, user } = this.props
+        const { location, updateUser, user } = this.props
 
         if (!user) {
             return null
@@ -23,12 +23,12 @@ export default class UserEdit extends Component {
         return (
                 <div className="box" id="user-edit">
                     <FormBlock
-                        title={"Edit " + user.username}
-                        response={formResponse}
+                        title={"Edit user " + user.username}
                         onSubmit={values => {
                             updateUser(user.id, values)
                         }}
                         submitText="Edit"
+                        formName="updateUser"
                         noClearOnSuccess
                     >
                         <Field

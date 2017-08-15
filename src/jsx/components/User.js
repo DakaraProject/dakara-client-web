@@ -13,7 +13,7 @@ class User extends Component {
     }
 
     render() {
-        const { user, formResponse, updatePassword } = this.props
+        const { user, updatePassword } = this.props
         let permissions = []
 
         // superuser
@@ -58,7 +58,7 @@ class User extends Component {
                         updatePassword(user.id, values.old_password, values.password)
                     }}
                     submitText="Change password"
-                    response={formResponse}
+                    formName="updatePassword"
                 >
                     <Field
                         id="old_password"
