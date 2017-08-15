@@ -114,15 +114,16 @@ table.listing {
     border-collapse: collapse;
 
     // make the controls column as small as possible
-    .controls {
+    .controls-col {
         width: 1px;
         white-space: nowrap;
 
-        // remove the flex display
-        display: table-cell;
-
         // default is 1px, but no idea for the reason why
         padding: 0;
+
+        .control {
+            margin: 0;
+        }
     }
 
     // remove default bold

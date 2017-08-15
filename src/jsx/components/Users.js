@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import { Link } from 'react-router'
 import { FormBlock, Field } from '../components/Form'
 import Paginator from './Paginator'
 import { permissionLevels } from './User'
@@ -46,13 +47,21 @@ class Users extends Component {
                     <td className="permission">{permissionLevels[entry.users_permission_level]}</td>
                     <td className="permission">{permissionLevels[entry.library_permission_level]}</td>
                     <td className="permission">{permissionLevels[entry.playlist_permission_level]}</td>
-                    <td className="controls">
-                        <button
-                            className="control danger"
-                            onClick={e => {deleteUser(entry.id)}}
-                        >
-                            <i className="fa fa-trash"></i>
-                        </button>
+                    <td className="controls-col">
+                        <div className="controls">
+                            <Link
+                                to={"/users/" + entry.id}
+                                className="control info"
+                            >
+                                <i className="fa fa-pencil"></i>
+                            </Link>
+                            <button
+                                className="control danger"
+                                onClick={e => {deleteUser(entry.id)}}
+                            >
+                                <i className="fa fa-trash"></i>
+                            </button>
+                        </div>
                         <ReactCSSTransitionGroup
                             transitionName="notified"
                             transitionEnterTimeout={300}

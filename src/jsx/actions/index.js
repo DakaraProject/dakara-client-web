@@ -499,7 +499,7 @@ export const USER_DELETE_SUCCESS = "USER_DELETE_SUCCESS"
 export const USER_DELETE_FAILURE = "USER_DELETE_FAILURE"
 
 /**
- * Requerst to delete one user
+ * Request to delete one user
  * @param userId ID of user to delete
  */
 export const deleteUser = (userId) => ({
@@ -527,3 +527,80 @@ export const clearUsersEntryNotification = (userId) => ({
     type: CLEAR_USERS_ENTRY_NOTIFICATION,
     userId
 })
+
+/**
+ * Get one user
+ */
+
+export const USER_GET_REQUEST = "USER_GET_REQUEST"
+export const USER_GET_SUCCESS = "USER_GET_SUCCESS"
+export const USER_GET_FAILURE = "USER_GET_FAILURE"
+export const USER_CLEAR = "USER_CLEAR"
+
+
+/**
+ * Fetch a user
+ * @param userId ID of user to get
+ */
+export const getUser = (userId) => ({
+    [FETCH_API]: {
+            endpoint: `${baseUrl}users/${userId}/`,
+            method: 'GET',
+            types: [USER_GET_REQUEST, USER_GET_SUCCESS, USER_GET_FAILURE],
+        },
+})
+
+export const clearUser = () => ({
+    type: USER_CLEAR
+})
+
+/**
+ * Update user
+ */
+
+/**
+ * Request to update user
+ * @param userId Id of user to edit
+ * @param values object containing :
+ *      - password
+ *      - users_permission_level
+ *      - library_permission_level
+ *      - playlist_permission_level
+ */
+export const updateUser = (userId, values) => {
+    const {
+        password,
+        users_permission_level,
+        library_permission_level,
+        playlist_permission_level
+    } = values
+
+    const json = {
+        users_permission_level: users_permission_level || null,
+        library_permission_level: library_permission_level || null,
+        playlist_permission_level: playlist_permission_level || null
+    }
+
+    if (password) {
+        json.password = password
+    }
+
+    return {
+        [FETCH_API]: {
+                endpoint: `${baseUrl}users/${userId}/`,
+                method: 'PATCH',
+                json,
+                types: [
+                    FORM_REQUEST,
+                    FORM_SUCCESS,
+                    FORM_FAILURE,
+                ],
+                onSuccess: [
+                    delay(clearForm('updateUser'),3000)
+                ]
+            },
+        formName: 'updateUser',
+        successMessage: "User sucessfully updated!"
+    }
+}
+

@@ -25,7 +25,11 @@ export class FormBlock extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { response } = this.props
+        const { response, noClearOnSuccess } = this.props
+
+        if (noClearOnSuccess) {
+            return
+        }
 
         // If there is a success notification
         if (response && response.global && response.global.type == 'success') {

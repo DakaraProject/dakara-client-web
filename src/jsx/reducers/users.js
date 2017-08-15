@@ -1,7 +1,9 @@
 import { combineReducers } from 'redux'
 import { USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LIST_FAILURE } from '../actions'
 import { USER_DELETE_REQUEST, USER_DELETE_SUCCESS, USER_DELETE_FAILURE } from '../actions'
+import { USER_GET_REQUEST, USER_GET_SUCCESS, USER_GET_FAILURE } from '../actions'
 import { CLEAR_USERS_ENTRY_NOTIFICATION } from '../actions'
+import { USER_CLEAR } from '../actions'
 
 const defaultEntries = {
     data: {
@@ -73,9 +75,24 @@ function notifications(state = {}, action) {
     }
 }
 
+
+function userEdit(state = null, action) {
+    switch(action.type) {
+        case USER_GET_SUCCESS:
+            return action.response
+
+        case USER_CLEAR:
+            return null
+
+        default:
+            return state
+    }
+}
+
 const users = combineReducers({
     entries,
-    notifications
+    notifications,
+    userEdit
 })
 
 export default users
