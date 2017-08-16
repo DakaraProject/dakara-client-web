@@ -57,11 +57,6 @@ class User extends Component {
                     onSubmit={values => {
                         updatePassword(user.id, values.old_password, values.password)
                     }}
-                    validate={values => {
-                        if (values.password != values.confirm_password) {
-                            return ["Password confirmation do not match."]
-                        }
-                    }}
                     submitText="Change password"
                     formName="updatePassword"
                 >
@@ -82,6 +77,11 @@ class User extends Component {
                         type="password"
                         label="Confirm password"
                         required
+                        validate={(value, values) => {
+                            if (values.password != value) {
+                                return ["This field should match password field."]
+                            }
+                        }}
                     />
                 </FormBlock>
             </div>
