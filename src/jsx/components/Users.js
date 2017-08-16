@@ -108,6 +108,11 @@ class Users extends Component {
                     onSubmit={formValues => {
                         createUser(formValues.username, formValues.password)
                     }}
+                    validate={values => {
+                        if (values.password != values.confirm_password) {
+                            return ["Password confirmation do not match."]
+                        }
+                    }}
                     submitText="Create"
                     formName="createUser"
                 >
@@ -120,6 +125,12 @@ class Users extends Component {
                         id="password"
                         type="password"
                         label="Password"
+                        required
+                    />
+                    <Field
+                        id="confirm_password"
+                        type="password"
+                        label="Confirm password"
                         required
                     />
                 </FormBlock>

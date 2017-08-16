@@ -7,6 +7,26 @@ import { setFormValidationErrors } from '../actions'
 /**
  * FormBlock component
  * For creating forms
+ *
+ * Required properties:
+ * - title <str>: Name to display in the form header.
+ * - onSubmit <func>: Called on submit when validation pass,
+ *                      with object containing form values as argument.
+ * - formName <str>: Unique form identifier.
+ *
+ * Optional properties:
+ * - submitText <str>: Submit button text, default: "Submit"
+ * - validate <func>: Called on submit, with object containing form values.
+ *                      When validation fails,
+ *                      Should return an array of validation errormessage.
+ *                      When validation succeed,
+ *                      Should return a falsy value or empty array.
+ * - noClearOnSuccess <bool>: By default the form values are cleared when
+ *                              request succeed.
+ *                              If this value is true, forms are not cleared.
+ *
+ *
+ *
  */
 class FormBlock extends Component {
 
@@ -62,12 +82,22 @@ class FormBlock extends Component {
         })
     }
 
-    /** Method called before submit to validate fields
+    /** Method called before submit, to validate fields
      * @return boolean indicating validation success
      */
     validate = () => {
-        const { setFormValidationErrors, formName, children } = this.props
+        const { setFormValidationErrors, formName, children, validate } = this.props
         const { formValues } = this.state
+
+        // Global validation
+        let globalErrors
+        if (validate) {
+            globalErrors = validate(formValues)
+        }
+
+        if (!globalErrors || globalErrors.length === 0) {
+            globalErrors = null
+        }
 
         // Check fields validations
         let fieldsErrors = {}
@@ -86,10 +116,10 @@ class FormBlock extends Component {
             }
         })
 
-        if (Object.keys(fieldsErrors).length !== 0) {
+        if (Object.keys(fieldsErrors).length !== 0 || globalErrors) {
             // Validation errors
             // Dispatch action to set errors
-            setFormValidationErrors(formName, null, fieldsErrors)
+            setFormValidationErrors(formName, globalErrors, fieldsErrors)
             return false
         }
 
@@ -163,7 +193,7 @@ class FormBlock extends Component {
                 </div>
                 <div className="controls">
                     <button type="submit" className="control primary">
-                        {submitText}
+                        {submitText || "Submit"}
                     </button>
                 </div>
             </form>
@@ -185,6 +215,17 @@ export { FormBlock }
 /**
  * Form Field component
  * Should be used as a direct child of a Form
+ *
+ * Required properties:
+ * - id <str>: Unique field identifier.
+ * - label <str/jsx>: Label of the field.
+ *
+ * Optional properties:
+ * - type <str>: Html input type, default to text field.
+ * - defaultValue <str>: Pre-fill field with given value.
+ *
+ * Validation modifiers:
+ * - required <bool>: When true, field can not be empty.
  */
 export class Field extends Component {
 
