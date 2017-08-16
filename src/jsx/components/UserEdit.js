@@ -11,6 +11,7 @@ export default class UserEdit extends Component {
 
     componentWillUnmount() {
         this.props.clearUser()
+        this.props.clearForm('updateUser')
     }
 
     render() {

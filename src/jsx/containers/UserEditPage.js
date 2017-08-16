@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import UserEdit from '../components/UserEdit'
-import { getUser, clearUser, updateUser } from '../actions'
+import { getUser, clearUser, updateUser, clearForm } from '../actions'
 
 const mapStateToProps = (state) => ({
     user: state.users.userEdit,
@@ -8,7 +8,7 @@ const mapStateToProps = (state) => ({
 
 const UserEditPage = connect(
     mapStateToProps,
-    { getUser, clearUser, updateUser }
+    { getUser, clearUser, updateUser, clearForm }
 )(UserEdit)
 
 export default UserEditPage
