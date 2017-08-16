@@ -18,7 +18,7 @@ import { setFormValidationErrors } from '../actions'
  * - submitText <str>: Submit button text, default: "Submit"
  * - validate <func>: Called on submit, with object containing form values.
  *                      When validation fails,
- *                      Should return an array of validation errormessage.
+ *                      Should return an array of validation error message.
  *                      When validation succeed,
  *                      Should return a falsy value or empty array.
  * - noClearOnSuccess <bool>: By default the form values are cleared when
@@ -102,13 +102,21 @@ class FormBlock extends Component {
         // Check fields validations
         let fieldsErrors = {}
         React.Children.map(this.props.children, field => {
-            const { id, required } = field.props
+            const { id, required, validate } = field.props
             const value = formValues[id]
             // process each check for this field
             // for each failure, add error message to table
-            const errors = []
+            let errors = []
             if (!value && required) {
                 errors.push("This field is required.")
+            }
+
+            if (validate) {
+                // The field has a custom validate method
+                const validateResult = validate(value, formValues)
+                if (validateResult) {
+                    errors = errors.concat(validateResult)
+                }
             }
 
             if (errors.length !== 0) {
@@ -223,6 +231,13 @@ export { FormBlock }
  * Optional properties:
  * - type <str>: Html input type, default to text field.
  * - defaultValue <str>: Pre-fill field with given value.
+ * - validate <func>: Called on submit, with the following params:
+ *                          - value of the field
+ *                          - object containing all fields values.
+ *                      When validation fails,
+ *                      Should return an array of validation error message.
+ *                      When validation succeed,
+ *                      Should return a falsy value or empty array.
  *
  * Validation modifiers:
  * - required <bool>: When true, field can not be empty.
