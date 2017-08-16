@@ -221,7 +221,86 @@ FormBlock = connect(
 export { FormBlock }
 
 /**
- * Form Field component
+ * Form Field abstract component
+ * Specializations of this component should be used as a direct child of a Form
+ *
+ * Required properties:
+ * - id <str>: Unique field identifier.
+ * - label <str/jsx>: Label of the field.
+ *
+ * Optional properties:
+ * - defaultValue <str>: Pre-fill field with given value.
+ * - validate <func>: Called on submit, with the following params:
+ *                          - value of the field
+ *                          - object containing all fields values.
+ *                      When validation fails,
+ *                      Should return an array of validation error message.
+ *                      When validation succeed,
+ *                      Should return a falsy value or empty array.
+ *
+ * Validation modifiers:
+ * - required <bool>: When true, field can not be empty.
+ *
+ * Extra properties are passed to the field tag.
+ */
+class Field extends Component {
+
+    subRender = (props) => (null)
+
+    render() {
+        const {
+            id,
+            label,
+            setValue,
+            value,
+            fieldErrors,
+            defaultValue,
+            validate,
+            ...remaining
+        } = this.props
+
+        // field error
+        let message
+        if (fieldErrors) {
+            const messageContent = fieldErrors.map((fieldError, id) => (
+                <div className="error" key={id}>{fieldError}</div>
+            ))
+
+            message = (
+                <div className="notification danger">{messageContent}</div>
+            )
+        }
+
+        // props to pass to the field tag
+        const props = {
+            id,
+            value: value || "",
+            onChange: e => {setValue(id, e.target.value)},
+            ...remaining
+        }
+
+        return (
+            <div className="field">
+                <label htmlFor={id}>
+                    {label}
+                </label>
+                <div className="input">
+                    {this.subRender(props)}
+                    <ReactCSSTransitionGroup
+                        transitionName="error"
+                        transitionEnterTimeout={300}
+                        transitionLeaveTimeout={100}
+                    >
+                        {message}
+                    </ReactCSSTransitionGroup>
+                </div>
+            </div>
+        )
+    }
+}
+
+/**
+ * Form Field component based on the Input tag
  * Should be used as a direct child of a Form
  *
  * Required properties:
@@ -241,53 +320,62 @@ export { FormBlock }
  *
  * Validation modifiers:
  * - required <bool>: When true, field can not be empty.
+ *
+ * Extra properties are passed to the input tag.
  */
-export class Field extends Component {
+export class InputField extends Field {
+    subRender = (props) => (
+        <input
+            {...props}
+        />
+    )
+}
 
-    render() {
-        const {
-            id,
-            type,
-            placeholder,
-            label,
-            setValue,
-            value,
-            fieldErrors,
-        } = this.props
+/**
+ * Form Field component based on the Select tag
+ * Should be used as a direct child of a Form
+ *
+ * Required properties:
+ * - id <str>: Unique field identifier.
+ * - label <str/jsx>: Label of the field.
+ * - options <Array>: List of the different options to display. Each list item
+ *      must be an object with a `value` key and a `name` key.
+ *
+ * Optional properties:
+ * - defaultValue <str>: Pre-fill field with given value.
+ * - validate <func>: Called on submit, with the following params:
+ *                          - value of the field
+ *                          - object containing all fields values.
+ *                      When validation fails,
+ *                      Should return an array of validation error message.
+ *                      When validation succeed,
+ *                      Should return a falsy value or empty array.
+ *
+ * Validation modifiers:
+ * - required <bool>: When true, field can not be empty.
+ *
+ * Extra properties are passed to the select tag.
+ */
+export class SelectField extends Field {
+    subRender = (props) => {
+        const { options, ...remaining } = props
 
-        // field error
-        let message
-        if (fieldErrors) {
-            const messageContent = fieldErrors.map((fieldError, id) => (
-                <div className="error" key={id}>{fieldError}</div>
-            ))
-
-            message = (
-                <div className="notification danger">{messageContent}</div>
-            )
-        }
+        const content = options.map((option, id) => ((
+            <option
+                key={id}
+                value={option.value}
+            >
+                {option.name}
+            </option>
+        )))
 
         return (
-            <div className="field">
-                <label htmlFor={id}>
-                    {label}
-                </label>
-                <div className="input">
-                    <input
-                        id={id}
-                        type={type}
-                        placeholder={placeholder}
-                        value={value || ""}
-                        onChange={e => {setValue(id, e.target.value)}}
-                    />
-                    <ReactCSSTransitionGroup
-                        transitionName="error"
-                        transitionEnterTimeout={300}
-                        transitionLeaveTimeout={100}
-                    >
-                        {message}
-                    </ReactCSSTransitionGroup>
-                </div>
+            <div className="select">
+                <select
+                    {...remaining}
+                >
+                    {content}
+                </select>
             </div>
         )
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FormBlock, Field } from '../components/Form.js'
+import { FormBlock, InputField } from '../components/Form.js'
 
 export const permissionLevels = {
     u: "user",
@@ -60,19 +60,19 @@ class User extends Component {
                     submitText="Change password"
                     formName="updatePassword"
                 >
-                    <Field
+                    <InputField
                         id="old_password"
                         type="password"
                         label="Current password"
                         required
                     />
-                    <Field
+                    <InputField
                         id="password"
                         type="password"
                         label="New password"
                         required
                     />
-                    <Field
+                    <InputField
                         id="confirm_password"
                         type="password"
                         label="Confirm password"

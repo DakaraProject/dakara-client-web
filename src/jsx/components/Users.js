@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { Link } from 'react-router'
-import { FormBlock, Field } from '../components/Form'
+import { FormBlock, InputField } from '../components/Form'
 import Paginator from './Paginator'
 import { permissionLevels } from './User'
 
@@ -111,18 +111,18 @@ class Users extends Component {
                     submitText="Create"
                     formName="createUser"
                 >
-                    <Field
+                    <InputField
                         id="username"
                         label="Username"
                         required
                     />
-                    <Field
+                    <InputField
                         id="password"
                         type="password"
                         label="Password"
                         required
                     />
-                    <Field
+                    <InputField
                         id="confirm_password"
                         type="password"
                         label="Confirm password"

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux'
 import { login } from '../actions'
-import { FormBlock, Field } from '../components/Form.js'
+import { FormBlock, InputField } from '../components/Form.js'
 
 class LoginForm extends Component {
     redirect = () => {
@@ -40,7 +40,7 @@ class LoginForm extends Component {
                     submitText="Login"
                     formName="login"
                 >
-                    <Field
+                    <InputField
                         id="username"
                         label={(
                             <span className="icon">
@@ -50,7 +50,7 @@ class LoginForm extends Component {
                         placeholder="Username..."
                         required
                     />
-                    <Field
+                    <InputField
                         id="password"
                         label={(
                             <span className="icon">

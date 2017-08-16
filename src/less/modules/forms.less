@@ -184,7 +184,7 @@
     }
 
     // Visual aspect of the inputs and faked inputs
-    input, textarea, .input.fake {
+    input, textarea, select, .input.fake {
         padding: 0 @gap-horizontal;
         width: 100%;
         box-sizing: border-box;
@@ -198,6 +198,13 @@
 
         &:focus, &.focus {
             background: @neutral-clear;
+        }
+
+        &:required {
+            // remove default styles
+            border: none;
+            outline: none;
+            box-shadow: none;
         }
     }
 
@@ -233,6 +240,59 @@
         // pretty approximative
         padding-top: calc(0.5 * @field-height ~"- 0.65em");
         padding-bottom: calc(0.5 * @field-height ~"- 0.65em");
+    }
+
+    select {
+        // fix font properties
+        color: @text-dark;
+        font-size: medium;
+
+        // fix height which is minimal by default
+        height: @field-height;
+
+        // use pointer cursor
+        cursor: pointer;
+    }
+
+    // set custom triangle marker
+    .select {
+        position: relative;
+
+        select {
+            // remove the marker
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            -ms-appearance: none;
+            appearance: none;
+
+            // Firefox adds an ugly triangle that can't be stylized
+            // here is a hack: https://gist.github.com/joaocunha/6273016/
+            text-indent: 0.01px;
+            text-overflow: '';
+
+            // add space for marker
+            padding-right: @field-height;
+        }
+
+        // create the marker
+        &::after {
+            // attached to the top right
+            position: absolute;
+            top: 0;
+            right: 0;
+
+            // square shape
+            .square(@field-height);
+            line-height: @field-height;
+            text-align: center;
+
+            content: '▼';
+            font-size: 1.5em;
+            color: @text-dark;
+
+            // remove effect of pointer
+            pointer-events: none;
+        }
     }
 
     // Controls inside inputs

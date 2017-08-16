@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FormBlock, Field } from '../components/Form.js'
+import { FormBlock, InputField, SelectField } from '../components/Form.js'
 
 
 export default class UserEdit extends Component {
@@ -31,25 +31,41 @@ export default class UserEdit extends Component {
                         formName="updateUser"
                         noClearOnSuccess
                     >
-                        <Field
+                        <InputField
                             id="password"
                             type="password"
                             label="Password"
                         />
-                        <Field
+                        <SelectField
                             id="users_permission_level"
                             label="Users rights"
                             defaultValue={user.users_permission_level}
+                            options={[
+                                {value: null, name: 'None'},
+                                {value: 'u', name: 'User'},
+                                {value: 'm', name: 'Manager'},
+                            ]}
                         />
-                        <Field
+                        <SelectField
                             id="library_permission_level"
                             label="Library rights"
                             defaultValue={user.library_permission_level}
+                            options={[
+                                {value: null, name: 'None'},
+                                {value: 'u', name: 'User'},
+                                {value: 'm', name: 'Manager'},
+                            ]}
                         />
-                        <Field
+                        <SelectField
                             id="playlist_permission_level"
                             label="Playlist rights"
                             defaultValue={user.playlist_permission_level}
+                            options={[
+                                {value: null, name: 'None'},
+                                {value: 'u', name: 'User'},
+                                {value: 'm', name: 'Manager'},
+                                {value: 'p', name: 'Player'}
+                            ]}
                         />
                     </FormBlock>
                 </div>
