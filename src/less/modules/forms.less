@@ -54,6 +54,11 @@
             .field {
                 display: table-row;
 
+                // deactivated field
+                &.disabled {
+                    opacity: 0.33;
+                }
+
                 .label {
                     // this allows to shrink the label 'column' as small as possible
                     display: table-cell;
@@ -191,10 +196,6 @@
         outline: none;
         background: @neutral-soft;
 
-        &:hover {
-            background: @neutral-soft-lighter;
-        }
-
         &:focus, &.focus {
             background: @neutral-clear !important;
         }
@@ -208,6 +209,18 @@
             border: none;
             outline: none;
             box-shadow: none;
+        }
+    }
+
+    // disabled field
+    .field:not(.disabled) {
+        input,
+        textarea,
+        select,
+        .fake {
+            &:hover {
+                background: @neutral-soft-lighter;
+            }
         }
     }
 
@@ -250,9 +263,6 @@
         color: @text-dark;
         font-size: medium;
 
-        // use pointer cursor
-        cursor: pointer;
-
         // fix height which is minimal by default
         &:not([multiple]) {
             height: @field-height;
@@ -263,6 +273,12 @@
             min-height: @field-height;
         }
 
+    }
+
+    // pointer
+    .field:not(.disabled) select {
+        // use pointer cursor
+        cursor: pointer;
     }
 
     // set custom triangle marker
@@ -338,9 +354,6 @@
             padding: 0;
 
             position: relative;
-
-            // pointer
-            cursor: pointer;
         }
 
         // add style to marker when checked
@@ -359,9 +372,16 @@
         }
     }
 
-    // handle hover
-    .label:hover + .input .checkbox label.marker {
-        background: @neutral-soft-lighter;
+    .field:not(.disabled) {
+        // handle cursor
+        label.marker {
+            cursor: pointer;
+        }
+
+        // handle hover
+        .label:hover + .input .checkbox label.marker {
+            background: @neutral-soft-lighter;
+        }
     }
 
     // Controls inside inputs

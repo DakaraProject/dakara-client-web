@@ -263,6 +263,7 @@ class Field extends Component {
             fieldErrors,
             defaultValue,
             validate,
+            disabled,
             ...remaining
         } = this.props
 
@@ -287,11 +288,17 @@ class Field extends Component {
             id,
             value: propsValue,
             onChange: e => {setValue(id, e.target.value)},
+            disabled,
             ...remaining
         }
 
+        let disabledClassName = ''
+        if (disabled) {
+            disabledClassName = "disabled "
+        }
+
         return (
-            <div className="field">
+            <div className={disabledClassName + "field"}>
                 <label htmlFor={id} className="label">
                     {label}
                 </label>
