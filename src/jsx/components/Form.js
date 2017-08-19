@@ -445,6 +445,20 @@ export class CheckboxField extends Field {
                     type="checkbox"
                     checked={!!value}
                     onChange={e => {setValue(id, e.target.checked)}}
+                    onFocus={() => {
+                        document.getElementById(
+                            `${id}-fake`
+                        ).classList.add(
+                            "focus"
+                        )
+                    }}
+                    onBlur={() => {
+                        document.getElementById(
+                            `${id}-fake`
+                        ).classList.remove(
+                            "focus"
+                        )
+                    }}
                     {...remaining}
                 />
                 <label
