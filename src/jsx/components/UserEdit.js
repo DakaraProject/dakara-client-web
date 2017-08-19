@@ -42,7 +42,7 @@ export default class UserEdit extends Component {
                             label="Users rights"
                             defaultValue={user.users_permission_level}
                             options={[
-                                {value: null, name: 'None'},
+                                {value: '', name: 'None'},
                                 {value: 'u', name: 'User'},
                                 {value: 'm', name: 'Manager'},
                             ]}
@@ -52,7 +52,7 @@ export default class UserEdit extends Component {
                             label="Library rights"
                             defaultValue={user.library_permission_level}
                             options={[
-                                {value: null, name: 'None'},
+                                {value: '', name: 'None'},
                                 {value: 'u', name: 'User'},
                                 {value: 'm', name: 'Manager'},
                             ]}
@@ -62,7 +62,7 @@ export default class UserEdit extends Component {
                             label="Playlist rights"
                             defaultValue={user.playlist_permission_level}
                             options={[
-                                {value: null, name: 'None'},
+                                {value: '', name: 'None'},
                                 {value: 'u', name: 'User'},
                                 {value: 'm', name: 'Manager'},
                                 {value: 'p', name: 'Player'}
