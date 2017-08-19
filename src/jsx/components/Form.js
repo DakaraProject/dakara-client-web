@@ -40,7 +40,11 @@ class FormBlock extends Component {
         const newFormValues = {}
 
         React.Children.map(this.props.children, field => {
-            newFormValues[field.props.id] = field.props.defaultValue || ""
+            // only undefined values are replaced to null
+            // this avoids corrupting falsy values such as false or 0
+            // newFormValues[field.props.id] = field.props.defaultValue || ""
+            newFormValues[field.props.id] = ('defaultValue' in field.props) ?
+                field.props.defaultValue : null
         })
 
         this.setState({
@@ -224,6 +228,9 @@ export { FormBlock }
  * Form Field abstract component
  * Specializations of this component should be used as a direct child of a Form
  *
+ * Each specialization must take care of a null value by itself and convert it
+ * to its most logical type or React required type.
+ *
  * Required properties:
  * - id <str>: Unique field identifier.
  * - label <str/jsx>: Label of the field.
@@ -272,16 +279,20 @@ class Field extends Component {
         }
 
         // props to pass to the field tag
+        let propsValue = value
+        if (propsValue === undefined) {
+            propsValue = null
+        }
         const props = {
             id,
-            value: value || "",
+            value: propsValue,
             onChange: e => {setValue(id, e.target.value)},
             ...remaining
         }
 
         return (
             <div className="field">
-                <label htmlFor={id}>
+                <label htmlFor={id} className="label">
                     {label}
                 </label>
                 <div className="input">
@@ -302,6 +313,8 @@ class Field extends Component {
 /**
  * Form Field component based on the Input tag
  * Should be used as a direct child of a Form
+ *
+ * Null value is converted to empty string.
  *
  * Required properties:
  * - id <str>: Unique field identifier.
@@ -324,16 +337,23 @@ class Field extends Component {
  * Extra properties are passed to the input tag.
  */
 export class InputField extends Field {
-    subRender = (props) => (
-        <input
-            {...props}
-        />
-    )
+    subRender = (props) => {
+        const { value, ...remaining } = props
+        const inputValue = value || ""
+        return (
+            <input
+                value={inputValue}
+                {...remaining}
+            />
+        )
+    }
 }
 
 /**
  * Form Field component based on the Select tag
  * Should be used as a direct child of a Form
+ *
+ * Null value is converted to empty string.
  *
  * Required properties:
  * - id <str>: Unique field identifier.
@@ -358,8 +378,9 @@ export class InputField extends Field {
  */
 export class SelectField extends Field {
     subRender = (props) => {
-        const { options, ...remaining } = props
+        const { options, value, ...remaining } = props
 
+        // create options
         const content = options.map((option, id) => ((
             <option
                 key={id}
@@ -372,10 +393,58 @@ export class SelectField extends Field {
         return (
             <div className="select">
                 <select
+                    value={value || ""}
                     {...remaining}
                 >
                     {content}
                 </select>
+            </div>
+        )
+    }
+}
+
+/**
+ * Form Field component based on the Input tag of type checkbox
+ * Should be used as a direct child of a Form
+ *
+ * Null value is converted to false.
+ *
+ * Required properties:
+ * - id <str>: Unique field identifier.
+ * - label <str/jsx>: Label of the field.
+ *
+ * Optional properties:
+ * - defaultValue <str>: Pre-fill field with given value.
+ * - validate <func>: Called on submit, with the following params:
+ *                          - value of the field
+ *                          - object containing all fields values.
+ *                      When validation fails,
+ *                      Should return an array of validation error message.
+ *                      When validation succeed,
+ *                      Should return a falsy value or empty array.
+ *
+ * Validation modifiers:
+ * - required <bool>: When true, field can not be empty.
+ *
+ * Extra properties are passed to the input tag.
+ */
+export class CheckboxField extends Field {
+    subRender = (props) => {
+        const { value, onChange, ...remaining } = props
+        const { id, setValue } = this.props
+        return (
+            <div className="checkbox">
+                <input
+                    type="checkbox"
+                    checked={!!value}
+                    onChange={e => {setValue(id, e.target.checked)}}
+                    {...remaining}
+                />
+                <label
+                    htmlFor={id}
+                    className="fake marker"
+                    id={`${id}-fake`}
+                ></label>
             </div>
         )
     }

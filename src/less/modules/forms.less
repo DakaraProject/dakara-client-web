@@ -54,7 +54,7 @@
             .field {
                 display: table-row;
 
-                label {
+                .label {
                     // this allows to shrink the label 'column' as small as possible
                     display: table-cell;
 
@@ -184,9 +184,8 @@
     }
 
     // Visual aspect of the inputs and faked inputs
-    input, textarea, select, .input.fake {
+    input, textarea, select, .fake {
         padding: 0 @gap-horizontal;
-        width: 100%;
         box-sizing: border-box;
         border: none;
         outline: none;
@@ -198,6 +197,10 @@
 
         &:focus, &.focus {
             background: @neutral-clear;
+        }
+
+        &:not([type="checkbox"]) {
+            width: 100%;
         }
 
         &:required {
@@ -293,6 +296,57 @@
             // remove effect of pointer
             pointer-events: none;
         }
+    }
+
+    input[type="checkbox"] {
+        height: initial;
+    }
+
+    // custom style for checkbox
+    .checkbox {
+        // delete initial marker
+        input {
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            -ms-appearance: none;
+            appearance: none;
+
+            visibility: hidden;
+        }
+
+        // add style to adjacent marker box
+        input + label.marker {
+            .square(@field-height * 0.5);
+            margin-top: @field-height * 0.25;
+
+            // remove padding
+            padding: 0;
+
+            position: relative;
+
+            // pointer
+            cursor: pointer;
+        }
+
+        // add style to marker when checked
+        input:checked + label.marker::after {
+            position: absolute;
+            .square(@field-height * 0.5);
+
+            // content align
+            line-height: @field-height * 0.5;
+            text-align: center;
+
+            // content check mark
+            content: "✓";
+            font-size: 1.5em;
+            color: @text-dark;
+        }
+    }
+
+    // handle hover
+    .field:hover .checkbox label.marker {
+        background: @neutral-soft-lighter;
     }
 
     // Controls inside inputs
