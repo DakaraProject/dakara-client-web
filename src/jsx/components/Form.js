@@ -378,7 +378,7 @@ export class InputField extends Field {
  */
 export class SelectField extends Field {
     subRender = (props) => {
-        const { options, value, ...remaining } = props
+        const { options, value, multiple, ...remaining } = props
 
         // create options
         const content = options.map((option, id) => ((
@@ -390,10 +390,17 @@ export class SelectField extends Field {
             </option>
         )))
 
+        // case for select of type multiple
+        let classNameMultiple = ""
+        if (multiple) {
+            classNameMultiple = "multiple "
+        }
+
         return (
-            <div className="select">
+            <div className={classNameMultiple + "select"}>
                 <select
                     value={value || ""}
+                    multiple={multiple}
                     {...remaining}
                 >
                     {content}

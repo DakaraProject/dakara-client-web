@@ -250,11 +250,19 @@
         color: @text-dark;
         font-size: medium;
 
-        // fix height which is minimal by default
-        height: @field-height;
-
         // use pointer cursor
         cursor: pointer;
+
+        // fix height which is minimal by default
+        &:not([multiple]) {
+            height: @field-height;
+        }
+
+        // height for select of type multiple
+        &[multiple] {
+            min-height: @field-height;
+        }
+
     }
 
     // set custom triangle marker
@@ -274,11 +282,18 @@
             text-overflow: '';
 
             // add space for marker
-            padding-right: @field-height;
+            &:not([multiple]) {
+                padding-right: @field-height;
+            }
+
+            &[multiple] {
+                padding: @gap-horizontal;
+            }
+
         }
 
         // create the marker
-        &::after {
+        &:not(.multiple)::after {
             // attached to the top right
             position: absolute;
             top: 0;
