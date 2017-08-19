@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FormBlock, InputField, SelectField } from '../components/Form.js'
+import { FormBlock, InputField, SelectField, CheckboxField } from '../components/Form.js'
 
 
 export default class UserEdit extends Component {
@@ -36,6 +36,12 @@ export default class UserEdit extends Component {
                             id="password"
                             type="password"
                             label="Password"
+                        />
+                        <CheckboxField
+                            id="is_superuser"
+                            label="Superuser"
+                            defaultValue={user.is_superuser}
+                            disabled
                         />
                         <SelectField
                             id="users_permission_level"
