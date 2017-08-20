@@ -58,6 +58,16 @@ export default class UserEdit extends Component {
                             type="password"
                             label="Password"
                         />
+                        <InputField
+                            id="confirm_password"
+                            type="password"
+                            label="Confirm password"
+                            validate={(value, values) => {
+                                if (values.password != value) {
+                                    return ["This field should match password field."]
+                                }
+                            }}
+                        />
                         <CheckboxField
                             id="is_superuser"
                             label="Superuser"
