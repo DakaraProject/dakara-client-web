@@ -428,7 +428,7 @@ export const login  = (username, password) => ({
  */
 export const updatePassword = (userId, oldPassword, newPassword) => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}users/${userId}/`,
+            endpoint: `${baseUrl}users/${userId}/password/`,
             method: 'PUT',
             json: {
                 old_password: oldPassword,
