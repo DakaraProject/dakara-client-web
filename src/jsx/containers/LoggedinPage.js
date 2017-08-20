@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
-import { loadCurrentUser } from '../actions'
 
 class LoggedinPage extends Component {
     redirect = () => {
@@ -19,8 +18,6 @@ class LoggedinPage extends Component {
             this.redirect()
             return
         }
-
-        this.props.loadCurrentUser()
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -51,7 +48,6 @@ const mapStateToProps = (state) => ({
 
 LoggedinPage = connect(
     mapStateToProps,
-    { loadCurrentUser }
 )(LoggedinPage)
 
 export default LoggedinPage
