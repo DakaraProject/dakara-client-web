@@ -33,6 +33,7 @@ class Users extends Component {
 
             return (
                 <UsersEntry
+                    key={user.id}
                     user={user}
                     notification={notification}
                     deleteUser={deleteUser}

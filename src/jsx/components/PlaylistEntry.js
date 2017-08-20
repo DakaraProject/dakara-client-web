@@ -5,8 +5,21 @@ import utils from '../utils'
 import SongDisplay from './LibraryEntrySongDisplay'
 import UserWidget from '../containers/UserWidget'
 import { IsPlaylistManagerOrOwner } from '../containers/PlaylistPermissions'
+import ConfirmationBar from './ConfirmationBar'
 
 export default class PlaylistEntry extends Component {
+    state = {
+        confirmDisplayed: false
+    }
+
+    displayConfirm = () => {
+        this.setState({confirmDisplayed: true})
+    }
+
+    clearConfirm = () => {
+        this.setState({confirmDisplayed: false})
+    }
+
     handleSearch = () => {
         const song = this.props.entry.song
         const newSearch = "title:\"\"" + song.title + "\"\""
@@ -21,6 +34,7 @@ export default class PlaylistEntry extends Component {
     render() {
         let message
         let className = "playlist-entry listing-entry library-entry library-entry-song hoverizable"
+
         if(this.props.notification){
             message = <div className="notified">
                         <div className={"notification message " + this.props.notification.type}>
@@ -29,6 +43,16 @@ export default class PlaylistEntry extends Component {
                       </div>
 
             className += " delayed"
+        }
+
+        let confirmation
+        if (this.state.confirmDisplayed) {
+            confirmation = (
+                <ConfirmationBar
+                    onConfirm={() => {this.props.removeEntry(this.props.entry.id)}}
+                    onCancel={this.clearConfirm}
+                />
+            )
         }
 
         return (
@@ -54,7 +78,7 @@ export default class PlaylistEntry extends Component {
                         <IsPlaylistManagerOrOwner object={this.props.entry} disable>
                             <button
                                 className="control warning"
-                                onClick={() => this.props.removeEntry(this.props.entry.id)}
+                                onClick={this.displayConfirm}
                             >
                                 <span className="icon">
                                     <i className="fa fa-times"></i>
@@ -67,6 +91,7 @@ export default class PlaylistEntry extends Component {
                         transitionEnterTimeout={300}
                         transitionLeaveTimeout={150}
                     >
+                        {confirmation}
                         {message}
                     </ReactCSSTransitionGroup>
                 </div>

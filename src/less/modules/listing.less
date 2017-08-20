@@ -93,6 +93,12 @@
         // manage controls
         .controls {
             .make-controls(@listing-entry-height, @listing-entry-control-font-size);
+
+            // in listings, controls are close one to other with no space
+            // inbetween
+            .control {
+                margin: 0;
+            }
         }
 
         // notification
@@ -120,10 +126,6 @@ table.listing {
 
         // default is 1px, but no idea for the reason why
         padding: 0;
-
-        .control {
-            margin: 0;
-        }
     }
 
     // remove default bold
