@@ -1,11 +1,32 @@
 import React, { Component } from 'react'
 import { FormBlock, InputField, SelectField, CheckboxField } from '../components/Form.js'
+import { browserHistory } from 'react-router'
+import { BasePermission } from '../containers/BasePermission'
+import { IsUserManager, IsNotSelf } from '../containers/UsersPermissions'
 
 
 export default class UserEdit extends Component {
 
     componentWillMount() {
+        const { authenticatedUser } = this.props
         const userId = this.props.params.userId
+        const fakeUser = {id: userId}
+
+        // check if the current user can disply the page
+        if (!(BasePermission.hasPermission(authenticatedUser, fakeUser, IsUserManager) &&
+                BasePermission.hasPermission(authenticatedUser, fakeUser, IsNotSelf))) {
+
+            const { pathname, search } = this.props.location
+            browserHistory.push({
+                pathname: "/403",
+                query: {
+                    from: pathname + search
+                }
+            })
+
+            return
+        }
+
         this.props.getUser(userId)
     }
 

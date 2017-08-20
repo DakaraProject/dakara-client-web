@@ -4,6 +4,7 @@ import { getUser, clearUser, updateUser, clearForm } from '../actions'
 
 const mapStateToProps = (state) => ({
     user: state.users.userEdit,
+    authenticatedUser: state.authenticatedUsers
 })
 
 const UserEditPage = connect(

@@ -52,7 +52,6 @@ ReactDOM.render(
                     <Route path="users" component={UsersPage}/>
                     <Route path="users/:userId" component={UserEditPage}/>
                     <Route path="403" component={Forbidden}/>
-                    {/* <Route path="404" component={NotFound}/> */}
                 </Route>
                 <Route path="login" component={LoginForm}/>
                 <Route path="logout" component={LogoutPage}/>
