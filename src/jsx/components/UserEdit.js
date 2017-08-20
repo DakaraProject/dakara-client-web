@@ -17,7 +17,7 @@ export default class UserEdit extends Component {
                 BasePermission.hasPermission(authenticatedUser, fakeUser, IsNotSelf))) {
 
             const { pathname, search } = this.props.location
-            browserHistory.push({
+            browserHistory.replace({
                 pathname: "/403",
                 query: {
                     from: pathname + search
