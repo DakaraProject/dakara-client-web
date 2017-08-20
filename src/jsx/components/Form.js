@@ -35,16 +35,20 @@ class FormBlock extends Component {
         }
     }
 
-    componentWillMount() {
+    setDefaultFormValues = () => {
         const { formValues } = this.state
         const newFormValues = {}
 
         React.Children.map(this.props.children, field => {
-            // only undefined values are replaced to null
+            // only undefined values are replaced to the default value of the
+            // component
             // this avoids corrupting falsy values such as false or 0
-            // newFormValues[field.props.id] = field.props.defaultValue || ""
-            newFormValues[field.props.id] = ('defaultValue' in field.props) ?
-                field.props.defaultValue : null
+            if (field.props.defaultValue === undefined ||
+                field.props.defaultValue == null) {
+                    newFormValues[field.props.id] = field.type.getDefaultValue()
+            } else {
+                    newFormValues[field.props.id] = field.props.defaultValue
+            }
         })
 
         this.setState({
@@ -53,6 +57,10 @@ class FormBlock extends Component {
                 ...newFormValues
             }
         })
+    }
+
+    componentWillMount() {
+        this.setDefaultFormValues()
     }
 
     componentDidUpdate(prevProps) {
@@ -67,11 +75,8 @@ class FormBlock extends Component {
         // If there is a success notification
         if (response && response.global && response.global.type == 'success') {
             // and there was no response, or a different notification before
-            if ( !prevResponse ||
-                    response.global != prevResponse.global) {
-                this.setState( {
-                    formValues: {}
-                })
+            if (!prevResponse || response.global != prevResponse.global) {
+                this.setDefaultFormValues()
             }
         }
     }
@@ -253,6 +258,10 @@ export { FormBlock }
  */
 class Field extends Component {
 
+    static getDefaultValue() {
+        return ""
+    }
+
     subRender = (props) => (null)
 
     render() {
@@ -283,7 +292,7 @@ class Field extends Component {
         // props to pass to the field tag
         let propsValue = value
         if (propsValue === undefined) {
-            propsValue = null
+            propsValue = this.constructor.getDefaultValue()
         }
         const props = {
             id,
@@ -345,16 +354,11 @@ class Field extends Component {
  * Extra properties are passed to the input tag.
  */
 export class InputField extends Field {
-    subRender = (props) => {
-        const { value, ...remaining } = props
-        const inputValue = value || ""
-        return (
-            <input
-                value={inputValue}
-                {...remaining}
-            />
-        )
-    }
+    subRender = (props) => (
+        <input
+            {...props}
+        />
+    )
 }
 
 /**
@@ -382,11 +386,12 @@ export class InputField extends Field {
  * Validation modifiers:
  * - required <bool>: When true, field can not be empty.
  *
+                    value={value || ""}
  * Extra properties are passed to the select tag.
  */
 export class SelectField extends Field {
     subRender = (props) => {
-        const { options, value, multiple, ...remaining } = props
+        const { options, multiple, ...remaining } = props
 
         // create options
         const content = options.map((option, id) => ((
@@ -407,7 +412,6 @@ export class SelectField extends Field {
         return (
             <div className={classNameMultiple + "select"}>
                 <select
-                    value={value || ""}
                     multiple={multiple}
                     {...remaining}
                 >
@@ -444,6 +448,10 @@ export class SelectField extends Field {
  * Extra properties are passed to the input tag.
  */
 export class CheckboxField extends Field {
+    static getDefaultValue() {
+        return false
+    }
+
     subRender = (props) => {
         const { value, onChange, ...remaining } = props
         const { id, setValue } = this.props
