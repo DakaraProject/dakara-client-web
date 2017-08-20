@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import { Link } from 'react-router'
 import { FormBlock, InputField } from '../components/Form'
 import Paginator from './Paginator'
-import { permissionLevels } from './User'
-import { IsUserManager, IsNotSelf } from '../containers/UsersPermissions'
-import ControlLink from './ControlLink'
+import { IsUserManager } from '../containers/UsersPermissions'
+import UsersEntry from './UsersEntry'
 
 class Users extends Component {
     componentWillUnmount() {
@@ -31,60 +28,15 @@ class Users extends Component {
         const { createUser, deleteUser, entries, notifications, location } = this.props
         const { current, last } = entries.data
 
-        const userList = entries.data.results.map((entry) => {
-            let message
-            let notification = notifications[entry.id]
-            if (notification) {
-                message = <div className="notified">
-                            <div className={"notification message " + notification.type}>
-                                {notification.message}
-                            </div>
-                          </div>
-            }
+        const userList = entries.data.results.map((user) => {
+            let notification = notifications[user.id]
 
             return (
-                <tr className="listing-entry user-listing-entry hoverizable" key={entry.id}>
-                    <td className="username">{entry.username}</td>
-                    <td className="permission superuser">{entry.is_superuser ? "✓" : null}</td>
-                    <td className="permission">{permissionLevels[entry.users_permission_level]}</td>
-                    <td className="permission">{permissionLevels[entry.library_permission_level]}</td>
-                    <td className="permission">{permissionLevels[entry.playlist_permission_level]}</td>
-                    <td className="controls-col">
-                        <IsUserManager>
-                            <div className="controls">
-                                <IsNotSelf
-                                    object={entry}
-                                    disable
-                                >
-                                    <ControlLink
-                                        to={"/users/" + entry.id}
-                                        className="control info"
-                                    >
-                                        <i className="fa fa-pencil"></i>
-                                    </ControlLink>
-                                </IsNotSelf>
-                                <IsNotSelf
-                                    object={entry}
-                                    disable
-                                >
-                                    <button
-                                        className="control danger"
-                                        onClick={e => {deleteUser(entry.id)}}
-                                    >
-                                        <i className="fa fa-trash"></i>
-                                    </button>
-                                </IsNotSelf>
-                            </div>
-                        </IsUserManager>
-                        <ReactCSSTransitionGroup
-                            transitionName="notified"
-                            transitionEnterTimeout={300}
-                            transitionLeaveTimeout={150}
-                        >
-                            {message}
-                        </ReactCSSTransitionGroup>
-                    </td>
-                </tr>
+                <UsersEntry
+                    user={user}
+                    notification={notification}
+                    deleteUser={deleteUser}
+                />
             )
         })
 
