@@ -7,16 +7,20 @@
 
 #user {
     background: darken(@black-80, 5%);
-    padding-bottom: @gap-vertical;
 
     > .header {
+        display: flex;
+        justify-content: space-between;
         padding: @gap-vertical 0;
         background: @brand-primary-darker;
         color: @brand-primary-light;
 
+        .permissions {
+            text-align: right;
+        }
     }
 
-    > .permissions {
-        padding: @gap-vertical * 0.5;
+    .form {
+        padding: @gap-vertical 0;
     }
 }

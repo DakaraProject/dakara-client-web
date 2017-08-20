@@ -19,28 +19,28 @@ class User extends Component {
         // superuser
         if (user.is_superuser) {
             permissions.push((
-                <p>You are super user.</p>
+                <p key="superuser">You are super user.</p>
             ))
         }
 
         // users permission
         if (user.users_permission_level) {
             permissions.push((
-                <p>You are users {permissionLevels[user.users_permission_level]}.</p>
+                <p key="users">You are users {permissionLevels[user.users_permission_level]}.</p>
             ))
         }
 
         // library permission
         if (user.library_permission_level) {
             permissions.push((
-                <p>You are library {permissionLevels[user.library_permission_level]}.</p>
+                <p key="library">You are library {permissionLevels[user.library_permission_level]}.</p>
             ))
         }
 
         // playlist permission
         if (user.playlist_permission_level) {
             permissions.push((
-                <p>You are playlist {permissionLevels[user.playlist_permission_level]}.</p>
+                <p key="playlist">You are playlist {permissionLevels[user.playlist_permission_level]}.</p>
             ))
         }
 
@@ -48,9 +48,9 @@ class User extends Component {
             <div className="box" id="user">
                 <div className="header">
                     <h1>{user.username}</h1>
-                </div>
-                <div className="permissions">
-                    {permissions}
+                    <div className="permissions">
+                        {permissions}
+                    </div>
                 </div>
                 <FormBlock
                     title="Change password"
