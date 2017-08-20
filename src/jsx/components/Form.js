@@ -189,6 +189,7 @@ class FormBlock extends Component {
                     }
                 }}
                 className="form block"
+                noValidate
             >
                 <div className="header notifiable">
                     <h2>{title}</h2>
