@@ -5,6 +5,7 @@ import { FormBlock, InputField } from '../components/Form'
 import Paginator from './Paginator'
 import { permissionLevels } from './User'
 import { IsUserManager, IsNotSelf } from '../containers/UsersPermissions'
+import ControlLink from './ControlLink'
 
 class Users extends Component {
     componentWillUnmount() {
@@ -55,12 +56,12 @@ class Users extends Component {
                                     object={entry}
                                     disable
                                 >
-                                    <Link
+                                    <ControlLink
                                         to={"/users/" + entry.id}
                                         className="control info"
                                     >
                                         <i className="fa fa-pencil"></i>
-                                    </Link>
+                                    </ControlLink>
                                 </IsNotSelf>
                                 <IsNotSelf
                                     object={entry}
