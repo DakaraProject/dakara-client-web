@@ -31,7 +31,7 @@ export default class SongPreviewDetails extends Component {
             if (this.props.query != undefined) {
                 displayArtist = (artist, query) => (
                         <Highlighter
-                            searchWords={query.artists.concat(
+                            searchWords={query.artist.contains.concat(
                                     query.remaining
                                     )}
                             textToHighlight={artist.name}

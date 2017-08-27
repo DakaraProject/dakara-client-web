@@ -17,7 +17,7 @@ export default class SongPreview extends Component {
             title = (
                         <Highlighter
                             className="title"
-                            searchWords={this.props.query.titles.concat(
+                            searchWords={this.props.query.title.contains.concat(
                                     this.props.query.remaining
                                     )}
                             textToHighlight={song.title}
