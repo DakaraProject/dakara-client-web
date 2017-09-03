@@ -366,7 +366,7 @@ export const loadCurrentUser = () => ({
 })
 
 /**
- * Form notifications
+ * Forms
  */
 
 export const FORM_REQUEST = 'FORM_REQUEST'
@@ -374,6 +374,34 @@ export const FORM_SUCCESS = 'FORM_SUCCESS'
 export const FORM_FAILURE = 'FORM_FAILURE'
 export const FORM_CLEAR = 'FORM_CLEAR'
 export const FORM_SET_VALIDATION_ERRORS = 'FORM_SET_VALIDATION_ERRORS'
+
+/**
+ * Generic form submit
+ * @param 
+ */
+export const submitForm = (formName, endpoint, method, json, successMessage) => {
+    const filteredJson = {}
+    for(const key in json) {
+        const value = json[key]
+        filteredJson[key] = value || null
+    }
+
+    return {
+        [FETCH_API]: {
+                endpoint: baseUrl + endpoint,
+                method,
+                json: filteredJson,
+                types: [
+                    FORM_REQUEST,
+                    FORM_SUCCESS,
+                    FORM_FAILURE,
+                ],
+                onSuccess: successMessage? delay(clearForm(formName), 3000) : null
+            },
+        formName,
+        successMessage
+    }
+}
 
 /** Clear form notifications and errors
  * @param formName name of the form
@@ -396,87 +424,6 @@ export const setFormValidationErrors = (formName, global, fields) => ({
         ...fields
     }
 })
-
-/**
- * Login
- */
-
-/**
- * Login user to the server
- * @param username username
- * @param password password
- */
-export const login  = (username, password) => ({
-    [FETCH_API]: {
-            endpoint: `${baseUrl}token-auth/`,
-            method: 'POST',
-            json: {username, password},
-            types: [FORM_REQUEST, FORM_SUCCESS, FORM_FAILURE]
-        },
-    formName: 'login',
-    successMessage: null
-})
-
-
-/**
- * Update user password
- */
-
-/**
- * Request to update user password
- * @param songId ID of the song to add
- */
-export const updatePassword = (userId, oldPassword, newPassword) => ({
-    [FETCH_API]: {
-            endpoint: `${baseUrl}users/${userId}/password/`,
-            method: 'PUT',
-            json: {
-                old_password: oldPassword,
-                password: newPassword
-            },
-            types: [
-                FORM_REQUEST,
-                FORM_SUCCESS,
-                FORM_FAILURE,
-            ],
-            onSuccess: delay(clearForm('updatePassword'),3000)
-        },
-    formName: 'updatePassword',
-    successMessage: "Password sucessfully updated!"
-})
-
-
-/**
- * Create user
- */
-
-/**
- * Request to create new user
- * @param username username
- * @param password password
- */
-export const createUser = (username, password) => ({
-    [FETCH_API]: {
-            endpoint: `${baseUrl}users/`,
-            method: 'POST',
-            json: {
-                username,
-                password
-            },
-            types: [
-                FORM_REQUEST,
-                FORM_SUCCESS,
-                FORM_FAILURE,
-            ],
-            onSuccess: [
-                refreshUsers,
-                delay(clearForm('createUser'),3000)
-            ]
-        },
-    formName: 'createUser',
-    successMessage: "User sucessfully created!"
-})
-
 
 /**
  * Get user list
@@ -577,54 +524,4 @@ export const getUser = (userId) => ({
 export const clearUser = () => ({
     type: USER_CLEAR
 })
-
-/**
- * Update user
- */
-
-/**
- * Request to update user
- * @param userId Id of user to edit
- * @param values object containing :
- *      - password
- *      - users_permission_level
- *      - library_permission_level
- *      - playlist_permission_level
- */
-export const updateUser = (userId, values) => {
-    const {
-        password,
-        users_permission_level,
-        library_permission_level,
-        playlist_permission_level
-    } = values
-
-    const json = {
-        users_permission_level: users_permission_level || null,
-        library_permission_level: library_permission_level || null,
-        playlist_permission_level: playlist_permission_level || null
-    }
-
-    if (password) {
-        json.password = password
-    }
-
-    return {
-        [FETCH_API]: {
-                endpoint: `${baseUrl}users/${userId}/`,
-                method: 'PATCH',
-                json,
-                types: [
-                    FORM_REQUEST,
-                    FORM_SUCCESS,
-                    FORM_FAILURE,
-                ],
-                onSuccess: [
-                    delay(clearForm('updateUser'),3000)
-                ]
-            },
-        formName: 'updateUser',
-        successMessage: "User sucessfully updated!"
-    }
-}
 

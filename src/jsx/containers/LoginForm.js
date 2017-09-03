@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux'
-import { login } from '../actions'
 import { FormBlock, InputField } from '../components/Form.js'
 
 class LoginForm extends Component {
@@ -33,9 +32,7 @@ class LoginForm extends Component {
         return (
             <div id="login" className="box">
                 <FormBlock
-                    onSubmit={values => {
-                        login(values.username, values.password)
-                    }}
+                    action="token-auth/"
                     title="Login"
                     submitText="Login"
                     formName="login"
@@ -73,7 +70,6 @@ const mapStateToProps = (state) => ({
 
 LoginForm = connect(
     mapStateToProps,
-    { login }
 )(LoginForm)
 
 export default LoginForm

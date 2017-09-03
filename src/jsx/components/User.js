@@ -8,12 +8,9 @@ export const permissionLevels = {
 }
 
 class User extends Component {
-    componentWillUnmount() {
-        this.props.clearForm('updatePassword')
-    }
 
     render() {
-        const { user, updatePassword } = this.props
+        const { user } = this.props
         let permissions = []
 
         // superuser
@@ -57,8 +54,11 @@ class User extends Component {
                     onSubmit={values => {
                         updatePassword(user.id, values.old_password, values.password)
                     }}
+                    action={"users/" + user.id + "/password/"}
+                    method="PUT"
                     submitText="Change password"
                     formName="updatePassword"
+                    successMessage="Password sucessfully updated!"
                 >
                     <InputField
                         id="old_password"

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import Users from '../components/Users'
-import { createUser, deleteUser, clearForm, getUsers } from '../actions'
+import { deleteUser, getUsers } from '../actions'
 
 const mapStateToProps = (state) => ({
     entries: state.users.entries,
@@ -9,7 +9,7 @@ const mapStateToProps = (state) => ({
 
 const UsersPage = connect(
     mapStateToProps,
-    { createUser, deleteUser, clearForm, getUsers }
+    { deleteUser, getUsers }
 )(Users)
 
 export default UsersPage

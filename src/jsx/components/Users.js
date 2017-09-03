@@ -5,10 +5,6 @@ import { IsUserManager } from '../containers/UsersPermissions'
 import UsersEntry from './UsersEntry'
 
 class Users extends Component {
-    componentWillUnmount() {
-        this.props.clearForm('createUser')
-    }
-
     componentWillMount() {
         this.refreshEntries()
     }
@@ -25,7 +21,7 @@ class Users extends Component {
     }
 
     render() {
-        const { createUser, deleteUser, entries, notifications, location } = this.props
+        const {deleteUser, entries, notifications, location } = this.props
         const { current, last } = entries.data
 
         const userList = entries.data.results.map((user) => {
@@ -73,11 +69,10 @@ class Users extends Component {
                 <IsUserManager>
                     <FormBlock
                         title="Create user"
-                        onSubmit={formValues => {
-                            createUser(formValues.username, formValues.password)
-                        }}
                         submitText="Create"
                         formName="createUser"
+                        action="users/"
+                        successMessage="User sucessfully created!"
                     >
                         <InputField
                             id="username"

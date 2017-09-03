@@ -32,11 +32,10 @@ export default class UserEdit extends Component {
 
     componentWillUnmount() {
         this.props.clearUser()
-        this.props.clearForm('updateUser')
     }
 
     render() {
-        const { location, updateUser, user } = this.props
+        const { location, user } = this.props
 
         if (!user) {
             return null
@@ -46,11 +45,11 @@ export default class UserEdit extends Component {
                 <div className="box" id="user-edit">
                     <FormBlock
                         title={"Edit user " + user.username}
-                        onSubmit={values => {
-                            updateUser(user.id, values)
-                        }}
+                        action={"users/" + user.id + "/"}
+                        method="PATCH"
                         submitText="Edit"
                         formName="updateUser"
+                        successMessage="User sucessfully updated!"
                         noClearOnSuccess
                     >
                         <InputField

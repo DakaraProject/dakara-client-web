@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import { setFormValidationErrors } from '../actions'
+import { setFormValidationErrors, submitForm, clearForm } from '../actions'
 
 
 /**
@@ -10,12 +10,15 @@ import { setFormValidationErrors } from '../actions'
  *
  * Required properties:
  * - title <str>: Name to display in the form header.
- * - onSubmit <func>: Called on submit when validation pass,
- *                      with object containing form values as argument.
  * - formName <str>: Unique form identifier.
+ * - action <str>: url to submit form to, relative to base url
  *
  * Optional properties:
+ * - method <str>: Method used to submit form, default to 'POST'
  * - submitText <str>: Submit button text, default: "Submit"
+ * - successMessage <str>: Message to display when form submit suceed,
+ *                          if none is specified, no messsage is displayed.
+ * - excludedFields [<str>]: Fields specified in array will not be sent 
  * - validate <func>: Called on submit, with object containing form values.
  *                      When validation fails,
  *                      Should return an array of validation error message.
@@ -62,6 +65,12 @@ class FormBlock extends Component {
     componentWillMount() {
         this.setDefaultFormValues()
     }
+
+    componentWillUnmount() {
+        // Clear form messages
+        this.props.clearForm(this.props.formName)
+    }
+
 
     componentDidUpdate(prevProps) {
         const { formName, formsResponse, noClearOnSuccess } = this.props
@@ -143,9 +152,18 @@ class FormBlock extends Component {
         return true
     }
 
+    /**
+     * Method called when form is submited and validatio has passed
+     */
+    submit = () => {
+        const {formName, action, method, successMessage, excludedFields, submitForm} = this.props
+        const { formValues } = this.state
+        submitForm(formName, action, method || 'POST', formValues, successMessage)
+    }
+
 
     render() {
-        const {title, onSubmit, submitText, formName, formsResponse, children} = this.props
+        const {title, submitText, formName, formsResponse, children} = this.props
         const response = formsResponse[formName]
 
         const { formValues } = this.state
@@ -190,7 +208,7 @@ class FormBlock extends Component {
                 onSubmit={e => {
                     e.preventDefault()
                     if(this.validate()) {
-                        onSubmit(formValues)
+                        this.submit()
                     }
                 }}
                 className="form block"
@@ -225,7 +243,11 @@ const mapStateToProps = (state) => ({
 
 FormBlock = connect(
     mapStateToProps,
-    { setFormValidationErrors }
+    {
+        setFormValidationErrors,
+        submitForm,
+        clearForm
+    }
 )(FormBlock)
 
 export { FormBlock }
