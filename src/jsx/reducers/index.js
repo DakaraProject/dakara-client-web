@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
 import library from './library'
 import token from './token'
-import loginPage from './loginPage'
 import player from './player'
+import authenticatedUsers from './authenticatedUsers'
+import users from './users'
+import forms from './forms'
 
 /**
  * Root reducer
@@ -11,8 +13,10 @@ import player from './player'
 const rootReducer = combineReducers({
     token,
     library,
-    loginPage,
-    player
+    player,
+    users,
+    authenticatedUsers,
+    forms
 })
 
 export default rootReducer

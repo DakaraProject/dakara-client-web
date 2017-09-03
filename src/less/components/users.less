@@ -1,0 +1,47 @@
+//
+// Dakara Project
+//
+// Users management page style file
+//
+
+#users {
+    background: darken(@black-80, 5%);
+
+    > .header {
+        padding: @gap-vertical 0;
+        background: @brand-primary-darker;
+        color: @brand-primary-light;
+    }
+
+    .users-listing-container {
+        min-height: 11 * @listing-entry-height;
+
+        .users-listing {
+            .user-listing-entry {
+                height: @listing-entry-height;
+            }
+
+            .username {
+                padding-left: @gap-horizontal;
+                text-align: left;
+            }
+
+            .permission {
+                text-align: center;
+            }
+
+            .superuser {
+                font-size: 1.5em;
+            }
+        }
+    }
+
+    .navigator {
+        background: @brand-primary-darker;
+        color: @brand-primary-light;
+    }
+
+    .form {
+        padding: @gap-vertical 0;
+    }
+}

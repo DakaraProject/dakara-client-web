@@ -1,3 +1,4 @@
+import { LOGOUT } from '../actions'
 export const FETCH_API = "FETCH_API"
 
 /**
@@ -121,6 +122,12 @@ export default ({getState, dispatch}) => next => action => {
                 error
             })
             processAction(onFailure, newAction)
+
+            if (error.detail == "Invalid token.") {
+                // Token expired on server, logout
+                dispatch({type: LOGOUT})
+            }
+
             return next(newAction)
         })
 

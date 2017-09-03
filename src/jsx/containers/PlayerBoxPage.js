@@ -10,7 +10,9 @@ class PlayerBoxPage extends Component {
      * Displays nothing when not loggedIn
      */
     render() {
-        if (!this.props.isLoggedIn) {
+        // Only render when we're logged in and
+        // We got current user info
+        if (!(this.props.isLoggedIn && this.props.hasUserInfo)) {
             return null
         }
 
@@ -25,6 +27,7 @@ class PlayerBoxPage extends Component {
 
 const mapStateToProps = (state) => ({
     isLoggedIn: !!state.token,
+    hasUserInfo: !!state.authenticatedUsers
 })
 
 PlayerBoxPage = connect(

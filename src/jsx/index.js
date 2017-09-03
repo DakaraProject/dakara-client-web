@@ -1,16 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route, Redirect, IndexRedirect, browserHistory } from 'react-router'
-import Main from './components/Main'
+import Main from './containers/Main'
 import LoggedinPage from './containers/LoggedinPage'
 import LoginForm from './containers/LoginForm'
 import LogoutPage from './containers/LogoutPage'
-import User from './components/User'
+import UserPage from './containers/UserPage'
+import UserEditPage from './containers/UserEditPage'
+import UsersPage from './containers/UsersPage'
 import LibraryPage from './containers/LibraryPage'
 import LibraryListSongPage from './containers/LibraryListSongPage'
 import LibraryListArtistPage from './containers/LibraryListArtistPage'
 import LibraryListWorkPage from './containers/LibraryListWorkPage'
 import NotFound from './components/NotFound'
+import Forbidden from './components/Forbidden'
 import NotFoundRedirector from './components/NotFoundRedirector'
 import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
@@ -45,7 +48,10 @@ ReactDOM.render(
                         <Route path="artist" component={LibraryListArtistPage}/>
                         <Route path=":workType" component={LibraryListWorkPage}/>
                     </Route>
-                    <Route path="user" component={User}/>
+                    <Route path="user" component={UserPage}/>
+                    <Route path="users" component={UsersPage}/>
+                    <Route path="users/:userId" component={UserEditPage}/>
+                    <Route path="403" component={Forbidden}/>
                 </Route>
                 <Route path="login" component={LoginForm}/>
                 <Route path="logout" component={LogoutPage}/>

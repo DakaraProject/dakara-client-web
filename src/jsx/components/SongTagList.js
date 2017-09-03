@@ -23,7 +23,7 @@ export default class SongTagList extends Component {
         const tagList = tags.map( tag => {
             // Grey out tag when searching a tag other than this
             let classDisabled = ""
-            if (query && query.tags.length && query.tags.indexOf(tag.name) == -1) {
+            if (query && query.tag.length && query.tag.indexOf(tag.name) == -1) {
                 classDisabled = " disabled"
             }
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { browserHistory } from 'react-router';
+import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 
 class LoggedinPage extends Component {
@@ -16,6 +16,7 @@ class LoggedinPage extends Component {
     componentWillMount() {
         if (!this.props.isLoggedIn) {
             this.redirect()
+            return
         }
     }
 
@@ -26,7 +27,9 @@ class LoggedinPage extends Component {
     }
 
     render() {
-        if (!this.props.isLoggedIn) {
+        // Only render when we're logged in and
+        // We got current user info
+        if (!(this.props.isLoggedIn && this.props.hasUserInfo)) {
             return null
         }
 
@@ -39,11 +42,12 @@ class LoggedinPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    isLoggedIn: !!state.token
+    isLoggedIn: !!state.token,
+    hasUserInfo: !!state.authenticatedUsers
 })
 
 LoggedinPage = connect(
-    mapStateToProps
+    mapStateToProps,
 )(LoggedinPage)
 
 export default LoggedinPage

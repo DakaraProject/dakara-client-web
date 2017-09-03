@@ -4,6 +4,8 @@ import { browserHistory } from 'react-router'
 import utils from '../utils'
 import LibraryEntrySongDisplay from './LibraryEntrySongDisplay'
 import LibraryEntrySongExpanded from './LibraryEntrySongExpanded'
+import UserWidget from '../containers/UserWidget'
+import { IsPlaylistUser } from '../containers/PlaylistPermissions'
 
 export default class LibraryEntrySong extends Component {
     /**
@@ -22,7 +24,7 @@ export default class LibraryEntrySong extends Component {
     }
 
     render() {
-        const { location, song, query, isPlaying, timeOfPlay } = this.props
+        const { location, song, query, playlistInfo } = this.props
         const expanded = location.query.expanded == song.id
 
         /**
@@ -45,24 +47,37 @@ export default class LibraryEntrySong extends Component {
          * Box displaying time of play or currently playing status
          */
 
-        let playlistInfo
-        if (isPlaying) {
-            playlistInfo = (
-                <div className="playing" key="playing">
-                    <span className="icon">
-                        <i className="fa fa-play"></i>
-                    </span>
-                </div>
-            )
-        } else if (timeOfPlay) {
-            playlistInfo = (
-                <div className="queueing" key="queueing">
-                    <span className="icon">
-                        <i className="fa fa-clock-o"></i>
-                    </span>
-                    {utils.formatHourTime(this.props.timeOfPlay)}
-                </div>
-            )
+        let playlistInfoDiv
+        if (playlistInfo) {
+            let playQueueInfo
+            if (playlistInfo.isPlaying) {
+                playQueueInfo = (
+                    <div className="playing">
+                        <span className="icon">
+                            <i className="fa fa-play"></i>
+                        </span>
+                    </div>
+                )
+            } else {
+                playQueueInfo = (
+                    <div className="queueing">
+                        <span className="icon">
+                            <i className="fa fa-clock-o"></i>
+                        </span>
+                        {utils.formatHourTime(playlistInfo.timeOfPlay)}
+                    </div>
+                )
+            }
+
+            playlistInfoDiv = (
+                        <div className="playlist-info">
+                            <UserWidget
+                                className="owner"
+                                user={playlistInfo.owner}
+                            />
+                            {playQueueInfo}
+                        </div>
+                    )
         }
 
         /**
@@ -92,25 +107,27 @@ export default class LibraryEntrySong extends Component {
 
                         <ReactCSSTransitionGroup
                             component="div"
-                            className="playlist-info"
+                            className="playlist-info-container"
                             transitionName="playlist-info"
                             transitionEnterTimeout={300}
                             transitionLeaveTimeout={150}
                         >
-                            {playlistInfo}
+                            {playlistInfoDiv}
                         </ReactCSSTransitionGroup>
 
                         <div className="controls" id={"song-" + this.props.song.id}>
-                            <button
-                                className="control primary"
-                                onClick={() => {
-                                    this.props.addSongToPlaylist(this.props.song.id)
-                                }}
-                            >
-                                <span className="icon">
-                                    <i className="fa fa-plus"></i>
-                                </span>
-                            </button>
+                            <IsPlaylistUser>
+                                <button
+                                    className="control primary"
+                                    onClick={() => {
+                                        this.props.addSongToPlaylist(this.props.song.id)
+                                    }}
+                                >
+                                    <span className="icon">
+                                        <i className="fa fa-plus"></i>
+                                    </span>
+                                </button>
+                            </IsPlaylistUser>
                         </div>
 
                         <ReactCSSTransitionGroup

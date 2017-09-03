@@ -51,28 +51,6 @@ export const loadLibraryEntries = (libraryType = "songs", { workType, query, pag
 
 
 /**
- * Login
- */
-
-export const LOGIN_REQUEST = 'LOGIN_REQUEST'
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-export const LOGIN_FAILURE = 'LOGIN_FAILURE'
-
-/**
- * Login user to the server
- * @param username username
- * @param password password
- */
-export const login  = (username, password) => ({
-    [FETCH_API]: {
-            endpoint: `${baseUrl}token-auth/`,
-            method: 'POST',
-            json: {username, password},
-            types: [LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE]
-        }
-})
-
-/**
  * Token
  */
 
@@ -197,7 +175,10 @@ export const removeEntryFromPlaylist = (entryId) => ({
                 REMOVE_PLAYLIST_ENTRY_SUCCESS,
                 REMOVE_PLAYLIST_ENTRY_FAILURE,
             ],
-            onSuccess: loadPlaylist(),
+            onSuccess: [
+                loadPlaylist(),
+                delay(clearPlaylistEntryNotification(entryId), 3000)
+            ],
             onFailure: delay(clearPlaylistEntryNotification(entryId), 5000)
         },
     entryId
@@ -334,7 +315,7 @@ export const sendPlayerCommands = (commands) => {
 }
 
 /**
- * Get playlist entries 
+ * Get playlist entries
  */
 
 export const PLAYLIST_REQUEST = 'PLAYLIST_REQUEST'
@@ -364,3 +345,177 @@ export const PLAYLIST_TOOGLE_COLLAPSED = 'PLAYLIST_TOOGLE_COLLAPSED'
 export const toogleCollapsedPlaylist = () => ({
     type: PLAYLIST_TOOGLE_COLLAPSED
 })
+
+/**
+ * Get logged in user info 
+ */
+
+export const CURRENT_USER_REQUEST = 'CURRENT_USER_REQUEST'
+export const CURRENT_USER_SUCCESS = 'CURRENT_USER_SUCCESS'
+export const CURRENT_USER_FAILURE = 'CURRENT_USER_FAILURE'
+
+/**
+ * Request current user info 
+ */
+export const loadCurrentUser = () => ({
+    [FETCH_API]: {
+            endpoint: `${baseUrl}users/current/`,
+            method: 'GET',
+            types: [CURRENT_USER_REQUEST, CURRENT_USER_SUCCESS, CURRENT_USER_FAILURE],
+        }
+})
+
+/**
+ * Forms
+ */
+
+export const FORM_REQUEST = 'FORM_REQUEST'
+export const FORM_SUCCESS = 'FORM_SUCCESS'
+export const FORM_FAILURE = 'FORM_FAILURE'
+export const FORM_CLEAR = 'FORM_CLEAR'
+export const FORM_SET_VALIDATION_ERRORS = 'FORM_SET_VALIDATION_ERRORS'
+
+/**
+ * Generic form submit
+ * @param 
+ */
+export const submitForm = (formName, endpoint, method, json, successMessage) => {
+    return {
+        [FETCH_API]: {
+                endpoint: baseUrl + endpoint,
+                method,
+                json,
+                types: [
+                    FORM_REQUEST,
+                    FORM_SUCCESS,
+                    FORM_FAILURE,
+                ],
+                onSuccess: successMessage? delay(clearForm(formName), 3000) : null
+            },
+        formName,
+        successMessage
+    }
+}
+
+/** Clear form notifications and errors
+ * @param formName name of the form
+ */
+export const clearForm = (formName) => ({
+    type: FORM_CLEAR,
+    formName
+})
+
+/** Set validation errors on a form 
+ * @param formName name of the form
+ * @param global global validation error message
+ * @param fields field level errors for each field
+ */
+export const setFormValidationErrors = (formName, global, fields) => ({
+    type: FORM_SET_VALIDATION_ERRORS,
+    formName,
+    error: {
+        non_field_errors: global,
+        ...fields
+    }
+})
+
+/**
+ * Get user list
+ */
+
+export const USER_LIST_REQUEST = "USER_LIST_REQUEST"
+export const USER_LIST_SUCCESS = "USER_LIST_SUCCESS"
+export const USER_LIST_FAILURE = "USER_LIST_FAILURE"
+
+/**
+ * Action creator to refresh users in the current page
+ */
+const refreshUsers = (dispatch, getState) => {
+    const page = getState().users.entries.data.current
+    return dispatch(getUsers(page))
+}
+
+const refreshUsersDelayed = (dispatch, getState) => {
+    const page = getState().users.entries.data.current
+    return dispatch(delay(getUsers(page), 3000))
+}
+
+/**
+ * Request to retrieve user list
+ * @param page page to display
+ */
+export const getUsers = (page = 1) => ({
+    [FETCH_API]: {
+            endpoint: `${baseUrl}users/?page=${page}`,
+            method: 'GET',
+            types: [USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LIST_FAILURE],
+        }
+})
+
+/**
+ * Delete user
+ */
+
+export const USER_DELETE_REQUEST = "USER_DELETE_REQUEST"
+export const USER_DELETE_SUCCESS = "USER_DELETE_SUCCESS"
+export const USER_DELETE_FAILURE = "USER_DELETE_FAILURE"
+
+/**
+ * Request to delete one user
+ * @param userId ID of user to delete
+ */
+export const deleteUser = (userId) => ({
+    [FETCH_API]: {
+            endpoint: `${baseUrl}users/${userId}/`,
+            method: 'DELETE',
+            types: [USER_DELETE_REQUEST, USER_DELETE_SUCCESS, USER_DELETE_FAILURE],
+        onSuccess: [
+            refreshUsersDelayed,
+            delay(clearUsersEntryNotification(userId), 3000)
+        ],
+        onFailure: delay(clearUsersEntryNotification(userId), 5000)
+        },
+    userId
+})
+
+/**
+ * Clear users entry notification
+ */
+
+export const CLEAR_USERS_ENTRY_NOTIFICATION="CLEAR_USERS_ENTRY_NOTIFICATION"
+
+/**
+ * Clear one nofitication
+ * @param userId line to clear
+ */
+export const clearUsersEntryNotification = (userId) => ({
+    type: CLEAR_USERS_ENTRY_NOTIFICATION,
+    userId
+})
+
+/**
+ * Get one user
+ */
+
+export const USER_GET_REQUEST = "USER_GET_REQUEST"
+export const USER_GET_SUCCESS = "USER_GET_SUCCESS"
+export const USER_GET_FAILURE = "USER_GET_FAILURE"
+export const USER_CLEAR = "USER_CLEAR"
+
+
+/**
+ * Fetch a user
+ * @param userId ID of user to get
+ */
+export const getUser = (userId) => ({
+    [FETCH_API]: {
+            endpoint: `${baseUrl}users/${userId}/`,
+            method: 'GET',
+            types: [USER_GET_REQUEST, USER_GET_SUCCESS, USER_GET_FAILURE],
+        },
+})
+
+export const clearUser = () => ({
+    type: USER_CLEAR
+})
+

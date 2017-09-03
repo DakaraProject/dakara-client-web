@@ -3,8 +3,23 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { browserHistory } from 'react-router'
 import utils from '../utils'
 import SongDisplay from './LibraryEntrySongDisplay'
+import UserWidget from '../containers/UserWidget'
+import { IsPlaylistManagerOrOwner } from '../containers/PlaylistPermissions'
+import ConfirmationBar from './ConfirmationBar'
 
 export default class PlaylistEntry extends Component {
+    state = {
+        confirmDisplayed: false
+    }
+
+    displayConfirm = () => {
+        this.setState({confirmDisplayed: true})
+    }
+
+    clearConfirm = () => {
+        this.setState({confirmDisplayed: false})
+    }
+
     handleSearch = () => {
         const song = this.props.entry.song
         const newSearch = "title:\"\"" + song.title + "\"\""
@@ -19,6 +34,7 @@ export default class PlaylistEntry extends Component {
     render() {
         let message
         let className = "playlist-entry listing-entry library-entry library-entry-song hoverizable"
+
         if(this.props.notification){
             message = <div className="notified">
                         <div className={"notification message " + this.props.notification.type}>
@@ -29,6 +45,16 @@ export default class PlaylistEntry extends Component {
             className += " delayed"
         }
 
+        let confirmation
+        if (this.state.confirmDisplayed) {
+            confirmation = (
+                <ConfirmationBar
+                    onConfirm={() => {this.props.removeEntry(this.props.entry.id)}}
+                    onCancel={this.clearConfirm}
+                />
+            )
+        }
+
         return (
             <li className={className}>
                 <div className="library-entry-song-compact notifiable">
@@ -37,6 +63,10 @@ export default class PlaylistEntry extends Component {
                         handleClick={this.handleSearch}
                     />
                     <div className="playlist-info">
+                        <UserWidget
+                            className="owner"
+                            user={this.props.entry.owner}
+                        />
                         <div className="queueing">
                             <span className="icon">
                                 <i className="fa fa-clock-o"></i>
@@ -45,20 +75,23 @@ export default class PlaylistEntry extends Component {
                         </div>
                     </div>
                     <div className="controls">
-                        <button
-                            className="control warning"
-                            onClick={() => this.props.removeEntry(this.props.entry.id)}
-                        >
-                            <span className="icon">
-                                <i className="fa fa-times"></i>
-                            </span>
-                        </button>
+                        <IsPlaylistManagerOrOwner object={this.props.entry} disable>
+                            <button
+                                className="control warning"
+                                onClick={this.displayConfirm}
+                            >
+                                <span className="icon">
+                                    <i className="fa fa-times"></i>
+                                </span>
+                            </button>
+                        </IsPlaylistManagerOrOwner>
                     </div>
                     <ReactCSSTransitionGroup
                         transitionName="notified"
                         transitionEnterTimeout={300}
                         transitionLeaveTimeout={150}
                     >
+                        {confirmation}
                         {message}
                     </ReactCSSTransitionGroup>
                 </div>

@@ -54,7 +54,12 @@
             .field {
                 display: table-row;
 
-                label {
+                // deactivated field
+                &.disabled {
+                    opacity: 0.33;
+                }
+
+                .label {
                     // this allows to shrink the label 'column' as small as possible
                     display: table-cell;
 
@@ -89,6 +94,31 @@
                 .input {
                     display: table-cell;
                     width: 100%;
+
+                    .notification {
+                        .error {
+                            padding: @gap-vertical * 0.25;
+                        }
+
+                        &.error-enter {
+                            max-height: 0;
+
+                            &.error-enter-active {
+                                max-height: calc(~"1em + " @gap-vertical * 2);
+                                .transition(max-height 300ms ease-out);
+                            }
+                        }
+
+                        // notification transition disappearance
+                        &.error-leave {
+                            max-height: calc(~"1em + " @gap-vertical * 2);
+
+                            &.error-leave-active {
+                                max-height: 0;
+                                .transition(max-height 100ms ease-out);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -159,20 +189,38 @@
     }
 
     // Visual aspect of the inputs and faked inputs
-    input, textarea, .input.fake {
+    input, textarea, select, .fake {
         padding: 0 @gap-horizontal;
-        width: 100%;
         box-sizing: border-box;
         border: none;
         outline: none;
         background: @neutral-soft;
 
-        &:hover {
-            background: @neutral-soft-lighter;
+        &:focus, &.focus {
+            background: @neutral-clear !important;
         }
 
-        &:focus, &.focus {
-            background: @neutral-clear;
+        &:not([type="checkbox"]) {
+            width: 100%;
+        }
+
+        &:required {
+            // remove default styles
+            border: none;
+            outline: none;
+            box-shadow: none;
+        }
+    }
+
+    // disabled field
+    .field:not(.disabled) {
+        input,
+        textarea,
+        select,
+        .fake {
+            &:hover {
+                background: @neutral-soft-lighter;
+            }
         }
     }
 
@@ -208,6 +256,132 @@
         // pretty approximative
         padding-top: calc(0.5 * @field-height ~"- 0.65em");
         padding-bottom: calc(0.5 * @field-height ~"- 0.65em");
+    }
+
+    select {
+        // fix font properties
+        color: @text-dark;
+        font-size: medium;
+
+        // fix height which is minimal by default
+        &:not([multiple]) {
+            height: @field-height;
+        }
+
+        // height for select of type multiple
+        &[multiple] {
+            min-height: @field-height;
+        }
+
+    }
+
+    // handle pointer
+    .field:not(.disabled) select {
+        // use pointer cursor
+        cursor: pointer;
+    }
+
+    // set custom triangle marker
+    .select {
+        position: relative;
+
+        select {
+            // remove the marker
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            -ms-appearance: none;
+            appearance: none;
+
+            // Firefox adds an ugly triangle that can't be stylized
+            // here is a hack: https://gist.github.com/joaocunha/6273016/
+            text-indent: 0.01px;
+            text-overflow: '';
+
+            // add space for marker
+            &:not([multiple]) {
+                padding-right: @field-height;
+            }
+
+            &[multiple] {
+                padding: @gap-horizontal;
+            }
+
+        }
+
+        // create the marker
+        &:not(.multiple)::after {
+            // attached to the top right
+            position: absolute;
+            top: 0;
+            right: 0;
+
+            // square shape
+            .square(@field-height);
+            line-height: @field-height;
+            text-align: center;
+
+            content: '▼';
+            font-size: 1.5em;
+            color: @text-dark;
+
+            // remove effect of pointer
+            pointer-events: none;
+        }
+    }
+
+    input[type="checkbox"] {
+        height: initial;
+    }
+
+    // custom style for checkbox
+    .checkbox {
+        // delete initial marker
+        input {
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            -ms-appearance: none;
+            appearance: none;
+
+            width: 0;
+        }
+
+        // add style to adjacent marker box
+        input + label.marker {
+            .square(@field-height * 0.5);
+            margin-top: @field-height * 0.25;
+
+            // remove padding
+            padding: 0;
+
+            position: relative;
+        }
+
+        // add style to marker when checked
+        input:checked + label.marker::after {
+            position: absolute;
+            .square(@field-height * 0.5);
+
+            // content align
+            line-height: @field-height * 0.5;
+            text-align: center;
+
+            // content check mark
+            content: "\2705";
+            font-size: 1.3em;
+            color: @text-dark;
+        }
+    }
+
+    .field:not(.disabled) {
+        // handle cursor
+        label.marker {
+            cursor: pointer;
+        }
+
+        // handle hover
+        .label:hover + .input .checkbox label.marker {
+            background: @neutral-soft-lighter;
+        }
     }
 
     // Controls inside inputs

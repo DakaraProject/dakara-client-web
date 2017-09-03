@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { browserHistory, Link } from 'react-router'
+import ControlLink from './ControlLink'
 
 export default class Paginator extends Component {
     render() {
@@ -10,54 +11,43 @@ export default class Paginator extends Component {
 
         return (
             <nav className="paginator controls">
-                <PaginatorLink
+                <ControlLink
                     to={{pathname, query: {...location.query, page: 1}}}
                     disabled={!hasPrevious}
+                    className="primary"
                 >
                     <span className="icon">
                         <i className="fa fa-angle-double-left"></i>
                     </span>
-                </PaginatorLink>
-                <PaginatorLink
+                </ControlLink>
+                <ControlLink
                     to={{pathname, query: {...location.query, page: current - 1}}}
                     disabled={!hasPrevious}
+                    className="primary"
                 >
                     <span className="icon">
                         <i className="fa fa-angle-left"></i>
                     </span>
-                </PaginatorLink>
-                <PaginatorLink
+                </ControlLink>
+                <ControlLink
                     to={{pathname, query: {...location.query, page: current + 1}}}
                     disabled={!hasNext}
+                    className="primary"
                 >
                     <span className="icon">
                         <i className="fa fa-angle-right"></i>
                     </span>
-                </PaginatorLink>
-                <PaginatorLink
+                </ControlLink>
+                <ControlLink
                     to={{pathname, query: {...location.query, page: last}}}
                     disabled={!hasNext}
+                    className="primary"
                 >
                     <span className="icon">
                         <i className="fa fa-angle-double-right"></i>
                     </span>
-                </PaginatorLink>
+                </ControlLink>
             </nav>
         );
-    }
-}
-
-class PaginatorLink extends Component {
-    render () {
-        const { to, disabled } = this.props
-        if (disabled) {
-            return (
-                <div className={"control primary disabled"}>{this.props.children}</div>
-            )
-        }
-
-        return (
-            <Link to={to} className={"control primary"}>{this.props.children}</Link>
-        )
     }
 }

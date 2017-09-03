@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS } from '../actions'
+import { FORM_SUCCESS } from '../actions'
 import { LOGOUT } from '../actions'
 import { SET_TOKEN } from '../actions'
 
@@ -9,8 +9,13 @@ import { SET_TOKEN } from '../actions'
 
 function token(state = null, action) {
     switch (action.type) {
-        case LOGIN_SUCCESS:
-            return action.response.token
+        case FORM_SUCCESS:
+            // special case for the login form
+            if (action.formName == 'login') {
+                return action.response.token
+            }
+
+            return state
 
         case LOGOUT:
             return null

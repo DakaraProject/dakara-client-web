@@ -10,12 +10,17 @@ export default class WorkDisplay extends Component {
         const workLink = this.props.work
         let title
         if (query != undefined) {
+            let searchWords = query.work.contains.concat(query.remaining)
+            const workTypeQuery = query.work_type[workLink.work.work_type.query_name]
+            if (workTypeQuery) {
+                // Add keyword for specific worktype if exists
+                searchWords = searchWords.concat(workTypeQuery.contains)
+            }
+
             title = (
                     <Highlighter
                         className="title"
-                        searchWords={query.works.concat(
-                                query.remaining
-                                )}
+                        searchWords={searchWords}
                         textToHighlight={workLink.work.title}
                     />
                 )
