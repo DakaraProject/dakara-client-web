@@ -56,6 +56,7 @@ export default class UserEdit extends Component {
                             id="password"
                             type="password"
                             label="Password"
+                            ignoreIfEmpty
                         />
                         <InputField
                             id="confirm_password"
@@ -66,6 +67,7 @@ export default class UserEdit extends Component {
                                     return ["This field should match password field."]
                                 }
                             }}
+                            ignore
                         />
                         <CheckboxField
                             id="is_superuser"
@@ -78,7 +80,7 @@ export default class UserEdit extends Component {
                             label="Users rights"
                             defaultValue={user.users_permission_level}
                             options={[
-                                {value: '', name: 'None'},
+                                {value: null, name: 'None'},
                                 {value: 'u', name: 'User'},
                                 {value: 'm', name: 'Manager'},
                             ]}
@@ -88,7 +90,7 @@ export default class UserEdit extends Component {
                             label="Library rights"
                             defaultValue={user.library_permission_level}
                             options={[
-                                {value: '', name: 'None'},
+                                {value: null, name: 'None'},
                                 {value: 'u', name: 'User'},
                                 {value: 'm', name: 'Manager'},
                             ]}
@@ -98,7 +100,7 @@ export default class UserEdit extends Component {
                             label="Playlist rights"
                             defaultValue={user.playlist_permission_level}
                             options={[
-                                {value: '', name: 'None'},
+                                {value: null, name: 'None'},
                                 {value: 'u', name: 'User'},
                                 {value: 'm', name: 'Manager'},
                                 {value: 'p', name: 'Player'}

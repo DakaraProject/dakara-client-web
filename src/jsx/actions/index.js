@@ -380,17 +380,11 @@ export const FORM_SET_VALIDATION_ERRORS = 'FORM_SET_VALIDATION_ERRORS'
  * @param 
  */
 export const submitForm = (formName, endpoint, method, json, successMessage) => {
-    const filteredJson = {}
-    for(const key in json) {
-        const value = json[key]
-        filteredJson[key] = value || null
-    }
-
     return {
         [FETCH_API]: {
                 endpoint: baseUrl + endpoint,
                 method,
-                json: filteredJson,
+                json,
                 types: [
                     FORM_REQUEST,
                     FORM_SUCCESS,

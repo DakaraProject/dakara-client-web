@@ -82,6 +82,7 @@ class User extends Component {
                                 return ["This field should match password field."]
                             }
                         }}
+                        ignore
                     />
                 </FormBlock>
             </div>

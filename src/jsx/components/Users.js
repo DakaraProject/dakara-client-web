@@ -73,6 +73,7 @@ class Users extends Component {
                         formName="createUser"
                         action="users/"
                         successMessage="User sucessfully created!"
+                        onSuccess={this.refreshEntries}
                     >
                         <InputField
                             id="username"
@@ -95,6 +96,7 @@ class Users extends Component {
                                     return ["This field should match password field."]
                                 }
                             }}
+                            ignore
                         />
                     </FormBlock>
                 </IsUserManager>

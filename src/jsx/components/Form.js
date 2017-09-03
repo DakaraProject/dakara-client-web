@@ -18,7 +18,6 @@ import { setFormValidationErrors, submitForm, clearForm } from '../actions'
  * - submitText <str>: Submit button text, default: "Submit"
  * - successMessage <str>: Message to display when form submit suceed,
  *                          if none is specified, no messsage is displayed.
- * - excludedFields [<str>]: Fields specified in array will not be sent 
  * - validate <func>: Called on submit, with object containing form values.
  *                      When validation fails,
  *                      Should return an array of validation error message.
@@ -27,6 +26,8 @@ import { setFormValidationErrors, submitForm, clearForm } from '../actions'
  * - noClearOnSuccess <bool>: By default the form values are cleared when
  *                              request succeed.
  *                              If this value is true, forms are not cleared.
+ * - onSuccess <func>: Called on form action success. Does not have access to
+ *                      arguments.
  *
  *
  *
@@ -48,7 +49,7 @@ class FormBlock extends Component {
             // this avoids corrupting falsy values such as false or 0
             if (field.props.defaultValue === undefined ||
                 field.props.defaultValue == null) {
-                    newFormValues[field.props.id] = field.type.getDefaultValue()
+                    newFormValues[field.props.id] = field.type.getEmptyValue()
             } else {
                     newFormValues[field.props.id] = field.props.defaultValue
             }
@@ -73,19 +74,19 @@ class FormBlock extends Component {
 
 
     componentDidUpdate(prevProps) {
-        const { formName, formsResponse, noClearOnSuccess } = this.props
+        const { formName, formsResponse, noClearOnSuccess, onSuccess } = this.props
         const response = formsResponse[formName]
         const prevResponse = prevProps.formsResponse[formName]
-
-        if (noClearOnSuccess) {
-            return
-        }
 
         // If there is a success notification
         if (response && response.global && response.global.type == 'success') {
             // and there was no response, or a different notification before
             if (!prevResponse || response.global != prevResponse.global) {
-                this.setDefaultFormValues()
+                if (!noClearOnSuccess) {
+                    this.setDefaultFormValues()
+                }
+
+                if (onSuccess) onSuccess()
             }
         }
     }
@@ -100,7 +101,8 @@ class FormBlock extends Component {
         })
     }
 
-    /** Method called before submit, to validate fields
+    /**
+     * Method called before submit, to validate fields
      * @return boolean indicating validation success
      */
     validate = () => {
@@ -119,7 +121,7 @@ class FormBlock extends Component {
 
         // Check fields validations
         let fieldsErrors = {}
-        React.Children.map(this.props.children, field => {
+        React.Children.forEach(this.props.children, field => {
             const { id, required, validate } = field.props
             const value = formValues[id]
             // process each check for this field
@@ -156,9 +158,34 @@ class FormBlock extends Component {
      * Method called when form is submited and validatio has passed
      */
     submit = () => {
-        const {formName, action, method, successMessage, excludedFields, submitForm} = this.props
+        const {
+            formName,
+            action,
+            method,
+            successMessage,
+            excludedFields,
+            submitForm,
+            children
+        } = this.props
+
         const { formValues } = this.state
-        submitForm(formName, action, method || 'POST', formValues, successMessage)
+
+        // generate the data to send
+        const json = {}
+
+        React.Children.forEach(children, (field) => {
+            const { ignore, ignoreIfEmpty, id } = field.props
+            const value = formValues[id]
+
+            // if the field has to be ignored
+            if (ignore) return
+            if (ignoreIfEmpty && value == field.type.getEmptyValue()) return
+
+            // add data
+            json[id] = value
+        })
+
+        submitForm(formName, action, method || 'POST', json, successMessage)
     }
 
 
@@ -276,11 +303,16 @@ export { FormBlock }
  * Validation modifiers:
  * - required <bool>: When true, field can not be empty.
  *
+ * Filtering modifiers
+ * - ignore <bool>: When true, the field is never passed to the server.
+ * - ignoreIfEmpty <bool>: When true, the field is passed to the server only if
+ *                          its value is not empty.
+ *
  * Extra properties are passed to the field tag.
  */
 class Field extends Component {
 
-    static getDefaultValue() {
+    static getEmptyValue() {
         return ""
     }
 
@@ -296,6 +328,8 @@ class Field extends Component {
             defaultValue,
             validate,
             disabled,
+            ignore,
+            ignoreIfEmpty,
             ...remaining
         } = this.props
 
@@ -313,9 +347,11 @@ class Field extends Component {
 
         // props to pass to the field tag
         let propsValue = value
+
         if (propsValue === undefined) {
-            propsValue = this.constructor.getDefaultValue()
+            propsValue = this.constructor.getEmptyValue()
         }
+
         const props = {
             id,
             value: propsValue,
@@ -324,6 +360,7 @@ class Field extends Component {
             ...remaining
         }
 
+        // class
         let disabledClassName = ''
         if (disabled) {
             disabledClassName = "disabled "
@@ -373,6 +410,11 @@ class Field extends Component {
  * Validation modifiers:
  * - required <bool>: When true, field can not be empty.
  *
+ * Filtering modifiers
+ * - ignore <bool>: When true, the field is never passed to the server.
+ * - ignoreIfEmpty <bool>: When true, the field is passed to the server only if
+ *                          its value is not empty.
+ *
  * Extra properties are passed to the input tag.
  */
 export class InputField extends Field {
@@ -387,13 +429,14 @@ export class InputField extends Field {
  * Form Field component based on the Select tag
  * Should be used as a direct child of a Form
  *
- * Null value is converted to empty string.
+ * Null value is converted to empty string in the HTML tag. In the state, empty
+ * strings are converted into null.
  *
  * Required properties:
  * - id <str>: Unique field identifier.
  * - label <str/jsx>: Label of the field.
  * - options <Array>: List of the different options to display. Each list item
- *      must be an object with a `value` key and a `name` key.
+ *                      must be an object with a `value` key and a `name` key.
  *
  * Optional properties:
  * - defaultValue <str>: Pre-fill field with given value.
@@ -408,18 +451,30 @@ export class InputField extends Field {
  * Validation modifiers:
  * - required <bool>: When true, field can not be empty.
  *
-                    value={value || ""}
+ * Filtering modifiers
+ * - ignore <bool>: When true, the field is never passed to the server.
+ * - ignoreIfEmpty <bool>: When true, the field is passed to the server only if
+ *                          its value is not empty.
+ *
  * Extra properties are passed to the select tag.
  */
 export class SelectField extends Field {
+    static getEmptyValue() {
+        return null
+    }
+
     subRender = (props) => {
-        const { options, multiple, ...remaining } = props
+        const { options, multiple, value, ...remainingProps } = props
+        const { id, setValue } = this.props
+
+        // remove props from remaining
+        const { onChange, ...remaining } = remainingProps
 
         // create options
         const content = options.map((option, id) => ((
             <option
                 key={id}
-                value={option.value}
+                value={option.value || ''}
             >
                 {option.name}
             </option>
@@ -435,6 +490,8 @@ export class SelectField extends Field {
             <div className={classNameMultiple + "select"}>
                 <select
                     multiple={multiple}
+                    value={value || ''}
+                    onChange={e => {setValue(id, e.target.value || null)}}
                     {...remaining}
                 >
                     {content}
@@ -467,16 +524,25 @@ export class SelectField extends Field {
  * Validation modifiers:
  * - required <bool>: When true, field can not be empty.
  *
+ * Filtering modifiers
+ * - ignore <bool>: When true, the field is never passed to the server.
+ * - ignoreIfEmpty <bool>: When true, the field is passed to the server only if
+ *                          its value is not empty.
+ *
  * Extra properties are passed to the input tag.
  */
 export class CheckboxField extends Field {
-    static getDefaultValue() {
+    static getEmptyValue() {
         return false
     }
 
     subRender = (props) => {
-        const { value, onChange, ...remaining } = props
+        const { value, ...remainingProps } = props
         const { id, setValue } = this.props
+
+        // remove props from remaining
+        const { onChange, ...remaining } = remainingProps
+
         return (
             <div className="checkbox">
                 <input
