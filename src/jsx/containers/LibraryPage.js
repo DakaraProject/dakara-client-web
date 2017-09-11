@@ -31,7 +31,7 @@ class LibraryPage extends Component {
     }
 
     getLibraryName = () => {
-        const libraryComponentName = this.props.children.type.WrappedComponent.name
+        const libraryComponentName = this.props.children.type.WrappedComponent.getName()
         switch (libraryComponentName) {
             case 'LibraryListSong':
                 return "song"
@@ -72,7 +72,8 @@ class LibraryPage extends Component {
     }
 
     getLibraryEntries = () => {
-        const libraryComponentName = this.props.children.type.WrappedComponent.name
+        const libraryComponentName = this.props.children.type.WrappedComponent.getName()
+        console.log("Hopefully I can find this")
         switch (libraryComponentName) {
             case 'LibraryListSong':
                 return this.props.library.song
