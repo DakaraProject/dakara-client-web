@@ -221,6 +221,19 @@
                     height: @height;
                 }
             }
+
+            &.lyrics .text {
+                white-space: pre-line;
+                line-height: 1.5em;
+                padding-top: 2 * @gap-horizontal / 3;
+                padding-bottom: 2 * @gap-horizontal / 3;
+
+                .truncated::after {
+                    content: "…";
+                    font-size: 1.5em;
+                    line-height: 0;
+                }
+            }
         }
 
         .artists {
