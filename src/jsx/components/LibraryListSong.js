@@ -3,6 +3,10 @@ import LibraryListAbstract from './LibraryListAbstract'
 import LibraryEntrySongPage from '../containers/LibraryEntrySongPage'
 
 class LibraryListSong extends LibraryListAbstract {
+    static getName() {
+        return "LibraryListSong"
+    }
+
     getLibraryName() {
         return "songs"
     }

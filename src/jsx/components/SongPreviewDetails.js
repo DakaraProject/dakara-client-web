@@ -35,6 +35,7 @@ export default class SongPreviewDetails extends Component {
                                     query.remaining
                                     )}
                             textToHighlight={artist.name}
+                            autoEscape
                         />
                 )
             } else {

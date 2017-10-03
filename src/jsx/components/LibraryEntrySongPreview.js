@@ -21,6 +21,7 @@ export default class SongPreview extends Component {
                                     this.props.query.remaining
                                     )}
                             textToHighlight={song.title}
+                            autoEscape
                         />
                     )
         } else {

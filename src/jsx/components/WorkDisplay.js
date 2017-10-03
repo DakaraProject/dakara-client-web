@@ -22,6 +22,7 @@ export default class WorkDisplay extends Component {
                         className="title"
                         searchWords={searchWords}
                         textToHighlight={workLink.work.title}
+                        autoEscape
                     />
                 )
         } else {

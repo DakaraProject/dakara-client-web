@@ -3,6 +3,10 @@ import LibraryListAbstract from './LibraryListAbstract'
 import LibraryEntryArtist from './LibraryEntryArtist'
 
 class LibraryListArtist extends LibraryListAbstract {
+    static getName() {
+        return "LibraryListArtist"
+    }
+
     getLibraryName() {
         return "artists"
     }

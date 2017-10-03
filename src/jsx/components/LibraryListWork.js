@@ -3,6 +3,10 @@ import LibraryListAbstract from './LibraryListAbstract'
 import LibraryEntryWork from './LibraryEntryWork'
 
 class LibraryListWork extends LibraryListAbstract {
+    static getName() {
+        return "LibraryListWork"
+    }
+
     getLibraryName() {
         return "works"
     }
