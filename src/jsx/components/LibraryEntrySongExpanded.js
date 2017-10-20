@@ -128,6 +128,32 @@ export default class LibraryEntrySongExpanded extends Component {
         }
 
         /**
+         * Lyrics
+         */
+
+        let lyrics
+        if (song.lyrics) {
+            let truncated
+            if (song.lyrics.truncated) {
+                truncated = (
+                    <span className="truncated"></span>
+                )
+            }
+
+            lyrics = (
+                <div className="lyrics expanded-item">
+                    <h4 className="header">
+                        <span className="icon">
+                            <i className="fa fa-align-left"></i>
+                        </span>
+                        <span className="name">Lyrics</span>
+                    </h4>
+                    <div className="text">{song.lyrics.text}{truncated}</div>
+                </div>
+            )
+        }
+
+        /**
          * Tags
          */
 
@@ -153,6 +179,7 @@ export default class LibraryEntrySongExpanded extends Component {
                         {worksRenderList}
                         {detailSong}
                         {detailVideo}
+                        {lyrics}
                         {tags}
                     </div>
                 </div>
