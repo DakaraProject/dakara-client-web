@@ -32,5 +32,4 @@
 
 ### Added
 
-- Changelog.
-- Display version in footer.
+- First version.
