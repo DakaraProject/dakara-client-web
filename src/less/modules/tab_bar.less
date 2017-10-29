@@ -1,0 +1,43 @@
+//
+// Dakara project
+//
+// Tab bar style file
+//
+
+.tab-bar {
+    display: flex;
+
+    .tab {
+        height: @tab-bar-height;
+        cursor: pointer;
+        background: @neutral-mid;
+        padding: 0 @gap-horizontal;
+        white-space: nowrap;
+        line-height: @tab-bar-height;
+        text-align: center;
+        .text-truncate();
+
+        &:nth-child(2n) {
+            background: @neutral-mid-light;
+        }
+
+        &.active {
+            cursor: default;
+            background: @neutral-clear;
+            color: @neutral-mid;
+        }
+
+        &:hover:not(.active),
+        &:focus:not(.active) {
+            background: @neutral-mid-lighter;
+        }
+
+        .icon {
+            font-size: @tab-bar-icon-font-size;
+        }
+
+        .name {
+            margin-left: 0.5em;
+        }
+    }
+}

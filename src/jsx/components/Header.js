@@ -4,7 +4,7 @@ import UserWidget from '../containers/UserWidget'
 
 class Header extends Component {
     render() {
-        let userSpace
+        let menu
         if (this.props.isLoggedIn) {
             let username
             if (this.props.user) {
@@ -15,23 +15,56 @@ class Header extends Component {
                 )
             }
 
-            userSpace = (
-                <div className="user-space">
-                    <Link to="/user" className="user-name">{username}</Link>
-                    <Link to="/users" className="navlink">Users</Link>
-                    <Link to="/logout" className="navlink">Logout</Link>
-                </div>
+            menu = (
+                <nav className="tab-bar menu">
+                    <Link
+                        to="/library"
+                        className="tab squared"
+                        activeClassName="active"
+                    >
+                        <span className="icon">
+                            <i className="fa fa-home"></i>
+                        </span>
+                    </Link>
+                    <Link
+                        to="/users"
+                        className="tab squared"
+                        activeClassName="active"
+                    >
+                        <span
+                            className="icon"
+                            style={{fontSize: "1em"}}
+                        >
+                            <i className="fa fa-users"></i>
+                        </span>
+                    </Link>
+                    <Link
+                        to="/user"
+                        className="tab"
+                        activeClassName="active"
+                    >
+                        {username}
+                    </Link>
+                    <Link
+                        to="/logout"
+                        className="tab squared"
+                    >
+                        <span className="icon">
+                            <i className="fa fa-sign-out"></i>
+                        </span>
+                    </Link>
+                </nav>
             )
         }
 
         return (
-            <header className="box">
+            <header id="header" className="box">
                 <h1>
                     <Link to="/">
                         Dakara
                     </Link>
                 </h1>
-                {userSpace}
+                {menu}
             </header>
         )
     }

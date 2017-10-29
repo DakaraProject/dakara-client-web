@@ -141,10 +141,10 @@ class LibraryPage extends Component {
 
         return (
             <div id="library" className="box">
-                <nav className="library-chooser">
+                <nav className="tab-bar library-chooser">
                     <LibraryTab
                         queryName="song"
-                        iconName="home"
+                        iconName="bars"
                         extraClassName="home"
                     />
                     <LibraryTab
