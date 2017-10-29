@@ -36,6 +36,8 @@ const store = createStore(
     )
 )
 
+export const defaultPathname = "/library/song"
+
 ReactDOM.render(
     <Provider store={store}>
         <Router history={browserHistory}>
