@@ -40,10 +40,20 @@ export default class UsersEntry extends Component {
             )
         }
 
+        /**
+         * superuser marker
+         */
+        let superuserMarker
+        if (user.is_superuser) {
+            superuserMarker = (
+                <i className="fa fa-check"></i>
+            )
+        }
+
         return (
             <tr className="listing-entry user-listing-entry hoverizable">
                 <td className="username">{user.username}</td>
-                <td className="permission superuser">{user.is_superuser ? "\u2705" : null}</td>
+                <td className="permission superuser">{superuserMarker}</td>
                 <td className="permission">{permissionLevels[user.users_permission_level]}</td>
                 <td className="permission">{permissionLevels[user.library_permission_level]}</td>
                 <td className="permission">{permissionLevels[user.playlist_permission_level]}</td>
