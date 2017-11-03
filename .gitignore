@@ -15,3 +15,4 @@ css/dakara*.css
 # Output package directory
 dist/*
 !dist/index.html
+!dist/favicons
