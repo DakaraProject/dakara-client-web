@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Nadeflore/dakara-client-web.git"
+    "url": "git+https://github.com/DakaraProject/dakara-client-web.git"
   },
   "author": "Nadeflore, Neraste",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Nadeflore/dakara-client-web/issues"
+    "url": "https://github.com/DakaraProject/dakara-client-web/issues"
   },
-  "homepage": "https://github.com/Nadeflore/dakara-client-web#readme",
+  "homepage": "https://github.com/DakaraProject/dakara-client-web#readme",
   "devDependencies": {
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",

@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
+import {version} from '../../../package.json'
 
 class Footer extends Component {
     render() {
         return (
-            <footer className="box">
-                <h2>Dakara Project</h2>
-                <p className="version">Proof of Concept</p>
+            <footer id="footer" className="box">
+                <h2>
+                    Dakara client <span className="version">{version}</span>
+                </h2>
             </footer>
         )
     }

@@ -1,15 +1,21 @@
 import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
+import { defaultPathname } from '../index'
 
 class LoggedinPage extends Component {
     redirect = () => {
         const { pathname, search } = this.props.location
-        browserHistory.push({
-            pathname: "/login",
-            query: {
+        let query
+        if (search || pathname != defaultPathname ) {
+            query = {
                 from: pathname + search
             }
+        }
+
+        browserHistory.push({
+            pathname: "/login",
+            query
         })
     }
 

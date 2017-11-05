@@ -5,42 +5,26 @@
 //
 
 
-header {
+#header {
+    background: darken(@neutral-mid, 3%);
+    height: @tab-bar-height;
     display: flex;
-    padding: @gap-vertical 0;
-    background: @black-80;
+    justify-content: space-between;
 
     h1 {
-        flex: 1;
-        margin: 0 @gap-horizontal;
-        font-size: 4em;
-        font-weight: 100;
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
+        padding: 0 @gap-horizontal;
+        line-height: @tab-bar-height * 0.9;
+        font-size: xx-large;
     }
 
-    .user-space {
-        margin: 0;
-        background: @black-70;
-        padding: @gap-horizontal 0;
-        text-align: right;
-
-        .user-name {
-            margin: 0 @gap-horizontal;
+    .menu {
+        .tab.squared {
+            width: @tab-bar-height;
             padding: 0;
-            display: block;
-            text-decoration: none;
-            font-weight: bold;
-        }
 
-        .navlink {
-            margin: 0 @gap-horizontal;
-            padding: 0;
-            display: block;
-            font-size: small;
+            .icon {
+                font-size: 1.5em;
+            }
         }
     }
 }

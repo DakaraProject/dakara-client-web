@@ -110,54 +110,21 @@
     // The different libraries are Songs (which is the home library), Artists and all the
     // different Works (animes, games...)
     .library-chooser {
-        display: flex;
-
         // This is a common library tab, it has to be of neutral color
         .tab {
+            // spread the width of the tabs to fill all the space
             flex: 1;
-            height: @library-chooser-height;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            background: @neutral-mid;
+        }
 
-            &:nth-child(2n) {
-                background: @neutral-mid-light;
-            }
-
-            &.active {
-                cursor: default;
-                background: @neutral-clear;
-                color: @neutral-mid;
-            }
-
-            &:hover:not(.active),
-            &:focus:not(.active) {
-                background: @neutral-mid-lighter;
-            }
+        // This is the home library tab, it has to stand out even when not
+        // selected, but not too much
+        .home {
+            flex: initial;
+            width: @tab-bar-height;
+            padding: 0;
 
             .icon {
-                font-size: @library-chooser-icon-font-size;
-            }
-
-            .name {
-                margin-left: 0.5em;
-            }
-
-            .icon, .name {
-                display: inline-block;
-            }
-
-            // This is the home library tab, it has to stand out even when not
-            // selected, but not too much
-            &.home {
-                width: @library-chooser-height;
-                flex: initial;
-
-                .icon {
-                    font-size: @library-chooser-icon-font-size-home;
-                }
+                font-size: @library-chooser-icon-font-size-home;
             }
         }
     }
