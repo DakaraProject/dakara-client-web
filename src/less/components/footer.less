@@ -5,19 +5,18 @@
 //
 
 
-footer {
-    padding: @gap-vertical 0;
-    background: @black-80;
+#footer {
+    height: @tab-bar-height;
+    line-height: @tab-bar-height;
+    background: darken(@neutral-mid, 3%);
     text-align: right;
 
-    h3 {
-        margin: 0;
-        font-size: 1.25em;
-        font-weight: 300;
-    }
+    h2 {
+        font-size: x-large;
 
-    .version {
-        margin-top: 0;
-        margin-bottom: 0;
+        .version {
+            font-size: 0.6em;
+            font-weight: 300;
+        }
     }
 }

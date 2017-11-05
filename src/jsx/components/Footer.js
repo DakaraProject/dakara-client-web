@@ -4,9 +4,10 @@ import {version} from '../../../package.json'
 class Footer extends Component {
     render() {
         return (
-            <footer className="box">
-                <h2>Dakara client</h2>
-                <p className="version">{version}</p>
+            <footer id="footer" className="box">
+                <h2>
+                    Dakara client <span className="version">{version}</span>
+                </h2>
             </footer>
         )
     }
