@@ -34,10 +34,16 @@ class LibraryPage extends Component {
         const libraryComponentName = this.props.children.type.WrappedComponent.getName()
         switch (libraryComponentName) {
             case 'LibraryListSong':
-                return "song"
+                return {
+                    singular: "song",
+                    plural: "songs"
+                }
 
             case 'LibraryListArtist':
-                return "artist"
+                return {
+                    singular: "artist",
+                    plural: "artists"
+                }
 
             case 'LibraryListWork':
                 const workTypeQueryName = this.props.children.props.params.workType
@@ -47,10 +53,13 @@ class LibraryPage extends Component {
                 )
 
                 if (!workType) {
-                    return ""
+                    return null
                 }
 
-                return workType.name.toLowerCase()
+                return {
+                    singular: workType.name.toLowerCase(),
+                    plural: workType.name_plural.toLowerCase()
+                }
         }
     }
 
@@ -94,7 +103,7 @@ class LibraryPage extends Component {
 
         // library name
         const libraryName = this.getLibraryName()
-        const libraryPlaceholder = this.getLibraryPlaceholder(libraryName)
+        const libraryPlaceholder = this.getLibraryPlaceholder(libraryName.singular)
 
         const libraryEntriesDefault = {
             data: {current: 1, last: 1, count: 0},
@@ -123,7 +132,7 @@ class LibraryPage extends Component {
                                 key={workType.query_name}
                                 queryName={workType.query_name}
                                 iconName={workType.icon_name}
-                                name={workType.name + "s"}
+                                name={workType.name_plural}
                             />
                            )
         })
@@ -134,7 +143,7 @@ class LibraryPage extends Component {
             infoCounter = (
                 <div className="counter">
                     <span className="figure">{entriesCount}</span>
-                    <span className="text">{libraryName}{entriesCount == 1 ? '': 's'} found</span>
+                    <span className="text">{entriesCount == 1 ? libraryName.singular : libraryName.plural} found</span>
                 </div>
             )
         }
