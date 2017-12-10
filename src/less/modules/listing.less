@@ -47,6 +47,8 @@
     }
 
     .listing-entry {
+        height: @listing-entry-height;
+
         // normal and alternate row colors
         background: @neutral-mid;
 
@@ -148,6 +150,10 @@ table.listing {
     }
 }
 
+// Container for table listing
+//
+// This container forces the table listing to have the height of 10 rows plus one
+// header.
 .listing-table-container {
     min-height: 11 * @listing-entry-height;
 }
