@@ -14,12 +14,26 @@ export default class TagListEntry extends Component {
                       </div>
         }
 
+        /**
+         * enabled marker
+         */
+        let enabledMarker
+        if (!tag.disabled) {
+            enabledMarker = (
+                <i className="fa fa-check"></i>
+            )
+        }
+
         return (
-            <tr className="listing-entry hoverizable">
+            <tr className="listing-entry tag-list-listing hoverizable">
                 <td className="name">{tag.name}</td>
-                <td className="color">{tag.color_id}</td>
-                <td className="disabled-state">
-                    {tag.disabled ? 'false' : 'true'}
+                <td className="color">
+                    <span className={"tag color-" + tag.color_id}>
+                        {tag.color_id}
+                    </span>
+                </td>
+                <td className="enabled">
+                    {enabledMarker}
                     <ReactCSSTransitionGroup
                         transitionName="notified"
                         transitionEnterTimeout={300}

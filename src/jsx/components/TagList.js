@@ -45,7 +45,7 @@ class TagList extends Component {
                             <tr className="listing-header">
                                 <th className="name">Name</th>
                                 <th className="color">Color</th>
-                                <th className="disabled-state">Enabled</th>
+                                <th className="enabled">Enabled</th>
                             </tr>
                         </thead>
                         <tbody>
