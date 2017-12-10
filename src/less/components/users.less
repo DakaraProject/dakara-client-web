@@ -13,26 +13,22 @@
         color: @brand-primary-light;
     }
 
-    .users-listing-container {
-        min-height: 11 * @listing-entry-height;
+    .users-listing {
+        .user-listing-entry {
+            height: @listing-entry-height;
+        }
 
-        .users-listing {
-            .user-listing-entry {
-                height: @listing-entry-height;
-            }
+        .username {
+            padding-left: @gap-horizontal;
+            text-align: left;
+        }
 
-            .username {
-                padding-left: @gap-horizontal;
-                text-align: left;
-            }
+        .permission {
+            text-align: center;
+        }
 
-            .permission {
-                text-align: center;
-            }
-
-            .superuser {
-                font-size: 1.5em;
-            }
+        .superuser {
+            font-size: 1.5em;
         }
     }
 

@@ -519,3 +519,22 @@ export const clearUser = () => ({
     type: USER_CLEAR
 })
 
+/**
+ * Get tag list
+ */
+
+export const TAG_LIST_REQUEST = "TAG_LIST_REQUEST"
+export const TAG_LIST_SUCCESS = "TAG_LIST_SUCCESS"
+export const TAG_LIST_FAILURE = "TAG_LIST_FAILURE"
+
+/**
+ * Request to retrieve tag list
+ * @param page page to display
+ */
+export const getTagList = (page = 1) => ({
+    [FETCH_API]: {
+            endpoint: `${baseUrl}library/song-tags/?page=${page}`,
+            method: 'GET',
+            types: [TAG_LIST_REQUEST, TAG_LIST_SUCCESS, TAG_LIST_FAILURE],
+        }
+})
