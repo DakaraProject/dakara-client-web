@@ -7,12 +7,18 @@ export default class TagListEntry extends Component {
         const { notification, tag, editSongTag } = this.props
 
         let message
-        if (notification) {
+        if (notification && notification.message) {
             message = <div className="notified">
                         <div className={"notification message " + notification.type}>
                             {notification.message}
                         </div>
                       </div>
+        }
+
+        const disabled = notification && notification.isFetching
+        const setValue = (id, value) => {
+            if (!disabled)
+                editSongTag(tag.id, !value)
         }
 
         return (
@@ -24,12 +30,14 @@ export default class TagListEntry extends Component {
                     </span>
                 </td>
                 <td className="enabled form inline">
-                    <CheckboxField
-                        id={"enabled-state" + tag.id}
-                        value={!tag.disabled}
-                        setValue={(id, value) => {editSongTag(tag.id, !value)}}
-                        inline
-                    />
+                    <div className={"field" + (disabled ? " disabled" : "")}>
+                        <CheckboxField
+                            id={"enabled-state" + tag.id}
+                            value={!tag.disabled}
+                            setValue={setValue}
+                            inline
+                        />
+                    </div>
                     <ReactCSSTransitionGroup
                         transitionName="notified"
                         transitionEnterTimeout={300}

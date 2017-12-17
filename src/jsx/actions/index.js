@@ -568,19 +568,11 @@ export const editSongTag = (tagId, disabled, color) => {
             method: 'PATCH',
             json,
             types: [EDIT_SONG_TAG_REQUEST, EDIT_SONG_TAG_SUCCESS, EDIT_SONG_TAG_FAILURE],
-            onSuccess: refreshTagList,
             onFailure: delay(clearTagListEntryNotification(tagId), 5000)
         },
-        tagId
+        tagId,
+        disabled
     }
-}
-
-/**
- * Action creator to refresh tags in the current page
- */
-const refreshTagList = (dispatch, getState) => {
-    const page = getState().library.songTags.entries.data.current
-    return dispatch(getTagList(page))
 }
 
 /**
