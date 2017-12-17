@@ -42,10 +42,10 @@ class TagList extends Component {
                 <div className="listing-table-container">
                     <table className="listing notifiable">
                         <thead>
-                            <tr className="listing-header">
+                            <tr className="listing-header tag-list-listing">
                                 <th className="name">Name</th>
-                                <th className="color">Color</th>
-                                <th className="enabled">Enabled</th>
+                                <th>Color</th>
+                                <th>Enabled</th>
                             </tr>
                         </thead>
                         <tbody>
