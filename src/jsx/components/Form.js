@@ -330,6 +330,7 @@ class Field extends Component {
             disabled,
             ignore,
             ignoreIfEmpty,
+            inline,
             ...remaining
         } = this.props
 
@@ -364,6 +365,12 @@ class Field extends Component {
         let disabledClassName = ''
         if (disabled) {
             disabledClassName = "disabled "
+        }
+
+
+        // Inline form: render input field only
+        if (inline) {
+            return this.subRender(props)
         }
 
         return (

@@ -19,17 +19,18 @@ class TagList extends Component {
     }
 
     render() {
-        const { entries, notifications, location } = this.props
+        const { entries, notifications, editSongTag, location } = this.props
         const { current, last } = entries.data
 
         const tagList = entries.data.results.map((tag) => {
-            let notification = notifications[tag.name]
+            let notification = notifications[tag.id]
 
             return (
                 <TagListEntry
-                    key={tag.name}
+                    key={tag.id}
                     tag={tag}
                     notification={notification}
+                    editSongTag={editSongTag}
                 />
             )
         })

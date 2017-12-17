@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import TagList from '../components/TagList'
-import { getTagList } from '../actions'
+import { getTagList, editSongTag } from '../actions'
 
 const mapStateToProps = (state) => ({
     entries: state.library.songTags.entries,
@@ -9,7 +9,10 @@ const mapStateToProps = (state) => ({
 
 const TagListPage = connect(
     mapStateToProps,
-    { getTagList }
+    {
+        getTagList,
+        editSongTag,
+    }
 )(TagList)
 
 export default TagListPage

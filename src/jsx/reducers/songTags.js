@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux'
 import { TAG_LIST_REQUEST, TAG_LIST_SUCCESS, TAG_LIST_FAILURE } from '../actions'
+import { EDIT_SONG_TAG_REQUEST, EDIT_SONG_TAG_SUCCESS, EDIT_SONG_TAG_FAILURE } from '../actions'
+import { CLEAR_TAG_LIST_ENTRY_NOTIFICATION } from '../actions'
 
 const defaultEntries = {
     data: {
@@ -10,7 +12,7 @@ const defaultEntries = {
 }
 
 /**
- * List of users
+ * List of tags
  */
 
 function entries(state = defaultEntries, action) {
@@ -30,41 +32,24 @@ function entries(state = defaultEntries, action) {
 }
 
 /**
- * Delete user message
+ * Tag edit error message
  */
 
 function notifications(state = {}, action) {
-    let userId
+    let tagId
     switch (action.type) {
-        // case TAG_DELETE_REQUEST:
-        //     userId = action.userId
-        //     return {...state, [userId]: {
-        //             message: "Deleting...",
-        //             type: "success"
-        //         }
-        //     }
-        //
-        // case TAG_DELETE_SUCCESS:
-        //     userId = action.userId
-        //     return {...state, [userId]: {
-        //             message: "Successfuly deleted!",
-        //             type: "success"
-        //         }
-        //     }
-        //
-        // case TAG_DELETE_FAILURE:
-        //     userId = action.userId
-        //     return {...state, [userId]: {
-        //             message: "Error attempting to delete user",
-        //             type: "danger"
-        //         }
-        //     }
-        //
-        // case CLEAR_TAGS_ENTRY_NOTIFICATION:
-        //     userId = action.userId
-        //     let newState = { ...state }
-        //     delete newState[userId]
-        //     return newState
+        case EDIT_SONG_TAG_FAILURE:
+            tagId = action.tagId
+            return {...state, [tagId]: {
+                    message: "Error attempting to edit tag",
+                    type: "danger"
+                }
+            }
+        case CLEAR_TAG_LIST_ENTRY_NOTIFICATION:
+            tagId = action.tagId
+            let newState = { ...state }
+            delete newState[tagId]
+            return newState
 
         default:
             return state
