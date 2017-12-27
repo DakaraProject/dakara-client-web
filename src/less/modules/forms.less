@@ -329,47 +329,86 @@
         }
     }
 
-    input[type="checkbox"] {
-        height: initial;
-    }
-
     // custom style for checkbox
     .checkbox {
+        // reset initial height
+        input[type="checkbox"] {
+            height: initial;
+        }
+
         // delete initial marker
-        input {
+        input[type="checkbox"] {
             -moz-appearance: none;
             -webkit-appearance: none;
             -ms-appearance: none;
             appearance: none;
 
             width: 0;
+
+            // hack for old browsers (Firefox 52), for which deactivating
+            // appareance is not enough
+            // TODO make it conditionnal?
+            opacity: 0;
+            position: absolute;
         }
 
         // add style to adjacent marker box
         input + label.marker {
-            .square(@field-height * 0.5);
+            width: @field-height;
+            height: @field-height * 0.5;
             margin-top: @field-height * 0.25;
 
             // remove padding
             padding: 0;
 
             position: relative;
+            overflow: hidden;
+        }
+
+        // add marker
+        input + label.marker::after {
+            position: absolute;
+            top: @field-height * 0.1;
+            left: @field-height * 0.1;
+            .square(@field-height * 0.3);
+            background: @text-dark;
+            content: "";
+        }
+
+        // add style to marker when not checked
+        input:not(:checked) + label.marker::after {
+            left: @field-height * 0.1;
+            .transition(left 150ms ease-out);
+            .transition-delay(150ms);
         }
 
         // add style to marker when checked
         input:checked + label.marker::after {
+            left: @field-height * 0.6;
+            .transition(left 150ms ease-out);
+        }
+
+        // add second marker
+        input + label.marker::before {
             position: absolute;
-            .square(@field-height * 0.5);
+            content: "";
+            background: @brand-primary;
+            width: @field-height;
+            height: @field-height * 0.5;
+            right: @field-height;
+        }
 
-            // content align
-            line-height: @field-height * 0.5;
-            text-align: center;
+        // add style to second marker when not checked
+        input:not(:checked) + label.marker::before {
+            right: @field-height;
+            .transition(right 150ms ease-out);
+        }
 
-            // content check mark
-            font-family: FontAwesome;
-            content: "\f00c";
-            font-size: 1.3em;
-            color: @text-dark;
+        // add style to second marker when checked
+        input:checked + label.marker::before {
+            right: 0;
+            .transition(right 150ms ease-out);
+            .transition-delay(150ms);
         }
     }
 
@@ -382,6 +421,17 @@
         // handle hover
         .label:hover + .input .checkbox label.marker {
             background: @neutral-soft-lighter;
+        }
+
+        // handle hover
+        .label:hover + .input .checkbox input:not(:focus) + label.marker::before,
+        .checkbox input:hover:not(:focus) + label.marker::before {
+            background: @brand-primary-light;
+        }
+
+        // handle focus
+        .checkbox input:focus + label.marker::before {
+            background: @brand-primary-lighter;
         }
     }
 
