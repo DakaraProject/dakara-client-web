@@ -385,6 +385,69 @@
         }
     }
 
+    // style for hue field
+    @hue-field-saturation: 0.5;
+    @hue-field-luminosity: 70%;
+    .rainbow-gradient(@saturation, @luminosity) {
+        background: linear-gradient(
+            to right,
+            hsl(0, @saturation, @luminosity),
+            hsl(60, @saturation, @luminosity),
+            hsl(120, @saturation, @luminosity),
+            hsl(180, @saturation, @luminosity),
+            hsl(240, @saturation, @luminosity),
+            hsl(300, @saturation, @luminosity),
+            hsl(360, @saturation, @luminosity)
+        ) !important;
+    }
+
+    .hue {
+
+        display: flex;
+
+        .preview {
+            width: @form-field-height;
+            line-height: @form-field-height;
+            text-align: center;
+            background: hsl(0, @hue-field-saturation, @hue-field-luminosity);
+            color: fade(@text-dark, 50%);
+            font-weight: 700;
+            font-size: medium;
+        }
+
+        input[type="range"] {
+            // using Flex properties to an input element may be harmful
+            // consider using a container
+            flex: 1;
+            .rainbow-gradient(@hue-field-saturation, @hue-field-luminosity);
+        }
+    }
+
+    .field:not(.disabled) {
+        .hue {
+            // handle cursor
+            input[type="range"] {
+                cursor: pointer;
+            }
+
+            // handle focus
+            input[type="range"]:focus {
+                .rainbow-gradient(
+                    @hue-field-saturation,
+                    @hue-field-luminosity * 1.1
+                );
+            }
+        }
+
+        // handle hover
+        &:hover .hue input[type="range"]:not(:focus) {
+            .rainbow-gradient(
+                @hue-field-saturation,
+                @hue-field-luminosity * 1.05
+            );
+        }
+    }
+
     // Controls inside inputs
     .input .controls .icon {
         font-size: 1.1em;

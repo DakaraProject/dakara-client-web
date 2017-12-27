@@ -574,3 +574,61 @@ export class CheckboxField extends Field {
         )
     }
 }
+
+/**
+ * Form Field component based on the Input tag
+ * Should be used as a direct child of a Form
+ *
+ * Null value is converted to 0 value.
+ *
+ * Required properties:
+ * - id <str>: Unique field identifier.
+ * - label <str/jsx>: Label of the field.
+ *
+ * Optional properties:
+ * - defaultValue <str>: Pre-fill field with given value.
+ * - validate <func>: Called on submit, with the following params:
+ *                          - value of the field
+ *                          - object containing all fields values.
+ *                      When validation fails,
+ *                      Should return an array of validation error message.
+ *                      When validation succeed,
+ *                      Should return a falsy value or empty array.
+ *
+ * Validation modifiers:
+ * - required <bool>: When true, field can not be empty.
+ *
+ * Filtering modifiers
+ * - ignore <bool>: When true, the field is never passed to the server.
+ * - ignoreIfEmpty <bool>: When true, the field is passed to the server only if
+ *                          its value is not empty.
+ *
+ * Extra properties are passed to the input tag.
+ */
+export class HueField extends Field {
+    static getEmptyValue() {
+        return 0
+    }
+
+    subRender = (args) => {
+        const { value } = this.props
+
+        return (
+            <div className="hue">
+                <div
+                    className="preview"
+                    style={{filter: `hue-rotate(${value}deg)`}}
+                >
+                    {value}
+                </div>
+                <input
+                    type="range"
+                    min="0"
+                    max="360"
+                    step="10"
+                    {...args}
+                />
+            </div>
+        )
+    }
+}
