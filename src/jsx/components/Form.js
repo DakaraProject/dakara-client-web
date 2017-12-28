@@ -330,6 +330,7 @@ class Field extends Component {
             disabled,
             ignore,
             ignoreIfEmpty,
+            inline,
             ...remaining
         } = this.props
 
@@ -364,6 +365,12 @@ class Field extends Component {
         let disabledClassName = ''
         if (disabled) {
             disabledClassName = "disabled "
+        }
+
+
+        // Inline form: render input field only
+        if (inline) {
+            return this.subRender(props)
         }
 
         return (
@@ -537,32 +544,20 @@ export class CheckboxField extends Field {
     }
 
     subRender = (props) => {
-        const { value, ...remainingProps } = props
+        const { value, toggle, ...remainingProps } = props
         const { id, setValue } = this.props
 
         // remove props from remaining
         const { onChange, ...remaining } = remainingProps
 
+        const className = toggle ? "toggle" : "checkbox"
+
         return (
-            <div className="checkbox">
+            <div className={className}>
                 <input
                     type="checkbox"
                     checked={!!value}
                     onChange={e => {setValue(id, e.target.checked)}}
-                    onFocus={() => {
-                        document.getElementById(
-                            `${id}-fake`
-                        ).classList.add(
-                            "focus"
-                        )
-                    }}
-                    onBlur={() => {
-                        document.getElementById(
-                            `${id}-fake`
-                        ).classList.remove(
-                            "focus"
-                        )
-                    }}
                     {...remaining}
                 />
                 <label

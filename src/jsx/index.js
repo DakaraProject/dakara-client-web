@@ -15,6 +15,7 @@ import LibraryListWorkPage from './containers/LibraryListWorkPage'
 import NotFound from './components/NotFound'
 import Forbidden from './components/Forbidden'
 import NotFoundRedirector from './components/NotFoundRedirector'
+import TagListPage from './containers/TagListPage'
 import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from  './reducers'
@@ -53,6 +54,7 @@ ReactDOM.render(
                     <Route path="user" component={UserPage}/>
                     <Route path="users" component={UsersPage}/>
                     <Route path="users/:userId" component={UserEditPage}/>
+                    <Route path="song-tags" component={TagListPage}/>
                     <Route path="403" component={Forbidden}/>
                 </Route>
                 <Route path="login" component={LoginForm}/>
