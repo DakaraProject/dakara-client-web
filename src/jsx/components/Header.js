@@ -27,6 +27,15 @@ class Header extends Component {
                         </span>
                     </Link>
                     <Link
+                        to="/song-tags"
+                        className="tab squared"
+                        activeClassName="active"
+                    >
+                        <span className="icon">
+                            <i className="fa fa-tags"></i>
+                        </span>
+                    </Link>
+                    <Link
                         to="/users"
                         className="tab squared"
                         activeClassName="active"

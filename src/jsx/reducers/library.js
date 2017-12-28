@@ -3,6 +3,7 @@ import { LIBRARY_REQUEST, LIBRARY_SUCCESS, LIBRARY_FAILURE } from '../actions'
 import { ADD_PLAYLIST_REQUEST, ADD_PLAYLIST_SUCCESS, ADD_PLAYLIST_FAILURE } from '../actions'
 import { WORK_TYPES_REQUEST, WORK_TYPES_SUCCESS, WORK_TYPES_FAILURE } from '../actions'
 import { CLEAR_SONG_LIST_NOTIFICATION } from '../actions'
+import songTags from './songTags'
 
 /**
  * This reducer contains library related state
@@ -184,7 +185,8 @@ const library = combineReducers({
     artist,
     work,
     workTypes,
-    songListNotifications
+    songListNotifications,
+    songTags
 })
 
 export default library

@@ -519,3 +519,73 @@ export const clearUser = () => ({
     type: USER_CLEAR
 })
 
+/**
+ * Get tag list
+ */
+
+export const TAG_LIST_REQUEST = "TAG_LIST_REQUEST"
+export const TAG_LIST_SUCCESS = "TAG_LIST_SUCCESS"
+export const TAG_LIST_FAILURE = "TAG_LIST_FAILURE"
+
+/**
+ * Request to retrieve tag list
+ * @param page page to display
+ */
+export const getTagList = (page = 1) => ({
+    [FETCH_API]: {
+            endpoint: `${baseUrl}library/song-tags/?page=${page}`,
+            method: 'GET',
+            types: [TAG_LIST_REQUEST, TAG_LIST_SUCCESS, TAG_LIST_FAILURE],
+        }
+})
+
+/**
+ * Edit song tag
+ */
+
+export const EDIT_SONG_TAG_REQUEST = "EDIT_SONG_TAG_REQUEST"
+export const EDIT_SONG_TAG_SUCCESS = "EDIT_SONG_TAG_SUCCESS"
+export const EDIT_SONG_TAG_FAILURE = "EDIT_SONG_TAG_FAILURE"
+
+/**
+ * Request to update song tag
+ * @param disabled
+ * @param color
+ */
+export const editSongTag = (tagId, disabled, color) => {
+    let json = {}
+    if (typeof disabled !== 'undefined') {
+        json.disabled = disabled
+    }
+
+    if (typeof color !== 'undefined') {
+        json.color_id = color
+    }
+
+    return {
+        [FETCH_API]: {
+            endpoint: `${baseUrl}library/song-tags/${tagId}/`,
+            method: 'PATCH',
+            json,
+            types: [EDIT_SONG_TAG_REQUEST, EDIT_SONG_TAG_SUCCESS, EDIT_SONG_TAG_FAILURE],
+            onFailure: delay(clearTagListEntryNotification(tagId), 5000)
+        },
+        tagId,
+        disabled
+    }
+}
+
+/**
+ * Clear tag list entry notification
+ */
+
+export const CLEAR_TAG_LIST_ENTRY_NOTIFICATION="CLEAR_TAG_LIST_ENTRY_NOTIFICATION"
+
+/**
+ * Clear one tag nofitication
+ * @param tagId line to clear
+ */
+export const clearTagListEntryNotification = (tagId) => ({
+    type: CLEAR_TAG_LIST_ENTRY_NOTIFICATION,
+    tagId
+})
