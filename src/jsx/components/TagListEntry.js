@@ -48,7 +48,7 @@ export default class TagListEntry extends Component {
             )
 
             colorForm = (
-                <div className="notified">
+                <div className="notified color-form-notified">
                     <FormInline
                         action={`library/song-tags/${tag.id}/`}
                         method="PATCH"
