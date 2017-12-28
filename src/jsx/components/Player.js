@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import utils from '../utils'
 import SongPreviewDetails from './SongPreviewDetails'
 import UserWidget from '../containers/UserWidget'

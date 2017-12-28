@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { browserHistory } from 'react-router'
 import utils from '../utils'
 import SongDisplay from './LibraryEntrySongDisplay'

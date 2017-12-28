@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { permissionLevels } from './User'
 import { IsUserManager, IsNotSelf } from '../containers/UsersPermissions'
 import ControlLink from './ControlLink'
