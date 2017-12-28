@@ -1,10 +1,10 @@
 //
 // Dakara Project
 //
-// Users management page style file
+// Tags management page style file
 //
 
-#users {
+#tag-list {
     background: darken(@black-80, 5%);
 
     > .header {
@@ -13,27 +13,23 @@
         color: @brand-primary-light;
     }
 
-    .users-listing {
-        .username {
+    .tag-list-listing {
+        .name {
             padding-left: @gap-horizontal;
             text-align: left;
         }
 
-        .permission {
+        .color {
             text-align: center;
         }
 
-        .superuser {
-            font-size: 1.5em;
+        .enabled {
+            justify-content: center;
         }
     }
 
     .navigator {
         background: @brand-primary-darker;
         color: @brand-primary-light;
-    }
-
-    .form {
-        padding: @gap-vertical 0;
     }
 }

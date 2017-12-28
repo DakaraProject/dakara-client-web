@@ -54,11 +54,6 @@
             .field {
                 display: table-row;
 
-                // deactivated field
-                &.disabled {
-                    opacity: 0.33;
-                }
-
                 .label {
                     // this allows to shrink the label 'column' as small as possible
                     display: table-cell;
@@ -196,7 +191,8 @@
         outline: none;
         background: @neutral-soft;
 
-        &:focus, &.focus {
+        &:focus, &.focus,
+        &[type="checkbox"]:focus + .marker {
             background: @neutral-clear !important;
         }
 
@@ -212,7 +208,7 @@
         }
     }
 
-    // disabled field
+    // field hover
     .field:not(.disabled) {
         input,
         textarea,
@@ -438,5 +434,10 @@
     // Controls inside inputs
     .input .controls .icon {
         font-size: 1.1em;
+    }
+
+    // deactivated element
+    .disabled {
+        opacity: 0.33;
     }
 }
