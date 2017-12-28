@@ -392,7 +392,7 @@
         input + label.marker::before {
             position: absolute;
             content: "";
-            background: @brand-primary;
+            background: @brand-info;
             width: @field-height;
             height: @field-height * 0.5;
             right: @field-height;
@@ -426,12 +426,12 @@
         // handle hover
         .label:hover + .input .checkbox input:not(:focus) + label.marker::before,
         .checkbox input:hover:not(:focus) + label.marker::before {
-            background: @brand-primary-light;
+            background: @brand-info-light;
         }
 
         // handle focus
         .checkbox input:focus + label.marker::before {
-            background: @brand-primary-lighter;
+            background: @brand-info-lighter;
         }
     }
 
