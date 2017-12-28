@@ -21,6 +21,9 @@ export default class TagListEntry extends Component {
                 editSongTag(tag.id, !value)
         }
 
+        // TODO It would be nice to set the checkbox to disabled if
+        // the request (fetching) takes too much time.
+
         return (
             <tr className="listing-entry tag-list-listing hoverizable">
                 <td className="name">{tag.name}</td>
@@ -30,12 +33,13 @@ export default class TagListEntry extends Component {
                     </span>
                 </td>
                 <td className="enabled form inline">
-                    <div className={"field" + (disabled ? " disabled" : "")}>
+                    <div className="field">
                         <CheckboxField
                             id={"enabled-state" + tag.id}
                             value={!tag.disabled}
                             setValue={setValue}
                             inline
+                            toggle
                         />
                     </div>
                     <ReactCSSTransitionGroup

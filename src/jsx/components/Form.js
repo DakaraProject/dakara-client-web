@@ -544,14 +544,16 @@ export class CheckboxField extends Field {
     }
 
     subRender = (props) => {
-        const { value, ...remainingProps } = props
+        const { value, toggle, ...remainingProps } = props
         const { id, setValue } = this.props
 
         // remove props from remaining
         const { onChange, ...remaining } = remainingProps
 
+        const className = toggle ? "toggle" : "checkbox"
+
         return (
-            <div className="checkbox">
+            <div className={className}>
                 <input
                     type="checkbox"
                     checked={!!value}

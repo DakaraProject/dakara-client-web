@@ -325,8 +325,7 @@
         }
     }
 
-    // custom style for checkbox
-    .checkbox {
+    .checkbox, .toggle {
         // reset initial height
         input[type="checkbox"] {
             height: initial;
@@ -347,7 +346,40 @@
             opacity: 0;
             position: absolute;
         }
+    }
 
+    // custom style for checkbox
+    .checkbox {
+        // add style to adjacent marker box
+        input + label.marker {
+            .square(@field-height * 0.5);
+            margin-top: @field-height * 0.25;
+
+            // remove padding
+            padding: 0;
+
+            position: relative;
+        }
+
+        // add style to marker when checked
+        input:checked + label.marker::after {
+            position: absolute;
+            .square(@field-height * 0.5);
+
+            // content align
+            line-height: @field-height * 0.5;
+            text-align: center;
+
+            // content check mark
+            font-family: FontAwesome;
+            content: "\f00c";
+            font-size: 1.3em;
+            color: @text-dark;
+        }
+    }
+
+    // custom style for checkbox
+    .toggle {
         // add style to adjacent marker box
         input + label.marker {
             width: @field-height;
@@ -415,18 +447,19 @@
         }
 
         // handle hover
+        .label:hover + .input .toggle label.marker,
         .label:hover + .input .checkbox label.marker {
             background: @neutral-soft-lighter;
         }
 
         // handle hover
-        .label:hover + .input .checkbox input:not(:focus) + label.marker::before,
-        .checkbox input:hover:not(:focus) + label.marker::before {
+        .label:hover + .input .toggle input:not(:focus) + label.marker::before,
+        .toggle input:hover:not(:focus) + label.marker::before {
             background: @brand-info-light;
         }
 
         // handle focus
-        .checkbox input:focus + label.marker::before {
+        .toggle input:focus + label.marker::before {
             background: @brand-info-lighter;
         }
     }
