@@ -32,7 +32,7 @@ import { setFormValidationErrors, submitForm, clearForm } from '../actions'
  *
  *
  */
-class FormBlock extends Component {
+class Form extends Component {
 
     state = {
         formValues: {
@@ -188,12 +188,66 @@ class FormBlock extends Component {
         submitForm(formName, action, method || 'POST', json, successMessage)
     }
 
-
-    render() {
-        const {title, submitText, formName, formsResponse, children} = this.props
+    /**
+     * Add form props to children fields and put them in a set
+     * @param inline the field is rendered in inline mode.
+     * @returns set of fields with props.
+     */
+    renderFieldsSet = (inline) => {
+        const { children, formName, formsResponse } = this.props
         const response = formsResponse[formName]
-
         const { formValues } = this.state
+
+        const fields = React.Children.map(children,
+            (field) => {
+                const id = field.props.id
+                let fieldErrors
+                if (response) {
+                    fieldErrors = response.fields[id]
+                }
+
+                return React.cloneElement(field,
+                    {
+                        fieldErrors,
+                        setValue: this.setFieldValue,
+                        value: formValues[id],
+                        inline,
+                    }
+                )
+            }
+        )
+
+        return (
+            <div className="set">
+                {fields}
+            </div>
+        )
+    }
+
+    renderControls = () => {
+        const { submitText, submitClass } = this.props
+
+        return (
+            <div className="controls">
+                <button
+                    type="submit"
+                    className={"control " + (submitClass || "primary")}
+                >
+                    {submitText || "Submit"}
+                </button>
+            </div>
+        )
+    }
+}
+
+const mapStateToProps = (state) => ({
+    formsResponse: state.forms
+})
+
+class FormBlock extends Form {
+    render() {
+        const { title, formName, formsResponse } = this.props
+        const response = formsResponse[formName]
 
         // global notification message
         let message
@@ -210,25 +264,11 @@ class FormBlock extends Component {
                     )
         }
 
+        // get fields
+        const fieldsSet = this.renderFieldsSet()
 
-        // Add props to fields
-        const fields = React.Children.map(children,
-                (field) => {
-                    const id = field.props.id
-                    let fieldErrors
-                    if (response) {
-                        fieldErrors = response.fields[id]
-                    }
-
-                    return React.cloneElement(field,
-                        {
-                            fieldErrors, 
-                            setValue: this.setFieldValue,
-                            value: formValues[id],
-                        }
-                    )
-                }
-            )
+        // get controls
+        const controls = this.renderControls()
 
         return (
             <form
@@ -251,22 +291,12 @@ class FormBlock extends Component {
                         {message}
                     </ReactCSSTransitionGroup>
                 </div>
-                <div className="set">
-                    {fields}
-                </div>
-                <div className="controls">
-                    <button type="submit" className="control primary">
-                        {submitText || "Submit"}
-                    </button>
-                </div>
+                {fieldsSet}
+                {controls}
             </form>
         )
     }
 }
-
-const mapStateToProps = (state) => ({
-    formsResponse: state.forms
-})
 
 FormBlock = connect(
     mapStateToProps,
@@ -278,6 +308,45 @@ FormBlock = connect(
 )(FormBlock)
 
 export { FormBlock }
+
+class FormInline extends Form {
+    render() {
+        const { formName } = this.props
+
+        // get fields
+        const fieldsSet = this.renderFieldsSet(true)
+
+        // get controls
+        const controls = this.renderControls()
+
+        return (
+            <form
+                onSubmit={e => {
+                    e.preventDefault()
+                    if(this.validate()) {
+                        this.submit()
+                    }
+                }}
+                className="form inline"
+                noValidate
+            >
+                {fieldsSet}
+                {controls}
+            </form>
+        )
+    }
+}
+
+FormInline = connect(
+    mapStateToProps,
+    {
+        setFormValidationErrors,
+        submitForm,
+        clearForm
+    }
+)(FormInline)
+
+export { FormInline }
 
 /**
  * Form Field abstract component
@@ -336,7 +405,7 @@ class Field extends Component {
 
         // field error
         let message
-        if (fieldErrors) {
+        if (fieldErrors && !inline) {
             const messageContent = fieldErrors.map((fieldError, id) => (
                 <div className="error" key={id}>{fieldError}</div>
             ))
@@ -370,7 +439,11 @@ class Field extends Component {
 
         // Inline form: render input field only
         if (inline) {
-            return this.subRender(props)
+            return (
+                <div className={disabledClassName + "field"}>
+                    {this.subRender(props)}
+                </div>
+            )
         }
 
         return (
@@ -620,7 +693,7 @@ export class HueField extends Field {
                     type="range"
                     min="0"
                     max="360"
-                    step="10"
+                    step="5"
                     {...args}
                 />
             </div>

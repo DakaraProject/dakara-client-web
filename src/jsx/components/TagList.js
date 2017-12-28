@@ -19,17 +19,23 @@ class TagList extends Component {
     }
 
     render() {
-        const { entries, notifications, editSongTag, location } = this.props
+        const { entries, notifications, editSongTag, location, forms } = this.props
         const { current, last } = entries.data
 
         const tagList = entries.data.results.map((tag) => {
             let notification = notifications[tag.id]
+            const form = forms[`tagColorEdit${tag.id}`]
+            let formNofitication
+            if (form) {
+                formNofitication = form.global
+            }
 
             return (
                 <TagListEntry
                     key={tag.id}
                     tag={tag}
                     notification={notification}
+                    formNofitication={formNofitication}
                     editSongTag={editSongTag}
                 />
             )
@@ -41,12 +47,12 @@ class TagList extends Component {
                     <h1>Song tags management</h1>
                 </div>
                 <div className="listing-table-container">
-                    <table className="listing notifiable">
+                    <table className="listing tag-list-listing notifiable">
                         <thead>
-                            <tr className="listing-header tag-list-listing">
+                            <tr className="listing-header">
                                 <th className="name">Name</th>
-                                <th>Color</th>
-                                <th>Enabled</th>
+                                <th className="enabled">Enabled</th>
+                                <th className="color">Color</th>
                             </tr>
                         </thead>
                         <tbody>

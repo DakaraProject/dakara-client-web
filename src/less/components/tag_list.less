@@ -19,12 +19,40 @@
             text-align: left;
         }
 
-        .color {
-            text-align: center;
+        .listing-header .color {
+            padding-right: @gap-horizontal;
+            text-align: right;
         }
 
-        .enabled {
-            justify-content: center;
+        .color .field {
+            flex: 1;
+        }
+
+        .set {
+            padding: 0;
+        }
+
+        .color, .enabled {
+            .form {
+                justify-content: center;
+                height: @listing-entry-height;
+            }
+        }
+
+        .controls-col {
+            width: initial;
+        }
+
+        .notified {
+            display: flex;
+
+            .form {
+                flex: 1;
+            }
+        }
+
+        .display-color-form {
+            background: hsl(0, 0.5, 50%);
         }
     }
 

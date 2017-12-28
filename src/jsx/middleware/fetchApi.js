@@ -39,6 +39,12 @@ export default ({getState, dispatch}) => next => action => {
      */
     const actionWith = newAction => {
         const finalAction = {...action, ...newAction}
+
+        // re-add json data if provided
+        const { json } = finalAction[FETCH_API]
+        finalAction.json = json
+
+        // clean the final action from the fetch API instructions
         delete finalAction[FETCH_API]
         return finalAction
     }
