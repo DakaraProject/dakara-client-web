@@ -1,4 +1,4 @@
-import { FORM_REQUEST, FORM_SUCCESS, FORM_FAILURE, FORM_CLEAR, FORM_SET_VALIDATION_ERRORS } from '../actions'
+import { FORM_REQUEST, FORM_SUCCESS, FORM_FAILURE, FORM_CLEAR, FORM_CLEAR_GLOBAL_MESSAGE, FORM_SET_VALIDATION_ERRORS } from '../actions'
 
 /**
  * This reducer contains forms state
@@ -28,6 +28,12 @@ function form(state, action) {
         case FORM_REQUEST:
         case FORM_CLEAR:
             return defaultState
+
+        case FORM_CLEAR_GLOBAL_MESSAGE:
+            return {
+                ...state,
+                global: null
+            }
 
         case FORM_SUCCESS:
             const { successMessage } = action

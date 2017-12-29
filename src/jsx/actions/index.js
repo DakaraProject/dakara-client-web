@@ -373,6 +373,7 @@ export const FORM_REQUEST = 'FORM_REQUEST'
 export const FORM_SUCCESS = 'FORM_SUCCESS'
 export const FORM_FAILURE = 'FORM_FAILURE'
 export const FORM_CLEAR = 'FORM_CLEAR'
+export const FORM_CLEAR_GLOBAL_MESSAGE = 'FORM_CLEAR_GLOBAL_MESSAGE'
 export const FORM_SET_VALIDATION_ERRORS = 'FORM_SET_VALIDATION_ERRORS'
 
 /**
@@ -390,7 +391,8 @@ export const submitForm = (formName, endpoint, method, json, successMessage) => 
                     FORM_SUCCESS,
                     FORM_FAILURE,
                 ],
-                onSuccess: successMessage? delay(clearForm(formName), 3000) : null
+                onSuccess: successMessage? delay(clearForm(formName), 3000) : null,
+                onFailure: delay(clearFormGlobalMessage(formName), 5000)
             },
         formName,
         successMessage
@@ -402,6 +404,15 @@ export const submitForm = (formName, endpoint, method, json, successMessage) => 
  */
 export const clearForm = (formName) => ({
     type: FORM_CLEAR,
+    formName
+})
+
+/** Clear form global notifications only
+ *  Do not clear field errors
+ * @param formName name of the form
+ */
+export const clearFormGlobalMessage = (formName) => ({
+    type: FORM_CLEAR_GLOBAL_MESSAGE,
     formName
 })
 
