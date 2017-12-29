@@ -54,11 +54,6 @@
             .field {
                 display: table-row;
 
-                // deactivated field
-                &.disabled {
-                    opacity: 0.33;
-                }
-
                 .label {
                     // this allows to shrink the label 'column' as small as possible
                     display: table-cell;
@@ -190,14 +185,18 @@
 
     // Visual aspect of the inputs and faked inputs
     input, textarea, select, .fake {
-        padding: 0 @gap-horizontal;
         box-sizing: border-box;
         border: none;
         outline: none;
-        background: @neutral-soft;
 
-        &:focus, &.focus {
-            background: @neutral-clear !important;
+        &:not(.faked) {
+            padding: 0 @gap-horizontal;
+            background: @neutral-soft;
+
+            &:focus, &.focus,
+            &[type="checkbox"]:focus + .marker {
+                background: @neutral-clear !important;
+            }
         }
 
         &:not([type="checkbox"]) {
@@ -212,7 +211,7 @@
         }
     }
 
-    // disabled field
+    // field hover
     .field:not(.disabled) {
         input,
         textarea,
@@ -329,22 +328,31 @@
         }
     }
 
-    input[type="checkbox"] {
-        height: initial;
-    }
+    .checkbox, .toggle {
+        // reset initial height
+        input[type="checkbox"] {
+            height: initial;
+        }
 
-    // custom style for checkbox
-    .checkbox {
         // delete initial marker
-        input {
+        input[type="checkbox"] {
             -moz-appearance: none;
             -webkit-appearance: none;
             -ms-appearance: none;
             appearance: none;
 
             width: 0;
-        }
 
+            // hack for old browsers (Firefox 52), for which deactivating
+            // appareance is not enough
+            // TODO make it conditionnal?
+            opacity: 0;
+            position: absolute;
+        }
+    }
+
+    // custom style for checkbox
+    .checkbox {
         // add style to adjacent marker box
         input + label.marker {
             .square(@field-height * 0.5);
@@ -373,6 +381,68 @@
         }
     }
 
+    // custom style for checkbox
+    .toggle {
+        // add style to adjacent marker box
+        input + label.marker {
+            width: @field-height;
+            height: @field-height * 0.5;
+            margin-top: @field-height * 0.25;
+
+            // remove padding
+            padding: 0;
+
+            position: relative;
+            overflow: hidden;
+        }
+
+        // add marker
+        input + label.marker::after {
+            position: absolute;
+            top: @field-height * 0.1;
+            left: @field-height * 0.1;
+            .square(@field-height * 0.3);
+            background: @text-dark;
+            content: "";
+        }
+
+        // add style to marker when not checked
+        input:not(:checked) + label.marker::after {
+            left: @field-height * 0.1;
+            .transition(left 150ms ease-out);
+            .transition-delay(150ms);
+        }
+
+        // add style to marker when checked
+        input:checked + label.marker::after {
+            left: @field-height * 0.6;
+            .transition(left 150ms ease-out);
+        }
+
+        // add second marker
+        input + label.marker::before {
+            position: absolute;
+            content: "";
+            background: @brand-info;
+            width: @field-height;
+            height: @field-height * 0.5;
+            right: @field-height;
+        }
+
+        // add style to second marker when not checked
+        input:not(:checked) + label.marker::before {
+            right: @field-height;
+            .transition(right 150ms ease-out);
+        }
+
+        // add style to second marker when checked
+        input:checked + label.marker::before {
+            right: 0;
+            .transition(right 150ms ease-out);
+            .transition-delay(150ms);
+        }
+    }
+
     .field:not(.disabled) {
         // handle cursor
         label.marker {
@@ -380,13 +450,125 @@
         }
 
         // handle hover
+        .label:hover + .input .toggle label.marker,
         .label:hover + .input .checkbox label.marker {
             background: @neutral-soft-lighter;
+        }
+
+        // handle hover
+        .label:hover + .input .toggle input:not(:focus) + label.marker::before,
+        .toggle input:hover:not(:focus) + label.marker::before {
+            background: @brand-info-light;
+        }
+
+        // handle focus
+        .toggle input:focus + label.marker::before {
+            background: @brand-info-lighter;
+        }
+    }
+
+    // style for hue field
+    @hue-field-saturation: @custom-color-saturation;
+    @hue-field-luminosity: @custom-color-luminosity;
+    .rainbow-gradient(@saturation, @luminosity) {
+        background: linear-gradient(
+            to right,
+            hsl(0, @saturation, @luminosity),
+            hsl(60, @saturation, @luminosity),
+            hsl(120, @saturation, @luminosity),
+            hsl(180, @saturation, @luminosity),
+            hsl(240, @saturation, @luminosity),
+            hsl(300, @saturation, @luminosity),
+            hsl(360, @saturation, @luminosity)
+        );
+    }
+
+    .hue {
+
+        display: flex;
+
+        .preview {
+            width: @form-field-height;
+            line-height: @form-field-height;
+            text-align: center;
+            background: hsl(0, @hue-field-saturation, @hue-field-luminosity);
+            color: fade(@text-dark, 50%);
+            font-weight: 700;
+            font-size: medium;
+        }
+
+        .input {
+            @track-height: 0.5rem;
+
+            margin: 0 !important;
+
+            .track() {
+                .rainbow-gradient(@hue-field-saturation, @hue-field-luminosity);
+                height: @track-height;
+            }
+
+            input[type=range] {
+                -webkit-appearance: none;
+            }
+
+            input[type=range]::-webkit-slider-runnable-track {
+                .track();
+            }
+
+            input[type=range]::-moz-range-track {
+                .track();
+            }
+
+            .thumb() {
+                .square(@track-height);
+                background: @text-dark;
+                border: @track-height solid @text-dark;
+                box-sizing: content-box;
+            }
+
+            input[type=range]::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                // Hack to center for chrome
+                // (thumb size - track size) * -0.5
+                margin-top: -@track-height;
+                .thumb();
+            }
+
+            input[type=range]::-moz-range-thumb {
+                .thumb();
+                border-radius: 0;
+            }
+        }
+    }
+
+    .field:not(.disabled) {
+        .hue {
+            // handle cursor
+            input[type="range"] {
+                cursor: pointer;
+            }
+
+            .thumb() {
+                background: transparent;
+            }
+
+            input[type=range]:focus::-webkit-slider-thumb {
+                .thumb();
+            }
+
+            input[type=range]:focus::-moz-range-thumb {
+                .thumb();
+            }
         }
     }
 
     // Controls inside inputs
     .input .controls .icon {
         font-size: 1.1em;
+    }
+
+    // deactivated element
+    .disabled {
+        opacity: 0.33;
     }
 }

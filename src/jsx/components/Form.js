@@ -4,35 +4,7 @@ import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { setFormValidationErrors, submitForm, clearForm } from '../actions'
 
 
-/**
- * FormBlock component
- * For creating forms
- *
- * Required properties:
- * - title <str>: Name to display in the form header.
- * - formName <str>: Unique form identifier.
- * - action <str>: url to submit form to, relative to base url
- *
- * Optional properties:
- * - method <str>: Method used to submit form, default to 'POST'
- * - submitText <str>: Submit button text, default: "Submit"
- * - successMessage <str>: Message to display when form submit suceed,
- *                          if none is specified, no messsage is displayed.
- * - validate <func>: Called on submit, with object containing form values.
- *                      When validation fails,
- *                      Should return an array of validation error message.
- *                      When validation succeed,
- *                      Should return a falsy value or empty array.
- * - noClearOnSuccess <bool>: By default the form values are cleared when
- *                              request succeed.
- *                              If this value is true, forms are not cleared.
- * - onSuccess <func>: Called on form action success. Does not have access to
- *                      arguments.
- *
- *
- *
- */
-class FormBlock extends Component {
+class Form extends Component {
 
     state = {
         formValues: {
@@ -188,12 +160,94 @@ class FormBlock extends Component {
         submitForm(formName, action, method || 'POST', json, successMessage)
     }
 
-
-    render() {
-        const {title, submitText, formName, formsResponse, children} = this.props
+    /**
+     * Add form props to children fields and put them in a set
+     * @param inline the field is rendered in inline mode.
+     * @returns set of fields with props.
+     */
+    renderFieldsSet = (inline) => {
+        const { children, formName, formsResponse } = this.props
         const response = formsResponse[formName]
-
         const { formValues } = this.state
+
+        const fields = React.Children.map(children,
+            (field) => {
+                const id = field.props.id
+                let fieldErrors
+                if (response) {
+                    fieldErrors = response.fields[id]
+                }
+
+                return React.cloneElement(field,
+                    {
+                        fieldErrors,
+                        setValue: this.setFieldValue,
+                        value: formValues[id],
+                        inline,
+                    }
+                )
+            }
+        )
+
+        return (
+            <div className="set">
+                {fields}
+            </div>
+        )
+    }
+
+    renderControls = () => {
+        const { submitText, submitClass } = this.props
+
+        return (
+            <div className="controls">
+                <button
+                    type="submit"
+                    className={"control " + (submitClass || "primary")}
+                >
+                    {submitText || "Submit"}
+                </button>
+            </div>
+        )
+    }
+}
+
+const mapStateToProps = (state) => ({
+    formsResponse: state.forms
+})
+
+/**
+ * FormBlock component
+ * For creating forms
+ *
+ * Required properties:
+ * - title <str>: Name to display in the form header.
+ * - formName <str>: Unique form identifier.
+ * - action <str>: url to submit form to, relative to base url
+ *
+ * Optional properties:
+ * - method <str>: Method used to submit form, default to 'POST'
+ * - submitText <str>: Submit button text, default: "Submit"
+ * - successMessage <str>: Message to display when form submit suceed,
+ *                           if null, no messsage is displayed.
+ * - validate <func>: Called on submit, with object containing form values.
+ *                      When validation fails,
+ *                      Should return an array of validation error message.
+ *                      When validation succeed,
+ *                      Should return a falsy value or empty array.
+ * - noClearOnSuccess <bool>: By default the form values are cleared when
+ *                              request succeed.
+ *                              If this value is true, forms are not cleared.
+ * - onSuccess <func>: Called on form action success. Does not have access to
+ *                      arguments.
+ *
+ *
+ *
+ */
+class FormBlock extends Form {
+    render() {
+        const { title, formName, formsResponse } = this.props
+        const response = formsResponse[formName]
 
         // global notification message
         let message
@@ -210,25 +264,11 @@ class FormBlock extends Component {
                     )
         }
 
+        // get fields
+        const fieldsSet = this.renderFieldsSet()
 
-        // Add props to fields
-        const fields = React.Children.map(children,
-                (field) => {
-                    const id = field.props.id
-                    let fieldErrors
-                    if (response) {
-                        fieldErrors = response.fields[id]
-                    }
-
-                    return React.cloneElement(field,
-                        {
-                            fieldErrors, 
-                            setValue: this.setFieldValue,
-                            value: formValues[id],
-                        }
-                    )
-                }
-            )
+        // get controls
+        const controls = this.renderControls()
 
         return (
             <form
@@ -251,22 +291,12 @@ class FormBlock extends Component {
                         {message}
                     </ReactCSSTransitionGroup>
                 </div>
-                <div className="set">
-                    {fields}
-                </div>
-                <div className="controls">
-                    <button type="submit" className="control primary">
-                        {submitText || "Submit"}
-                    </button>
-                </div>
+                {fieldsSet}
+                {controls}
             </form>
         )
     }
 }
-
-const mapStateToProps = (state) => ({
-    formsResponse: state.forms
-})
 
 FormBlock = connect(
     mapStateToProps,
@@ -278,6 +308,73 @@ FormBlock = connect(
 )(FormBlock)
 
 export { FormBlock }
+
+/**
+ * FormInline component
+ * For creating inline forms
+ *
+ * Required properties:
+ * - title <str>: Name to display in the form header.
+ * - formName <str>: Unique form identifier.
+ * - action <str>: url to submit form to, relative to base url
+ *
+ * Optional properties:
+ * - method <str>: Method used to submit form, default to 'POST'
+ * - submitText <str>: Submit button text, default: "Submit"
+ * - successMessage <str>: Message to display when form submit suceed,
+ *                           if null, no messsage is displayed.
+ * - validate <func>: Called on submit, with object containing form values.
+ *                      When validation fails,
+ *                      Should return an array of validation error message.
+ *                      When validation succeed,
+ *                      Should return a falsy value or empty array.
+ * - noClearOnSuccess <bool>: By default the form values are cleared when
+ *                              request succeed.
+ *                              If this value is true, forms are not cleared.
+ * - onSuccess <func>: Called on form action success. Does not have access to
+ *                      arguments.
+ *
+ *
+ *
+ */
+class FormInline extends Form {
+    render() {
+        const { formName } = this.props
+
+        // get fields
+        const fieldsSet = this.renderFieldsSet(true)
+
+        // get controls
+        const controls = this.renderControls()
+
+        return (
+            <form
+                onSubmit={e => {
+                    e.preventDefault()
+                    if(this.validate()) {
+                        this.submit()
+                    }
+                }}
+                className="form inline"
+                noValidate
+            >
+                {fieldsSet}
+                {controls}
+            </form>
+        )
+    }
+}
+
+FormInline = connect(
+    mapStateToProps,
+    {
+        setFormValidationErrors,
+        submitForm,
+        clearForm
+    }
+)(FormInline)
+
+export { FormInline }
 
 /**
  * Form Field abstract component
@@ -330,12 +427,13 @@ class Field extends Component {
             disabled,
             ignore,
             ignoreIfEmpty,
+            inline,
             ...remaining
         } = this.props
 
         // field error
         let message
-        if (fieldErrors) {
+        if (fieldErrors && !inline) {
             const messageContent = fieldErrors.map((fieldError, id) => (
                 <div className="error" key={id}>{fieldError}</div>
             ))
@@ -364,6 +462,16 @@ class Field extends Component {
         let disabledClassName = ''
         if (disabled) {
             disabledClassName = "disabled "
+        }
+
+
+        // Inline form: render input field only
+        if (inline) {
+            return (
+                <div className={disabledClassName + "field"}>
+                    {this.subRender(props)}
+                </div>
+            )
         }
 
         return (
@@ -399,6 +507,7 @@ class Field extends Component {
  * Optional properties:
  * - type <str>: Html input type, default to text field.
  * - defaultValue <str>: Pre-fill field with given value.
+ * - inline <bool>: If true do not render label.
  * - validate <func>: Called on submit, with the following params:
  *                          - value of the field
  *                          - object containing all fields values.
@@ -440,6 +549,7 @@ export class InputField extends Field {
  *
  * Optional properties:
  * - defaultValue <str>: Pre-fill field with given value.
+ * - inline <bool>: If true do not render label.
  * - validate <func>: Called on submit, with the following params:
  *                          - value of the field
  *                          - object containing all fields values.
@@ -513,6 +623,8 @@ export class SelectField extends Field {
  *
  * Optional properties:
  * - defaultValue <str>: Pre-fill field with given value.
+ * - inline <bool>: If true do not render label.
+ * - toggle <book>: If true, display as toggle instead of checkbox.
  * - validate <func>: Called on submit, with the following params:
  *                          - value of the field
  *                          - object containing all fields values.
@@ -537,32 +649,20 @@ export class CheckboxField extends Field {
     }
 
     subRender = (props) => {
-        const { value, ...remainingProps } = props
+        const { value, toggle, ...remainingProps } = props
         const { id, setValue } = this.props
 
         // remove props from remaining
         const { onChange, ...remaining } = remainingProps
 
+        const className = toggle ? "toggle" : "checkbox"
+
         return (
-            <div className="checkbox">
+            <div className={className}>
                 <input
                     type="checkbox"
                     checked={!!value}
                     onChange={e => {setValue(id, e.target.checked)}}
-                    onFocus={() => {
-                        document.getElementById(
-                            `${id}-fake`
-                        ).classList.add(
-                            "focus"
-                        )
-                    }}
-                    onBlur={() => {
-                        document.getElementById(
-                            `${id}-fake`
-                        ).classList.remove(
-                            "focus"
-                        )
-                    }}
                     {...remaining}
                 />
                 <label
@@ -570,6 +670,68 @@ export class CheckboxField extends Field {
                     className="fake marker"
                     id={`${id}-fake`}
                 ></label>
+            </div>
+        )
+    }
+}
+
+/**
+ * Form Field component based on the Input tag
+ * Should be used as a direct child of a Form
+ *
+ * Null value is converted to 0 value.
+ *
+ * Required properties:
+ * - id <str>: Unique field identifier.
+ * - label <str/jsx>: Label of the field.
+ *
+ * Optional properties:
+ * - defaultValue <str>: Pre-fill field with given value.
+ * - inline <bool>: If true do not render label.
+ * - validate <func>: Called on submit, with the following params:
+ *                          - value of the field
+ *                          - object containing all fields values.
+ *                      When validation fails,
+ *                      Should return an array of validation error message.
+ *                      When validation succeed,
+ *                      Should return a falsy value or empty array.
+ *
+ * Validation modifiers:
+ * - required <bool>: When true, field can not be empty.
+ *
+ * Filtering modifiers
+ * - ignore <bool>: When true, the field is never passed to the server.
+ * - ignoreIfEmpty <bool>: When true, the field is passed to the server only if
+ *                          its value is not empty.
+ *
+ * Extra properties are passed to the input tag.
+ */
+export class HueField extends Field {
+    static getEmptyValue() {
+        return 0
+    }
+
+    subRender = (args) => {
+        const { value } = this.props
+
+        return (
+            <div className="hue">
+                <div
+                    className="preview"
+                    style={{filter: `hue-rotate(${value}deg)`}}
+                >
+                    {value}
+                </div>
+                <div className="input fake">
+                    <input
+                        className="faked"
+                        type="range"
+                        min="0"
+                        max="360"
+                        step="5"
+                        {...args}
+                    />
+                </div>
             </div>
         )
     }

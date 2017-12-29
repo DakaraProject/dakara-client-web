@@ -42,7 +42,7 @@ class Users extends Component {
                 <div className="header">
                     <h1>Users management</h1>
                 </div>
-                <div className="users-listing-container">
+                <div className="listing-table-container">
                     <table className="listing users-listing notifiable">
                         <thead>
                             <tr className="listing-header">

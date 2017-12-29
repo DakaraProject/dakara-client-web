@@ -14,6 +14,7 @@
 // displayed in compact or in expanded view.
 .tag {
     .make-font();
+    @color: hsl(0, @custom-color-saturation, @custom-color-luminosity);
     border: none;
     outline: none;
     padding: 0 @gap-horizontal;
@@ -21,6 +22,7 @@
     color: fade(@text-dark, 50%);
     font-weight: 700;
     font-size: medium;
+    background-color: @color;
 
     &.clickable {
         cursor: pointer;
@@ -29,49 +31,16 @@
             margin-right: 0.5em;
             font-size: 1.2em;
         }
+
+        &:hover,
+        &:focus {
+            background-color: lighten(@color, 5%);
+        }
     }
 
     &.disabled {
         opacity: 0.5;
+        background-color: desaturate(@color, 33%);
     }
 
-    .make-tag(@color) {
-        background-color: @color;
-
-        &.clickable {
-            &:hover,
-            &:focus {
-                background-color: lighten(@color, 5%);
-            }
-        }
-
-        &.disabled {
-            background-color: desaturate(@color, 50%);
-        }
-    }
-
-    &.color-0 {
-        .make-tag(#1b9e77); 
-    }
-    &.color-1 {
-        .make-tag(#d95f02); 
-    }
-    &.color-2 {
-        .make-tag(#7570b3); 
-    }
-    &.color-3 {
-        .make-tag(#e7298a); 
-    }
-    &.color-4 {
-        .make-tag(#66a61e); 
-    }
-    &.color-5 {
-        .make-tag(#e6ab02); 
-    }
-    &.color-6 {
-        .make-tag(#a6761d); 
-    }
-    &.color-7 {
-        .make-tag(#666666); 
-    }
 }
