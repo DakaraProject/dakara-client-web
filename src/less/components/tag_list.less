@@ -56,16 +56,18 @@
         }
 
         .listing-entry {
+            @background: hsl(0, @custom-color-saturation, @custom-color-luminosity);
+
             .display-color-form {
-                background: hsl(0, 0.5, 50%);
+                background: @background;
 
                 &:focus {
-                    background: hsl(0, 0.5, 57%);
+                    background: lighten(@background, 5%);
                 }
             }
 
             &:hover .display-color-form {
-                background: hsl(0, 0.5, 55%);
+                background: lighten(@background, 3.5%);
             }
         }
     }

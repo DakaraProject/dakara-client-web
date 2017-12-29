@@ -468,8 +468,8 @@
     }
 
     // style for hue field
-    @hue-field-saturation: 0.5;
-    @hue-field-luminosity: 50%;
+    @hue-field-saturation: @custom-color-saturation;
+    @hue-field-luminosity: @custom-color-luminosity;
     .rainbow-gradient(@saturation, @luminosity) {
         background: linear-gradient(
             to right,
