@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { FORM_SUCCESS } from '../actions'
 import { TAG_LIST_REQUEST, TAG_LIST_SUCCESS, TAG_LIST_FAILURE } from '../actions'
 import { EDIT_SONG_TAG_REQUEST, EDIT_SONG_TAG_SUCCESS, EDIT_SONG_TAG_FAILURE } from '../actions'
 import { CLEAR_TAG_LIST_ENTRY_NOTIFICATION } from '../actions'
@@ -15,8 +16,32 @@ const defaultEntries = {
  * List of tags
  */
 
+function updateTagInState(tagId, state, valueDict) {
+    const results = state.data.results.slice()
+    const index = results.findIndex(e => (e.id == tagId))
+    results[index] = {
+        ...results[index],
+        ...valueDict
+    }
+
+    return {
+        ...state,
+        data: {
+            ...state.data,
+            results
+        }
+    }
+}
+
 function entries(state = defaultEntries, action) {
-    let disabled = action.disabled
+    const { json } = action
+    let disabled
+    if (json) {
+        disabled = json.disabled
+    }
+
+    let tagId
+
     switch (action.type) {
         case TAG_LIST_REQUEST:
             return { ...state, isFetching: true }
@@ -29,23 +54,20 @@ function entries(state = defaultEntries, action) {
 
         case EDIT_SONG_TAG_FAILURE:
             disabled = !disabled
+
         case EDIT_SONG_TAG_REQUEST:
             // Update disabled status of updated tag
-            const tagId = action.tagId
-            const results = state.data.results.slice()
-            const index = results.findIndex(e => (e.id == tagId))
-            results[index] = {
-                ...results[index],
-                disabled
-            }
+            tagId = action.tagId
+            return updateTagInState(tagId, state, {disabled})
 
-            return {
-                ...state,
-                data: {
-                    ...state.data,
-                    results
-                }
-            }
+        case FORM_SUCCESS:
+            const tagColorFormPrefix = "tagColorEdit"
+            if (!action.formName.startsWith(tagColorFormPrefix)) return state
+
+            // Update new color of updated tag
+            tagId = action.formName.split(tagColorFormPrefix)[1]
+            const { color_hue } = json
+            return updateTagInState(tagId, state, {color_hue})
 
         default:
             return state
@@ -65,6 +87,7 @@ function notifications(state = {}, action) {
                     isFetching: true
                 }
             }
+
         case EDIT_SONG_TAG_FAILURE:
             tagId = action.tagId
             return {...state, [tagId]: {
@@ -73,6 +96,7 @@ function notifications(state = {}, action) {
                     isFetching: false
                 }
             }
+
         case EDIT_SONG_TAG_SUCCESS:
         case CLEAR_TAG_LIST_ENTRY_NOTIFICATION:
             tagId = action.tagId

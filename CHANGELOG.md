@@ -32,7 +32,11 @@
 
 ### Added
 
-- Page to edit tag visibility.
+- Page to edit tag visibility and color.
+
+### Changed
+
+- Tags now use hue instead of color id and can be changed by user.
 
 ## 1.0.0 - 2017-11-05
 

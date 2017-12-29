@@ -128,9 +128,6 @@ table.listing {
     .controls-col {
         width: 1px;
         white-space: nowrap;
-
-        // default is 1px, but no idea for the reason why
-        padding: 0;
     }
 
     // remove default bold
@@ -152,6 +149,11 @@ table.listing {
 
         // This value can be increased when using tables with more rows
         .loop-notified-offset(10);
+    }
+
+    td {
+        // default is 1px, but no idea for the reason why
+        padding: 0;
     }
 }
 

@@ -4,7 +4,8 @@ import { getTagList, editSongTag } from '../actions'
 
 const mapStateToProps = (state) => ({
     entries: state.library.songTags.entries,
-    notifications: state.library.songTags.notifications
+    notifications: state.library.songTags.notifications,
+    forms: state.forms
 })
 
 const TagListPage = connect(

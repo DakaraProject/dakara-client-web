@@ -185,15 +185,18 @@
 
     // Visual aspect of the inputs and faked inputs
     input, textarea, select, .fake {
-        padding: 0 @gap-horizontal;
         box-sizing: border-box;
         border: none;
         outline: none;
-        background: @neutral-soft;
 
-        &:focus, &.focus,
-        &[type="checkbox"]:focus + .marker {
-            background: @neutral-clear !important;
+        &:not(.faked) {
+            padding: 0 @gap-horizontal;
+            background: @neutral-soft;
+
+            &:focus, &.focus,
+            &[type="checkbox"]:focus + .marker {
+                background: @neutral-clear !important;
+            }
         }
 
         &:not([type="checkbox"]) {
@@ -461,6 +464,101 @@
         // handle focus
         .toggle input:focus + label.marker::before {
             background: @brand-info-lighter;
+        }
+    }
+
+    // style for hue field
+    @hue-field-saturation: @custom-color-saturation;
+    @hue-field-luminosity: @custom-color-luminosity;
+    .rainbow-gradient(@saturation, @luminosity) {
+        background: linear-gradient(
+            to right,
+            hsl(0, @saturation, @luminosity),
+            hsl(60, @saturation, @luminosity),
+            hsl(120, @saturation, @luminosity),
+            hsl(180, @saturation, @luminosity),
+            hsl(240, @saturation, @luminosity),
+            hsl(300, @saturation, @luminosity),
+            hsl(360, @saturation, @luminosity)
+        );
+    }
+
+    .hue {
+
+        display: flex;
+
+        .preview {
+            width: @form-field-height;
+            line-height: @form-field-height;
+            text-align: center;
+            background: hsl(0, @hue-field-saturation, @hue-field-luminosity);
+            color: fade(@text-dark, 50%);
+            font-weight: 700;
+            font-size: medium;
+        }
+
+        .input {
+            @track-height: 0.5rem;
+
+            margin: 0 !important;
+
+            .track() {
+                .rainbow-gradient(@hue-field-saturation, @hue-field-luminosity);
+                height: @track-height;
+            }
+
+            input[type=range] {
+                -webkit-appearance: none;
+            }
+
+            input[type=range]::-webkit-slider-runnable-track {
+                .track();
+            }
+
+            input[type=range]::-moz-range-track {
+                .track();
+            }
+
+            .thumb() {
+                .square(@track-height);
+                background: @text-dark;
+                border: @track-height solid @text-dark;
+                box-sizing: content-box;
+            }
+
+            input[type=range]::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                // Hack to center for chrome
+                // (thumb size - track size) * -0.5
+                margin-top: -@track-height;
+                .thumb();
+            }
+
+            input[type=range]::-moz-range-thumb {
+                .thumb();
+                border-radius: 0;
+            }
+        }
+    }
+
+    .field:not(.disabled) {
+        .hue {
+            // handle cursor
+            input[type="range"] {
+                cursor: pointer;
+            }
+
+            .thumb() {
+                background: transparent;
+            }
+
+            input[type=range]:focus::-webkit-slider-thumb {
+                .thumb();
+            }
+
+            input[type=range]:focus::-moz-range-thumb {
+                .thumb();
+            }
         }
     }
 
