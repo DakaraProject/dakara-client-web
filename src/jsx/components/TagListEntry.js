@@ -57,6 +57,7 @@ export default class TagListEntry extends Component {
                         formName={`tagColorEdit${tag.id}`}
                         noClearOnSuccess
                         onSuccess={this.clearColorForm}
+                        successMessage
                     >
                         <HueField
                             id="color_id"
