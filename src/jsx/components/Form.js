@@ -4,34 +4,6 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { setFormValidationErrors, submitForm, clearForm } from '../actions'
 
 
-/**
- * FormBlock component
- * For creating forms
- *
- * Required properties:
- * - title <str>: Name to display in the form header.
- * - formName <str>: Unique form identifier.
- * - action <str>: url to submit form to, relative to base url
- *
- * Optional properties:
- * - method <str>: Method used to submit form, default to 'POST'
- * - submitText <str>: Submit button text, default: "Submit"
- * - successMessage <str>: Message to display when form submit suceed,
- *                          if none is specified, no messsage is displayed.
- * - validate <func>: Called on submit, with object containing form values.
- *                      When validation fails,
- *                      Should return an array of validation error message.
- *                      When validation succeed,
- *                      Should return a falsy value or empty array.
- * - noClearOnSuccess <bool>: By default the form values are cleared when
- *                              request succeed.
- *                              If this value is true, forms are not cleared.
- * - onSuccess <func>: Called on form action success. Does not have access to
- *                      arguments.
- *
- *
- *
- */
 class Form extends Component {
 
     state = {
@@ -244,6 +216,34 @@ const mapStateToProps = (state) => ({
     formsResponse: state.forms
 })
 
+/**
+ * FormBlock component
+ * For creating forms
+ *
+ * Required properties:
+ * - title <str>: Name to display in the form header.
+ * - formName <str>: Unique form identifier.
+ * - action <str>: url to submit form to, relative to base url
+ *
+ * Optional properties:
+ * - method <str>: Method used to submit form, default to 'POST'
+ * - submitText <str>: Submit button text, default: "Submit"
+ * - successMessage <str>: Message to display when form submit suceed,
+ *                           if null, no messsage is displayed.
+ * - validate <func>: Called on submit, with object containing form values.
+ *                      When validation fails,
+ *                      Should return an array of validation error message.
+ *                      When validation succeed,
+ *                      Should return a falsy value or empty array.
+ * - noClearOnSuccess <bool>: By default the form values are cleared when
+ *                              request succeed.
+ *                              If this value is true, forms are not cleared.
+ * - onSuccess <func>: Called on form action success. Does not have access to
+ *                      arguments.
+ *
+ *
+ *
+ */
 class FormBlock extends Form {
     render() {
         const { title, formName, formsResponse } = this.props
@@ -309,6 +309,34 @@ FormBlock = connect(
 
 export { FormBlock }
 
+/**
+ * FormInline component
+ * For creating inline forms
+ *
+ * Required properties:
+ * - title <str>: Name to display in the form header.
+ * - formName <str>: Unique form identifier.
+ * - action <str>: url to submit form to, relative to base url
+ *
+ * Optional properties:
+ * - method <str>: Method used to submit form, default to 'POST'
+ * - submitText <str>: Submit button text, default: "Submit"
+ * - successMessage <str>: Message to display when form submit suceed,
+ *                           if null, no messsage is displayed.
+ * - validate <func>: Called on submit, with object containing form values.
+ *                      When validation fails,
+ *                      Should return an array of validation error message.
+ *                      When validation succeed,
+ *                      Should return a falsy value or empty array.
+ * - noClearOnSuccess <bool>: By default the form values are cleared when
+ *                              request succeed.
+ *                              If this value is true, forms are not cleared.
+ * - onSuccess <func>: Called on form action success. Does not have access to
+ *                      arguments.
+ *
+ *
+ *
+ */
 class FormInline extends Form {
     render() {
         const { formName } = this.props
@@ -479,6 +507,7 @@ class Field extends Component {
  * Optional properties:
  * - type <str>: Html input type, default to text field.
  * - defaultValue <str>: Pre-fill field with given value.
+ * - inline <bool>: If true do not render label.
  * - validate <func>: Called on submit, with the following params:
  *                          - value of the field
  *                          - object containing all fields values.
@@ -520,6 +549,7 @@ export class InputField extends Field {
  *
  * Optional properties:
  * - defaultValue <str>: Pre-fill field with given value.
+ * - inline <bool>: If true do not render label.
  * - validate <func>: Called on submit, with the following params:
  *                          - value of the field
  *                          - object containing all fields values.
@@ -593,6 +623,8 @@ export class SelectField extends Field {
  *
  * Optional properties:
  * - defaultValue <str>: Pre-fill field with given value.
+ * - inline <bool>: If true do not render label.
+ * - toggle <book>: If true, display as toggle instead of checkbox.
  * - validate <func>: Called on submit, with the following params:
  *                          - value of the field
  *                          - object containing all fields values.
@@ -655,6 +687,7 @@ export class CheckboxField extends Field {
  *
  * Optional properties:
  * - defaultValue <str>: Pre-fill field with given value.
+ * - inline <bool>: If true do not render label.
  * - validate <func>: Called on submit, with the following params:
  *                          - value of the field
  *                          - object containing all fields values.
