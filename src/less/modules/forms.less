@@ -185,15 +185,18 @@
 
     // Visual aspect of the inputs and faked inputs
     input, textarea, select, .fake {
-        padding: 0 @gap-horizontal;
         box-sizing: border-box;
         border: none;
         outline: none;
-        background: @neutral-soft;
 
-        &:focus, &.focus,
-        &[type="checkbox"]:focus + .marker {
-            background: @neutral-clear !important;
+        &:not(.faked) {
+            padding: 0 @gap-horizontal;
+            background: @neutral-soft;
+
+            &:focus, &.focus,
+            &[type="checkbox"]:focus + .marker {
+                background: @neutral-clear !important;
+            }
         }
 
         &:not([type="checkbox"]) {
@@ -477,7 +480,7 @@
             hsl(240, @saturation, @luminosity),
             hsl(300, @saturation, @luminosity),
             hsl(360, @saturation, @luminosity)
-        ) !important;
+        );
     }
 
     .hue {
@@ -494,11 +497,47 @@
             font-size: medium;
         }
 
-        input[type="range"] {
-            // using Flex properties to an input element may be harmful
-            // consider using a container
-            flex: 1;
-            .rainbow-gradient(@hue-field-saturation, @hue-field-luminosity);
+        .input {
+            @track-height: 0.5rem;
+
+            margin: 0 !important;
+
+            .track() {
+                .rainbow-gradient(@hue-field-saturation, @hue-field-luminosity);
+                height: @track-height;
+            }
+
+            input[type=range] {
+                -webkit-appearance: none;
+            }
+
+            input[type=range]::-webkit-slider-runnable-track {
+                .track();
+            }
+
+            input[type=range]::-moz-range-track {
+                .track();
+            }
+
+            .thumb() {
+                .square(@track-height);
+                background: @text-dark;
+                border: @track-height solid @text-dark;
+                box-sizing: content-box;
+            }
+
+            input[type=range]::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                // Hack to center for chrome
+                // (thumb size - track size) * -0.5
+                margin-top: -@track-height;
+                .thumb();
+            }
+
+            input[type=range]::-moz-range-thumb {
+                .thumb();
+                border-radius: 0;
+            }
         }
     }
 
@@ -509,21 +548,17 @@
                 cursor: pointer;
             }
 
-            // handle focus
-            input[type="range"]:focus {
-                .rainbow-gradient(
-                    @hue-field-saturation,
-                    @hue-field-luminosity * 1.1
-                );
+            .thumb() {
+                background: transparent;
             }
-        }
 
-        // handle hover
-        &:hover .hue input[type="range"]:not(:focus) {
-            .rainbow-gradient(
-                @hue-field-saturation,
-                @hue-field-luminosity * 1.05
-            );
+            input[type=range]:focus::-webkit-slider-thumb {
+                .thumb();
+            }
+
+            input[type=range]:focus::-moz-range-thumb {
+                .thumb();
+            }
         }
     }
 

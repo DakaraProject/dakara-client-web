@@ -689,13 +689,16 @@ export class HueField extends Field {
                 >
                     {value}
                 </div>
-                <input
-                    type="range"
-                    min="0"
-                    max="360"
-                    step="5"
-                    {...args}
-                />
+                <div className="input fake">
+                    <input
+                        className="faked"
+                        type="range"
+                        min="0"
+                        max="360"
+                        step="5"
+                        {...args}
+                    />
+                </div>
             </div>
         )
     }
