@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { FormInline, CheckboxField, HueField } from './Form'
 
 export default class TagListEntry extends Component {
