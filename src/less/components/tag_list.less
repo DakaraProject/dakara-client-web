@@ -51,8 +51,18 @@
             }
         }
 
-        .display-color-form {
-            background: hsl(0, 0.5, 50%);
+        .listing-entry {
+            .display-color-form {
+                background: hsl(0, 0.5, 50%);
+
+                &:focus {
+                    background: hsl(0, 0.5, 57%);
+                }
+            }
+
+            &:hover .display-color-form {
+                background: hsl(0, 0.5, 55%);
+            }
         }
     }
 
