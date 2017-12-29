@@ -30,7 +30,7 @@ export default class SongTagList extends Component {
             if (this.props.unclickable) {
                 return (
                     <div
-                        className={'tag color-' + tag.color_id + classClickable + classDisabled}
+                        className={'tag color-' + tag.color_hue + classClickable + classDisabled}
                         key={tag.name}
                     >
                         {searchIcon}
@@ -41,7 +41,7 @@ export default class SongTagList extends Component {
 
             return (
                 <button
-                    className={'tag color-' + tag.color_id + classClickable + classDisabled}
+                    className={'tag color-' + tag.color_hue + classClickable + classDisabled}
                     key={tag.name}
                     onClick={() => setQuery && setQuery("#" + tag.name)}
                 >

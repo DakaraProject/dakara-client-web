@@ -66,8 +66,8 @@ function entries(state = defaultEntries, action) {
 
             // Update new color of updated tag
             tagId = action.formName.split(tagColorFormPrefix)[1]
-            const { color_id } = json
-            return updateTagInState(tagId, state, {color_id})
+            const { color_hue } = json
+            return updateTagInState(tagId, state, {color_hue})
 
         default:
             return state

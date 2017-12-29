@@ -60,8 +60,8 @@ export default class TagListEntry extends Component {
                         successMessage
                     >
                         <HueField
-                            id="color_id"
-                            defaultValue={tag.color_id}
+                            id="color_hue"
+                            defaultValue={tag.color_hue}
                         />
                     </FormInline>
                     <div className="controls">
@@ -110,7 +110,7 @@ export default class TagListEntry extends Component {
                         <button
                             className="control display-color-form"
                             onClick={this.displayColorForm}
-                            style={{filter: `hue-rotate(${tag.color_id}deg)`}}
+                            style={{filter: `hue-rotate(${tag.color_hue}deg)`}}
                         >
                             <i className="fa fa-paint-brush"></i>
                         </button>
