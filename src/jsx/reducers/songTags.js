@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { FORM_REQUEST, FORM_FAILURE } from '../actions'
+import { FORM_SUCCESS } from '../actions'
 import { TAG_LIST_REQUEST, TAG_LIST_SUCCESS, TAG_LIST_FAILURE } from '../actions'
 import { EDIT_SONG_TAG_REQUEST, EDIT_SONG_TAG_SUCCESS, EDIT_SONG_TAG_FAILURE } from '../actions'
 import { CLEAR_TAG_LIST_ENTRY_NOTIFICATION } from '../actions'
@@ -60,7 +60,7 @@ function entries(state = defaultEntries, action) {
             tagId = action.tagId
             return updateTagInState(tagId, state, {disabled})
 
-        case FORM_REQUEST:
+        case FORM_SUCCESS:
             const tagColorFormPrefix = "tagColorEdit"
             if (!action.formName.startsWith(tagColorFormPrefix)) return state
 
