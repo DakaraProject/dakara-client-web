@@ -1,5 +1,5 @@
 import React from 'react'
-import WorkDisplay from 'components/generics/WorkDisplay'
+import WorkDisplay from 'components/song/WorkDisplay'
 
 export default class SongExpandedWorkEntry extends WorkDisplay {
     handleSearchWork = () => {

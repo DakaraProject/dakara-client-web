@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
-import SongTagList from 'components/generics/SongTagList'
+import SongTagList from 'components/song/SongTagList'
 import SongExpandedWorkEntry from './SongExpandedWorkEntry'
 import SongExpandedArtistEntry from './SongExpandedArtistEntry'
 
