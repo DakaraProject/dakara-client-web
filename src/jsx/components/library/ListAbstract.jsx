@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { browserHistory } from 'react-router';
 
-class LibraryListAbstract extends Component {
+class ListAbstract extends Component {
     componentDidMount() {
         this.refreshEntries()
     }
@@ -78,4 +78,4 @@ class LibraryListAbstract extends Component {
     }
 }
 
-export default LibraryListAbstract
+export default ListAbstract

@@ -3,7 +3,7 @@ import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { connect } from 'react-redux'
 import utils from 'utils'
 import { loadPlaylist, toogleCollapsedPlaylist, removeEntryFromPlaylist } from 'actions'
-import PlaylistEntry from './PlaylistEntry'
+import PlaylistEntry from './Entry'
 
 class Playlist extends Component {
     pollPlaylist = () => {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { FormBlock, InputField } from 'components/generics/Form'
-import { permissionLevels } from 'components/permissions/UsersPermissions'
+import { permissionLevels } from 'components/permissions/Users'
 
 class User extends Component {
     render() {

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import Delayer from 'components/generics/Delayer'
 
-export default class LibraryListWrapper extends Component {
+export default class ListWrapper extends Component {
     render() {
         const { isFetching, fetchError } = this.props
         let notification

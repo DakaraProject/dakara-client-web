@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { BasePermission, mapStateToProps } from './BasePermission'
+import { PermissionBase, mapStateToProps } from './Base'
 
 /**
  * Playlist manager or Owner of the object
@@ -9,7 +9,7 @@ import { BasePermission, mapStateToProps } from './BasePermission'
 export const IsPlaylistManagerOrOwner = connect(
     mapStateToProps
 )(
-    class extends BasePermission {
+    class extends PermissionBase {
         static hasPermissionCustom(user, object) {
             if (user.playlist_permission_level == 'm') {
                 return true
@@ -32,7 +32,7 @@ export const IsPlaylistManagerOrOwner = connect(
 export const IsPlaylistUser = connect(
     mapStateToProps
 )(
-    class extends BasePermission {
+    class extends PermissionBase {
         static hasPermissionCustom(user) {
             return (user.playlist_permission_level == 'u' ||
                 user.playlist_permission_level == 'm')

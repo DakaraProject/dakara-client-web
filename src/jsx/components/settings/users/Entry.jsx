@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
-import { permissionLevels, IsUserManager, IsNotSelf } from 'components/permissions/UsersPermissions'
+import { permissionLevels, IsUserManager, IsNotSelf } from 'components/permissions/Users'
 import ControlLink from 'components/generics/ControlLink'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 
-export default class UsersEntry extends Component {
+export default class UserEntry extends Component {
     state = {
         confirmDisplayed: false
     }

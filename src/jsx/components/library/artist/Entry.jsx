@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { browserHistory } from 'react-router'
 
-export default class LibraryEntryArtist extends Component {
+export default class ArtistEntry extends Component {
     handleSearch = () => {
         const newSearch = "artist:\"\"" + this.props.artist.name + "\"\""
         browserHistory.push({

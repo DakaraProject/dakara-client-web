@@ -3,8 +3,8 @@ import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { getUser, clearUser } from 'actions'
 import { FormBlock, InputField, SelectField, CheckboxField } from 'components/generics/Form'
-import { BasePermission } from 'components/permissions/BasePermission'
-import { IsUserManager, IsNotSelf } from 'components/permissions/UsersPermissions'
+import { PermissionBase } from 'components/permissions/Base'
+import { IsUserManager, IsNotSelf } from 'components/permissions/Users'
 
 class UserEdit extends Component {
     componentWillMount() {
@@ -13,8 +13,8 @@ class UserEdit extends Component {
         const fakeUser = {id: userId}
 
         // check if the current user can disply the page
-        if (!(BasePermission.hasPermission(authenticatedUser, fakeUser, IsUserManager) &&
-                BasePermission.hasPermission(authenticatedUser, fakeUser, IsNotSelf))) {
+        if (!(PermissionBase.hasPermission(authenticatedUser, fakeUser, IsUserManager) &&
+                PermissionBase.hasPermission(authenticatedUser, fakeUser, IsNotSelf))) {
 
             const { pathname, search } = this.props.location
             browserHistory.replace({

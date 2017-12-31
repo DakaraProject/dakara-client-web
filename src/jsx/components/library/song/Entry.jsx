@@ -4,12 +4,12 @@ import { browserHistory } from 'react-router'
 import utils from 'utils'
 import { connect } from 'react-redux'
 import { addSongToPlaylist } from 'actions'
-import LibraryEntrySongDisplay from 'components/song/LibraryEntrySongDisplay'
-import LibraryEntrySongExpanded from './LibraryEntrySongExpanded'
+import SongEntryDisplay from 'components/song/LibraryEntrySongDisplay'
+import SongEntryExpanded from './EntryExpanded'
 import UserWidget from 'components/generics/UserWidget'
-import { IsPlaylistUser } from 'components/permissions/PlaylistPermissions'
+import { IsPlaylistUser } from 'components/permissions/Playlist'
 
-class LibraryEntrySong extends Component {
+class SongEntry extends Component {
     /**
      * Toogle expanded view of song
      */
@@ -91,7 +91,7 @@ class LibraryEntrySong extends Component {
         let songExpandedDetails
         if (expanded){
             songExpandedDetails = (
-                    <LibraryEntrySongExpanded
+                    <SongEntryExpanded
                         song={this.props.song}
                         location={location}
                     />)
@@ -100,7 +100,7 @@ class LibraryEntrySong extends Component {
         return (
                 <li className="library-entry listing-entry library-entry-song">
                     <div className="library-entry-song-compact hoverizable notifiable">
-                        <LibraryEntrySongDisplay
+                        <SongEntryDisplay
                             song={song}
                             query={query}
                             expanded={expanded}
@@ -159,9 +159,9 @@ const mapStateToProps = (state, ownProps) => ({
     notification: state.library.songListNotifications[ownProps.song.id]
 })
 
-LibraryEntrySong = connect(
+SongEntry = connect(
     mapStateToProps,
     { addSongToPlaylist }
-)(LibraryEntrySong)
+)(SongEntry)
 
-export default LibraryEntrySong
+export default SongEntry

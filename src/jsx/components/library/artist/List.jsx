@@ -1,12 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { loadLibraryEntries } from 'actions'
-import LibraryListAbstract from '../LibraryListAbstract'
-import LibraryEntryArtist from './LibraryEntryArtist'
+import ListAbstract from '../ListAbstract'
+import ArtistEntry from './Entry'
 
-class LibraryListArtist extends LibraryListAbstract {
+class ArtistList extends ListAbstract {
     static getName() {
-        return "LibraryListArtist"
+        return "ArtistList"
     }
 
     getLibraryName() {
@@ -16,7 +16,7 @@ class LibraryListArtist extends LibraryListAbstract {
     getLibraryEntryList = () => {
         const artists = this.props.entries.data.results
         const libraryEntryArtistList = artists.map(artist =>
-              <LibraryEntryArtist
+              <ArtistEntry
                 key={artist.id}
                 artist={artist}
               />
@@ -30,9 +30,9 @@ const mapStateToProps = (state) => ({
     entries: state.library.artist
 })
 
-LibraryListArtist = connect(
+ArtistList = connect(
     mapStateToProps,
     { loadLibraryEntries }
-)(LibraryListArtist)
+)(ArtistList)
 
-export default LibraryListArtist
+export default ArtistList

@@ -539,10 +539,10 @@ export const TAG_LIST_SUCCESS = "TAG_LIST_SUCCESS"
 export const TAG_LIST_FAILURE = "TAG_LIST_FAILURE"
 
 /**
- * Request to retrieve tag list
+ * Request to retrieve song tag list
  * @param page page to display
  */
-export const getTagList = (page = 1) => ({
+export const getSongTagList = (page = 1) => ({
     [FETCH_API]: {
             endpoint: `${baseUrl}library/song-tags/?page=${page}`,
             method: 'GET',

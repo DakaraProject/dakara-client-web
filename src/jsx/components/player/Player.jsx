@@ -4,8 +4,9 @@ import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import utils from 'utils'
 import SongPreviewDetails from 'components/song/SongPreviewDetails'
 import UserWidget from 'components/generics/UserWidget'
-import { IsPlaylistManagerOrOwner } from 'components/permissions/PlaylistPermissions'
+import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import { loadPlayerStatus, sendPlayerCommands } from 'actions'
+import Playlist from './playlist/List'
 
 class Player extends Component {
     pollPlayerStatus = () => {
@@ -158,78 +159,81 @@ class Player extends Component {
         const controlDisabled = !isPlaying || fetchError
 
         return (
-            <div id="player">
-                <div className="display">
-                    <div className="controls">
-                        <IsPlaylistManagerOrOwner
-                            object={playerStatus.playlist_entry}
-                            disable
-                        >
-                            <button
-                                className={
-                                    "control primary"
-                                        + (pauseError ? " managed_error" : "")
-                                }
-                                onClick={() => {
-                                    this.props.sendPlayerCommands({pause: !playerCommand.pause})
-                                }
-                                }
-                                disabled={controlDisabled}
+            <div className="box">
+                <div id="player">
+                    <div className="display">
+                        <div className="controls">
+                            <IsPlaylistManagerOrOwner
+                                object={playerStatus.playlist_entry}
+                                disable
                             >
-                                <ReactCSSTransitionGroup
-                                    transitionName="managed"
-                                    transitionEnterTimeout={150}
-                                    transitionLeaveTimeout={150}
+                                <button
+                                    className={
+                                        "control primary"
+                                            + (pauseError ? " managed_error" : "")
+                                    }
+                                    onClick={() => {
+                                        this.props.sendPlayerCommands({pause: !playerCommand.pause})
+                                    }
+                                    }
+                                    disabled={controlDisabled}
                                 >
-                                    {playPausebtn}
-                                </ReactCSSTransitionGroup>
-                            </button>
-                        </IsPlaylistManagerOrOwner>
-                        <IsPlaylistManagerOrOwner
-                            object={playerStatus.playlist_entry}
-                            disable
-                        >
-                            <button
-                                className={
-                                    "control primary"
-                                        + (skipError ? " managed_error" : "")
-                                }
-                                onClick={() => this.props.sendPlayerCommands({skip: true})}
-                                disabled={controlDisabled}
+                                    <ReactCSSTransitionGroup
+                                        transitionName="managed"
+                                        transitionEnterTimeout={150}
+                                        transitionLeaveTimeout={150}
+                                    >
+                                        {playPausebtn}
+                                    </ReactCSSTransitionGroup>
+                                </button>
+                            </IsPlaylistManagerOrOwner>
+                            <IsPlaylistManagerOrOwner
+                                object={playerStatus.playlist_entry}
+                                disable
                             >
-                                <ReactCSSTransitionGroup
-                                    transitionName="managed"
-                                    transitionEnterTimeout={150}
-                                    transitionLeaveTimeout={150}
+                                <button
+                                    className={
+                                        "control primary"
+                                            + (skipError ? " managed_error" : "")
+                                    }
+                                    onClick={() => this.props.sendPlayerCommands({skip: true})}
+                                    disabled={controlDisabled}
                                 >
-                                    {skipBtn}
-                                </ReactCSSTransitionGroup>
-                            </button>
-                        </IsPlaylistManagerOrOwner>
-                    </div>
-                    <div className="song notifiable">
-                        {songData}
-                        {songOwner}
-                        <div className="song-timing">
-                            <div className="current">
-                                {utils.formatTime(playerStatus.timing)}
-                            </div>
-                            <div className="duration">
-                                {utils.formatDuration(duration)}
-                            </div>
+                                    <ReactCSSTransitionGroup
+                                        transitionName="managed"
+                                        transitionEnterTimeout={150}
+                                        transitionLeaveTimeout={150}
+                                    >
+                                        {skipBtn}
+                                    </ReactCSSTransitionGroup>
+                                </button>
+                            </IsPlaylistManagerOrOwner>
                         </div>
-                        <ReactCSSTransitionGroup
-                            transitionName="notified"
-                            transitionEnterTimeout={300}
-                            transitionLeaveTimeout={150}
-                        >
-                            {notificationBanner}
-                        </ReactCSSTransitionGroup>
+                        <div className="song notifiable">
+                            {songData}
+                            {songOwner}
+                            <div className="song-timing">
+                                <div className="current">
+                                    {utils.formatTime(playerStatus.timing)}
+                                </div>
+                                <div className="duration">
+                                    {utils.formatDuration(duration)}
+                                </div>
+                            </div>
+                            <ReactCSSTransitionGroup
+                                transitionName="notified"
+                                transitionEnterTimeout={300}
+                                transitionLeaveTimeout={150}
+                            >
+                                {notificationBanner}
+                            </ReactCSSTransitionGroup>
+                        </div>
+                    </div>
+                    <div className="progressbar">
+                        <div className="progress" style={progressStyle}></div>
                     </div>
                 </div>
-                <div className="progressbar">
-                    <div className="progress" style={progressStyle}></div>
-                </div>
+                <Playlist/>
             </div>
         )
     }

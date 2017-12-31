@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { BasePermission, mapStateToProps } from './BasePermission'
+import { PermissionBase, mapStateToProps } from './Base'
 
 export const permissionLevels = {
     u: "user",
@@ -15,7 +15,7 @@ export const permissionLevels = {
 export const IsUserManager = connect(
     mapStateToProps
 )(
-    class extends BasePermission {
+    class extends PermissionBase {
         static hasPermissionCustom(user) {
             return (user.users_permission_level == 'm')
         }
@@ -29,7 +29,7 @@ export const IsUserManager = connect(
 export const IsNotSelf = connect(
     mapStateToProps
 )(
-    class extends BasePermission {
+    class extends PermissionBase {
         static hasPermissionCustom(user, object) {
             return (user.id != object.id)
         }

@@ -10,16 +10,16 @@ import LoggedinPage from 'components/navigation/LoggedinPage'
 import Login from 'components/navigation/Login'
 import Logout from 'components/navigation/Logout'
 import User from 'components/user/User'
-import UserEdit from 'components/user/UserEdit'
-import Users from 'components/settings/users/Users'
+import UserEdit from 'components/settings/users/Edit'
+import UserList from 'components/settings/users/List'
 import Library from 'components/library/Library'
-import LibraryListSong from 'components/library/song/LibraryListSong'
-import LibraryListArtist from 'components/library/artist/LibraryListArtist'
-import LibraryListWork from 'components/library/work/LibraryListWork'
+import LibrarySongList from 'components/library/song/List'
+import LibraryArtistList from 'components/library/artist/List'
+import LibraryWorkList from 'components/library/work/List'
 import NotFound from 'components/navigation/NotFound'
 import Forbidden from 'components/navigation/Forbidden'
 import NotFoundRedirector from 'components/navigation/NotFoundRedirector'
-import TagList from 'components/settings/song_tags/TagList'
+import SongTagList from 'components/settings/song_tags/List'
 import reducer from  'reducers'
 import fetchApiMiddleware from 'middleware/fetchApi'
 import delayMiddleware from 'middleware/delay'
@@ -47,14 +47,14 @@ ReactDOM.render(
                     <IndexRedirect to="library"/>
                     <Route path="library" component={Library}>
                         <IndexRedirect to="song"/>
-                        <Route path="song" component={LibraryListSong}/>
-                        <Route path="artist" component={LibraryListArtist}/>
-                        <Route path=":workType" component={LibraryListWork}/>
+                        <Route path="song" component={LibrarySongList}/>
+                        <Route path="artist" component={LibraryArtistList}/>
+                        <Route path=":workType" component={LibraryWorkList}/>
                     </Route>
                     <Route path="user" component={User}/>
-                    <Route path="users" component={Users}/>
+                    <Route path="users" component={UserList}/>
                     <Route path="users/:userId" component={UserEdit}/>
-                    <Route path="song-tags" component={TagList}/>
+                    <Route path="song-tags" component={SongTagList}/>
                     <Route path="403" component={Forbidden}/>
                 </Route>
                 <Route path="login" component={Login}/>

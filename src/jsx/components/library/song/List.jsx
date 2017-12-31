@@ -1,12 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { loadLibraryEntries } from 'actions'
-import LibraryListAbstract from '../LibraryListAbstract'
-import LibraryEntrySong from './LibraryEntrySong'
+import ListAbstract from '../ListAbstract'
+import SongEntry from './Entry'
 
-class LibraryListSong extends LibraryListAbstract {
+class SongList extends ListAbstract {
     static getName() {
-        return "LibraryListSong"
+        return "SongList"
     }
 
     getLibraryName() {
@@ -60,11 +60,11 @@ class LibraryListSong extends LibraryListAbstract {
         }
 
         /**
-         * Create LibraryEntrySong for each song
+         * Create SongEntry for each song
          */
 
          const libraryEntrySongList = songs.map( song => (
-                <LibraryEntrySong
+                <SongEntry
                         key={song.id}
                         song={song}
                         playlistInfo={playlistInfo[song.id]}
@@ -83,9 +83,9 @@ const mapStateToProps = (state) => ({
     playerStatus: state.player.status.data
 })
 
-LibraryListSong = connect(
+SongList = connect(
     mapStateToProps,
     { loadLibraryEntries }
-)(LibraryListSong)
+)(SongList)
 
-export default LibraryListSong
+export default SongList

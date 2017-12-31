@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { browserHistory, Link } from 'react-router'
 import { loadWorkTypes } from 'actions'
 import Paginator from 'components/generics/Paginator'
-import LibraryListWrapper from './LibraryListWrapper'
+import ListWrapper from './ListWrapper'
 
 class Library extends Component {
     state = {
@@ -33,19 +33,19 @@ class Library extends Component {
     getLibraryName = () => {
         const libraryComponentName = this.props.children.type.WrappedComponent.getName()
         switch (libraryComponentName) {
-            case 'LibraryListSong':
+            case 'SongList':
                 return {
                     singular: "song",
                     plural: "songs"
                 }
 
-            case 'LibraryListArtist':
+            case 'ArtistList':
                 return {
                     singular: "artist",
                     plural: "artists"
                 }
 
-            case 'LibraryListWork':
+            case 'WorkList':
                 const workTypeQueryName = this.props.children.props.params.workType
                 const workTypes = this.props.library.workTypes.data.results
                 const workType = workTypes.find(
@@ -83,13 +83,13 @@ class Library extends Component {
     getLibraryEntries = () => {
         const libraryComponentName = this.props.children.type.WrappedComponent.getName()
         switch (libraryComponentName) {
-            case 'LibraryListSong':
+            case 'SongList':
                 return this.props.library.song
 
-            case 'LibraryListArtist':
+            case 'ArtistList':
                 return this.props.library.artist
 
-            case 'LibraryListWork':
+            case 'WorkList':
                 const workTypeQueryName = this.props.children.props.params.workType
                 return this.props.library.work[workTypeQueryName]
         }
@@ -215,12 +215,12 @@ class Library extends Component {
                     </div>
                 </form>
 
-                <LibraryListWrapper
+                <ListWrapper
                     isFetching={isFetching}
                     fetchError={fetchError}
                 >
                     {this.props.children}
-                </LibraryListWrapper>
+                </ListWrapper>
 
                 <div className="library-navigator">
                     <Paginator

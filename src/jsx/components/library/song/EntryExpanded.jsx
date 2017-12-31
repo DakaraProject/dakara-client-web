@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
 import SongTagList from 'components/song/SongTagList'
-import SongExpandedWorkEntry from './SongExpandedWorkEntry'
-import SongExpandedArtistEntry from './SongExpandedArtistEntry'
+import SongEntryExpandedWork from './EntryExpandedWork'
+import SongEntryExpandedArtist from './EntryExpandedArtist'
 
-export default class LibraryEntrySongExpanded extends Component {
+export default class SongEntryExpanded extends Component {
     /**
      * Method used by child components WorkEntry and ArtistsEnty
      * to set new search criteria
@@ -39,9 +39,9 @@ export default class LibraryEntrySongExpanded extends Component {
             const worksList = worksByType[key]
             const workType = worksList[0].work.work_type
 
-            // Create SongExpandedWorkEntry for each work for this work type
+            // Create SongEntryExpandedWork for each work for this work type
             const worksForTypeList = worksList.map( work => (
-                        <SongExpandedWorkEntry
+                        <SongEntryExpandedWork
                             key={work.work.id}
                             work={work}
                             setQuery={this.setQuery}
@@ -68,9 +68,9 @@ export default class LibraryEntrySongExpanded extends Component {
          * Artists
          */
 
-        // Create SongExpandedArtistEntry for each artist
+        // Create SongEntryExpandedArtist for each artist
         const artistList = song.artists.map(artist => (
-                    <SongExpandedArtistEntry
+                    <SongEntryExpandedArtist
                         key={artist.id}
                         artist={artist}
                         setQuery={this.setQuery}

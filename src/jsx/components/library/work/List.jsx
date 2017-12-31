@@ -1,12 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { loadLibraryEntries } from 'actions'
-import LibraryListAbstract from '../LibraryListAbstract'
-import LibraryEntryWork from './LibraryEntryWork'
+import ListAbstract from '../ListAbstract'
+import WorkEntry from './Entry'
 
-class LibraryListWork extends LibraryListAbstract {
+class WorkList extends ListAbstract {
     static getName() {
-        return "LibraryListWork"
+        return "WorkList"
     }
 
     getLibraryName() {
@@ -20,7 +20,7 @@ class LibraryListWork extends LibraryListAbstract {
 
         const works = this.props.entries.data.results
         const libraryEntryWorkList = works.map(work =>
-              <LibraryEntryWork
+              <WorkEntry
                 key={work.id}
                 work={work}
                 workType={this.props.workType}
@@ -37,9 +37,9 @@ const mapStateToProps = (state, ownProps) => ({
     workType: ownProps.params.workType
 })
 
-LibraryListWork = connect(
+WorkList = connect(
     mapStateToProps,
     { loadLibraryEntries }
-)(LibraryListWork)
+)(WorkList)
 
-export default LibraryListWork
+export default WorkList

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { browserHistory } from 'react-router'
 
-export default class LibraryEntryWork extends Component {
+export default class WorkEntry extends Component {
     handleSearch = () => {
         const newSearch = this.props.workType + ":\"\"" + this.props.work.title + "\"\""
         browserHistory.push({pathname: "/library/song", query: { search: newSearch}})

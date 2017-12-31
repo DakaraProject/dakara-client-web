@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import { deleteUser, getUsers } from 'actions'
 import { FormBlock, InputField } from 'components/generics/Form'
 import Paginator from 'components/generics/Paginator'
-import { IsUserManager } from 'components/permissions/UsersPermissions'
-import UsersEntry from './UsersEntry'
+import { IsUserManager } from 'components/permissions/Users'
+import UserEntry from './Entry'
 
-class Users extends Component {
+class UserList extends Component {
     componentWillMount() {
         this.refreshEntries()
     }
@@ -30,7 +30,7 @@ class Users extends Component {
             let notification = notifications[user.id]
 
             return (
-                <UsersEntry
+                <UserEntry
                     key={user.id}
                     user={user}
                     notification={notification}
@@ -112,9 +112,9 @@ const mapStateToProps = (state) => ({
     notifications: state.users.notifications
 })
 
-Users = connect(
+UserList = connect(
     mapStateToProps,
     { deleteUser, getUsers }
-)(Users)
+)(UserList)
 
-export default Users
+export default UserList

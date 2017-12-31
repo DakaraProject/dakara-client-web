@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { FormInline, CheckboxField, HueField } from 'components/generics/Form'
 
-export default class TagListEntry extends Component {
+export default class SongTagEntry extends Component {
     state = {
         colorFormDisplayed: false
     }

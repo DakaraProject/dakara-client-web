@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { getTagList, editSongTag } from 'actions'
+import { getSongTagList, editSongTag } from 'actions'
 import Paginator from 'components/generics/Paginator'
-import TagListEntry from './TagListEntry'
+import SongTagEntry from './Entry'
 
-class TagList extends Component {
+class SongTagList extends Component {
     componentWillMount() {
         this.refreshEntries()
     }
@@ -17,7 +17,7 @@ class TagList extends Component {
 
     refreshEntries = () => {
         const pageNumber = this.props.location.query.page
-        this.props.getTagList(pageNumber)
+        this.props.getSongTagList(pageNumber)
     }
 
     render() {
@@ -33,7 +33,7 @@ class TagList extends Component {
             }
 
             return (
-                <TagListEntry
+                <SongTagEntry
                     key={tag.id}
                     tag={tag}
                     notification={notification}
@@ -80,12 +80,12 @@ const mapStateToProps = (state) => ({
     forms: state.forms
 })
 
-TagList = connect(
+SongTagList = connect(
     mapStateToProps,
     {
-        getTagList,
+        getSongTagList,
         editSongTag,
     }
-)(TagList)
+)(SongTagList)
 
-export default TagList
+export default SongTagList

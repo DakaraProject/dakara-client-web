@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router'
 import utils from 'utils'
 import SongDisplay from 'components/song/LibraryEntrySongDisplay'
 import UserWidget from 'components/generics/UserWidget'
-import { IsPlaylistManagerOrOwner } from 'components/permissions/PlaylistPermissions'
+import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 
 export default class PlaylistEntry extends Component {

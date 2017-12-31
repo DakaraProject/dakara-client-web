@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-export class BasePermission extends Component {
+export class PermissionBase extends Component {
     _hasPermission = () => {
         const { user, object } = this.props
         return this.constructor.hasPermission(
@@ -56,3 +56,18 @@ export class BasePermission extends Component {
 export const mapStateToProps = (state) => ({
     user: state.authenticatedUsers
 })
+
+/**
+ * Is authenticated
+ */
+
+export const IsAuthenticated = connect(
+    mapStateToProps
+)(
+    class extends PermissionBase {
+        static hasPermissionCustom(user) {
+            return true
+        }
+    }
+)
+

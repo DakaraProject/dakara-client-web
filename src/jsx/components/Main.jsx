@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { loadCurrentUser } from 'actions'
 import Header from './Header'
 import Footer from './Footer'
-import PlayerBox from './player/PlayerBox'
+import Player from './player/Player'
+import { IsAuthenticated } from 'components/permissions/Base'
 
 class Main extends Component {
     componentWillMount() {
@@ -23,7 +24,9 @@ class Main extends Component {
             <div id="main">
                 <Header/>
                 <div id="content">
-                    <PlayerBox/>
+                    <IsAuthenticated>
+                        <Player/>
+                    </IsAuthenticated>
                     {this.props.children}
                 </div>
                 <Footer/>

@@ -1,7 +1,7 @@
 import React from 'react'
 import WorkDisplay from 'components/song/WorkDisplay'
 
-export default class SongExpandedWorkEntry extends WorkDisplay {
+export default class SongEntryExpandedWork extends WorkDisplay {
     handleSearchWork = () => {
         const work = this.props.work.work
         this.props.setQuery(work.work_type.query_name + ':""' + work.title + '""')
