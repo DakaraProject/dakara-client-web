@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import utils from 'utils'
-import SongPreviewDetails from 'components/song/SongPreviewDetails'
+import Song from 'components/song/Song'
 import UserWidget from 'components/generics/UserWidget'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import { loadPlayerStatus, sendPlayerCommands } from 'actions'
@@ -45,21 +45,14 @@ class Player extends Component {
         if (isPlaying){
             song = playerStatus.playlist_entry.song
             duration = playerStatus.playlist_entry.song.duration
-            if (song.subtitle) {
-                songSubtitle = (<span className="subtitle">
-                        {song.subtitle}
-                    </span>)
-            }
 
             songData = (
                     <div className="song-preview">
-                        <span className="header">
-                            <span className="title">
-                                {song.title}
-                            </span>
-                            {songSubtitle}
-                        </span>
-                        <SongPreviewDetails song={song} />
+                        <Song
+                            song={song}
+                            noDuration
+                            noTag
+                            />
                     </div>
                 )
 

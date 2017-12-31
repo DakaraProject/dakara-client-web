@@ -4,6 +4,15 @@ import utils from 'utils'
 import SongPreviewDetails from './SongPreviewDetails'
 import SongTagList from './SongTagList'
 
+/**
+ * Displays a song info in a compact format.
+ * properties:
+ * - song: song to display
+ * - query: query to highlight search terms
+ * - noArtistWork: don't display artist and work
+ * - noDuration: don't display duration
+ * - noTag: don't diplay tags
+ */
 export default class SongPreview extends Component {
     render() {
         const song = this.props.song
@@ -38,28 +47,13 @@ export default class SongPreview extends Component {
             version = (<span className="version">{song.version} version</span>)
         }
 
-        /**
-         * Tags and SongPreviewDetails
-         * SongPreviewDetails contains highlighted artists and works info
-         */
-
-        let tags
-        let songPreviewDetails
-        if (!this.props.expanded) {
-            tags = (
-                <SongTagList
-                    tags={song.tags}
-                    query={this.props.query}
-                    unclickable={true}
-                />
-            )
-
-            songPreviewDetails = (<SongPreviewDetails song={song} query={this.props.query}/>)
+        // Display artist and work conditionally
+        let artistWork
+        if (!this.props.noArtistWork) {
+            artistWork = (<SongPreviewDetails song={song} query={this.props.query}/>)
         }
 
-        /**
-         * Display duration conditionally
-         */
+        // Display duration conditionally
         let duration
         if (!this.props.noDuration) {
             duration = (
@@ -69,13 +63,25 @@ export default class SongPreview extends Component {
             )
         }
 
+        // Display tags conditionally
+        let tags
+        if (!this.props.noTag) {
+            tags = (
+                <SongTagList
+                    tags={song.tags}
+                    query={this.props.query}
+                    unclickable={true}
+                />
+            )
+        }
+
         return (
                 <div className="library-entry-song" onClick={this.props.handleClick}>
                     <div className="header">
                         {title}
                         {version}
                     </div>
-                    {songPreviewDetails}
+                    {artistWork}
                     {duration}
                     {tags}
                 </div>

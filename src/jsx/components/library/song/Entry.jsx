@@ -103,7 +103,8 @@ class SongEntry extends Component {
                         <Song
                             song={song}
                             query={query}
-                            expanded={expanded}
+                            noArtistWork={expanded}
+                            noTag={expanded}
                             handleClick={() => expanded ? this.setExpanded(null) : this.setExpanded(song.id)}
                         />
 
