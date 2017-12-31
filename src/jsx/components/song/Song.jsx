@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import Highlighter from 'react-highlight-words'
 import utils from 'utils'
-import SongPreviewDetails from './SongPreviewDetails'
+import SongPreviewWork from './SongPreviewWork'
+import SongPreviewArtists from './SongPreviewArtists'
 import SongTagList from './SongTagList'
 
 /**
@@ -50,7 +51,34 @@ export default class SongPreview extends Component {
         // Display artist and work conditionally
         let artistWork
         if (!this.props.noArtistWork) {
-            artistWork = (<SongPreviewDetails song={song} query={this.props.query}/>)
+
+            // Display first work if any
+            // Highlighted with query
+            let work
+            if (song.works.length > 0) {
+                // display the first work only for this display
+                let w = song.works[0]
+                work = (<SongPreviewWork work={w} query={this.props.query}/>)
+            }
+
+            //Display artists if any
+            let artists
+            if (song.artists.length > 0) {
+                artists = (
+                        <SongPreviewArtists
+                            artists={song.artists}
+                            query={this.props.query}
+                        />
+                )
+
+            }
+
+            artistWork = (
+                <div className="song-preview-details">
+                    {work}
+                    {artists}
+                </div>
+            )
         }
 
         // Display duration conditionally
