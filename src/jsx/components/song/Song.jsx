@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Highlighter from 'react-highlight-words'
+import utils from 'utils'
 import SongPreviewDetails from './SongPreviewDetails'
 import SongTagList from './SongTagList'
 
@@ -56,13 +57,26 @@ export default class SongPreview extends Component {
             songPreviewDetails = (<SongPreviewDetails song={song} query={this.props.query}/>)
         }
 
+        /**
+         * Display duration conditionally
+         */
+        let duration
+        if (!this.props.noDuration) {
+            duration = (
+                <div className="duration">
+                    {utils.formatDuration(song.duration)}
+                </div>
+            )
+        }
+
         return (
-                <div className="library-entry-song-preview" onClick={this.props.handleClick}>
+                <div className="library-entry-song" onClick={this.props.handleClick}>
                     <div className="header">
                         {title}
                         {version}
                     </div>
                     {songPreviewDetails}
+                    {duration}
                     {tags}
                 </div>
             )

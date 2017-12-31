@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router'
 import utils from 'utils'
 import { connect } from 'react-redux'
 import { addSongToPlaylist } from 'actions'
-import SongEntryDisplay from 'components/song/LibraryEntrySongDisplay'
+import Song from 'components/song/Song'
 import SongEntryExpanded from './EntryExpanded'
 import UserWidget from 'components/generics/UserWidget'
 import { IsPlaylistUser } from 'components/permissions/Playlist'
@@ -100,7 +100,7 @@ class SongEntry extends Component {
         return (
                 <li className="library-entry listing-entry library-entry-song">
                     <div className="library-entry-song-compact hoverizable notifiable">
-                        <SongEntryDisplay
+                        <Song
                             song={song}
                             query={query}
                             expanded={expanded}

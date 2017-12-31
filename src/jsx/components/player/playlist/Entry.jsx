@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { browserHistory } from 'react-router'
 import utils from 'utils'
-import SongDisplay from 'components/song/LibraryEntrySongDisplay'
+import Song from 'components/song/Song'
 import UserWidget from 'components/generics/UserWidget'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
@@ -58,7 +58,7 @@ export default class PlaylistEntry extends Component {
         return (
             <li className={className}>
                 <div className="library-entry-song-compact notifiable">
-                    <SongDisplay
+                    <Song
                         song={this.props.entry.song}
                         handleClick={this.handleSearch}
                     />

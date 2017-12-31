@@ -27,52 +27,47 @@
     .library-entry-song-compact {
         display: flex;
 
-        .library-entry-song-display {
+        .library-entry-song {
             flex: 1;
             display: flex;
+            align-items: center;
+            padding-left: @gap-horizontal;
+            position: relative;
+            overflow-y: hidden;
+            cursor: pointer;
+            height: @listing-entry-height;
 
-            .library-entry-song-preview {
+            .header {
                 flex: 1;
-                display: flex;
-                align-items: center;
-                padding-left: @gap-horizontal;
-                position: relative;
-                overflow-y: hidden;
-                cursor: pointer;
-                height: @listing-entry-height;
+                .text-truncate();
 
-                .header {
-                    flex: 1;
-                    .text-truncate();
+                // this is a hack
+                width: 0;
 
-                    // this is a hack
-                    width: 0;
-
-                    .title {
-                        font-size: 1.05em;
-                    }
-
-                    .version {
-                        margin-left: 0.5em;
-                        opacity: 0.65;
-                    }
+                .title {
+                    font-size: 1.05em;
                 }
 
-                .song-preview-details {
-                    margin-right: @gap-horizontal;
-                    align-items: flex-end;
+                .version {
+                    margin-left: 0.5em;
+                    opacity: 0.65;
                 }
+            }
 
-                .song-tag-list {
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    font-size: 0.65em;
-                    line-height: 1em;
+            .song-preview-details {
+                margin-right: @gap-horizontal;
+                align-items: flex-end;
+            }
 
-                    .tag {
-                        font-size: inherit;
-                    }
+            .song-tag-list {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                font-size: 0.65em;
+                line-height: 1em;
+
+                .tag {
+                    font-size: inherit;
                 }
             }
 
