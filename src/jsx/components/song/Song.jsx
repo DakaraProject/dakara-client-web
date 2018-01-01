@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Highlighter from 'react-highlight-words'
 import utils from 'utils'
-import SongPreviewWork from './SongPreviewWork'
+import WorkLink from './WorkLink'
 import SongPreviewArtists from './SongPreviewArtists'
 import SongTagList from './SongTagList'
 
@@ -58,7 +58,13 @@ export default class SongPreview extends Component {
             if (song.works.length > 0) {
                 // display the first work only for this display
                 let w = song.works[0]
-                work = (<SongPreviewWork work={w} query={this.props.query}/>)
+                work = (
+                        <WorkLink
+                            workLink={w}
+                            query={this.props.query}
+                            noEpisodes
+                        />
+                )
             }
 
             //Display artists if any

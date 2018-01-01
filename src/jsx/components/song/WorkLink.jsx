@@ -1,13 +1,20 @@
 import React, { Component } from 'react'
 import Highlighter from 'react-highlight-words'
 
-export default class WorkDisplay extends Component {
-    /**
-     * Work title
-     * @param query text used for query, found in `this.props.query`
-     */
-    getTitle = (query) => {
-        const workLink = this.props.work
+/**
+ * Display work link
+ * props:
+ * - workLink: work link to display
+ * - query: query to highlight search terms
+ * - longLinkType: display link type in long form (OPENING instead of OP)
+ * - noIcon: don'tdisplay work type icon
+ * - noEpisodes: don't display episodes
+ */
+export default class WorkLink extends Component {
+    render() {
+        const { workLink, query, longLinkType, noIcon, noEpisodes } = this.props
+
+        // title with highlight
         let title
         if (query != undefined) {
             let searchWords = query.work.contains.concat(query.remaining)
@@ -29,14 +36,7 @@ export default class WorkDisplay extends Component {
             title = (<span className="title">{workLink.work.title}</span>)
         }
 
-        return title
-    }
-
-    /**
-     * Subtitle if any
-     */
-    getSubtitle = () => {
-        const workLink = this.props.work
+        // Subtitle if any
         let subtitle
         if (workLink.work.subtitle) {
             subtitle = (<span className="subtitle">
@@ -44,20 +44,15 @@ export default class WorkDisplay extends Component {
                 </span>)
         }
 
-        return subtitle
-    }
 
-    /**
-     * Link between song and work infos
-     * with number if any
-     * @param linkNameString work link name to display, as in
-     * `this.props.work.link_type` or `this.props.work.link_type_name`
-     */
-    getLink = (linkNameString) => {
-        const workLink = this.props.work
+        // Link type
+        const linkName = (
+                <span className="link-type">
+                    {longLinkType ? workLink.link_type_name : workLink.link_type}
+                </span>
+        )
 
-        const linkName = (<span className="link-type">{linkNameString}</span>)
-
+        // Link number if any
         let linkNb
         if (workLink.link_type_number) {
             linkNb = (<span className="link-nb">{workLink.link_type_number}</span>)
@@ -70,15 +65,33 @@ export default class WorkDisplay extends Component {
                 </span>
             )
 
-        return link
-    }
+        // Display work icon conditionally
+        let icon
+        if (!noIcon && workLink.work.work_type) {
+            icon = (
+                    <span className="type icon">
+                        <i className={"fa fa-" + workLink.work.work_type.icon_name}></i>
+                    </span>
+            )
+        }
 
-    render() {
+        // Display episoded if any, conditionally
+        let episodes
+        if (!noEpisodes && workLink.episodes) {
+            episodes = (
+                    <span className="episodes">
+                        Episode {workLink.episodes}
+                    </span>
+                    )
+        }
+
         return (
                 <div className="work-display">
-                    {this.getTitle()}
-                    {this.getSubtitle()}
-                    {this.getLink(this.props.work.link_type)}
+                    {title}
+                    {subtitle}
+                    {link}
+                    {episodes}
+                    {icon}
                 </div>
             )
     }
