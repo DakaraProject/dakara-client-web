@@ -8,7 +8,7 @@ import Highlighter from 'react-highlight-words'
  * - artists
  * - query
  */
-export default class SongPreviewArtists extends Component {
+export default class SongArtistList extends Component {
     render() {
 
         // define a function that gives the artist name or the artist name

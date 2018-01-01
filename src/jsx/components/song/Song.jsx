@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Highlighter from 'react-highlight-words'
 import utils from 'utils'
 import WorkLink from './WorkLink'
-import SongPreviewArtists from './SongPreviewArtists'
+import SongArtistList from './SongArtistList'
 import SongTagList from './SongTagList'
 
 /**
@@ -71,7 +71,7 @@ export default class SongPreview extends Component {
             let artists
             if (song.artists.length > 0) {
                 artists = (
-                        <SongPreviewArtists
+                        <SongArtistList
                             artists={song.artists}
                             query={this.props.query}
                         />
