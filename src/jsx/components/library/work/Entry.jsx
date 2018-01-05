@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router'
 
 export default class WorkEntry extends Component {
     handleSearch = () => {
-        const newSearch = this.props.workType + ":\"\"" + this.props.work.title + "\"\""
+        const newSearch = `${this.props.workType}:""${this.props.work.title}""`
         browserHistory.push({pathname: "/library/song", query: { search: newSearch}})
     }
 

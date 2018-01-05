@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router'
 
 export default class ArtistEntry extends Component {
     handleSearch = () => {
-        const newSearch = "artist:\"\"" + this.props.artist.name + "\"\""
+        const newSearch = `artist:""${this.props.artist.name}""`
         browserHistory.push({
             pathname: "/library/song",
             query: { search: newSearch}

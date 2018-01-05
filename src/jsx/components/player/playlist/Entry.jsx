@@ -22,7 +22,7 @@ export default class PlaylistEntry extends Component {
 
     handleSearch = () => {
         const song = this.props.entry.song
-        const newSearch = "title:\"\"" + song.title + "\"\""
+        const newSearch = `title:""${song.title}""`
         browserHistory.push({
             pathname: "/library/song",
             query: {

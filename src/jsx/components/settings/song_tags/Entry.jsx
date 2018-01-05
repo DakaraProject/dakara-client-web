@@ -97,7 +97,7 @@ export default class SongTagEntry extends Component {
                 <td className="enabled">
                     <div className="form inline">
                         <CheckboxField
-                            id={"enabled-state" + tag.id}
+                            id={`enabled-state${tag.id}`}
                             value={!tag.disabled}
                             setValue={setValue}
                             inline

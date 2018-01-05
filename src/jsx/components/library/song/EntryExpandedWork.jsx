@@ -4,7 +4,7 @@ import WorkLink from 'components/song/WorkLink'
 export default class SongEntryExpandedWork extends Component {
     handleSearchWork = () => {
         const work = this.props.work.work
-        this.props.setQuery(work.work_type.query_name + ':""' + work.title + '""')
+        this.props.setQuery(`${work.work_type.query_name}:""${work.title}""`)
     }
 
     render() {

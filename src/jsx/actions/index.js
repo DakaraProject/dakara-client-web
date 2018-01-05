@@ -1,5 +1,5 @@
-import { FETCH_API } from '../middleware/fetchApi'
-import utils from '../utils'
+import { FETCH_API } from 'middleware/fetchApi'
+import utils from 'utils'
 
 const { baseUrl } = utils.params
 

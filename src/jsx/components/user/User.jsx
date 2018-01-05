@@ -49,7 +49,7 @@ class User extends Component {
                     onSubmit={values => {
                         updatePassword(user.id, values.old_password, values.password)
                     }}
-                    action={"users/" + user.id + "/password/"}
+                    action={`users/${user.id}/password/`}
                     method="PUT"
                     submitText="Change password"
                     formName="updatePassword"

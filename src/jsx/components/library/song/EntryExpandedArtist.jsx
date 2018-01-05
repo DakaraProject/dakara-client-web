@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 export default class SongEntryExpandedArtist extends Component {
     handleSearchArtist = () => {
-        this.props.setQuery('artist:""' + this.props.artist.name + '""')
+        this.props.setQuery(`artist:""${this.props.artist.name}""`)
     }
 
     render() {

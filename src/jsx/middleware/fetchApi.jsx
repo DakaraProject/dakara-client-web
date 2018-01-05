@@ -84,7 +84,7 @@ export default ({getState, dispatch}) => next => action => {
     const token = getState().token
     if (token) {
         headers = {
-            Authorization: 'Token ' + token,
+            Authorization: `Token ${token}`,
             ...headers
         }
     }

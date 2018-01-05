@@ -44,8 +44,8 @@ class UserEdit extends Component {
         return (
                 <div className="box" id="users-edit">
                     <FormBlock
-                        title={"Edit user " + user.username}
-                        action={"users/" + user.id + "/"}
+                        title={`Edit user ${user.username}`}
+                        action={`users/${user.id}/`}
                         method="PATCH"
                         submitText="Edit"
                         formName="updateUser"

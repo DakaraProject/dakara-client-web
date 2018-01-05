@@ -117,7 +117,10 @@ class SongEntry extends Component {
                             {playlistInfoDiv}
                         </ReactCSSTransitionGroup>
 
-                        <div className="controls" id={"song-" + this.props.song.id}>
+                        <div
+                            className="controls"
+                            id={`song-${this.props.song.id}`}
+                        >
                             <IsPlaylistUser>
                                 <button
                                     className="control primary"

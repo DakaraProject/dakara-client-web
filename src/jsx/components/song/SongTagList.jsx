@@ -45,7 +45,7 @@ export default class SongTagList extends Component {
                     className={'tag ' + classClickable + classDisabled}
                     style={{filter: `hue-rotate(${tag.color_hue}deg)`}}
                     key={tag.name}
-                    onClick={() => setQuery && setQuery("#" + tag.name)}
+                    onClick={() => setQuery && setQuery(`#${tag.name}`)}
                 >
                     {searchIcon}
                     {tag.name}

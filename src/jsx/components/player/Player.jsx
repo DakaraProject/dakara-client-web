@@ -71,7 +71,7 @@ class Player extends Component {
             duration = 0
         }
 
-        let progressStyle = { width: progress + "%"}
+        let progressStyle = { width: `${progress}%`}
 
         /**
          * Play/pause button
