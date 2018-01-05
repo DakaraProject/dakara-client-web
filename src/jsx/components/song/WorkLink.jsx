@@ -26,27 +26,27 @@ export default class WorkLink extends Component {
 
             title = (
                     <Highlighter
-                        className="title"
+                        className="work-link-item title"
                         searchWords={searchWords}
                         textToHighlight={workLink.work.title}
                         autoEscape
                     />
                 )
         } else {
-            title = (<span className="title">{workLink.work.title}</span>)
+            title = (<span className="work-link-item title">{workLink.work.title}</span>)
         }
 
         // Subtitle if any
         let subtitle
         if (workLink.work.subtitle) {
-            subtitle = (<span className="subtitle">
+            subtitle = (<span className="work-link-item subtitle">
                 {workLink.work.subtitle}
                 </span>)
         }
 
 
         // Link type
-        const linkName = (
+        const linkType = (
                 <span className="link-type">
                     {longLinkType ? workLink.link_type_name : workLink.link_type}
                 </span>
@@ -59,8 +59,8 @@ export default class WorkLink extends Component {
         }
 
         const link = (
-                <span className="link">
-                    {linkName}
+                <span className="work-link-item link">
+                    {linkType}
                     {linkNb}
                 </span>
             )
@@ -69,7 +69,7 @@ export default class WorkLink extends Component {
         let icon
         if (!noIcon && workLink.work.work_type) {
             icon = (
-                    <span className="type icon">
+                    <span className="work-link-item icon">
                         <i className={"fa fa-" + workLink.work.work_type.icon_name}></i>
                     </span>
             )
@@ -86,7 +86,7 @@ export default class WorkLink extends Component {
         }
 
         return (
-                <div className="work-display">
+                <div className="work-link">
                     {title}
                     {subtitle}
                     {link}

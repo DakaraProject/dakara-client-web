@@ -25,7 +25,7 @@ export default class WorkEntry extends Component {
                         </div>
                     </div>
                     <div className="controls"> 
-                        <button className="search control primary" onClick={this.handleSearch}>
+                        <button className="control primary" onClick={this.handleSearch}>
                             <span className="icon">
                                 <i className="fa fa-search"></i>
                             </span>

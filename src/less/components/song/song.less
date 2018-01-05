@@ -1,9 +1,93 @@
 //
 // Dakara Project
 //
-// Song details style file
+// Song style file
 //
 
 
-@import "song_preview_details";
-@import "work_display";
+@import "work_link";
+
+
+// `song` class:
+//
+// This class stylizes a song independently of its use (as a single item or as
+// part of a listing).
+.song {
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow-y: hidden;
+    height: @listing-entry-height;
+
+    // `header` class: song's main info.
+    .header {
+        flex: 1;
+        .text-truncate();
+
+        // this is a hack
+        // width: 0;
+
+        .title {
+            font-size: 1.05em;
+        }
+
+        .version {
+            margin-left: 0.5em;
+            opacity: 0.65;
+        }
+    }
+
+    // `artist-work` class: collapsed info for the song artists and works.
+    .artist-work {
+        margin-right: @gap-horizontal;
+        display: flex;
+        align-items: flex-end;
+        flex-direction: column;
+        font-size: 0.9em;
+
+        .artists {
+            .artist:not(:last-child)::after {
+                content: ", ";
+            }
+        }
+    }
+
+    // `duration` class: show song duration.
+    .duration {
+        font-size: 0.85em;
+        line-height: @listing-entry-height;
+        width: @listing-entry-height;
+        background: @text-light;
+        color: @neutral-mid;
+        text-align: center;
+    }
+
+    // `song-tag-list` subclass: tag songs.
+    // The subclass only specifes the location of the tags.
+    .song-tag-list {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        font-size: 0.65em;
+        line-height: 1em;
+
+        .tag {
+            font-size: inherit;
+        }
+    }
+}
+
+// alteration of colors when used in a listing
+.listing-entry {
+    &:nth-child(2n) {
+        .duration {
+            background: @neutral-clear-light;
+        }
+    }
+
+    .hoverizable:hover {
+        .duration {
+            background: @neutral-clear-lighter;
+        }
+    }
+}

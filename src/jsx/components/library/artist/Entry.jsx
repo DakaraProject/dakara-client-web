@@ -22,8 +22,8 @@ export default class ArtistEntry extends Component {
                             {this.props.artist.song_count}
                         </div>
                     </div>
-                    <div className="controls"> 
-                        <button className="search control primary" onClick={this.handleSearch}>
+                    <div className="controls">
+                        <button className="control primary" onClick={this.handleSearch}>
                             <span className="icon">
                                 <i className="fa fa-search"></i>
                             </span>

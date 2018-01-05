@@ -80,7 +80,7 @@ export default class SongPreview extends Component {
             }
 
             artistWork = (
-                <div className="song-preview-details">
+                <div className="artist-work">
                     {work}
                     {artists}
                 </div>
@@ -110,7 +110,7 @@ export default class SongPreview extends Component {
         }
 
         return (
-                <div className="library-entry-song" onClick={this.props.handleClick}>
+                <div className="song" onClick={this.props.handleClick}>
                     <div className="header">
                         {title}
                         {version}

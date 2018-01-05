@@ -1,0 +1,50 @@
+//
+// Dakara Project
+//
+// Work link style file
+//
+
+
+// `work-display` class:
+//
+// This module is used to style a work link, ie. a work and its link to the
+// song.
+.work-link {
+    > .work-link-item:not(:first-child) {
+        margin-left: 0.5em;
+    }
+
+    // `title` class: title of the work.
+    .title {
+    }
+
+    // `subtitle` class: subtitle of the work, if any.
+    .subtitle {
+        opacity: 0.65;
+    }
+
+    // `link` class: the type of the link (OP, ED) and a number if any.
+    .link {
+        text-transform: uppercase;
+        font-size: 0.9em;
+        line-height: 2em;
+        border-style: solid;
+        border-width: 1px;
+        border-color: fade(@text-light, 65%);
+        padding: 0 0.2em;
+
+        .link-type {
+        }
+
+        .link-nb {
+        }
+    }
+
+    // `episodes` class: episodes concerned by this work link.
+    .episodes {
+    }
+
+    // `icon` class: the icon of the work.
+    .icon {
+    }
+}

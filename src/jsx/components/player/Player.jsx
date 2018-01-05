@@ -32,7 +32,7 @@ class Player extends Component {
         let song
         let songSubtitle
         let songData
-        let songOwner
+        let playlistEntryOwner
         let playIcon = "fa fa-"
         let duration
         let progress
@@ -47,19 +47,17 @@ class Player extends Component {
             duration = playerStatus.playlist_entry.song.duration
 
             songData = (
-                    <div className="song-preview">
-                        <Song
-                            song={song}
-                            noDuration
-                            noTag
-                            />
-                    </div>
+                    <Song
+                        song={song}
+                        noDuration
+                        noTag
+                        />
                 )
 
-            songOwner = (
+            playlistEntryOwner = (
                     <UserWidget
                         user={playerStatus.playlist_entry.owner}
-                        className="song-owner"
+                        className="playlist-entry-owner"
                     />
                 )
 
@@ -154,7 +152,7 @@ class Player extends Component {
         return (
             <div className="box">
                 <div id="player">
-                    <div className="display">
+                    <div className="display-area">
                         <div className="controls">
                             <IsPlaylistManagerOrOwner
                                 object={playerStatus.playlist_entry}
@@ -202,9 +200,9 @@ class Player extends Component {
                                 </button>
                             </IsPlaylistManagerOrOwner>
                         </div>
-                        <div className="song notifiable">
+                        <div className="song-container notifiable">
                             {songData}
-                            {songOwner}
+                            {playlistEntryOwner}
                             <div className="song-timing">
                                 <div className="current">
                                     {utils.formatTime(playerStatus.timing)}

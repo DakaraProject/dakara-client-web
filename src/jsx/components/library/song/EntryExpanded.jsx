@@ -172,9 +172,11 @@ export default class SongEntryExpanded extends Component {
                 )
         }
 
+        // NOTE see the documentation of the LESS class
+        // `library-entry-song-expanded-subcontainer` for the nested `div`s
         return (
                 <div className="library-entry-song-expanded-subcontainer">
-                    <div className="library-entry-song-expanded-details">
+                    <div className="library-entry-song-expanded">
                         {artists}
                         {worksRenderList}
                         {detailSong}

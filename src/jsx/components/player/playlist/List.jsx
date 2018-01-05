@@ -67,7 +67,7 @@ class Playlist extends Component {
             playlistContent = (
                 <ReactCSSTransitionGroup
                     component="ul"
-                    className="listing playlist-entries"
+                    className="listing playlist-list"
                     transitionName="add-remove"
                     transitionEnterTimeout={300}
                     transitionLeaveTimeout={650}
@@ -128,22 +128,21 @@ class Playlist extends Component {
         <div id="playlist">
             <ReactCSSTransitionGroup
                 component="div"
-                className="playlist-entries-container"
+                className="playlist-list-container"
                 transitionName="collapse"
                 transitionEnterTimeout={300}
                 transitionLeaveTimeout={150}
             >
                 {playlistContent}
             </ReactCSSTransitionGroup>
-            <a
+            <button
                 className="playlist-summary"
                 onClick={this.props.toogleCollapsedPlaylist}
-                href="#"
             >
                 {amount}
                 {next}
                 {ending}
-            </a>
+            </button>
         </div>
         )
     }

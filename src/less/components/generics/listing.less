@@ -68,6 +68,7 @@
         // appearance transition
         &.add-remove-enter {
             overflow: hidden;
+            min-height: initial;
             height: 0;
 
             &.add-remove-enter-active {
@@ -80,6 +81,7 @@
         &.add-remove-leave {
             overflow: hidden;
             height: @listing-entry-height;
+            min-height: initial;
 
             &.add-remove-leave-active {
                 height: 0;

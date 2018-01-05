@@ -10,19 +10,20 @@
 
 // `player` id:
 //
-// This component stylizes the player, containing a display (controls + current
-// song) and a progression bar.
+// This component stylizes the player, containing controls, song info and a
+// progression bar.
 #player {
     background: @brand-primary-darker;
 
-    // The main part of the player displays the current song, its numerical
-    // progression and the controls of the player.
-    .display {
+    // `display-area` class: the main part of the player displays the current
+    // song, its numerical progression and the controls of the player.
+    .display-area {
         display: flex;
         align-items: center;
         padding: @gap-vertical 0;
         @player-controls-height: 7rem;
 
+        // `controls` subclass: buttons of the player.
         .controls {
             .make-controls(@player-controls-height, 1.66em);
 
@@ -64,7 +65,8 @@
             }
         }
 
-        .song {
+        // `song-container` class: container for info of the song.
+        .song-container {
             flex: 1;
             display: flex;
             justify-content: flex-end;
@@ -73,35 +75,40 @@
             position: relative;
             overflow: hidden;
 
-
-            .song-preview {
-                padding-right: @gap-horizontal;
+            // `song` subclass: the song itself.
+            .song {
+                margin-right: @gap-horizontal;
                 flex: 1;
                 height: @player-controls-height;
-                display: flex;
                 flex-direction: column;
+                align-content: flex-start;
+                align-items: flex-start;
 
                 .header {
-                    font-size: 1.5em;
+                    flex: initial;
+                    font-size: 1.45em;
                     font-weight: 300;
 
                     .title {
                     }
 
                     .version {
-                        margin-left: 0.5em;
-                        opacity: 0.65;
                     }
                 }
 
-                .song-preview-details {
-                    .link {
-                        border-color: shade(@brand-primary, 25%);
+                .artist-work {
+                    margin: 0;
+
+                    .work-link {
+                        .link {
+                            border-color: shade(@brand-primary, 25%);
+                        }
                     }
                 }
             }
 
-            .song-owner {
+            // `playlist-entry-owner` class: owner of the playlist entry.
+            .playlist-entry-owner {
                 padding-right: @gap-horizontal;
                 text-align: right;
                 margin-top: 0.25rem;
@@ -112,6 +119,8 @@
                 }
             }
 
+            // `song-timing` class: current progression of the song in numerical
+            // form.
             .song-timing {
                 @ratio: 0.8;
                 display: flex;
@@ -133,6 +142,7 @@
                 }
             }
 
+            // `notified` subclass: notification banner.
             .notified {
                 line-height: @player-controls-height;
                 height: @player-controls-height;
@@ -140,7 +150,7 @@
         }
     }
 
-    // The progressbar is a supplementary visual indicator of the song
+    // `progressbar` class: supplementary visual indicator of the song current
     // progression.
     .progressbar {
         width: 100%;

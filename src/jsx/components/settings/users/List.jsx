@@ -40,12 +40,12 @@ class UserList extends Component {
         })
 
         return (
-            <div className="box" id="users">
+            <div className="box" id="users-list">
                 <div className="header">
                     <h1>Users management</h1>
                 </div>
                 <div className="listing-table-container">
-                    <table className="listing users-listing notifiable">
+                    <table className="listing users-list notifiable">
                         <thead>
                             <tr className="listing-header">
                                 <th className="username">Username</th>

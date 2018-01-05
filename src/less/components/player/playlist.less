@@ -16,10 +16,12 @@
     // the playlist will end.
     // Info don't have specific classes.
     .playlist-summary {
-        display: block;
+        cursor: pointer;
+        border: none;
+        outline: none;
+        width: 100%;
         padding: 0 @gap-horizontal;
         background: @brand-primary;
-        cursor: pointer;
         color: @body-background;
         display: flex;
         align-items: center;
@@ -52,7 +54,7 @@
 
     // The container for the playlist entries, based on `listing`, it can
     // collapse.
-    .playlist-entries {
+    .playlist-list {
         @entries-list-height: @listing-entry-height * 5;
         max-height: @entries-list-height;
         overflow-y: auto;

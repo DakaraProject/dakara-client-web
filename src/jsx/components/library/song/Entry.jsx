@@ -88,9 +88,9 @@ class SongEntry extends Component {
          * only displayed when song is expanded
          */
 
-        let songExpandedDetails
+        let SongExpanded
         if (expanded){
-            songExpandedDetails = (
+            SongExpanded = (
                     <SongEntryExpanded
                         song={this.props.song}
                         location={location}
@@ -110,7 +110,6 @@ class SongEntry extends Component {
 
                         <ReactCSSTransitionGroup
                             component="div"
-                            className="playlist-info-container"
                             transitionName="playlist-info"
                             transitionEnterTimeout={300}
                             transitionLeaveTimeout={150}
@@ -148,7 +147,7 @@ class SongEntry extends Component {
                         transitionEnterTimeout={600}
                         transitionLeaveTimeout={300}
                     >
-                        {songExpandedDetails}
+                        {SongExpanded}
                     </ReactCSSTransitionGroup>
                 </li>
         )

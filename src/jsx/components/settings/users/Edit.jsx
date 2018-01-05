@@ -42,7 +42,7 @@ class UserEdit extends Component {
         }
 
         return (
-                <div className="box" id="user-edit">
+                <div className="box" id="users-edit">
                     <FormBlock
                         title={"Edit user " + user.username}
                         action={"users/" + user.id + "/"}

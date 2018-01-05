@@ -21,68 +21,20 @@
 // This list entry is not hoverizable, in order to make only the compact view
 // react to hover.
 .library-entry.library-entry-song {
-
-    // song compact view
-    // this class must be used with the `hoverizable` subclass
+    // `library-entry-song-compact` class: song compact view.
+    // This class must be used with the `hoverizable` subclass.
     .library-entry-song-compact {
         display: flex;
 
-        .library-entry-song {
+        // `song` subclass: the song itself.
+        .song {
             flex: 1;
-            display: flex;
-            align-items: center;
             padding-left: @gap-horizontal;
-            position: relative;
-            overflow-y: hidden;
             cursor: pointer;
-            height: @listing-entry-height;
-
-            .header {
-                flex: 1;
-                .text-truncate();
-
-                // this is a hack
-                width: 0;
-
-                .title {
-                    font-size: 1.05em;
-                }
-
-                .version {
-                    margin-left: 0.5em;
-                    opacity: 0.65;
-                }
-            }
-
-            .song-preview-details {
-                margin-right: @gap-horizontal;
-                align-items: flex-end;
-            }
-
-            .song-tag-list {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                font-size: 0.65em;
-                line-height: 1em;
-
-                .tag {
-                    font-size: inherit;
-                }
-            }
-
-            // class for song duration
-            .duration {
-                font-size: 0.85em;
-                line-height: @listing-entry-height;
-                width: @listing-entry-height;
-                background: @text-light;
-                color: @neutral-mid;
-                text-align: center;
-            }
         }
 
-        // class for data relative to the status of the song in the playlist
+        // `playlist-info` class: data relative to the status of the song in the
+        // playlist.
         .playlist-info {
             background: @brand-info;
             color: @text-dark;
@@ -143,34 +95,28 @@
                 }
             }
         }
-
-        // hover of the compact view
-        &:hover,
-        &:focus {
-            .library-entry-song-display .duration {
-                background: @neutral-clear-lighter;
-            }
-
-            .playlist-info {
-                background: @brand-info-lighter;
-            }
-        }
     }
 
-    // alternatiion of the compact view
+    // alternatiion of colors for the compact view
     &:nth-child(2n) {
-        .library-entry-song-display .duration {
-            background: @neutral-clear-light;
-        }
-
         .playlist-info {
             background: @brand-info-light;
         }
     }
 
-    // song expanded view
-    // should not be used with the `hoverized` subclass
-    .library-entry-song-expanded-details {
+    .hoverizable:hover {
+        .playlist-info {
+            background: @brand-info-lighter;
+        }
+    }
+
+    // `library-entry-song-expanded` class: song expanded view.
+    // It should not be used with the `hoverized` subclass, otherwise some hover
+    // will be wrong.
+    // The class behaves like a table in order to keep a column of labels of the
+    // same width. This does no go without consequenses, as a table element is
+    // difficult to style.
+    .library-entry-song-expanded {
         @height: @sublisting-entry-height;
         display: table;
         width: 100%;
@@ -218,7 +164,7 @@
             }
 
             &.lyrics .text {
-                white-space: pre-line;
+                white-space: pre-line; // TODO change that
                 line-height: 1.5em;
                 padding-top: 2 * @gap-horizontal / 3;
                 padding-bottom: 2 * @gap-horizontal / 3;
@@ -239,7 +185,7 @@
         }
 
         .works {
-            .work-display {
+            .work-link {
                 flex: 1;
                 padding: 0 @gap-horizontal;
 
@@ -250,26 +196,33 @@
         }
     }
 
-    .library-entry-song-expanded-subcontainer {
-        // appearance transition of the expanded view
-        &.expand-view-enter {
-            overflow: hidden;
-            max-height: 0;
-
-            &.expand-view-enter-active {
-                max-height: 10 * 0.75 * @listing-entry-height;
-                .transition(max-height 600ms ease-out);
-            }
-        }
-
-        // disappearance transition of the expanded view
-        &.expand-view-leave {
-            overflow: hidden;
-            max-height: 10 * 0.75 * @listing-entry-height;
-
-            &.expand-view-leave-active {
+    // `library-entry-song-expanded-container` class: wrapper class to enable or
+    // disable the expanded view.
+    .library-entry-song-expanded-container {
+        // `library-entry-song-expanded-subcontainer` class: second wrapper.
+        // This wrapper is mandatory because `library-entry-song-expanded` is a
+        // table and thus its `max-height` property cannot be animated.
+        .library-entry-song-expanded-subcontainer {
+            // appearance transition of the expanded view
+            &.expand-view-enter {
+                overflow: hidden;
                 max-height: 0;
-                .transition(max-height 300ms ease-out);
+
+                &.expand-view-enter-active {
+                    max-height: 10 * 0.75 * @listing-entry-height;
+                    .transition(max-height 600ms ease-out);
+                }
+            }
+
+            // disappearance transition of the expanded view
+            &.expand-view-leave {
+                overflow: hidden;
+                max-height: 10 * 0.75 * @listing-entry-height;
+
+                &.expand-view-leave-active {
+                    max-height: 0;
+                    .transition(max-height 300ms ease-out);
+                }
             }
         }
     }
