@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import classNames from 'classnames'
 import utils from 'utils'
 import Song from 'components/song/Song'
 import UserWidget from 'components/generics/UserWidget'
@@ -33,10 +34,10 @@ class Player extends Component {
         let songSubtitle
         let songData
         let playlistEntryOwner
-        let playIcon = "fa fa-"
         let duration
         let progress
         const isPlaying = !!playerStatus.playlist_entry
+        const playIconClassAray = ['fa']
 
         /**
          * Song display if any song is currently playing
@@ -64,9 +65,12 @@ class Player extends Component {
             progress = playerStatus.timing * 100 / duration;
 
             // use playercmd pause status instead of player pause status
-            playIcon += playerCommand.pause ? "play" : "pause"
+            playIconClassAray.push({
+                'fa-play': playerCommand.pause,
+                'fa-pause': !playerCommand.pause
+            })
         } else {
-            playIcon += "stop"
+            playIconClassAray.push('fa-stop')
             progress = 0
             duration = 0
         }
@@ -87,7 +91,7 @@ class Player extends Component {
         if (!isPausing) {
             playPausebtn = (
                 <span className="managed icon" key={pauseCounter}>
-                    <i className={playIcon}></i>
+                    <i className={classNames(playIconClassAray)}></i>
                 </span>
             )
         }
@@ -149,6 +153,23 @@ class Player extends Component {
 
         const controlDisabled = !isPlaying || fetchError
 
+        // classes
+        const playPauseClass = classNames(
+            'control',
+            'primary',
+            {
+                'managed-error': pauseError
+            }
+        )
+
+        const skipClass = classNames(
+            'control',
+            'primary',
+            {
+                'managed-error': skipError
+            }
+        )
+
         return (
             <div className="box">
                 <div id="player">
@@ -159,14 +180,10 @@ class Player extends Component {
                                 disable
                             >
                                 <button
-                                    className={
-                                        "control primary"
-                                            + (pauseError ? " managed_error" : "")
-                                    }
+                                    className={playPauseClass}
                                     onClick={() => {
                                         this.props.sendPlayerCommands({pause: !playerCommand.pause})
-                                    }
-                                    }
+                                    }}
                                     disabled={controlDisabled}
                                 >
                                     <ReactCSSTransitionGroup
@@ -183,10 +200,7 @@ class Player extends Component {
                                 disable
                             >
                                 <button
-                                    className={
-                                        "control primary"
-                                            + (skipError ? " managed_error" : "")
-                                    }
+                                    className={skipClass}
                                     onClick={() => this.props.sendPlayerCommands({skip: true})}
                                     disabled={controlDisabled}
                                 >

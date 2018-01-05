@@ -53,7 +53,7 @@ export default class SongEntryExpanded extends Component {
                     <div key={workType.query_name} className="works expanded-item">
                         <h4 className="header">
                             <span className="icon">
-                                <i className={"fa fa-" + workType.icon_name}></i>
+                                <i className={`fa fa-${workType.icon_name}`}></i>
                             </span>
                             <span className="name">
                                 {workType.name + (worksForTypeList.length > 1 ? 's' : '')}

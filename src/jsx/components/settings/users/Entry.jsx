@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import classNames from 'classnames'
 import { permissionLevels, IsUserManager, IsNotSelf } from 'components/permissions/Users'
 import ControlLink from 'components/generics/ControlLink'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
@@ -22,8 +23,14 @@ export default class UserEntry extends Component {
 
         let message
         if (notification) {
+            const messageClass = classNames(
+                'notification',
+                'message',
+                notification.type
+            )
+
             message = <div className="notified">
-                        <div className={"notification message " + notification.type}>
+                        <div className={messageClass}>
                             {notification.message}
                         </div>
                       </div>

@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { browserHistory } from 'react-router'
-import utils from 'utils'
 import { connect } from 'react-redux'
+import classNames from 'classnames'
+import utils from 'utils'
 import { addSongToPlaylist } from 'actions'
 import Song from 'components/song/Song'
 import SongEntryExpanded from './EntryExpanded'
@@ -35,9 +36,15 @@ class SongEntry extends Component {
 
         let notification
         if (this.props.notification){
+            const notificationClass = classNames(
+                'notification',
+                'message',
+                this.props.notification.type
+            )
+
             notification = (
                 <div className="notified">
-                    <div className={"notification message " + this.props.notification.type}>
+                    <div className={notificationClass}>
                         {this.props.notification.message}
                     </div>
                 </div>

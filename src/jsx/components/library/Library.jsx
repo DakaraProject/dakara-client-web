@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory, Link } from 'react-router'
+import classNames from 'classnames'
 import { loadWorkTypes } from 'actions'
 import Paginator from 'components/generics/Paginator'
 import ListWrapper from './ListWrapper'
@@ -237,24 +238,30 @@ class Library extends Component {
 
 class LibraryTab extends Component {
     render() {
-        const props = this.props
+        const { name, extraClassName, iconName, queryName } = this.props
         let tabName
-        if (props.name) {
+        if (name) {
             tabName = (
-                        <span className="name">
-                            {props.name}
-                        </span>
-                    )
+                <span className="name">
+                    {name}
+                </span>
+            )
         }
+
+        // classes
+        const linkClass = classNames(
+            'tab',
+            extraClassName
+        )
 
         return (
                 <Link
-                    to={`/library/${props.queryName}`}
-                    className={"tab " + (props.extraClassName || "")}
+                    to={`/library/${queryName}`}
+                    className={linkClass}
                     activeClassName="active"
                 >
                     <span className="icon">
-                        <i className={"fa fa-" + props.iconName}></i>
+                        <i className={`fa fa-${iconName}`}></i>
                     </span>
                     {tabName}
                 </Link>

@@ -1,18 +1,20 @@
 import React, { Component } from 'react'
+import classNames from 'classnames'
 
 export default class SongTagList extends Component {
     render() {
+        const songTagClassArray = ['tag']
+
         /**
          * Display Tags
          * display as cliquable tags if a setQuery prop is passed
          */
 
         const { tags, setQuery, query } = this.props
-        let classClickable = ""
         let searchIcon
         if (setQuery) {
             // Set clickable and add search icon
-            classClickable = " clickable"
+            songTagClassArray.push('clickable')
             searchIcon = (
                 <span className="icon">
                     <i className="fa fa-search"></i>
@@ -22,15 +24,14 @@ export default class SongTagList extends Component {
 
         const tagList = tags.map( tag => {
             // Grey out tag when searching a tag other than this
-            let classDisabled = ""
-            if (query && query.tag.length && query.tag.indexOf(tag.name) == -1) {
-                classDisabled = " disabled"
-            }
+            songTagClassArray.push({
+                'disabled': query && query.tag.length && query.tag.indexOf(tag.name) == -1
+            })
 
             if (this.props.unclickable) {
                 return (
                     <div
-                        className={'tag ' + classClickable + classDisabled}
+                        className={classNames(songTagClassArray)}
                         style={{filter: `hue-rotate(${tag.color_hue}deg)`}}
                         key={tag.name}
                     >
@@ -42,7 +43,7 @@ export default class SongTagList extends Component {
 
             return (
                 <button
-                    className={'tag ' + classClickable + classDisabled}
+                    className={classNames(songTagClassArray)}
                     style={{filter: `hue-rotate(${tag.color_hue}deg)`}}
                     key={tag.name}
                     onClick={() => setQuery && setQuery(`#${tag.name}`)}

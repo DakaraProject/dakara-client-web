@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import classNames from 'classnames'
 
 class UserWidget extends Component {
 
@@ -8,9 +9,13 @@ class UserWidget extends Component {
         const isCurrentUser = currentUser && currentUser.id == user.id
 
         const iconClass = isCurrentUser ? "fa fa-user" : "fa fa-user-o"
+        const userWidgetClass = classNames(
+            'user-widget',
+            classNames || ''
+        )
 
         return (
-            <div className={"user-widget" + (className ? " " + className : "")}>
+            <div className={userWidgetClass}>
                 <span className="icon">
                     <i className={iconClass}></i>
                 </span>

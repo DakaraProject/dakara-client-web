@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import classNames from 'classnames'
 import { setFormValidationErrors, submitForm, clearForm } from 'actions'
 
 class Form extends Component {
@@ -197,12 +198,16 @@ class Form extends Component {
 
     renderControls = () => {
         const { submitText, submitClass } = this.props
+        const controlClass = classNames(
+            'control',
+            submitClass || 'primary'
+        )
 
         return (
             <div className="controls">
                 <button
                     type="submit"
-                    className={"control " + (submitClass || "primary")}
+                    className={controlClass}
                 >
                     {submitText || "Submit"}
                 </button>
@@ -251,12 +256,15 @@ class FormBlock extends Form {
         // global notification message
         let message
         if (response && response.global) {
+            const messageClass = classNames(
+                'notification',
+                'message',
+                response.global.type
+            )
+
             message = (
                         <div className="notified">
-                            <div
-                                className={"notification message " +
-                                    response.global.type}
-                            >
+                            <div className={messageClass}>
                                 {response.global.message}
                             </div>
                         </div>
@@ -412,7 +420,7 @@ class Field extends Component {
         return ""
     }
 
-    subRender = (props) => (null)
+    subRender = (args) => (null)
 
     render() {
         const {
@@ -458,23 +466,22 @@ class Field extends Component {
         }
 
         // class
-        let disabledClassName = ''
-        if (disabled) {
-            disabledClassName = "disabled "
-        }
-
+        const renderClass = classNames(
+            'field',
+            {disabled}
+        )
 
         // Inline form: render input field only
         if (inline) {
             return (
-                <div className={disabledClassName + "field"}>
+                <div className={renderClass}>
                     {this.subRender(props)}
                 </div>
             )
         }
 
         return (
-            <div className={disabledClassName + "field"}>
+            <div className={renderClass}>
                 <label htmlFor={id} className="label">
                     {label}
                 </label>
@@ -526,9 +533,9 @@ class Field extends Component {
  * Extra properties are passed to the input tag.
  */
 export class InputField extends Field {
-    subRender = (props) => (
+    subRender = (args) => (
         <input
-            {...props}
+            {...args}
         />
     )
 }
@@ -572,8 +579,8 @@ export class SelectField extends Field {
         return null
     }
 
-    subRender = (props) => {
-        const { options, multiple, value, ...remainingProps } = props
+    subRender = (args) => {
+        const { options, multiple, value, ...remainingProps } = args
         const { id, setValue } = this.props
 
         // remove props from remaining
@@ -589,14 +596,15 @@ export class SelectField extends Field {
             </option>
         )))
 
+        // class
         // case for select of type multiple
-        let classNameMultiple = ""
-        if (multiple) {
-            classNameMultiple = "multiple "
-        }
+        const subRenderClass = classNames(
+            'select',
+            {multiple}
+        )
 
         return (
-            <div className={classNameMultiple + "select"}>
+            <div className={subRenderClass}>
                 <select
                     multiple={multiple}
                     value={value || ''}
@@ -647,8 +655,8 @@ export class CheckboxField extends Field {
         return false
     }
 
-    subRender = (props) => {
-        const { value, toggle, ...remainingProps } = props
+    subRender = (args) => {
+        const { value, toggle, ...remainingProps } = args
         const { id, setValue } = this.props
 
         // remove props from remaining

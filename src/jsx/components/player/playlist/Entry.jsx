@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { browserHistory } from 'react-router'
+import classNames from 'classnames'
 import utils from 'utils'
 import Song from 'components/song/Song'
 import UserWidget from 'components/generics/UserWidget'
@@ -33,16 +34,28 @@ export default class PlaylistEntry extends Component {
 
     render() {
         let message
-        let className = "playlist-entry listing-entry library-entry library-entry-song hoverizable"
+        const playlistEntryClass = [
+            'playlist-entry',
+            'listing-entry',
+            'library-entry',
+            'library-entry-song',
+            'hoverizable'
+        ]
 
-        if(this.props.notification){
+        if (this.props.notification){
+            const messageClass = classNames(
+                'notification',
+                'message',
+                this.props.notification.type
+            )
+
             message = <div className="notified">
-                        <div className={"notification message " + this.props.notification.type}>
+                        <div className={messageClass}>
                             {this.props.notification.message}
                         </div>
                       </div>
 
-            className += " delayed"
+            playlistEntryClass.push('delayed')
         }
 
         let confirmation
@@ -56,7 +69,7 @@ export default class PlaylistEntry extends Component {
         }
 
         return (
-            <li className={className}>
+            <li className={classNames(playlistEntryClass)}>
                 <div className="library-entry-song-compact notifiable">
                     <Song
                         song={this.props.entry.song}

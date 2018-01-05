@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import classNames from 'classnames'
 import { FormInline, CheckboxField, HueField } from 'components/generics/Form'
 
 export default class SongTagEntry extends Component {
@@ -21,13 +22,21 @@ export default class SongTagEntry extends Component {
         /**
          * notification message
          */
-        const getMessage = (notification) => (
-            <div className="notified">
-                <div className={"notification message " + notification.type}>
-                    {notification.message}
+        const getMessage = (notification) => {
+            const notificationClass = classNames(
+                'notification',
+                'message',
+                notification.type
+            )
+
+            return (
+                <div className="notified">
+                    <div className={notificationClass}>
+                        {notification.message}
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        }
 
         let message
         if (notification && notification.message) {
