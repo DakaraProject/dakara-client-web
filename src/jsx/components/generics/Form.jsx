@@ -534,9 +534,11 @@ class Field extends Component {
  */
 export class InputField extends Field {
     subRender = (args) => (
-        <input
-            {...args}
-        />
+        <div className="text-input">
+            <input
+                {...args}
+            />
+        </div>
     )
 }
 
@@ -599,7 +601,7 @@ export class SelectField extends Field {
         // class
         // case for select of type multiple
         const subRenderClass = classNames(
-            'select',
+            'select-input',
             {multiple}
         )
 
@@ -662,7 +664,7 @@ export class CheckboxField extends Field {
         // remove props from remaining
         const { onChange, ...remaining } = remainingProps
 
-        const className = toggle ? "toggle" : "checkbox"
+        const className = toggle ? "toggle-input" : "checkbox-input"
 
         return (
             <div className={className}>
@@ -722,7 +724,7 @@ export class HueField extends Field {
         const { value } = this.props
 
         return (
-            <div className="hue">
+            <div className="hue-input">
                 <div
                     className="preview"
                     style={{filter: `hue-rotate(${value}deg)`}}
