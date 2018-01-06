@@ -31,69 +31,16 @@ class Library extends Component {
         this.setState({query})
     }
 
-    getLibraryName = () => {
-        const libraryComponentName = this.props.children.type.WrappedComponent.getName()
-        switch (libraryComponentName) {
-            case 'SongList':
-                return {
-                    singular: "song",
-                    plural: "songs"
-                }
-
-            case 'ArtistList':
-                return {
-                    singular: "artist",
-                    plural: "artists"
-                }
-
-            case 'WorkList':
-                const workTypeQueryName = this.props.children.props.params.workType
-                const workTypes = this.props.library.workTypes.data.results
-                const workType = workTypes.find(
-                    (workType) => workType.query_name == workTypeQueryName
-                )
-
-                if (!workType) {
-                    return null
-                }
-
-                return {
-                    singular: workType.name.toLowerCase(),
-                    plural: workType.name_plural.toLowerCase()
-                }
-        }
-    }
-
-    getLibraryPlaceholder = (libraryName) => {
-        if (!libraryName) {
-            return ""
-        }
-
-        switch (libraryName) {
-            case "song":
-                return "What will you sing?"
-
-            case "artist":
-                return "Who are you looking for?"
-
-            default:
-                return `What ${libraryName} do you want?`
-        }
+    getLibraryNameInfo = () => {
+        const workTypeQueryName = this.props.children.props.params.workType
+        const workTypes = this.props.library.workTypes.data.results
+        return this.props.children.type.WrappedComponent.getLibraryNameInfo(workTypeQueryName, workTypes)
     }
 
     getLibraryEntries = () => {
-        const libraryComponentName = this.props.children.type.WrappedComponent.getName()
-        switch (libraryComponentName) {
-            case 'SongList':
-                return this.props.library.song
-
-            case 'ArtistList':
-                return this.props.library.artist
-
-            case 'WorkList':
-                const workTypeQueryName = this.props.children.props.params.workType
-                return this.props.library.work[workTypeQueryName]
-        }
+        const library = this.props.library
+        const workTypeQueryName = this.props.children.props.params.workType
+        return this.props.children.type.WrappedComponent.getLibraryEntries(library, workTypeQueryName)
     }
 
     render() {
@@ -103,8 +50,7 @@ class Library extends Component {
         }
 
         // library name
-        const libraryName = this.getLibraryName()
-        const libraryPlaceholder = this.getLibraryPlaceholder(libraryName.singular)
+        const libraryNameInfo = this.getLibraryNameInfo()
 
         const libraryEntriesDefault = {
             data: {current: 1, last: 1, count: 0},
@@ -140,11 +86,11 @@ class Library extends Component {
 
         // counter
         let infoCounter
-        if (libraryName) {
+        if (libraryNameInfo) {
             infoCounter = (
                 <div className="counter">
                     <span className="figure">{entriesCount}</span>
-                    <span className="text">{entriesCount == 1 ? libraryName.singular : libraryName.plural} found</span>
+                    <span className="text">{entriesCount == 1 ? libraryNameInfo.singular : libraryNameInfo.plural} found</span>
                 </div>
             )
         }
@@ -176,7 +122,7 @@ class Library extends Component {
                         <div className="input fake" id="library-searchbox-fake">
                             <input
                                 className="faked"
-                                placeholder={libraryPlaceholder}
+                                placeholder={libraryNameInfo.placeholder}
                                 value={this.state.query}
                                 onChange={e => this.setState({query: e.target.value})}
                                 onFocus={() => {

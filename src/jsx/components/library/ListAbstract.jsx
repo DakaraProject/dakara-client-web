@@ -20,9 +20,9 @@ class ListAbstract extends Component {
 
     /**
      * To be override by the child class
-     * to return library name
+     * to return library type
      */
-    getLibraryName() {
+    getLibraryType() {
     }
 
     refreshEntries = () => {
@@ -57,7 +57,7 @@ class ListAbstract extends Component {
             args.query = query
         }
 
-        this.props.loadLibraryEntries(this.getLibraryName(), args)
+        this.props.loadLibraryEntries(this.getLibraryType(), args)
     }
 
 

@@ -5,11 +5,26 @@ import ListAbstract from '../ListAbstract'
 import SongEntry from './Entry'
 
 class SongList extends ListAbstract {
-    static getName() {
-        return "SongList"
+
+    /**
+     * Get a dict with the following:
+     * - singular: library singular name
+     * - plural: library plural name
+     * - placeholder: library search placeholder
+     */
+    static getLibraryNameInfo() {
+        return {
+            singular: "song",
+            plural: "songs",
+            placeholder: "What will you sing?"
+        }
     }
 
-    getLibraryName() {
+    static getLibraryEntries(library) {
+        return library.song
+    }
+
+    getLibraryType() {
         return "songs"
     }
 
