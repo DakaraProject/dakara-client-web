@@ -9,11 +9,21 @@
 //
 // The function has to be called wherever a `controls` class is used. It defines
 // the size of the controls.
-.make-controls(@height, @font-size: 1em) {
-    .control {
+//
+// Arguments:
+//      @height: heigth and width of the control box.
+//      @font-size: relative size of the text in the control.
+//      @icon-size: relative size of the icon of the control. This value is made
+//          independant of @font-size.
+.make-controls(@height, @font-size: 1em, @icon-size: @font-size) {
+    > .control {
         .square(@height);
         line-height: @height;
         font-size: @font-size;
+
+        .icon {
+            font-size: @icon-size / @font-size;
+        }
     }
 }
 

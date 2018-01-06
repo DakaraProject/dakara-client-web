@@ -28,6 +28,7 @@
 .form {
     @field-height: @form-field-height;
     @control-font-size: @form-control-font-size;
+    @control-icon-size: @form-control-icon-size;
 
     // The `block` subclass is appropriate for large forms involving several
     // fields.
@@ -130,7 +131,7 @@
                 font-size: @control-font-size;
 
                 .icon {
-                    font-size: 1.33em;
+                    font-size: @control-icon-size / @control-font-size;
                 }
             }
         }
@@ -175,11 +176,7 @@
 
         // Buttons of the form
         .controls {
-            .make-controls(@field-height; @control-font-size);
-
-            .icon {
-                font-size: 1.33em;
-            }
+            .make-controls(@field-height, @control-font-size, @control-icon-size);
         }
     }
 
