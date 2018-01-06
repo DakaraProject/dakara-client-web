@@ -79,7 +79,7 @@ export default class WorkLink extends Component {
         let episodes
         if (!noEpisodes && workLink.episodes) {
             episodes = (
-                    <span className="episodes">
+                    <span className="work-link-item episodes">
                         Episode {workLink.episodes}
                     </span>
                     )
