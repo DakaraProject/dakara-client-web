@@ -6,7 +6,7 @@ import { FormBlock, InputField, SelectField, CheckboxField } from 'components/ge
 import { PermissionBase } from 'components/permissions/Base'
 import { IsUserManager, IsNotSelf } from 'components/permissions/Users'
 
-class UserEdit extends Component {
+class UsersEdit extends Component {
     componentWillMount() {
         const { authenticatedUser } = this.props
         const userId = this.props.params.userId
@@ -43,8 +43,11 @@ class UserEdit extends Component {
 
         return (
                 <div className="box" id="users-edit">
+                    <div className="box-header">
+                        <h1>Users management</h1>
+                    </div>
                     <FormBlock
-                        title={`Edit user ${user.username}`}
+                        title={`Edit user “${user.username}”`}
                         action={`users/${user.id}/`}
                         method="PATCH"
                         submitText="Edit"
@@ -117,9 +120,9 @@ const mapStateToProps = (state) => ({
     authenticatedUser: state.authenticatedUsers
 })
 
-UserEdit = connect(
+UsersEdit = connect(
     mapStateToProps,
     { getUser, clearUser }
-)(UserEdit)
+)(UsersEdit)
 
-export default UserEdit
+export default UsersEdit

@@ -44,12 +44,12 @@ class SongTagList extends Component {
         })
 
         return (
-            <div className="box" id="tag-list">
-                <div className="header">
+            <div className="box" id="song-tag-list">
+                <div className="box-header">
                     <h1>Song tags management</h1>
                 </div>
                 <div className="listing-table-container">
-                    <table className="listing tag-list-listing notifiable">
+                    <table className="listing song-tag-list-listing notifiable">
                         <thead>
                             <tr className="listing-header">
                                 <th className="name">Name</th>

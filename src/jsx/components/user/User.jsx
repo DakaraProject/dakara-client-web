@@ -38,7 +38,7 @@ class User extends Component {
 
         return (
             <div className="box" id="user">
-                <div className="header">
+                <div className="box-header">
                     <h1>{user.username}</h1>
                     <div className="permissions">
                         {permissions}

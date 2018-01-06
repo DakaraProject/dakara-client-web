@@ -41,7 +41,7 @@ class UserList extends Component {
 
         return (
             <div className="box" id="users-list">
-                <div className="header">
+                <div className="box-header">
                     <h1>Users management</h1>
                 </div>
                 <div className="listing-table-container">
