@@ -22,7 +22,9 @@
         font-size: @font-size;
 
         .icon {
-            font-size: @icon-size / @font-size;
+            @size: @icon-size / @font-size;
+            font-size: @size;
+            line-height: @size;
         }
     }
 }

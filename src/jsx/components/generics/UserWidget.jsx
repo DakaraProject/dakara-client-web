@@ -11,7 +11,7 @@ class UserWidget extends Component {
         const iconClass = isCurrentUser ? "fa fa-user" : "fa fa-user-o"
         const userWidgetClass = classNames(
             'user-widget',
-            classNames || ''
+            className
         )
 
         return (
