@@ -119,36 +119,38 @@ class Library extends Component {
                     }}
                 >
                     <div className="set">
-                        <div className="input fake" id="library-searchbox-fake">
-                            <input
-                                className="faked"
-                                placeholder={libraryNameInfo.placeholder}
-                                value={this.state.query}
-                                onChange={e => this.setState({query: e.target.value})}
-                                onFocus={() => {
-                                    document.getElementById(
-                                        'library-searchbox-fake'
-                                    ).classList.add(
-                                        'focus'
-                                    )
-                                }}
-                                onBlur={() => {
-                                    document.getElementById(
-                                        'library-searchbox-fake'
-                                    ).classList.remove(
-                                        'focus'
-                                    )
-                                }}
-                            />
-                            <div className="controls">
-                                <div className="control" onClick={e => {
-                                        this.setState({query: ""})
-                                        browserHistory.push({pathname})
-                                    }
-                                }>
-                                    <span className="icon">
-                                        <i className="fa fa-times"></i>
-                                    </span>
+                        <div className="field">
+                            <div className="text-input input fake" id="library-searchbox-fake">
+                                <input
+                                    className="faked"
+                                    placeholder={libraryNameInfo.placeholder}
+                                    value={this.state.query}
+                                    onChange={e => this.setState({query: e.target.value})}
+                                    onFocus={() => {
+                                        document.getElementById(
+                                            'library-searchbox-fake'
+                                        ).classList.add(
+                                            'focus'
+                                        )
+                                    }}
+                                    onBlur={() => {
+                                        document.getElementById(
+                                            'library-searchbox-fake'
+                                        ).classList.remove(
+                                            'focus'
+                                        )
+                                    }}
+                                />
+                                <div className="controls">
+                                    <div className="control" onClick={e => {
+                                            this.setState({query: ""})
+                                            browserHistory.push({pathname})
+                                        }
+                                    }>
+                                        <span className="icon">
+                                            <i className="fa fa-times"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

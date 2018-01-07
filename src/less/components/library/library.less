@@ -24,16 +24,20 @@
         background: @brand-primary-darker;
 
         .set {
-            .fake {
-                display: flex;
-                padding-right: 0;
+            .field {
+                flex: 1;
 
-                .faked {
-                    flex: 1;
-                }
+                .fake {
+                    display: flex;
+                    padding-right: 0;
 
-                .controls {
-                    .make-controls(@library-searchbox-height, 1.25em);
+                    .faked {
+                        flex: 1;
+                    }
+
+                    .controls {
+                        .make-controls(@library-searchbox-height, 1.25em);
+                    }
                 }
             }
         }

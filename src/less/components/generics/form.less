@@ -238,7 +238,7 @@
         // field hover
         &:not(.disabled) {
             input, textarea, select, .fake {
-                &:hover {
+                &:hover:not(:focus):not(.focus) {
                     background: @neutral-soft-lighter;
                 }
             }
