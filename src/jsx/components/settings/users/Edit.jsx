@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { getUser, clearUser } from 'actions'
 import { FormBlock, InputField, SelectField, CheckboxField } from 'components/generics/Form'
 import { PermissionBase } from 'components/permissions/Base'
@@ -13,19 +13,19 @@ class UsersEdit extends Component {
         const fakeUser = {id: userId}
 
         // check if the current user can disply the page
-        if (!(PermissionBase.hasPermission(authenticatedUser, fakeUser, IsUserManager) &&
-                PermissionBase.hasPermission(authenticatedUser, fakeUser, IsNotSelf))) {
-
-            const { pathname, search } = this.props.location
-            browserHistory.replace({
-                pathname: "/403",
-                query: {
-                    from: pathname + search
-                }
-            })
-
-            return
-        }
+        // if (!(PermissionBase.hasPermission(authenticatedUser, fakeUser, IsUserManager) &&
+        //         PermissionBase.hasPermission(authenticatedUser, fakeUser, IsNotSelf))) {
+        //
+        //     const { pathname, search } = this.props.location
+        //     this.context.router.history.replace({
+        //         pathname: "/403",
+        //         query: {
+        //             from: pathname + search
+        //         }
+        //     })
+        //
+        //     return
+        // }
 
         this.props.getUser(userId)
     }
@@ -120,9 +120,9 @@ const mapStateToProps = (state) => ({
     authenticatedUser: state.authenticatedUsers
 })
 
-UsersEdit = connect(
+UsersEdit = withRouter(connect(
     mapStateToProps,
     { getUser, clearUser }
-)(UsersEdit)
+)(UsersEdit))
 
 export default UsersEdit

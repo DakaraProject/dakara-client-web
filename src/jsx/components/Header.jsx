@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
+import { NavLink } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import UserWidget from 'components/generics/UserWidget'
 
@@ -18,7 +19,7 @@ class Header extends Component {
 
             menu = (
                 <nav className="tab-bar menu">
-                    <Link
+                    <NavLink
                         to="/library"
                         className="tab squared"
                         activeClassName="active"
@@ -26,8 +27,8 @@ class Header extends Component {
                         <span className="icon">
                             <i className="fa fa-home"></i>
                         </span>
-                    </Link>
-                    <Link
+                    </NavLink>
+                    <NavLink
                         to="/song-tags"
                         className="tab squared"
                         activeClassName="active"
@@ -35,8 +36,8 @@ class Header extends Component {
                         <span className="icon">
                             <i className="fa fa-tags"></i>
                         </span>
-                    </Link>
-                    <Link
+                    </NavLink>
+                    <NavLink
                         to="/users"
                         className="tab squared"
                         activeClassName="active"
@@ -47,22 +48,22 @@ class Header extends Component {
                         >
                             <i className="fa fa-users"></i>
                         </span>
-                    </Link>
-                    <Link
+                    </NavLink>
+                    <NavLink
                         to="/user"
                         className="tab"
                         activeClassName="active"
                     >
                         {username}
-                    </Link>
-                    <Link
+                    </NavLink>
+                    <NavLink
                         to="/logout"
                         className="tab squared"
                     >
                         <span className="icon">
                             <i className="fa fa-sign-out"></i>
                         </span>
-                    </Link>
+                    </NavLink>
                 </nav>
             )
         }
@@ -70,9 +71,9 @@ class Header extends Component {
         return (
             <header id="header" className="box">
                 <h1>
-                    <Link to="/">
+                    <NavLink to="/">
                         Dakara
-                    </Link>
+                    </NavLink>
                 </h1>
                 {menu}
             </header>
@@ -85,8 +86,8 @@ const mapStateToProps = (state) => ({
     user: state.authenticatedUsers
 })
 
-Header = connect(
+Header = withRouter(connect(
     mapStateToProps
-)(Header)
+)(Header))
 
 export default Header

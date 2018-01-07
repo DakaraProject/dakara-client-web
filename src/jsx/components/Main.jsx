@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { loadCurrentUser } from 'actions'
 import Header from './Header'
 import Footer from './Footer'
@@ -39,9 +40,9 @@ const mapStateToProps = (state) => ({
     isLoggedIn: !!state.token,
 })
 
-Main = connect(
+Main = withRouter(connect(
     mapStateToProps,
     { loadCurrentUser }
-)(Main)
+)(Main))
 
 export default Main

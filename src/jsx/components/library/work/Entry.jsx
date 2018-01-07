@@ -1,11 +1,15 @@
-import React, { Component } from 'react';
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
-import { browserHistory } from 'react-router'
+import React, { Component } from 'react'
+import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import { stringify } from 'query-string'
+import PropTypes from 'prop-types'
 
-export default class WorkEntry extends Component {
+class WorkEntry extends Component {
     handleSearch = () => {
         const newSearch = `${this.props.workType}:""${this.props.work.title}""`
-        browserHistory.push({pathname: "/library/song", query: { search: newSearch}})
+        this.context.router.history.push({
+            pathname: "/library/song",
+            search: stringify({search: newSearch})
+        })
     }
 
     render() {
@@ -35,3 +39,11 @@ export default class WorkEntry extends Component {
         );
     }
 }
+
+WorkEntry.contextTypes = {
+    router: PropTypes.shape({
+        history: PropTypes.object.isRequired
+    })
+}
+
+export default WorkEntry

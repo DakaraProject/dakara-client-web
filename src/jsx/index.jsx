@@ -1,12 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router, Route, Redirect, IndexRedirect, browserHistory } from 'react-router'
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
 import ReduxThunk from 'redux-thunk'
 import persistState from 'redux-localstorage'
 import Main from 'components/Main'
-import LoggedinPage from 'components/navigation/LoggedinPage'
+import { ProtectedRoute } from 'components/generics/Router'
 import Login from 'components/navigation/Login'
 import Logout from 'components/navigation/Logout'
 import User from 'components/user/User'
@@ -18,7 +18,6 @@ import LibraryArtistList from 'components/library/artist/List'
 import LibraryWorkList from 'components/library/work/List'
 import NotFound from 'components/navigation/NotFound'
 import Forbidden from 'components/navigation/Forbidden'
-import NotFoundRedirector from 'components/navigation/NotFoundRedirector'
 import SongTagList from 'components/settings/song_tags/List'
 import reducer from  'reducers'
 import fetchApiMiddleware from 'middleware/fetchApi'
@@ -41,28 +40,23 @@ export const defaultPathname = "/library/song"
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router history={browserHistory}>
-            <Route path="/" component={Main}>
-                <Route component={LoggedinPage}>
-                    <IndexRedirect to="library"/>
-                    <Route path="library" component={Library}>
-                        <IndexRedirect to="song"/>
-                        <Route path="song" component={LibrarySongList}/>
-                        <Route path="artist" component={LibraryArtistList}/>
-                        <Route path=":workType" component={LibraryWorkList}/>
-                    </Route>
-                    <Route path="user" component={User}/>
-                    <Route path="users" component={UserList}/>
-                    <Route path="users/:userId" component={UserEdit}/>
-                    <Route path="song-tags" component={SongTagList}/>
-                    <Route path="403" component={Forbidden}/>
-                </Route>
-                <Route path="login" component={Login}/>
-                <Route path="logout" component={Logout}/>
-                <Route path="404" component={NotFound}/>
-                <Route path="*" component={NotFoundRedirector}/>
-            </Route>
-        </Router>
+        <BrowserRouter>
+            <Main>
+                <Switch>
+                    <ProtectedRoute path="/library/song" component={LibrarySongList}/>
+                    <ProtectedRoute path="/library/artist" component={LibraryArtistList}/>
+                    <ProtectedRoute path="/library/:workType" component={LibraryWorkList}/>
+                    <ProtectedRoute path="/user" component={User}/>
+                    <ProtectedRoute path="/users" component={UserList}/>
+                    <ProtectedRoute path="/users/:userId" component={UserEdit}/>
+                    <ProtectedRoute path="/song-tags" component={SongTagList}/>
+                    <ProtectedRoute path="/403" component={Forbidden}/>
+                    <Route path="/login" component={Login}/>
+                    <Route path="/logout" component={Logout}/>
+                    <Route path="/404" component={NotFound}/>
+                </Switch>
+            </Main>
+        </BrowserRouter>
     </Provider>,
     document.getElementById('react-mounting-point')
 )

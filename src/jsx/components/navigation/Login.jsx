@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
-import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { FormBlock, InputField } from 'components/generics/Form'
 
 class Login extends Component {
     redirect = () => {
-        const fromUrl = this.props.location.query.from
-
-        if (fromUrl) {
-            browserHistory.push(fromUrl)
-        } else {
-            browserHistory.push("/")
-        }
+        // const fromUrl = this.props.location.query.from
+        //
+        // if (fromUrl) {
+        //     this.context.router.history.push(fromUrl)
+        // } else {
+        //     this.context.router.history.push("/")
+        // }
+        this.context.router.history.push("/")
     }
 
     componentWillMount() {
@@ -68,8 +69,8 @@ const mapStateToProps = (state) => ({
     isLoggedIn: !!state.token,
 })
 
-Login = connect(
+Login = withRouter(connect(
     mapStateToProps,
-)(Login)
+)(Login))
 
 export default Login

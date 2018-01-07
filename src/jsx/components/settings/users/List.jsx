@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import { parse } from 'query-string'
 import { deleteUser, getUsers } from 'actions'
 import { FormBlock, InputField } from 'components/generics/Form'
 import Paginator from 'components/generics/Paginator'
@@ -12,13 +14,16 @@ class UserList extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.location.query.page != prevProps.location.query.page) {
+        const query = parse(this.props.location.search)
+        const prevQuery = parse(prevProps.location.search)
+        if (query.page != prevQuery.page) {
             this.refreshEntries()
         }
     }
 
     refreshEntries = () => {
-        const pageNumber = this.props.location.query.page
+        const query = parse(this.props.location.search)
+        const pageNumber = query.page
         this.props.getUsers(pageNumber)
     }
 
@@ -112,9 +117,9 @@ const mapStateToProps = (state) => ({
     notifications: state.users.notifications
 })
 
-UserList = connect(
+UserList = withRouter(connect(
     mapStateToProps,
     { deleteUser, getUsers }
-)(UserList)
+)(UserList))
 
 export default UserList

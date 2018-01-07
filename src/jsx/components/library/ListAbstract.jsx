@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
-import { browserHistory } from 'react-router';
+import { parse } from 'query-string'
+import Library from './Library'
 
 class ListAbstract extends Component {
     componentDidMount() {
@@ -8,12 +9,14 @@ class ListAbstract extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        const query = parse(this.props.location.search)
+        const prevQuery = parse(prevProps.location.search)
         // since there is only one `LibraryListWork` component, it is not unmounted
         // when navigating through work types, so we have to watch when the
         // component is updated wether we have jumped to another work type
         if (this.props.workType != prevProps.workType ||
-            this.props.location.query.page != prevProps.location.query.page ||
-            this.props.location.query.search != prevProps.location.query.search) {
+            query.page != prevQuery.page ||
+            query.search != prevQuery.search) {
             this.refreshEntries()
         }
     }
@@ -28,8 +31,8 @@ class ListAbstract extends Component {
     refreshEntries = () => {
         const workType = this.props.workType
         const workTypes = this.props.workTypes
-        const pageNumber = this.props.location.query.page
-        const query = this.props.location.query.search
+        const queryObj = parse(this.props.location.search)
+        const { page: pageNumber, query } = queryObj
 
         if (workType) {
             const workTypeMatched = workTypes.data.results.find(
@@ -37,7 +40,7 @@ class ListAbstract extends Component {
             )
 
             if (!workTypeMatched) {
-                browserHistory.push({
+                this.context.router.history.push({
                     pathname: "/404",
                     query: {from: this.props.location.pathname}
                 })
@@ -71,9 +74,11 @@ class ListAbstract extends Component {
     render() {
         const libraryEntryList = this.getLibraryEntryList()
         return (
-              <ul className="library-list listing">
-                  {libraryEntryList}
-              </ul>
+            <Library location={this.props.location} match={this.props.match}>
+                <ul className="library-list listing">
+                    {libraryEntryList}
+                </ul>
+            </Library>
         )
     }
 }

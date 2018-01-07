@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import { parse } from 'query-string'
 import { getSongTagList, editSongTag } from 'actions'
 import Paginator from 'components/generics/Paginator'
 import SongTagEntry from './Entry'
@@ -10,13 +12,16 @@ class SongTagList extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.location.query.page != prevProps.location.query.page) {
+        const query = parse(this.props.location.search)
+        const prevQuery = parse(prevProps.location.search)
+        if (query.page != prevQuery.page) {
             this.refreshEntries()
         }
     }
 
     refreshEntries = () => {
-        const pageNumber = this.props.location.query.page
+        const query = parse(this.props.location.search)
+        const pageNumber = query.page
         this.props.getSongTagList(pageNumber)
     }
 
@@ -80,12 +85,12 @@ const mapStateToProps = (state) => ({
     forms: state.forms
 })
 
-SongTagList = connect(
+SongTagList = withRouter(connect(
     mapStateToProps,
     {
         getSongTagList,
         editSongTag,
     }
-)(SongTagList)
+)(SongTagList))
 
 export default SongTagList

@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
-import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import classNames from 'classnames'
+import { parse, stringify } from 'query-string'
+import PropTypes from 'prop-types'
 import utils from 'utils'
 import { addSongToPlaylist } from 'actions'
 import Song from 'components/song/Song'
@@ -16,19 +18,25 @@ class SongEntry extends Component {
      */
     setExpanded = (expanded) => {
         const { location } = this.props
-        const query = location.query
+        const query = parse(location.search)
+
         if (expanded) {
             query.expanded = expanded
         } else {
             // Remove param from url
             delete query.expanded
         }
-        browserHistory.push({pathname: location.pathname, query})
+
+        this.context.router.history.push({
+            pathname: location.pathname,
+            search: stringify(query)
+        })
     }
 
     render() {
         const { location, song, query, playlistInfo } = this.props
-        const expanded = location.query.expanded == song.id
+        const queryObj = parse(location.search)
+        const expanded = queryObj.expanded == song.id
 
         /**
          * Notification message
@@ -164,14 +172,20 @@ class SongEntry extends Component {
     }
 }
 
+SongEntry.contextTypes = {
+    router: PropTypes.shape({
+        history: PropTypes.object.isRequired
+    })
+}
+
 const mapStateToProps = (state, ownProps) => ({
     query: state.library.song.data.query,
     notification: state.library.songListNotifications[ownProps.song.id]
 })
 
-SongEntry = connect(
+SongEntry = withRouter(connect(
     mapStateToProps,
     { addSongToPlaylist }
-)(SongEntry)
+)(SongEntry))
 
 export default SongEntry

@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { browserHistory } from 'react-router'
+import { withRouter } from 'react-router-dom'
 import { logout } from 'actions'
 
 class Logout extends Component {
     componentWillMount() {
         this.props.logout()
-        browserHistory.push('/login')
+        this.context.router.history.push('/login')
     }
 
     render() {
@@ -14,9 +14,9 @@ class Logout extends Component {
     }
 }
 
-Logout = connect(
+Logout = withRouter(connect(
     () => ({}),
     { logout }
-)(Logout)
+)(Logout))
 
 export default Logout

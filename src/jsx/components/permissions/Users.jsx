@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { PermissionBase, mapStateToProps } from './Base'
 
 export const permissionLevels = {
@@ -12,7 +13,7 @@ export const permissionLevels = {
  * Users manager
  */
 
-export const IsUserManager = connect(
+export const IsUserManager = withRouter(connect(
     mapStateToProps
 )(
     class extends PermissionBase {
@@ -20,13 +21,13 @@ export const IsUserManager = connect(
             return (user.users_permission_level == 'm')
         }
     }
-)
+))
 
 /**
  * Not self
  */
 
-export const IsNotSelf = connect(
+export const IsNotSelf = withRouter(connect(
     mapStateToProps
 )(
     class extends PermissionBase {
@@ -34,4 +35,4 @@ export const IsNotSelf = connect(
             return (user.id != object.id)
         }
     }
-)
+))

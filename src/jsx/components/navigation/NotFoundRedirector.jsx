@@ -1,12 +1,20 @@
 import React, { Component } from 'react'
-import { browserHistory } from 'react-router'
+import PropTypes from 'prop-types'
 
-export default class NotFoundRedirector extends Component {
+class NotFoundRedirector extends Component {
     componentWillMount() {
-        browserHistory.replace({pathname: "/404", query: {from: this.props.location.pathname}})
+        this.context.router.history.replace({pathname: "/404", query: {from: this.props.location.pathname}})
     }
 
     render() {
         return null
     }
 }
+
+NotFoundRedirector.contextTypes = {
+    router: PropTypes.shape({
+        history: PropTypes.object.isRequired
+    })
+}
+
+export default NotFoundRedirector

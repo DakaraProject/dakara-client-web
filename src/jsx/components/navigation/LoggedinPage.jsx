@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { defaultPathname } from 'index'
 
 class LoggedinPage extends Component {
@@ -13,7 +13,7 @@ class LoggedinPage extends Component {
             }
         }
 
-        browserHistory.push({
+        this.context.router.history.push({
             pathname: "/login",
             query
         })
@@ -52,9 +52,9 @@ const mapStateToProps = (state) => ({
     hasUserInfo: !!state.authenticatedUsers
 })
 
-LoggedinPage = connect(
+LoggedinPage = withRouter(connect(
     mapStateToProps,
-)(LoggedinPage)
+)(LoggedinPage))
 
 export default LoggedinPage
 

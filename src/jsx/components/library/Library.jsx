@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { browserHistory, Link } from 'react-router'
+import { withRouter } from 'react-router-dom'
+import { parse } from 'query-string'
+import { NavLink } from 'react-router-dom'
 import classNames from 'classnames'
 import { loadWorkTypes } from 'actions'
 import Paginator from 'components/generics/Paginator'
@@ -20,26 +22,26 @@ class Library extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const newSearch = this.props.location.query.search
-        if (newSearch != prevProps.location.query.search && newSearch ) {
+        const newSearch = parse(this.props.location.search).search
+        if (newSearch != parse(prevProps.location.search).search && newSearch ) {
             this.updateQueryFromLocation()
         }
     }
 
     updateQueryFromLocation = () => {
-        const query = this.props.location.query.search || ''
+        const query = parse(this.props.location.search).search || ''
         this.setState({query})
     }
 
     getLibraryNameInfo = () => {
-        const workTypeQueryName = this.props.children.props.params.workType
+        const workTypeQueryName = this.props.match.params.workType
         const workTypes = this.props.library.workTypes.data.results
         return this.props.children.type.WrappedComponent.getLibraryNameInfo(workTypeQueryName, workTypes)
     }
 
     getLibraryEntries = () => {
         const library = this.props.library
-        const workTypeQueryName = this.props.children.props.params.workType
+        const workTypeQueryName = this.prop.match.params.workType
         return this.props.children.type.WrappedComponent.getLibraryEntries(library, workTypeQueryName)
     }
 
@@ -115,7 +117,7 @@ class Library extends Component {
                     className="form inline library-searchbox"
                     onSubmit={e => {
                         e.preventDefault()
-                        browserHistory.push({pathname, query: {search: this.state.query}})
+                        this.context.router.history.push({pathname, query: {search: this.state.query}})
                     }}
                 >
                     <div className="set">
@@ -144,7 +146,7 @@ class Library extends Component {
                                 <div className="controls">
                                     <div className="control" onClick={e => {
                                             this.setState({query: ""})
-                                            browserHistory.push({pathname})
+                                            this.context.router.history.push({pathname})
                                         }
                                     }>
                                         <span className="icon">
@@ -203,7 +205,7 @@ class LibraryTab extends Component {
         )
 
         return (
-                <Link
+                <NavLink
                     to={`/library/${queryName}`}
                     className={linkClass}
                     activeClassName="active"
@@ -212,7 +214,7 @@ class LibraryTab extends Component {
                         <i className={`fa fa-${iconName}`}></i>
                     </span>
                     {tabName}
-                </Link>
+                </NavLink>
                 )
     }
 }

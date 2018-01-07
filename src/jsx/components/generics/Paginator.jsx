@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { browserHistory, Link } from 'react-router'
+import React, { Component } from 'react'
+import { parse, stringify } from 'query-string'
 import ControlLink from './ControlLink'
 
 export default class Paginator extends Component {
@@ -8,11 +8,12 @@ export default class Paginator extends Component {
         const hasNext = current != last
         const hasPrevious = current != 1
         const pathname = location.pathname
+        const query = parse(location.search)
 
         return (
             <nav className="paginator controls">
                 <ControlLink
-                    to={{pathname, query: {...location.query, page: 1}}}
+                    to={{pathname, query: {...query, page: 1}}}
                     disabled={!hasPrevious}
                     className="primary"
                 >
@@ -21,7 +22,7 @@ export default class Paginator extends Component {
                     </span>
                 </ControlLink>
                 <ControlLink
-                    to={{pathname, query: {...location.query, page: current - 1}}}
+                    to={{pathname, query: {...query, page: current - 1}}}
                     disabled={!hasPrevious}
                     className="primary"
                 >
@@ -30,7 +31,7 @@ export default class Paginator extends Component {
                     </span>
                 </ControlLink>
                 <ControlLink
-                    to={{pathname, query: {...location.query, page: current + 1}}}
+                    to={{pathname, query: {...query, page: current + 1}}}
                     disabled={!hasNext}
                     className="primary"
                 >
@@ -39,7 +40,7 @@ export default class Paginator extends Component {
                     </span>
                 </ControlLink>
                 <ControlLink
-                    to={{pathname, query: {...location.query, page: last}}}
+                    to={{pathname, query: {...query, page: last}}}
                     disabled={!hasNext}
                     className="primary"
                 >

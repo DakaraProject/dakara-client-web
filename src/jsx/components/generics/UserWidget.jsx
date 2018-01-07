@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import classNames from 'classnames'
 
 class UserWidget extends Component {
@@ -30,8 +31,8 @@ const mapStateToProps = (state) => ({
     currentUser: state.authenticatedUsers
 })
 
-UserWidget = connect(
+UserWidget = withRouter(connect(
     mapStateToProps
-)(UserWidget)
+)(UserWidget))
 
 export default UserWidget
