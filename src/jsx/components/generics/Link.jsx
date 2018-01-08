@@ -8,6 +8,7 @@ export default class extends Component {
 
         return (
             <Link
+                {...rest}
                 to={{...to, search: stringify(to.query)}}
             >
                 {this.props.children}
