@@ -32,7 +32,7 @@ class ListAbstract extends Component {
         const workType = this.props.workType
         const workTypes = this.props.workTypes
         const queryObj = parse(this.props.location.search)
-        const { page: pageNumber, query } = queryObj
+        const { page: pageNumber, search: query } = queryObj
 
         if (workType) {
             const workTypeMatched = workTypes.data.results.find(
