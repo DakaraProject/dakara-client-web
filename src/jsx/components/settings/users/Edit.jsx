@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { getUser, clearUser } from 'actions'
 import { FormBlock, InputField, SelectField, CheckboxField } from 'components/generics/Form'
 import { PermissionBase } from 'components/permissions/Base'
@@ -9,7 +8,7 @@ import { IsUserManager, IsNotSelf } from 'components/permissions/Users'
 class UsersEdit extends Component {
     componentWillMount() {
         const { authenticatedUser } = this.props
-        const userId = this.props.params.userId
+        const userId = this.props.match.params.userId
         const fakeUser = {id: userId}
 
         // check if the current user can disply the page
@@ -120,9 +119,9 @@ const mapStateToProps = (state) => ({
     authenticatedUser: state.authenticatedUsers
 })
 
-UsersEdit = withRouter(connect(
+UsersEdit = connect(
     mapStateToProps,
     { getUser, clearUser }
-)(UsersEdit))
+)(UsersEdit)
 
 export default UsersEdit

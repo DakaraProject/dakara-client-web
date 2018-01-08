@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import { FormBlock, InputField } from 'components/generics/Form'
 
 class Login extends Component {
@@ -65,12 +65,18 @@ class Login extends Component {
     }
 }
 
+Login.contextTypes = {
+    router: PropTypes.shape({
+        history: PropTypes.object.isRequired
+    })
+}
+
 const mapStateToProps = (state) => ({
     isLoggedIn: !!state.token,
 })
 
-Login = withRouter(connect(
+Login = connect(
     mapStateToProps,
-)(Login))
+)(Login)
 
 export default Login

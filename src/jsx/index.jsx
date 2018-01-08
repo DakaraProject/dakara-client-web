@@ -47,8 +47,8 @@ ReactDOM.render(
                     <ProtectedRoute path="/library/artist" component={LibraryArtistList}/>
                     <ProtectedRoute path="/library/:workType" component={LibraryWorkList}/>
                     <ProtectedRoute path="/user" component={User}/>
-                    <ProtectedRoute path="/users" component={UserList}/>
                     <ProtectedRoute path="/users/:userId" component={UserEdit}/>
+                    <ProtectedRoute path="/users" component={UserList}/>
                     <ProtectedRoute path="/song-tags" component={SongTagList}/>
                     <ProtectedRoute path="/403" component={Forbidden}/>
                     <Route path="/login" component={Login}/>

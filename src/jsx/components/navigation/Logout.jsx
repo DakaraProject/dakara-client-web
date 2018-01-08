@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import { logout } from 'actions'
 
 class Logout extends Component {
@@ -14,9 +14,15 @@ class Logout extends Component {
     }
 }
 
-Logout = withRouter(connect(
+Logout.contextTypes = {
+    router: PropTypes.shape({
+        history: PropTypes.object.isRequired
+    })
+}
+
+Logout = connect(
     () => ({}),
     { logout }
-)(Logout))
+)(Logout)
 
 export default Logout
