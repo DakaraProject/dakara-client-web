@@ -17,7 +17,6 @@ import LibrarySongList from 'components/library/song/List'
 import LibraryArtistList from 'components/library/artist/List'
 import LibraryWorkList from 'components/library/work/List'
 import NotFound from 'components/navigation/NotFound'
-import Forbidden from 'components/navigation/Forbidden'
 import SongTagList from 'components/settings/song_tags/List'
 import reducer from  'reducers'
 import fetchApiMiddleware from 'middleware/fetchApi'
@@ -51,7 +50,6 @@ ReactDOM.render(
                     <ProtectedRoute path="/users/:userId" component={UserEdit}/>
                     <ProtectedRoute path="/users" component={UserList}/>
                     <ProtectedRoute path="/song-tags" component={SongTagList}/>
-                    <ProtectedRoute path="/403" component={Forbidden}/>
                     <Route path="/login" component={Login}/>
                     <Route path="/logout" component={Logout}/>
                     <Redirect from="/" to="/library"/>
