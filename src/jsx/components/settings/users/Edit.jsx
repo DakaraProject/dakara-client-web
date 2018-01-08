@@ -18,17 +18,14 @@ class UsersEdit extends Component {
     }
 
     render() {
-        const { location, user } = this.props
+        const { location, user, isFetching } = this.props
 
-        // render an error page if the requested user does not exist
-        if (!user) {
-            return (
-                <NotFound location={location}/>
-            )
+        // render nothing if the user is being fetched
+        if (isFetching) {
+            return null
         }
 
-
-        // render an error page if if the current user cannot disply the page
+        // render an error page if the current user has no right to display the page
         const { authenticatedUser } = this.props
         const userId = this.props.match.params.userId
         const fakeUser = {id: userId}
@@ -37,6 +34,13 @@ class UsersEdit extends Component {
 
             return (
                 <Forbidden location={location}/>
+            )
+        }
+
+        // render an error page if the requested user does not exist
+        if (!user) {
+            return (
+                <NotFound location={location}/>
             )
         }
 
@@ -115,7 +119,8 @@ class UsersEdit extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    user: state.users.userEdit,
+    user: state.users.userEdit.user,
+    isFetching: state.users.userEdit.isFetching,
     authenticatedUser: state.authenticatedUsers
 })
 
