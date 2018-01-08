@@ -53,7 +53,7 @@ ReactDOM.render(
                     <ProtectedRoute path="/403" component={Forbidden}/>
                     <Route path="/login" component={Login}/>
                     <Route path="/logout" component={Logout}/>
-                    <Route path="/404" component={NotFound}/>
+                    <Route component={NotFound}/>
                 </Switch>
             </Main>
         </BrowserRouter>

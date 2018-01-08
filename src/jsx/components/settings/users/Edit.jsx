@@ -4,28 +4,12 @@ import { getUser, clearUser } from 'actions'
 import { FormBlock, InputField, SelectField, CheckboxField } from 'components/generics/Form'
 import { PermissionBase } from 'components/permissions/Base'
 import { IsUserManager, IsNotSelf } from 'components/permissions/Users'
+import NotFound from 'components/navigation/NotFound'
+import Forbidden from 'components/navigation/Forbidden'
 
 class UsersEdit extends Component {
     componentWillMount() {
-        const { authenticatedUser } = this.props
         const userId = this.props.match.params.userId
-        const fakeUser = {id: userId}
-
-        // check if the current user can disply the page
-        // if (!(PermissionBase.hasPermission(authenticatedUser, fakeUser, IsUserManager) &&
-        //         PermissionBase.hasPermission(authenticatedUser, fakeUser, IsNotSelf))) {
-        //
-        //     const { pathname, search } = this.props.location
-        //     this.context.router.history.replace({
-        //         pathname: "/403",
-        //         query: {
-        //             from: pathname + search
-        //         }
-        //     })
-        //
-        //     return
-        // }
-
         this.props.getUser(userId)
     }
 
@@ -36,8 +20,24 @@ class UsersEdit extends Component {
     render() {
         const { location, user } = this.props
 
+        // render an error page if the requested user does not exist
         if (!user) {
-            return null
+            return (
+                <NotFound location={location}/>
+            )
+        }
+
+
+        // render an error page if if the current user cannot disply the page
+        const { authenticatedUser } = this.props
+        const userId = this.props.match.params.userId
+        const fakeUser = {id: userId}
+        if (!(PermissionBase.hasPermission(authenticatedUser, fakeUser, IsUserManager) &&
+                PermissionBase.hasPermission(authenticatedUser, fakeUser, IsNotSelf))) {
+
+            return (
+                <Forbidden location={location}/>
+            )
         }
 
         return (

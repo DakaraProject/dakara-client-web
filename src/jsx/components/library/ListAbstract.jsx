@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { parse } from 'query-string'
 import Library from './Library'
+import NotFound from 'components/navigation/NotFound'
 
 class ListAbstract extends Component {
     componentDidMount() {
@@ -34,24 +35,6 @@ class ListAbstract extends Component {
         const queryObj = parse(this.props.location.search)
         const { page: pageNumber, search: query } = queryObj
 
-        if (workType) {
-            const workTypeMatched = workTypes.data.results.find(
-                (workTypeObject) => workTypeObject.query_name == workType
-            )
-
-            /*
-            if (!workTypeMatched) {
-                this.context.router.history.push({
-                    pathname: "/404",
-                    query: {from: this.props.location.pathname}
-                })
-                return
-            }
-            */
-
-        }
-
-
         let args = {workType}
 
         if (pageNumber) {
@@ -74,6 +57,21 @@ class ListAbstract extends Component {
     }
 
     render() {
+        // render an error page if the work type is invalid
+        const { workType, workTypes, location } = this.props
+        if (workType) {
+            const workTypeMatched = workTypes.data.results.find(
+                (workTypeObject) => workTypeObject.query_name == workType
+            )
+
+            if (!workTypeMatched) {
+                return (
+                    <NotFound location={location}/>
+                )
+            }
+        }
+
+
         const libraryEntryList = this.getLibraryEntryList()
         return (
             <Library
