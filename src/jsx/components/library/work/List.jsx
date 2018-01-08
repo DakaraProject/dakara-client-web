@@ -13,9 +13,16 @@ class WorkList extends ListAbstract {
      * - plural: library plural name
      * - placeholder: library search placeholder
      */
-    static getLibraryNameInfo(workTypeQueryName, workTypes) {
+    getLibraryNameInfo() {
+        const { workType: workTypeQueryName, workTypes } = this.props
+
+        // Wait for worktypes to be fetched
+        if (!workTypes.hasFetched) {
+            return null
+        }
+
         // Find work type matching the query name
-        const workType = workTypes.find(
+        const workType = workTypes.data.results.find(
             (workType) => workType.query_name == workTypeQueryName
         )
 
@@ -35,16 +42,12 @@ class WorkList extends ListAbstract {
         }
     }
 
-    static getLibraryEntries(library, workTypeQueryName) {
-        return library.work[workTypeQueryName]
-    }
-
     getLibraryType() {
         return "works"
     }
 
     getLibraryEntryList = () => {
-        if (!this.props.entries) {
+        if (!this.props.entries || !this.props.entries.data) {
             return null
         }
 
@@ -62,9 +65,9 @@ class WorkList extends ListAbstract {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    entries: state.library.work[ownProps.params.workType],
+    entries: state.library.work[ownProps.match.params.workType],
     workTypes: state.library.workTypes,
-    workType: ownProps.params.workType
+    workType: ownProps.match.params.workType
 })
 
 WorkList = connect(

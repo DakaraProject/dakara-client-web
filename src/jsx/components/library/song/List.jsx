@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { loadLibraryEntries } from 'actions'
 import ListAbstract from '../ListAbstract'
 import SongEntry from './Entry'
@@ -13,16 +12,12 @@ class SongList extends ListAbstract {
      * - plural: library plural name
      * - placeholder: library search placeholder
      */
-    static getLibraryNameInfo() {
+    getLibraryNameInfo() {
         return {
             singular: "song",
             plural: "songs",
             placeholder: "What will you sing?"
         }
-    }
-
-    static getLibraryEntries(library) {
-        return library.song
     }
 
     getLibraryType() {

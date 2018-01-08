@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { parse } from 'query-string'
 import { NavLink } from 'react-router-dom'
 import classNames from 'classnames'
@@ -34,15 +33,13 @@ class Library extends Component {
     }
 
     getLibraryNameInfo = () => {
-        const workTypeQueryName = this.props.match.params.workType
-        const workTypes = this.props.library.workTypes.data.results
-        return this.props.children.type.WrappedComponent.getLibraryNameInfo(workTypeQueryName, workTypes)
+        return this.props.nameInfo
     }
 
     getLibraryEntries = () => {
-        const library = this.props.library
-        const workTypeQueryName = this.prop.match.params.workType
-        return this.props.children.type.WrappedComponent.getLibraryEntries(library, workTypeQueryName)
+        const entries = this.props.entries
+        if (entries && entries.data)
+        return entries
     }
 
     render() {

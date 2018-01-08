@@ -39,6 +39,7 @@ class ListAbstract extends Component {
                 (workTypeObject) => workTypeObject.query_name == workType
             )
 
+            /*
             if (!workTypeMatched) {
                 this.context.router.history.push({
                     pathname: "/404",
@@ -46,6 +47,7 @@ class ListAbstract extends Component {
                 })
                 return
             }
+            */
 
         }
 
@@ -74,7 +76,12 @@ class ListAbstract extends Component {
     render() {
         const libraryEntryList = this.getLibraryEntryList()
         return (
-            <Library location={this.props.location} match={this.props.match}>
+            <Library
+                location={this.props.location}
+                match={this.props.match}
+                nameInfo={this.getLibraryNameInfo()}
+                entries={this.props.entries}
+            >
                 <ul className="library-list listing">
                     {libraryEntryList}
                 </ul>

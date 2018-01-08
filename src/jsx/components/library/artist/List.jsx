@@ -13,16 +13,12 @@ class ArtistList extends ListAbstract {
      * - plural: library plural name
      * - placeholder: library search placeholder
      */
-    static getLibraryNameInfo() {
+    getLibraryNameInfo() {
         return {
             singular: "artist",
             plural: "artists",
             placeholder: "Who are you looking for?"
         }
-    }
-
-    static getLibraryEntries(library) {
-        return library.artist
     }
 
     getLibraryType() {
