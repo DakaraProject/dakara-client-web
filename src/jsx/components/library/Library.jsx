@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { parse } from 'query-string'
-import { NavLink } from 'react-router-dom'
+import { parse, stringify } from 'query-string'
+import { NavLink, withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { loadWorkTypes } from 'actions'
 import Paginator from 'components/generics/Paginator'
@@ -114,7 +115,10 @@ class Library extends Component {
                     className="form inline library-searchbox"
                     onSubmit={e => {
                         e.preventDefault()
-                        this.context.router.history.push({pathname, query: {search: this.state.query}})
+                        this.context.router.history.push({
+                            pathname,
+                            search: stringify({search: this.state.query})
+                        })
                     }}
                 >
                     <div className="set">
@@ -216,13 +220,19 @@ class LibraryTab extends Component {
     }
 }
 
+Library.contextTypes = {
+    router: PropTypes.shape({
+        history: PropTypes.object.isRequired
+    })
+}
+
 const mapStateToProps = (state) => ({
     library: state.library,
 })
 
-Library = connect(
+Library = withRouter(connect(
     mapStateToProps,
     { loadWorkTypes }
-)(Library)
+)(Library))
 
 export default Library

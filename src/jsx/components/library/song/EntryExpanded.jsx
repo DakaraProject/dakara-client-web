@@ -14,7 +14,7 @@ class SongEntryExpanded extends Component {
         const { location } = this.props
         this.context.router.history.push({
             pathname: location.pathname,
-            search: stringify(search)
+            search: stringify({search})
         })
     }
 
