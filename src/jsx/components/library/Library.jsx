@@ -13,16 +13,11 @@ class Library extends Component {
 
         const entries = this.props.entries
 
-        let libraryEntries
-        if (entries && entries.data) {
-            libraryEntries = entries
-        } else {
-            libraryEntries = {
-                data: {current: 1, last: 1, count: 0},
-                isFetching: false,
-                fetchError: false
-            }
+        if (!entries || !entries.data) {
+            return null
         }
+
+        const libraryEntries = entries
 
         const {
             current: currentPageNumber,

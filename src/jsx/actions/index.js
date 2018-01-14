@@ -29,14 +29,14 @@ const fetchLibraryEntries = (url, libraryType, workType) => ({
 
 /**
  * Load a page of library entries from server
- * @param libraryType type of library entries
+ * @param serverLibraryName server name of the library
  * @param workType precise type of library entries when it is a work
  * @param pageNumber page to load
  */
-export const loadLibraryEntries = (libraryType = "songs", { workType, query, pageNumber = 1 } = {}) => {
-    let url = `${baseUrl}library/${libraryType}/?page=${pageNumber}`
+export const loadLibraryEntries = (serverLibraryName = "songs", { workType, query, pageNumber = 1 } = {}) => {
+    let url = `${baseUrl}library/${serverLibraryName}/?page=${pageNumber}`
 
-    // if `libraryType` is 'work', a `workType` has to be passed
+    // if `serverLibraryName` is 'work', a `workType` has to be passed
     if (workType) {
         url += `&type=${workType}`
     }
@@ -46,7 +46,7 @@ export const loadLibraryEntries = (libraryType = "songs", { workType, query, pag
         url += `&query=${encodeURIComponent(query)}`
     }
 
-    return fetchLibraryEntries(url, libraryType, workType)
+    return fetchLibraryEntries(url, serverLibraryName, workType)
 }
 
 

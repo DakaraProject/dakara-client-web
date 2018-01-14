@@ -17,7 +17,12 @@ class WorkList extends ListAbstract {
 
         // Wait for worktypes to be fetched
         if (!workTypes.hasFetched) {
-            return null
+            return {
+                singular: "work",
+                plural: "works",
+                placeholder: "What are you looking for?",
+                serverName: "works"
+            }
         }
 
         // Find work type matching the query name
@@ -30,19 +35,17 @@ class WorkList extends ListAbstract {
             return {
                 singular: "work",
                 plural: "works",
-                placeholder: "What are you looking for?"
+                placeholder: "What are you looking for?",
+                serverName: "works"
             }
         }
 
         return {
             singular: workType.name.toLowerCase(),
             plural: workType.name_plural.toLowerCase(),
-            placeholder: `What ${workType.name.toLowerCase()} do you want?`
+            placeholder: `What ${workType.name.toLowerCase()} do you want?`,
+            serverName: "works"
         }
-    }
-
-    getLibraryType() {
-        return "works"
     }
 
     getLibraryEntryList = () => {

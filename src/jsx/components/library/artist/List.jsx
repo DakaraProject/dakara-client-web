@@ -6,22 +6,13 @@ import ArtistEntry from './Entry'
 
 class ArtistList extends ListAbstract {
 
-    /**
-     * Get a dict with the following:
-     * - singular: library singular name
-     * - plural: library plural name
-     * - placeholder: library search placeholder
-     */
     getLibraryNameInfo() {
         return {
             singular: "artist",
             plural: "artists",
-            placeholder: "Who are you looking for?"
+            placeholder: "Who are you looking for?",
+            serverName: "artists"
         }
-    }
-
-    getLibraryType() {
-        return "artists"
     }
 
     getLibraryEntryList = () => {

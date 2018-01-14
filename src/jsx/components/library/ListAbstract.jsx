@@ -23,10 +23,13 @@ class ListAbstract extends Component {
     }
 
     /**
-     * To be override by the child class
-     * to return library type
+     * Get a dict with the following:
+     * - singular: library singular name
+     * - plural: library plural name
+     * - placeholder: library search placeholder
+     * - serverName: server side library name
      */
-    getLibraryType() {
+    getLibraryNameInfo() {
     }
 
     refreshEntries = () => {
@@ -44,7 +47,7 @@ class ListAbstract extends Component {
             args.query = query
         }
 
-        this.props.loadLibraryEntries(this.getLibraryType(), args)
+        this.props.loadLibraryEntries(this.getLibraryNameInfo().serverName, args)
     }
 
 
