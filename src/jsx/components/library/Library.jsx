@@ -2,42 +2,17 @@ import React, { Component } from 'react'
 import LibraryTabList from './LibraryTabList'
 import SearchBox from './SearchBox'
 import ListWrapper from './ListWrapper'
-import Paginator from 'components/generics/Paginator'
-
+import Navigator from 'components/generics/Navigator'
 
 class Library extends Component {
     render() {
         const workTypes = this.props.workTypes
 
-        // library name
         const libraryNameInfo = this.props.nameInfo
 
         const entries = this.props.entries
 
-        if (!entries || !entries.data) {
-            return null
-        }
-
-        const libraryEntries = entries
-
-        const {
-            current: currentPageNumber,
-            last: lastPageNumber,
-            count: entriesCount
-        } = libraryEntries.data
-
-        const { isFetching, fetchError } = libraryEntries
-
-        // counter
-        let infoCounter
-        if (libraryNameInfo) {
-            infoCounter = (
-                <div className="counter">
-                    <span className="figure">{entriesCount}</span>
-                    <span className="text">{entriesCount == 1 ? libraryNameInfo.singular : libraryNameInfo.plural} found</span>
-                </div>
-            )
-        }
+        const { isFetching, fetchError } = entries
 
         return (
             <div id="library" className="box">
@@ -57,14 +32,14 @@ class Library extends Component {
                     {this.props.children}
                 </ListWrapper>
 
-                <div className="library-navigator">
-                    <Paginator
-                        location={this.props.location}
-                        current={currentPageNumber}
-                        last={lastPageNumber}
-                    />
-                    {infoCounter}
-                </div>
+                <Navigator
+                    data={entries.data}
+                    names={{
+                        singular: libraryNameInfo.singular + ' found',
+                        plural: libraryNameInfo.plural + ' found'
+                    }}
+                    location={location}
+                />
             </div>
         )
     }

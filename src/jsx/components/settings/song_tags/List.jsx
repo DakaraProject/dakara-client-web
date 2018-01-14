@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { parse } from 'query-string'
 import { getSongTagList, editSongTag } from 'actions'
-import Paginator from 'components/generics/Paginator'
+import Navigator from 'components/generics/Navigator'
 import SongTagEntry from './Entry'
 
 class SongTagList extends Component {
@@ -27,7 +27,6 @@ class SongTagList extends Component {
 
     render() {
         const { entries, notifications, editSongTag, location, forms } = this.props
-        const { current, last } = entries.data
 
         const tagList = entries.data.results.map((tag) => {
             let notification = notifications[tag.id]
@@ -67,13 +66,10 @@ class SongTagList extends Component {
                         </tbody>
                     </table>
                 </div>
-                <div className="navigator">
-                    <Paginator
-                        location={location}
-                        current={current}
-                        last={last}
-                    />
-                </div>
+                <Navigator
+                    data={entries.data}
+                    location={location}
+                />
             </div>
         )
     }
