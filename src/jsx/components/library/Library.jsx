@@ -6,6 +6,7 @@ import Navigator from 'components/generics/Navigator'
 
 class Library extends Component {
     render() {
+        const location = this.props.location
         const workTypes = this.props.workTypes
 
         const libraryNameInfo = this.props.nameInfo
