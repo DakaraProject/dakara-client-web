@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import Paginator from 'components/generics/Paginator'
-import ListWrapper from './ListWrapper'
+import LibraryTabList from './LibraryTabList'
 import SearchBox from './SearchBox'
-import LibraryTab from './LibraryTab'
+import ListWrapper from './ListWrapper'
+import Paginator from 'components/generics/Paginator'
+
 
 class Library extends Component {
     render() {
@@ -27,18 +28,6 @@ class Library extends Component {
 
         const { isFetching, fetchError } = libraryEntries
 
-        // Work Types links
-        const workTypesTabs = workTypes.data.results.map(function(workType) {
-                    return (
-                            <LibraryTab
-                                key={workType.query_name}
-                                queryName={workType.query_name}
-                                iconName={workType.icon_name}
-                                name={workType.name_plural}
-                            />
-                           )
-        })
-
         // counter
         let infoCounter
         if (libraryNameInfo) {
@@ -52,19 +41,9 @@ class Library extends Component {
 
         return (
             <div id="library" className="box">
-                <nav className="tab-bar library-chooser">
-                    <LibraryTab
-                        queryName="song"
-                        iconName="bars"
-                        extraClassName="home"
-                    />
-                    <LibraryTab
-                        queryName="artist"
-                        iconName="music"
-                        name="Artists"
-                    />
-                    {workTypesTabs}
-                </nav>
+                <LibraryTabList
+                    workTypes={workTypes}
+                />
 
                 <SearchBox
                     placeholder={libraryNameInfo.placeholder}
