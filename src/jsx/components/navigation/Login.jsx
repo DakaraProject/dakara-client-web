@@ -1,34 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import { Redirect } from 'react-router-dom'
+import { parse } from 'query-string'
 import { FormBlock, InputField } from 'components/generics/Form'
 
 class Login extends Component {
-    redirect = () => {
-        // const fromUrl = this.props.location.query.from
-        //
-        // if (fromUrl) {
-        //     this.context.router.history.push(fromUrl)
-        // } else {
-        //     this.context.router.history.push("/")
-        // }
-        this.context.router.history.push("/")
-    }
-
-    componentWillMount() {
-        if (this.props.isLoggedIn) {
-            this.redirect()
-        }
-    }
-
-    componentWillUpdate(nextProps, nextState) {
-        if(nextProps.isLoggedIn) {
-            this.redirect()
-        }
-    }
 
     render() {
-        const { login } = this.props
+        const { isLoggedIn } = this.props
+
+        if (isLoggedIn) {
+            const query = parse(this.props.location.search)
+            const from = query.from || '/'
+            return (
+                    <Redirect to={from}/>
+            )
+        }
 
         return (
             <div id="login" className="box">
@@ -63,12 +50,6 @@ class Login extends Component {
             </div>
         )
     }
-}
-
-Login.contextTypes = {
-    router: PropTypes.shape({
-        history: PropTypes.object.isRequired
-    })
 }
 
 const mapStateToProps = (state) => ({
