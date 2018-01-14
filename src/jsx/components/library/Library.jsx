@@ -1,46 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { parse, stringify } from 'query-string'
 import { NavLink, withRouter } from 'react-router-dom'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { loadWorkTypes } from 'actions'
 import Paginator from 'components/generics/Paginator'
 import ListWrapper from './ListWrapper'
+import SearchBox from './SearchBox'
 
 class Library extends Component {
-    state = {
-        query: ""
-    }
-
     componentWillMount() {
         this.props.loadWorkTypes()
-    }
-
-    componentDidMount() {
-        this.updateQueryFromLocation()
-    }
-
-    componentDidUpdate(prevProps) {
-        const newSearch = parse(this.props.location.search).search
-        if (newSearch != parse(prevProps.location.search).search && newSearch ) {
-            this.updateQueryFromLocation()
-        }
-    }
-
-    updateQueryFromLocation = () => {
-        const query = parse(this.props.location.search).search || ''
-        this.setState({query})
-    }
-
-    getLibraryNameInfo = () => {
-        return this.props.nameInfo
-    }
-
-    getLibraryEntries = () => {
-        const entries = this.props.entries
-        if (entries && entries.data)
-        return entries
     }
 
     render() {
@@ -50,15 +19,20 @@ class Library extends Component {
         }
 
         // library name
-        const libraryNameInfo = this.getLibraryNameInfo()
+        const libraryNameInfo = this.props.nameInfo
 
-        const libraryEntriesDefault = {
-            data: {current: 1, last: 1, count: 0},
-            isFetching: false,
-            fetchError: false
+        const entries = this.props.entries
+
+        let libraryEntries
+        if (entries && entries.data) {
+            libraryEntries = entries
+        } else {
+            libraryEntries = {
+                data: {current: 1, last: 1, count: 0},
+                isFetching: false,
+                fetchError: false
+            }
         }
-
-        const libraryEntries = this.getLibraryEntries() || libraryEntriesDefault
 
         const {
             current: currentPageNumber,
@@ -67,10 +41,6 @@ class Library extends Component {
         } = libraryEntries.data
 
         const { isFetching, fetchError } = libraryEntries
-
-        // you MUST provide the current `pathname`, otherwize (when providing
-        // only `query`) it is undefined
-        const pathname = this.props.location.pathname
 
         // Work Types links
         const workTypesTabs = workTypes.data.results.map(function(workType) {
@@ -111,61 +81,10 @@ class Library extends Component {
                     {workTypesTabs}
                 </nav>
 
-                <form
-                    className="form inline library-searchbox"
-                    onSubmit={e => {
-                        e.preventDefault()
-                        this.context.router.history.push({
-                            pathname,
-                            search: stringify({search: this.state.query})
-                        })
-                    }}
-                >
-                    <div className="set">
-                        <div className="field">
-                            <div className="text-input input fake" id="library-searchbox-fake">
-                                <input
-                                    className="faked"
-                                    placeholder={libraryNameInfo.placeholder}
-                                    value={this.state.query}
-                                    onChange={e => this.setState({query: e.target.value})}
-                                    onFocus={() => {
-                                        document.getElementById(
-                                            'library-searchbox-fake'
-                                        ).classList.add(
-                                            'focus'
-                                        )
-                                    }}
-                                    onBlur={() => {
-                                        document.getElementById(
-                                            'library-searchbox-fake'
-                                        ).classList.remove(
-                                            'focus'
-                                        )
-                                    }}
-                                />
-                                <div className="controls">
-                                    <div className="control" onClick={e => {
-                                            this.setState({query: ""})
-                                            this.context.router.history.push({pathname})
-                                        }
-                                    }>
-                                        <span className="icon">
-                                            <i className="fa fa-times"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="controls">
-                        <button type="submit" className="control primary">
-                            <span className="icon">
-                                <i className="fa fa-search"></i>
-                            </span>
-                        </button>
-                    </div>
-                </form>
+                <SearchBox
+                    placeholder={libraryNameInfo.placeholder}
+                    location={location}
+                />
 
                 <ListWrapper
                     isFetching={isFetching}
@@ -218,12 +137,6 @@ class LibraryTab extends Component {
                 </NavLink>
                 )
     }
-}
-
-Library.contextTypes = {
-    router: PropTypes.shape({
-        history: PropTypes.object.isRequired
-    })
 }
 
 const mapStateToProps = (state) => ({
