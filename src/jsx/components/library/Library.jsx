@@ -2,21 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
 import classNames from 'classnames'
-import { loadWorkTypes } from 'actions'
 import Paginator from 'components/generics/Paginator'
 import ListWrapper from './ListWrapper'
 import SearchBox from './SearchBox'
 
 class Library extends Component {
-    componentWillMount() {
-        this.props.loadWorkTypes()
-    }
-
     render() {
-        const workTypes = this.props.library.workTypes
-        if (!workTypes.hasFetched) {
-            return null
-        }
+        const workTypes = this.props.workTypes
 
         // library name
         const libraryNameInfo = this.props.nameInfo
@@ -138,14 +130,5 @@ class LibraryTab extends Component {
                 )
     }
 }
-
-const mapStateToProps = (state) => ({
-    library: state.library,
-})
-
-Library = withRouter(connect(
-    mapStateToProps,
-    { loadWorkTypes }
-)(Library))
 
 export default Library

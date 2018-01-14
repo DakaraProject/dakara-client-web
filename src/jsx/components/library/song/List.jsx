@@ -91,7 +91,8 @@ class SongList extends ListAbstract {
 const mapStateToProps = (state) => ({
     entries: state.library.song,
     playlistEntries: state.player.playlist.entries.data,
-    playerStatus: state.player.status.data
+    playerStatus: state.player.status.data,
+    workTypes: state.library.workTypes
 })
 
 SongList = connect(

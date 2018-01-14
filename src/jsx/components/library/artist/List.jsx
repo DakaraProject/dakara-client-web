@@ -38,7 +38,8 @@ class ArtistList extends ListAbstract {
 }
 
 const mapStateToProps = (state) => ({
-    entries: state.library.artist
+    entries: state.library.artist,
+    workTypes: state.library.workTypes,
 })
 
 ArtistList = connect(

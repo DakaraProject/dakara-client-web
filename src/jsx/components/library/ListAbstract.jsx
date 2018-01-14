@@ -31,7 +31,6 @@ class ListAbstract extends Component {
 
     refreshEntries = () => {
         const workType = this.props.workType
-        const workTypes = this.props.workTypes
         const queryObj = parse(this.props.location.search)
         const { page: pageNumber, search: query } = queryObj
 
@@ -57,8 +56,14 @@ class ListAbstract extends Component {
     }
 
     render() {
-        // render an error page if the work type is invalid
         const { workType, workTypes, location } = this.props
+
+        // render only after fetching work types
+        if (!workTypes.hasFetched) {
+            return null
+        }
+
+        // render an error page if the work type is invalid
         if (workType) {
             const workTypeMatched = workTypes.data.results.find(
                 (workTypeObject) => workTypeObject.query_name == workType
@@ -71,7 +76,6 @@ class ListAbstract extends Component {
             }
         }
 
-
         const libraryEntryList = this.getLibraryEntryList()
         return (
             <Library
@@ -79,6 +83,7 @@ class ListAbstract extends Component {
                 match={this.props.match}
                 nameInfo={this.getLibraryNameInfo()}
                 entries={this.props.entries}
+                workTypes={workTypes}
             >
                 <ul className="library-list listing">
                     {libraryEntryList}

@@ -6,17 +6,20 @@ import Header from './Header'
 import Footer from './Footer'
 import Player from './player/Player'
 import { IsAuthenticated } from 'components/permissions/Base'
+import { loadWorkTypes } from 'actions'
 
 class Main extends Component {
     componentWillMount() {
         if (this.props.isLoggedIn) {
             this.props.loadCurrentUser()
+            this.props.loadWorkTypes()
         }
     }
 
     componentWillUpdate(nextProps) {
         if (!this.props.isLoggedIn && nextProps.isLoggedIn) {
             this.props.loadCurrentUser()
+            this.props.loadWorkTypes()
         }
     }
 
@@ -42,7 +45,10 @@ const mapStateToProps = (state) => ({
 
 Main = withRouter(connect(
     mapStateToProps,
-    { loadCurrentUser }
+    {
+        loadCurrentUser,
+        loadWorkTypes
+    }
 )(Main))
 
 export default Main
