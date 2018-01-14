@@ -16,10 +16,33 @@ class ListAbstract extends Component {
         // when navigating through work types, so we have to watch when the
         // component is updated wether we have jumped to another work type
         if (this.props.workType != prevProps.workType ||
+            this.props.workTypes.hasFetched != prevProps.workTypes.hasFetched ||
             query.page != prevQuery.page ||
             query.search != prevQuery.search) {
             this.refreshEntries()
         }
+    }
+
+    checkWorkTypesHasFetched = () => {
+        return this.props.workTypes.hasFetched
+    }
+
+    /**
+     * Check work type exists in worktypes
+     */
+    checkWorkTypeExists = () => {
+        const { workType, workTypes } = this.props
+
+        // always true for libraries with no worktype
+        if (!workType) {
+            return true
+        }
+
+        const workTypeMatched = workTypes.data.results.find(
+            (workTypeObject) => workTypeObject.query_name == workType
+        )
+
+        return !!workTypeMatched
     }
 
     /**
@@ -36,6 +59,10 @@ class ListAbstract extends Component {
         const workType = this.props.workType
         const queryObj = parse(this.props.location.search)
         const { page: pageNumber, search: query } = queryObj
+
+        if (!this.checkWorkTypesHasFetched() || !this.checkWorkTypeExists()) {
+            return
+        }
 
         let args = {workType}
 
@@ -59,24 +86,16 @@ class ListAbstract extends Component {
     }
 
     render() {
-        const { workType, workTypes, location } = this.props
+        const { workTypes, location } = this.props
 
-        // render only after fetching work types
-        if (!workTypes.hasFetched) {
+        if (!this.checkWorkTypesHasFetched()) {
             return null
         }
 
-        // render an error page if the work type is invalid
-        if (workType) {
-            const workTypeMatched = workTypes.data.results.find(
-                (workTypeObject) => workTypeObject.query_name == workType
+        if (!this.checkWorkTypeExists()) {
+            return (
+                <NotFound location={location}/>
             )
-
-            if (!workTypeMatched) {
-                return (
-                    <NotFound location={location}/>
-                )
-            }
         }
 
         const libraryEntryList = this.getLibraryEntryList()

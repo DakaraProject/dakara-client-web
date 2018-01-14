@@ -15,16 +15,6 @@ class WorkList extends ListAbstract {
     getLibraryNameInfo() {
         const { workType: workTypeQueryName, workTypes } = this.props
 
-        // Wait for worktypes to be fetched
-        if (!workTypes.hasFetched) {
-            return {
-                singular: "work",
-                plural: "works",
-                placeholder: "What are you looking for?",
-                serverName: "works"
-            }
-        }
-
         // Find work type matching the query name
         const workType = workTypes.data.results.find(
             (workType) => workType.query_name == workTypeQueryName
