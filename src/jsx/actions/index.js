@@ -1,3 +1,4 @@
+import { stringify } from 'query-string'
 import { FETCH_API } from 'middleware/fetchApi'
 import utils from 'utils'
 
@@ -49,17 +50,13 @@ export const loadLibraryEntries = (libraryType = "song", { query, pageNumber = 1
             workType = libraryType
     }
 
-    let url = `${baseUrl}library/${serverLibraryName}/?page=${pageNumber}`
+    const queryString = stringify({
+        page: pageNumber,
+        type: workType,
+        query
+    })
 
-    // if `serverLibraryName` is 'work', a `workType` has to be passed
-    if (workType) {
-        url += `&type=${workType}`
-    }
-
-    // query
-    if (query) {
-        url += `&query=${encodeURIComponent(query)}`
-    }
+    const url = `${baseUrl}library/${serverLibraryName}/?${queryString}`
 
     return fetchLibraryEntries(url, serverLibraryName, workType)
 }
