@@ -13,9 +13,7 @@ import User from 'components/user/User'
 import UserEdit from 'components/settings/users/Edit'
 import UserList from 'components/settings/users/List'
 import Library from 'components/library/Library'
-import LibrarySongList from 'components/library/song/List'
-import LibraryArtistList from 'components/library/artist/List'
-import LibraryWorkList from 'components/library/work/List'
+import LibraryList from 'components/library/List'
 import NotFound from 'components/navigation/NotFound'
 import SongTagList from 'components/settings/song_tags/List'
 import reducer from  'reducers'
@@ -42,9 +40,7 @@ ReactDOM.render(
         <BrowserRouter>
             <Main>
                 <Switch>
-                    <ProtectedRoute path="/library/song" component={LibrarySongList}/>
-                    <ProtectedRoute path="/library/artist" component={LibraryArtistList}/>
-                    <ProtectedRoute path="/library/:workType" component={LibraryWorkList}/>
+                    <ProtectedRoute path="/library/:libraryType" component={LibraryList}/>
                     <Redirect from="/library" to="/library/song"/>
                     <ProtectedRoute path="/user" component={User}/>
                     <ProtectedRoute path="/users/:userId" component={UserEdit}/>
