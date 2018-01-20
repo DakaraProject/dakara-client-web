@@ -11,9 +11,9 @@ class ProtectedRoute extends Component {
         const renderFunction = (props) => {
             if (!isLoggedIn) {
                 const { pathname, search } = this.props.location
-                let query
+                let queryObj
                 if (search || pathname != defaultPathname ) {
-                    query = {
+                    queryObj = {
                         from: pathname + search
                     }
                 }
@@ -22,7 +22,7 @@ class ProtectedRoute extends Component {
                 return (
                     <Redirect to={{
                         pathname: '/login',
-                        search: stringify(query)
+                        search: stringify(queryObj)
                     }} />
                 )
             }

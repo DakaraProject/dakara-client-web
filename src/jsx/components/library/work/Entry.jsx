@@ -5,10 +5,10 @@ import PropTypes from 'prop-types'
 
 class WorkEntry extends Component {
     handleSearch = () => {
-        const newSearch = `${this.props.workType}:""${this.props.work.title}""`
+        const query = `${this.props.workType}:""${this.props.work.title}""`
         this.context.router.history.push({
             pathname: "/library/song",
-            search: stringify({search: newSearch})
+            search: stringify({query})
         })
     }
 

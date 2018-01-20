@@ -10,8 +10,8 @@ class Login extends Component {
         const { isLoggedIn } = this.props
 
         if (isLoggedIn) {
-            const query = parse(this.props.location.search)
-            const from = query.from || '/'
+            const queryObj = parse(this.props.location.search)
+            const from = queryObj.from || '/'
             return (
                     <Redirect to={from}/>
             )

@@ -9,7 +9,7 @@ export default class extends Component {
         // to can be a string or an object
         let newTo
         if (typeof(to) === 'object') {
-            newTo = {...to, search: stringify(to.query)}
+            newTo = {...to, search: stringify(to.queryObj)}
         } else {
             newTo = to
         }

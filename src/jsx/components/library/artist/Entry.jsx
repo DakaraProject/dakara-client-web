@@ -5,10 +5,10 @@ import PropTypes from 'prop-types'
 
 class ArtistEntry extends Component {
     handleSearch = () => {
-        const newSearch = `artist:""${this.props.artist.name}""`
+        const newQuery = `artist:""${this.props.artist.name}""`
         this.context.router.history.push({
             pathname: "/library/song",
-            search: stringify({search: newSearch})
+            search: stringify({query: newQuery})
         })
     }
 

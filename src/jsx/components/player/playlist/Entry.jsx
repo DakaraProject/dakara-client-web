@@ -24,11 +24,11 @@ class PlaylistEntry extends Component {
 
     handleSearch = () => {
         const song = this.props.entry.song
-        const newSearch = `title:""${song.title}""`
+        const query = `title:""${song.title}""`
         this.context.router.history.push({
             pathname: "/library/song",
             search: stringify({
-                search: newSearch,
+                query,
                 expanded: song.id
             })
         })

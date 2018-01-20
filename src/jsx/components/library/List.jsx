@@ -15,15 +15,15 @@ class List extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const query = parse(this.props.location.search)
-        const prevQuery = parse(prevProps.location.search)
+        const queryObj = parse(this.props.location.search)
+        const prevqueryObj = parse(prevProps.location.search)
         // since there is only one `LibraryListWork` component, it is not unmounted
         // when navigating through work types, so we have to watch when the
         // component is updated wether we have jumped to another work type
         if (this.props.match.params.libraryType != prevProps.match.params.libraryType ||
             this.props.workTypes.hasFetched != prevProps.workTypes.hasFetched ||
-            query.page != prevQuery.page ||
-            query.search != prevQuery.search) {
+            queryObj.page != prevqueryObj.page ||
+            queryObj.query != prevqueryObj.query) {
             this.refreshEntries()
         }
     }
@@ -53,7 +53,7 @@ class List extends Component {
     refreshEntries = () => {
         const libraryType = this.props.match.params.libraryType
         const queryObj = parse(this.props.location.search)
-        const { page: pageNumber, search: query } = queryObj
+        const { page: pageNumber, query } = queryObj
 
         if (!this.checkWorkTypesHasFetched() || !this.checkLibraryTypeExists()) {
             return

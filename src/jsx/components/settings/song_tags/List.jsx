@@ -12,16 +12,16 @@ class SongTagList extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const query = parse(this.props.location.search)
-        const prevQuery = parse(prevProps.location.search)
-        if (query.page != prevQuery.page) {
+        const queryObj = parse(this.props.location.search)
+        const prevqueryObj = parse(prevProps.location.search)
+        if (queryObj.page != prevqueryObj.page) {
             this.refreshEntries()
         }
     }
 
     refreshEntries = () => {
-        const query = parse(this.props.location.search)
-        const pageNumber = query.page
+        const queryObj = parse(this.props.location.search)
+        const pageNumber = queryObj.page
         this.props.getSongTagList(pageNumber)
     }
 

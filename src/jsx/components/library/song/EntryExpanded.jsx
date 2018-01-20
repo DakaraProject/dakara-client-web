@@ -10,11 +10,11 @@ class SongEntryExpanded extends Component {
      * Method used by child components WorkEntry and ArtistsEnty
      * to set new search criteria
      */
-    setQuery = (search) => {
+    setQuery = (query) => {
         const { location } = this.props
         this.context.router.history.push({
             pathname: location.pathname,
-            search: stringify({search})
+            search: stringify({query})
         })
     }
 

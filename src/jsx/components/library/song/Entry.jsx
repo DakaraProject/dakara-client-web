@@ -18,18 +18,18 @@ class SongEntry extends Component {
      */
     setExpanded = (expanded) => {
         const { location } = this.props
-        const query = parse(location.search)
+        const queryObj = parse(location.search)
 
         if (expanded) {
-            query.expanded = expanded
+            queryObj.expanded = expanded
         } else {
             // Remove param from url
-            delete query.expanded
+            delete queryObj.expanded
         }
 
         this.context.router.history.push({
             pathname: location.pathname,
-            search: stringify(query)
+            search: stringify(queryObj)
         })
     }
 

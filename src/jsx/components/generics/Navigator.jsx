@@ -10,7 +10,7 @@ export default class Navigator extends Component {
         const hasNext = current != last
         const hasPrevious = current != 1
         const pathname = location.pathname
-        const query = parse(location.search)
+        const queryObj = parse(location.search)
 
         let counter
         if (names) {
@@ -26,7 +26,7 @@ export default class Navigator extends Component {
             <div className="navigator">
                 <nav className="paginator controls">
                     <ControlLink
-                        to={{pathname, query: {...query, page: 1}}}
+                        to={{pathname, queryObj: {...queryObj, page: 1}}}
                         disabled={!hasPrevious}
                         className="primary"
                     >
@@ -35,7 +35,7 @@ export default class Navigator extends Component {
                         </span>
                     </ControlLink>
                     <ControlLink
-                        to={{pathname, query: {...query, page: current - 1}}}
+                        to={{pathname, queryObj: {...queryObj, page: current - 1}}}
                         disabled={!hasPrevious}
                         className="primary"
                     >
@@ -44,7 +44,7 @@ export default class Navigator extends Component {
                         </span>
                     </ControlLink>
                     <ControlLink
-                        to={{pathname, query: {...query, page: current + 1}}}
+                        to={{pathname, queryObj: {...queryObj, page: current + 1}}}
                         disabled={!hasNext}
                         className="primary"
                     >
@@ -53,7 +53,7 @@ export default class Navigator extends Component {
                         </span>
                     </ControlLink>
                     <ControlLink
-                        to={{pathname, query: {...query, page: last}}}
+                        to={{pathname, queryObj: {...queryObj, page: last}}}
                         disabled={!hasNext}
                         className="primary"
                     >

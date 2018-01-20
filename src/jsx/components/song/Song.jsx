@@ -14,7 +14,7 @@ import SongTagList from './SongTagList'
  * - noDuration: don't display duration
  * - noTag: don't diplay tags
  */
-export default class SongPreview extends Component {
+export default class Song extends Component {
     render() {
         const song = this.props.song
 

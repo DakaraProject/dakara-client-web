@@ -12,14 +12,14 @@ class SearchBox extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const newSearch = parse(this.props.location.search).search
-        if (newSearch != parse(prevProps.location.search).search && newSearch ) {
+        const newQuery = parse(this.props.location.search).query
+        if (newQuery != parse(prevProps.location.search).query && newQuery) {
             this.updateQueryFromLocation()
         }
     }
 
     updateQueryFromLocation = () => {
-        const query = parse(this.props.location.search).search || ''
+        const query = parse(this.props.location.search).query || ''
         this.setState({query})
     }
 
@@ -30,7 +30,7 @@ class SearchBox extends Component {
                 onSubmit={e => {
                     e.preventDefault()
                     this.context.router.history.push({
-                        search: stringify({search: this.state.query})
+                        search: stringify({query: this.state.query})
                     })
                 }}
             >
