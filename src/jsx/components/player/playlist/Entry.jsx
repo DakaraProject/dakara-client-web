@@ -7,10 +7,15 @@ import Song from 'components/song/Song'
 import UserWidget from 'components/generics/UserWidget'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
+import Notification from 'components/generics/Notification'
 
 export default class PlaylistEntry extends Component {
     state = {
         confirmDisplayed: false
+    }
+
+    componentWillUnmount() {
+        this.props.clearPlaylistEntryNotification(this.props.entry.id)
     }
 
     displayConfirm = () => {
@@ -43,18 +48,6 @@ export default class PlaylistEntry extends Component {
         ]
 
         if (this.props.notification){
-            const messageClass = classNames(
-                'notification',
-                'message',
-                this.props.notification.type
-            )
-
-            message = <div className="notified">
-                        <div className={messageClass}>
-                            {this.props.notification.message}
-                        </div>
-                      </div>
-
             playlistEntryClass.push('delayed')
         }
 
@@ -105,8 +98,8 @@ export default class PlaylistEntry extends Component {
                         transitionLeaveTimeout={150}
                     >
                         {confirmation}
-                        {message}
                     </ReactCSSTransitionGroup>
+                    <Notification notification={this.props.notification}/>
                 </div>
             </li>
         )

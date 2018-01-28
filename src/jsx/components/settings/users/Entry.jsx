@@ -4,10 +4,15 @@ import classNames from 'classnames'
 import { permissionLevels, IsUserManager, IsNotSelf } from 'components/permissions/Users'
 import ControlLink from 'components/generics/ControlLink'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
+import Notification from 'components/generics/Notification'
 
 export default class UserEntry extends Component {
     state = {
         confirmDisplayed: false
+    }
+
+    componentWillUnmount() {
+        this.props.clearUsersEntryNotification(this.props.user.id)
     }
 
     displayConfirm = () => {
@@ -20,21 +25,6 @@ export default class UserEntry extends Component {
 
     render() {
         const { notification, user, deleteUser } = this.props
-
-        let message
-        if (notification) {
-            const messageClass = classNames(
-                'notification',
-                'message',
-                notification.type
-            )
-
-            message = <div className="notified">
-                        <div className={messageClass}>
-                            {notification.message}
-                        </div>
-                      </div>
-        }
 
         let confirmation
         if (this.state.confirmDisplayed) {
@@ -96,8 +86,8 @@ export default class UserEntry extends Component {
                         transitionLeaveTimeout={150}
                     >
                         {confirmation}
-                        {message}
                     </ReactCSSTransitionGroup>
+                    <Notification notification={this.props.notification}/>
                 </td>
             </tr>
         )

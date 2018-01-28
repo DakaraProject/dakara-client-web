@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { deleteUser, getUsers } from 'actions'
+import { deleteUser, getUsers, clearUsersEntryNotification } from 'actions'
 import { FormBlock, InputField } from 'components/generics/Form'
 import Paginator from 'components/generics/Paginator'
 import { IsUserManager } from 'components/permissions/Users'
@@ -35,6 +35,7 @@ class UserList extends Component {
                     user={user}
                     notification={notification}
                     deleteUser={deleteUser}
+                    clearUsersEntryNotification={this.props.clearUsersEntryNotification}
                 />
             )
         })
@@ -114,7 +115,11 @@ const mapStateToProps = (state) => ({
 
 UserList = connect(
     mapStateToProps,
-    { deleteUser, getUsers }
+    {
+        deleteUser,
+        getUsers,
+        clearUsersEntryNotification
+    }
 )(UserList)
 
 export default UserList

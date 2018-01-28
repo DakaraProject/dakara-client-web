@@ -4,13 +4,18 @@ import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import utils from 'utils'
-import { addSongToPlaylist } from 'actions'
+import { addSongToPlaylist, clearSongListNotification } from 'actions'
 import Song from 'components/song/Song'
 import SongEntryExpanded from './EntryExpanded'
 import UserWidget from 'components/generics/UserWidget'
 import { IsPlaylistUser } from 'components/permissions/Playlist'
+import Notification from 'components/generics/Notification'
 
 class SongEntry extends Component {
+    componentWillUnmount() {
+        this.props.clearSongListNotification(this.props.song.id)
+    }
+
     /**
      * Toogle expanded view of song
      */
@@ -29,27 +34,6 @@ class SongEntry extends Component {
     render() {
         const { location, song, query, playlistInfo } = this.props
         const expanded = location.query.expanded == song.id
-
-        /**
-         * Notification message
-         */
-
-        let notification
-        if (this.props.notification){
-            const notificationClass = classNames(
-                'notification',
-                'message',
-                this.props.notification.type
-            )
-
-            notification = (
-                <div className="notified">
-                    <div className={notificationClass}>
-                        {this.props.notification.message}
-                    </div>
-                </div>
-            )
-        }
 
         /**
          * Playlist info
@@ -141,14 +125,7 @@ class SongEntry extends Component {
                                 </button>
                             </IsPlaylistUser>
                         </div>
-
-                        <ReactCSSTransitionGroup
-                            transitionName="notified"
-                            transitionEnterTimeout={300}
-                            transitionLeaveTimeout={150}
-                        >
-                            {notification}
-                        </ReactCSSTransitionGroup>
+                        <Notification notification={this.props.notification}/>
                     </div>
                     <ReactCSSTransitionGroup
                         component="div"
@@ -171,7 +148,10 @@ const mapStateToProps = (state, ownProps) => ({
 
 SongEntry = connect(
     mapStateToProps,
-    { addSongToPlaylist }
+    {
+        addSongToPlaylist,
+        clearSongListNotification
+    }
 )(SongEntry)
 
 export default SongEntry

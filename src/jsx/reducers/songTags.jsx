@@ -93,6 +93,7 @@ function notifications(state = {}, action) {
             return {...state, [tagId]: {
                     message: "Error attempting to edit tag",
                     type: "danger",
+                    duration: 5000,
                     isFetching: false
                 }
             }

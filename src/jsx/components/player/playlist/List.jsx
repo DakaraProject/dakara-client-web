@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { connect } from 'react-redux'
 import utils from 'utils'
-import { loadPlaylist, toogleCollapsedPlaylist, removeEntryFromPlaylist } from 'actions'
+import { loadPlaylist, toogleCollapsedPlaylist } from 'actions'
+import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions'
 import PlaylistEntry from './Entry'
 
 class Playlist extends Component {
@@ -60,6 +61,7 @@ class Playlist extends Component {
                             entry={entry}
                             timeOfPlay={timeOfPlay[entry.id]}
                             removeEntry={removeEntry}
+                            clearPlaylistEntryNotification={this.props.clearPlaylistEntryNotification}
                             notification={notifications[entry.id]}
                         />
             ))
@@ -155,7 +157,12 @@ const mapStateToProps = (state) => ({
 
 Playlist = connect(
     mapStateToProps,
-    { loadPlaylist, toogleCollapsedPlaylist, removeEntryFromPlaylist }
+    {
+        loadPlaylist,
+        toogleCollapsedPlaylist,
+        removeEntryFromPlaylist,
+        clearPlaylistEntryNotification
+    }
 )(Playlist)
 
 export default Playlist

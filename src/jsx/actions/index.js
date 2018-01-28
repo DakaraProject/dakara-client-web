@@ -131,10 +131,8 @@ export const addSongToPlaylist = (songId) => ({
                 ADD_PLAYLIST_FAILURE,
             ],
             onSuccess: [
-                delay(clearSongListNotification(songId), 2000),
                 loadPlaylist()
             ],
-            onFailure: delay(clearSongListNotification(songId), 5000)
         },
     songId
 })
@@ -177,9 +175,7 @@ export const removeEntryFromPlaylist = (entryId) => ({
             ],
             onSuccess: [
                 loadPlaylist(),
-                delay(clearPlaylistEntryNotification(entryId), 3000)
             ],
-            onFailure: delay(clearPlaylistEntryNotification(entryId), 5000)
         },
     entryId
 })
@@ -482,9 +478,7 @@ export const deleteUser = (userId) => ({
             types: [USER_DELETE_REQUEST, USER_DELETE_SUCCESS, USER_DELETE_FAILURE],
         onSuccess: [
             refreshUsersDelayed,
-            delay(clearUsersEntryNotification(userId), 3000)
-        ],
-        onFailure: delay(clearUsersEntryNotification(userId), 5000)
+            ],
         },
     userId
 })
@@ -568,7 +562,6 @@ export const editSongTag = (tagId, disabled) => ({
         method: 'PATCH',
         json: {disabled},
         types: [EDIT_SONG_TAG_REQUEST, EDIT_SONG_TAG_SUCCESS, EDIT_SONG_TAG_FAILURE],
-        onFailure: delay(clearTagListEntryNotification(tagId), 5000)
     },
     tagId,
 })

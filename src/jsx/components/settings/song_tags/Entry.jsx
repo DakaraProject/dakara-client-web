@@ -2,10 +2,15 @@ import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import classNames from 'classnames'
 import { FormInline, CheckboxField, HueField } from 'components/generics/Form'
+import Notification from 'components/generics/Notification'
 
 export default class SongTagEntry extends Component {
     state = {
         colorFormDisplayed: false
+    }
+
+    componentWillUnmount() {
+        this.props.clearTagListEntryNotification(this.props.tag.id)
     }
 
     displayColorForm = () => {
@@ -17,33 +22,7 @@ export default class SongTagEntry extends Component {
     }
 
     render() {
-        const { notification, formNofitication, tag, editSongTag } = this.props
-
-        /**
-         * notification message
-         */
-        const getMessage = (notification) => {
-            const notificationClass = classNames(
-                'notification',
-                'message',
-                notification.type
-            )
-
-            return (
-                <div className="notified">
-                    <div className={notificationClass}>
-                        {notification.message}
-                    </div>
-                </div>
-            )
-        }
-
-        let message
-        if (notification && notification.message) {
-            message = getMessage(notification)
-        } else if (formNofitication && formNofitication.message) {
-            message = getMessage(formNofitication)
-        }
+        const { notification, formNotification, tag, editSongTag } = this.props
 
         /**
          * form to change color
@@ -130,8 +109,9 @@ export default class SongTagEntry extends Component {
                         transitionLeaveTimeout={150}
                     >
                         {colorForm}
-                        {message}
                     </ReactCSSTransitionGroup>
+                    <Notification notification={notification}/>
+                    <Notification notification={formNotification}/>
                 </td>
             </tr>
         )

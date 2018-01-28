@@ -60,7 +60,8 @@ function notifications(state = {}, action) {
             userId = action.userId
             return {...state, [userId]: {
                     message: "Error attempting to delete user",
-                    type: "danger"
+                    type: "danger",
+                    duration: 5000
                 }
             }
 

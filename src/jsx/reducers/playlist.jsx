@@ -74,7 +74,8 @@ function notifications(state = {}, action) {
             entryId = action.entryId
             return {...state, [entryId]: {
                     message: "Error attempting to remove song from playlist",
-                    type: "danger"
+                    type: "danger",
+                    duration: 5000
                 }
             }
 

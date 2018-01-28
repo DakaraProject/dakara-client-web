@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { getSongTagList, editSongTag } from 'actions'
+import { getSongTagList, editSongTag, clearTagListEntryNotification } from 'actions'
 import Paginator from 'components/generics/Paginator'
 import SongTagEntry from './Entry'
 
@@ -27,9 +27,9 @@ class SongTagList extends Component {
         const tagList = entries.data.results.map((tag) => {
             let notification = notifications[tag.id]
             const form = forms[`tagColorEdit${tag.id}`]
-            let formNofitication
+            let formNotification
             if (form) {
-                formNofitication = form.global
+                formNotification = form.global
             }
 
             return (
@@ -37,8 +37,9 @@ class SongTagList extends Component {
                     key={tag.id}
                     tag={tag}
                     notification={notification}
-                    formNofitication={formNofitication}
+                    formNotification={formNotification}
                     editSongTag={editSongTag}
+                    clearTagListEntryNotification={this.props.clearTagListEntryNotification}
                 />
             )
         })
@@ -85,6 +86,7 @@ SongTagList = connect(
     {
         getSongTagList,
         editSongTag,
+        clearTagListEntryNotification
     }
 )(SongTagList)
 

@@ -157,7 +157,8 @@ function songListNotifications(state = {}, action) {
             songId = action.songId
             return {...state, [songId]: {
                     message: "Successfuly added!",
-                    type: "success"
+                    type: "success",
+                    duration: 3000
                 }
             }
 
@@ -165,7 +166,8 @@ function songListNotifications(state = {}, action) {
             songId = action.songId
             return {...state, [songId]: {
                     message: "Error attempting to add song to playlist",
-                    type: "danger"
+                    type: "danger",
+                    duration: 5000
                 }
             }
 
