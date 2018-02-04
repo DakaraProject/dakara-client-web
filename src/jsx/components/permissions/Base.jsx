@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 export class PermissionBase extends Component {
     _hasPermission = () => {
@@ -61,7 +62,7 @@ export const mapStateToProps = (state) => ({
  * Is authenticated
  */
 
-export const IsAuthenticated = connect(
+export const IsAuthenticated = withRouter(connect(
     mapStateToProps
 )(
     class extends PermissionBase {
@@ -69,5 +70,4 @@ export const IsAuthenticated = connect(
             return true
         }
     }
-)
-
+))

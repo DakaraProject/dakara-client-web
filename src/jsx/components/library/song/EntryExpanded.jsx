@@ -1,17 +1,21 @@
 import React, { Component } from 'react'
-import { browserHistory } from 'react-router'
+import { stringify } from 'query-string'
+import PropTypes from 'prop-types'
 import SongTagList from 'components/song/SongTagList'
 import SongEntryExpandedWork from './EntryExpandedWork'
 import SongEntryExpandedArtist from './EntryExpandedArtist'
 
-export default class SongEntryExpanded extends Component {
+class SongEntryExpanded extends Component {
     /**
      * Method used by child components WorkEntry and ArtistsEnty
      * to set new search criteria
      */
-    setQuery = (search) => {
+    setQuery = (query) => {
         const { location } = this.props
-        browserHistory.push({pathname: location.pathname, query: {search}})
+        this.context.router.history.push({
+            pathname: location.pathname,
+            search: stringify({query})
+        })
     }
 
     render() {
@@ -188,3 +192,11 @@ export default class SongEntryExpanded extends Component {
             )
     }
 }
+
+SongEntryExpanded.contextTypes = {
+    router: PropTypes.shape({
+        history: PropTypes.object.isRequired
+    })
+}
+
+export default SongEntryExpanded

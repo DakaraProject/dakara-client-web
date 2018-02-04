@@ -1,12 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { PermissionBase, mapStateToProps } from './Base'
 
 /**
  * Playlist manager or Owner of the object
  */
 
-export const IsPlaylistManagerOrOwner = connect(
+export const IsPlaylistManagerOrOwner = withRouter(connect(
     mapStateToProps
 )(
     class extends PermissionBase {
@@ -22,14 +23,14 @@ export const IsPlaylistManagerOrOwner = connect(
             return user.id == object.owner.id
         }
     }
-)
+))
 
 
 /**
  * Playlist user or Playlist manager
  */
 
-export const IsPlaylistUser = connect(
+export const IsPlaylistUser = withRouter(connect(
     mapStateToProps
 )(
     class extends PermissionBase {
@@ -38,4 +39,4 @@ export const IsPlaylistUser = connect(
                 user.playlist_permission_level == 'm')
         }
     }
-)
+))

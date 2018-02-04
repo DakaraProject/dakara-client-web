@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
+import Link from './Link'
 import classNames from 'classnames'
 
 export default class ControlLink extends Component {

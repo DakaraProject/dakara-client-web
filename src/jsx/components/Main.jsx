@@ -1,21 +1,25 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { loadCurrentUser } from 'actions'
 import Header from './Header'
 import Footer from './Footer'
 import Player from './player/Player'
 import { IsAuthenticated } from 'components/permissions/Base'
+import { loadWorkTypes } from 'actions'
 
 class Main extends Component {
     componentWillMount() {
         if (this.props.isLoggedIn) {
             this.props.loadCurrentUser()
+            this.props.loadWorkTypes()
         }
     }
 
     componentWillUpdate(nextProps) {
         if (!this.props.isLoggedIn && nextProps.isLoggedIn) {
             this.props.loadCurrentUser()
+            this.props.loadWorkTypes()
         }
     }
 
@@ -39,9 +43,12 @@ const mapStateToProps = (state) => ({
     isLoggedIn: !!state.token,
 })
 
-Main = connect(
+Main = withRouter(connect(
     mapStateToProps,
-    { loadCurrentUser }
-)(Main)
+    {
+        loadCurrentUser,
+        loadWorkTypes
+    }
+)(Main))
 
 export default Main

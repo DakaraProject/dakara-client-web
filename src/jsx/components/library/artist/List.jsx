@@ -1,35 +1,14 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { loadLibraryEntries } from 'actions'
-import ListAbstract from '../ListAbstract'
 import ArtistEntry from './Entry'
+import ListWrapper from '../ListWrapper'
+import Navigator from 'components/generics/Navigator'
 
-class ArtistList extends ListAbstract {
+class ArtistList extends Component {
+    render() {
+        const { entries } = this.props
+        const artists = entries.data.results
 
-    /**
-     * Get a dict with the following:
-     * - singular: library singular name
-     * - plural: library plural name
-     * - placeholder: library search placeholder
-     */
-    static getLibraryNameInfo() {
-        return {
-            singular: "artist",
-            plural: "artists",
-            placeholder: "Who are you looking for?"
-        }
-    }
-
-    static getLibraryEntries(library) {
-        return library.artist
-    }
-
-    getLibraryType() {
-        return "artists"
-    }
-
-    getLibraryEntryList = () => {
-        const artists = this.props.entries.data.results
         const libraryEntryArtistList = artists.map(artist =>
               <ArtistEntry
                 key={artist.id}
@@ -37,17 +16,45 @@ class ArtistList extends ListAbstract {
               />
         )
 
-        return libraryEntryArtistList
+        const { isFetching, fetchError } = entries
+
+        return [(
+            <ListWrapper
+                isFetching={isFetching}
+                fetchError={fetchError}
+            >
+                <ul className="library-list listing">
+                    {libraryEntryArtistList}
+                </ul>
+            </ListWrapper>
+        ),
+        (
+            <Navigator
+                data={entries.data}
+                names={{
+                    singular: 'artist found',
+                    plural: 'artists found'
+                }}
+                location={location}
+            />
+        )]
     }
 }
 
 const mapStateToProps = (state) => ({
-    entries: state.library.artist
+    entries: state.library.artist,
 })
 
 ArtistList = connect(
     mapStateToProps,
-    { loadLibraryEntries }
 )(ArtistList)
 
 export default ArtistList
+
+/**
+ * Get a dict with the following:
+ * - placeholder: library search placeholder
+ */
+export const getArtistLibraryNameInfo = () => ({
+    placeholder: "Who are you looking for?",
+})

@@ -1,33 +1,21 @@
 import React, { Component } from 'react'
-import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
+import { parse } from 'query-string'
 import { FormBlock, InputField } from 'components/generics/Form'
 
 class Login extends Component {
-    redirect = () => {
-        const fromUrl = this.props.location.query.from
-
-        if (fromUrl) {
-            browserHistory.push(fromUrl)
-        } else {
-            browserHistory.push("/")
-        }
-    }
-
-    componentWillMount() {
-        if (this.props.isLoggedIn) {
-            this.redirect()
-        }
-    }
-
-    componentWillUpdate(nextProps, nextState) {
-        if(nextProps.isLoggedIn) {
-            this.redirect()
-        }
-    }
 
     render() {
-        const { login } = this.props
+        const { isLoggedIn } = this.props
+
+        if (isLoggedIn) {
+            const queryObj = parse(this.props.location.search)
+            const from = queryObj.from || '/'
+            return (
+                    <Redirect to={from}/>
+            )
+        }
 
         return (
             <div id="login" className="box">

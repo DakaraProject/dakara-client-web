@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
-import { browserHistory } from 'react-router'
 import classNames from 'classnames'
+import { stringify } from 'query-string'
+import PropTypes from 'prop-types'
 import utils from 'utils'
 import Song from 'components/song/Song'
 import UserWidget from 'components/generics/UserWidget'
@@ -9,7 +10,7 @@ import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
 
-export default class PlaylistEntry extends Component {
+class PlaylistEntry extends Component {
     state = {
         confirmDisplayed: false
     }
@@ -28,13 +29,14 @@ export default class PlaylistEntry extends Component {
 
     handleSearch = () => {
         const song = this.props.entry.song
-        const newSearch = `title:""${song.title}""`
-        browserHistory.push({
+        const query = `title:""${song.title}""`
+        this.context.router.history.push({
             pathname: "/library/song",
-            query: {
-                search: newSearch,
+            search: stringify({
+                query,
                 expanded: song.id
-            }})
+            })
+        })
     }
 
     render() {
@@ -105,3 +107,11 @@ export default class PlaylistEntry extends Component {
         )
     }
 }
+
+PlaylistEntry.contextTypes = {
+    router: PropTypes.shape({
+        history: PropTypes.object.isRequired
+    })
+}
+
+export default PlaylistEntry

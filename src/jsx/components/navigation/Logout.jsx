@@ -1,17 +1,23 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { browserHistory } from 'react-router'
+import PropTypes from 'prop-types'
 import { logout } from 'actions'
 
 class Logout extends Component {
     componentWillMount() {
         this.props.logout()
-        browserHistory.push('/login')
+        this.context.router.history.push('/login')
     }
 
     render() {
         return null
     }
+}
+
+Logout.contextTypes = {
+    router: PropTypes.shape({
+        history: PropTypes.object.isRequired
+    })
 }
 
 Logout = connect(

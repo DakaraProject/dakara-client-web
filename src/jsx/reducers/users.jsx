@@ -5,6 +5,10 @@ import { USER_GET_REQUEST, USER_GET_SUCCESS, USER_GET_FAILURE } from '../actions
 import { CLEAR_USERS_ENTRY_NOTIFICATION } from '../actions'
 import { USER_CLEAR } from '../actions'
 
+/**
+ * List of users
+ */
+
 const defaultEntries = {
     data: {
         count: 0,
@@ -12,10 +16,6 @@ const defaultEntries = {
     },
     isFetching: false
 }
-
-/**
- * List of users
- */
 
 function entries(state = defaultEntries, action) {
     switch (action.type) {
@@ -76,14 +76,37 @@ function notifications(state = {}, action) {
     }
 }
 
+/**
+ * Edit one user
+ */
 
-function userEdit(state = null, action) {
+const defaultUserEdit = {
+    user: null,
+    isFetching: false
+}
+
+function userEdit(state = defaultUserEdit, action) {
     switch(action.type) {
+        case USER_GET_REQUEST:
+            return {
+                ...state,
+                isFetching: true
+            }
+
         case USER_GET_SUCCESS:
-            return action.response
+            return {
+                user: action.response,
+                isFetching: false
+            }
+
+        case USER_GET_FAILURE:
+            return {
+                ...state,
+                isFetching: false
+            }
 
         case USER_CLEAR:
-            return null
+            return defaultUserEdit
 
         default:
             return state

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { FormBlock, InputField } from 'components/generics/Form'
 import { permissionLevels } from 'components/permissions/Users'
 
@@ -89,8 +90,8 @@ const mapStateToProps = (state) => ({
     user: state.authenticatedUsers,
 })
 
-User = connect(
+User = withRouter(connect(
     mapStateToProps,
-)(User)
+)(User))
 
 export default User

@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import { parse } from 'query-string'
 import { deleteUser, getUsers, clearUsersEntryNotification } from 'actions'
 import { FormBlock, InputField } from 'components/generics/Form'
-import Paginator from 'components/generics/Paginator'
+import Navigator from 'components/generics/Navigator'
 import { IsUserManager } from 'components/permissions/Users'
 import UserEntry from './Entry'
 
@@ -12,19 +14,21 @@ class UserList extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.location.query.page != prevProps.location.query.page) {
+        const queryObj = parse(this.props.location.search)
+        const prevqueryObj = parse(prevProps.location.search)
+        if (queryObj.page != prevqueryObj.page) {
             this.refreshEntries()
         }
     }
 
     refreshEntries = () => {
-        const pageNumber = this.props.location.query.page
+        const queryObj = parse(this.props.location.search)
+        const pageNumber = queryObj.page
         this.props.getUsers(pageNumber)
     }
 
     render() {
         const {deleteUser, entries, notifications, location } = this.props
-        const { current, last } = entries.data
 
         const userList = entries.data.results.map((user) => {
             let notification = notifications[user.id]
@@ -62,13 +66,10 @@ class UserList extends Component {
                         </tbody>
                     </table>
                 </div>
-                <div className="navigator">
-                    <Paginator
-                        location={location}
-                        current={current}
-                        last={last}
-                    />
-                </div>
+                <Navigator
+                    data={entries.data}
+                    location={location}
+                />
                 <IsUserManager>
                     <FormBlock
                         title="Create user"
@@ -113,13 +114,13 @@ const mapStateToProps = (state) => ({
     notifications: state.users.notifications
 })
 
-UserList = connect(
+UserList = withRouter(connect(
     mapStateToProps,
     {
         deleteUser,
         getUsers,
         clearUsersEntryNotification
     }
-)(UserList)
+)(UserList))
 
 export default UserList

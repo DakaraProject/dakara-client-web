@@ -1,32 +1,15 @@
 import React, { Component } from 'react'
-import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { getUser, clearUser } from 'actions'
 import { FormBlock, InputField, SelectField, CheckboxField } from 'components/generics/Form'
 import { PermissionBase } from 'components/permissions/Base'
 import { IsUserManager, IsNotSelf } from 'components/permissions/Users'
+import NotFound from 'components/navigation/NotFound'
+import Forbidden from 'components/navigation/Forbidden'
 
 class UsersEdit extends Component {
     componentWillMount() {
-        const { authenticatedUser } = this.props
-        const userId = this.props.params.userId
-        const fakeUser = {id: userId}
-
-        // check if the current user can disply the page
-        if (!(PermissionBase.hasPermission(authenticatedUser, fakeUser, IsUserManager) &&
-                PermissionBase.hasPermission(authenticatedUser, fakeUser, IsNotSelf))) {
-
-            const { pathname, search } = this.props.location
-            browserHistory.replace({
-                pathname: "/403",
-                query: {
-                    from: pathname + search
-                }
-            })
-
-            return
-        }
-
+        const userId = this.props.match.params.userId
         this.props.getUser(userId)
     }
 
@@ -35,10 +18,30 @@ class UsersEdit extends Component {
     }
 
     render() {
-        const { location, user } = this.props
+        const { location, user, isFetching } = this.props
 
-        if (!user) {
+        // render nothing if the user is being fetched
+        if (isFetching) {
             return null
+        }
+
+        // render an error page if the current user has no right to display the page
+        const { authenticatedUser } = this.props
+        const userId = this.props.match.params.userId
+        const fakeUser = {id: userId}
+        if (!(PermissionBase.hasPermission(authenticatedUser, fakeUser, IsUserManager) &&
+                PermissionBase.hasPermission(authenticatedUser, fakeUser, IsNotSelf))) {
+
+            return (
+                <Forbidden location={location}/>
+            )
+        }
+
+        // render an error page if the requested user does not exist
+        if (!user) {
+            return (
+                <NotFound location={location}/>
+            )
         }
 
         return (
@@ -116,7 +119,8 @@ class UsersEdit extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    user: state.users.userEdit,
+    user: state.users.userEdit.user,
+    isFetching: state.users.userEdit.isFetching,
     authenticatedUser: state.authenticatedUsers
 })
 

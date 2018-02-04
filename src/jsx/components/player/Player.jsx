@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import classNames from 'classnames'
 import utils from 'utils'
@@ -250,9 +251,9 @@ const mapStateToProps = (state) => ({
     errorNotification: state.player.errorNotification
 })
 
-Player = connect(
+Player = withRouter(connect(
     mapStateToProps,
     { loadPlayerStatus, sendPlayerCommands }
-)(Player)
+)(Player))
 
 export default Player

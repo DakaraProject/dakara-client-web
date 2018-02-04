@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import { parse } from 'query-string'
 import { getSongTagList, editSongTag, clearTagListEntryNotification } from 'actions'
-import Paginator from 'components/generics/Paginator'
+import Navigator from 'components/generics/Navigator'
 import SongTagEntry from './Entry'
 
 class SongTagList extends Component {
@@ -10,19 +12,21 @@ class SongTagList extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.location.query.page != prevProps.location.query.page) {
+        const queryObj = parse(this.props.location.search)
+        const prevqueryObj = parse(prevProps.location.search)
+        if (queryObj.page != prevqueryObj.page) {
             this.refreshEntries()
         }
     }
 
     refreshEntries = () => {
-        const pageNumber = this.props.location.query.page
+        const queryObj = parse(this.props.location.search)
+        const pageNumber = queryObj.page
         this.props.getSongTagList(pageNumber)
     }
 
     render() {
         const { entries, notifications, editSongTag, location, forms } = this.props
-        const { current, last } = entries.data
 
         const tagList = entries.data.results.map((tag) => {
             let notification = notifications[tag.id]
@@ -63,13 +67,10 @@ class SongTagList extends Component {
                         </tbody>
                     </table>
                 </div>
-                <div className="navigator">
-                    <Paginator
-                        location={location}
-                        current={current}
-                        last={last}
-                    />
-                </div>
+                <Navigator
+                    data={entries.data}
+                    location={location}
+                />
             </div>
         )
     }
@@ -81,13 +82,13 @@ const mapStateToProps = (state) => ({
     forms: state.forms
 })
 
-SongTagList = connect(
+SongTagList = withRouter(connect(
     mapStateToProps,
     {
         getSongTagList,
         editSongTag,
         clearTagListEntryNotification
     }
-)(SongTagList)
+)(SongTagList))
 
 export default SongTagList

@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
-import { browserHistory } from 'react-router'
+import { stringify } from 'query-string'
+import PropTypes from 'prop-types'
 
-export default class ArtistEntry extends Component {
+class ArtistEntry extends Component {
     handleSearch = () => {
-        const newSearch = `artist:""${this.props.artist.name}""`
-        browserHistory.push({
+        const newQuery = `artist:""${this.props.artist.name}""`
+        this.context.router.history.push({
             pathname: "/library/song",
-            query: { search: newSearch}
+            search: stringify({query: newQuery})
         })
     }
 
@@ -33,3 +34,11 @@ export default class ArtistEntry extends Component {
         )
     }
 }
+
+ArtistEntry.contextTypes = {
+    router: PropTypes.shape({
+        history: PropTypes.object.isRequired
+    })
+}
+
+export default ArtistEntry

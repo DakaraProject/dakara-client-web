@@ -1,3 +1,4 @@
+import { stringify } from 'query-string'
 import { FETCH_API } from 'middleware/fetchApi'
 import utils from 'utils'
 
@@ -29,24 +30,35 @@ const fetchLibraryEntries = (url, libraryType, workType) => ({
 
 /**
  * Load a page of library entries from server
- * @param libraryType type of library entries
- * @param workType precise type of library entries when it is a work
- * @param pageNumber page to load
+ * @param libraryType precise type of library entries
+ * @param params contains query and page number
  */
-export const loadLibraryEntries = (libraryType = "songs", { workType, query, pageNumber = 1 } = {}) => {
-    let url = `${baseUrl}library/${libraryType}/?page=${pageNumber}`
+export const loadLibraryEntries = (libraryType = "song", { query, pageNumber = 1 } = {}) => {
+    let serverLibraryName
+    let workType
+    switch (libraryType) {
+        case 'song':
+            serverLibraryName = 'songs'
+            break
 
-    // if `libraryType` is 'work', a `workType` has to be passed
-    if (workType) {
-        url += `&type=${workType}`
+        case 'artist':
+            serverLibraryName = 'artists'
+            break
+
+        default:
+            serverLibraryName = 'works'
+            workType = libraryType
     }
 
-    // query
-    if (query) {
-        url += `&query=${encodeURIComponent(query)}`
-    }
+    const queryString = stringify({
+        page: pageNumber,
+        type: workType,
+        query
+    })
 
-    return fetchLibraryEntries(url, libraryType, workType)
+    const url = `${baseUrl}library/${serverLibraryName}/?${queryString}`
+
+    return fetchLibraryEntries(url, serverLibraryName, workType)
 }
 
 

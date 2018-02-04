@@ -1,35 +1,13 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { loadLibraryEntries } from 'actions'
-import ListAbstract from '../ListAbstract'
 import SongEntry from './Entry'
+import ListWrapper from '../ListWrapper'
+import Navigator from 'components/generics/Navigator'
 
-class SongList extends ListAbstract {
-
-    /**
-     * Get a dict with the following:
-     * - singular: library singular name
-     * - plural: library plural name
-     * - placeholder: library search placeholder
-     */
-    static getLibraryNameInfo() {
-        return {
-            singular: "song",
-            plural: "songs",
-            placeholder: "What will you sing?"
-        }
-    }
-
-    static getLibraryEntries(library) {
-        return library.song
-    }
-
-    getLibraryType() {
-        return "songs"
-    }
-
-    getLibraryEntryList = () => {
-        const songs = this.props.entries.data.results
+class SongList extends Component {
+    render() {
+        const { entries } = this.props
+        const songs = entries.data.results
 
         /**
          * Compute playlist info
@@ -87,20 +65,48 @@ class SongList extends ListAbstract {
                     />
             ))
 
-        return libraryEntrySongList
+        const { isFetching, fetchError } = entries
+
+        return [(
+            <ListWrapper
+                isFetching={isFetching}
+                fetchError={fetchError}
+            >
+                <ul className="library-list listing">
+                    {libraryEntrySongList}
+                </ul>
+            </ListWrapper>
+        ),
+        (
+
+            <Navigator
+                data={entries.data}
+                names={{
+                    singular: 'song found',
+                    plural: 'songs found'
+                }}
+                location={location}
+            />
+        )]
     }
 }
-
 
 const mapStateToProps = (state) => ({
     entries: state.library.song,
     playlistEntries: state.player.playlist.entries.data,
-    playerStatus: state.player.status.data
+    playerStatus: state.player.status.data,
 })
 
 SongList = connect(
     mapStateToProps,
-    { loadLibraryEntries }
 )(SongList)
 
 export default SongList
+
+/**
+ * Get a dict with the following:
+ * - placeholder: library search placeholder
+ */
+export const getSongLibraryNameInfo = () => ({
+    placeholder: "What will you sing?",
+})

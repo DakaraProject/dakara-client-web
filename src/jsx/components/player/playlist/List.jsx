@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import utils from 'utils'
 import { loadPlaylist, toogleCollapsedPlaylist } from 'actions'
 import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions'
@@ -155,7 +156,7 @@ const mapStateToProps = (state) => ({
     playlist: state.player.playlist
 })
 
-Playlist = connect(
+Playlist = withRouter(connect(
     mapStateToProps,
     {
         loadPlaylist,
@@ -163,6 +164,6 @@ Playlist = connect(
         removeEntryFromPlaylist,
         clearPlaylistEntryNotification
     }
-)(Playlist)
+)(Playlist))
 
 export default Playlist
