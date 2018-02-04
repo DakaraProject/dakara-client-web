@@ -49,7 +49,7 @@ class PlaylistEntry extends Component {
             'hoverizable'
         ]
 
-        if (this.props.notification){
+        if (this.props.removeEntryStatus) {
             playlistEntryClass.push('delayed')
         }
 
@@ -101,7 +101,12 @@ class PlaylistEntry extends Component {
                     >
                         {confirmation}
                     </ReactCSSTransitionGroup>
-                    <Notification notification={this.props.notification}/>
+                    <Notification
+                        alterationStatus={this.props.removeEntryStatus}
+                        pendingMessage="Removing…"
+                        successfulMessage="Successfuly removed!"
+                        failedMessage="Error attempting to remove song from playlist"
+                    />
                 </div>
             </li>
         )

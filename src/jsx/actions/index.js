@@ -109,24 +109,19 @@ export const logout = () => ({
  * Clear library song list notification
  */
 
-export const CLEAR_SONG_LIST_NOTIFICATION = 'CLEAR_SONG_LIST_NOTIFICATION'
-
 /**
  * Clear the notification for the given song
  * @param songId the ID of the song to clear the notification
  */
 export const clearSongListNotification = (songId) => ({
-    type: CLEAR_SONG_LIST_NOTIFICATION,
-    songId
+    type: ALTERATION_STATUS_CLEAR,
+    alterationName: "addSongToPlaylist",
+    elementId: songId,
 })
 
 /**
  * Add song to playlist
  */
-
-export const ADD_PLAYLIST_REQUEST = 'ADD_PLAYLIST_REQUEST'
-export const ADD_PLAYLIST_SUCCESS = 'ADD_PLAYLIST_SUCCESS'
-export const ADD_PLAYLIST_FAILURE = 'ADD_PLAYLIST_FAILURE'
 
 /**
  * Request to add a song to the playlist
@@ -138,39 +133,35 @@ export const addSongToPlaylist = (songId) => ({
             method: 'POST',
             json: {song: songId},
             types: [
-                ADD_PLAYLIST_REQUEST,
-                ADD_PLAYLIST_SUCCESS,
-                ADD_PLAYLIST_FAILURE,
+                ALTERATION_REQUEST,
+                ALTERATION_SUCCESS,
+                ALTERATION_FAILURE
             ],
             onSuccess: [
                 loadPlaylist()
             ],
         },
-    songId
+    alterationName: "addSongToPlaylist",
+    elementId: songId,
 })
 
 /**
  * Clear playlist entry notification
  */
 
-export const CLEAR_PLAYLIST_ENTRY_NOTIFICATION = 'CLEAR_PLAYLIST_ENTRY_NOTIFICATION'
-
 /**
  * Clear the notification for the given playlist entry 
  * @param entryId the ID of the entry to clear the notification from
  */
 export const clearPlaylistEntryNotification = (entryId) => ({
-    type: CLEAR_PLAYLIST_ENTRY_NOTIFICATION,
-    entryId
+    type: ALTERATION_STATUS_CLEAR,
+    alterationName: "removeEntryFromPlaylist",
+    elementId: entryId,
 })
 
 /**
  * Remove song from playlist
  */
-
-export const REMOVE_PLAYLIST_ENTRY_REQUEST = 'REMOVE_PLAYLIST_ENTRY_REQUEST'
-export const REMOVE_PLAYLIST_ENTRY_SUCCESS = 'REMOVE_PLAYLIST_ENTRY_SUCCESS'
-export const REMOVE_PLAYLIST_ENTRY_FAILURE = 'REMOVE_PLAYLIST_ENTRY_FAILURE'
 
 /**
  * Request to remove an entry from the playlist
@@ -181,15 +172,16 @@ export const removeEntryFromPlaylist = (entryId) => ({
             endpoint: `${baseUrl}playlist/${entryId}/`,
             method: 'DELETE',
             types: [
-                REMOVE_PLAYLIST_ENTRY_REQUEST,
-                REMOVE_PLAYLIST_ENTRY_SUCCESS,
-                REMOVE_PLAYLIST_ENTRY_FAILURE,
+                ALTERATION_REQUEST,
+                ALTERATION_SUCCESS,
+                ALTERATION_FAILURE,
             ],
             onSuccess: [
                 loadPlaylist(),
             ],
         },
-    entryId
+    alterationName: "removeEntryFromPlaylist",
+    elementId: entryId,
 })
 
 /**
@@ -475,10 +467,6 @@ export const getUsers = (page = 1) => ({
  * Delete user
  */
 
-export const USER_DELETE_REQUEST = "USER_DELETE_REQUEST"
-export const USER_DELETE_SUCCESS = "USER_DELETE_SUCCESS"
-export const USER_DELETE_FAILURE = "USER_DELETE_FAILURE"
-
 /**
  * Request to delete one user
  * @param userId ID of user to delete
@@ -487,27 +475,31 @@ export const deleteUser = (userId) => ({
     [FETCH_API]: {
             endpoint: `${baseUrl}users/${userId}/`,
             method: 'DELETE',
-            types: [USER_DELETE_REQUEST, USER_DELETE_SUCCESS, USER_DELETE_FAILURE],
-        onSuccess: [
-            refreshUsersDelayed,
+            types: [
+                ALTERATION_REQUEST,
+                ALTERATION_SUCCESS,
+                ALTERATION_FAILURE,
+            ],
+            onSuccess: [
+                refreshUsersDelayed,
             ],
         },
-    userId
+    alterationName: "deleteUser",
+    elementId: userId
 })
 
 /**
  * Clear users entry notification
  */
 
-export const CLEAR_USERS_ENTRY_NOTIFICATION="CLEAR_USERS_ENTRY_NOTIFICATION"
-
 /**
  * Clear one nofitication
  * @param userId line to clear
  */
 export const clearUsersEntryNotification = (userId) => ({
-    type: CLEAR_USERS_ENTRY_NOTIFICATION,
-    userId
+    type: ALTERATION_STATUS_CLEAR,
+    alterationName: "deleteUser",
+    elementId: userId
 })
 
 /**
@@ -560,10 +552,6 @@ export const getSongTagList = (page = 1) => ({
  * Edit song tag
  */
 
-export const EDIT_SONG_TAG_REQUEST = "EDIT_SONG_TAG_REQUEST"
-export const EDIT_SONG_TAG_SUCCESS = "EDIT_SONG_TAG_SUCCESS"
-export const EDIT_SONG_TAG_FAILURE = "EDIT_SONG_TAG_FAILURE"
-
 /**
  * Request to update song tag
  * @param disabled
@@ -573,22 +561,31 @@ export const editSongTag = (tagId, disabled) => ({
         endpoint: `${baseUrl}library/song-tags/${tagId}/`,
         method: 'PATCH',
         json: {disabled},
-        types: [EDIT_SONG_TAG_REQUEST, EDIT_SONG_TAG_SUCCESS, EDIT_SONG_TAG_FAILURE],
+        types: [ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE],
     },
-    tagId,
+    alterationName: "editSongTag",
+    elementId: tagId,
 })
 
 /**
  * Clear tag list entry notification
  */
 
-export const CLEAR_TAG_LIST_ENTRY_NOTIFICATION="CLEAR_TAG_LIST_ENTRY_NOTIFICATION"
-
 /**
  * Clear one tag nofitication
  * @param tagId line to clear
  */
 export const clearTagListEntryNotification = (tagId) => ({
-    type: CLEAR_TAG_LIST_ENTRY_NOTIFICATION,
-    tagId
+    type: ALTERATION_STATUS_CLEAR,
+    alterationName: "editSongTag",
+    elementId: tagId,
 })
+
+/**
+ * Alteration status
+ */
+
+export const ALTERATION_REQUEST = "ALTERATION_REQUEST"
+export const ALTERATION_SUCCESS = "ALTERATION_SUCCESS"
+export const ALTERATION_FAILURE = "ALTERATION_FAILURE"
+export const ALTERATION_STATUS_CLEAR = "ALTERATION_STATUS_CLEAR"

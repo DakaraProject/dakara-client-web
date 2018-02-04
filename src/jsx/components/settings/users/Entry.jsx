@@ -24,7 +24,7 @@ export default class UserEntry extends Component {
     }
 
     render() {
-        const { notification, user, deleteUser } = this.props
+        const { user, deleteUser } = this.props
 
         let confirmation
         if (this.state.confirmDisplayed) {
@@ -87,7 +87,12 @@ export default class UserEntry extends Component {
                     >
                         {confirmation}
                     </ReactCSSTransitionGroup>
-                    <Notification notification={this.props.notification}/>
+                    <Notification
+                        alterationStatus={this.props.deleteStatus}
+                        pendingMessage="Deleting…"
+                        successfulMessage="Successfuly deleted!"
+                        failedMessage="Error attempting to delete user"
+                    />
                 </td>
             </tr>
         )

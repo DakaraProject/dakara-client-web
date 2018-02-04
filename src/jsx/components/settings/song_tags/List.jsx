@@ -26,10 +26,14 @@ class SongTagList extends Component {
     }
 
     render() {
-        const { entries, notifications, editSongTag, location, forms } = this.props
+        const { entries, editsStatus, editSongTag, location, forms } = this.props
 
         const tagList = entries.data.results.map((tag) => {
-            let notification = notifications[tag.id]
+            let editStatus
+            if (editsStatus) {
+                editStatus = editsStatus[tag.id]
+            }
+
             const form = forms[`tagColorEdit${tag.id}`]
             let formNotification
             if (form) {
@@ -40,7 +44,7 @@ class SongTagList extends Component {
                 <SongTagEntry
                     key={tag.id}
                     tag={tag}
-                    notification={notification}
+                    editStatus={editStatus}
                     formNotification={formNotification}
                     editSongTag={editSongTag}
                     clearTagListEntryNotification={this.props.clearTagListEntryNotification}
@@ -78,7 +82,7 @@ class SongTagList extends Component {
 
 const mapStateToProps = (state) => ({
     entries: state.library.songTags.entries,
-    notifications: state.library.songTags.notifications,
+    editsStatus: state.alterationsStatus.editSongTag,
     forms: state.forms
 })
 

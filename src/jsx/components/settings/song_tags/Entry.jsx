@@ -3,6 +3,7 @@ import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import classNames from 'classnames'
 import { FormInline, CheckboxField, HueField } from 'components/generics/Form'
 import Notification from 'components/generics/Notification'
+import { Status } from 'reducers/alterationsStatus'
 
 export default class SongTagEntry extends Component {
     state = {
@@ -22,7 +23,7 @@ export default class SongTagEntry extends Component {
     }
 
     render() {
-        const { notification, formNotification, tag, editSongTag } = this.props
+        const { editStatus, formNotification, tag, editSongTag } = this.props
 
         /**
          * form to change color
@@ -69,7 +70,7 @@ export default class SongTagEntry extends Component {
         /**
          * handle disabled state
          */
-        const disabled = notification && notification.isFetching
+        const disabled = editStatus && editStatus.status == Status.pending
         const setValue = (id, value) => {
             if (!disabled)
                 editSongTag(tag.id, !value)
@@ -110,8 +111,13 @@ export default class SongTagEntry extends Component {
                     >
                         {colorForm}
                     </ReactCSSTransitionGroup>
-                    <Notification notification={notification}/>
-                    <Notification notification={formNotification}/>
+                    <Notification
+                        alterationStatus={editStatus}
+                        failedMessage="Error attempting to edit tag"
+                        pendingMessage={false}
+                        successfulMessage={false}
+                    />
+                    {/* <Notification notification={formNotification}/> */}
                 </td>
             </tr>
         )

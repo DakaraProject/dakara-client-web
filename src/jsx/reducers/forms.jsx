@@ -27,7 +27,7 @@ function form(state, action) {
     switch (action.type) {
         case FORM_REQUEST:
         case FORM_CLEAR:
-            return defaultState
+            return defaultState // TODO undefined instead
 
         case FORM_CLEAR_GLOBAL_MESSAGE:
             return {

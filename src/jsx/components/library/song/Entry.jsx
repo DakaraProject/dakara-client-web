@@ -133,7 +133,12 @@ class SongEntry extends Component {
                                 </button>
                             </IsPlaylistUser>
                         </div>
-                        <Notification notification={this.props.notification}/>
+                        <Notification
+                            alterationStatus={this.props.addSongStatus}
+                            pendingMessage="Adding…"
+                            successfulMessage="Successfuly added!"
+                            failedMessage="Error attempting to add song to playlist"
+                        />
                     </div>
                     <ReactCSSTransitionGroup
                         component="div"
@@ -157,7 +162,8 @@ SongEntry.contextTypes = {
 
 const mapStateToProps = (state, ownProps) => ({
     query: state.library.song.data.query,
-    notification: state.library.songListNotifications[ownProps.song.id]
+    addSongStatus: state.alterationsStatus.addSongToPlaylist ?
+        state.alterationsStatus.addSongToPlaylist[ownProps.song.id] : null,
 })
 
 SongEntry = withRouter(connect(

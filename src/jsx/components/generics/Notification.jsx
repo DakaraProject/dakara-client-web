@@ -1,6 +1,19 @@
 import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import classNames from 'classnames'
+import { Status } from 'reducers/alterationsStatus'
+
+const durations = {
+    [Status.pending]: null,
+    [Status.successful]: 3000,
+    [Status.failed]: 5000
+}
+
+const notificationTypes = {
+    [Status.pending]: 'success',
+    [Status.successful]: 'success',
+    [Status.failed]: 'danger'
+}
 
 /**
  * Notification message
@@ -8,17 +21,23 @@ import classNames from 'classnames'
 export default class Notification extends Component {
     state = {display: true}
 
+    static defaultProps = {
+        pendingMessage: 'Pending…',
+        successfulMessage: 'Success',
+        failedMessage: 'Failure'
+    }
+
     componentDidMount() {
         this.setNotificationClearTimeout()
     }
 
     componentDidUpdate(prevProps) {
-        const notification = this.props.notification
-        const prevNotification = prevProps.notification
+        const alterationStatus = this.props.alterationStatus
+        const prevRequestStatus = prevProps.alterationStatus
 
-        const notificationDuration = notification ? notification.duration : null
-        const prevNotificationDuration = prevNotification ? prevNotification.duration : null
-        if (notificationDuration != prevNotificationDuration) {
+        const status = alterationStatus ? alterationStatus.status : null
+        const prevStatus = prevRequestStatus ? prevRequestStatus.status : null
+        if (status != prevStatus) {
             if (this.timeout) {
                 clearTimeout(this.timeout)
             }
@@ -33,31 +52,59 @@ export default class Notification extends Component {
     }
 
     setNotificationClearTimeout = () => {
-        if (this.props.notification && this.props.notification.duration) {
+        const alterationStatus = this.props.alterationStatus
+        const status = alterationStatus ? alterationStatus.status : null
+        const duration = durations[status]
+
+        if (duration) {
             this.timeout = setTimeout( () => {
                     this.setState({display: false})
                 },
-                this.props.notification.duration
+                duration
             )
         }
     }
 
     render() {
         let notification
-        if (this.state.display && this.props.notification){
-            const notificationClass = classNames(
-                'notification',
-                'message',
-                this.props.notification.type
-            )
+        if (this.state.display && this.props.alterationStatus) {
+            const status = this.props.alterationStatus.status
+            let message = this.props.alterationStatus.message
 
-            notification = (
-                <div className="notified">
-                    <div className={notificationClass}>
-                        {this.props.notification.message}
+            // if there is a message in the state, keep it
+            // otherwise, use the message passed to the compenent
+            if (!message) {
+                switch (status) {
+                    case Status.pending:
+                        message = this.props.pendingMessage
+                        break
+
+                    case Status.successful:
+                        message = this.props.successfulMessage
+                        break
+
+                    case Status.failed:
+                        message = this.props.failedMessage
+                        break
+                }
+            }
+
+            // if there is no message to display, do not show any notification
+            if (message) {
+                const notificationClass = classNames(
+                    'notification',
+                    'message',
+                    notificationTypes[status]
+                )
+
+                notification = (
+                    <div className="notified">
+                        <div className={notificationClass}>
+                            {message}
+                        </div>
                     </div>
-                </div>
-            )
+                )
+            }
         }
 
         return (

@@ -1,8 +1,7 @@
 import { combineReducers } from 'redux'
-import { FORM_SUCCESS } from '../actions'
-import { TAG_LIST_REQUEST, TAG_LIST_SUCCESS, TAG_LIST_FAILURE } from '../actions'
-import { EDIT_SONG_TAG_REQUEST, EDIT_SONG_TAG_SUCCESS, EDIT_SONG_TAG_FAILURE } from '../actions'
-import { CLEAR_TAG_LIST_ENTRY_NOTIFICATION } from '../actions'
+import { FORM_SUCCESS } from 'actions'
+import { TAG_LIST_REQUEST, TAG_LIST_SUCCESS, TAG_LIST_FAILURE } from 'actions'
+import { ALTERATION_FAILURE, ALTERATION_REQUEST } from 'actions'
 
 const defaultEntries = {
     data: {
@@ -52,12 +51,16 @@ function entries(state = defaultEntries, action) {
         case TAG_LIST_FAILURE:
             return { ...state, isFetching: false }
 
-        case EDIT_SONG_TAG_FAILURE:
+        case ALTERATION_FAILURE:
             disabled = !disabled
 
-        case EDIT_SONG_TAG_REQUEST:
+        case ALTERATION_REQUEST:
+            if (action.alterationName != 'editSongTag') {
+                return state
+            }
+
             // Update disabled status of updated tag
-            tagId = action.tagId
+            tagId = action.elementId
             return updateTagInState(tagId, state, {disabled})
 
         case FORM_SUCCESS:
@@ -74,46 +77,8 @@ function entries(state = defaultEntries, action) {
     }
 }
 
-/**
- * Tag edit error message
- */
-
-function notifications(state = {}, action) {
-    let tagId
-    switch (action.type) {
-        case EDIT_SONG_TAG_REQUEST:
-            tagId = action.tagId
-            return {...state, [tagId]: {
-                    isFetching: true
-                }
-            }
-
-        case EDIT_SONG_TAG_FAILURE:
-            tagId = action.tagId
-            return {...state, [tagId]: {
-                    message: "Error attempting to edit tag",
-                    type: "danger",
-                    duration: 5000,
-                    isFetching: false
-                }
-            }
-
-        case EDIT_SONG_TAG_SUCCESS:
-        case CLEAR_TAG_LIST_ENTRY_NOTIFICATION:
-            tagId = action.tagId
-            let newState = { ...state }
-            delete newState[tagId]
-            return newState
-
-        default:
-            return state
-    }
-}
-
-
 const songTags = combineReducers({
     entries,
-    notifications,
 })
 
 export default songTags

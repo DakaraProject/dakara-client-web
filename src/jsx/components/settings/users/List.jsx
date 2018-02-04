@@ -28,16 +28,19 @@ class UserList extends Component {
     }
 
     render() {
-        const {deleteUser, entries, notifications, location } = this.props
+        const {deleteUser, entries, deleteStatusList, location } = this.props
 
         const userList = entries.data.results.map((user) => {
-            let notification = notifications[user.id]
+            let deleteStatus
+            if (deleteStatusList) {
+                deleteStatus = deleteStatusList[user.id]
+            }
 
             return (
                 <UserEntry
                     key={user.id}
                     user={user}
-                    notification={notification}
+                    deleteStatus={deleteStatus}
                     deleteUser={deleteUser}
                     clearUsersEntryNotification={this.props.clearUsersEntryNotification}
                 />
@@ -111,7 +114,7 @@ class UserList extends Component {
 
 const mapStateToProps = (state) => ({
     entries: state.users.entries,
-    notifications: state.users.notifications
+    deleteStatusList: state.alterationsStatus.deleteUser
 })
 
 UserList = withRouter(connect(

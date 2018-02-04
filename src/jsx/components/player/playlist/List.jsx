@@ -55,7 +55,7 @@ class Playlist extends Component {
 
         if (!this.props.playlist.collapsed){
             const removeEntry = this.props.removeEntryFromPlaylist
-            const notifications = this.props.playlist.notifications
+            const removeEntryStatus = this.props.removeEntryStatus || {}
             const playlistEntries = list.map( entry => (
                         <PlaylistEntry
                             key={entry.id}
@@ -63,7 +63,7 @@ class Playlist extends Component {
                             timeOfPlay={timeOfPlay[entry.id]}
                             removeEntry={removeEntry}
                             clearPlaylistEntryNotification={this.props.clearPlaylistEntryNotification}
-                            notification={notifications[entry.id]}
+                            removeEntryStatus={removeEntryStatus[entry.id]}
                         />
             ))
 
@@ -153,7 +153,8 @@ class Playlist extends Component {
 
 const mapStateToProps = (state) => ({
     playerStatus: state.player.status,
-    playlist: state.player.playlist
+    playlist: state.player.playlist,
+    removeEntryStatus: state.alterationsStatus.removeEntryFromPlaylist,
 })
 
 Playlist = withRouter(connect(
