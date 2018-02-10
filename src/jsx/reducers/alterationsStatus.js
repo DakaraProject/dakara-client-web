@@ -55,7 +55,7 @@ function alterationStatus(state, action) {
     }
 }
 
-function handleFailureMessage(action) {
+export function handleFailureMessage(action) {
     const { message, non_field_errors, detail } = action.error
     // fetch API error
     if (message) {

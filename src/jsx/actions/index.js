@@ -185,32 +185,6 @@ export const removeEntryFromPlaylist = (entryId) => ({
 })
 
 /**
- * Player notifications
- */
-
-export const CREATE_PLAYER_NOTIFICATION = "CREATE_PLAYER_NOTIFICATION"
-export const CLEAR_PLAYER_NOTIFICATION = "CLEAR_PLAYER_NOTIFICATION"
-
-export const clearPlayerNotification = (errorId) => ({
-    type: CLEAR_PLAYER_NOTIFICATION,
-    errorId
-})
-
-const createPlayerNotification = (id, message) => (dispatch, getState) => {
-    dispatch(delay(clearPlayerNotification(id), 5000))
-    return dispatch(
-        {
-            type: CREATE_PLAYER_NOTIFICATION,
-            error: {
-                id,
-                message
-            }
-        }
-    )
-}
-
-
-/**
  * Get player status
  */
 
@@ -219,55 +193,18 @@ export const PLAYER_STATUS_SUCCESS = 'PLAYER_STATUS_SUCCESS'
 export const PLAYER_STATUS_FAILURE = 'PLAYER_STATUS_FAILURE'
 
 /**
- * Action creator for player error notification
- */
-const notifyOnError = (dispatch, getState, action) => {
-    // get the id of the latest new errors
-    const errorsNew = action.response.errors
-
-    if (!errorsNew.length) {
-        return null
-    }
-
-    const latestErrorNew = errorsNew[errorsNew.length - 1]
-    const latestErrorNewId = latestErrorNew.id
-    const latestErrorNewMessage = latestErrorNew.error_message
-
-    // get the id of the latest current errors
-    const errors = getState().player.status.data.errors
-
-    let latestErrorId
-    if (errors.length) {
-        latestErrorId = errors[errors.length - 1].id
-    } else {
-        latestErrorId = -1
-    }
-
-    if (latestErrorNewId != latestErrorId) {
-        return dispatch(createPlayerNotification(
-            latestErrorNewId,
-            latestErrorNewMessage
-        ))
-
-    } else {
-        return null
-    }
-}
-
-/**
  * Request player status 
  */
 export const loadPlayerStatus = () => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}playlist/player/`,
-            method: 'GET',
-            types: [
-                PLAYER_STATUS_REQUEST,
-                PLAYER_STATUS_SUCCESS,
-                PLAYER_STATUS_FAILURE
-            ],
-            onSuccess: notifyOnError
-        }
+        endpoint: `${baseUrl}playlist/player/`,
+        method: 'GET',
+        types: [
+            PLAYER_STATUS_REQUEST,
+            PLAYER_STATUS_SUCCESS,
+            PLAYER_STATUS_FAILURE
+        ],
+    }
 })
 
 /**
@@ -282,37 +219,20 @@ export const PLAYER_COMMANDS_FAILURE = 'PLAYER_COMMANDS_FAILURE'
  * Send commands to the player
  * @param commands : object containing pause and skip commands booleans
  */
-export const sendPlayerCommands = (commands) => {
-    let message
-    if (typeof commands.pause !== 'undefined') {
-        message = "Unable to set pause"
-    } else if (typeof commands.skip !== 'undefined') {
-        message = "Unable to skip"
-    } else {
-        throw Error("Commands have neither `pause` nor `skip`")
-    }
-
-    const onFailureAction = createPlayerNotification(
-        Date.now(), // id
-        message
-    )
-
-    return {
-        [FETCH_API]: {
-                endpoint: `${baseUrl}playlist/player/manage/`,
-                method: 'PUT',
-                json: commands,
-                types: [
-                    PLAYER_COMMANDS_REQUEST,
-                    PLAYER_COMMANDS_SUCCESS,
-                    PLAYER_COMMANDS_FAILURE
-                ],
-                onSuccess: loadPlayerStatus(),
-                onFailure: onFailureAction
-        },
-        commands
-    }
-}
+export const sendPlayerCommands = (commands) => ({
+    [FETCH_API]: {
+            endpoint: `${baseUrl}playlist/player/manage/`,
+            method: 'PUT',
+            json: commands,
+            types: [
+                PLAYER_COMMANDS_REQUEST,
+                PLAYER_COMMANDS_SUCCESS,
+                PLAYER_COMMANDS_FAILURE
+            ],
+            onSuccess: loadPlayerStatus(),
+    },
+    commands
+})
 
 /**
  * Get playlist entries

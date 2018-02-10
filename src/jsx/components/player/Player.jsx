@@ -9,6 +9,8 @@ import UserWidget from 'components/generics/UserWidget'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import { loadPlayerStatus, sendPlayerCommands } from 'actions'
 import Playlist from './playlist/List'
+import { Status } from 'reducers/alterationsStatus'
+import PlayerNotification from './Notification'
 
 class Player extends Component {
     pollPlayerStatus = () => {
@@ -38,7 +40,7 @@ class Player extends Component {
         let duration
         let progress
         const isPlaying = !!playerStatus.playlist_entry
-        const playIconClassAray = ['fa']
+        let playIconClassAray = []
 
         /**
          * Song display if any song is currently playing
@@ -82,17 +84,12 @@ class Player extends Component {
          * Play/pause button
          */
 
-        let playPausebtn
-        let {
-            pending: isPausing,
-            error: pauseError,
-            counter: pauseCounter
-        } = this.props.commands.pause
-
-        if (!isPausing) {
-            playPausebtn = (
-                <span className="managed icon" key={pauseCounter}>
-                    <i className={classNames(playIconClassAray)}></i>
+        let playPauseIcon
+        const commandPauseStatus = this.props.commands.pause.status
+        if (commandPauseStatus != Status.pending) {
+            playPauseIcon = (
+                <span className="managed icon">
+                    <i className={classNames('fa', playIconClassAray)}></i>
                 </span>
             )
         }
@@ -101,11 +98,10 @@ class Player extends Component {
          * Skip button
          */
 
-        let skipBtn
-        let { pending: isSkipping, error: skipError } = this.props.commands.skip
-
-        if (!isSkipping) {
-            skipBtn = (
+        let skipIcon
+        const commandSkipStatus = this.props.commands.skip.status
+        if (commandSkipStatus != Status.pending) {
+            skipIcon = (
                 <span className="managed icon">
                     <i className="fa fa-step-forward"></i>
                 </span>
@@ -117,22 +113,7 @@ class Player extends Component {
          */
 
         let notificationBanner
-        let errorNotification = this.props.errorNotification
-
-        if (errorNotification) {
-            notificationBanner = (
-                <div
-                    key={errorNotification.id}
-                    className="notified"
-                >
-                    <div className="notification danger">
-                        <div className="message">
-                            {errorNotification.message}
-                        </div>
-                    </div>
-                </div>
-            )
-        } else if (fetchError) {
+        if (fetchError) {
             notificationBanner = (
                 <div
                     key="fetchError"
@@ -159,7 +140,7 @@ class Player extends Component {
             'control',
             'primary',
             {
-                'managed-error': pauseError
+                'managed-error': commandPauseStatus == Status.failed
             }
         )
 
@@ -167,7 +148,7 @@ class Player extends Component {
             'control',
             'primary',
             {
-                'managed-error': skipError
+                'managed-error': commandSkipStatus == Status.failed
             }
         )
 
@@ -192,7 +173,7 @@ class Player extends Component {
                                         transitionEnterTimeout={150}
                                         transitionLeaveTimeout={150}
                                     >
-                                        {playPausebtn}
+                                        {playPauseIcon}
                                     </ReactCSSTransitionGroup>
                                 </button>
                             </IsPlaylistManagerOrOwner>
@@ -210,7 +191,7 @@ class Player extends Component {
                                         transitionEnterTimeout={150}
                                         transitionLeaveTimeout={150}
                                     >
-                                        {skipBtn}
+                                        {skipIcon}
                                     </ReactCSSTransitionGroup>
                                 </button>
                             </IsPlaylistManagerOrOwner>
@@ -233,6 +214,13 @@ class Player extends Component {
                             >
                                 {notificationBanner}
                             </ReactCSSTransitionGroup>
+                            <PlayerNotification
+                                alterationStatuses={[
+                                    this.props.commands.pause,
+                                    this.props.commands.skip
+                                ]}
+                                playerErrors={this.props.playerStatus.data.errors}
+                            />
                         </div>
                     </div>
                     <div className="progressbar">
@@ -248,7 +236,6 @@ class Player extends Component {
 const mapStateToProps = (state) => ({
     playerStatus: state.player.status,
     commands: state.player.commands,
-    errorNotification: state.player.errorNotification
 })
 
 Player = withRouter(connect(
