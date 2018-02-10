@@ -10,34 +10,34 @@ class ArtistList extends Component {
         const artists = entries.data.results
 
         const libraryEntryArtistList = artists.map(artist =>
-              <ArtistEntry
+            <ArtistEntry
                 key={artist.id}
                 artist={artist}
-              />
+            />
         )
 
         const { isFetching, fetchError } = entries
 
-        return [(
-            <ListWrapper
-                isFetching={isFetching}
-                fetchError={fetchError}
-            >
-                <ul className="library-list listing">
-                    {libraryEntryArtistList}
-                </ul>
-            </ListWrapper>
-        ),
-        (
-            <Navigator
-                data={entries.data}
-                names={{
-                    singular: 'artist found',
-                    plural: 'artists found'
-                }}
-                location={location}
-            />
-        )]
+        return (
+            <div className="artist-list">
+                <ListWrapper
+                    isFetching={isFetching}
+                    fetchError={fetchError}
+                >
+                    <ul className="library-list listing">
+                        {libraryEntryArtistList}
+                    </ul>
+                </ListWrapper>
+                <Navigator
+                    data={entries.data}
+                    names={{
+                        singular: 'artist found',
+                        plural: 'artists found'
+                    }}
+                    location={location}
+                />
+            </div>
+        )
     }
 }
 

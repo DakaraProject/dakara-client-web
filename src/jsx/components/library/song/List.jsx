@@ -41,7 +41,7 @@ class SongList extends Component {
         // generate a map with song id as key
         // and time + owner as value
 
-        for(let entry of this.props.playlistEntries.results){
+        for (let entry of this.props.playlistEntries.results) {
             if (!playlistInfo[entry.song.id]) {
                 playlistInfo[entry.song.id] = {
                     timeOfPlay: currentTime + remainingTime * 1000,
@@ -67,27 +67,26 @@ class SongList extends Component {
 
         const { isFetching, fetchError } = entries
 
-        return [(
-            <ListWrapper
-                isFetching={isFetching}
-                fetchError={fetchError}
-            >
-                <ul className="library-list listing">
-                    {libraryEntrySongList}
-                </ul>
-            </ListWrapper>
-        ),
-        (
-
-            <Navigator
-                data={entries.data}
-                names={{
-                    singular: 'song found',
-                    plural: 'songs found'
-                }}
-                location={location}
-            />
-        )]
+        return (
+            <div className="song-list">
+                <ListWrapper
+                    isFetching={isFetching}
+                    fetchError={fetchError}
+                >
+                    <ul className="library-list listing">
+                        {libraryEntrySongList}
+                    </ul>
+                </ListWrapper>
+                <Navigator
+                    data={entries.data}
+                    names={{
+                        singular: 'song found',
+                        plural: 'songs found'
+                    }}
+                    location={location}
+                />
+            </div>
+        )
     }
 }
 

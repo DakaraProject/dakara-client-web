@@ -114,6 +114,7 @@ function work(state = {}, action) {
             return state
     }
 }
+
 /**
  * Work Types
  */

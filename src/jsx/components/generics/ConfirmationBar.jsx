@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 
 export default class ConfirmationBar extends Component {
+    static defaultProps = {
+        message: "Are you sure?",
+    }
+
     render() {
         const { message, onConfirm, onCancel } = this.props
 
@@ -8,7 +12,7 @@ export default class ConfirmationBar extends Component {
             <div className="notified">
                 <div className="notification warning">
                     <div className="message">
-                        {message || "Are you sure?"}
+                        {message}
                     </div>
                     <div className="controls">
                         <button

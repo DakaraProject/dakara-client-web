@@ -5,7 +5,6 @@ import { parse } from 'query-string'
 import { FormBlock, InputField } from 'components/generics/Form'
 
 class Login extends Component {
-
     render() {
         const { isLoggedIn } = this.props
 

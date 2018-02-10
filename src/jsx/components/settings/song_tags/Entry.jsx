@@ -28,6 +28,7 @@ export default class SongTagEntry extends Component {
         /**
          * form to change color
          */
+
         let colorForm
         if (this.state.colorFormDisplayed) {
             const submitText = (
@@ -70,6 +71,7 @@ export default class SongTagEntry extends Component {
         /**
          * handle disabled state
          */
+
         const disabled = editStatus && editStatus.status == Status.pending
         const setValue = (id, value) => {
             if (!disabled)
@@ -78,7 +80,6 @@ export default class SongTagEntry extends Component {
 
         // TODO It would be nice to set the checkbox to disabled if
         // the request (fetching) takes too much time.
-
 
         return (
             <tr className="listing-entry hoverizable">

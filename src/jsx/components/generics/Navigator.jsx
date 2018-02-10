@@ -64,6 +64,6 @@ export default class Navigator extends Component {
                 </nav>
                 {counter}
             </div>
-        );
+        )
     }
 }

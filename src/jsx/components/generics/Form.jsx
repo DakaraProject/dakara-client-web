@@ -5,6 +5,11 @@ import classNames from 'classnames'
 import { setFormValidationErrors, submitForm, clearForm } from 'actions'
 
 class Form extends Component {
+    static defaultProps = {
+        method: "POST",
+        submitClass: "primary",
+        submitText: "Submit",
+    }
 
     state = {
         formValues: {
@@ -157,7 +162,7 @@ class Form extends Component {
             json[id] = value
         })
 
-        submitForm(formName, action, method || 'POST', json, successMessage)
+        submitForm(formName, action, method, json, successMessage)
     }
 
     /**
@@ -200,7 +205,7 @@ class Form extends Component {
         const { submitText, submitClass } = this.props
         const controlClass = classNames(
             'control',
-            submitClass || 'primary'
+            submitClass,
         )
 
         return (
@@ -209,7 +214,7 @@ class Form extends Component {
                     type="submit"
                     className={controlClass}
                 >
-                    {submitText || "Submit"}
+                    {submitText}
                 </button>
             </div>
         )

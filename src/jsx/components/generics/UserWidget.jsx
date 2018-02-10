@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 
 class UserWidget extends Component {
-
     render() {
         const { user, currentUser, className } = this.props
         const isCurrentUser = currentUser && currentUser.id == user.id

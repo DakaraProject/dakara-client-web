@@ -36,7 +36,7 @@ class WorkEntry extends Component {
                         </button>
                     </div>
                 </li>
-        );
+        )
     }
 }
 

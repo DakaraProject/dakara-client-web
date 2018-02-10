@@ -28,27 +28,26 @@ class WorkList extends Component {
             this.props.workTypes
         )
 
-        return [(
-            <ListWrapper
-                isFetching={isFetching}
-                fetchError={fetchError}
-            >
-                <ul className="library-list listing">
-                    {libraryEntryWorkList}
-                </ul>
-            </ListWrapper>
-        ),
-        (
-
-            <Navigator
-                data={entries.data}
-                names={{
-                    singular: `${libraryNameInfo.singular} found`,
-                    plural: `${libraryNameInfo.plural} found`
-                }}
-                location={location}
-            />
-        )]
+        return (
+            <div className="work-list">
+                <ListWrapper
+                    isFetching={isFetching}
+                    fetchError={fetchError}
+                >
+                    <ul className="library-list listing">
+                        {libraryEntryWorkList}
+                    </ul>
+                </ListWrapper>
+                <Navigator
+                    data={entries.data}
+                    names={{
+                        singular: `${libraryNameInfo.singular} found`,
+                        plural: `${libraryNameInfo.plural} found`
+                    }}
+                    location={location}
+                />
+            </div>
+        )
     }
 }
 

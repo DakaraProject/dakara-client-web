@@ -23,7 +23,7 @@ class ProtectedRoute extends Component {
                     <Redirect to={{
                         pathname: '/login',
                         search: stringify(queryObj)
-                    }} />
+                    }}/>
                 )
             }
 
@@ -32,12 +32,12 @@ class ProtectedRoute extends Component {
             }
 
             return (
-                <Component {...props} />
+                <Component {...props}/>
             )
         }
 
         return (
-            <Route {...rest} render={renderFunction} />
+            <Route {...rest} render={renderFunction}/>
         )
     }
 }
