@@ -26,7 +26,7 @@ class SongTagList extends Component {
     }
 
     render() {
-        const { entries, editsStatus, editSongTag, location, forms } = this.props
+        const { entries, editsStatus, editSongTag, location, formsResponse } = this.props
 
         const tagList = entries.data.results.map((tag) => {
             let editStatus
@@ -34,18 +34,14 @@ class SongTagList extends Component {
                 editStatus = editsStatus[tag.id]
             }
 
-            const form = forms[`tagColorEdit${tag.id}`]
-            let formNotification
-            if (form) {
-                formNotification = form.global
-            }
+            const formResponse = formsResponse[`tagColorEdit${tag.id}`]
 
             return (
                 <SongTagEntry
                     key={tag.id}
                     tag={tag}
                     editStatus={editStatus}
-                    formNotification={formNotification}
+                    formResponse={formResponse}
                     editSongTag={editSongTag}
                     clearTagListEntryNotification={this.props.clearTagListEntryNotification}
                 />
@@ -83,7 +79,7 @@ class SongTagList extends Component {
 const mapStateToProps = (state) => ({
     entries: state.library.songTags.entries,
     editsStatus: state.alterationsStatus.editSongTag,
-    forms: state.forms
+    formsResponse: state.forms
 })
 
 SongTagList = withRouter(connect(

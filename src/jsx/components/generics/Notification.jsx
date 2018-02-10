@@ -3,12 +3,6 @@ import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import classNames from 'classnames'
 import { Status } from 'reducers/alterationsStatus'
 
-const durations = {
-    [Status.pending]: null,
-    [Status.successful]: 3000,
-    [Status.failed]: 5000
-}
-
 const notificationTypes = {
     [Status.pending]: 'success',
     [Status.successful]: 'success',
@@ -24,7 +18,10 @@ export default class Notification extends Component {
     static defaultProps = {
         pendingMessage: 'Pending…',
         successfulMessage: 'Success',
-        failedMessage: 'Failure'
+        failedMessage: 'Failure',
+        pendingDuration: null,
+        successfulDuration: 3000,
+        failedDuration: 5000,
     }
 
     componentDidMount() {
@@ -54,6 +51,11 @@ export default class Notification extends Component {
     setNotificationClearTimeout = () => {
         const alterationStatus = this.props.alterationStatus
         const status = alterationStatus ? alterationStatus.status : null
+        const durations = {
+            [Status.pending]: this.props.pendingDuration,
+            [Status.successful]: this.props.successfulDuration,
+            [Status.failed]: this.props.failedDuration
+        }
         const duration = durations[status]
 
         if (duration) {
@@ -74,19 +76,13 @@ export default class Notification extends Component {
             // if there is a message in the state, keep it
             // otherwise, use the message passed to the compenent
             if (!message) {
-                switch (status) {
-                    case Status.pending:
-                        message = this.props.pendingMessage
-                        break
-
-                    case Status.successful:
-                        message = this.props.successfulMessage
-                        break
-
-                    case Status.failed:
-                        message = this.props.failedMessage
-                        break
+                const messages = {
+                    [Status.pending]: this.props.pendingMessage,
+                    [Status.successful]: this.props.successfulMessage,
+                    [Status.failed]: this.props.failedMessage
                 }
+
+                message = messages[status]
             }
 
             // if there is no message to display, do not show any notification

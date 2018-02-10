@@ -105,6 +105,7 @@ class PlaylistEntry extends Component {
                         alterationStatus={this.props.removeEntryStatus}
                         pendingMessage="Removing…"
                         successfulMessage="Successfuly removed!"
+                        successfulDuration={null}
                         failedMessage="Error attempting to remove song from playlist"
                     />
                 </div>

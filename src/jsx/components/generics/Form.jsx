@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import classNames from 'classnames'
 import { setFormValidationErrors, submitForm, clearForm } from 'actions'
+import { Status } from 'reducers/alterationsStatus'
+import Notification from 'components/generics/Notification'
 
 class Form extends Component {
     static defaultProps = {
@@ -51,18 +53,14 @@ class Form extends Component {
 
 
     componentDidUpdate(prevProps) {
-        const { formName, formsResponse, noClearOnSuccess, onSuccess } = this.props
-        const response = formsResponse[formName]
-        const prevResponse = prevProps.formsResponse[formName]
+        const { formResponse, noClearOnSuccess, onSuccess } = this.props
+        const prevFormResponse = prevProps.formResponse
 
         // If there is a success notification
-        if (response && response.global && response.global.type == 'success') {
+        if (formResponse && formResponse.status == Status.successful) {
             // and there was no response, or a different notification before
-            if (!prevResponse || response.global != prevResponse.global) {
-                if (!noClearOnSuccess) {
-                    this.setDefaultFormValues()
-                }
-
+            if (!prevFormResponse || formResponse.status != prevFormResponse.status) {
+                if (!noClearOnSuccess) this.setDefaultFormValues()
                 if (onSuccess) onSuccess()
             }
         }
@@ -139,7 +137,6 @@ class Form extends Component {
             formName,
             action,
             method,
-            successMessage,
             excludedFields,
             submitForm,
             children
@@ -162,7 +159,7 @@ class Form extends Component {
             json[id] = value
         })
 
-        submitForm(formName, action, method, json, successMessage)
+        submitForm(formName, action, method, json)
     }
 
     /**
@@ -171,16 +168,15 @@ class Form extends Component {
      * @returns set of fields with props.
      */
     renderFieldsSet = (inline) => {
-        const { children, formName, formsResponse } = this.props
-        const response = formsResponse[formName]
+        const { children, formResponse } = this.props
         const { formValues } = this.state
 
         const fields = React.Children.map(children,
             (field) => {
                 const id = field.props.id
                 let fieldErrors
-                if (response) {
-                    fieldErrors = response.fields[id]
+                if (formResponse) {
+                    fieldErrors = formResponse.fields[id]
                 }
 
                 return React.cloneElement(field,
@@ -221,8 +217,8 @@ class Form extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    formsResponse: state.forms
+const mapStateToProps = (state, ownProps) => ({
+    formResponse: state.forms[ownProps.formName]
 })
 
 /**
@@ -255,26 +251,7 @@ const mapStateToProps = (state) => ({
  */
 class FormBlock extends Form {
     render() {
-        const { title, formName, formsResponse } = this.props
-        const response = formsResponse[formName]
-
-        // global notification message
-        let message
-        if (response && response.global) {
-            const messageClass = classNames(
-                'notification',
-                'message',
-                response.global.type
-            )
-
-            message = (
-                        <div className="notified">
-                            <div className={messageClass}>
-                                {response.global.message}
-                            </div>
-                        </div>
-                    )
-        }
+        const { title, formName, formResponse, successMessage } = this.props
 
         // get fields
         const fieldsSet = this.renderFieldsSet()
@@ -282,11 +259,19 @@ class FormBlock extends Form {
         // get controls
         const controls = this.renderControls()
 
+        // get failed message if unconsistent case
+        let failedMessage
+        if (formResponse && Object.keys(formResponse.fields).length === 0) {
+            failedMessage = "Unknown error!"
+        } else {
+            failedMessage = null
+        }
+
         return (
             <form
                 onSubmit={e => {
                     e.preventDefault()
-                    if(this.validate()) {
+                    if (this.validate()) {
                         this.submit()
                     }
                 }}
@@ -295,13 +280,13 @@ class FormBlock extends Form {
             >
                 <div className="header notifiable">
                     <h3>{title}</h3>
-                    <ReactCSSTransitionGroup
-                        transitionName="notified"
-                        transitionEnterTimeout={300}
-                        transitionLeaveTimeout={150}
-                    >
-                        {message}
-                    </ReactCSSTransitionGroup>
+                    <Notification
+                        alterationStatus={formResponse}
+                        pendingMessage={false}
+                        successfulMessage={successMessage}
+                        failedMessage={failedMessage}
+                        failedDuration={null}
+                    />
                 </div>
                 {fieldsSet}
                 {controls}

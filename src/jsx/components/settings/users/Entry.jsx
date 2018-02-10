@@ -91,6 +91,7 @@ export default class UserEntry extends Component {
                         alterationStatus={this.props.deleteStatus}
                         pendingMessage="Deleting…"
                         successfulMessage="Successfuly deleted!"
+                        successfulDuration={null}
                         failedMessage="Error attempting to delete user"
                     />
                 </td>

@@ -23,7 +23,7 @@ export default class SongTagEntry extends Component {
     }
 
     render() {
-        const { editStatus, formNotification, tag, editSongTag } = this.props
+        const { editStatus, formResponse, tag, editSongTag } = this.props
 
         /**
          * form to change color
@@ -47,7 +47,6 @@ export default class SongTagEntry extends Component {
                         formName={`tagColorEdit${tag.id}`}
                         noClearOnSuccess
                         onSuccess={this.clearColorForm}
-                        successMessage
                     >
                         <HueField
                             id="color_hue"
@@ -118,7 +117,12 @@ export default class SongTagEntry extends Component {
                         pendingMessage={false}
                         successfulMessage={false}
                     />
-                    {/* <Notification notification={formNotification}/> */}
+                    <Notification
+                        alterationStatus={formResponse}
+                        successfulMessage={false}
+                        pendingMessage={false}
+                        failedMessage="Error attempting to edit tag color"
+                    />
                 </td>
             </tr>
         )
