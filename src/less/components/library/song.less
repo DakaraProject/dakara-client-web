@@ -85,11 +85,11 @@
             }
 
             // disappearance transition of the playlist info class
-            &.playlist-info-leave {
+            &.playlist-info-exit {
                 max-width: (2 * @listing-entry-height);
                 overflow: hidden;
 
-                &.playlist-info-leave-active {
+                &.playlist-info-exit-active {
                     max-width: 0;
                     .transition(max-width 150ms ease-out);
                 }
@@ -215,11 +215,11 @@
             }
 
             // disappearance transition of the expanded view
-            &.expand-view-leave {
+            &.expand-view-exit {
                 overflow: hidden;
                 max-height: 10 * 0.75 * @listing-entry-height;
 
-                &.expand-view-leave-active {
+                &.expand-view-exit-active {
                     max-height: 0;
                     .transition(max-height 300ms ease-out);
                 }

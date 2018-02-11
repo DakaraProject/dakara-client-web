@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import classNames from 'classnames'
 import { FormInline, CheckboxField, HueField } from 'components/generics/Form'
 import Notification from 'components/generics/Notification'
@@ -29,43 +29,40 @@ export default class SongTagEntry extends Component {
          * form to change color
          */
 
-        let colorForm
-        if (this.state.colorFormDisplayed) {
-            const submitText = (
-                <span className="icon">
-                    <i className="fa fa-check"></i>
-                </span>
-            )
+        const submitText = (
+            <span className="icon">
+                <i className="fa fa-check"></i>
+            </span>
+        )
 
-            colorForm = (
-                <div className="notified color-form-notified">
-                    <FormInline
-                        action={`library/song-tags/${tag.id}/`}
-                        method="PATCH"
-                        submitText={submitText}
-                        submitClass="success"
-                        formName={`tagColorEdit${tag.id}`}
-                        noClearOnSuccess
-                        onSuccess={this.clearColorForm}
+        const colorForm = (
+            <div className="notified color-form-notified">
+                <FormInline
+                    action={`library/song-tags/${tag.id}/`}
+                    method="PATCH"
+                    submitText={submitText}
+                    submitClass="success"
+                    formName={`tagColorEdit${tag.id}`}
+                    noClearOnSuccess
+                    onSuccess={this.clearColorForm}
+                >
+                    <HueField
+                        id="color_hue"
+                        defaultValue={tag.color_hue}
+                    />
+                </FormInline>
+                <div className="controls">
+                    <button
+                        onClick={this.clearColorForm}
+                        className="control danger"
                     >
-                        <HueField
-                            id="color_hue"
-                            defaultValue={tag.color_hue}
-                        />
-                    </FormInline>
-                    <div className="controls">
-                        <button
-                            onClick={this.clearColorForm}
-                            className="control danger"
-                        >
-                            <span className="icon">
-                                <i className="fa fa-times"></i>
-                            </span>
-                        </button>
-                    </div>
+                        <span className="icon">
+                            <i className="fa fa-times"></i>
+                        </span>
+                    </button>
                 </div>
-            )
-        }
+            </div>
+        )
 
         /**
          * handle disabled state
@@ -104,13 +101,16 @@ export default class SongTagEntry extends Component {
                             <i className="fa fa-paint-brush"></i>
                         </button>
                     </div>
-                    <ReactCSSTransitionGroup
-                        transitionName="notified"
-                        transitionEnterTimeout={300}
-                        transitionLeaveTimeout={150}
+                    <CSSTransitionLazy
+                        in={this.state.colorFormDisplayed}
+                        classNames="notified"
+                        timeout={{
+                            enter: 300,
+                            exit: 150
+                        }}
                     >
                         {colorForm}
-                    </ReactCSSTransitionGroup>
+                    </CSSTransitionLazy>
                     <Notification
                         alterationStatus={editStatus}
                         failedMessage="Error attempting to edit tag"

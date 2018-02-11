@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import classNames from 'classnames'
 import { permissionLevels, IsUserManager, IsNotSelf } from 'components/permissions/Users'
 import ControlLink from 'components/generics/ControlLink'
@@ -26,19 +26,10 @@ export default class UserEntry extends Component {
     render() {
         const { user, deleteUser } = this.props
 
-        let confirmation
-        if (this.state.confirmDisplayed) {
-            confirmation = (
-                <ConfirmationBar
-                    onConfirm={() => {deleteUser(user.id)}}
-                    onCancel={this.clearConfirm}
-                />
-            )
-        }
-
         /**
          * superuser marker
          */
+
         let superuserMarker
         if (user.is_superuser) {
             superuserMarker = (
@@ -80,13 +71,19 @@ export default class UserEntry extends Component {
                             </IsNotSelf>
                         </div>
                     </IsUserManager>
-                    <ReactCSSTransitionGroup
-                        transitionName="notified"
-                        transitionEnterTimeout={300}
-                        transitionLeaveTimeout={150}
+                    <CSSTransitionLazy
+                        in={this.state.confirmDisplayed}
+                        classNames="notified"
+                        timeout={{
+                            enter: 300,
+                            exit: 150
+                        }}
                     >
-                        {confirmation}
-                    </ReactCSSTransitionGroup>
+                        <ConfirmationBar
+                            onConfirm={() => {deleteUser(user.id)}}
+                            onCancel={this.clearConfirm}
+                        />
+                    </CSSTransitionLazy>
                     <Notification
                         alterationStatus={this.props.deleteStatus}
                         pendingMessage="Deleting…"

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
 import { Status } from 'reducers/alterationsStatus'
 
@@ -94,23 +94,27 @@ export default class Notification extends Component {
                 )
 
                 notification = (
-                    <div className="notified">
-                        <div className={notificationClass}>
-                            {message}
+                    <CSSTransition
+                        classNames="notified"
+                        timeout={{
+                            enter: 300,
+                            exit: 150
+                        }}
+                    >
+                        <div className="notified">
+                            <div className={notificationClass}>
+                                {message}
+                            </div>
                         </div>
-                    </div>
+                    </CSSTransition>
                 )
             }
         }
 
         return (
-            <ReactCSSTransitionGroup
-                transitionName="notified"
-                transitionEnterTimeout={300}
-                transitionLeaveTimeout={150}
-            >
+            <TransitionGroup>
                 {notification}
-            </ReactCSSTransitionGroup>
+            </TransitionGroup>
         )
     }
 }

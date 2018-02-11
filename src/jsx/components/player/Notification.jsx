@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { Status } from 'reducers/alterationsStatus'
 
 const notificationTypes = {
@@ -118,22 +118,26 @@ export default class PlayerNotification extends Component {
         // if there is no message to display, do not show any notification
         if (message) {
             notification = (
-                <div className="notified" key={key}>
-                    <div className="notification message danger">
-                        {message}
+                <CSSTransition
+                    classNames="notified"
+                    timeout={{
+                        enter: 300,
+                        exit: 150
+                    }}
+                >
+                    <div className="notified" key={key}>
+                        <div className="notification message danger">
+                            {message}
+                        </div>
                     </div>
-                </div>
+                </CSSTransition>
             )
         }
 
         return (
-            <ReactCSSTransitionGroup
-                transitionName="notified"
-                transitionEnterTimeout={300}
-                transitionLeaveTimeout={150}
-            >
+            <TransitionGroup>
                 {notification}
-            </ReactCSSTransitionGroup>
+            </TransitionGroup>
         )
     }
 }

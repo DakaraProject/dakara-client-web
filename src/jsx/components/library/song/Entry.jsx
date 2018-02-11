@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import classNames from 'classnames'
@@ -21,6 +22,7 @@ class SongEntry extends Component {
     /**
      * Toogle expanded view of song
      */
+
     setExpanded = (expanded) => {
         const { location } = this.props
         const queryObj = parse(location.search)
@@ -48,11 +50,11 @@ class SongEntry extends Component {
          * Box displaying time of play or currently playing status
          */
 
-        let playlistInfoDiv
+        let playQueueInfo
         if (playlistInfo) {
-            let playQueueInfo
+            let playQueueInfoContent
             if (playlistInfo.isPlaying) {
-                playQueueInfo = (
+                playQueueInfoContent = (
                     <div className="playing">
                         <span className="icon">
                             <i className="fa fa-play"></i>
@@ -60,7 +62,7 @@ class SongEntry extends Component {
                     </div>
                 )
             } else {
-                playQueueInfo = (
+                playQueueInfoContent = (
                     <div className="queueing">
                         <span className="icon">
                             <i className="fa fa-clock-o"></i>
@@ -70,15 +72,23 @@ class SongEntry extends Component {
                 )
             }
 
-            playlistInfoDiv = (
-                        <div className="playlist-info">
-                            <UserWidget
-                                className="owner"
-                                user={playlistInfo.owner}
-                            />
-                            {playQueueInfo}
-                        </div>
-                    )
+            playQueueInfo = (
+                <CSSTransition
+                    classNames="playlist-info"
+                    timeout={{
+                        enter: 300,
+                        exit: 150
+                    }}
+                >
+                    <div className="playlist-info">
+                        <UserWidget
+                            className="owner"
+                            user={playlistInfo.owner}
+                        />
+                        {playQueueInfo}
+                    </div>
+                </CSSTransition>
+            )
         }
 
         /**
@@ -87,13 +97,7 @@ class SongEntry extends Component {
          * only displayed when song is expanded
          */
 
-        let SongExpanded
         if (expanded){
-            SongExpanded = (
-                    <SongEntryExpanded
-                        song={this.props.song}
-                        location={location}
-                    />)
         }
 
         return (
@@ -106,16 +110,9 @@ class SongEntry extends Component {
                             noTag={expanded}
                             handleClick={() => expanded ? this.setExpanded(null) : this.setExpanded(song.id)}
                         />
-
-                        <ReactCSSTransitionGroup
-                            component="div"
-                            transitionName="playlist-info"
-                            transitionEnterTimeout={300}
-                            transitionLeaveTimeout={150}
-                        >
-                            {playlistInfoDiv}
-                        </ReactCSSTransitionGroup>
-
+                        <TransitionGroup>
+                            {playQueueInfo}
+                        </TransitionGroup>
                         <div
                             className="controls"
                             id={`song-${this.props.song.id}`}
@@ -140,15 +137,21 @@ class SongEntry extends Component {
                             failedMessage="Error attempting to add song to playlist"
                         />
                     </div>
-                    <ReactCSSTransitionGroup
-                        component="div"
-                        className='library-entry-song-expanded-container'
-                        transitionName="expand-view"
-                        transitionEnterTimeout={600}
-                        transitionLeaveTimeout={300}
+                    <CSSTransitionLazy
+                        in={expanded}
+                        classNames="expand-view"
+                        timeout={{
+                            enter: 600,
+                            exit: 300
+                        }}
                     >
-                        {SongExpanded}
-                    </ReactCSSTransitionGroup>
+                        <div className='library-entry-song-expanded-container'>
+                            <SongEntryExpanded
+                                song={this.props.song}
+                                location={location}
+                            />
+                        </div>
+                    </CSSTransitionLazy>
                 </li>
         )
     }

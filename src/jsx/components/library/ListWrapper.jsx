@@ -1,20 +1,10 @@
 import React, { Component } from 'react'
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import Delayer from 'components/generics/Delayer'
 
 export default class ListWrapper extends Component {
     render() {
         const { isFetching, fetchError } = this.props
-        let notification
-        if (fetchError) {
-            notification = (
-                <div className="notified">
-                    <div className="notification danger message">
-                        Unable to get results
-                    </div>
-                </div>
-            )
-        }
 
         let pending
         if (isFetching) {
@@ -30,20 +20,24 @@ export default class ListWrapper extends Component {
         }
 
         return (
-            <div className="library-list-wrapper">
-                <ReactCSSTransitionGroup
-                    component="div"
-                    className="notification-area notifiable"
-                    transitionName="notified"
-                    transitionAppear={true}
-                    transitionEnterTimeout={150}
-                    transitionAppearTimeout={150}
-                    transitionLeaveTimeout={300}
-                >
-                    {notification}
-                </ReactCSSTransitionGroup>
-
+            <div className="library-list-wrapper notifiable">
                 {this.props.children}
+
+                <CSSTransitionLazy
+                    in={fetchError}
+                    classNames="notified"
+                    appear={true}
+                    timeout={{
+                        enter: 300,
+                        exit: 150
+                    }}
+                >
+                    <div className="notified">
+                        <div className="notification danger message">
+                            Unable to get results
+                        </div>
+                    </div>
+                </CSSTransitionLazy>
 
                 {pending}
             </div>

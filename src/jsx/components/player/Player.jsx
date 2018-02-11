@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import classNames from 'classnames'
 import utils from 'utils'
 import Song from 'components/song/Song'
@@ -88,9 +89,17 @@ class Player extends Component {
         const commandPauseStatus = this.props.commands.pause.status
         if (commandPauseStatus != Status.pending) {
             playPauseIcon = (
-                <span className="managed icon">
-                    <i className={classNames('fa', playIconClassAray)}></i>
-                </span>
+                <CSSTransition
+                    classNames="managed"
+                    timeout={150}
+                >
+                    <span
+                        className="managed icon"
+                        key={playerCommand.pause ? 'play' : 'pause'}
+                    >
+                        <i className={classNames('fa', playIconClassAray)}></i>
+                    </span>
+                </CSSTransition>
             )
         }
 
@@ -102,40 +111,24 @@ class Player extends Component {
         const commandSkipStatus = this.props.commands.skip.status
         if (commandSkipStatus != Status.pending) {
             skipIcon = (
-                <span className="managed icon">
-                    <i className="fa fa-step-forward"></i>
-                </span>
+                <CSSTransition
+                    classNames="managed"
+                    timeout={150}
+                >
+                    <span
+                        className="managed icon"
+                    >
+                        <i className="fa fa-step-forward"></i>
+                    </span>
+                </CSSTransition>
             )
         }
 
         /**
-         * Error notification
+         * classes
          */
 
-        let notificationBanner
-        if (fetchError) {
-            notificationBanner = (
-                <div
-                    key="fetchError"
-                    className="notified"
-                >
-                    <div className="notification danger">
-                        <div className="message">
-                            Unable to get status from server
-                        </div>
-                        <div className="animation pending">
-                            <span className="point">·</span>
-                            <span className="point">·</span>
-                            <span className="point">·</span>
-                        </div>
-                    </div>
-                </div>
-            )
-        }
-
         const controlDisabled = !isPlaying || fetchError
-
-        // classes
         const playPauseClass = classNames(
             'control',
             'primary',
@@ -168,13 +161,9 @@ class Player extends Component {
                                     }}
                                     disabled={controlDisabled}
                                 >
-                                    <ReactCSSTransitionGroup
-                                        transitionName="managed"
-                                        transitionEnterTimeout={150}
-                                        transitionLeaveTimeout={150}
-                                    >
+                                    <TransitionGroup>
                                         {playPauseIcon}
-                                    </ReactCSSTransitionGroup>
+                                    </TransitionGroup>
                                 </button>
                             </IsPlaylistManagerOrOwner>
                             <IsPlaylistManagerOrOwner
@@ -186,13 +175,9 @@ class Player extends Component {
                                     onClick={() => this.props.sendPlayerCommands({skip: true})}
                                     disabled={controlDisabled}
                                 >
-                                    <ReactCSSTransitionGroup
-                                        transitionName="managed"
-                                        transitionEnterTimeout={150}
-                                        transitionLeaveTimeout={150}
-                                    >
+                                    <TransitionGroup>
                                         {skipIcon}
-                                    </ReactCSSTransitionGroup>
+                                    </TransitionGroup>
                                 </button>
                             </IsPlaylistManagerOrOwner>
                         </div>
@@ -207,13 +192,27 @@ class Player extends Component {
                                     {utils.formatDuration(duration)}
                                 </div>
                             </div>
-                            <ReactCSSTransitionGroup
-                                transitionName="notified"
-                                transitionEnterTimeout={300}
-                                transitionLeaveTimeout={150}
+                            <CSSTransitionLazy
+                                in={fetchError}
+                                classNames="notified"
+                                timeout={{
+                                    enter: 300,
+                                    exit: 150
+                                }}
                             >
-                                {notificationBanner}
-                            </ReactCSSTransitionGroup>
+                                <div className="notified">
+                                    <div className="notification danger">
+                                        <div className="message">
+                                            Unable to get status from server
+                                        </div>
+                                        <div className="animation pending">
+                                            <span className="point">·</span>
+                                            <span className="point">·</span>
+                                            <span className="point">·</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </CSSTransitionLazy>
                             <PlayerNotification
                                 alterationStatuses={[
                                     this.props.commands.pause,

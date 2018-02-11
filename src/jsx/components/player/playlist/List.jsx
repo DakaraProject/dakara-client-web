@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { connect } from 'react-redux'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import { withRouter } from 'react-router-dom'
 import utils from 'utils'
 import { loadPlaylist, toogleCollapsedPlaylist } from 'actions'
@@ -32,7 +33,6 @@ class Playlist extends Component {
 
         const currentTime = new Date().getTime()
         const list = this.props.playlist.entries.data.results
-        let playlistContent
 
         // compute time remaing for currently playing song
         let remainingTime = 0
@@ -53,32 +53,35 @@ class Playlist extends Component {
          * Display entries when playlist is not collapsed
          */
 
-        if (!this.props.playlist.collapsed){
-            const removeEntry = this.props.removeEntryFromPlaylist
-            const removeEntryStatus = this.props.removeEntryStatus || {}
-            const playlistEntries = list.map( entry => (
-                        <PlaylistEntry
-                            key={entry.id}
-                            entry={entry}
-                            timeOfPlay={timeOfPlay[entry.id]}
-                            removeEntry={removeEntry}
-                            clearPlaylistEntryNotification={this.props.clearPlaylistEntryNotification}
-                            removeEntryStatus={removeEntryStatus[entry.id]}
-                        />
-            ))
+        const removeEntry = this.props.removeEntryFromPlaylist
+        const removeEntryStatus = this.props.removeEntryStatus || {}
+        const playlistEntries = list.map( entry => (
+            <CSSTransition
+                classNames='add-remove'
+                timeout={{
+                    enter: 300,
+                    exit: 650
+                }}
+                key={entry.id}
+            >
+                <PlaylistEntry
+                    entry={entry}
+                    timeOfPlay={timeOfPlay[entry.id]}
+                    removeEntry={removeEntry}
+                    clearPlaylistEntryNotification={this.props.clearPlaylistEntryNotification}
+                    removeEntryStatus={removeEntryStatus[entry.id]}
+                />
+            </CSSTransition>
+        ))
 
-            playlistContent = (
-                <ReactCSSTransitionGroup
-                    component="ul"
-                    className="listing playlist-list"
-                    transitionName="add-remove"
-                    transitionEnterTimeout={300}
-                    transitionLeaveTimeout={650}
-                >
-                    {playlistEntries}
-                </ReactCSSTransitionGroup>
-                )
-        }
+        const playlistContent = (
+            <TransitionGroup
+                component="ul"
+                className="listing playlist-list"
+            >
+                {playlistEntries}
+            </TransitionGroup>
+        )
 
 
         /**
@@ -129,15 +132,16 @@ class Playlist extends Component {
 
         return (
         <div id="playlist">
-            <ReactCSSTransitionGroup
-                component="div"
-                className="playlist-list-container"
-                transitionName="collapse"
-                transitionEnterTimeout={300}
-                transitionLeaveTimeout={150}
+            <CSSTransitionLazy
+                in={!this.props.playlist.collapsed}
+                classNames="collapse"
+                timeout={{
+                    enter: 300,
+                    exit: 150
+                }}
             >
                 {playlistContent}
-            </ReactCSSTransitionGroup>
+            </CSSTransitionLazy>
             <button
                 className="playlist-summary"
                 onClick={this.props.toogleCollapsedPlaylist}

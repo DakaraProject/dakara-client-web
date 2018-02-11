@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import classNames from 'classnames'
 import { stringify } from 'query-string'
 import PropTypes from 'prop-types'
@@ -53,16 +53,6 @@ class PlaylistEntry extends Component {
             playlistEntryClass.push('delayed')
         }
 
-        let confirmation
-        if (this.state.confirmDisplayed) {
-            confirmation = (
-                <ConfirmationBar
-                    onConfirm={() => {this.props.removeEntry(this.props.entry.id)}}
-                    onCancel={this.clearConfirm}
-                />
-            )
-        }
-
         return (
             <li className={classNames(playlistEntryClass)}>
                 <div className="library-entry-song-compact notifiable">
@@ -94,13 +84,19 @@ class PlaylistEntry extends Component {
                             </button>
                         </IsPlaylistManagerOrOwner>
                     </div>
-                    <ReactCSSTransitionGroup
-                        transitionName="notified"
-                        transitionEnterTimeout={300}
-                        transitionLeaveTimeout={150}
+                    <CSSTransitionLazy
+                        in={this.state.confirmDisplayed}
+                        classNames="notified"
+                        timeout={{
+                            enter: 300,
+                            exit: 150
+                        }}
                     >
-                        {confirmation}
-                    </ReactCSSTransitionGroup>
+                        <ConfirmationBar
+                            onConfirm={() => {this.props.removeEntry(this.props.entry.id)}}
+                            onCancel={this.clearConfirm}
+                        />
+                    </CSSTransitionLazy>
                     <Notification
                         alterationStatus={this.props.removeEntryStatus}
                         pendingMessage="Removing…"

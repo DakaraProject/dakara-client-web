@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { stringify } from 'query-string'
 import PropTypes from 'prop-types'
 

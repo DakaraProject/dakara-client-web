@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
 import { setFormValidationErrors, submitForm, clearForm } from 'actions'
 import { Status } from 'reducers/alterationsStatus'
@@ -429,14 +429,22 @@ class Field extends Component {
         } = this.props
 
         // field error
-        let message
+        let fieldErrorMessages
         if (fieldErrors && !inline) {
-            const messageContent = fieldErrors.map((fieldError, id) => (
+            const fieldErrorContent = fieldErrors.map((fieldError, id) => (
                 <div className="error" key={id}>{fieldError}</div>
             ))
 
-            message = (
-                <div className="notification danger">{messageContent}</div>
+            fieldErrorMessages = (
+                <CSSTransition
+                    classNames="error"
+                    timeout={{
+                        enter: 300,
+                        exit: 150
+                    }}
+                >
+                    <div className="notification danger">{fieldErrorContent}</div>
+                </CSSTransition>
             )
         }
 
@@ -477,13 +485,9 @@ class Field extends Component {
                 </label>
                 <div className="input">
                     {this.subRender(props)}
-                    <ReactCSSTransitionGroup
-                        transitionName="error"
-                        transitionEnterTimeout={300}
-                        transitionLeaveTimeout={100}
-                    >
-                        {message}
-                    </ReactCSSTransitionGroup>
+                    <TransitionGroup>
+                        {fieldErrorMessages}
+                    </TransitionGroup>
                 </div>
             </div>
         )

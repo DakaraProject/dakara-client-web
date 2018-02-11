@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { connect } from 'react-redux'
 import { parse } from 'query-string'
 import Library from './Library'

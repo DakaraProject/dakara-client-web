@@ -107,10 +107,10 @@
                         }
 
                         // notification transition disappearance
-                        &.error-leave {
+                        &.error-exit {
                             max-height: calc(~"1em + " @gap-vertical * 2);
 
-                            &.error-leave-active {
+                            &.error-exit-active {
                                 max-height: 0;
                                 .transition(max-height 100ms ease-out);
                             }
