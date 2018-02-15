@@ -91,15 +91,6 @@ class SongEntry extends Component {
             )
         }
 
-        /**
-         * Expanded details
-         * block containing additional info on song
-         * only displayed when song is expanded
-         */
-
-        if (expanded){
-        }
-
         return (
                 <li className="library-entry listing-entry library-entry-song">
                     <div className="library-entry-song-compact hoverizable notifiable">
@@ -145,7 +136,7 @@ class SongEntry extends Component {
                             exit: 300
                         }}
                     >
-                        <div className='library-entry-song-expanded-container'>
+                        <div className='library-entry-song-expanded-wrapper'>
                             <SongEntryExpanded
                                 song={this.props.song}
                                 location={location}

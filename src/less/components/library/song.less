@@ -196,33 +196,30 @@
         }
     }
 
-    // `library-entry-song-expanded-container` class: wrapper class to enable or
+    // `library-entry-song-expanded-wrapper` class: wrapper class to enable or
     // disable the expanded view.
-    .library-entry-song-expanded-container {
-        // `library-entry-song-expanded-subcontainer` class: second wrapper.
-        // This wrapper is mandatory because `library-entry-song-expanded` is a
-        // table and thus its `max-height` property cannot be animated.
-        .library-entry-song-expanded-subcontainer {
-            // appearance transition of the expanded view
-            &.expand-view-enter {
-                overflow: hidden;
-                max-height: 0;
+    // This wrapper is mandatory because `library-entry-song-expanded` is a
+    // table and thus its `max-height` property cannot be animated.
+    .library-entry-song-expanded-wrapper {
+        // appearance transition of the expanded view
+        &.expand-view-enter {
+            overflow: hidden;
+            max-height: 0;
 
-                &.expand-view-enter-active {
-                    max-height: 10 * 0.75 * @listing-entry-height;
-                    .transition(max-height 600ms ease-out);
-                }
-            }
-
-            // disappearance transition of the expanded view
-            &.expand-view-exit {
-                overflow: hidden;
+            &.expand-view-enter-active {
                 max-height: 10 * 0.75 * @listing-entry-height;
+                .transition(max-height 600ms ease-out);
+            }
+        }
 
-                &.expand-view-exit-active {
-                    max-height: 0;
-                    .transition(max-height 300ms ease-out);
-                }
+        // disappearance transition of the expanded view
+        &.expand-view-exit {
+            overflow: hidden;
+            max-height: 10 * 0.75 * @listing-entry-height;
+
+            &.expand-view-exit-active {
+                max-height: 0;
+                .transition(max-height 300ms ease-out);
             }
         }
     }
