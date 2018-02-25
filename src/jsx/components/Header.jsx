@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import UserWidget from 'components/generics/UserWidget'
+import Tab from 'components/generics/Tab'
 
 class Header extends Component {
     static propTypes = {
@@ -14,62 +15,36 @@ class Header extends Component {
     render() {
         let menu
         if (this.props.isLoggedIn) {
-            let username
+            let userTab
             if (this.props.user) {
-                username = (
-                    <UserWidget
-                        user={this.props.user}
+                userTab = (
+                    <Tab
+                        to="/user"
+                        iconName="user"
+                        name={this.props.user.username}
                     />
                 )
             }
 
             menu = (
                 <nav className="tab-bar menu">
-                    <NavLink
+                    <Tab
                         to="/library"
-                        className="tab squared"
-                        activeClassName="active"
-                    >
-                        <span className="icon">
-                            <i className="fa fa-home"></i>
-                        </span>
-                    </NavLink>
-                    <NavLink
+                        iconName="home"
+                    />
+                    <Tab
                         to="/song-tags"
-                        className="tab squared"
-                        activeClassName="active"
-                    >
-                        <span className="icon">
-                            <i className="fa fa-tags"></i>
-                        </span>
-                    </NavLink>
-                    <NavLink
+                        iconName="tags"
+                    />
+                    <Tab
                         to="/users"
-                        className="tab squared"
-                        activeClassName="active"
-                    >
-                        <span
-                            className="icon"
-                            style={{fontSize: "1em"}}
-                        >
-                            <i className="fa fa-users"></i>
-                        </span>
-                    </NavLink>
-                    <NavLink
-                        to="/user"
-                        className="tab"
-                        activeClassName="active"
-                    >
-                        {username}
-                    </NavLink>
-                    <NavLink
+                        iconName="users"
+                    />
+                    {userTab}
+                    <Tab
                         to="/logout"
-                        className="tab squared"
-                    >
-                        <span className="icon">
-                            <i className="fa fa-sign-out"></i>
-                        </span>
-                    </NavLink>
+                        iconName="sign-out"
+                    />
                 </nav>
             )
         }

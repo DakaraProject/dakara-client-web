@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import LibraryTab from './LibraryTab'
+import Tab from 'components/generics/Tab'
 
 export default class LibraryTabList extends Component {
     static propTypes = {
@@ -19,9 +19,9 @@ export default class LibraryTabList extends Component {
         // Work Types links
         const workTypesTabs = this.props.workTypes.data.results.map(function(workType) {
             return (
-                    <LibraryTab
+                    <Tab
                         key={workType.query_name}
-                        queryName={workType.query_name}
+                        to={`/library/${workType.query_name}`}
                         iconName={workType.icon_name}
                         name={workType.name_plural}
                     />
@@ -30,13 +30,13 @@ export default class LibraryTabList extends Component {
 
         return (
             <nav className="tab-bar library-chooser">
-                <LibraryTab
-                    queryName="song"
+                <Tab
+                    to="/library/song"
                     iconName="bars"
                     extraClassName="home"
                 />
-                <LibraryTab
-                    queryName="artist"
+                <Tab
+                    to="/library/artist"
                     iconName="music"
                     name="Artists"
                 />
