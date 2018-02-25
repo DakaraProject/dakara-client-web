@@ -8,6 +8,7 @@ import { FormBlock, InputField } from 'components/generics/Form'
 import Navigator from 'components/generics/Navigator'
 import { IsUserManager } from 'components/permissions/Users'
 import UserEntry from './Entry'
+import SettingsTabList from '../TabList'
 
 class UserList extends Component {
     static propTypes = {
@@ -67,6 +68,7 @@ class UserList extends Component {
 
         return (
             <div className="box" id="users-list">
+                <SettingsTabList/>
                 <div className="box-header">
                     <h1>Users management</h1>
                 </div>

@@ -30,6 +30,10 @@
 
 ## Unreleased
 
+### Changed
+
+- Users and song tags page moved to settings page
+
 ## 1.1.0 - 2018-01-25
 
 ### Added

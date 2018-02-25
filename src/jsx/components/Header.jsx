@@ -33,12 +33,8 @@ class Header extends Component {
                         iconName="home"
                     />
                     <Tab
-                        to="/song-tags"
-                        iconName="tags"
-                    />
-                    <Tab
-                        to="/users"
-                        iconName="users"
+                        to="/settings"
+                        iconName="cog"
                     />
                     {userTab}
                     <Tab
