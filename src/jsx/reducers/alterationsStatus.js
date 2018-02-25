@@ -1,4 +1,4 @@
-import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE, ALTERATION_STATUS_CLEAR } from 'actions'
+import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE, ALTERATION_STATUS_CLEAR } from 'actions/alterationsStatus'
 
 export const Status = Object.freeze({
     pending: Symbol('pending'),

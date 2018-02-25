@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { getUser, clearUser } from 'actions'
+import { getUser, clearUser } from 'actions/users'
 import { FormBlock, InputField, SelectField, CheckboxField } from 'components/generics/Form'
 import { PermissionBase } from 'components/permissions/Base'
 import { IsUserManager, IsNotSelf } from 'components/permissions/Users'

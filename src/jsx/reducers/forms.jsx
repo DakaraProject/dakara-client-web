@@ -1,4 +1,4 @@
-import { FORM_REQUEST, FORM_SUCCESS, FORM_FAILURE, FORM_CLEAR, FORM_SET_VALIDATION_ERRORS } from '../actions'
+import { FORM_REQUEST, FORM_SUCCESS, FORM_FAILURE, FORM_CLEAR, FORM_SET_VALIDATION_ERRORS } from 'actions/forms'
 import { Status } from 'reducers/alterationsStatus'
 
 /**

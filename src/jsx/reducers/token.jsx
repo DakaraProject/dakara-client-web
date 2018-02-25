@@ -1,6 +1,6 @@
-import { FORM_SUCCESS } from '../actions'
-import { LOGOUT } from '../actions'
-import { SET_TOKEN } from '../actions'
+import { FORM_SUCCESS } from 'actions/forms'
+import { LOGOUT } from 'actions/token'
+import { SET_TOKEN } from 'actions/token'
 
 
 /**

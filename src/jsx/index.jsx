@@ -19,7 +19,7 @@ import SongTagList from 'components/settings/song_tags/List'
 import reducer from  'reducers'
 import fetchApiMiddleware from 'middleware/fetchApi'
 import delayMiddleware from 'middleware/delay'
-import { logout, setToken } from 'actions'
+import { logout, setToken } from 'actions/token'
 
 const store = createStore(
     reducer,

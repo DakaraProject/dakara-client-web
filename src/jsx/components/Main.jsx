@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { loadCurrentUser } from 'actions'
+import { loadCurrentUser } from 'actions/authenticatedUser'
 import Header from './Header'
 import Footer from './Footer'
 import Player from './player/Player'
 import { IsAuthenticated } from 'components/permissions/Base'
-import { loadWorkTypes } from 'actions'
+import { loadWorkTypes } from 'actions/library'
 
 class Main extends Component {
     static propTypes = {

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import { PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE } from 'actions'
-import { PLAYLIST_TOOGLE_COLLAPSED } from 'actions'
+import { PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE } from 'actions/player'
+import { PLAYLIST_TOOGLE_COLLAPSED } from 'actions/player'
 
 /**
  * This reducer contains playlist related state

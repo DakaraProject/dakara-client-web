@@ -7,7 +7,7 @@ import NotFound from 'components/navigation/NotFound'
 import SongList, { getSongLibraryNameInfo } from './song/List'
 import ArtistList, { getArtistLibraryNameInfo } from './artist/List'
 import WorkList, { getWorkLibraryNameInfo } from './work/List'
-import { loadLibraryEntries } from 'actions'
+import { loadLibraryEntries } from 'actions/library'
 
 class List extends Component {
     static propTypes = {

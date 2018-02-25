@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { parse } from 'query-string'
 import PropTypes from 'prop-types'
-import { getSongTagList, editSongTag, clearTagListEntryNotification } from 'actions'
+import { getSongTagList, editSongTag, clearTagListEntryNotification } from 'actions/songTags'
 import Navigator from 'components/generics/Navigator'
 import SongTagEntry from './Entry'
 

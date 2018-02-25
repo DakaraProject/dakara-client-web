@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
-import { FORM_SUCCESS } from 'actions'
-import { TAG_LIST_REQUEST, TAG_LIST_SUCCESS, TAG_LIST_FAILURE } from 'actions'
-import { ALTERATION_FAILURE, ALTERATION_REQUEST } from 'actions'
+import { FORM_SUCCESS } from 'actions/forms'
+import { TAG_LIST_REQUEST, TAG_LIST_SUCCESS, TAG_LIST_FAILURE } from 'actions/songTags'
+import { ALTERATION_FAILURE, ALTERATION_REQUEST } from 'actions/alterationsStatus'
 
 const defaultEntries = {
     data: {

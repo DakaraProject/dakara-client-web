@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import playlist from './playlist'
-import { PLAYER_STATUS_REQUEST, PLAYER_STATUS_SUCCESS, PLAYER_STATUS_FAILURE } from '../actions'
-import { PLAYER_COMMANDS_REQUEST, PLAYER_COMMANDS_SUCCESS, PLAYER_COMMANDS_FAILURE } from '../actions'
+import { PLAYER_STATUS_REQUEST, PLAYER_STATUS_SUCCESS, PLAYER_STATUS_FAILURE } from 'actions/player'
+import { PLAYER_COMMANDS_REQUEST, PLAYER_COMMANDS_SUCCESS, PLAYER_COMMANDS_FAILURE } from 'actions/player'
 import { Status, handleFailureMessage } from './alterationsStatus'
 
 /**

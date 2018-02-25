@@ -1,4 +1,4 @@
-import { LOGOUT } from '../actions'
+import { LOGOUT } from 'actions/token'
 export const FETCH_API = "FETCH_API"
 
 /**

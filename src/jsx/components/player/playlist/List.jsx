@@ -5,8 +5,8 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import { withRouter } from 'react-router-dom'
 import utils from 'utils'
-import { loadPlaylist, toogleCollapsedPlaylist } from 'actions'
-import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions'
+import { loadPlaylist, toogleCollapsedPlaylist } from 'actions/player'
+import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions/player'
 import PlaylistEntry from './Entry'
 
 class Playlist extends Component {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
-import { setFormValidationErrors, submitForm, clearForm } from 'actions'
+import { setFormValidationErrors, submitForm, clearForm } from 'actions/forms'
 import { Status } from 'reducers/alterationsStatus'
 import Notification from 'components/generics/Notification'
 
