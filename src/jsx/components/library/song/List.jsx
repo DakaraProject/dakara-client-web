@@ -31,8 +31,8 @@ class SongList extends Component {
                     song: PropTypes.shape({
                         id: PropTypes.any.isRequired,
                         duration: PropTypes.number.isRequired,
-                        owner: PropTypes.object.isRequired,
                     }).isRequired,
+                    owner: PropTypes.object.isRequired,
                 }),
                 timing: PropTypes.number.isRequired,
             }).isRequired,
