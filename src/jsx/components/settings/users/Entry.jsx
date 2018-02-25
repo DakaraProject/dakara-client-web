@@ -1,12 +1,25 @@
 import React, { Component } from 'react'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
 import { permissionLevels, IsUserManager, IsNotSelf } from 'components/permissions/Users'
 import ControlLink from 'components/generics/ControlLink'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
 
 export default class UserEntry extends Component {
+    static propTypes = {
+        user: PropTypes.shape({
+            id: PropTypes.any.isRequired,
+            is_superuser: PropTypes.bool.isRequired,
+            users_permission_level: PropTypes.string,
+            library_permission_level: PropTypes.string,
+            playlist_permission_level: PropTypes.string,
+        }).isRequired,
+        clearUsersEntryNotification: PropTypes.func.isRequired,
+        deleteUser: PropTypes.func.isRequired,
+    }
+
     state = {
         confirmDisplayed: false
     }

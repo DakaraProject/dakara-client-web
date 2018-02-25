@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Highlighter from 'react-highlight-words'
+import PropTypes from 'prop-types'
 import utils from 'utils'
 import WorkLink from './WorkLink'
 import SongArtistList from './SongArtistList'
@@ -15,6 +16,25 @@ import SongTagList from './SongTagList'
  * - noTag: don't diplay tags
  */
 export default class Song extends Component {
+    static propTypes = {
+        song: PropTypes.shape({
+            title: PropTypes.string.isRequired,
+            version: PropTypes.string,
+            works: PropTypes.arrayOf(
+                PropTypes.object
+            ).isRequired,
+            artits: PropTypes.arrayOf(
+                PropTypes.object
+            ), // should be isRequired
+            noArtistWork: PropTypes.bool,
+            duration: PropTypes.number.isRequired,
+            noDuration: PropTypes.bool,
+            tags: PropTypes.array.isRequired,
+            noTag: PropTypes.bool,
+        }).isRequired,
+        query: PropTypes.object, // should be isRequired
+    }
+
     render() {
         const song = this.props.song
 

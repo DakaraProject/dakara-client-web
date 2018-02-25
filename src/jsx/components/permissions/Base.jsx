@@ -1,8 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 export class PermissionBase extends Component {
+    static propTypes = {
+        user: PropTypes.object, // TODO should be isRequired
+        object: PropTypes.any,
+        disable: PropTypes.bool,
+    }
+
     _hasPermission = () => {
         const { user, object } = this.props
         return this.constructor.hasPermission(

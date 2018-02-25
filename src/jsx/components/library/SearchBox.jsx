@@ -3,6 +3,17 @@ import { parse, stringify } from 'query-string'
 import PropTypes from 'prop-types'
 
 class SearchBox extends Component {
+    static propTypes = {
+        location: PropTypes.object.isRequired,
+        placeholder: PropTypes.string.isRequired,
+    }
+
+    static contextTypes = {
+        router: PropTypes.shape({
+            history: PropTypes.object.isRequired
+        })
+    }
+
     state = {
         query: ""
     }
@@ -82,12 +93,6 @@ class SearchBox extends Component {
             </form>
         )
     }
-}
-
-SearchBox.contextTypes = {
-    router: PropTypes.shape({
-        history: PropTypes.object.isRequired
-    })
 }
 
 export default SearchBox

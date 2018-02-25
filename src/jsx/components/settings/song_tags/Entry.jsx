@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import classNames from 'classnames'
 import { FormInline, CheckboxField, HueField } from 'components/generics/Form'
@@ -6,6 +7,20 @@ import Notification from 'components/generics/Notification'
 import { Status } from 'reducers/alterationsStatus'
 
 export default class SongTagEntry extends Component {
+    static propTypes = {
+        tag: PropTypes.shape({
+            id: PropTypes.any.isRequired,
+            color_hue: PropTypes.number.isRequired,
+            name: PropTypes.string.isRequired,
+            disabled: PropTypes.bool.isRequired,
+        }).isRequired,
+        editStatus: PropTypes.shape({
+            status: PropTypes.symbol,
+        }),
+        editSongTag: PropTypes.func.isRequired,
+        formResponse: PropTypes.object, // should be isRequired
+    }
+
     state = {
         colorFormDisplayed: false
     }

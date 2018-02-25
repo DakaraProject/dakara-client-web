@@ -1,8 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 class UserWidget extends Component {
+    static propTypes = {
+        user: PropTypes.shape({
+            username: PropTypes.string.isRequired,
+            id: PropTypes.any.isRequired,
+        }).isRequired,
+        currentUser: PropTypes.shape({
+            id: PropTypes.any.isRequired,
+        }).isRequired,
+    }
+
     render() {
         const { user, currentUser, className } = this.props
         const isCurrentUser = currentUser && currentUser.id == user.id

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import { loadCurrentUser } from 'actions'
 import Header from './Header'
 import Footer from './Footer'
@@ -9,6 +10,12 @@ import { IsAuthenticated } from 'components/permissions/Base'
 import { loadWorkTypes } from 'actions'
 
 class Main extends Component {
+    static propTypes = {
+        isLoggedIn: PropTypes.bool.isRequired,
+        loadCurrentUser: PropTypes.func.isRequired,
+        loadWorkTypes: PropTypes.func.isRequired,
+    }
+
     componentWillMount() {
         if (this.props.isLoggedIn) {
             this.props.loadCurrentUser()

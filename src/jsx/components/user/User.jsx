@@ -1,10 +1,22 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import { FormBlock, InputField } from 'components/generics/Form'
 import { permissionLevels } from 'components/permissions/Users'
 
 class User extends Component {
+    static propTypes = {
+        user: PropTypes.shape({
+            id: PropTypes.any.isRequired,
+            username: PropTypes.string.isRequired,
+            is_superuser: PropTypes.bool.isRequired,
+            users_permission_level: PropTypes.string,
+            library_permission_level: PropTypes.string,
+            playlist_permission_level: PropTypes.string,
+        }).isRequired,
+    }
+
     render() {
         const { user } = this.props
         let permissions = []

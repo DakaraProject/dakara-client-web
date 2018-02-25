@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
 import { setFormValidationErrors, submitForm, clearForm } from 'actions'
@@ -7,6 +8,25 @@ import { Status } from 'reducers/alterationsStatus'
 import Notification from 'components/generics/Notification'
 
 class Form extends Component {
+    static propTypes = {
+        method: PropTypes.string,
+        submitClass: PropTypes.string,
+        submitText: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.element,
+        ]).isRequired,
+        formResponse: PropTypes.object, // TODO should be isRequired
+        noClearOnSuccess: PropTypes.bool,
+        onSuccess: PropTypes.func,
+        setFormValidationErrors: PropTypes.func.isRequired,
+        submitForm: PropTypes.func.isRequired,
+        clearForm: PropTypes.func.isRequired,
+        formName: PropTypes.string.isRequired,
+        validate: PropTypes.func,
+        action: PropTypes.string.isRequired,
+        title: PropTypes.string,
+    }
+
     static defaultProps = {
         method: "POST",
         submitClass: "primary",
@@ -14,8 +34,7 @@ class Form extends Component {
     }
 
     state = {
-        formValues: {
-        }
+        formValues: {}
     }
 
     setDefaultFormValues = () => {
@@ -137,7 +156,6 @@ class Form extends Component {
             formName,
             action,
             method,
-            excludedFields,
             submitForm,
             children
         } = this.props
@@ -385,7 +403,7 @@ export { FormInline }
  * - label <str/jsx>: Label of the field.
  *
  * Optional properties:
- * - defaultValue <str>: Pre-fill field with given value.
+ * - defaultValue <any>: Pre-fill field with given value.
  * - validate <func>: Called on submit, with the following params:
  *                          - value of the field
  *                          - object containing all fields values.
@@ -405,6 +423,23 @@ export { FormInline }
  * Extra properties are passed to the field tag.
  */
 class Field extends Component {
+    static propTypes = {
+        id: PropTypes.string.isRequired,
+        label: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.element,
+        ]),
+        defaultValue: PropTypes.any,
+        validate: PropTypes.func,
+        required: PropTypes.bool,
+        ignore: PropTypes.bool,
+        ignoreIfEmpty: PropTypes.bool,
+        setValue: PropTypes.func,
+        value: PropTypes.any,
+        fieldErrors: PropTypes.array,
+        disabled: PropTypes.bool,
+        inline: PropTypes.bool
+    }
 
     static getEmptyValue() {
         return ""
@@ -571,6 +606,17 @@ export class InputField extends Field {
  * Extra properties are passed to the select tag.
  */
 export class SelectField extends Field {
+    static propTypes = {
+        ...Field.propTypes,
+        options: PropTypes.arrayOf(PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            value: PropTypes.any, // TODO should be isRequired, but if the value
+                                  // is null, an error is raised; this is a feature:
+                                  // https://github.com/facebook/react/issues/3163
+        }).isRequired).isRequired,
+        defaultValue: PropTypes.string,
+    }
+
     static getEmptyValue() {
         return null
     }
@@ -625,9 +671,9 @@ export class SelectField extends Field {
  * - label <str/jsx>: Label of the field.
  *
  * Optional properties:
- * - defaultValue <str>: Pre-fill field with given value.
+ * - defaultValue <bool>: Pre-fill field with given value.
  * - inline <bool>: If true do not render label.
- * - toggle <book>: If true, display as toggle instead of checkbox.
+ * - toggle <bool>: If true, display as toggle instead of checkbox.
  * - validate <func>: Called on submit, with the following params:
  *                          - value of the field
  *                          - object containing all fields values.
@@ -647,6 +693,13 @@ export class SelectField extends Field {
  * Extra properties are passed to the input tag.
  */
 export class CheckboxField extends Field {
+    static propTypes = {
+        ...Field.propTypes,
+        defaultValue: PropTypes.bool,
+        value: PropTypes.bool,
+        toggle: PropTypes.bool,
+    }
+
     static getEmptyValue() {
         return false
     }
@@ -689,7 +742,7 @@ export class CheckboxField extends Field {
  * - label <str/jsx>: Label of the field.
  *
  * Optional properties:
- * - defaultValue <str>: Pre-fill field with given value.
+ * - defaultValue <number>: Pre-fill field with given value.
  * - inline <bool>: If true do not render label.
  * - validate <func>: Called on submit, with the following params:
  *                          - value of the field
@@ -710,6 +763,12 @@ export class CheckboxField extends Field {
  * Extra properties are passed to the input tag.
  */
 export class HueField extends Field {
+    static propTypes = {
+        ...Field.propTypes,
+        defaultValue: PropTypes.number,
+        value: PropTypes.number,
+    }
+
     static getEmptyValue() {
         return 0
     }

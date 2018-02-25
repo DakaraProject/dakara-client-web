@@ -1,6 +1,13 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 export default class ConfirmationBar extends Component {
+    static propTypes = {
+        message: PropTypes.string,
+        onConfirm: PropTypes.func.isRequired,
+        onCancel: PropTypes.func.isRequired,
+    }
+
     static defaultProps = {
         message: "Are you sure?",
     }

@@ -6,6 +6,35 @@ import SongEntryExpandedWork from './EntryExpandedWork'
 import SongEntryExpandedArtist from './EntryExpandedArtist'
 
 class SongEntryExpanded extends Component {
+    static propTypes = {
+        location: PropTypes.object.isRequired,
+        song: PropTypes.shape({
+            works: PropTypes.arrayOf(PropTypes.shape({
+                work: PropTypes.shape({
+                    work_type: PropTypes.shape({
+                        query_name: PropTypes.string.isRequired,
+                    }).isRequired,
+                }).isRequired,
+            }).isRequired).isRequired,
+            artists: PropTypes.arrayOf(PropTypes.shape({
+                id: PropTypes.any.isRequired,
+            }).isRequired).isRequired,
+            detail: PropTypes.string,
+            detail_video: PropTypes.string,
+            lyrics: PropTypes.shape({
+                truncated: PropTypes.bool.isRequired,
+                text: PropTypes.string.isRequired
+            }),
+            tags: PropTypes.array.isRequired,
+        }).isRequired,
+    }
+
+    static contextTypes = {
+        router: PropTypes.shape({
+            history: PropTypes.object.isRequired
+        })
+    }
+
     /**
      * Method used by child components WorkEntry and ArtistsEnty
      * to set new search criteria
@@ -28,10 +57,10 @@ class SongEntryExpanded extends Component {
         // Generate object containing works by type
         const worksByType = {}
 
-        for(let workItem of song.works) {
+        for (let workItem of song.works) {
             const workType = workItem.work.work_type.query_name
             let list = worksByType[workType]
-            if(!list) {
+            if (!list) {
                 list = []
                 worksByType[workType] = list
             }
@@ -191,12 +220,6 @@ class SongEntryExpanded extends Component {
                 </div>
             )
     }
-}
-
-SongEntryExpanded.contextTypes = {
-    router: PropTypes.shape({
-        history: PropTypes.object.isRequired
-    })
 }
 
 export default SongEntryExpanded

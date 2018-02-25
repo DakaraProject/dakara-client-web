@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import { getUser, clearUser } from 'actions'
 import { FormBlock, InputField, SelectField, CheckboxField } from 'components/generics/Form'
 import { PermissionBase } from 'components/permissions/Base'
@@ -8,6 +9,26 @@ import NotFound from 'components/navigation/NotFound'
 import Forbidden from 'components/navigation/Forbidden'
 
 class UsersEdit extends Component {
+    static propTypes = {
+        user: PropTypes.shape({
+            username: PropTypes.string.isRequired,
+            is_superuser: PropTypes.bool.isRequired,
+            users_permission_level: PropTypes.string,
+            library_permission_level: PropTypes.string,
+            playlist_permission_level: PropTypes.string,
+        }),
+        isFetching: PropTypes.bool.isRequired,
+        authenticatedUser: PropTypes.object.isRequired,
+        location: PropTypes.object.isRequired,
+        match: PropTypes.shape({
+            params: PropTypes.shape({
+                userId: PropTypes.any.isRequired,
+            }).isRequired,
+        }).isRequired,
+        getUser: PropTypes.func.isRequired,
+        clearUser: PropTypes.func.isRequired,
+    }
+
     componentWillMount() {
         const userId = this.props.match.params.userId
         this.props.getUser(userId)
@@ -18,7 +39,7 @@ class UsersEdit extends Component {
     }
 
     render() {
-        const { location, user, isFetching } = this.props
+        const { location, user, isFetching, authenticatedUser } = this.props
 
         // render nothing if the user is being fetched
         if (isFetching) {
@@ -26,7 +47,6 @@ class UsersEdit extends Component {
         }
 
         // render an error page if the current user has no right to display the page
-        const { authenticatedUser } = this.props
         const userId = this.props.match.params.userId
         const fakeUser = {id: userId}
         if (!(PermissionBase.hasPermission(authenticatedUser, fakeUser, IsUserManager) &&
@@ -126,7 +146,10 @@ const mapStateToProps = (state) => ({
 
 UsersEdit = connect(
     mapStateToProps,
-    { getUser, clearUser }
+    {
+        getUser,
+        clearUser,
+    }
 )(UsersEdit)
 
 export default UsersEdit

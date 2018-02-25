@@ -1,8 +1,22 @@
 import React, { Component } from 'react'
 import { parse, stringify } from 'query-string'
+import PropTypes from 'prop-types'
 import ControlLink from './ControlLink'
 
 export default class Navigator extends Component {
+    static propTypes = {
+        location: PropTypes.object.isRequired,
+        names: PropTypes.shape({
+            singular: PropTypes.string.isRequired,
+            plural: PropTypes.string.isRequired,
+        }), // should be isRequired
+        data: PropTypes.shape({
+            current: PropTypes.number, // should be isRequired
+            last: PropTypes.number, // should be isRequired
+            count: PropTypes.number, // should be isRequired
+        }).isRequired,
+    }
+
     render() {
         const { location, names } = this.props
         const { current, last, count } = this.props.data

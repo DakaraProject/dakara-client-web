@@ -1,10 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import ArtistEntry from './Entry'
 import ListWrapper from '../ListWrapper'
 import Navigator from 'components/generics/Navigator'
 
 class ArtistList extends Component {
+    static propTypes = {
+        entries: PropTypes.shape({
+            data: PropTypes.object.isRequired,
+        }).isRequired,
+    }
+
     render() {
         const { entries } = this.props
         const artists = entries.data.results

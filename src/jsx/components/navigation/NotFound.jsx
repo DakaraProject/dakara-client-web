@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 export default class NotFound extends Component {
+    static propTypes = {
+        location: PropTypes.object.isRequired,
+    }
+
     render() {
         const url = this.props.location.pathname
         return (

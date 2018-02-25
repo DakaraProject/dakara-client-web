@@ -3,6 +3,19 @@ import { stringify } from 'query-string'
 import PropTypes from 'prop-types'
 
 class ArtistEntry extends Component {
+    static propTypes = {
+        artist: PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            song_count: PropTypes.number.isRequired,
+        }).isRequired,
+    }
+
+    static contextTypes = {
+        router: PropTypes.shape({
+            history: PropTypes.object.isRequired
+        })
+    }
+
     handleSearch = () => {
         const newQuery = `artist:""${this.props.artist.name}""`
         this.context.router.history.push({
@@ -32,12 +45,6 @@ class ArtistEntry extends Component {
                 </li>
         )
     }
-}
-
-ArtistEntry.contextTypes = {
-    router: PropTypes.shape({
-        history: PropTypes.object.isRequired
-    })
 }
 
 export default ArtistEntry

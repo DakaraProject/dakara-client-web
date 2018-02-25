@@ -11,6 +11,25 @@ import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
 
 class PlaylistEntry extends Component {
+    static propTypes = {
+        entry: PropTypes.shape({
+            id: PropTypes.any.isRequired,
+            song: PropTypes.shape({
+                id: PropTypes.any.isRequired,
+                title: PropTypes.string.isRequired,
+            }).isRequired,
+            owner: PropTypes.object.isRequired,
+        }).isRequired,
+        timeOfPlay: PropTypes.number.isRequired,
+        removeEntryStatus: PropTypes.object,
+    }
+
+    static contextTypes = {
+        router: PropTypes.shape({
+            history: PropTypes.object.isRequired
+        })
+    }
+
     state = {
         confirmDisplayed: false
     }
@@ -108,12 +127,6 @@ class PlaylistEntry extends Component {
             </li>
         )
     }
-}
-
-PlaylistEntry.contextTypes = {
-    router: PropTypes.shape({
-        history: PropTypes.object.isRequired
-    })
 }
 
 export default PlaylistEntry

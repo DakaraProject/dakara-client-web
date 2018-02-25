@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { parse } from 'query-string'
+import PropTypes from 'prop-types'
 import { deleteUser, getUsers, clearUsersEntryNotification } from 'actions'
 import { FormBlock, InputField } from 'components/generics/Form'
 import Navigator from 'components/generics/Navigator'
@@ -9,6 +10,23 @@ import { IsUserManager } from 'components/permissions/Users'
 import UserEntry from './Entry'
 
 class UserList extends Component {
+    static propTypes = {
+        location: PropTypes.object.isRequired,
+        entries: PropTypes.shape({
+            data: PropTypes.shape({
+                results: PropTypes.arrayOf(
+                    PropTypes.shape({
+                        id: PropTypes.any.isRequired,
+                    })
+                ).isRequired,
+            }).isRequired,
+        }).isRequired,
+        deleteStatusList: PropTypes.object,
+        deleteUser: PropTypes.func.isRequired,
+        clearUsersEntryNotification: PropTypes.func.isRequired,
+        getUsers: PropTypes.func.isRequired,
+    }
+
     componentWillMount() {
         this.refreshEntries()
     }
@@ -28,7 +46,7 @@ class UserList extends Component {
     }
 
     render() {
-        const {deleteUser, entries, deleteStatusList, location } = this.props
+        const { entries, deleteStatusList, location } = this.props
 
         const userList = entries.data.results.map((user) => {
             let deleteStatus
@@ -41,7 +59,7 @@ class UserList extends Component {
                     key={user.id}
                     user={user}
                     deleteStatus={deleteStatus}
-                    deleteUser={deleteUser}
+                    deleteUser={this.props.deleteUser}
                     clearUsersEntryNotification={this.props.clearUsersEntryNotification}
                 />
             )

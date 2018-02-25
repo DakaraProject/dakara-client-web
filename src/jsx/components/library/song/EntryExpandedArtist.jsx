@@ -1,6 +1,13 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 export default class SongEntryExpandedArtist extends Component {
+    static propTypes = {
+        artist: PropTypes.shape({
+            name: PropTypes.string.isRequired,
+        }).isRequired,
+    }
+
     handleSearchArtist = () => {
         this.props.setQuery(`artist:""${this.props.artist.name}""`)
     }

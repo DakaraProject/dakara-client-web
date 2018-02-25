@@ -2,9 +2,15 @@ import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import UserWidget from 'components/generics/UserWidget'
 
 class Header extends Component {
+    static propTypes = {
+        user: PropTypes.object,
+        isLoggedIn: PropTypes.bool.isRequired,
+    }
+
     render() {
         let menu
         if (this.props.isLoggedIn) {

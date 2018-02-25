@@ -1,10 +1,45 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import SongEntry from './Entry'
 import ListWrapper from '../ListWrapper'
 import Navigator from 'components/generics/Navigator'
 
 class SongList extends Component {
+    static propTypes = {
+        entries: PropTypes.shape({
+            data: PropTypes.shape({
+                results: PropTypes.arrayOf(PropTypes.shape({
+                    id: PropTypes.any.isRequired,
+
+                }).isRequired).isRequired
+            }).isRequired,
+            isFetching: PropTypes.bool.isRequired,
+            fetchError: PropTypes.bool.isRequired,
+        }).isRequired,
+        playlistEntries: PropTypes.shape({
+            results: PropTypes.arrayOf(PropTypes.shape({
+                song: PropTypes.shape({
+                    id: PropTypes.any.isRequired,
+                }).isRequired,
+                owner: PropTypes.object.isRequired,
+            }).isRequired).isRequired,
+        }).isRequired,
+        playerStatus: PropTypes.shape({
+            status: PropTypes.shape({
+                playlist_entry: PropTypes.shape({
+                    song: PropTypes.shape({
+                        id: PropTypes.any.isRequired,
+                        duration: PropTypes.number.isRequired,
+                        owner: PropTypes.object.isRequired,
+                    }).isRequired,
+                }),
+                timing: PropTypes.number.isRequired,
+            }).isRequired,
+        }).isRequired,
+        location: PropTypes.object.isRequired,
+    }
+
     render() {
         const { entries } = this.props
         const songs = entries.data.results

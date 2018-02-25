@@ -15,6 +15,28 @@ import { IsPlaylistUser } from 'components/permissions/Playlist'
 import Notification from 'components/generics/Notification'
 
 class SongEntry extends Component {
+    static propTypes = {
+        song: PropTypes.shape({
+            id: PropTypes.any.isRequired,
+        }).isRequired,
+        location: PropTypes.object.isRequired,
+        query: PropTypes.object,
+        playlistInfo: PropTypes.shape({
+            isPlaying: PropTypes.bool,
+            timeOfPlay: PropTypes.number,
+            owner: PropTypes.object,
+        }),
+        addSongStatus: PropTypes.object,
+        addSongToPlaylist: PropTypes.func.isRequired,
+        clearSongListNotification: PropTypes.func.isRequired,
+    }
+
+    static contextTypes = {
+        router: PropTypes.shape({
+            history: PropTypes.object.isRequired
+        })
+    }
+
     componentWillUnmount() {
         this.props.clearSongListNotification(this.props.song.id)
     }
@@ -146,12 +168,6 @@ class SongEntry extends Component {
                 </li>
         )
     }
-}
-
-SongEntry.contextTypes = {
-    router: PropTypes.shape({
-        history: PropTypes.object.isRequired
-    })
 }
 
 const mapStateToProps = (state, ownProps) => ({

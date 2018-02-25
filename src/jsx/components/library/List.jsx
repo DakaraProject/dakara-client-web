@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { parse } from 'query-string'
+import PropTypes from 'prop-types'
 import Library from './Library'
 import NotFound from 'components/navigation/NotFound'
 import SongList, { getSongLibraryNameInfo } from './song/List'
@@ -9,6 +10,17 @@ import WorkList, { getWorkLibraryNameInfo } from './work/List'
 import { loadLibraryEntries } from 'actions'
 
 class List extends Component {
+    static propTypes = {
+        workTypes: PropTypes.object.isRequired,
+        location: PropTypes.object.isRequired,
+        match: PropTypes.shape({
+            params: PropTypes.shape({
+                libraryType: PropTypes.string.isRequired,
+            }).isRequired,
+        }).isRequired,
+        loadLibraryEntries: PropTypes.func.isRequired,
+    }
+
     componentDidMount() {
         this.refreshEntries()
     }

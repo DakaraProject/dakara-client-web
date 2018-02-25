@@ -4,6 +4,16 @@ import PropTypes from 'prop-types'
 import { logout } from 'actions'
 
 class Logout extends Component {
+    static propTypes = {
+        logout: PropTypes.func.isRequired,
+    }
+
+    static contextTypes = {
+        router: PropTypes.shape({
+            history: PropTypes.object.isRequired
+        })
+    }
+
     componentWillMount() {
         this.props.logout()
         this.context.router.history.push('/login')
@@ -12,12 +22,6 @@ class Logout extends Component {
     render() {
         return null
     }
-}
-
-Logout.contextTypes = {
-    router: PropTypes.shape({
-        history: PropTypes.object.isRequired
-    })
 }
 
 Logout = connect(

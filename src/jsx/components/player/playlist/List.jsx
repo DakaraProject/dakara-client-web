@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import { withRouter } from 'react-router-dom'
@@ -9,6 +10,46 @@ import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions
 import PlaylistEntry from './Entry'
 
 class Playlist extends Component {
+    static propTypes = {
+        playlist: PropTypes.shape({
+            entries: PropTypes.shape({
+                data: PropTypes.shape({
+                    results: PropTypes.arrayOf(PropTypes.shape({
+                        id: PropTypes.any.isRequired,
+                        song: PropTypes.shape({
+                            duration: PropTypes.number.isRequired,
+                            title: PropTypes.string.isRequired,
+                        }).isRequired,
+                    }).isRequired).isRequired,
+                    count: PropTypes.number.isRequired,
+                }),
+                isFetching: PropTypes.bool.isRequired,
+            }).isRequired,
+            collapsed: PropTypes.bool.isRequired,
+        }).isRequired,
+        playerStatus: PropTypes.shape({
+            data: PropTypes.shape({
+                status: PropTypes.shape({
+                    playlist_entry: PropTypes.shape({
+                        song: PropTypes.shape({
+                            duration: PropTypes.number.isRequired,
+                        }).isRequired,
+                    }),
+                }).isRequired,
+            }).isRequired,
+            timing: PropTypes.number,
+        }).isRequired,
+        removeEntryStatus: PropTypes.object,
+        loadPlaylist: PropTypes.func.isRequired,
+        toogleCollapsedPlaylist: PropTypes.func.isRequired,
+        removeEntryFromPlaylist: PropTypes.func.isRequired,
+        clearPlaylistEntryNotification: PropTypes.func.isRequired,
+    }
+
+    static defaultProps = {
+        removeEntryStatus: {},
+    }
+
     pollPlaylist = () => {
         if (!this.props.playlist.entries.isFetching) {
             this.props.loadPlaylist()
@@ -43,7 +84,7 @@ class Playlist extends Component {
 
         //compute time when each song is going to be played
         const timeOfPlay = {}
-        for(let entry of list){
+        for (let entry of list) {
             timeOfPlay[entry.id] = currentTime + remainingTime * 1000
             remainingTime += +(entry.song.duration)
         }
@@ -54,7 +95,7 @@ class Playlist extends Component {
          */
 
         const removeEntry = this.props.removeEntryFromPlaylist
-        const removeEntryStatus = this.props.removeEntryStatus || {}
+        const removeEntryStatus = this.props.removeEntryStatus
         const playlistEntries = list.map( entry => (
             <CSSTransition
                 classNames='add-remove'

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import classNames from 'classnames'
@@ -14,6 +15,26 @@ import { Status } from 'reducers/alterationsStatus'
 import PlayerNotification from './Notification'
 
 class Player extends Component {
+    static propTypes = {
+        playerStatus: PropTypes.shape({
+            data: PropTypes.shape({
+                errors: PropTypes.array.isRequired,
+            }),
+            isFetching: PropTypes.bool.isRequired,
+            fetchError: PropTypes.bool.isRequired,
+        }).isRequired,
+        commands: PropTypes.shape({
+            pause: PropTypes.shape({
+                status: PropTypes.symbol,
+            }).isRequired,
+            skip: PropTypes.shape({
+                status: PropTypes.symbol,
+            }).isRequired,
+        }).isRequired,
+        loadPlayerStatus: PropTypes.func.isRequired,
+        sendPlayerCommands: PropTypes.func.isRequired,
+    }
+
     pollPlayerStatus = () => {
         if (!this.props.playerStatus.isFetching) {
             this.props.loadPlayerStatus()
@@ -239,7 +260,10 @@ const mapStateToProps = (state) => ({
 
 Player = withRouter(connect(
     mapStateToProps,
-    { loadPlayerStatus, sendPlayerCommands }
+    {
+        loadPlayerStatus,
+        sendPlayerCommands,
+    }
 )(Player))
 
 export default Player

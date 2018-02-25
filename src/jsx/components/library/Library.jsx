@@ -1,13 +1,19 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import LibraryTabList from './LibraryTabList'
 import SearchBox from './SearchBox'
 
 class Library extends Component {
-    render() {
-        const location = this.props.location
-        const workTypes = this.props.workTypes
+    static propTypes = {
+        location: PropTypes.object.isRequired,
+        workTypes: PropTypes.object.isRequired,
+        nameInfo: PropTypes.shape({
+            placeholder: PropTypes.string.isRequired,
+        }).isRequired
+    }
 
-        const libraryNameInfo = this.props.nameInfo
+    render() {
+        const { location, workTypes, nameInfo } = this.props
 
         return (
             <div id="library" className="box">
@@ -16,7 +22,7 @@ class Library extends Component {
                 />
 
                 <SearchBox
-                    placeholder={libraryNameInfo.placeholder}
+                    placeholder={nameInfo.placeholder}
                     location={location}
                 />
 

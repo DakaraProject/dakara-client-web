@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import Delayer from 'components/generics/Delayer'
 
 export default class ListWrapper extends Component {
+    static propTypes = {
+        isFetching: PropTypes.bool.isRequired,
+        fetchError: PropTypes.bool.isRequired,
+    }
+
     render() {
         const { isFetching, fetchError } = this.props
 

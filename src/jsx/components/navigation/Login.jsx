@@ -2,9 +2,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { parse } from 'query-string'
+import PropTypes from 'prop-types'
 import { FormBlock, InputField } from 'components/generics/Form'
 
 class Login extends Component {
+    static propTypes = {
+        isLoggedIn: PropTypes.bool.isRequired,
+        location: PropTypes.object.isRequired,
+    }
+
     render() {
         const { isLoggedIn } = this.props
 

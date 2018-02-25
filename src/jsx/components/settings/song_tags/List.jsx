@@ -2,11 +2,30 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { parse } from 'query-string'
+import PropTypes from 'prop-types'
 import { getSongTagList, editSongTag, clearTagListEntryNotification } from 'actions'
 import Navigator from 'components/generics/Navigator'
 import SongTagEntry from './Entry'
 
 class SongTagList extends Component {
+    static propTypes = {
+        location: PropTypes.object.isRequired,
+        entries: PropTypes.shape({
+            data: PropTypes.shape({
+                results: PropTypes.arrayOf(
+                    PropTypes.shape({
+                        id: PropTypes.any.isRequired,
+                    }).isRequired,
+                ),
+            }).isRequired,
+        }).isRequired,
+        editStatus: PropTypes.object,
+        formsResponse: PropTypes.object.isRequired,
+        editSongTag: PropTypes.func.isRequired,
+        getSongTagList: PropTypes.func.isRequired,
+        clearTagListEntryNotification: PropTypes.func.isRequired,
+    }
+
     componentWillMount() {
         this.refreshEntries()
     }

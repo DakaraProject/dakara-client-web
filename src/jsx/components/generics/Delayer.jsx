@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 export default class Delayer extends Component {
+    static propTypes = {
+        delay: PropTypes.number.isRequired,
+    }
+
     state = {display: false}
 
     componentDidMount() {

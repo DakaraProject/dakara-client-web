@@ -1,7 +1,20 @@
 import React, { Component } from 'react'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
 
 export default class SongTagList extends Component {
+    static propTypes = {
+        tags: PropTypes.arrayOf(
+            PropTypes.shape({
+                color_hue: PropTypes.number.isRequired,
+                name: PropTypes.string.isRequired,
+            })
+        ).isRequired,
+        setQuery: PropTypes.func,
+        query: PropTypes.object,
+        unclickable: PropTypes.bool,
+    }
+
     render() {
         const songTagClassArray = ['tag']
 

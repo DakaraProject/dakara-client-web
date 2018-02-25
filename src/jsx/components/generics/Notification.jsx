@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
 import { Status } from 'reducers/alterationsStatus'
@@ -13,7 +14,27 @@ const notificationTypes = {
  * Notification message
  */
 export default class Notification extends Component {
-    state = {display: true}
+    static propTypes = {
+        pendingMessage: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.string,
+        ]),
+        successfulMessage: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.string,
+        ]),
+        failedMessage: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.string,
+        ]),
+        pendingDuration: PropTypes.number,
+        successfulDuration: PropTypes.number,
+        failedDuration: PropTypes.number,
+        alterationStatus: PropTypes.shape({
+            status: PropTypes.symbol,
+            message: PropTypes.string,
+        }),
+    }
 
     static defaultProps = {
         pendingMessage: 'Pending…',
@@ -24,16 +45,18 @@ export default class Notification extends Component {
         failedDuration: 5000,
     }
 
+    state = {display: true}
+
     componentDidMount() {
         this.setNotificationClearTimeout()
     }
 
     componentDidUpdate(prevProps) {
         const alterationStatus = this.props.alterationStatus
-        const prevRequestStatus = prevProps.alterationStatus
+        const prevAlterationStatus = prevProps.alterationStatus
 
         const status = alterationStatus ? alterationStatus.status : null
-        const prevStatus = prevRequestStatus ? prevRequestStatus.status : null
+        const prevStatus = prevAlterationStatus ? prevAlterationStatus.status : null
         if (status != prevStatus) {
             if (this.timeout) {
                 clearTimeout(this.timeout)
