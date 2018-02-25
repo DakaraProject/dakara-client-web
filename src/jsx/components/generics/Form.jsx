@@ -652,11 +652,11 @@ export class CheckboxField extends Field {
     }
 
     subRender = (args) => {
-        const { value, toggle, ...remainingProps } = args
+        const { value, toggle, ...remainingArgs } = args
         const { id, setValue } = this.props
 
-        // remove props from remaining
-        const { onChange, ...remaining } = remainingProps
+        // remove onChange from remaining args
+        const { onChange, ...remaining } = remainingArgs
 
         const className = toggle ? "toggle-input" : "checkbox-input"
 
@@ -715,7 +715,10 @@ export class HueField extends Field {
     }
 
     subRender = (args) => {
-        const { value } = this.props
+        const { id, setValue, value } = this.props
+
+        // remove onChange from args
+        const { onChange, ...remaining } = args
 
         return (
             <div className="hue-input">
@@ -732,7 +735,8 @@ export class HueField extends Field {
                         min="0"
                         max="360"
                         step="5"
-                        {...args}
+                        onChange={e => {setValue(id, parseInt(e.target.value))}}
+                        {...remaining}
                     />
                 </div>
             </div>
