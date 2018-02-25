@@ -3,14 +3,14 @@ const path = require('path');
 
 module.exports = {
   entry: [
-    './src/jsx/index.js',
+    './src/jsx/index.jsx',
     './src/less/main.less'
   ],
   module: {
     loaders: [
       {
           loader: "babel-loader",
-          test: /\.js$/,
+          test: /\.jsx?$/,
           include: path.resolve(__dirname, 'src/jsx')
       },
       {
@@ -29,6 +29,14 @@ module.exports = {
           })
       }
     ]
+  },
+  resolve: {
+    modules: [
+      path.resolve('.'),
+      path.resolve('./src/jsx'),
+      path.resolve('./node_modules')
+    ],
+    extensions: ['.js', '.jsx']
   },
   output: {
     filename: "dakara.js",

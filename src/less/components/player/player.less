@@ -1,0 +1,165 @@
+//
+// Dakara Project
+//
+// Player style file
+//
+
+
+@import "playlist";
+
+
+// `player` id:
+//
+// This component stylizes the player, containing controls, song info and a
+// progression bar.
+#player {
+    background: @brand-primary-darker;
+
+    // `display-area` class: the main part of the player displays the current
+    // song, its numerical progression and the controls of the player.
+    .display-area {
+        display: flex;
+        align-items: center;
+        padding: @gap-vertical 0;
+        @player-controls-height: 7rem;
+
+        // `controls` subclass: buttons of the player.
+        .controls {
+            .make-controls(@player-controls-height, 1.66em);
+
+            .control {
+                overflow: hidden;
+                position: relative;
+
+                &.managed-error .managed.managed-enter {
+                    left: -100%;
+                }
+
+                .managed {
+                    position: absolute;
+                    line-height: @player-controls-height;
+                    width: @player-controls-height;
+                    top: 0;
+                    left: 0;
+
+                    // appearance transition
+                    &.managed-enter {
+                        left: 100%;
+
+                        &.managed-enter-active {
+                            left: 0;
+                            .transition(left 150ms ease-out);
+                        }
+                    }
+
+                    // appearance transition
+                    &.managed-exit {
+                        left: 0;
+
+                        &.managed-exit-active {
+                            left: -100%;
+                            .transition(left 150ms ease-out);
+                        }
+                    }
+                }
+            }
+        }
+
+        // `song-container` class: container for info of the song.
+        .song-container {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            color: @brand-primary;
+            margin-left: @gap-horizontal;
+            position: relative;
+            overflow: hidden;
+
+            // `song` subclass: the song itself.
+            .song {
+                margin-right: @gap-horizontal;
+                flex: 1;
+                height: @player-controls-height;
+                flex-direction: column;
+                align-content: flex-start;
+                align-items: flex-start;
+
+                .header {
+                    flex: initial;
+                    font-size: 1.45em;
+                    font-weight: 300;
+                    white-space: initial;
+
+                    .title {
+                    }
+
+                    .version {
+                    }
+                }
+
+                .artist-work {
+                    margin: 0;
+
+                    .work-link {
+                        .link {
+                            border-color: shade(@brand-primary, 25%);
+                        }
+                    }
+                }
+            }
+
+            // `playlist-entry-owner` class: owner of the playlist entry.
+            .playlist-entry-owner {
+                padding-right: @gap-horizontal;
+                text-align: right;
+                margin-top: 0.25rem;
+
+                .icon {
+                    font-size: 1em;
+                    margin-right: 0.4em;
+                }
+            }
+
+            // `song-timing` class: current progression of the song in numerical
+            // form.
+            .song-timing {
+                @ratio: 0.8;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                margin-right: @gap-horizontal;
+                @player-status-height: 1 * @player-controls-height;
+
+                .current {
+                    font-size: @player-status-height * @ratio;
+                    font-weight: 100;
+                    line-height: @player-status-height * @ratio;
+                }
+
+                .duration {
+                    font-size: @player-status-height * (1 - @ratio);
+                    line-height: @player-status-height * (1 - @ratio);
+                    text-align: right;
+                }
+            }
+
+            // `notified` subclass: notification banner.
+            .notified {
+                line-height: @player-controls-height;
+                height: @player-controls-height;
+            }
+        }
+    }
+
+    // `progressbar` class: supplementary visual indicator of the song current
+    // progression.
+    .progressbar {
+        width: 100%;
+        height: 0.4rem;
+
+        .progress {
+            height: 100%;
+            background: @brand-primary-dark;
+        }
+    }
+}

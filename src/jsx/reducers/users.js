@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux'
-import { USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LIST_FAILURE } from '../actions'
-import { USER_DELETE_REQUEST, USER_DELETE_SUCCESS, USER_DELETE_FAILURE } from '../actions'
-import { USER_GET_REQUEST, USER_GET_SUCCESS, USER_GET_FAILURE } from '../actions'
-import { CLEAR_USERS_ENTRY_NOTIFICATION } from '../actions'
-import { USER_CLEAR } from '../actions'
+import { USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LIST_FAILURE } from 'actions/users'
+import { USER_GET_REQUEST, USER_GET_SUCCESS, USER_GET_FAILURE } from 'actions/users'
+import { USER_CLEAR } from 'actions/users'
+
+/**
+ * List of users
+ */
 
 const defaultEntries = {
     data: {
@@ -12,10 +14,6 @@ const defaultEntries = {
     },
     isFetching: false
 }
-
-/**
- * List of users
- */
 
 function entries(state = defaultEntries, action) {
     switch (action.type) {
@@ -34,55 +32,36 @@ function entries(state = defaultEntries, action) {
 }
 
 /**
- * Delete user message
+ * Edit one user
  */
 
-function notifications(state = {}, action) {
-    let userId
-    switch (action.type) {
-        case USER_DELETE_REQUEST:
-            userId = action.userId
-            return {...state, [userId]: {
-                    message: "Deleting...",
-                    type: "success"
-                }
-            }
-
-        case USER_DELETE_SUCCESS:
-            userId = action.userId
-            return {...state, [userId]: {
-                    message: "Successfuly deleted!",
-                    type: "success"
-                }
-            }
-
-        case USER_DELETE_FAILURE:
-            userId = action.userId
-            return {...state, [userId]: {
-                    message: "Error attempting to delete user",
-                    type: "danger"
-                }
-            }
-
-        case CLEAR_USERS_ENTRY_NOTIFICATION:
-            userId = action.userId
-            let newState = { ...state }
-            delete newState[userId]
-            return newState
-
-        default:
-            return state
-    }
+const defaultUserEdit = {
+    user: null,
+    isFetching: false
 }
 
-
-function userEdit(state = null, action) {
+function userEdit(state = defaultUserEdit, action) {
     switch(action.type) {
+        case USER_GET_REQUEST:
+            return {
+                ...state,
+                isFetching: true
+            }
+
         case USER_GET_SUCCESS:
-            return action.response
+            return {
+                user: action.response,
+                isFetching: false
+            }
+
+        case USER_GET_FAILURE:
+            return {
+                ...state,
+                isFetching: false
+            }
 
         case USER_CLEAR:
-            return null
+            return defaultUserEdit
 
         default:
             return state
@@ -91,7 +70,6 @@ function userEdit(state = null, action) {
 
 const users = combineReducers({
     entries,
-    notifications,
     userEdit
 })
 

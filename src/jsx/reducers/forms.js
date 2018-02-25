@@ -1,4 +1,5 @@
-import { FORM_REQUEST, FORM_SUCCESS, FORM_FAILURE, FORM_CLEAR, FORM_CLEAR_GLOBAL_MESSAGE, FORM_SET_VALIDATION_ERRORS } from '../actions'
+import { FORM_REQUEST, FORM_SUCCESS, FORM_FAILURE, FORM_CLEAR, FORM_SET_VALIDATION_ERRORS } from 'actions/forms'
+import { Status } from 'reducers/alterationsStatus'
 
 /**
  * This reducer contains forms state
@@ -18,34 +19,17 @@ export default function forms(state = {}, action) {
     return state
 }
 
-const defaultState = {
-    global: null,
-    fields: {}
-}
-
 function form(state, action) {
     switch (action.type) {
         case FORM_REQUEST:
-        case FORM_CLEAR:
-            return defaultState
-
-        case FORM_CLEAR_GLOBAL_MESSAGE:
             return {
-                ...state,
-                global: null
+                status: Status.pending,
+                fields: {}
             }
 
         case FORM_SUCCESS:
-            const { successMessage } = action
-            if (successMessage === null) {
-                return defaultState
-            }
-
             return {
-                global: {
-                    message: successMessage || "Success",
-                    type: "success"
-                },
+                status: Status.successful,
                 fields: {}
             }
 
@@ -53,35 +37,19 @@ function form(state, action) {
         case FORM_SET_VALIDATION_ERRORS:
             const { message, non_field_errors, detail } = action.error
             // fetch API error
-            if (message) {
-                return {
-                    global: {
-                        message: message,
-                        type: "danger"
-                    },
-                    fields: {}
-                }
-            }
-
             // DRF global error
-            if (detail) {
+            if (message || detail) {
                 return {
-                    global: {
-                        message: detail,
-                        type: "danger"
-                    },
+                    status: Status.failed,
+                    message: message || detail,
                     fields: {}
                 }
             }
-
 
             // DRF global form error or validation error
-            let global
+            let formGlobalMessage
             if (non_field_errors) {
-                global = {
-                    message: non_field_errors.join(" "),
-                    type: "danger"
-                }
+                formGlobalMessage = non_field_errors.join(" ")
             }
 
             // DRF field error or field validation errors
@@ -89,20 +57,21 @@ function form(state, action) {
             const fields = action.error
 
             // if no error have been caught
-            if (!global && Object.keys(fields).length === 0) {
+            if (!formGlobalMessage && Object.keys(fields).length === 0) {
                 return {
-                    global: {
-                        message: "Unknow error",
-                        type: "danger"
-                    },
+                    status: Status.failed,
                     fields: {}
                 }
             }
 
             return {
-                global,
+                status: Status.failed,
+                message: formGlobalMessage,
                 fields
             }
+
+        case FORM_CLEAR:
+            return undefined
 
         default:
             return state

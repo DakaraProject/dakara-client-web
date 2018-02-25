@@ -1,0 +1,116 @@
+//
+// Dakara project
+//
+// Library style file
+//
+
+
+@import "song";
+@import "artist";
+@import "work";
+
+
+// `library` id:
+//
+// This component stylises the library, which contains a library chooser, a
+// searchbox, a container of library entries and a navigator.
+#library {
+
+    // Query box for searching items depending on the page
+    // That is, songs for Songs library, artists for Artists library and works
+    // (anime, game...) for Works library
+    .library-searchbox {
+        padding: @gap-vertical 0;
+        background: @brand-primary-darker;
+
+        .set {
+            .field {
+                flex: 1;
+
+                .fake {
+                    display: flex;
+                    padding-right: 0;
+
+                    .faked {
+                        flex: 1;
+                    }
+
+                    .controls {
+                        .make-controls(@library-searchbox-height, 1.25em);
+                    }
+                }
+            }
+        }
+
+        .controls {
+            > .control .icon {
+                font-size: 1.4em;
+                line-height: 1.4em;
+            }
+        }
+    }
+
+    // Style for library list wrapper
+    // containing error messages,
+    // pending notification overlay,
+    // and library list
+    .library-list-wrapper {
+        position: relative;
+
+        // error notification
+        .notified {
+            height: @listing-entry-height;
+            line-height: @listing-entry-height;
+        }
+
+        // overlay
+        .overlay {
+            top: 0;
+            left: 0;
+            position: absolute;
+            background: fade(black, 0.3);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .pending {
+            }
+        }
+
+        // Here goes the styles for the library pages
+        // These pages are:
+        //     Songs library,
+        //     Artists library,
+        //     Works library (and all the different works, like Anime, Game...)
+        // The current class gathers all the common elements needed by the different pages
+        .library-list {
+            min-height: 10 * @listing-entry-height;
+            background: darken(@neutral-mid, 3%);
+        }
+    }
+
+    // Navigator for choosing which library to display
+    // The different libraries are Songs (which is the home library), Artists and all the
+    // different Works (animes, games...)
+    .library-chooser {
+        // This is a common library tab, it has to be of neutral color
+        .tab {
+            // spread the width of the tabs to fill all the space
+            flex: 1;
+        }
+
+        // This is the home library tab, it has to stand out even when not
+        // selected, but not too much
+        .home {
+            flex: initial;
+            width: @tab-bar-height;
+            padding: 0;
+
+            .icon {
+                font-size: @library-chooser-icon-font-size-home;
+            }
+        }
+    }
+}

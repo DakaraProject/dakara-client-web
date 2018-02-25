@@ -1,4 +1,4 @@
-import { LOGOUT } from '../actions'
+import { LOGOUT } from 'actions/token'
 export const FETCH_API = "FETCH_API"
 
 /**
@@ -84,7 +84,7 @@ export default ({getState, dispatch}) => next => action => {
     const token = getState().token
     if (token) {
         headers = {
-            Authorization: 'Token ' + token,
+            Authorization: `Token ${token}`,
             ...headers
         }
     }
@@ -102,18 +102,26 @@ export default ({getState, dispatch}) => next => action => {
 
     return fetch(endpoint, { headers, body, method })
         .then(response => {
-            let contentLength = response.headers.get("content-length")
+            const contentLength = response.headers.get("content-length")
             if (contentLength && contentLength == 0) {
                 return null
             }
+
+            const contentType = response.headers.get("content-type")
+            if (contentType != "application/json") {
+                if (!response.ok) {
+                    return Promise.reject()
+                }
+                return null
+            }
+
             return response.json().then(json => {
                 if (!response.ok) {
                     return Promise.reject(json)
                 }
                 return json
             })
-        }
-        )
+        })
         .then(response => {
             const newAction = actionWith({
                 type: successType,
@@ -125,11 +133,11 @@ export default ({getState, dispatch}) => next => action => {
         error => {
             const newAction = actionWith({
                 type: failureType,
-                error
+                error: error || {}
             })
             processAction(onFailure, newAction)
 
-            if (error.detail == "Invalid token.") {
+            if (error && error.detail == "Invalid token.") {
                 // Token expired on server, logout
                 dispatch({type: LOGOUT})
             }

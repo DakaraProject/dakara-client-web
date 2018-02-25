@@ -1,0 +1,226 @@
+//
+// Dakara Project
+//
+// Song library entry style file
+//
+
+
+// `library-entry-song` subclass:
+//
+// This class is a specialization of the `listing-entry` class defined in the
+// `listing` module. It is aimed to stylize the specific elements of a list of
+// songs.
+//
+// The song can be represented in a compact, one-line view or in an expanded,
+// multi-lines view. More elements are present in the expanded view, which takes
+// usually more space and have larger margins compared to the compact view. The
+// compact view stays even if the expandes view is displayed, it only contains
+// less elements. The expanded view has a appearance/disappearance animation
+// where the expanded line grows or shrink vertically from the top.
+//
+// This list entry is not hoverizable, in order to make only the compact view
+// react to hover.
+.library-entry.library-entry-song {
+    // `library-entry-song-compact` class: song compact view.
+    // This class must be used with the `hoverizable` subclass.
+    .library-entry-song-compact {
+        display: flex;
+
+        // `song` subclass: the song itself.
+        .song {
+            flex: 1;
+            padding-left: @gap-horizontal;
+            cursor: pointer;
+        }
+
+        // `playlist-info` class: data relative to the status of the song in the
+        // playlist.
+        .playlist-info {
+            background: @brand-info;
+            color: @text-dark;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 0.5em;
+            box-sizing: border-box;
+            width: (2 * @listing-entry-height);
+            height: @listing-entry-height;
+
+            .owner {
+                font-size: 0.85em;
+                margin-bottom: 0.25em;
+                .text-truncate();
+
+                .icon {
+                    // Hack for bolder icon
+                    // font awesome overrides font weight
+                    .fa {
+                        font-weight: bold;
+                    }
+                }
+            }
+
+            .queueing {
+                font-size: 0.75em;
+
+                .icon {
+                    padding-right: 0.5em;
+                }
+            }
+
+            .playing {
+                font-size: 0.75em;
+            }
+
+            // appearance transition of the playlist info class
+            &.playlist-info-enter {
+                max-width: 0;
+                overflow: hidden;
+
+                &.playlist-info-enter-active {
+                    max-width: (2 * @listing-entry-height);
+                    .transition(max-width 300ms ease-out);
+                }
+            }
+
+            // disappearance transition of the playlist info class
+            &.playlist-info-exit {
+                max-width: (2 * @listing-entry-height);
+                overflow: hidden;
+
+                &.playlist-info-exit-active {
+                    max-width: 0;
+                    .transition(max-width 150ms ease-out);
+                }
+            }
+        }
+    }
+
+    // alternatiion of colors for the compact view
+    &:nth-child(2n) {
+        .playlist-info {
+            background: @brand-info-light;
+        }
+    }
+
+    .hoverizable:hover {
+        .playlist-info {
+            background: @brand-info-lighter;
+        }
+    }
+
+    // `library-entry-song-expanded` class: song expanded view.
+    // It should not be used with the `hoverized` subclass, otherwise some hover
+    // will be wrong.
+    // The class behaves like a table in order to keep a column of labels of the
+    // same width. This does no go without consequenses, as a table element is
+    // difficult to style.
+    .library-entry-song-expanded {
+        @height: @sublisting-entry-height;
+        display: table;
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 @gap-vertical;
+
+        .expanded-item {
+            display: table-row;
+
+            &:not(:last-child) {
+                padding-bottom: 0.5 * @gap-vertical;
+            }
+
+            .header {
+                display: table-cell;
+                padding: 0 @gap-horizontal;
+                font-weight: normal;
+                white-space: nowrap;
+                vertical-align: top;
+
+                .icon {
+                }
+
+                .name {
+                   padding-left: 0.5em; 
+                   line-height: @height;
+                }
+            }
+
+            .text, .song-tag-list {
+                background: darken(@neutral-mid, 2%);
+            }
+
+            .text {
+                padding: 0 @gap-horizontal;
+                line-height: @height;
+            }
+
+            .song-tag-list {
+                line-height: @height;
+
+                .tag {
+                    height: @height;
+                }
+            }
+
+            &.lyrics .text {
+                white-space: pre-line; // TODO change that
+                line-height: 1.5em;
+                padding-top: 2 * @gap-horizontal / 3;
+                padding-bottom: 2 * @gap-horizontal / 3;
+
+                .truncated::after {
+                    content: "…";
+                    font-size: 1.5em;
+                    line-height: 0;
+                }
+            }
+        }
+
+        .artists {
+            .artist {
+                flex: 1;
+                padding: 0 @gap-horizontal;
+            }
+        }
+
+        .works {
+            .work-link {
+                flex: 1;
+                padding: 0 @gap-horizontal;
+
+                .link {
+                    font-size: 0.81em;
+                }
+            }
+        }
+    }
+
+    // `library-entry-song-expanded-wrapper` class: wrapper class to enable or
+    // disable the expanded view.
+    // This wrapper is mandatory because `library-entry-song-expanded` is a
+    // table and thus its `max-height` property cannot be animated.
+    .library-entry-song-expanded-wrapper {
+        // appearance transition of the expanded view
+        &.expand-view-enter {
+            overflow: hidden;
+            max-height: 0;
+
+            &.expand-view-enter-active {
+                max-height: 10 * 0.75 * @listing-entry-height;
+                .transition(max-height 600ms ease-out);
+            }
+        }
+
+        // disappearance transition of the expanded view
+        &.expand-view-exit {
+            overflow: hidden;
+            max-height: 10 * 0.75 * @listing-entry-height;
+
+            &.expand-view-exit-active {
+                max-height: 0;
+                .transition(max-height 300ms ease-out);
+            }
+        }
+    }
+}

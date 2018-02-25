@@ -1,9 +1,6 @@
 import { combineReducers } from 'redux'
-import { LIBRARY_REQUEST, LIBRARY_SUCCESS, LIBRARY_FAILURE } from '../actions'
-import { ADD_PLAYLIST_REQUEST, ADD_PLAYLIST_SUCCESS, ADD_PLAYLIST_FAILURE } from '../actions'
-import { WORK_TYPES_REQUEST, WORK_TYPES_SUCCESS, WORK_TYPES_FAILURE } from '../actions'
-import { CLEAR_SONG_LIST_NOTIFICATION } from '../actions'
-import songTags from './songTags'
+import { LIBRARY_REQUEST, LIBRARY_SUCCESS, LIBRARY_FAILURE } from 'actions/library'
+import { WORK_TYPES_REQUEST, WORK_TYPES_SUCCESS, WORK_TYPES_FAILURE } from 'actions/library'
 
 /**
  * This reducer contains library related state
@@ -116,6 +113,7 @@ function work(state = {}, action) {
             return state
     }
 }
+
 /**
  * Work Types
  */
@@ -138,55 +136,12 @@ function workTypes(state = defaultWorkTypes, action) {
     }
 }
 
-/**
- * Add song to playlist message
- */
-
-function songListNotifications(state = {}, action) {
-    let songId
-    switch (action.type) {
-        case ADD_PLAYLIST_REQUEST:
-            songId = action.songId
-            return {...state, [songId]: {
-                    message: "Adding...",
-                    type: "success"
-                }
-            }
-
-        case ADD_PLAYLIST_SUCCESS:
-            songId = action.songId
-            return {...state, [songId]: {
-                    message: "Successfuly added!",
-                    type: "success"
-                }
-            }
-
-        case ADD_PLAYLIST_FAILURE:
-            songId = action.songId
-            return {...state, [songId]: {
-                    message: "Error attempting to add song to playlist",
-                    type: "danger"
-                }
-            }
-
-        case CLEAR_SONG_LIST_NOTIFICATION:
-            songId = action.songId
-            let newState = { ...state }
-            delete newState[songId]
-            return newState
-
-        default:
-            return state
-    }
-}
 
 const library = combineReducers({
     song,
     artist,
     work,
     workTypes,
-    songListNotifications,
-    songTags
 })
 
 export default library

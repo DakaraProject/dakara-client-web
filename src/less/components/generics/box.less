@@ -1,0 +1,40 @@
+//
+// Dakara Project
+//
+// Box style file
+//
+
+
+.box {
+    background: darken(@black-80, 5%);
+    .box-shadow(0 0 2rem fade(black, 50%));
+    overflow: hidden;
+    margin-bottom: @gap-vertical;
+
+    .box-header {
+        padding: @gap-vertical 0;
+        background: @brand-primary-darker;
+        color: @brand-primary-light;
+
+        h1 {
+            padding: 0 @gap-horizontal;
+            font-size: 3em;
+        }
+
+        h2 {
+            padding: 0 @gap-horizontal;
+            font-size: 2em;
+        }
+    }
+
+    .box-footer {
+        padding: @gap-vertical 0;
+        background: @brand-primary-darker;
+        color: @brand-primary-light;
+    }
+
+    p {
+        margin-left: @gap-horizontal;
+        margin-right: @gap-horizontal;
+    }
+}

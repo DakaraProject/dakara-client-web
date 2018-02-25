@@ -1,0 +1,66 @@
+//
+// Dakara Project
+//
+// Tags management page style file
+//
+
+#song-tag-list {
+    .song-tag-list-listing {
+        .name {
+            padding-left: @gap-horizontal;
+            text-align: left;
+        }
+
+        .listing-header .color {
+            padding-right: @gap-horizontal;
+            text-align: right;
+        }
+
+        .color .field {
+            flex: 1;
+        }
+
+        .set {
+            padding: 0;
+        }
+
+        .color, .enabled {
+            .form {
+                justify-content: center;
+                height: @listing-entry-height;
+            }
+        }
+
+        .controls-col {
+            width: initial;
+        }
+
+        .color-form-notified {
+            display: flex;
+
+            .form {
+                flex: 1;
+
+                .hue .input {
+                    flex: 1
+                }
+            }
+        }
+
+        .listing-entry {
+            @background: hsl(0, @custom-color-saturation, @custom-color-luminosity);
+
+            .display-color-form {
+                background: @background;
+
+                &:focus {
+                    background: lighten(@background, 5%);
+                }
+            }
+
+            &:hover .display-color-form {
+                background: lighten(@background, 3.5%);
+            }
+        }
+    }
+}

@@ -1,8 +1,6 @@
 import { combineReducers } from 'redux'
-import { PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE } from '../actions'
-import { CLEAR_PLAYLIST_ENTRY_NOTIFICATION } from '../actions'
-import { PLAYLIST_TOOGLE_COLLAPSED } from '../actions'
-import { REMOVE_PLAYLIST_ENTRY_REQUEST, REMOVE_PLAYLIST_ENTRY_SUCCESS, REMOVE_PLAYLIST_ENTRY_FAILURE } from '../actions'
+import { PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE } from 'actions/player'
+import { PLAYLIST_TOOGLE_COLLAPSED } from 'actions/player'
 
 /**
  * This reducer contains playlist related state
@@ -47,52 +45,9 @@ function collapsed(state = true, action) {
     return state
 }
 
-/**
- * Remove song from playlist message
- */
-
-function notifications(state = {}, action) {
-    let entryId
-    switch (action.type) {
-        case REMOVE_PLAYLIST_ENTRY_REQUEST:
-            entryId = action.entryId
-            return {...state, [entryId]: {
-                    message: "Removing...",
-                    type: "success"
-                }
-            }
-
-        case REMOVE_PLAYLIST_ENTRY_SUCCESS:
-            entryId = action.entryId
-            return {...state, [entryId]: {
-                    message: "Successfuly removed!",
-                    type: "success"
-                }
-            }
-
-        case REMOVE_PLAYLIST_ENTRY_FAILURE:
-            entryId = action.entryId
-            return {...state, [entryId]: {
-                    message: "Error attempting to remove song from playlist",
-                    type: "danger"
-                }
-            }
-
-        case CLEAR_PLAYLIST_ENTRY_NOTIFICATION:
-            entryId = action.entryId
-            let newState = { ...state }
-            delete newState[entryId]
-            return newState
-
-        default:
-            return state
-    }
-}
-
 const playlist = combineReducers({
     entries,
     collapsed,
-    notifications
 })
 
 export default playlist
