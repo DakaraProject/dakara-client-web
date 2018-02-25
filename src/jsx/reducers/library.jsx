@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux'
 import { LIBRARY_REQUEST, LIBRARY_SUCCESS, LIBRARY_FAILURE } from 'actions'
 import { WORK_TYPES_REQUEST, WORK_TYPES_SUCCESS, WORK_TYPES_FAILURE } from 'actions'
-import songTags from './songTags'
 
 /**
  * This reducer contains library related state
@@ -143,7 +142,6 @@ const library = combineReducers({
     artist,
     work,
     workTypes,
-    songTags
 })
 
 export default library

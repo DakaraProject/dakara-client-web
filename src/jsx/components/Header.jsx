@@ -89,7 +89,7 @@ class Header extends Component {
 
 const mapStateToProps = (state) => ({
     isLoggedIn: !!state.token,
-    user: state.authenticatedUsers
+    user: state.authenticatedUser
 })
 
 Header = withRouter(connect(

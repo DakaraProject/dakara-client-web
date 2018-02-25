@@ -139,9 +139,9 @@ class UsersEdit extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    user: state.users.userEdit.user,
-    isFetching: state.users.userEdit.isFetching,
-    authenticatedUser: state.authenticatedUsers
+    user: state.settings.users.userEdit.user,
+    isFetching: state.settings.users.userEdit.isFetching,
+    authenticatedUser: state.authenticatedUser
 })
 
 UsersEdit = connect(

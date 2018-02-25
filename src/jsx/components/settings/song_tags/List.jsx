@@ -96,7 +96,7 @@ class SongTagList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    entries: state.library.songTags.entries,
+    entries: state.settings.songTags.entries,
     editsStatus: state.alterationsStatus.editSongTag,
     formsResponse: state.forms
 })

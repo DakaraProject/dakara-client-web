@@ -54,7 +54,7 @@ class ProtectedRoute extends Component {
 
 const mapStateToProps = (state) => ({
     isLoggedIn: !!state.token,
-    hasUserInfo: !!state.authenticatedUsers
+    hasUserInfo: !!state.authenticatedUser
 })
 
 ProtectedRoute = withRouter(connect(

@@ -62,7 +62,7 @@ export class PermissionBase extends Component {
 }
 
 export const mapStateToProps = (state) => ({
-    user: state.authenticatedUsers
+    user: state.authenticatedUser
 })
 
 /**

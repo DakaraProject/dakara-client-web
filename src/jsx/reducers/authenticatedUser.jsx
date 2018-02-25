@@ -6,7 +6,7 @@ import { LOGOUT } from '../actions'
  * Part of the state storing the logged in user info
  */
 
-function authenticatedUsers(state = null, action) {
+function authenticatedUser(state = null, action) {
     switch (action.type) {
         case CURRENT_USER_SUCCESS:
             return action.response
@@ -19,4 +19,4 @@ function authenticatedUsers(state = null, action) {
     }
 }
 
-export default authenticatedUsers
+export default authenticatedUser

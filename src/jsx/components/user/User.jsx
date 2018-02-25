@@ -99,7 +99,7 @@ class User extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    user: state.authenticatedUsers,
+    user: state.authenticatedUser,
 })
 
 User = withRouter(connect(

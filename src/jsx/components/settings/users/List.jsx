@@ -131,7 +131,7 @@ class UserList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    entries: state.users.entries,
+    entries: state.settings.users.entries,
     deleteStatusList: state.alterationsStatus.deleteUser
 })
 
