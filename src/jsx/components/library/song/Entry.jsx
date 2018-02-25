@@ -107,7 +107,7 @@ class SongEntry extends Component {
                             className="owner"
                             user={playlistInfo.owner}
                         />
-                        {playQueueInfo}
+                        {playQueueInfoContent}
                     </div>
                 </CSSTransition>
             )
