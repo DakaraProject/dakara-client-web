@@ -1,7 +1,7 @@
 import { FETCH_API } from 'middleware/fetchApi'
-import utils from 'utils'
+import { params } from 'utils'
 
-const { baseUrl } = utils.params
+const { baseUrl } = params
 
 /**
  * Forms

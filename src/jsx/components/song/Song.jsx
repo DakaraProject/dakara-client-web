@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Highlighter from 'react-highlight-words'
 import PropTypes from 'prop-types'
-import utils from 'utils'
+import { formatDuration } from 'utils'
 import WorkLink from './WorkLink'
 import SongArtistList from './SongArtistList'
 import SongTagList from './SongTagList'
@@ -107,7 +107,7 @@ export default class Song extends Component {
         if (!this.props.noDuration) {
             duration = (
                 <div className="duration">
-                    {utils.formatDuration(song.duration)}
+                    {formatDuration(song.duration)}
                 </div>
             )
         }

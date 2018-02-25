@@ -3,7 +3,7 @@ import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import classNames from 'classnames'
 import { stringify } from 'query-string'
 import PropTypes from 'prop-types'
-import utils from 'utils'
+import { formatHourTime } from 'utils'
 import Song from 'components/song/Song'
 import UserWidget from 'components/generics/UserWidget'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
@@ -88,7 +88,7 @@ class PlaylistEntry extends Component {
                             <span className="icon">
                                 <i className="fa fa-clock-o"></i>
                             </span>
-                            {utils.formatHourTime(this.props.timeOfPlay)}
+                            {formatHourTime(this.props.timeOfPlay)}
                         </div>
                     </div>
                     <div className="controls">

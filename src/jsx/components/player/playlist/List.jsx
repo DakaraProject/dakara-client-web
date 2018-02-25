@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import { withRouter } from 'react-router-dom'
-import utils from 'utils'
+import { formatHourTime, params } from 'utils'
 import { loadPlaylist, toogleCollapsedPlaylist } from 'actions/player'
 import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions/player'
 import PlaylistEntry from './Entry'
@@ -54,7 +54,7 @@ class Playlist extends Component {
         if (!this.props.playlist.entries.isFetching) {
             this.props.loadPlaylist()
         }
-        this.timeout = setTimeout(this.pollPlaylist, utils.params.pollInterval)
+        this.timeout = setTimeout(this.pollPlaylist, params.pollInterval)
     }
 
     componentWillMount() {
@@ -149,7 +149,7 @@ class Playlist extends Component {
         if (list.length != 0 || playerStatus.playlist_entry) {
             ending = (
                 <div className="item">
-                    <span className="stat">{utils.formatHourTime(playListEndTime)}</span>
+                    <span className="stat">{formatHourTime(playListEndTime)}</span>
                     <span className="description">ending<br/>time</span>
                 </div>
                 )

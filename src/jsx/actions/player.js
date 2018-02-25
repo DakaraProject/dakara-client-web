@@ -1,8 +1,8 @@
 import { FETCH_API } from 'middleware/fetchApi'
-import utils from 'utils'
 import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE, ALTERATION_STATUS_CLEAR } from './alterationsStatus'
+import { params } from 'utils'
 
-const { baseUrl } = utils.params
+const { baseUrl } = params
 
 /**
  * Clear playlist entry notification

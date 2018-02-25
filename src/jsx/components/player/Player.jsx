@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import classNames from 'classnames'
-import utils from 'utils'
+import { formatDuration, formatTime, params } from 'utils'
 import Song from 'components/song/Song'
 import UserWidget from 'components/generics/UserWidget'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
@@ -39,7 +39,7 @@ class Player extends Component {
         if (!this.props.playerStatus.isFetching) {
             this.props.loadPlayerStatus()
         }
-        this.timeout = setTimeout(this.pollPlayerStatus, utils.params.pollInterval)
+        this.timeout = setTimeout(this.pollPlayerStatus, params.pollInterval)
     }
 
     componentWillMount() {
@@ -207,10 +207,10 @@ class Player extends Component {
                             {playlistEntryOwner}
                             <div className="song-timing">
                                 <div className="current">
-                                    {utils.formatTime(playerStatus.timing)}
+                                    {formatTime(playerStatus.timing)}
                                 </div>
                                 <div className="duration">
-                                    {utils.formatDuration(duration)}
+                                    {formatDuration(duration)}
                                 </div>
                             </div>
                             <CSSTransitionLazy

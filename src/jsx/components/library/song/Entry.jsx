@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom'
 import classNames from 'classnames'
 import { parse, stringify } from 'query-string'
 import PropTypes from 'prop-types'
-import utils from 'utils'
+import { formatHourTime } from 'utils'
 import { addSongToPlaylist } from 'actions/player'
 import { clearSongListNotification } from 'actions/library'
 import Song from 'components/song/Song'
@@ -90,7 +90,7 @@ class SongEntry extends Component {
                         <span className="icon">
                             <i className="fa fa-clock-o"></i>
                         </span>
-                        {utils.formatHourTime(playlistInfo.timeOfPlay)}
+                        {formatHourTime(playlistInfo.timeOfPlay)}
                     </div>
                 )
             }
