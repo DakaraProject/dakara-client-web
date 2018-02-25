@@ -54,34 +54,29 @@ export default class Song extends Component {
 
             // Display first work if any
             // Highlighted with query
-            let work
+            let firstWorkLink
             if (song.works.length > 0) {
                 // display the first work only for this display
-                let w = song.works[0]
-                work = (
+                firstWorkLink = (
                         <WorkLink
-                            workLink={w}
+                            workLink={song.works[0]}
                             query={this.props.query}
                             noEpisodes
                         />
                 )
             }
 
-            //Display artists if any
-            let artists
-            if (song.artists.length > 0) {
-                artists = (
+            // Display artists
+            const artists = (
                         <SongArtistList
                             artists={song.artists}
                             query={this.props.query}
                         />
                 )
 
-            }
-
             artistWork = (
                 <div className="artist-work">
-                    {work}
+                    {firstWorkLink}
                     {artists}
                 </div>
             )
