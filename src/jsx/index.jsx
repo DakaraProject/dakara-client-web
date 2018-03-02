@@ -40,15 +40,16 @@ ReactDOM.render(
         <BrowserRouter>
             <Main>
                 <Switch>
-                    <ProtectedRoute path="/library/:libraryType" component={LibraryList}/>
-                    <Redirect from="/library" to="/library/song"/>
-                    <ProtectedRoute path="/user" component={User}/>
-                    <ProtectedRoute path="/users/:userId" component={UserEdit}/>
-                    <ProtectedRoute path="/users" component={UserList}/>
-                    <ProtectedRoute path="/song-tags" component={SongTagList}/>
-                    <Route path="/login" component={Login}/>
-                    <Route path="/logout" component={Logout}/>
-                    <Redirect from="/" to="/library"/>
+                    <ProtectedRoute exact path="/library/:libraryType" component={LibraryList}/>
+                    <Redirect exact from="/library" to="/library/song"/>
+                    <ProtectedRoute exact path="/user" component={User}/>
+                    <ProtectedRoute exact path="/settings/users/:userId" component={UserEdit}/>
+                    <ProtectedRoute exact path="/settings/users" component={UserList}/>
+                    <ProtectedRoute exact path="/settings/song-tags" component={SongTagList}/>
+                    <Redirect exact from="/settings" to="/settings/users"/>
+                    <Route exact path="/login" component={Login}/>
+                    <Route exact path="/logout" component={Logout}/>
+                    <Redirect exact from="/" to="/library"/>
                     <Route component={NotFound}/>
                 </Switch>
             </Main>

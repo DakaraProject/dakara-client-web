@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import { getSongTagList, editSongTag, clearTagListEntryNotification } from 'actions/songTags'
 import Navigator from 'components/generics/Navigator'
 import SongTagEntry from './Entry'
+import SettingsTabList from '../TabList'
 
 class SongTagList extends Component {
     static propTypes = {
@@ -69,6 +70,7 @@ class SongTagList extends Component {
 
         return (
             <div className="box" id="song-tag-list">
+                <SettingsTabList/>
                 <div className="box-header">
                     <h1>Song tags management</h1>
                 </div>

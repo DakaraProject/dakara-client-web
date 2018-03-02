@@ -3,16 +3,16 @@ import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-export default class LibraryTab extends Component {
+export default class Tab extends Component {
     static propTypes = {
         name: PropTypes.string,
         extraClassName: PropTypes.string,
         iconName: PropTypes.string,
-        queryName: PropTypes.string.isRequired,
+        to: PropTypes.string.isRequired,
     }
 
     render() {
-        const { name, extraClassName, iconName, queryName } = this.props
+        const { name, extraClassName, iconName, to } = this.props
         let tabName
         if (name) {
             tabName = (
@@ -25,12 +25,15 @@ export default class LibraryTab extends Component {
         // classes
         const linkClass = classNames(
             'tab',
-            extraClassName
+            extraClassName,
+            {
+                squared: !name
+            }
         )
 
         return (
                 <NavLink
-                    to={`/library/${queryName}`}
+                    to={to}
                     className={linkClass}
                     activeClassName="active"
                 >
