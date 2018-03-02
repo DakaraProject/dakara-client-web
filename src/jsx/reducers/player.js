@@ -1,8 +1,11 @@
 import { combineReducers } from 'redux'
+import PropTypes from 'prop-types'
 import playlist from './playlist'
 import { PLAYER_STATUS_REQUEST, PLAYER_STATUS_SUCCESS, PLAYER_STATUS_FAILURE } from 'actions/player'
 import { PLAYER_COMMANDS_REQUEST, PLAYER_COMMANDS_SUCCESS, PLAYER_COMMANDS_FAILURE } from 'actions/player'
-import { Status, handleFailureMessage } from './alterationsStatus'
+import { Status, handleFailureMessage, alterationsStatusPropType } from './alterationsStatus'
+import { playlistEntryPropType } from 'serverPropTypes/playlist'
+import { alterationStatusPropType } from './alterationsStatus'
 
 /**
  * This reducer contains player related state
@@ -11,6 +14,27 @@ import { Status, handleFailureMessage } from './alterationsStatus'
 /**
  * Player status from server
  */
+
+export const playerErrorPropType = PropTypes.shape({
+    id: PropTypes.any.isRequired,
+    error_message: PropTypes.string.isRequired,
+})
+
+export const playerStatusPropType = PropTypes.shape({
+    data: PropTypes.shape({
+        status: PropTypes.shape({
+            playlist_entry: playlistEntryPropType,
+            timing: PropTypes.number.isRequired,
+        }).isRequired,
+        manage: PropTypes.shape({
+            pause: PropTypes.bool.isRequired,
+            skip: PropTypes.bool.isRequired,
+        }).isRequired,
+        errors: PropTypes.arrayOf(playerErrorPropType).isRequired,
+    }).isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    fetchError: PropTypes.bool.isRequired,
+})
 
 const defaultPlayerStatus = {
     data: {
@@ -78,6 +102,7 @@ function status(state = defaultPlayerStatus, action) {
 
 const defaultPlayerCommand = {
     status: null,
+    message: "",
 }
 
 const generatePlayerCommandReducer = commandName => (state = defaultPlayerCommand, action) => {
@@ -107,13 +132,18 @@ const generatePlayerCommandReducer = commandName => (state = defaultPlayerComman
     }
 }
 
+export const playerCommandsPropTypes = PropTypes.shape({
+    pause: alterationStatusPropType.isRequired,
+    skip: alterationStatusPropType.isRequired,
+})
+
 const commands = combineReducers({
     pause: generatePlayerCommandReducer('pause'),
     skip: generatePlayerCommandReducer('skip')
 })
 
 /**
- * Combine all the reducers
+ * Player
  */
 
 const player = combineReducers({

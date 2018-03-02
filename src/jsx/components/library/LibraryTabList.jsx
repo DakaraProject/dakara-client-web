@@ -1,18 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Tab from 'components/generics/Tab'
+import { workTypesPropType } from 'reducers/library'
 
 export default class LibraryTabList extends Component {
     static propTypes = {
-        workTypes: PropTypes.shape({
-            data: PropTypes.shape({
-                results: PropTypes.arrayOf(PropTypes.shape({
-                    query_name: PropTypes.string.isRequired,
-                    icon_name: PropTypes.string.isRequired,
-                    name_plural: PropTypes.string.isRequired,
-                }).isRequired).isRequired,
-            }).isRequired,
-        }).isRequired,
+        workTypes: workTypesPropType.isRequired,
     }
 
     render() {

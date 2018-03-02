@@ -9,19 +9,12 @@ import Navigator from 'components/generics/Navigator'
 import { IsUserManager } from 'components/permissions/Users'
 import UserEntry from './Entry'
 import SettingsTabList from '../TabList'
+import { userEntriesPropType } from 'reducers/users'
 
 class UserList extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
-        entries: PropTypes.shape({
-            data: PropTypes.shape({
-                results: PropTypes.arrayOf(
-                    PropTypes.shape({
-                        id: PropTypes.any.isRequired,
-                    })
-                ).isRequired,
-            }).isRequired,
-        }).isRequired,
+        entries: userEntriesPropType.isRequired,
         deleteStatusList: PropTypes.object,
         deleteUser: PropTypes.func.isRequired,
         clearUsersEntryNotification: PropTypes.func.isRequired,

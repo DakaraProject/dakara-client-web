@@ -4,29 +4,12 @@ import PropTypes from 'prop-types'
 import SongTagList from 'components/song/SongTagList'
 import SongEntryExpandedWork from './EntryExpandedWork'
 import SongEntryExpandedArtist from './EntryExpandedArtist'
+import { songPropType } from 'serverPropTypes/library'
 
 class SongEntryExpanded extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
-        song: PropTypes.shape({
-            works: PropTypes.arrayOf(PropTypes.shape({
-                work: PropTypes.shape({
-                    work_type: PropTypes.shape({
-                        query_name: PropTypes.string.isRequired,
-                    }).isRequired,
-                }).isRequired,
-            }).isRequired).isRequired,
-            artists: PropTypes.arrayOf(PropTypes.shape({
-                id: PropTypes.any.isRequired,
-            }).isRequired).isRequired,
-            detail: PropTypes.string,
-            detail_video: PropTypes.string,
-            lyrics: PropTypes.shape({
-                truncated: PropTypes.bool.isRequired,
-                text: PropTypes.string.isRequired
-            }),
-            tags: PropTypes.array.isRequired,
-        }).isRequired,
+        song: songPropType.isRequired,
     }
 
     static contextTypes = {

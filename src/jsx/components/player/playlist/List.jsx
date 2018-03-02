@@ -8,38 +8,18 @@ import { formatHourTime, params } from 'utils'
 import { loadPlaylist, toogleCollapsedPlaylist } from 'actions/player'
 import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions/player'
 import PlaylistEntry from './Entry'
+import { playlistEntriesPropType } from 'reducers/playlist'
+import { playerStatusPropType } from 'reducers/player'
+import { alterationStatusPropType } from 'reducers/alterationsStatus'
 
 class Playlist extends Component {
     static propTypes = {
         playlist: PropTypes.shape({
-            entries: PropTypes.shape({
-                data: PropTypes.shape({
-                    results: PropTypes.arrayOf(PropTypes.shape({
-                        id: PropTypes.any.isRequired,
-                        song: PropTypes.shape({
-                            duration: PropTypes.number.isRequired,
-                            title: PropTypes.string.isRequired,
-                        }).isRequired,
-                    }).isRequired).isRequired,
-                    count: PropTypes.number.isRequired,
-                }),
-                isFetching: PropTypes.bool.isRequired,
-            }).isRequired,
+            entries: playlistEntriesPropType.isRequired,
             collapsed: PropTypes.bool.isRequired,
         }).isRequired,
-        playerStatus: PropTypes.shape({
-            data: PropTypes.shape({
-                status: PropTypes.shape({
-                    playlist_entry: PropTypes.shape({
-                        song: PropTypes.shape({
-                            duration: PropTypes.number.isRequired,
-                        }).isRequired,
-                    }),
-                }).isRequired,
-            }).isRequired,
-            timing: PropTypes.number,
-        }).isRequired,
-        removeEntryStatus: PropTypes.object,
+        playerStatus: playerStatusPropType.isRequired,
+        removeEntryStatus: alterationStatusPropType,
         loadPlaylist: PropTypes.func.isRequired,
         toogleCollapsedPlaylist: PropTypes.func.isRequired,
         removeEntryFromPlaylist: PropTypes.func.isRequired,

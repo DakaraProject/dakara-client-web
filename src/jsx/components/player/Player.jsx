@@ -13,24 +13,12 @@ import { loadPlayerStatus, sendPlayerCommands } from 'actions/player'
 import Playlist from './playlist/List'
 import { Status } from 'reducers/alterationsStatus'
 import PlayerNotification from './Notification'
+import { playerStatusPropType, playerCommandsPropTypes } from 'reducers/player'
 
 class Player extends Component {
     static propTypes = {
-        playerStatus: PropTypes.shape({
-            data: PropTypes.shape({
-                errors: PropTypes.array.isRequired,
-            }),
-            isFetching: PropTypes.bool.isRequired,
-            fetchError: PropTypes.bool.isRequired,
-        }).isRequired,
-        commands: PropTypes.shape({
-            pause: PropTypes.shape({
-                status: PropTypes.symbol,
-            }).isRequired,
-            skip: PropTypes.shape({
-                status: PropTypes.symbol,
-            }).isRequired,
-        }).isRequired,
+        playerStatus: playerStatusPropType.isRequired,
+        commands: playerCommandsPropTypes.isRequired,
         loadPlayerStatus: PropTypes.func.isRequired,
         sendPlayerCommands: PropTypes.func.isRequired,
     }

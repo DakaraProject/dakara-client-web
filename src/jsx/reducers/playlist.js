@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux'
+import PropTypes from 'prop-types'
 import { PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE } from 'actions/player'
 import { PLAYLIST_TOOGLE_COLLAPSED } from 'actions/player'
+import { playlistEntryPropType } from 'serverPropTypes/playlist'
 
 /**
  * This reducer contains playlist related state
@@ -9,6 +11,14 @@ import { PLAYLIST_TOOGLE_COLLAPSED } from 'actions/player'
 /**
  * Playlist from server
  */
+
+export const playlistEntriesPropType = PropTypes.shape({
+    data: PropTypes.shape({
+        count: PropTypes.number.isRequired,
+        results: PropTypes.arrayOf(playlistEntryPropType).isRequired,
+    }).isRequired,
+    isFetching: PropTypes.bool.isRequired,
+})
 
 const defaultEntries = {
     data: {
@@ -34,7 +44,8 @@ function entries(state = defaultEntries, action) {
     }
 }
 
-/** Playlist collapsed status
+/**
+ * Playlist collapsed status
  */
 
 function collapsed(state = true, action) {
@@ -44,6 +55,10 @@ function collapsed(state = true, action) {
 
     return state
 }
+
+/**
+ * Playlist
+ */
 
 const playlist = combineReducers({
     entries,

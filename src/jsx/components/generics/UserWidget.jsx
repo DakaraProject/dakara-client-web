@@ -2,16 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import { userPropType } from 'serverPropTypes/users'
 
 class UserWidget extends Component {
     static propTypes = {
-        user: PropTypes.shape({
-            username: PropTypes.string.isRequired,
-            id: PropTypes.any.isRequired,
-        }).isRequired,
-        currentUser: PropTypes.shape({
-            id: PropTypes.any.isRequired,
-        }).isRequired,
+        user: userPropType.isRequired,
+        currentUser: userPropType.isRequired,
     }
 
     render() {

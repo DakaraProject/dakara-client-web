@@ -1,18 +1,16 @@
 import { combineReducers } from 'redux'
+import PropTypes from 'prop-types'
 import { FORM_SUCCESS } from 'actions/forms'
 import { TAG_LIST_REQUEST, TAG_LIST_SUCCESS, TAG_LIST_FAILURE } from 'actions/songTags'
 import { ALTERATION_FAILURE, ALTERATION_REQUEST } from 'actions/alterationsStatus'
-
-const defaultEntries = {
-    data: {
-        count: 0,
-        results: []
-    },
-    isFetching: false
-}
+import { songTagPropType } from 'serverPropTypes/library'
 
 /**
  * List of tags
+ */
+
+/**
+ * Helper to update tag
  */
 
 function updateTagInState(tagId, state, valueDict) {
@@ -30,6 +28,26 @@ function updateTagInState(tagId, state, valueDict) {
             results
         }
     }
+}
+
+/**
+ * Tag entries
+ */
+
+export const songTagsPropType = PropTypes.shape({
+    data: PropTypes.shape({
+        count: PropTypes.number.isRequired,
+        results: PropTypes.arrayOf(songTagPropType).isRequired,
+    }).isRequired,
+    isFetching: PropTypes.bool.isRequired,
+})
+
+const defaultEntries = {
+    data: {
+        count: 0,
+        results: []
+    },
+    isFetching: false
 }
 
 function entries(state = defaultEntries, action) {
@@ -76,6 +94,10 @@ function entries(state = defaultEntries, action) {
             return state
     }
 }
+
+/**
+ * Song tags
+ */
 
 const songTags = combineReducers({
     entries,

@@ -6,6 +6,7 @@ import classNames from 'classnames'
 import { setFormValidationErrors, submitForm, clearForm } from 'actions/forms'
 import { Status } from 'reducers/alterationsStatus'
 import Notification from 'components/generics/Notification'
+import { formPropType } from 'reducers/forms'
 
 class Form extends Component {
     static propTypes = {
@@ -15,7 +16,7 @@ class Form extends Component {
             PropTypes.string,
             PropTypes.element,
         ]).isRequired,
-        formResponse: PropTypes.object, // TODO should be isRequired
+        formResponse: formPropType,
         noClearOnSuccess: PropTypes.bool,
         onSuccess: PropTypes.func,
         setFormValidationErrors: PropTypes.func.isRequired,

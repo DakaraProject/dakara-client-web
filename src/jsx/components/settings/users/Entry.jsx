@@ -6,16 +6,11 @@ import { permissionLevels, IsUserManager, IsNotSelf } from 'components/permissio
 import ControlLink from 'components/generics/ControlLink'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
+import { userPropType } from 'serverPropTypes/users'
 
 export default class UserEntry extends Component {
     static propTypes = {
-        user: PropTypes.shape({
-            id: PropTypes.any.isRequired,
-            is_superuser: PropTypes.bool.isRequired,
-            users_permission_level: PropTypes.string,
-            library_permission_level: PropTypes.string,
-            playlist_permission_level: PropTypes.string,
-        }).isRequired,
+        user: userPropType.isRequired,
         clearUsersEntryNotification: PropTypes.func.isRequired,
         deleteUser: PropTypes.func.isRequired,
     }

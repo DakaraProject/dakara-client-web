@@ -14,20 +14,21 @@ import SongEntryExpanded from './EntryExpanded'
 import UserWidget from 'components/generics/UserWidget'
 import { IsPlaylistUser } from 'components/permissions/Playlist'
 import Notification from 'components/generics/Notification'
+import { songPropType } from 'serverPropTypes/library'
+import { alterationStatusPropType } from 'reducers/alterationsStatus'
+import { userPropType } from 'serverPropTypes/users'
 
 class SongEntry extends Component {
     static propTypes = {
-        song: PropTypes.shape({
-            id: PropTypes.any.isRequired,
-        }).isRequired,
+        song: songPropType.isRequired,
         location: PropTypes.object.isRequired,
         query: PropTypes.object,
         playlistInfo: PropTypes.shape({
             isPlaying: PropTypes.bool,
             timeOfPlay: PropTypes.number,
-            owner: PropTypes.object,
+            owner: userPropType,
         }),
-        addSongStatus: PropTypes.object,
+        addSongStatus: alterationStatusPropType,
         addSongToPlaylist: PropTypes.func.isRequired,
         clearSongListNotification: PropTypes.func.isRequired,
     }

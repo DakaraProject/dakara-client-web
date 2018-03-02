@@ -9,17 +9,11 @@ import UserWidget from 'components/generics/UserWidget'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
+import { playlistEntryPropType } from 'serverPropTypes/playlist'
 
 class PlaylistEntry extends Component {
     static propTypes = {
-        entry: PropTypes.shape({
-            id: PropTypes.any.isRequired,
-            song: PropTypes.shape({
-                id: PropTypes.any.isRequired,
-                title: PropTypes.string.isRequired,
-            }).isRequired,
-            owner: PropTypes.object.isRequired,
-        }).isRequired,
+        entry: playlistEntryPropType.isRequired,
         timeOfPlay: PropTypes.number.isRequired,
         removeEntryStatus: PropTypes.object,
     }

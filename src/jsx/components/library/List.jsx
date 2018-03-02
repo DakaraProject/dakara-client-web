@@ -8,10 +8,11 @@ import SongList, { getSongLibraryNameInfo } from './song/List'
 import ArtistList, { getArtistLibraryNameInfo } from './artist/List'
 import WorkList, { getWorkLibraryNameInfo } from './work/List'
 import { loadLibraryEntries } from 'actions/library'
+import { workTypesPropType } from 'reducers/library'
 
 class List extends Component {
     static propTypes = {
-        workTypes: PropTypes.object.isRequired,
+        workTypes: workTypesPropType,
         location: PropTypes.object.isRequired,
         match: PropTypes.shape({
             params: PropTypes.shape({

@@ -4,12 +4,11 @@ import PropTypes from 'prop-types'
 import ArtistEntry from './Entry'
 import ListWrapper from '../ListWrapper'
 import Navigator from 'components/generics/Navigator'
+import { artistLibraryPropType } from 'reducers/library'
 
 class ArtistList extends Component {
     static propTypes = {
-        entries: PropTypes.shape({
-            data: PropTypes.object.isRequired,
-        }).isRequired,
+        entries: artistLibraryPropType.isRequired,
     }
 
     render() {

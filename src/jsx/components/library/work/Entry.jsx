@@ -1,15 +1,12 @@
 import React, { Component } from 'react'
 import { stringify } from 'query-string'
 import PropTypes from 'prop-types'
+import { workPropType } from 'serverPropTypes/library'
 
 class WorkEntry extends Component {
     static propTypes = {
         workType: PropTypes.string.isRequired,
-        work: PropTypes.shape({
-            title: PropTypes.string.isRequired,
-            subtitle: PropTypes.string,
-            song_count: PropTypes.number.isRequired,
-        }).isRequired,
+        work: workPropType.isRequired,
     }
 
     static contextTypes = {

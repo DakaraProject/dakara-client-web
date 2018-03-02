@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import WorkLink from 'components/song/WorkLink'
+import { workLinkPropType } from 'serverPropTypes/library'
 
 export default class SongEntryExpandedWork extends Component {
     static propTypes = {
-        work: PropTypes.shape({
-            work: PropTypes.shape({
-                title: PropTypes.string.isRequired,
-            }).isRequired,
-        }).isRequired,
+        work: workLinkPropType.isRequired,
     }
 
     handleSearchWork = () => {

@@ -1,10 +1,10 @@
+import PropTypes from 'prop-types'
 import { FORM_REQUEST, FORM_SUCCESS, FORM_FAILURE, FORM_CLEAR, FORM_SET_VALIDATION_ERRORS } from 'actions/forms'
-import { Status } from 'reducers/alterationsStatus'
+import { Status } from './alterationsStatus'
 
 /**
- * This reducer contains forms state
+ * Forms contains an object of form items
  */
-
 
 export default function forms(state = {}, action) {
     const { formName } = action
@@ -18,6 +18,21 @@ export default function forms(state = {}, action) {
 
     return state
 }
+
+/**
+ * Form content
+ *   status: status of the form request
+ *   message: global message relative to the current form request
+ *   fields: error messages associated to fields
+ */
+
+export const formPropType = PropTypes.shape({
+    status: PropTypes.symbol,
+    message: PropTypes.string,
+    fields: PropTypes.objectOf(
+        PropTypes.string
+    ),
+})
 
 function form(state, action) {
     switch (action.type) {

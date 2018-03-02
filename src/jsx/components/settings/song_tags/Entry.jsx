@@ -5,20 +5,16 @@ import classNames from 'classnames'
 import { FormInline, CheckboxField, HueField } from 'components/generics/Form'
 import Notification from 'components/generics/Notification'
 import { Status } from 'reducers/alterationsStatus'
+import { songTagPropType } from 'serverPropTypes/library'
+import { alterationStatusPropType } from 'reducers/alterationsStatus'
+import { formPropType } from 'reducers/forms'
 
 export default class SongTagEntry extends Component {
     static propTypes = {
-        tag: PropTypes.shape({
-            id: PropTypes.any.isRequired,
-            color_hue: PropTypes.number.isRequired,
-            name: PropTypes.string.isRequired,
-            disabled: PropTypes.bool.isRequired,
-        }).isRequired,
-        editStatus: PropTypes.shape({
-            status: PropTypes.symbol,
-        }),
+        tag: songTagPropType.isRequired,
+        editStatus: alterationStatusPropType,
         editSongTag: PropTypes.func.isRequired,
-        formResponse: PropTypes.object, // should be isRequired
+        formResponse: formPropType, // should be isRequired
     }
 
     state = {

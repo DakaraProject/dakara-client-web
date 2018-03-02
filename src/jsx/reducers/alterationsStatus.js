@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE, ALTERATION_STATUS_CLEAR } from 'actions/alterationsStatus'
 
 export const Status = Object.freeze({
@@ -7,9 +8,7 @@ export const Status = Object.freeze({
 })
 
 /**
- * Alteration status content:
- *   status: status of the alteration
- *   message: external message relative to the current status
+ * Alterations status contains is an object of alteration status items
  */
 
 export default function alterationsStatus(state = {}, action) {
@@ -28,6 +27,17 @@ export default function alterationsStatus(state = {}, action) {
 
     return state
 }
+
+/**
+ * Alteration status content:
+ *   status: status of the alteration
+ *   message: external message relative to the current status
+ */
+
+export const alterationStatusPropType = PropTypes.shape({
+    status: PropTypes.symbol,
+    message: PropTypes.string,
+})
 
 function alterationStatus(state, action) {
     switch (action.type) {
