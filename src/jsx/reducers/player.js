@@ -132,7 +132,7 @@ const generatePlayerCommandReducer = commandName => (state = defaultPlayerComman
     }
 }
 
-export const playerCommandsPropTypes = PropTypes.shape({
+export const playerCommandsPropType = PropTypes.shape({
     pause: alterationStatusPropType.isRequired,
     skip: alterationStatusPropType.isRequired,
 })

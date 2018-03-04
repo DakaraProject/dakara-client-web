@@ -13,12 +13,12 @@ import { loadPlayerStatus, sendPlayerCommands } from 'actions/player'
 import Playlist from './playlist/List'
 import { Status } from 'reducers/alterationsStatus'
 import PlayerNotification from './Notification'
-import { playerStatusPropType, playerCommandsPropTypes } from 'reducers/player'
+import { playerStatusPropType, playerCommandsPropType } from 'reducers/player'
 
 class Player extends Component {
     static propTypes = {
         playerStatus: playerStatusPropType.isRequired,
-        commands: playerCommandsPropTypes.isRequired,
+        commands: playerCommandsPropType.isRequired,
         loadPlayerStatus: PropTypes.func.isRequired,
         sendPlayerCommands: PropTypes.func.isRequired,
     }
