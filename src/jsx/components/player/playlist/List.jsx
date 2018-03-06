@@ -9,7 +9,7 @@ import { loadPlaylist, toogleCollapsedPlaylist } from 'actions/player'
 import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions/player'
 import PlaylistEntry from './Entry'
 import { playlistEntriesPropType } from 'reducers/playlist'
-import { playerStatusPropType } from 'reducers/player'
+import { playerDigestPropType } from 'reducers/player'
 import { alterationStatusPropType } from 'reducers/alterationsStatus'
 
 class Playlist extends Component {
@@ -18,7 +18,7 @@ class Playlist extends Component {
             entries: playlistEntriesPropType.isRequired,
             collapsed: PropTypes.bool.isRequired,
         }).isRequired,
-        playerStatus: playerStatusPropType.isRequired,
+        playerDigest: playerDigestPropType.isRequired,
         removeEntryStatus: alterationStatusPropType,
         loadPlaylist: PropTypes.func.isRequired,
         toogleCollapsedPlaylist: PropTypes.func.isRequired,
@@ -57,7 +57,7 @@ class Playlist extends Component {
 
         // compute time remaing for currently playing song
         let remainingTime = 0
-        const playerStatus = this.props.playerStatus.data.status
+        const playerStatus = this.props.playerDigest.data.status
         if (playerStatus.playlist_entry) {
             remainingTime = playerStatus.playlist_entry.song.duration - playerStatus.timing
         }
@@ -177,7 +177,7 @@ class Playlist extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playerStatus: state.player.status,
+    playerDigest: state.player.digest,
     playlist: state.player.playlist,
     removeEntryStatus: state.alterationsStatus.removeEntryFromPlaylist,
 })

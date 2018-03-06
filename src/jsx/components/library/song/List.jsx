@@ -6,13 +6,13 @@ import ListWrapper from '../ListWrapper'
 import Navigator from 'components/generics/Navigator'
 import { songLibraryPropType } from 'reducers/library'
 import { playlistEntriesPropType } from 'reducers/playlist'
-import { playerStatusPropType } from 'reducers/player'
+import { playerDigestPropType } from 'reducers/player'
 
 class SongList extends Component {
     static propTypes = {
         entries: songLibraryPropType.isRequired,
         playlistEntries: playlistEntriesPropType.isRequired,
-        playerStatus: playerStatusPropType.isRequired,
+        playerDigest: playerDigestPropType.isRequired,
         location: PropTypes.object.isRequired,
     }
 
@@ -28,7 +28,7 @@ class SongList extends Component {
 
         const currentTime = new Date().getTime()
         let remainingTime = 0
-        const playerStatus = this.props.playerStatus.data.status
+        const playerStatus = this.props.playerDigest.data.status
         const playlistInfo = {}
 
         // First, if a song is playing,
@@ -104,7 +104,7 @@ class SongList extends Component {
 const mapStateToProps = (state) => ({
     entries: state.library.song,
     playlistEntries: state.player.playlist.entries,
-    playerStatus: state.player.status,
+    playerDigest: state.player.digest,
 })
 
 SongList = connect(

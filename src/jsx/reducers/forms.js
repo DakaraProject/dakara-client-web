@@ -30,7 +30,9 @@ export const formPropType = PropTypes.shape({
     status: PropTypes.symbol,
     message: PropTypes.string,
     fields: PropTypes.objectOf(
-        PropTypes.string
+        PropTypes.arrayOf(
+            PropTypes.string
+        )
     ),
 })
 

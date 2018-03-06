@@ -3,7 +3,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { Status } from 'reducers/alterationsStatus'
 import PropTypes from 'prop-types'
 import { alterationStatusPropType } from 'reducers/alterationsStatus'
-import { playerErrorPropType } from 'reducers/player'
+import { playerErrorPropType } from 'serverPropTypes/playlist'
 
 const notificationTypes = {
     [Status.pending]: 'success',
