@@ -27,7 +27,8 @@
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
     "redux-devtools": "^3.4.1",
-    "style-loader": "^0.19.1"
+    "style-loader": "^0.19.1",
+    "webpack": "^3.0.0"
   },
   "dependencies": {
     "classnames": "^2.2.5",
@@ -42,7 +43,6 @@
     "redux": "^3.7.2",
     "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.2.0",
-    "sprintf-js": "^1.1.1",
-    "webpack": "^3.10.0"
+    "sprintf-js": "^1.1.1"
   }
 }
