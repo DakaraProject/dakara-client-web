@@ -18,3 +18,8 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+// Workaround to support fetch
+Cypress.on("window:before:load", win => {
+  win.fetch = null;
+});
