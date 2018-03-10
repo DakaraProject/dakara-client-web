@@ -1,0 +1,12 @@
+{
+    "status": {
+        "playlist_entry": null,
+        "timing": 0,
+        "paused": false
+    },
+    "manage": {
+        "pause": false,
+        "skip": false
+    },
+    "errors": []
+}
