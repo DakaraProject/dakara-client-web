@@ -108,7 +108,7 @@ export default ({getState, dispatch}) => next => action => {
             }
 
             const contentType = response.headers.get("content-type")
-            if (contentType != "application/json") {
+            if (!contentType.includes("application/json")) {
                 if (!response.ok) {
                     return Promise.reject()
                 }
