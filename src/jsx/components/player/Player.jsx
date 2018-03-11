@@ -8,7 +8,7 @@ import classNames from 'classnames'
 import { formatDuration, formatTime, params } from 'utils'
 import Song from 'components/song/Song'
 import UserWidget from 'components/generics/UserWidget'
-import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
+import { IsPlaylistManagerOrOwner, KaraStatusIsNotStopped } from 'components/permissions/Playlist'
 import { loadPlayerDigest, sendPlayerCommands } from 'actions/player'
 import Playlist from './playlist/List'
 import { Status } from 'reducers/alterationsStatus'
@@ -155,88 +155,90 @@ class Player extends Component {
         )
 
         return (
-            <div className="box">
-                <div id="player">
-                    <div className="display-area">
-                        <div className="controls">
-                            <IsPlaylistManagerOrOwner
-                                object={player_status.playlist_entry}
-                                disable
-                            >
-                                <button
-                                    className={playPauseClass}
-                                    onClick={() => {
-                                        this.props.sendPlayerCommands({pause: !player_manage.pause})
-                                    }}
-                                    disabled={controlDisabled}
+            <KaraStatusIsNotStopped>
+                <div className="box">
+                    <div id="player">
+                        <div className="display-area">
+                            <div className="controls">
+                                <IsPlaylistManagerOrOwner
+                                    object={player_status.playlist_entry}
+                                    disable
                                 >
-                                    <TransitionGroup>
-                                        {playPauseIcon}
-                                    </TransitionGroup>
-                                </button>
-                            </IsPlaylistManagerOrOwner>
-                            <IsPlaylistManagerOrOwner
-                                object={player_status.playlist_entry}
-                                disable
-                            >
-                                <button
-                                    className={skipClass}
-                                    onClick={() => this.props.sendPlayerCommands({skip: true})}
-                                    disabled={controlDisabled}
+                                    <button
+                                        className={playPauseClass}
+                                        onClick={() => {
+                                            this.props.sendPlayerCommands({pause: !player_manage.pause})
+                                        }}
+                                        disabled={controlDisabled}
+                                    >
+                                        <TransitionGroup>
+                                            {playPauseIcon}
+                                        </TransitionGroup>
+                                    </button>
+                                </IsPlaylistManagerOrOwner>
+                                <IsPlaylistManagerOrOwner
+                                    object={player_status.playlist_entry}
+                                    disable
                                 >
-                                    <TransitionGroup>
-                                        {skipIcon}
-                                    </TransitionGroup>
-                                </button>
-                            </IsPlaylistManagerOrOwner>
-                        </div>
-                        <div className="song-container notifiable">
-                            {songData}
-                            {playlistEntryOwner}
-                            <div className="song-timing">
-                                <div className="current">
-                                    {formatTime(player_status.timing)}
-                                </div>
-                                <div className="duration">
-                                    {formatDuration(duration)}
-                                </div>
+                                    <button
+                                        className={skipClass}
+                                        onClick={() => this.props.sendPlayerCommands({skip: true})}
+                                        disabled={controlDisabled}
+                                    >
+                                        <TransitionGroup>
+                                            {skipIcon}
+                                        </TransitionGroup>
+                                    </button>
+                                </IsPlaylistManagerOrOwner>
                             </div>
-                            <CSSTransitionLazy
-                                in={fetchError}
-                                classNames="notified"
-                                timeout={{
-                                    enter: 300,
-                                    exit: 150
-                                }}
-                            >
-                                <div className="notified">
-                                    <div className="notification danger">
-                                        <div className="message">
-                                            Unable to get status from server
-                                        </div>
-                                        <div className="animation pending">
-                                            <span className="point">·</span>
-                                            <span className="point">·</span>
-                                            <span className="point">·</span>
-                                        </div>
+                            <div className="song-container notifiable">
+                                {songData}
+                                {playlistEntryOwner}
+                                <div className="song-timing">
+                                    <div className="current">
+                                        {formatTime(player_status.timing)}
+                                    </div>
+                                    <div className="duration">
+                                        {formatDuration(duration)}
                                     </div>
                                 </div>
-                            </CSSTransitionLazy>
-                            <PlayerNotification
-                                alterationStatuses={[
-                                    this.props.commands.pause,
-                                    this.props.commands.skip
-                                ]}
-                                playerErrors={player_errors}
-                            />
+                                <CSSTransitionLazy
+                                    in={fetchError}
+                                    classNames="notified"
+                                    timeout={{
+                                        enter: 300,
+                                        exit: 150
+                                    }}
+                                >
+                                    <div className="notified">
+                                        <div className="notification danger">
+                                            <div className="message">
+                                                Unable to get status from server
+                                            </div>
+                                            <div className="animation pending">
+                                                <span className="point">·</span>
+                                                <span className="point">·</span>
+                                                <span className="point">·</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </CSSTransitionLazy>
+                                <PlayerNotification
+                                    alterationStatuses={[
+                                        this.props.commands.pause,
+                                        this.props.commands.skip
+                                    ]}
+                                    playerErrors={player_errors}
+                                />
+                            </div>
+                        </div>
+                        <div className="progressbar">
+                            <div className="progress" style={progressStyle}></div>
                         </div>
                     </div>
-                    <div className="progressbar">
-                        <div className="progress" style={progressStyle}></div>
-                    </div>
-                </div>
                 <Playlist/>
             </div>
+            </KaraStatusIsNotStopped>
         )
     }
 }

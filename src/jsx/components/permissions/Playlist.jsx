@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -49,3 +49,29 @@ export const IsPlaylistUser = withRouter(connect(
         }
     }
 ))
+
+
+/**
+ * Kara status is not stopped
+ */
+
+class KaraStatusIsNotStopped extends Component {
+    render() {
+        if (this.props.karaStatus.status == 'stop') {
+            return null
+        }
+
+        return this.props.children
+    }
+}
+
+const mapStateToPropsKaraStatus = (state) => ({
+    karaStatus: state.player.digest.data.kara_status,
+})
+
+KaraStatusIsNotStopped = connect(
+        mapStateToPropsKaraStatus,
+        {}
+)(KaraStatusIsNotStopped)
+
+export {KaraStatusIsNotStopped}

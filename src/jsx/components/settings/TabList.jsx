@@ -18,6 +18,11 @@ export default class SettingsTabList extends Component {
                     iconName="tags"
                     name="Tags"
                 />
+                <Tab
+                    to="/settings/kara-status"
+                    iconName="check-square-o"
+                    name="Kara status"
+                />
             </nav>
         )
     }

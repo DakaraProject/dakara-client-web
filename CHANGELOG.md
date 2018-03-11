@@ -30,6 +30,10 @@
 
 ## Unreleased
 
+### Added
+
+- Kara status setting
+
 ### Changed
 
 - Users and song tags page moved to settings page

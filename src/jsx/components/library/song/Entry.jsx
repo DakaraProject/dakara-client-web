@@ -12,7 +12,7 @@ import { clearSongListNotification } from 'actions/library'
 import Song from 'components/song/Song'
 import SongEntryExpanded from './EntryExpanded'
 import UserWidget from 'components/generics/UserWidget'
-import { IsPlaylistUser } from 'components/permissions/Playlist'
+import { IsPlaylistUser, KaraStatusIsNotStopped } from 'components/permissions/Playlist'
 import Notification from 'components/generics/Notification'
 import { songPropType } from 'serverPropTypes/library'
 import { alterationStatusPropType } from 'reducers/alterationsStatus'
@@ -132,18 +132,20 @@ class SongEntry extends Component {
                             className="controls"
                             id={`song-${this.props.song.id}`}
                         >
-                            <IsPlaylistUser>
-                                <button
-                                    className="control primary"
-                                    onClick={() => {
-                                        this.props.addSongToPlaylist(this.props.song.id)
-                                    }}
-                                >
-                                    <span className="icon">
-                                        <i className="fa fa-plus"></i>
-                                    </span>
-                                </button>
-                            </IsPlaylistUser>
+                            <KaraStatusIsNotStopped>
+                                <IsPlaylistUser>
+                                    <button
+                                        className="control primary"
+                                        onClick={() => {
+                                            this.props.addSongToPlaylist(this.props.song.id)
+                                        }}
+                                    >
+                                        <span className="icon">
+                                            <i className="fa fa-plus"></i>
+                                        </span>
+                                    </button>
+                                </IsPlaylistUser>
+                            </KaraStatusIsNotStopped>
                         </div>
                         <Notification
                             alterationStatus={this.props.addSongStatus}

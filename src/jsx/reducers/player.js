@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import playlist from './playlist'
 import { PLAYER_DIGEST_REQUEST, PLAYER_DIGEST_SUCCESS, PLAYER_DIGEST_FAILURE } from 'actions/player'
 import { PLAYER_COMMANDS_REQUEST, PLAYER_COMMANDS_SUCCESS, PLAYER_COMMANDS_FAILURE } from 'actions/player'
+import { FORM_SUCCESS } from 'actions/forms'
 import { Status, handleFailureMessage, alterationsStatusPropType } from './alterationsStatus'
-import { playlistEntryPropType, playerStatusPropType, playerManagePropType, playerErrorPropType } from 'serverPropTypes/playlist'
+import { playlistEntryPropType, playerStatusPropType, playerManagePropType, playerErrorPropType, karaStatusPropType } from 'serverPropTypes/playlist'
 import { alterationStatusPropType } from './alterationsStatus'
 
 /**
@@ -20,6 +21,7 @@ export const playerDigestPropType = PropTypes.shape({
         player_status: playerStatusPropType.isRequired,
         player_manage: playerManagePropType.isRequired,
         player_errors: PropTypes.arrayOf(playerErrorPropType).isRequired,
+        kara_status: karaStatusPropType.isRequired,
     }).isRequired,
     isFetching: PropTypes.bool.isRequired,
     fetchError: PropTypes.bool.isRequired,
@@ -35,7 +37,10 @@ const defaultPlayerDigest = {
             pause: false,
             skip: false
         },
-        player_errors: []
+        player_errors: [],
+        kara_status: {
+            status: "stop",
+        },
     },
     isFetching: false,
     fetchError: false
@@ -79,6 +84,19 @@ function digest(state = defaultPlayerDigest, action) {
             }
 
             return state
+
+        case FORM_SUCCESS:
+            if (action.formName == "editKaraStatus") {
+                return {
+                    ...state,
+                    data: {
+                        ...state.data,
+                        kara_status: {
+                            status: action.response.status
+                        }
+                    }
+                }
+            }
 
         default:
             return state
