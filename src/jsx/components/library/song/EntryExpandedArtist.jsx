@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { artistPropType } from 'serverPropTypes/library'
 
 export default class SongEntryExpandedArtist extends Component {
     static propTypes = {
-        artist: PropTypes.shape({
-            name: PropTypes.string.isRequired,
-        }).isRequired,
+        artist: artistPropType.isRequired,
     }
 
     handleSearchArtist = () => {

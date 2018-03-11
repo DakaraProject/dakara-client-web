@@ -4,39 +4,15 @@ import PropTypes from 'prop-types'
 import SongEntry from './Entry'
 import ListWrapper from '../ListWrapper'
 import Navigator from 'components/generics/Navigator'
+import { songLibraryPropType } from 'reducers/library'
+import { playlistEntriesPropType } from 'reducers/playlist'
+import { playerDigestPropType } from 'reducers/player'
 
 class SongList extends Component {
     static propTypes = {
-        entries: PropTypes.shape({
-            data: PropTypes.shape({
-                results: PropTypes.arrayOf(PropTypes.shape({
-                    id: PropTypes.any.isRequired,
-
-                }).isRequired).isRequired
-            }).isRequired,
-            isFetching: PropTypes.bool.isRequired,
-            fetchError: PropTypes.bool.isRequired,
-        }).isRequired,
-        playlistEntries: PropTypes.shape({
-            results: PropTypes.arrayOf(PropTypes.shape({
-                song: PropTypes.shape({
-                    id: PropTypes.any.isRequired,
-                }).isRequired,
-                owner: PropTypes.object.isRequired,
-            }).isRequired).isRequired,
-        }).isRequired,
-        playerStatus: PropTypes.shape({
-            status: PropTypes.shape({
-                playlist_entry: PropTypes.shape({
-                    song: PropTypes.shape({
-                        id: PropTypes.any.isRequired,
-                        duration: PropTypes.number.isRequired,
-                    }).isRequired,
-                    owner: PropTypes.object.isRequired,
-                }),
-                timing: PropTypes.number.isRequired,
-            }).isRequired,
-        }).isRequired,
+        entries: songLibraryPropType.isRequired,
+        playlistEntries: playlistEntriesPropType.isRequired,
+        playerDigest: playerDigestPropType.isRequired,
         location: PropTypes.object.isRequired,
     }
 
@@ -52,7 +28,7 @@ class SongList extends Component {
 
         const currentTime = new Date().getTime()
         let remainingTime = 0
-        const playerStatus = this.props.playerStatus.status
+        const playerStatus = this.props.playerDigest.data.status
         const playlistInfo = {}
 
         // First, if a song is playing,
@@ -76,7 +52,7 @@ class SongList extends Component {
         // generate a map with song id as key
         // and time + owner as value
 
-        for (let entry of this.props.playlistEntries.results) {
+        for (let entry of this.props.playlistEntries.data.results) {
             if (!playlistInfo[entry.song.id]) {
                 playlistInfo[entry.song.id] = {
                     timeOfPlay: currentTime + remainingTime * 1000,
@@ -127,8 +103,8 @@ class SongList extends Component {
 
 const mapStateToProps = (state) => ({
     entries: state.library.song,
-    playlistEntries: state.player.playlist.entries.data,
-    playerStatus: state.player.status.data,
+    playlistEntries: state.player.playlist.entries,
+    playerDigest: state.player.digest,
 })
 
 SongList = connect(

@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { Status } from 'reducers/alterationsStatus'
 import PropTypes from 'prop-types'
+import { alterationStatusPropType } from 'reducers/alterationsStatus'
+import { playerErrorPropType } from 'serverPropTypes/playlist'
 
 const notificationTypes = {
     [Status.pending]: 'success',
@@ -14,14 +16,8 @@ const notificationTypes = {
  */
 export default class PlayerNotification extends Component {
     static propTypes = {
-        alterationStatuses: PropTypes.arrayOf(PropTypes.shape({
-            status: PropTypes.symbol,
-            message: PropTypes.string,
-        })).isRequired,
-        playerErrors: PropTypes.arrayOf(PropTypes.shape({
-            id: PropTypes.any.isRequired,
-            error_message: PropTypes.string.isRequired,
-        })).isRequired,
+        alterationStatuses: PropTypes.arrayOf(alterationStatusPropType).isRequired,
+        playerErrors: PropTypes.arrayOf(playerErrorPropType).isRequired,
     }
 
     state = {

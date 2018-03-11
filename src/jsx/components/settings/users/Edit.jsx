@@ -7,18 +7,13 @@ import { PermissionBase } from 'components/permissions/Base'
 import { IsUserManager, IsNotSelf } from 'components/permissions/Users'
 import NotFound from 'components/navigation/NotFound'
 import Forbidden from 'components/navigation/Forbidden'
+import { userPropType } from 'serverPropTypes/users'
 
 class UsersEdit extends Component {
     static propTypes = {
-        user: PropTypes.shape({
-            username: PropTypes.string.isRequired,
-            is_superuser: PropTypes.bool.isRequired,
-            users_permission_level: PropTypes.string,
-            library_permission_level: PropTypes.string,
-            playlist_permission_level: PropTypes.string,
-        }),
+        user: userPropType,
         isFetching: PropTypes.bool.isRequired,
-        authenticatedUser: PropTypes.object.isRequired,
+        authenticatedUser: userPropType.isRequired,
         location: PropTypes.object.isRequired,
         match: PropTypes.shape({
             params: PropTypes.shape({

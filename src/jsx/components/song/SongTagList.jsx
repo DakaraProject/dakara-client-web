@@ -1,15 +1,11 @@
 import React, { Component } from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
+import { songTagPropType } from 'serverPropTypes/library'
 
 export default class SongTagList extends Component {
     static propTypes = {
-        tags: PropTypes.arrayOf(
-            PropTypes.shape({
-                color_hue: PropTypes.number.isRequired,
-                name: PropTypes.string.isRequired,
-            })
-        ).isRequired,
+        tags: PropTypes.arrayOf(songTagPropType).isRequired,
         setQuery: PropTypes.func,
         query: PropTypes.object,
         unclickable: PropTypes.bool,

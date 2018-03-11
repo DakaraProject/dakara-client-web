@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
 import { stringify } from 'query-string'
 import PropTypes from 'prop-types'
+import { artistPropType } from 'serverPropTypes/library'
 
 class ArtistEntry extends Component {
     static propTypes = {
-        artist: PropTypes.shape({
-            name: PropTypes.string.isRequired,
-            song_count: PropTypes.number.isRequired,
-        }).isRequired,
+        artist: artistPropType.isRequired,
     }
 
     static contextTypes = {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Highlighter from 'react-highlight-words'
 import PropTypes from 'prop-types'
+import { workLinkPropType } from 'serverPropTypes/library'
 
 /**
  * Display work link
@@ -13,20 +14,7 @@ import PropTypes from 'prop-types'
  */
 export default class WorkLink extends Component {
     static propTypes = {
-        workLink: PropTypes.shape({
-            work: PropTypes.shape({
-                title: PropTypes.string.isRequired,
-                subtitle: PropTypes.string,
-                work_type: PropTypes.shape({
-                    query_name: PropTypes.string.isRequired,
-                    icon_name: PropTypes.string.isRequired,
-                }).isRequired,
-            }).isRequired,
-            link_type_name: PropTypes.string.isRequired,
-            link_type_number: PropTypes.number,
-            link_type: PropTypes.string.isRequired,
-            episodes: PropTypes.string,
-        }).isRequired,
+        workLink: workLinkPropType.isRequired,
         query: PropTypes.object,
         longLinkType: PropTypes.bool,
         noIcon: PropTypes.bool,

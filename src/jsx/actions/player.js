@@ -44,24 +44,24 @@ export const removeEntryFromPlaylist = (entryId) => ({
 })
 
 /**
- * Get player status
+ * Get player information digest
  */
 
-export const PLAYER_STATUS_REQUEST = 'PLAYER_STATUS_REQUEST'
-export const PLAYER_STATUS_SUCCESS = 'PLAYER_STATUS_SUCCESS'
-export const PLAYER_STATUS_FAILURE = 'PLAYER_STATUS_FAILURE'
+export const PLAYER_DIGEST_REQUEST = 'PLAYER_DIGEST_REQUEST'
+export const PLAYER_DIGEST_SUCCESS = 'PLAYER_DIGEST_SUCCESS'
+export const PLAYER_DIGEST_FAILURE = 'PLAYER_DIGEST_FAILURE'
 
 /**
- * Request player status 
+ * Request player information digest
  */
-export const loadPlayerStatus = () => ({
+export const loadPlayerDigest = () => ({
     [FETCH_API]: {
         endpoint: `${baseUrl}playlist/player/`,
         method: 'GET',
         types: [
-            PLAYER_STATUS_REQUEST,
-            PLAYER_STATUS_SUCCESS,
-            PLAYER_STATUS_FAILURE
+            PLAYER_DIGEST_REQUEST,
+            PLAYER_DIGEST_SUCCESS,
+            PLAYER_DIGEST_FAILURE
         ],
     }
 })
@@ -88,7 +88,7 @@ export const sendPlayerCommands = (commands) => ({
                 PLAYER_COMMANDS_SUCCESS,
                 PLAYER_COMMANDS_FAILURE
             ],
-            onSuccess: loadPlayerStatus(),
+            onSuccess: loadPlayerDigest(),
     },
     commands
 })

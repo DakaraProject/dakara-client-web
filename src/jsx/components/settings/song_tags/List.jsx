@@ -7,21 +7,16 @@ import { getSongTagList, editSongTag, clearTagListEntryNotification } from 'acti
 import Navigator from 'components/generics/Navigator'
 import SongTagEntry from './Entry'
 import SettingsTabList from '../TabList'
+import { songTagsPropType } from 'reducers/songTags'
+import { alterationStatusPropType } from 'reducers/alterationsStatus'
+import { formPropType } from 'reducers/forms'
 
 class SongTagList extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
-        entries: PropTypes.shape({
-            data: PropTypes.shape({
-                results: PropTypes.arrayOf(
-                    PropTypes.shape({
-                        id: PropTypes.any.isRequired,
-                    }).isRequired,
-                ),
-            }).isRequired,
-        }).isRequired,
-        editStatus: PropTypes.object,
-        formsResponse: PropTypes.object.isRequired,
+        entries: songTagsPropType.isRequired,
+        editStatus: alterationStatusPropType,
+        formsResponse: PropTypes.objectOf(formPropType),
         editSongTag: PropTypes.func.isRequired,
         getSongTagList: PropTypes.func.isRequired,
         clearTagListEntryNotification: PropTypes.func.isRequired,

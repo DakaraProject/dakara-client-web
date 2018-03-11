@@ -5,6 +5,7 @@ import { formatDuration } from 'utils'
 import WorkLink from './WorkLink'
 import SongArtistList from './SongArtistList'
 import SongTagList from './SongTagList'
+import { songPropType } from 'serverPropTypes/library'
 
 /**
  * Displays a song info in a compact format.
@@ -17,22 +18,11 @@ import SongTagList from './SongTagList'
  */
 export default class Song extends Component {
     static propTypes = {
-        song: PropTypes.shape({
-            title: PropTypes.string.isRequired,
-            version: PropTypes.string,
-            works: PropTypes.arrayOf(
-                PropTypes.object
-            ).isRequired,
-            artits: PropTypes.arrayOf(
-                PropTypes.object
-            ), // should be isRequired
-            noArtistWork: PropTypes.bool,
-            duration: PropTypes.number.isRequired,
-            noDuration: PropTypes.bool,
-            tags: PropTypes.array.isRequired,
-            noTag: PropTypes.bool,
-        }).isRequired,
+        song: songPropType.isRequired,
         query: PropTypes.object, // should be isRequired
+        noArtistWork: PropTypes.bool,
+        noDuration: PropTypes.bool,
+        noTag: PropTypes.bool,
     }
 
     render() {

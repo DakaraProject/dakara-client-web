@@ -2,7 +2,6 @@ import { FORM_SUCCESS } from 'actions/forms'
 import { LOGOUT } from 'actions/token'
 import { SET_TOKEN } from 'actions/token'
 
-
 /**
  * Authentication token with the Dakara server
  */

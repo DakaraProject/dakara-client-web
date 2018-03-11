@@ -9,42 +9,30 @@ import { formatDuration, formatTime, params } from 'utils'
 import Song from 'components/song/Song'
 import UserWidget from 'components/generics/UserWidget'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
-import { loadPlayerStatus, sendPlayerCommands } from 'actions/player'
+import { loadPlayerDigest, sendPlayerCommands } from 'actions/player'
 import Playlist from './playlist/List'
 import { Status } from 'reducers/alterationsStatus'
 import PlayerNotification from './Notification'
+import { playerDigestPropType, playerCommandsPropType } from 'reducers/player'
 
 class Player extends Component {
     static propTypes = {
-        playerStatus: PropTypes.shape({
-            data: PropTypes.shape({
-                errors: PropTypes.array.isRequired,
-            }),
-            isFetching: PropTypes.bool.isRequired,
-            fetchError: PropTypes.bool.isRequired,
-        }).isRequired,
-        commands: PropTypes.shape({
-            pause: PropTypes.shape({
-                status: PropTypes.symbol,
-            }).isRequired,
-            skip: PropTypes.shape({
-                status: PropTypes.symbol,
-            }).isRequired,
-        }).isRequired,
-        loadPlayerStatus: PropTypes.func.isRequired,
+        playerDigest: playerDigestPropType.isRequired,
+        commands: playerCommandsPropType.isRequired,
+        loadPlayerDigest: PropTypes.func.isRequired,
         sendPlayerCommands: PropTypes.func.isRequired,
     }
 
-    pollPlayerStatus = () => {
-        if (!this.props.playerStatus.isFetching) {
-            this.props.loadPlayerStatus()
+    pollPlayerDigest = () => {
+        if (!this.props.playerDigest.isFetching) {
+            this.props.loadPlayerDigest()
         }
-        this.timeout = setTimeout(this.pollPlayerStatus, params.pollInterval)
+        this.timeout = setTimeout(this.pollPlayerDigest, params.pollInterval)
     }
 
     componentWillMount() {
         // start polling server
-        this.pollPlayerStatus()
+        this.pollPlayerDigest()
     }
 
     componentWillUnmount() {
@@ -53,8 +41,8 @@ class Player extends Component {
     }
 
     render() {
-        const { status: playerStatus, manage: playerCommand } = this.props.playerStatus.data
-        const { fetchError } = this.props.playerStatus
+        const { status: playerStatus, manage: playerCommand, errors: playerErrors } = this.props.playerDigest.data
+        const { fetchError } = this.props.playerDigest
         let song
         let songSubtitle
         let songData
@@ -239,7 +227,7 @@ class Player extends Component {
                                     this.props.commands.pause,
                                     this.props.commands.skip
                                 ]}
-                                playerErrors={this.props.playerStatus.data.errors}
+                                playerErrors={playerErrors}
                             />
                         </div>
                     </div>
@@ -254,14 +242,14 @@ class Player extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playerStatus: state.player.status,
+    playerDigest: state.player.digest,
     commands: state.player.commands,
 })
 
 Player = withRouter(connect(
     mapStateToProps,
     {
-        loadPlayerStatus,
+        loadPlayerDigest,
         sendPlayerCommands,
     }
 )(Player))

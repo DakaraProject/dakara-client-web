@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Highlighter from 'react-highlight-words'
 import PropTypes from 'prop-types'
+import { artistPropType } from 'serverPropTypes/library'
 
 /**
  * Display all artists
@@ -12,11 +13,7 @@ import PropTypes from 'prop-types'
 export default class SongArtistList extends Component {
     static propTypes = {
         query: PropTypes.object,
-        artists: PropTypes.arrayOf(
-            PropTypes.shape({
-                name: PropTypes.string.isRequired,
-            })
-        ).isRequired,
+        artists: PropTypes.arrayOf(artistPropType).isRequired,
     }
 
     render() {

@@ -4,20 +4,13 @@ import PropTypes from 'prop-types'
 import WorkEntry from './Entry'
 import ListWrapper from '../ListWrapper'
 import Navigator from 'components/generics/Navigator'
+import { workLibraryPropType, workTypesPropType } from 'reducers/library'
 
 class WorkList extends Component {
     static propTypes = {
-        entries: PropTypes.shape({
-            data: PropTypes.shape({
-                results: PropTypes.arrayOf(PropTypes.shape({
-                    id: PropTypes.any.isRequired,
-                }).isRequired).isRequired,
-            }),
-            isFetching: PropTypes.bool.isRequired,
-            fetchError: PropTypes.bool.isRequired,
-        }),
+        entries: workLibraryPropType,
         libraryType: PropTypes.string.isRequired,
-        workTypes: PropTypes.object.isRequired,
+        workTypes: workTypesPropType.isRequired,
     }
 
     render() {
