@@ -41,7 +41,7 @@ class Player extends Component {
     }
 
     render() {
-        const { status: playerStatus, manage: playerCommand, errors: playerErrors } = this.props.playerDigest.data
+        const { player_status, player_manage, player_errors } = this.props.playerDigest.data
         const { fetchError } = this.props.playerDigest
         let song
         let songSubtitle
@@ -49,7 +49,7 @@ class Player extends Component {
         let playlistEntryOwner
         let duration
         let progress
-        const isPlaying = !!playerStatus.playlist_entry
+        const isPlaying = !!player_status.playlist_entry
         let playIconClassAray = []
 
         /**
@@ -57,8 +57,8 @@ class Player extends Component {
          */
 
         if (isPlaying){
-            song = playerStatus.playlist_entry.song
-            duration = playerStatus.playlist_entry.song.duration
+            song = player_status.playlist_entry.song
+            duration = player_status.playlist_entry.song.duration
 
             songData = (
                     <Song
@@ -70,17 +70,17 @@ class Player extends Component {
 
             playlistEntryOwner = (
                     <UserWidget
-                        user={playerStatus.playlist_entry.owner}
+                        user={player_status.playlist_entry.owner}
                         className="playlist-entry-owner"
                     />
                 )
 
-            progress = playerStatus.timing * 100 / duration;
+            progress = player_status.timing * 100 / duration;
 
             // use playercmd pause status instead of player pause status
             playIconClassAray.push({
-                'fa-play': playerCommand.pause,
-                'fa-pause': !playerCommand.pause
+                'fa-play': player_manage.pause,
+                'fa-pause': !player_manage.pause
             })
         } else {
             playIconClassAray.push('fa-stop')
@@ -104,7 +104,7 @@ class Player extends Component {
                 >
                     <span
                         className="managed icon"
-                        key={playerCommand.pause ? 'play' : 'pause'}
+                        key={player_manage.pause ? 'play' : 'pause'}
                     >
                         <i className={classNames('fa', playIconClassAray)}></i>
                     </span>
@@ -160,13 +160,13 @@ class Player extends Component {
                     <div className="display-area">
                         <div className="controls">
                             <IsPlaylistManagerOrOwner
-                                object={playerStatus.playlist_entry}
+                                object={player_status.playlist_entry}
                                 disable
                             >
                                 <button
                                     className={playPauseClass}
                                     onClick={() => {
-                                        this.props.sendPlayerCommands({pause: !playerCommand.pause})
+                                        this.props.sendPlayerCommands({pause: !player_manage.pause})
                                     }}
                                     disabled={controlDisabled}
                                 >
@@ -176,7 +176,7 @@ class Player extends Component {
                                 </button>
                             </IsPlaylistManagerOrOwner>
                             <IsPlaylistManagerOrOwner
-                                object={playerStatus.playlist_entry}
+                                object={player_status.playlist_entry}
                                 disable
                             >
                                 <button
@@ -195,7 +195,7 @@ class Player extends Component {
                             {playlistEntryOwner}
                             <div className="song-timing">
                                 <div className="current">
-                                    {formatTime(playerStatus.timing)}
+                                    {formatTime(player_status.timing)}
                                 </div>
                                 <div className="duration">
                                     {formatDuration(duration)}
@@ -227,7 +227,7 @@ class Player extends Component {
                                     this.props.commands.pause,
                                     this.props.commands.skip
                                 ]}
-                                playerErrors={playerErrors}
+                                playerErrors={player_errors}
                             />
                         </div>
                     </div>

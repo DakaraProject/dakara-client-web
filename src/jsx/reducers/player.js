@@ -17,9 +17,9 @@ import { alterationStatusPropType } from './alterationsStatus'
 
 export const playerDigestPropType = PropTypes.shape({
     data: PropTypes.shape({
-        status: playerStatusPropType.isRequired,
-        manage: playerManagePropType.isRequired,
-        errors: PropTypes.arrayOf(playerErrorPropType).isRequired,
+        player_status: playerStatusPropType.isRequired,
+        player_manage: playerManagePropType.isRequired,
+        player_errors: PropTypes.arrayOf(playerErrorPropType).isRequired,
     }).isRequired,
     isFetching: PropTypes.bool.isRequired,
     fetchError: PropTypes.bool.isRequired,
@@ -27,15 +27,15 @@ export const playerDigestPropType = PropTypes.shape({
 
 const defaultPlayerDigest = {
     data: {
-        status: {
+        player_status: {
             playlist_entry: null,
             timing: 0
         },
-        manage: {
+        player_manage: {
             pause: false,
             skip: false
         },
-        errors: []
+        player_errors: []
     },
     isFetching: false,
     fetchError: false
@@ -70,8 +70,8 @@ function digest(state = defaultPlayerDigest, action) {
                     ...state,
                     data: {
                         ...state.data,
-                        manage: {
-                            ...state.data.manage,
+                        player_manage: {
+                            ...state.data.player_manage,
                             pause: action.commands.pause
                         }
                     }
