@@ -56,7 +56,7 @@ describe('Login tests', function() {
 
         // Start test
         cy.visit('/login')
-        
+
         // Only fill username field and submit
         cy.get('#username').type('flore{enter}')
 
