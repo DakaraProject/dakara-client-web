@@ -1,11 +1,30 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import SettingsTabList from './TabList'
-import { FormBlock, SelectField } from 'components/generics/Form'
+import { FormBlock, SelectField, RadioField} from 'components/generics/Form'
 
 class KaraStatus extends Component {
 
     render() {
+        const statusOptions = [
+            {
+                value: 'play',
+                name: "Playing: the player plays songs in the playlist, you \
+                can add songs to it."
+            },
+            {
+                value: 'pause',
+                name: "Paused: no additional song is played by the player, \
+                which finishes playing its current song. You can add songs \
+                to the playlist."
+            },
+            {
+                value: 'stop',
+                name: "Stopped: the player stops playing, the playlist is \
+                emptied and you can't add songs to it."
+            },
+        ]
+
         return (
             <div className="box" id="kara-status">
                 <SettingsTabList/>
@@ -21,15 +40,11 @@ class KaraStatus extends Component {
                     successMessage="Kara status sucessfully updated!"
                     noClearOnSuccess
                 >
-                    <SelectField
+                    <RadioField
                         id="status"
-                        label="Status"
                         defaultValue={this.props.karaStatus.status}
-                        options={[
-                            {value: 'stop', name: 'Stop'},
-                            {value: 'pause', name: 'Pause'},
-                            {value: 'play', name: 'Play'},
-                        ]}
+                        options={statusOptions}
+                        long
                     />
                 </FormBlock>
             </div>
