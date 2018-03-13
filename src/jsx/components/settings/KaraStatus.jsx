@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import SettingsTabList from './TabList'
-import { FormBlock, SelectField, RadioField} from 'components/generics/Form'
+import { FormBlock, RadioField} from 'components/generics/Form'
 
 class KaraStatus extends Component {
 

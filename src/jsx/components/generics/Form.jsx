@@ -692,7 +692,7 @@ export class SelectField extends Field {
  * - ignoreIfEmpty <bool>: When true, the field is passed to the server only if
  *                          its value is not empty.
  *
- * Extra properties are passed to the select tag.
+ * Extra properties are passed to the input tag.
  */
 export class RadioField extends Field {
     static propTypes = {
