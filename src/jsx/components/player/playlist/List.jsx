@@ -16,7 +16,6 @@ class Playlist extends Component {
     static propTypes = {
         playlist: PropTypes.shape({
             entries: playlistEntriesPropType.isRequired,
-            collapsed: PropTypes.bool.isRequired,
         }).isRequired,
         playerDigest: playerDigestPropType.isRequired,
         removeEntryStatus: alterationStatusPropType,
