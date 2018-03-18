@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux'
 import PropTypes from 'prop-types'
 import { PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE } from 'actions/player'
-import { PLAYLIST_TOOGLE_COLLAPSED } from 'actions/player'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 
 /**
@@ -45,24 +44,11 @@ function entries(state = defaultEntries, action) {
 }
 
 /**
- * Playlist collapsed status
- */
-
-function collapsed(state = true, action) {
-    if (action.type === PLAYLIST_TOOGLE_COLLAPSED) {
-        return !state
-    }
-
-    return state
-}
-
-/**
  * Playlist
  */
 
 const playlist = combineReducers({
     entries,
-    collapsed,
 })
 
 export default playlist

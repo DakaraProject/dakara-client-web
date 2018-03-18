@@ -44,7 +44,7 @@ class SongEntry extends Component {
     }
 
     /**
-     * Toogle expanded view of song
+     * Toggle expanded view of song
      */
 
     setExpanded = (expanded) => {

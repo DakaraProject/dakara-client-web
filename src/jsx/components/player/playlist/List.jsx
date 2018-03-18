@@ -5,7 +5,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import { withRouter } from 'react-router-dom'
 import { formatHourTime, params } from 'utils'
-import { loadPlaylist, toogleCollapsedPlaylist } from 'actions/player'
+import { loadPlaylist } from 'actions/player'
 import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions/player'
 import PlaylistEntry from './Entry'
 import { playlistEntriesPropType } from 'reducers/playlist'
@@ -21,13 +21,20 @@ class Playlist extends Component {
         playerDigest: playerDigestPropType.isRequired,
         removeEntryStatus: alterationStatusPropType,
         loadPlaylist: PropTypes.func.isRequired,
-        toogleCollapsedPlaylist: PropTypes.func.isRequired,
         removeEntryFromPlaylist: PropTypes.func.isRequired,
         clearPlaylistEntryNotification: PropTypes.func.isRequired,
     }
 
     static defaultProps = {
         removeEntryStatus: {},
+    }
+
+    state = {
+        expanded: false,
+    }
+
+    togglePlaylist = () => {
+        this.setState({expanded: !this.state.expanded})
     }
 
     pollPlaylist = () => {
@@ -154,7 +161,7 @@ class Playlist extends Component {
         return (
         <div id="playlist">
             <CSSTransitionLazy
-                in={!this.props.playlist.collapsed}
+                in={this.state.expanded}
                 classNames="collapse"
                 timeout={{
                     enter: 300,
@@ -165,7 +172,7 @@ class Playlist extends Component {
             </CSSTransitionLazy>
             <button
                 className="playlist-summary"
-                onClick={this.props.toogleCollapsedPlaylist}
+                onClick={this.togglePlaylist}
             >
                 {amount}
                 {next}
@@ -186,7 +193,6 @@ Playlist = withRouter(connect(
     mapStateToProps,
     {
         loadPlaylist,
-        toogleCollapsedPlaylist,
         removeEntryFromPlaylist,
         clearPlaylistEntryNotification
     }
