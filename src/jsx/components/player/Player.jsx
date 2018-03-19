@@ -2,16 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
-import classNames from 'classnames'
 import { formatDuration, formatTime, params } from 'utils'
 import Song from 'components/song/Song'
 import UserWidget from 'components/generics/UserWidget'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import { loadPlayerDigest, sendPlayerCommands } from 'actions/player'
 import Playlist from './playlist/List'
-import { Status } from 'reducers/alterationsStatus'
 import PlayerNotification from './Notification'
 import { playerDigestPropType, playerCommandsPropType } from 'reducers/player'
 import ManageButton from './ManageButton'
@@ -44,11 +41,6 @@ class Player extends Component {
     render() {
         const { status: playerStatus, manage: playerCommand, errors: playerErrors } = this.props.playerDigest.data
         const { fetchError } = this.props.playerDigest
-        let song
-        let songData
-        let playlistEntryOwner
-        let duration
-        let progress
         const isPlaying = !!playerStatus.playlist_entry
         const controlDisabled = !isPlaying || fetchError
         const commandPauseStatus = this.props.commands.pause.status
@@ -58,13 +50,14 @@ class Player extends Component {
          * Song display if any song is currently playing
          */
 
+        let song
+        let playlistEntryOwner
+        let duration
+        let progress
         if (isPlaying){
-            song = playerStatus.playlist_entry.song
-            duration = playerStatus.playlist_entry.song.duration
-
-            songData = (
+            song = (
                     <Song
-                        song={song}
+                        song={playerStatus.playlist_entry.song}
                         noDuration
                         noTag
                         />
@@ -77,7 +70,8 @@ class Player extends Component {
                     />
                 )
 
-            progress = playerStatus.timing * 100 / duration;
+            duration = playerStatus.playlist_entry.song.duration
+            progress = Math.min(playerStatus.timing * 100 / duration, 100)
         } else {
             progress = 0
             duration = 0
@@ -121,7 +115,7 @@ class Player extends Component {
                             </IsPlaylistManagerOrOwner>
                         </div>
                         <div className="song-container notifiable">
-                            {songData}
+                            {song}
                             {playlistEntryOwner}
                             <div className="song-timing">
                                 <div className="current">
