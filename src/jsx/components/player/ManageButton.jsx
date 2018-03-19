@@ -11,7 +11,7 @@ import { Status } from 'reducers/alterationsStatus'
  * The icon exit the button and re-enters. The button is somewhat protected during
  * the exit transition, since the new status (or new icon) will be taken into
  * account at the end of the exit transition, to be sure the icon exits
- * gracefully.
+ * gracefully. This is done by using the state of the component.
  *
  * - manageStatus: when the status is pending, the button is in transition and
  *      won't take account of the status untill the exit transition ends.
@@ -23,7 +23,7 @@ import { Status } from 'reducers/alterationsStatus'
  *      use the normal one.
  * - className: extra class to pass to the button.
  * - timeout: duration of the transition. Default to 150 ms.
- * - onClic: handle to pass to the button.
+ * - onClick: handle to pass to the button.
  */
 export default class ManageButton extends Component {
     static propTypes = {
@@ -127,6 +127,8 @@ export default class ManageButton extends Component {
         }
 
         // if the button is disabled, use the disabled icon
+        // if there is no disabled icon, use the normal one
+        // use the normal one if the button is not disabled as well
         const icon = disabled ?
             iconDisabled || this.state.icon :
             this.state.icon
