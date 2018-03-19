@@ -2,13 +2,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import classNames from 'classnames'
 import { formatDuration, formatTime, params } from 'utils'
 import Song from 'components/song/Song'
 import UserWidget from 'components/generics/UserWidget'
-import { IsPlaylistManagerOrOwner, KaraStatusIsNotStopped } from 'components/permissions/Playlist'
+import { KaraStatusIsStopped, KaraStatusIsNotStopped } from 'components/permissions/Playlist'
+import { IsPlaylistManagerOrOwner, IsPlaylistManager } from 'components/permissions/Playlist'
 import { loadPlayerDigest, sendPlayerCommands } from 'actions/player'
 import Playlist from './playlist/List'
 import { Status } from 'reducers/alterationsStatus'
@@ -155,6 +157,7 @@ class Player extends Component {
         )
 
         return (
+            <div>
             <KaraStatusIsNotStopped>
                 <div className="box">
                     <div id="player">
@@ -239,6 +242,27 @@ class Player extends Component {
                 <Playlist/>
             </div>
             </KaraStatusIsNotStopped>
+            <IsPlaylistManager>
+                <KaraStatusIsStopped>
+                    <div className="box" id="player">
+                        <div className="kara-status-notification">
+                            <p className="message">
+                                The karaoke is stopped for now. You can activate
+                                it in the settings page.
+                            </p>
+                            <div className="controls">
+                                <Link
+                                    className="control primary"
+                                    to="/settings/kara-status"
+                                >
+                                    Go to settings page
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </KaraStatusIsStopped>
+            </IsPlaylistManager>
+            </div>
         )
     }
 }

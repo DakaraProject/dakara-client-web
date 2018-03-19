@@ -34,6 +34,23 @@ export const IsPlaylistManagerOrOwner = withRouter(connect(
     }
 ))
 
+/**
+ * Playlist manager
+ */
+
+export const IsPlaylistManager = withRouter(connect(
+    mapStateToProps
+)(
+    class extends PermissionBase {
+        static propTypes = {
+            ...PermissionBase.propTypes,
+        }
+
+        static hasPermissionCustom(user) {
+            return user.playlist_permission_level == 'm'
+        }
+    }
+))
 
 /**
  * Playlist user or Playlist manager
@@ -52,8 +69,18 @@ export const IsPlaylistUser = withRouter(connect(
 
 
 /**
- * Kara status is not stopped
+ * Kara status is stopped or not
  */
+
+class KaraStatusIsStopped extends Component {
+    render() {
+        if (this.props.karaStatus.status == 'stop') {
+            return this.props.children
+        }
+
+        return null
+    }
+}
 
 class KaraStatusIsNotStopped extends Component {
     render() {
@@ -69,9 +96,14 @@ const mapStateToPropsKaraStatus = (state) => ({
     karaStatus: state.player.digest.data.kara_status,
 })
 
+KaraStatusIsStopped = connect(
+        mapStateToPropsKaraStatus,
+        {}
+)(KaraStatusIsStopped)
+
 KaraStatusIsNotStopped = connect(
         mapStateToPropsKaraStatus,
         {}
 )(KaraStatusIsNotStopped)
 
-export {KaraStatusIsNotStopped}
+export {KaraStatusIsStopped, KaraStatusIsNotStopped}

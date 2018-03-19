@@ -14,6 +14,7 @@
 // progression bar.
 #player {
     background: @brand-primary-darker;
+    color: @brand-primary;
 
     // `display-area` class: the main part of the player displays the current
     // song, its numerical progression and the controls of the player.
@@ -70,7 +71,6 @@
             flex: 1;
             display: flex;
             justify-content: flex-end;
-            color: @brand-primary;
             margin-left: @gap-horizontal;
             position: relative;
             overflow: hidden;
@@ -160,6 +160,24 @@
         .progress {
             height: 100%;
             background: @brand-primary-dark;
+        }
+    }
+
+    // `kara-status-notification` class: message displayed to the playlist
+    // manager when the kara is stopped.
+    .kara-status-notification {
+        display: flex;
+        align-items: center;
+        padding: @gap-vertical 0;
+
+        .message {
+            flex: 1;
+        }
+
+        .control {
+            padding: 0 @gap-horizontal;
+            line-height: @form-field-height;
+            font-size: @form-control-font-size;
         }
     }
 }
