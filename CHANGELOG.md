@@ -30,6 +30,10 @@
 
 ## Unreleased
 
+### Added
+
+* Highlight query terms in artists and works libraries.
+
 ### Changed
 
 - Users and song tags page moved to settings page
