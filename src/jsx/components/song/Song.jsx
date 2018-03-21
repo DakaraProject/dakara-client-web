@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import Highlighter from 'react-highlight-words'
 import PropTypes from 'prop-types'
 import { formatDuration } from 'utils'
+import HighlighterQuery from 'components/generics/HighlighterQuery'
 import WorkLink from './WorkLink'
 import SongArtistList from './SongArtistList'
 import SongTagList from './SongTagList'
@@ -26,28 +26,7 @@ export default class Song extends Component {
     }
 
     render() {
-        const song = this.props.song
-
-        /**
-         * Song title
-         * highlighted with search query
-         */
-
-        let title
-        if (this.props.query != undefined) {
-            title = (
-                        <Highlighter
-                            className="title"
-                            searchWords={this.props.query.title.contains.concat(
-                                    this.props.query.remaining
-                                    )}
-                            textToHighlight={song.title}
-                            autoEscape
-                        />
-                    )
-        } else {
-            title = (<span className="title">{song.title}</span>)
-        }
+        const { song, query } = this.props
 
         /**
          * Song version
@@ -70,7 +49,7 @@ export default class Song extends Component {
                 firstWorkLink = (
                         <WorkLink
                             workLink={song.works[0]}
-                            query={this.props.query}
+                            query={query}
                             noEpisodes
                         />
                 )
@@ -80,7 +59,7 @@ export default class Song extends Component {
             const artists = (
                         <SongArtistList
                             artists={song.artists}
-                            query={this.props.query}
+                            query={query}
                         />
                 )
 
@@ -108,7 +87,7 @@ export default class Song extends Component {
             tags = (
                 <SongTagList
                     tags={song.tags}
-                    query={this.props.query}
+                    query={query}
                     unclickable={true}
                 />
             )
@@ -117,7 +96,12 @@ export default class Song extends Component {
         return (
                 <div className="song" onClick={this.props.handleClick}>
                     <div className="header">
-                        {title}
+                        <HighlighterQuery
+                            query={query}
+                            className="title"
+                            searchWords={(q) => (q.title.contains.concat(q.remaining))}
+                            textToHighlight={song.title}
+                        />
                         {version}
                     </div>
                     {artistWork}
