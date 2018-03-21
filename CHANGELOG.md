@@ -32,7 +32,7 @@
 
 ### Added
 
-* Highlight query terms in artists and works libraries.
+- Highlight query terms in artists and works libraries.
 
 ### Changed
 
