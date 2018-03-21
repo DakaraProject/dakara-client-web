@@ -1,0 +1,86 @@
+//
+// Dakara Project
+//
+// Song playing or queuing info
+//
+
+
+// `play-queue-info` class:
+//
+// Data relative to the status of the song in the playlist.
+.play-queue-info {
+    background: @brand-info;
+    color: @text-dark;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 0.5em;
+    box-sizing: border-box;
+    width: (2 * @listing-entry-height);
+    height: @listing-entry-height;
+
+    .owner {
+        font-size: 0.85em;
+        margin-bottom: 0.25em;
+        .text-truncate();
+
+        .icon {
+            // Hack for bolder icon
+            // font awesome overrides font weight
+            .fa {
+                font-weight: bold;
+            }
+        }
+    }
+
+    .queueing {
+        font-size: 0.75em;
+
+        .icon {
+            padding-right: 0.5em;
+        }
+    }
+
+    .playing {
+        font-size: 0.75em;
+    }
+
+    // appearance transition of the playlist info class
+    &.play-queue-info-enter {
+        max-width: 0;
+        overflow: hidden;
+
+        &.play-queue-info-enter-active {
+            max-width: (2 * @listing-entry-height);
+            .transition(max-width 300ms ease-out);
+        }
+    }
+
+    // disappearance transition of the playlist info class
+    &.play-queue-info-exit {
+        max-width: (2 * @listing-entry-height);
+        overflow: hidden;
+
+        &.play-queue-info-exit-active {
+            max-width: 0;
+            .transition(max-width 150ms ease-out);
+        }
+    }
+}
+
+// alteration of colors when used in a listing
+.listing-entry {
+    &:nth-child(2n) {
+        .play-queue-info {
+            background: @brand-info-light;
+        }
+    }
+
+    .hoverizable:hover,
+    &.hoverizable:hover {
+        .play-queue-info {
+            background: @brand-info-lighter;
+        }
+    }
+}

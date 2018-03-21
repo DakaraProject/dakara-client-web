@@ -92,7 +92,11 @@ export default class Song extends Component {
             )
         }
 
-        // Display duration conditionally
+        /**
+         * Song duration
+         * Display conditionally
+         */
+
         let duration
         if (!this.props.noDuration) {
             duration = (
@@ -102,7 +106,11 @@ export default class Song extends Component {
             )
         }
 
-        // Display tags conditionally
+        /**
+         * Song tags
+         * Display conditionally
+         */
+
         let tags
         if (!this.props.noTag) {
             tags = (
