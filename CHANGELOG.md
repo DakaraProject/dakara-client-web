@@ -30,9 +30,14 @@
 
 ## Unreleased
 
+### Added
+
+- Songs with disabled tags have a visual indicator in admin view.
+
 ### Changed
 
 - Users and song tags page moved to settings page
+- Selection color for tags has a correct hue.
 
 ## 1.1.0 - 2018-01-25
 
