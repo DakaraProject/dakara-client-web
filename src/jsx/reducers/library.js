@@ -159,14 +159,14 @@ export const workTypeLibraryPropType = PropTypes.shape({
     }).isRequired,
 })
 
-const defaultWorkTypeLibrary =  {
+const defaultWorkType =  {
     status: null,
     data: {
         workTypes: []
     },
 }
 
-function workType(state = defaultWorkTypeLibrary, action) {
+function workType(state = defaultWorkType, action) {
     switch (action.type) {
         case WORK_TYPES_REQUEST:
             return {
@@ -183,7 +183,7 @@ function workType(state = defaultWorkTypeLibrary, action) {
         case WORK_TYPES_FAILURE:
             return {
                 status: Status.failed,
-                data: defaultWorkTypeLibrary.data,
+                data: defaultWorkType.data,
             }
 
         default:
