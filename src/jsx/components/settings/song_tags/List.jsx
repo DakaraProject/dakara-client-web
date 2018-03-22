@@ -10,6 +10,7 @@ import SettingsTabList from '../TabList'
 import { songTagsSettingsPropType } from 'reducers/songTags'
 import { alterationStatusPropType } from 'reducers/alterationsStatus'
 import { formPropType } from 'reducers/forms'
+import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 
 class SettingsSongTagsList extends Component {
     static propTypes = {
@@ -70,20 +71,24 @@ class SettingsSongTagsList extends Component {
                 <div className="box-header">
                     <h1>Song tags management</h1>
                 </div>
-                <div className="listing-table-container">
-                    <table className="listing song-tag-list-listing notifiable">
-                        <thead>
-                            <tr className="listing-header">
-                                <th className="name">Name</th>
-                                <th className="enabled">Enabled</th>
-                                <th className="color">Color</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {tagList}
-                        </tbody>
-                    </table>
-                </div>
+                <ListingFetchWrapper
+                    status={this.props.songTagsSettings.status}
+                >
+                    <div className="listing-table-container">
+                        <table className="listing song-tag-list-listing notifiable">
+                            <thead>
+                                <tr className="listing-header">
+                                    <th className="name">Name</th>
+                                    <th className="enabled">Enabled</th>
+                                    <th className="color">Color</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {tagList}
+                            </tbody>
+                        </table>
+                    </div>
+                </ListingFetchWrapper>
                 <Navigator
                     pagination={pagination}
                     location={location}

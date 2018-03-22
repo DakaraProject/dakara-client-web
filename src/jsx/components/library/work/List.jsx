@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import WorkEntry from './Entry'
-import ListWrapper from '../ListWrapper'
+import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import { workLibraryItemPropType, workTypeLibraryPropType } from 'reducers/library'
 
@@ -35,13 +35,13 @@ class WorkList extends Component {
 
         return (
             <div className="work-list">
-                <ListWrapper
+                <ListingFetchWrapper
                     status={this.props.workLibraryItem.status}
                 >
                     <ul className="library-list listing">
                         {libraryEntryWorkList}
                     </ul>
-                </ListWrapper>
+                </ListingFetchWrapper>
                 <Navigator
                     count={count}
                     pagination={pagination}

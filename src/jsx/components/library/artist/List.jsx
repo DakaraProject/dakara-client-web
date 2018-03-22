@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ArtistEntry from './Entry'
-import ListWrapper from '../ListWrapper'
+import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import { artistLibraryPropType } from 'reducers/library'
 
@@ -23,13 +23,13 @@ class ArtistList extends Component {
 
         return (
             <div className="artist-list">
-                <ListWrapper
+                <ListingFetchWrapper
                     status={this.props.artistLibrary.status}
                 >
                     <ul className="library-list listing">
                         {libraryEntryArtistList}
                     </ul>
-                </ListWrapper>
+                </ListingFetchWrapper>
                 <Navigator
                     count={count}
                     pagination={pagination}

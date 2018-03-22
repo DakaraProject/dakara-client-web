@@ -10,6 +10,7 @@ import { IsUserManager } from 'components/permissions/Users'
 import SettingsUserEntry from './Entry'
 import SettingsTabList from '../TabList'
 import { listUsersSettingsPropType } from 'reducers/users'
+import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 
 class SettingsUsersList extends Component {
     static propTypes = {
@@ -66,23 +67,27 @@ class SettingsUsersList extends Component {
                 <div className="box-header">
                     <h1>Users management</h1>
                 </div>
-                <div className="listing-table-container">
-                    <table className="listing users-list notifiable">
-                        <thead>
-                            <tr className="listing-header">
-                                <th className="username">Username</th>
-                                <th className="permission">Is superuser</th>
-                                <th className="permission">Users rights</th>
-                                <th className="permission">Library rights</th>
-                                <th className="permission">Playlist rights</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {userList}
-                        </tbody>
-                    </table>
-                </div>
+                <ListingFetchWrapper
+                    status={this.props.listUsersSettings.status}
+                >
+                    <div className="listing-table-container">
+                        <table className="listing users-list notifiable">
+                            <thead>
+                                <tr className="listing-header">
+                                    <th className="username">Username</th>
+                                    <th className="permission">Is superuser</th>
+                                    <th className="permission">Users rights</th>
+                                    <th className="permission">Library rights</th>
+                                    <th className="permission">Playlist rights</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {userList}
+                            </tbody>
+                        </table>
+                    </div>
+                </ListingFetchWrapper>
                 <Navigator
                     pagination={pagination}
                     location={location}
