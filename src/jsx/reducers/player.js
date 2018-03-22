@@ -1,11 +1,10 @@
 import { combineReducers } from 'redux'
 import PropTypes from 'prop-types'
-import playlist from './playlist'
+import { playlist, collapsedPlaylist } from './playlist'
 import { PLAYER_DIGEST_REQUEST, PLAYER_DIGEST_SUCCESS, PLAYER_DIGEST_FAILURE } from 'actions/player'
 import { PLAYER_COMMANDS_REQUEST, PLAYER_COMMANDS_SUCCESS, PLAYER_COMMANDS_FAILURE } from 'actions/player'
-import { Status, handleFailureMessage, alterationsStatusPropType } from './alterationsStatus'
+import { Status, handleFailureMessage, alterationStatusPropType } from './alterationsStatus'
 import { playlistEntryPropType, playerStatusPropType, playerManagePropType, playerErrorPropType } from 'serverPropTypes/playlist'
-import { alterationStatusPropType } from './alterationsStatus'
 
 /**
  * This reducer contains player related state
@@ -16,16 +15,16 @@ import { alterationStatusPropType } from './alterationsStatus'
  */
 
 export const playerDigestPropType = PropTypes.shape({
+    status: PropTypes.symbol,
     data: PropTypes.shape({
         status: playerStatusPropType.isRequired,
         manage: playerManagePropType.isRequired,
         errors: PropTypes.arrayOf(playerErrorPropType).isRequired,
     }).isRequired,
-    isFetching: PropTypes.bool.isRequired,
-    fetchError: PropTypes.bool.isRequired,
 })
 
 const defaultPlayerDigest = {
+    status: null,
     data: {
         status: {
             playlist_entry: null,
@@ -37,8 +36,6 @@ const defaultPlayerDigest = {
         },
         errors: []
     },
-    isFetching: false,
-    fetchError: false
 }
 
 function digest(state = defaultPlayerDigest, action) {
@@ -46,26 +43,24 @@ function digest(state = defaultPlayerDigest, action) {
         case PLAYER_DIGEST_REQUEST:
             return {
                 ...state,
-                isFetching: true
+                status: Status.pending,
             }
 
         case PLAYER_DIGEST_SUCCESS:
             return {
+                status: Status.successful,
                 data: action.response,
-                isFetching: false,
-                fetchError: false
             }
 
         case PLAYER_DIGEST_FAILURE:
             return {
                 ...state,
-                isFetching: false,
-                fetchError: true
+                status: Status.failed,
             }
 
         case PLAYER_COMMANDS_SUCCESS:
             if (action.commands &&
-                action.commands.pause != undefined) {
+                typeof action.commands.pause !== 'undefined') {
                 return {
                     ...state,
                     data: {
@@ -95,7 +90,7 @@ const defaultPlayerCommand = {
 }
 
 const generatePlayerCommandReducer = commandName => (state = defaultPlayerCommand, action) => {
-    if (!(action.commands && typeof(action.commands[commandName]) != 'undefined')) {
+    if (!(action.commands && typeof action.commands[commandName] !== 'undefined')) {
         return state
     }
 
@@ -137,8 +132,9 @@ const commands = combineReducers({
 
 const player = combineReducers({
     digest,
-    playlist,
     commands,
+    playlist,
+    collapsedPlaylist,
 })
 
 export default player

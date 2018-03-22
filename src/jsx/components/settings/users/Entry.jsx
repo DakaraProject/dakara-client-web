@@ -8,7 +8,7 @@ import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
 import { userPropType } from 'serverPropTypes/users'
 
-export default class UserEntry extends Component {
+export default class SettingsUsersEntry extends Component {
     static propTypes = {
         user: userPropType.isRequired,
         clearUsersEntryNotification: PropTypes.func.isRequired,

@@ -18,7 +18,7 @@ import { playerDigestPropType, playerCommandsPropType } from 'reducers/player'
 class Player extends Component {
     static propTypes = {
         playerDigest: playerDigestPropType.isRequired,
-        commands: playerCommandsPropType.isRequired,
+        playerCommands: playerCommandsPropType.isRequired,
         loadPlayerDigest: PropTypes.func.isRequired,
         sendPlayerCommands: PropTypes.func.isRequired,
     }
@@ -41,8 +41,9 @@ class Player extends Component {
     }
 
     render() {
+        // TODO clarify the mess about playerCommand, commands, manage and playerCommands
         const { status: playerStatus, manage: playerCommand, errors: playerErrors } = this.props.playerDigest.data
-        const { fetchError } = this.props.playerDigest
+        const { status } = this.props.playerDigest
         let song
         let songSubtitle
         let songData
@@ -65,7 +66,7 @@ class Player extends Component {
                         song={song}
                         noDuration
                         noTag
-                        />
+                    />
                 )
 
             playlistEntryOwner = (
@@ -95,7 +96,7 @@ class Player extends Component {
          */
 
         let playPauseIcon
-        const commandPauseStatus = this.props.commands.pause.status
+        const commandPauseStatus = this.props.playerCommands.pause.status
         if (commandPauseStatus != Status.pending) {
             playPauseIcon = (
                 <CSSTransition
@@ -117,7 +118,7 @@ class Player extends Component {
          */
 
         let skipIcon
-        const commandSkipStatus = this.props.commands.skip.status
+        const commandSkipStatus = this.props.playerCommands.skip.status
         if (commandSkipStatus != Status.pending) {
             skipIcon = (
                 <CSSTransition
@@ -137,7 +138,7 @@ class Player extends Component {
          * classes
          */
 
-        const controlDisabled = !isPlaying || fetchError
+        const controlDisabled = !isPlaying || status === Status.failed
         const playPauseClass = classNames(
             'control',
             'primary',
@@ -202,7 +203,7 @@ class Player extends Component {
                                 </div>
                             </div>
                             <CSSTransitionLazy
-                                in={fetchError}
+                                in={status === Status.failed}
                                 classNames="notified"
                                 timeout={{
                                     enter: 300,
@@ -224,8 +225,8 @@ class Player extends Component {
                             </CSSTransitionLazy>
                             <PlayerNotification
                                 alterationStatuses={[
-                                    this.props.commands.pause,
-                                    this.props.commands.skip
+                                    this.props.playerCommands.pause,
+                                    this.props.playerCommands.skip
                                 ]}
                                 playerErrors={playerErrors}
                             />
@@ -243,7 +244,7 @@ class Player extends Component {
 
 const mapStateToProps = (state) => ({
     playerDigest: state.player.digest,
-    commands: state.player.commands,
+    playerCommands: state.player.commands,
 })
 
 Player = withRouter(connect(

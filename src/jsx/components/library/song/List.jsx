@@ -5,20 +5,19 @@ import SongEntry from './Entry'
 import ListWrapper from '../ListWrapper'
 import Navigator from 'components/generics/Navigator'
 import { songLibraryPropType } from 'reducers/library'
-import { playlistEntriesPropType } from 'reducers/playlist'
+import { playlistPropType } from 'reducers/playlist'
 import { playerDigestPropType } from 'reducers/player'
 
 class SongList extends Component {
     static propTypes = {
-        entries: songLibraryPropType.isRequired,
-        playlistEntries: playlistEntriesPropType.isRequired,
+        songLibrary: songLibraryPropType.isRequired,
+        playlist: playlistPropType.isRequired,
         playerDigest: playerDigestPropType.isRequired,
         location: PropTypes.object.isRequired,
     }
 
     render() {
-        const { entries } = this.props
-        const songs = entries.data.results
+        const { songs, count, pagination } = this.props.songLibrary.data
 
         /**
          * Compute playlist info
@@ -52,7 +51,7 @@ class SongList extends Component {
         // generate a map with song id as key
         // and time + owner as value
 
-        for (let entry of this.props.playlistEntries.data.results) {
+        for (let entry of this.props.playlist.data.playlistEntries) {
             if (!playlistInfo[entry.song.id]) {
                 playlistInfo[entry.song.id] = {
                     timeOfPlay: currentTime + remainingTime * 1000,
@@ -76,20 +75,18 @@ class SongList extends Component {
                     />
             ))
 
-        const { isFetching, fetchError } = entries
-
         return (
             <div className="song-list">
                 <ListWrapper
-                    isFetching={isFetching}
-                    fetchError={fetchError}
+                    status={this.props.songLibrary.status}
                 >
                     <ul className="library-list listing">
                         {libraryEntrySongList}
                     </ul>
                 </ListWrapper>
                 <Navigator
-                    data={entries.data}
+                    count={count}
+                    pagination={pagination}
                     names={{
                         singular: 'song found',
                         plural: 'songs found'
@@ -102,8 +99,8 @@ class SongList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    entries: state.library.song,
-    playlistEntries: state.player.playlist.entries,
+    songLibrary: state.library.song,
+    playlist: state.player.playlist,
     playerDigest: state.player.digest,
 })
 

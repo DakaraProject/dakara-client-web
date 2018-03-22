@@ -4,23 +4,21 @@ import PropTypes from 'prop-types'
 import WorkEntry from './Entry'
 import ListWrapper from '../ListWrapper'
 import Navigator from 'components/generics/Navigator'
-import { workLibraryPropType, workTypesPropType } from 'reducers/library'
+import { workLibraryItemPropType, workTypeLibraryPropType } from 'reducers/library'
 
 class WorkList extends Component {
     static propTypes = {
-        entries: workLibraryPropType,
+        workLibraryItem: workLibraryItemPropType,
         libraryType: PropTypes.string.isRequired,
-        workTypes: workTypesPropType.isRequired,
+        workTypeLibrary: workTypeLibraryPropType.isRequired,
     }
 
     render() {
-        const { entries } = this.props
-
-        if (!entries || !entries.data) {
+        if (!this.props.workLibraryItem || !this.props.workLibraryItem.data) {
             return null
         }
 
-        const works = entries.data.results
+        const { works, count, pagination } = this.props.workLibraryItem.data
 
         const libraryEntryWorkList = works.map(work =>
               <WorkEntry
@@ -30,24 +28,23 @@ class WorkList extends Component {
               />
         )
 
-        const { isFetching, fetchError } = entries
         const libraryNameInfo = getWorkLibraryNameInfo(
             this.props.libraryType,
-            this.props.workTypes
+            this.props.workTypeLibrary.data.workTypes
         )
 
         return (
             <div className="work-list">
                 <ListWrapper
-                    isFetching={isFetching}
-                    fetchError={fetchError}
+                    status={this.props.workLibraryItem.status}
                 >
                     <ul className="library-list listing">
                         {libraryEntryWorkList}
                     </ul>
                 </ListWrapper>
                 <Navigator
-                    data={entries.data}
+                    count={count}
+                    pagination={pagination}
                     names={{
                         singular: `${libraryNameInfo.singular} found`,
                         plural: `${libraryNameInfo.plural} found`
@@ -60,8 +57,8 @@ class WorkList extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    entries: state.library.work[ownProps.libraryType],
-    workTypes: state.library.workTypes
+    workLibraryItem: state.library.work[ownProps.libraryType],
+    workTypeLibrary: state.library.workType,
 })
 
 WorkList = connect(
@@ -78,7 +75,7 @@ export default WorkList
  */
 export const getWorkLibraryNameInfo = (workTypeQueryName, workTypes) => {
     // Find work type matching the query name
-    const workType = workTypes.data.results.find(
+    const workType = workTypes.find(
         (workType) => workType.query_name == workTypeQueryName
     )
 

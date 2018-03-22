@@ -5,16 +5,16 @@ import { parse } from 'query-string'
 import PropTypes from 'prop-types'
 import { getSongTagList, editSongTag, clearTagListEntryNotification } from 'actions/songTags'
 import Navigator from 'components/generics/Navigator'
-import SongTagEntry from './Entry'
+import SettingsSongTagsEntry from './Entry'
 import SettingsTabList from '../TabList'
-import { songTagsPropType } from 'reducers/songTags'
+import { songTagsSettingsPropType } from 'reducers/songTags'
 import { alterationStatusPropType } from 'reducers/alterationsStatus'
 import { formPropType } from 'reducers/forms'
 
-class SongTagList extends Component {
+class SettingsSongTagsList extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
-        entries: songTagsPropType.isRequired,
+        songTagsSettings: songTagsSettingsPropType.isRequired,
         editStatus: alterationStatusPropType,
         formsResponse: PropTypes.objectOf(formPropType),
         editSongTag: PropTypes.func.isRequired,
@@ -41,9 +41,10 @@ class SongTagList extends Component {
     }
 
     render() {
-        const { entries, editsStatus, editSongTag, location, formsResponse } = this.props
+        const { editsStatus, editSongTag, location, formsResponse } = this.props
+        const { songTags, pagination } = this.props.songTagsSettings.data
 
-        const tagList = entries.data.results.map((tag) => {
+        const tagList = songTags.map((tag) => {
             let editStatus
             if (editsStatus) {
                 editStatus = editsStatus[tag.id]
@@ -52,7 +53,7 @@ class SongTagList extends Component {
             const formResponse = formsResponse[`tagColorEdit${tag.id}`]
 
             return (
-                <SongTagEntry
+                <SettingsSongTagsEntry
                     key={tag.id}
                     tag={tag}
                     editStatus={editStatus}
@@ -84,7 +85,7 @@ class SongTagList extends Component {
                     </table>
                 </div>
                 <Navigator
-                    data={entries.data}
+                    pagination={pagination}
                     location={location}
                 />
             </div>
@@ -93,18 +94,18 @@ class SongTagList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    entries: state.settings.songTags.entries,
+    songTagsSettings: state.settings.songTags,
     editsStatus: state.alterationsStatus.editSongTag,
     formsResponse: state.forms
 })
 
-SongTagList = withRouter(connect(
+SettingsSongTagsList = withRouter(connect(
     mapStateToProps,
     {
         getSongTagList,
         editSongTag,
         clearTagListEntryNotification
     }
-)(SongTagList))
+)(SettingsSongTagsList))
 
-export default SongTagList
+export default SettingsSongTagsList

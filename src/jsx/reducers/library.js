@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { LIBRARY_REQUEST, LIBRARY_SUCCESS, LIBRARY_FAILURE } from 'actions/library'
 import { WORK_TYPES_REQUEST, WORK_TYPES_SUCCESS, WORK_TYPES_FAILURE } from 'actions/library'
 import { songPropType, artistPropType, workPropType, workTypePropType } from 'serverPropTypes/library'
+import { Status } from './alterationsStatus'
+import { updateData } from 'utils'
 
 /**
  * This reducer contains library related state
@@ -12,59 +14,64 @@ import { songPropType, artistPropType, workPropType, workTypePropType } from 'se
  * Generators for library content
  */
 
-const generateLibraryPropType = (libraryEntryPropType) => (
+const generateLibraryPropType = (libraryEntryPropType, libraryKey) => (
     PropTypes.shape({
+        status: PropTypes.symbol,
         data: PropTypes.shape({
-            current: PropTypes.number.isRequired,
-            last: PropTypes.number.isRequired,
+            pagination: PropTypes.shape({
+                current: PropTypes.number.isRequired,
+                last: PropTypes.number.isRequired,
+            }).isRequired,
             count: PropTypes.number.isRequired,
-            results: PropTypes.arrayOf(libraryEntryPropType).isRequired,
+            query: PropTypes.object,
+            [libraryKey]: PropTypes.arrayOf(libraryEntryPropType).isRequired,
         }),
-        isFetching: PropTypes.bool.isRequired,
-        fetchError: PropTypes.bool.isRequired,
     })
 )
 
-const defaultLibraryEntries =  {
+const generateDefaultLibrary = (libraryKey) => ({
+    status: null,
     data: {
-        current: 1,
-        last: 1,
+        pagination: {
+            current: 1,
+            last: 1,
+        },
         count: 0,
-        results: []
+        query: {},
+        [libraryKey]: []
     },
-    isFetching: false,
-    fetchError: false
-}
+})
 
-const generateLibraryReducer = libraryType => (state = defaultLibraryEntries, action) => {
-    if (action.libraryType != libraryType) {
-        return state
-    }
+const generateLibraryReducer = libraryType => {
+    const defaultLibrary = generateDefaultLibrary(libraryType)
 
-    switch (action.type) {
-        case LIBRARY_REQUEST:
-            return {
-                ...state,
-                isFetching: true,
-                fetchError: false
-            }
-
-        case LIBRARY_SUCCESS:
-            return {
-                data: action.response,
-                isFetching: false,
-                fetchError: false
-            }
-
-        case LIBRARY_FAILURE:
-            return {
-                data: defaultLibraryEntries.data,
-                isFetching: false,
-                fetchError: true
-            }
-
-        default:
+    return (state = defaultLibrary, action) => {
+        if (action.libraryType != libraryType) {
             return state
+        }
+
+        switch (action.type) {
+            case LIBRARY_REQUEST:
+                return {
+                    ...state,
+                    status: Status.pending,
+                }
+
+            case LIBRARY_SUCCESS:
+                return {
+                    status: Status.successful,
+                    data: updateData(action.response, libraryType),
+                }
+
+            case LIBRARY_FAILURE:
+                return {
+                    status: Status.failed,
+                    data: defaultLibrary.data,
+                }
+
+            default:
+                return state
+        }
     }
 }
 
@@ -72,29 +79,30 @@ const generateLibraryReducer = libraryType => (state = defaultLibraryEntries, ac
  * Song library
  */
 
-export const songLibraryPropType = generateLibraryPropType(songPropType)
+export const songLibraryPropType = generateLibraryPropType(songPropType, "songs")
 const song = generateLibraryReducer("songs")
 
 /**
  * Artist library
  */
 
-export const artistLibraryPropType = generateLibraryPropType(artistPropType)
+export const artistLibraryPropType = generateLibraryPropType(artistPropType, "artists")
 const artist = generateLibraryReducer("artists")
 
 /**
  * Work library
  */
 
-export const workLibraryPropType = generateLibraryPropType(workPropType)
+export const workLibraryItemPropType = generateLibraryPropType(workPropType, "works")
+const defaultWork = generateDefaultLibrary("works")
 
 function work(state = {}, action) {
     if (action.type === WORK_TYPES_SUCCESS) {
         let newState = {...state}
         for (let type of action.response.results) {
             const name = type.query_name
-            if (newState[name] == undefined) {
-                newState[name] = defaultLibraryEntries
+            if (typeof newState[name] === 'undefined') {
+                newState[name] = defaultWork
             }
         }
 
@@ -113,8 +121,7 @@ function work(state = {}, action) {
                 ...state,
                 [workType]: {
                     ...state[workType],
-                    isFetching: true,
-                    fetchError: false
+                    status: Status.pending,
                 }
             }
 
@@ -122,10 +129,8 @@ function work(state = {}, action) {
             return {
                 ...state,
                 [workType]: {
-                    ...state[workType],
-                    data: action.response,
-                    isFetching: false,
-                    fetchError: false
+                    status: Status.successful,
+                    data: updateData(action.response, "works"),
                 }
             }
 
@@ -133,10 +138,8 @@ function work(state = {}, action) {
             return {
                 ...state,
                 [workType]: {
-                    ...state[workType],
-                    data: defaultLibraryEntries.data,
-                    isFetching: false,
-                    fetchError: true
+                    status: Status.failed,
+                    data: defaultWork.data,
                 }
             }
 
@@ -149,28 +152,42 @@ function work(state = {}, action) {
  * Work Types
  */
 
-export const workTypesPropType = PropTypes.shape({
+export const workTypeLibraryPropType = PropTypes.shape({
+    status: PropTypes.symbol,
     data: PropTypes.shape({
-        results: PropTypes.arrayOf(workTypePropType),
+        workTypes: PropTypes.arrayOf(workTypePropType).isRequired,
     }).isRequired,
-    hasFetched: PropTypes.bool.isRequired,
 })
 
-const defaultWorkTypes =  {
+const defaultWorkTypeLibrary =  {
+    status: null,
     data: {
-        results: []
+        workTypes: []
     },
-    hasFetched: false
 }
 
-function workTypes(state = defaultWorkTypes, action) {
-    if (action.type === WORK_TYPES_SUCCESS) {
-        return {
-            data: action.response,
-            hasFetched: true
-        }
-    } else {
-        return state
+function workType(state = defaultWorkTypeLibrary, action) {
+    switch (action.type) {
+        case WORK_TYPES_REQUEST:
+            return {
+                ...state,
+                status: Status.pending,
+            }
+
+        case WORK_TYPES_SUCCESS:
+            return {
+                status: Status.successful,
+                data: updateData(action.response, "workTypes")
+            }
+
+        case WORK_TYPES_FAILURE:
+            return {
+                status: Status.failed,
+                data: defaultWorkTypeLibrary.data,
+            }
+
+        default:
+            return state
     }
 }
 
@@ -178,11 +195,9 @@ function workTypes(state = defaultWorkTypes, action) {
  * Library
  */
 
-const library = combineReducers({
+export default combineReducers({
     song,
     artist,
     work,
-    workTypes,
+    workType,
 })
-
-export default library

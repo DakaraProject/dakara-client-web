@@ -10,16 +10,16 @@ export default class Navigator extends Component {
             singular: PropTypes.string.isRequired,
             plural: PropTypes.string.isRequired,
         }), // should be isRequired
-        data: PropTypes.shape({
-            current: PropTypes.number, // should be isRequired
-            last: PropTypes.number, // should be isRequired
-            count: PropTypes.number, // should be isRequired
+        pagination: PropTypes.shape({
+            current: PropTypes.number.isRequired,
+            last: PropTypes.number.isRequired,
         }).isRequired,
+        count: PropTypes.number,
     }
 
     render() {
-        const { location, names } = this.props
-        const { current, last, count } = this.props.data
+        const { location, names, count } = this.props
+        const { current, last } = this.props.pagination
 
         const hasNext = current != last
         const hasPrevious = current != 1
@@ -27,7 +27,7 @@ export default class Navigator extends Component {
         const queryObj = parse(location.search)
 
         let counter
-        if (names) {
+        if (names && typeof count !== 'undefined') {
             counter = (
                 <div className="counter">
                     <span className="figure">{count}</span>

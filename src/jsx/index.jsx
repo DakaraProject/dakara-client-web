@@ -10,12 +10,12 @@ import { ProtectedRoute } from 'components/generics/Router'
 import Login from 'components/navigation/Login'
 import Logout from 'components/navigation/Logout'
 import User from 'components/user/User'
-import UserEdit from 'components/settings/users/Edit'
-import UserList from 'components/settings/users/List'
+import SettingsUsersEdit from 'components/settings/users/Edit'
+import SettingsUsersList from 'components/settings/users/List'
+import SettingsSongTagsList from 'components/settings/song_tags/List'
 import Library from 'components/library/Library'
 import LibraryList from 'components/library/List'
 import NotFound from 'components/navigation/NotFound'
-import SongTagList from 'components/settings/song_tags/List'
 import reducer from  'reducers'
 import fetchApiMiddleware from 'middleware/fetchApi'
 import delayMiddleware from 'middleware/delay'
@@ -43,9 +43,9 @@ ReactDOM.render(
                     <ProtectedRoute exact path="/library/:libraryType" component={LibraryList}/>
                     <Redirect exact from="/library" to="/library/song"/>
                     <ProtectedRoute exact path="/user" component={User}/>
-                    <ProtectedRoute exact path="/settings/users/:userId" component={UserEdit}/>
-                    <ProtectedRoute exact path="/settings/users" component={UserList}/>
-                    <ProtectedRoute exact path="/settings/song-tags" component={SongTagList}/>
+                    <ProtectedRoute exact path="/settings/users/:userId" component={SettingsUsersEdit}/>
+                    <ProtectedRoute exact path="/settings/users" component={SettingsUsersList}/>
+                    <ProtectedRoute exact path="/settings/song-tags" component={SettingsSongTagsList}/>
                     <Redirect exact from="/settings" to="/settings/users"/>
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/logout" component={Logout}/>

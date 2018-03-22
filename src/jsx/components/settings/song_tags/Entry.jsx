@@ -9,7 +9,7 @@ import { songTagPropType } from 'serverPropTypes/library'
 import { alterationStatusPropType } from 'reducers/alterationsStatus'
 import { formPropType } from 'reducers/forms'
 
-export default class SongTagEntry extends Component {
+export default class SettingsSongTagsEntry extends Component {
     static propTypes = {
         tag: songTagPropType.isRequired,
         editStatus: alterationStatusPropType,

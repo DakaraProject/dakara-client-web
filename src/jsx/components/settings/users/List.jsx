@@ -7,14 +7,14 @@ import { deleteUser, getUsers, clearUsersEntryNotification } from 'actions/users
 import { FormBlock, InputField } from 'components/generics/Form'
 import Navigator from 'components/generics/Navigator'
 import { IsUserManager } from 'components/permissions/Users'
-import UserEntry from './Entry'
+import SettingsUserEntry from './Entry'
 import SettingsTabList from '../TabList'
-import { userEntriesPropType } from 'reducers/users'
+import { listUsersSettingsPropType } from 'reducers/users'
 
-class UserList extends Component {
+class SettingsUsersList extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
-        entries: userEntriesPropType.isRequired,
+        listUsersSettings: listUsersSettingsPropType.isRequired,
         deleteStatusList: PropTypes.object,
         deleteUser: PropTypes.func.isRequired,
         clearUsersEntryNotification: PropTypes.func.isRequired,
@@ -40,16 +40,17 @@ class UserList extends Component {
     }
 
     render() {
-        const { entries, deleteStatusList, location } = this.props
+        const { deleteStatusList, location } = this.props
+        const { users, pagination } = this.props.listUsersSettings.data
 
-        const userList = entries.data.results.map((user) => {
+        const userList = users.map((user) => {
             let deleteStatus
             if (deleteStatusList) {
                 deleteStatus = deleteStatusList[user.id]
             }
 
             return (
-                <UserEntry
+                <SettingsUserEntry
                     key={user.id}
                     user={user}
                     deleteStatus={deleteStatus}
@@ -83,7 +84,7 @@ class UserList extends Component {
                     </table>
                 </div>
                 <Navigator
-                    data={entries.data}
+                    pagination={pagination}
                     location={location}
                 />
                 <IsUserManager>
@@ -126,17 +127,17 @@ class UserList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    entries: state.settings.users.entries,
+    listUsersSettings: state.settings.users.list,
     deleteStatusList: state.alterationsStatus.deleteUser
 })
 
-UserList = withRouter(connect(
+SettingsUsersList = withRouter(connect(
     mapStateToProps,
     {
         deleteUser,
         getUsers,
         clearUsersEntryNotification
     }
-)(UserList))
+)(SettingsUsersList))
 
-export default UserList
+export default SettingsUsersList

@@ -8,11 +8,12 @@ import { IsUserManager, IsNotSelf } from 'components/permissions/Users'
 import NotFound from 'components/navigation/NotFound'
 import Forbidden from 'components/navigation/Forbidden'
 import { userPropType } from 'serverPropTypes/users'
+import { editUsersSettingsPropType } from 'reducers/users'
+import { Status } from 'reducers/alterationsStatus'
 
-class UsersEdit extends Component {
+class SettingsUsersEdit extends Component {
     static propTypes = {
-        user: userPropType,
-        isFetching: PropTypes.bool.isRequired,
+        editUsersSettings: editUsersSettingsPropType.isRequired,
         authenticatedUser: userPropType.isRequired,
         location: PropTypes.object.isRequired,
         match: PropTypes.shape({
@@ -34,10 +35,11 @@ class UsersEdit extends Component {
     }
 
     render() {
-        const { location, user, isFetching, authenticatedUser } = this.props
+        const { location, authenticatedUser } = this.props
+        const { user } = this.props.editUsersSettings.data
 
         // render nothing if the user is being fetched
-        if (isFetching) {
+        if (this.props.editUsersSettings.status === Status.pending) {
             return null
         }
 
@@ -95,6 +97,7 @@ class UsersEdit extends Component {
                             label="Superuser"
                             defaultValue={user.is_superuser}
                             disabled
+                            ignore
                         />
                         <SelectField
                             id="users_permission_level"
@@ -134,17 +137,16 @@ class UsersEdit extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    user: state.settings.users.userEdit.user,
-    isFetching: state.settings.users.userEdit.isFetching,
+    editUsersSettings: state.settings.users.edit,
     authenticatedUser: state.authenticatedUser
 })
 
-UsersEdit = connect(
+SettingsUsersEdit = connect(
     mapStateToProps,
     {
         getUser,
         clearUser,
     }
-)(UsersEdit)
+)(SettingsUsersEdit)
 
-export default UsersEdit
+export default SettingsUsersEdit

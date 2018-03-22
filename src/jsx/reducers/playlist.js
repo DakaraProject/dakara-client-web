@@ -1,8 +1,9 @@
-import { combineReducers } from 'redux'
 import PropTypes from 'prop-types'
 import { PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE } from 'actions/player'
 import { PLAYLIST_TOOGLE_COLLAPSED } from 'actions/player'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
+import { Status } from './alterationsStatus'
+import { updateData } from 'utils'
 
 /**
  * This reducer contains playlist related state
@@ -12,32 +13,41 @@ import { playlistEntryPropType } from 'serverPropTypes/playlist'
  * Playlist from server
  */
 
-export const playlistEntriesPropType = PropTypes.shape({
+export const playlistPropType = PropTypes.shape({
+    status: PropTypes.symbol,
     data: PropTypes.shape({
         count: PropTypes.number.isRequired,
-        results: PropTypes.arrayOf(playlistEntryPropType).isRequired,
+        playlistEntries: PropTypes.arrayOf(playlistEntryPropType).isRequired,
     }).isRequired,
-    isFetching: PropTypes.bool.isRequired,
 })
 
-const defaultEntries = {
+const defaultPlaylist = {
+    status: null,
     data: {
         count: 0,
-        results: []
+        playlistEntries: []
     },
-    isFetching: false
 }
 
-function entries(state = defaultEntries, action) {
+export function playlist(state = defaultPlaylist, action) {
     switch (action.type) {
         case PLAYLIST_REQUEST:
-            return { ...state, isFetching: true }
+            return {
+                ...state,
+                status: Status.pending,
+            }
 
         case PLAYLIST_SUCCESS:
-            return { data: action.response, isFetching: false }
+            return {
+                status: Status.successful,
+                data: updateData(action.response, 'playlistEntries'),
+            }
 
         case PLAYLIST_FAILURE:
-            return { ...state, isFetching: false }
+            return {
+                ...state,
+                status: Status.failed,
+            }
 
         default:
             return state
@@ -48,21 +58,10 @@ function entries(state = defaultEntries, action) {
  * Playlist collapsed status
  */
 
-function collapsed(state = true, action) {
+export function collapsedPlaylist(state = true, action) {
     if (action.type === PLAYLIST_TOOGLE_COLLAPSED) {
         return !state
     }
 
     return state
 }
-
-/**
- * Playlist
- */
-
-const playlist = combineReducers({
-    entries,
-    collapsed,
-})
-
-export default playlist

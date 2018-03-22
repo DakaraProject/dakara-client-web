@@ -8,12 +8,11 @@ import { artistLibraryPropType } from 'reducers/library'
 
 class ArtistList extends Component {
     static propTypes = {
-        entries: artistLibraryPropType.isRequired,
+        artistLibrary: artistLibraryPropType.isRequired,
     }
 
     render() {
-        const { entries } = this.props
-        const artists = entries.data.results
+        const { artists, query, count, pagination } = this.props.artistLibrary.data
 
         const libraryEntryArtistList = artists.map(artist =>
             <ArtistEntry
@@ -22,20 +21,18 @@ class ArtistList extends Component {
             />
         )
 
-        const { isFetching, fetchError } = entries
-
         return (
             <div className="artist-list">
                 <ListWrapper
-                    isFetching={isFetching}
-                    fetchError={fetchError}
+                    status={this.props.artistLibrary.status}
                 >
                     <ul className="library-list listing">
                         {libraryEntryArtistList}
                     </ul>
                 </ListWrapper>
                 <Navigator
-                    data={entries.data}
+                    count={count}
+                    pagination={pagination}
                     names={{
                         singular: 'artist found',
                         plural: 'artists found'
@@ -48,7 +45,7 @@ class ArtistList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    entries: state.library.artist,
+    artistLibrary: state.library.artist,
 })
 
 ArtistList = connect(

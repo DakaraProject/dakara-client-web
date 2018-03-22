@@ -1,9 +1,10 @@
-import { combineReducers } from 'redux'
 import PropTypes from 'prop-types'
 import { FORM_SUCCESS } from 'actions/forms'
 import { TAG_LIST_REQUEST, TAG_LIST_SUCCESS, TAG_LIST_FAILURE } from 'actions/songTags'
 import { ALTERATION_FAILURE, ALTERATION_REQUEST } from 'actions/alterationsStatus'
 import { songTagPropType } from 'serverPropTypes/library'
+import { Status } from './alterationsStatus'
+import { updateData } from 'utils'
 
 /**
  * List of tags
@@ -14,10 +15,10 @@ import { songTagPropType } from 'serverPropTypes/library'
  */
 
 function updateTagInState(tagId, state, valueDict) {
-    const results = state.data.results.slice()
-    const index = results.findIndex(e => (e.id == tagId))
-    results[index] = {
-        ...results[index],
+    const songTags = state.data.songTags.slice()
+    const index = songTags.findIndex(e => (e.id == tagId))
+    songTags[index] = {
+        ...songTags[index],
         ...valueDict
     }
 
@@ -25,7 +26,7 @@ function updateTagInState(tagId, state, valueDict) {
         ...state,
         data: {
             ...state.data,
-            results
+            songTags,
         }
     }
 }
@@ -34,23 +35,31 @@ function updateTagInState(tagId, state, valueDict) {
  * Tag entries
  */
 
-export const songTagsPropType = PropTypes.shape({
+export const songTagsSettingsPropType = PropTypes.shape({
+    status: PropTypes.symbol,
     data: PropTypes.shape({
+        pagination: PropTypes.shape({
+            current: PropTypes.number.isRequired,
+            last: PropTypes.number.isRequired,
+        }).isRequired,
         count: PropTypes.number.isRequired,
-        results: PropTypes.arrayOf(songTagPropType).isRequired,
+        songTags: PropTypes.arrayOf(songTagPropType).isRequired,
     }).isRequired,
-    isFetching: PropTypes.bool.isRequired,
 })
 
-const defaultEntries = {
+const defaultSongTagsSettings = {
+    status: null,
     data: {
+        pagination: {
+            current: 1,
+            last: 1,
+        },
         count: 0,
-        results: []
+        songTags: []
     },
-    isFetching: false
 }
 
-function entries(state = defaultEntries, action) {
+export default function songTags(state = defaultSongTagsSettings, action) {
     const { json } = action
     let disabled
     if (json) {
@@ -61,13 +70,22 @@ function entries(state = defaultEntries, action) {
 
     switch (action.type) {
         case TAG_LIST_REQUEST:
-            return { ...state, isFetching: true }
+            return {
+                ...state,
+                status: Status.pending,
+            }
 
         case TAG_LIST_SUCCESS:
-            return { data: action.response, isFetching: false }
+            return {
+                status: Status.successful,
+                data: updateData(action.response, 'songTags'),
+            }
 
         case TAG_LIST_FAILURE:
-            return { ...state, isFetching: false }
+            return {
+                ...state,
+                status: Status.failed,
+            }
 
         case ALTERATION_FAILURE:
             disabled = !disabled
@@ -94,13 +112,3 @@ function entries(state = defaultEntries, action) {
             return state
     }
 }
-
-/**
- * Song tags
- */
-
-const songTags = combineReducers({
-    entries,
-})
-
-export default songTags
