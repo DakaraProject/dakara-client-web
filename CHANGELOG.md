@@ -30,6 +30,10 @@
 
 ## Unreleased
 
+### Added
+
+- Song tags and users settings pages are overlayed if the fetching takes too long.
+
 ### Changed
 
 - Users and song tags page moved to settings page
