@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import HighlighterQuery from 'components/generics/HighlighterQuery'
 import PropTypes from 'prop-types'
+import HighlighterQuery from 'components/generics/HighlighterQuery'
 import { artistPropType } from 'serverPropTypes/library'
 
 /**
@@ -24,7 +24,6 @@ export default class SongArtistList extends Component {
                     query={this.props.query}
                     searchWords={(q) => (q.artist.contains.concat(q.remaining))}
                     textToHighlight={artist.name}
-                    autoEscape
                 />
         ))
 
