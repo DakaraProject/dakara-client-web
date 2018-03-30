@@ -98,7 +98,7 @@ class Player extends Component {
                                         this.props.sendPlayerCommands({pause: !playerCommand.pause})
                                     }}
                                     disabled={controlDisabled}
-                                    icon={playerCommand.pause ? 'pause' : 'play'}
+                                    icon={playerCommand.pause ? 'play' : 'pause'}
                                     iconDisabled="stop"
                                 />
                             </IsPlaylistManagerOrOwner>
