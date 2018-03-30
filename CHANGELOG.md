@@ -32,7 +32,8 @@
 
 ### Added
 
-- Songs with disabled tags have a visual indicator in admin view.
+- Songs with disabled tags have a visual indicator.
+- Disabled tags are grayed out.
 
 ### Changed
 
