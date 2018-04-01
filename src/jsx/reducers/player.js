@@ -39,7 +39,7 @@ const defaultPlayerDigest = {
         },
         player_errors: [],
         kara_status: {
-            status: "stop",
+            status: null,
         },
     },
     isFetching: false,

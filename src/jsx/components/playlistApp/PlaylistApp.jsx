@@ -35,6 +35,8 @@ class PlaylistApp extends Component {
     render() {
         const { kara_status } = this.props.playerDigest.data
 
+        if (!kara_status.status) return null
+
         if (kara_status.status === 'stop') {
             return (
                 <IsPlaylistManager>
