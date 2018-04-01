@@ -69,18 +69,8 @@ export const IsPlaylistUser = withRouter(connect(
 
 
 /**
- * Kara status is stopped or not
+ * Kara status is stopped
  */
-
-class KaraStatusIsStopped extends Component {
-    render() {
-        if (this.props.karaStatus.status == 'stop') {
-            return this.props.children
-        }
-
-        return null
-    }
-}
 
 class KaraStatusIsNotStopped extends Component {
     render() {
@@ -96,14 +86,9 @@ const mapStateToPropsKaraStatus = (state) => ({
     karaStatus: state.player.digest.data.kara_status,
 })
 
-KaraStatusIsStopped = connect(
-        mapStateToPropsKaraStatus,
-        {}
-)(KaraStatusIsStopped)
-
 KaraStatusIsNotStopped = connect(
         mapStateToPropsKaraStatus,
         {}
 )(KaraStatusIsNotStopped)
 
-export {KaraStatusIsStopped, KaraStatusIsNotStopped}
+export {KaraStatusIsNotStopped}

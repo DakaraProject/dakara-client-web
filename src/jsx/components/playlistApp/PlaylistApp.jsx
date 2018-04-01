@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import Player from './player/Player'
 import Playlist from './playlist/List'
-import { KaraStatusIsStopped, KaraStatusIsNotStopped } from 'components/permissions/Playlist'
+import KaraStatusNotification from './KaraStatusNotification'
 import { IsPlaylistManager } from 'components/permissions/Playlist'
 import { loadPlayerDigest } from 'actions/player'
 import { playerDigestPropType } from 'reducers/player'
@@ -34,38 +33,23 @@ class PlaylistApp extends Component {
     }
 
     render() {
-        return (
-            <div>
-                <KaraStatusIsNotStopped>
-                    <div className="box">
-                        <Player/>
-                        <Playlist/>
-                    </div>
-                </KaraStatusIsNotStopped>
+        const { kara_status } = this.props.playerDigest.data
+
+        if (kara_status.status === 'stop') {
+            return (
                 <IsPlaylistManager>
-                    <KaraStatusIsStopped>
-                        <div className="box" id="player">
-                            <div className="kara-status-notification">
-                                <p className="message">
-                                    The karaoke is stopped for now. You can activate
-                                    it in the settings page.
-                                </p>
-                                <div className="controls">
-                                    <Link
-                                        className="control primary"
-                                        to="/settings/kara-status"
-                                    >
-                                        Go to settings page
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                    </KaraStatusIsStopped>
+                    <KaraStatusNotification/>
                 </IsPlaylistManager>
+            )
+        }
+
+        return (
+            <div className="box">
+                <Player/>
+                <Playlist/>
             </div>
         )
     }
-
 }
 
 const mapStateToProps = (state) => ({
