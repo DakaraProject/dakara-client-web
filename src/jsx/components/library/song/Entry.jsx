@@ -6,28 +6,23 @@ import { withRouter } from 'react-router-dom'
 import classNames from 'classnames'
 import { parse, stringify } from 'query-string'
 import PropTypes from 'prop-types'
-import { formatHourTime } from 'utils'
 import { addSongToPlaylist } from 'actions/player'
 import { clearSongListNotification } from 'actions/library'
 import Song from 'components/song/Song'
 import SongEntryExpanded from './EntryExpanded'
-import UserWidget from 'components/generics/UserWidget'
 import { IsPlaylistUser } from 'components/permissions/Playlist'
 import Notification from 'components/generics/Notification'
+import PlayQueueInfo from 'components/song/PlayQueueInfo'
+import DisabledFeedback from 'components/song/DisabledFeedback'
 import { songPropType } from 'serverPropTypes/library'
 import { alterationStatusPropType } from 'reducers/alterationsStatus'
-import { userPropType } from 'serverPropTypes/users'
 
 class SongEntry extends Component {
     static propTypes = {
         song: songPropType.isRequired,
         location: PropTypes.object.isRequired,
         query: PropTypes.object,
-        playlistInfo: PropTypes.shape({
-            isPlaying: PropTypes.bool,
-            timeOfPlay: PropTypes.number,
-            owner: userPropType,
-        }),
+        playlistInfo: PropTypes.object,
         addSongStatus: alterationStatusPropType,
         addSongToPlaylist: PropTypes.func.isRequired,
         clearSongListNotification: PropTypes.func.isRequired,
@@ -44,9 +39,8 @@ class SongEntry extends Component {
     }
 
     /**
-     * Toogle expanded view of song
+     * Toggle expanded view of song
      */
-
     setExpanded = (expanded) => {
         const { location } = this.props
         const queryObj = parse(location.search)
@@ -70,32 +64,11 @@ class SongEntry extends Component {
         const expanded = queryObj.expanded == song.id
 
         /**
-         * Playlist info
-         * Box displaying time of play or currently playing status
+         * Play queue info
          */
 
         let playQueueInfo
         if (playlistInfo) {
-            let playQueueInfoContent
-            if (playlistInfo.isPlaying) {
-                playQueueInfoContent = (
-                    <div className="playing">
-                        <span className="icon">
-                            <i className="fa fa-play"></i>
-                        </span>
-                    </div>
-                )
-            } else {
-                playQueueInfoContent = (
-                    <div className="queueing">
-                        <span className="icon">
-                            <i className="fa fa-clock-o"></i>
-                        </span>
-                        {formatHourTime(playlistInfo.timeOfPlay)}
-                    </div>
-                )
-            }
-
             playQueueInfo = (
                 <CSSTransition
                     classNames="playlist-info"
@@ -104,13 +77,7 @@ class SongEntry extends Component {
                         exit: 150
                     }}
                 >
-                    <div className="playlist-info">
-                        <UserWidget
-                            className="owner"
-                            user={playlistInfo.owner}
-                        />
-                        {playQueueInfoContent}
-                    </div>
+                    <PlayQueueInfo {...playlistInfo}/>
                 </CSSTransition>
             )
         }
@@ -118,6 +85,7 @@ class SongEntry extends Component {
         return (
                 <li className="library-entry listing-entry library-entry-song">
                     <div className="library-entry-song-compact hoverizable notifiable">
+                        <DisabledFeedback tags={song.tags}/>
                         <Song
                             song={song}
                             query={query}

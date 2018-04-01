@@ -12,8 +12,6 @@ export default class SongTagList extends Component {
     }
 
     render() {
-        const songTagClassArray = ['tag']
-
         /**
          * Display Tags
          * display as cliquable tags if a setQuery prop is passed
@@ -23,7 +21,6 @@ export default class SongTagList extends Component {
         let searchIcon
         if (setQuery) {
             // Set clickable and add search icon
-            songTagClassArray.push('clickable')
             searchIcon = (
                 <span className="icon">
                     <i className="fa fa-search"></i>
@@ -32,15 +29,22 @@ export default class SongTagList extends Component {
         }
 
         const tagList = tags.map( tag => {
-            // Grey out tag when searching a tag other than this
-            songTagClassArray.push({
-                'disabled': query && query.tag.length && query.tag.indexOf(tag.name) == -1
-            })
+            const className = classNames(
+                'tag',
+                {
+                    clickable: !!setQuery,
+                    disabled:
+                        // grey out tag when searching a tag other than this
+                        query && query.tag.length && query.tag.indexOf(tag.name) == -1 ||
+                        // or when explicitely disabled
+                        tag.disabled,
+                }
+            )
 
             if (this.props.unclickable) {
                 return (
                     <div
-                        className={classNames(songTagClassArray)}
+                        className={className}
                         style={{filter: `hue-rotate(${tag.color_hue}deg)`}}
                         key={tag.name}
                     >
@@ -52,7 +56,7 @@ export default class SongTagList extends Component {
 
             return (
                 <button
-                    className={classNames(songTagClassArray)}
+                    className={className}
                     style={{filter: `hue-rotate(${tag.color_hue}deg)`}}
                     key={tag.name}
                     onClick={() => setQuery && setQuery(`#${tag.name}`)}

@@ -33,10 +33,17 @@
 ### Added
 
 - Highlight query terms in artists and works libraries.
+- Songs with disabled tags have a visual indicator.
+- Disabled tags are grayed out.
 
 ### Changed
 
 - Users and song tags page moved to settings page
+- Selection color for tags has a correct hue.
+
+### Fixed
+
+- Animation of the play/pause and skip icons on the player.
 
 ## 1.1.0 - 2018-01-25
 

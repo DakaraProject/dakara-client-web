@@ -1,0 +1,34 @@
+//
+// Dakara Project
+//
+// Disabled song feedback
+//
+
+
+// `disabled-feedback` class:
+//
+// Indicator that a song is disabled.
+.disabled-feedback{
+    .square(@listing-entry-height);
+    line-height: @listing-entry-height;
+    text-align: center;
+    background: @brand-info;
+    color: @text-dark;
+    font-size: @listing-entry-control-font-size;
+}
+
+// alteration of colors when used in a listing
+.listing-entry {
+    &:nth-child(2n) {
+        .disabled-feedback {
+            background: @brand-info-light;
+        }
+    }
+
+    .hoverizable:hover,
+    &.hoverizable:hover {
+        .disabled-feedback {
+            background: @brand-info-lighter;
+        }
+    }
+}

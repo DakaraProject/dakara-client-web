@@ -3,12 +3,12 @@ import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import classNames from 'classnames'
 import { stringify } from 'query-string'
 import PropTypes from 'prop-types'
-import { formatHourTime } from 'utils'
 import Song from 'components/song/Song'
-import UserWidget from 'components/generics/UserWidget'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
+import PlayQueueInfo from 'components/song/PlayQueueInfo'
+import DisabledFeedback from 'components/song/DisabledFeedback'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 
 class PlaylistEntry extends Component {
@@ -16,6 +16,8 @@ class PlaylistEntry extends Component {
         entry: playlistEntryPropType.isRequired,
         timeOfPlay: PropTypes.number.isRequired,
         removeEntryStatus: PropTypes.object,
+        removeEntry: PropTypes.func.isRequired,
+        clearPlaylistEntryNotification: PropTypes.func.isRequired,
     }
 
     static contextTypes = {
@@ -53,40 +55,26 @@ class PlaylistEntry extends Component {
     }
 
     render() {
-        let message
-        const playlistEntryClass = [
-            'playlist-entry',
-            'listing-entry',
-            'library-entry',
-            'library-entry-song',
-            'hoverizable'
-        ]
-
-        if (this.props.removeEntryStatus) {
-            playlistEntryClass.push('delayed')
-        }
+        const { timeOfPlay, entry } = this.props
 
         return (
-            <li className={classNames(playlistEntryClass)}>
+            <li className={classNames(
+                'listing-entry',
+                'playlist-entry',
+                'library-entry',
+                'library-entry-song',
+                'hoverizable',
+                {delayed: this.props.removeEntryStatus}
+            )}>
                 <div className="library-entry-song-compact notifiable">
+                    <DisabledFeedback tags={entry.song.tags}/>
                     <Song
-                        song={this.props.entry.song}
+                        song={entry.song}
                         handleClick={this.handleSearch}
                     />
-                    <div className="playlist-info">
-                        <UserWidget
-                            className="owner"
-                            user={this.props.entry.owner}
-                        />
-                        <div className="queueing">
-                            <span className="icon">
-                                <i className="fa fa-clock-o"></i>
-                            </span>
-                            {formatHourTime(this.props.timeOfPlay)}
-                        </div>
-                    </div>
+                    <PlayQueueInfo timeOfPlay={timeOfPlay} owner={entry.owner}/>
                     <div className="controls">
-                        <IsPlaylistManagerOrOwner object={this.props.entry} disable>
+                        <IsPlaylistManagerOrOwner object={entry} disable>
                             <button
                                 className="control warning"
                                 onClick={this.displayConfirm}
@@ -106,7 +94,7 @@ class PlaylistEntry extends Component {
                         }}
                     >
                         <ConfirmationBar
-                            onConfirm={() => {this.props.removeEntry(this.props.entry.id)}}
+                            onConfirm={() => {this.props.removeEntry(entry.id)}}
                             onCancel={this.clearConfirm}
                         />
                     </CSSTransitionLazy>

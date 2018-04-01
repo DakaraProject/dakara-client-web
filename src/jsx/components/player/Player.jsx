@@ -2,18 +2,16 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
-import classNames from 'classnames'
 import { formatDuration, formatTime, params } from 'utils'
 import Song from 'components/song/Song'
 import UserWidget from 'components/generics/UserWidget'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import { loadPlayerDigest, sendPlayerCommands } from 'actions/player'
 import Playlist from './playlist/List'
-import { Status } from 'reducers/alterationsStatus'
 import PlayerNotification from './Notification'
 import { playerDigestPropType, playerCommandsPropType } from 'reducers/player'
+import ManageButton from './ManageButton'
 
 class Player extends Component {
     static propTypes = {
@@ -43,26 +41,23 @@ class Player extends Component {
     render() {
         const { status: playerStatus, manage: playerCommand, errors: playerErrors } = this.props.playerDigest.data
         const { fetchError } = this.props.playerDigest
-        let song
-        let songSubtitle
-        let songData
-        let playlistEntryOwner
-        let duration
-        let progress
         const isPlaying = !!playerStatus.playlist_entry
-        let playIconClassAray = []
+        const controlDisabled = !isPlaying || fetchError
+        const commandPauseStatus = this.props.commands.pause.status
+        const commandSkipStatus = this.props.commands.skip.status
 
         /**
          * Song display if any song is currently playing
          */
 
+        let song
+        let playlistEntryOwner
+        let duration
+        let progress
         if (isPlaying){
-            song = playerStatus.playlist_entry.song
-            duration = playerStatus.playlist_entry.song.duration
-
-            songData = (
+            song = (
                     <Song
-                        song={song}
+                        song={playerStatus.playlist_entry.song}
                         noDuration
                         noTag
                         />
@@ -75,84 +70,18 @@ class Player extends Component {
                     />
                 )
 
-            progress = playerStatus.timing * 100 / duration;
-
-            // use playercmd pause status instead of player pause status
-            playIconClassAray.push({
-                'fa-play': playerCommand.pause,
-                'fa-pause': !playerCommand.pause
-            })
+            duration = playerStatus.playlist_entry.song.duration
+            progress = Math.min(playerStatus.timing * 100 / duration, 100)
         } else {
-            playIconClassAray.push('fa-stop')
             progress = 0
             duration = 0
         }
 
+        /**
+         * Progress bar
+         */
+
         let progressStyle = {width: `${progress}%`}
-
-        /**
-         * Play/pause button
-         */
-
-        let playPauseIcon
-        const commandPauseStatus = this.props.commands.pause.status
-        if (commandPauseStatus != Status.pending) {
-            playPauseIcon = (
-                <CSSTransition
-                    classNames="managed"
-                    timeout={150}
-                >
-                    <span
-                        className="managed icon"
-                        key={playerCommand.pause ? 'play' : 'pause'}
-                    >
-                        <i className={classNames('fa', playIconClassAray)}></i>
-                    </span>
-                </CSSTransition>
-            )
-        }
-
-        /**
-         * Skip button
-         */
-
-        let skipIcon
-        const commandSkipStatus = this.props.commands.skip.status
-        if (commandSkipStatus != Status.pending) {
-            skipIcon = (
-                <CSSTransition
-                    classNames="managed"
-                    timeout={150}
-                >
-                    <span
-                        className="managed icon"
-                    >
-                        <i className="fa fa-step-forward"></i>
-                    </span>
-                </CSSTransition>
-            )
-        }
-
-        /**
-         * classes
-         */
-
-        const controlDisabled = !isPlaying || fetchError
-        const playPauseClass = classNames(
-            'control',
-            'primary',
-            {
-                'managed-error': commandPauseStatus == Status.failed
-            }
-        )
-
-        const skipClass = classNames(
-            'control',
-            'primary',
-            {
-                'managed-error': commandSkipStatus == Status.failed
-            }
-        )
 
         return (
             <div className="box">
@@ -163,35 +92,30 @@ class Player extends Component {
                                 object={playerStatus.playlist_entry}
                                 disable
                             >
-                                <button
-                                    className={playPauseClass}
+                                <ManageButton
+                                    manageStatus={commandPauseStatus}
                                     onClick={() => {
                                         this.props.sendPlayerCommands({pause: !playerCommand.pause})
                                     }}
                                     disabled={controlDisabled}
-                                >
-                                    <TransitionGroup>
-                                        {playPauseIcon}
-                                    </TransitionGroup>
-                                </button>
+                                    icon={playerCommand.pause ? 'play' : 'pause'}
+                                    iconDisabled="stop"
+                                />
                             </IsPlaylistManagerOrOwner>
                             <IsPlaylistManagerOrOwner
                                 object={playerStatus.playlist_entry}
                                 disable
                             >
-                                <button
-                                    className={skipClass}
+                                <ManageButton
+                                    manageStatus={commandSkipStatus}
                                     onClick={() => this.props.sendPlayerCommands({skip: true})}
                                     disabled={controlDisabled}
-                                >
-                                    <TransitionGroup>
-                                        {skipIcon}
-                                    </TransitionGroup>
-                                </button>
+                                    icon="step-forward"
+                                />
                             </IsPlaylistManagerOrOwner>
                         </div>
                         <div className="song-container notifiable">
-                            {songData}
+                            {song}
                             {playlistEntryOwner}
                             <div className="song-timing">
                                 <div className="current">
