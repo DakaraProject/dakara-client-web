@@ -24,5 +24,5 @@ export const playerErrorPropType = PropTypes.shape({
 })
 
 export const karaStatusPropType = PropTypes.shape({
-    status: PropTypes.string.isRequired,
+    status: PropTypes.string,
 })
