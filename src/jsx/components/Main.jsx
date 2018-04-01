@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 import { loadCurrentUser } from 'actions/authenticatedUser'
 import Header from './Header'
 import Footer from './Footer'
-import Player from './player/Player'
-import { IsAuthenticated } from 'components/permissions/Base'
+import PlaylistApp from './playlistApp/PlaylistApp'
+import { IsAuthenticated } from './permissions/Base'
 import { loadWorkTypes } from 'actions/library'
 
 class Main extends Component {
@@ -36,7 +36,7 @@ class Main extends Component {
                 <Header/>
                 <div id="content">
                     <IsAuthenticated>
-                        <Player/>
+                        <PlaylistApp/>
                     </IsAuthenticated>
                     {this.props.children}
                 </div>

@@ -11,7 +11,7 @@ import { userPropType } from 'serverPropTypes/users'
 export default class PlayQueueInfo extends Component {
     static propTypes = {
         isPlaying: PropTypes.bool,
-        timeOfPlay: PropTypes.number.isRequired,
+        timeOfPlay: PropTypes.number,
         owner: userPropType.isRequired,
     }
 

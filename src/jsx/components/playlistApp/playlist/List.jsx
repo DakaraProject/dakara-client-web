@@ -63,7 +63,7 @@ class Playlist extends Component {
 
         // compute time remaing for currently playing song
         let remainingTime = 0
-        const playerStatus = this.props.playerDigest.data.status
+        const playerStatus = this.props.playerDigest.data.player_status
         if (playerStatus.playlist_entry) {
             remainingTime = playerStatus.playlist_entry.song.duration - playerStatus.timing
         }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -34,6 +34,23 @@ export const IsPlaylistManagerOrOwner = withRouter(connect(
     }
 ))
 
+/**
+ * Playlist manager
+ */
+
+export const IsPlaylistManager = withRouter(connect(
+    mapStateToProps
+)(
+    class extends PermissionBase {
+        static propTypes = {
+            ...PermissionBase.propTypes,
+        }
+
+        static hasPermissionCustom(user) {
+            return user.playlist_permission_level == 'm'
+        }
+    }
+))
 
 /**
  * Playlist user or Playlist manager
@@ -49,3 +66,29 @@ export const IsPlaylistUser = withRouter(connect(
         }
     }
 ))
+
+
+/**
+ * Kara status is stopped
+ */
+
+class KaraStatusIsNotStopped extends Component {
+    render() {
+        if (this.props.karaStatus.status == 'stop') {
+            return null
+        }
+
+        return this.props.children
+    }
+}
+
+const mapStateToPropsKaraStatus = (state) => ({
+    karaStatus: state.player.digest.data.kara_status,
+})
+
+KaraStatusIsNotStopped = connect(
+        mapStateToPropsKaraStatus,
+        {}
+)(KaraStatusIsNotStopped)
+
+export {KaraStatusIsNotStopped}

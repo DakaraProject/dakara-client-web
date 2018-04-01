@@ -71,7 +71,10 @@
                     vertical-align: top;
                     line-height: @field-height;
 
-                    padding: 0 @gap-horizontal;
+                    // if label is empty, do not add padding
+                    &:not(:empty) {
+                        padding: 0 @gap-horizontal;
+                    }
 
                     .icon {
                         font-size: 1.5em;
@@ -351,6 +354,98 @@
         &:not(.disabled) select {
             // use pointer cursor
             cursor: pointer;
+        }
+
+        // `radio-input` class:
+        //
+        // A set of radio buttons.
+        .radio-input {
+            input[type="radio"] {
+                // reset initial height
+                height: initial;
+            }
+
+            input[type="radio"] {
+                // delete initial marker
+                -moz-appearance: none;
+                -webkit-appearance: none;
+                -ms-appearance: none;
+                appearance: none;
+
+                width: 0;
+
+                // hack for old browsers (Firefox 52), for which deactivating
+                // appareance is not enough
+                // TODO make it conditionnal?
+                opacity: 0;
+                position: absolute;
+            }
+
+            // add style to adjacent marker box
+            input + label.marker {
+                .square(@field-height * 0.5);
+                margin-top: @field-height * 0.25;
+
+                // remove padding
+                padding: 0;
+
+                position: relative;
+            }
+
+            // add style to marker when checked
+            input:checked + label.marker::after {
+                position: absolute;
+                .square(@field-height * 0.25);
+                top: @field-height * 0.125;
+                left: @field-height * 0.125;
+
+                // content marker
+                content: "";
+                background: @text-dark;
+            }
+
+            .radio-option {
+                display: flex;
+                line-height: @field-height;
+
+                .description {
+                    flex: 1;
+                    padding: 0 @gap-horizontal;
+
+                    &.long {
+                        padding: calc(@field-height * 0.5 ~"- 0.7em") @gap-horizontal;
+                        line-height: normal;
+                        .make-long-text();
+                    }
+                }
+            }
+        }
+
+        &:not(.disabled) {
+            // handle cursor
+            .radio-input {
+                label.marker, label.description {
+                    cursor: pointer;
+                }
+            }
+
+            // handle hover
+            .label:hover + .input .radio-input label.marker,
+            .radio-input:hover label.marker {
+                background: @neutral-soft-light;
+            }
+
+            // handle over in options
+            .radio-option:hover {
+                label.marker {
+                    background: @neutral-soft-lighter;
+                }
+            }
+
+            // handle focus
+            .radio-option input:focus + label.marker {
+                background: @neutral-soft-lighter;
+            }
         }
 
         // `checkbox-input` and `toggle-input` classes:

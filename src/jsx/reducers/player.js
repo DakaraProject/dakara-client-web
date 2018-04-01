@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import playlist from './playlist'
 import { PLAYER_DIGEST_REQUEST, PLAYER_DIGEST_SUCCESS, PLAYER_DIGEST_FAILURE } from 'actions/player'
 import { PLAYER_COMMANDS_REQUEST, PLAYER_COMMANDS_SUCCESS, PLAYER_COMMANDS_FAILURE } from 'actions/player'
+import { FORM_SUCCESS } from 'actions/forms'
 import { Status, handleFailureMessage, alterationsStatusPropType } from './alterationsStatus'
-import { playlistEntryPropType, playerStatusPropType, playerManagePropType, playerErrorPropType } from 'serverPropTypes/playlist'
+import { playlistEntryPropType, playerStatusPropType, playerManagePropType, playerErrorPropType, karaStatusPropType } from 'serverPropTypes/playlist'
 import { alterationStatusPropType } from './alterationsStatus'
 
 /**
@@ -17,9 +18,10 @@ import { alterationStatusPropType } from './alterationsStatus'
 
 export const playerDigestPropType = PropTypes.shape({
     data: PropTypes.shape({
-        status: playerStatusPropType.isRequired,
-        manage: playerManagePropType.isRequired,
-        errors: PropTypes.arrayOf(playerErrorPropType).isRequired,
+        player_status: playerStatusPropType.isRequired,
+        player_manage: playerManagePropType.isRequired,
+        player_errors: PropTypes.arrayOf(playerErrorPropType).isRequired,
+        kara_status: karaStatusPropType.isRequired,
     }).isRequired,
     isFetching: PropTypes.bool.isRequired,
     fetchError: PropTypes.bool.isRequired,
@@ -27,15 +29,18 @@ export const playerDigestPropType = PropTypes.shape({
 
 const defaultPlayerDigest = {
     data: {
-        status: {
+        player_status: {
             playlist_entry: null,
             timing: 0
         },
-        manage: {
+        player_manage: {
             pause: false,
             skip: false
         },
-        errors: []
+        player_errors: [],
+        kara_status: {
+            status: null,
+        },
     },
     isFetching: false,
     fetchError: false
@@ -70,8 +75,8 @@ function digest(state = defaultPlayerDigest, action) {
                     ...state,
                     data: {
                         ...state.data,
-                        manage: {
-                            ...state.data.manage,
+                        player_manage: {
+                            ...state.data.player_manage,
                             pause: action.commands.pause
                         }
                     }
@@ -79,6 +84,19 @@ function digest(state = defaultPlayerDigest, action) {
             }
 
             return state
+
+        case FORM_SUCCESS:
+            if (action.formName == "editKaraStatus") {
+                return {
+                    ...state,
+                    data: {
+                        ...state.data,
+                        kara_status: {
+                            status: action.response.status
+                        }
+                    }
+                }
+            }
 
         default:
             return state

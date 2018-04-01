@@ -28,7 +28,7 @@ export const clearPlaylistEntryNotification = (entryId) => ({
  */
 export const removeEntryFromPlaylist = (entryId) => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}playlist/${entryId}/`,
+            endpoint: `${baseUrl}playlist/entries/${entryId}/`,
             method: 'DELETE',
             types: [
                 ALTERATION_REQUEST,
@@ -56,7 +56,7 @@ export const PLAYER_DIGEST_FAILURE = 'PLAYER_DIGEST_FAILURE'
  */
 export const loadPlayerDigest = () => ({
     [FETCH_API]: {
-        endpoint: `${baseUrl}playlist/player/`,
+        endpoint: `${baseUrl}playlist/digest/`,
         method: 'GET',
         types: [
             PLAYER_DIGEST_REQUEST,
@@ -106,7 +106,7 @@ export const PLAYLIST_FAILURE = 'PLAYLIST_FAILURE'
  */
 export const loadPlaylist = () => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}playlist/`,
+            endpoint: `${baseUrl}playlist/entries/`,
             method: 'GET',
             types: [PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE],
         }
@@ -122,7 +122,7 @@ export const loadPlaylist = () => ({
  */
 export const addSongToPlaylist = (songId) => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}playlist/`,
+            endpoint: `${baseUrl}playlist/entries/`,
             method: 'POST',
             json: {song: songId},
             types: [
