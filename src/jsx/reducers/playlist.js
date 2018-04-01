@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import { PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE } from 'actions/player'
-import { PLAYLIST_TOOGLE_COLLAPSED } from 'actions/player'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 import { Status } from './alterationsStatus'
 import { updateData } from 'utils'
@@ -29,7 +28,7 @@ const defaultPlaylist = {
     },
 }
 
-export function playlist(state = defaultPlaylist, action) {
+export default function playlist(state = defaultPlaylist, action) {
     switch (action.type) {
         case PLAYLIST_REQUEST:
             return {
@@ -52,16 +51,4 @@ export function playlist(state = defaultPlaylist, action) {
         default:
             return state
     }
-}
-
-/**
- * Playlist collapsed status
- */
-
-export function collapsedPlaylist(state = true, action) {
-    if (action.type === PLAYLIST_TOOGLE_COLLAPSED) {
-        return !state
-    }
-
-    return state
 }

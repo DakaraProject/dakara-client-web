@@ -18,6 +18,7 @@ class ArtistList extends Component {
             <ArtistEntry
                 key={artist.id}
                 artist={artist}
+                query={query}
             />
         )
 

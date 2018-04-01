@@ -27,7 +27,7 @@ class SongList extends Component {
 
         const currentTime = new Date().getTime()
         let remainingTime = 0
-        const playerStatus = this.props.playerDigest.data.status
+        const playerStatus = this.props.playerDigest.data.player_status
         const playlistInfo = {}
 
         // First, if a song is playing,

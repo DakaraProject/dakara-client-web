@@ -18,13 +18,14 @@ class WorkList extends Component {
             return null
         }
 
-        const { works, count, pagination } = this.props.workLibraryItem.data
+        const { works, count, pagination, query } = this.props.workLibraryItem.data
 
         const libraryEntryWorkList = works.map(work =>
               <WorkEntry
                 key={work.id}
                 work={work}
                 workType={this.props.libraryType}
+                query={query}
               />
         )
 

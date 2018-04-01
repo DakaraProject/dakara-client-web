@@ -5,7 +5,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import { withRouter } from 'react-router-dom'
 import { formatHourTime, params } from 'utils'
-import { loadPlaylist, toogleCollapsedPlaylist } from 'actions/player'
+import { loadPlaylist } from 'actions/player'
 import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions/player'
 import PlaylistEntry from './Entry'
 import { playlistPropType } from 'reducers/playlist'
@@ -15,17 +15,23 @@ import { alterationStatusPropType, Status } from 'reducers/alterationsStatus'
 class Playlist extends Component {
     static propTypes = {
         playlist: playlistPropType.isRequired,
-        collapsedPlaylist: PropTypes.bool.isRequired,
         playerDigest: playerDigestPropType.isRequired,
         removeEntryStatus: alterationStatusPropType,
         loadPlaylist: PropTypes.func.isRequired,
-        toogleCollapsedPlaylist: PropTypes.func.isRequired,
         removeEntryFromPlaylist: PropTypes.func.isRequired,
         clearPlaylistEntryNotification: PropTypes.func.isRequired,
     }
 
     static defaultProps = {
         removeEntryStatus: {},
+    }
+
+    state = {
+        expanded: false,
+    }
+
+    togglePlaylist = () => {
+        this.setState({expanded: !this.state.expanded})
     }
 
     pollPlaylist = () => {
@@ -55,7 +61,7 @@ class Playlist extends Component {
 
         // compute time remaing for currently playing song
         let remainingTime = 0
-        const playerStatus = this.props.playerDigest.data.status
+        const playerStatus = this.props.playerDigest.data.player_status
         if (playerStatus.playlist_entry) {
             remainingTime = playerStatus.playlist_entry.song.duration - playerStatus.timing
         }
@@ -152,7 +158,7 @@ class Playlist extends Component {
         return (
         <div id="playlist">
             <CSSTransitionLazy
-                in={!this.props.collapsedPlaylist}
+                in={this.state.expanded}
                 classNames="collapse"
                 timeout={{
                     enter: 300,
@@ -163,7 +169,7 @@ class Playlist extends Component {
             </CSSTransitionLazy>
             <button
                 className="playlist-summary"
-                onClick={this.props.toogleCollapsedPlaylist}
+                onClick={this.togglePlaylist}
             >
                 {amount}
                 {next}
@@ -177,7 +183,6 @@ class Playlist extends Component {
 const mapStateToProps = (state) => ({
     playerDigest: state.player.digest,
     playlist: state.player.playlist,
-    collapsedPlaylist: state.player.collapsedPlaylist,
     removeEntryStatus: state.alterationsStatus.removeEntryFromPlaylist,
 })
 
@@ -185,7 +190,6 @@ Playlist = withRouter(connect(
     mapStateToProps,
     {
         loadPlaylist,
-        toogleCollapsedPlaylist,
         removeEntryFromPlaylist,
         clearPlaylistEntryNotification
     }

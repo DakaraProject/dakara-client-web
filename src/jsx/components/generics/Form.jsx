@@ -401,9 +401,9 @@ export { FormInline }
  *
  * Required properties:
  * - id <str>: Unique field identifier.
- * - label <str/jsx>: Label of the field.
  *
  * Optional properties:
+ * - label <str/jsx>: Label of the field.
  * - defaultValue <any>: Pre-fill field with given value.
  * - validate <func>: Called on submit, with the following params:
  *                          - value of the field
@@ -538,10 +538,10 @@ class Field extends Component {
  *
  * Required properties:
  * - id <str>: Unique field identifier.
- * - label <str/jsx>: Label of the field.
  *
  * Optional properties:
  * - type <str>: Html input type, default to text field.
+ * - label <str/jsx>: Label of the field.
  * - defaultValue <str>: Pre-fill field with given value.
  * - inline <bool>: If true do not render label.
  * - validate <func>: Called on submit, with the following params:
@@ -581,11 +581,11 @@ export class InputField extends Field {
  *
  * Required properties:
  * - id <str>: Unique field identifier.
- * - label <str/jsx>: Label of the field.
  * - options <Array>: List of the different options to display. Each list item
  *                      must be an object with a `value` key and a `name` key.
  *
  * Optional properties:
+ * - label <str/jsx>: Label of the field.
  * - defaultValue <str>: Pre-fill field with given value.
  * - inline <bool>: If true do not render label.
  * - validate <func>: Called on submit, with the following params:
@@ -623,11 +623,11 @@ export class SelectField extends Field {
     }
 
     subRender = (args) => {
-        const { options, multiple, value, ...remainingProps } = args
+        const { options, multiple, value, ...remainingArgs } = args
         const { id, setValue } = this.props
 
         // remove props from remaining
-        const { onChange, ...remaining } = remainingProps
+        const { onChange, ...remaining } = remainingArgs
 
         // create options
         const content = options.map((option, id) => ((
@@ -662,6 +662,108 @@ export class SelectField extends Field {
 }
 
 /**
+ * Form Field component based on the input tag of type radio
+ * Should be used as a direct child of a Form
+ *
+ * Required properties:
+ * - id <str>: Unique field identifier.
+ * - options <Array>: List of the different options to display. Each list item
+ *                      must be an object with a `value` key and a `name` key.
+ *
+ * Optional properties:
+ * - long <bool>: If true, the `name` key in the items of `options` is supposed
+ *                   to be long and cand spread on several lines.
+ * - label <str/jsx>: Label of the field.
+ * - defaultValue <str>: Pre-fill field with given value.
+ * - inline <bool>: If true do not render label.
+ * - validate <func>: Called on submit, with the following params:
+ *                          - value of the field
+ *                          - object containing all fields values.
+ *                      When validation fails,
+ *                      Should return an array of validation error message.
+ *                      When validation succeed,
+ *                      Should return a falsy value or empty array.
+ *
+ * Validation modifiers:
+ * - required <bool>: When true, field can not be empty.
+ *
+ * Filtering modifiers
+ * - ignore <bool>: When true, the field is never passed to the server.
+ * - ignoreIfEmpty <bool>: When true, the field is passed to the server only if
+ *                          its value is not empty.
+ *
+ * Extra properties are passed to the input tag.
+ */
+export class RadioField extends Field {
+    static propTypes = {
+        ...Field.propTypes,
+        options: PropTypes.arrayOf(PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            value: PropTypes.any,
+        }).isRequired).isRequired,
+        defaultValue: PropTypes.string,
+        long: PropTypes.bool
+    }
+
+    static getEmptyValue() {
+        return null
+    }
+
+    subRender = (args) => {
+        const { options, value, long, ...remainingArgs } = args
+        const { id, setValue } = this.props
+
+        // remove onChange from remaining args
+        const { onChange: onChangeArgs, id: idArgs, ...remaining } = remainingArgs
+
+        // redefine onChange
+        const onChange = (e) => {setValue(id, e.target.value || null)}
+
+        // create options
+        const inputs = options.map((option, itemId) => {
+            const optionId = `${id}-${itemId}`
+
+            return (
+                <div
+                    key={optionId}
+                    className="radio-option"
+                >
+                    <input
+                        type="radio"
+                        name={id}
+                        value={option.value}
+                        id={optionId}
+                        onChange={onChange}
+                        checked={option.value == value}
+                        {...remaining}
+                    />
+                    <label
+                        htmlFor={optionId}
+                        className="fake marker"
+                    >
+                    </label>
+                    <label
+                        htmlFor={optionId}
+                        className={classNames(
+                            "description",
+                            {long}
+                        )}
+                    >
+                        {option.name}
+                    </label>
+                </div>
+            )
+        })
+
+        return (
+            <div className="radio-input">
+                {inputs}
+            </div>
+        )
+    }
+}
+
+/**
  * Form Field component based on the Input tag of type checkbox
  * Should be used as a direct child of a Form
  *
@@ -669,12 +771,12 @@ export class SelectField extends Field {
  *
  * Required properties:
  * - id <str>: Unique field identifier.
- * - label <str/jsx>: Label of the field.
  *
  * Optional properties:
+ * - toggle <bool>: If true, display as toggle instead of checkbox.
+ * - label <str/jsx>: Label of the field.
  * - defaultValue <bool>: Pre-fill field with given value.
  * - inline <bool>: If true do not render label.
- * - toggle <bool>: If true, display as toggle instead of checkbox.
  * - validate <func>: Called on submit, with the following params:
  *                          - value of the field
  *                          - object containing all fields values.
@@ -740,9 +842,9 @@ export class CheckboxField extends Field {
  *
  * Required properties:
  * - id <str>: Unique field identifier.
- * - label <str/jsx>: Label of the field.
  *
  * Optional properties:
+ * - label <str/jsx>: Label of the field.
  * - defaultValue <number>: Pre-fill field with given value.
  * - inline <bool>: If true do not render label.
  * - validate <func>: Called on submit, with the following params:

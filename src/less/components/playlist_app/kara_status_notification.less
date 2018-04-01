@@ -1,0 +1,26 @@
+//
+// Dakara Project
+//
+// Notification for player status style file
+//
+
+
+// `kara-status-notification` class: message displayed to the playlist
+// manager when the kara is stopped.
+#kara-status-notification {
+    background: @brand-primary-darker;
+    color: @brand-primary;
+    display: flex;
+    align-items: center;
+    padding: @gap-vertical 0;
+
+    .message {
+        flex: 1;
+    }
+
+    .control {
+        padding: 0 @gap-horizontal;
+        line-height: @form-field-height;
+        font-size: @form-control-font-size;
+    }
+}

@@ -6,6 +6,8 @@
 
 
 @import "work_link";
+@import "play_queue_info";
+@import "disabled_feedback";
 
 
 // `song` class:
@@ -85,7 +87,8 @@
         }
     }
 
-    .hoverizable:hover {
+    .hoverizable:hover,
+    &.hoverizable:hover {
         .duration {
             background: @neutral-clear-lighter;
         }

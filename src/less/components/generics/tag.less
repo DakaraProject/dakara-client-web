@@ -43,4 +43,15 @@
         background-color: desaturate(@color, 33%);
     }
 
+    .selection() {
+        background: red;
+    }
+
+    &::-moz-selection {
+        .selection;
+    }
+
+    &::selection {
+        .selection;
+    }
 }

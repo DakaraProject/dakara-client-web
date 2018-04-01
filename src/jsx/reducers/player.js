@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux'
 import PropTypes from 'prop-types'
-import { playlist, collapsedPlaylist } from './playlist'
+import playlist from './playlist'
 import { PLAYER_DIGEST_REQUEST, PLAYER_DIGEST_SUCCESS, PLAYER_DIGEST_FAILURE } from 'actions/player'
 import { PLAYER_COMMANDS_REQUEST, PLAYER_COMMANDS_SUCCESS, PLAYER_COMMANDS_FAILURE } from 'actions/player'
-import { Status, handleFailureMessage, alterationStatusPropType } from './alterationsStatus'
-import { playlistEntryPropType, playerStatusPropType, playerManagePropType, playerErrorPropType } from 'serverPropTypes/playlist'
+import { FORM_SUCCESS } from 'actions/forms'
+import { Status, handleFailureMessage, alterationsStatusPropType } from './alterationsStatus'
+import { playlistEntryPropType, playerStatusPropType, playerManagePropType, playerErrorPropType, karaStatusPropType } from 'serverPropTypes/playlist'
+import { alterationStatusPropType } from './alterationsStatus'
 
 /**
  * This reducer contains player related state
@@ -17,24 +19,28 @@ import { playlistEntryPropType, playerStatusPropType, playerManagePropType, play
 export const playerDigestPropType = PropTypes.shape({
     status: PropTypes.symbol,
     data: PropTypes.shape({
-        status: playerStatusPropType.isRequired,
-        manage: playerManagePropType.isRequired,
-        errors: PropTypes.arrayOf(playerErrorPropType).isRequired,
+        player_status: playerStatusPropType.isRequired,
+        player_manage: playerManagePropType.isRequired,
+        player_errors: PropTypes.arrayOf(playerErrorPropType).isRequired,
+        kara_status: karaStatusPropType.isRequired,
     }).isRequired,
 })
 
 const defaultPlayerDigest = {
     status: null,
     data: {
-        status: {
+        player_status: {
             playlist_entry: null,
             timing: 0
         },
-        manage: {
+        player_manage: {
             pause: false,
             skip: false
         },
-        errors: []
+        player_errors: [],
+        kara_status: {
+            status: null,
+        },
     },
 }
 
@@ -65,8 +71,8 @@ function digest(state = defaultPlayerDigest, action) {
                     ...state,
                     data: {
                         ...state.data,
-                        manage: {
-                            ...state.data.manage,
+                        player_manage: {
+                            ...state.data.player_manage,
                             pause: action.commands.pause
                         }
                     }
@@ -74,6 +80,19 @@ function digest(state = defaultPlayerDigest, action) {
             }
 
             return state
+
+        case FORM_SUCCESS:
+            if (action.formName == "editKaraStatus") {
+                return {
+                    ...state,
+                    data: {
+                        ...state.data,
+                        kara_status: {
+                            status: action.response.status
+                        }
+                    }
+                }
+            }
 
         default:
             return state
@@ -134,7 +153,6 @@ const player = combineReducers({
     digest,
     commands,
     playlist,
-    collapsedPlaylist,
 })
 
 export default player
