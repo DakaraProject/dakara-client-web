@@ -15,7 +15,7 @@ import ManageButton from './ManageButton'
 class Player extends Component {
     static propTypes = {
         playerDigest: playerDigestPropType.isRequired,
-        commands: playerCommandsPropType.isRequired,
+        playerCommands: playerCommandsPropType.isRequired,
         sendPlayerCommands: PropTypes.func.isRequired,
     }
 
@@ -24,8 +24,8 @@ class Player extends Component {
         const { fetchError } = this.props.playerDigest
         const isPlaying = !!player_status.playlist_entry
         const controlDisabled = !isPlaying || fetchError
-        const commandPauseStatus = this.props.commands.pause.status
-        const commandSkipStatus = this.props.commands.skip.status
+        const commandPauseStatus = this.props.playerCommands.pause.status
+        const commandSkipStatus = this.props.playerCommands.skip.status
 
         /**
          * Song display if any song is currently playing
@@ -128,8 +128,8 @@ class Player extends Component {
                         </CSSTransitionLazy>
                         <PlayerNotification
                             alterationStatuses={[
-                                this.props.commands.pause,
-                                this.props.commands.skip
+                                this.props.playerCommands.pause,
+                                this.props.playerCommands.skip
                             ]}
                             playerErrors={player_errors}
                         />
@@ -145,7 +145,7 @@ class Player extends Component {
 
 const mapStateToProps = (state) => ({
     playerDigest: state.player.digest,
-    commands: state.player.commands,
+    playerCommands: state.player.commands,
 })
 
 Player = withRouter(connect(
