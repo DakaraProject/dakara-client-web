@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Highlighter from 'react-highlight-words'
+import HighlighterQuery from 'components/generics/HighlighterQuery'
 import PropTypes from 'prop-types'
 import { workLinkPropType } from 'serverPropTypes/library'
 
@@ -23,28 +24,6 @@ export default class WorkLink extends Component {
 
     render() {
         const { workLink, query, longLinkType, noIcon, noEpisodes } = this.props
-
-        // title with highlight
-        let title
-        if (query != undefined) {
-            let searchWords = query.work.contains.concat(query.remaining)
-            const workTypeQuery = query.work_type[workLink.work.work_type.query_name]
-            if (workTypeQuery) {
-                // Add keyword for specific worktype if exists
-                searchWords = searchWords.concat(workTypeQuery.contains)
-            }
-
-            title = (
-                    <Highlighter
-                        className="work-link-item title"
-                        searchWords={searchWords}
-                        textToHighlight={workLink.work.title}
-                        autoEscape
-                    />
-                )
-        } else {
-            title = (<span className="work-link-item title">{workLink.work.title}</span>)
-        }
 
         // Subtitle if any
         let subtitle
@@ -97,7 +76,21 @@ export default class WorkLink extends Component {
 
         return (
                 <div className="work-link">
-                    {title}
+                    <HighlighterQuery
+                        query={query}
+                        className="work-link-item title"
+                        searchWords={(q) => {
+                            let searchWords = q.work.contains.concat(q.remaining)
+                            const workTypeQuery = q.work_type[workLink.work.work_type.query_name]
+                            if (workTypeQuery) {
+                                // Add keyword for specific worktype if it exists
+                                searchWords = searchWords.concat(workTypeQuery.contains)
+                            }
+
+                            return searchWords
+                        }}
+                        textToHighlight={workLink.work.title}
+                    />
                     {subtitle}
                     {link}
                     {episodes}

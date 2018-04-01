@@ -113,19 +113,6 @@ export const loadPlaylist = () => ({
 })
 
 /**
- * Toogle playlist collasped state
- */
-
-export const PLAYLIST_TOOGLE_COLLAPSED = 'PLAYLIST_TOOGLE_COLLAPSED'
-
-/**
- * Toogle the collapsed state of the playlist
- */
-export const toogleCollapsedPlaylist = () => ({
-    type: PLAYLIST_TOOGLE_COLLAPSED
-})
-
-/**
  * Add song to playlist
  */
 

@@ -627,6 +627,18 @@
                 color: fade(@text-dark, 50%);
                 font-weight: 700;
                 font-size: medium;
+
+                .selection() {
+                    background: red;
+                }
+
+                &::-moz-selection {
+                    .selection;
+                }
+
+                &::selection {
+                    .selection;
+                }
             }
 
             .input {
