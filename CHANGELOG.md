@@ -34,6 +34,10 @@
 
 - Users and song tags page moved to settings page
 
+### Fixed
+
+- Animation of the play/pause and skip icons on the player.
+
 ## 1.1.0 - 2018-01-25
 
 ### Added
