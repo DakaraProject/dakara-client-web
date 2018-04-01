@@ -32,6 +32,7 @@
 
 ### Added
 
+- Highlight query terms in artists and works libraries.
 - Songs with disabled tags have a visual indicator.
 - Disabled tags are grayed out.
 

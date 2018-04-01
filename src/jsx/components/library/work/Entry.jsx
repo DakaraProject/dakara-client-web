@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { stringify } from 'query-string'
 import PropTypes from 'prop-types'
+import HighlighterQuery from 'components/generics/HighlighterQuery'
 import { workPropType } from 'serverPropTypes/library'
 
 class WorkEntry extends Component {
     static propTypes = {
         workType: PropTypes.string.isRequired,
         work: workPropType.isRequired,
+        query: PropTypes.object,
     }
 
     static contextTypes = {
@@ -29,9 +31,12 @@ class WorkEntry extends Component {
                 <li className="library-entry listing-entry library-entry-work hoverizable">
                     <div className="library-entry-work-display">
                         <div className="header">
-                            <span className="title">
-                                {title}
-                            </span>
+                            <HighlighterQuery
+                                query={this.props.query}
+                                className="title"
+                                searchWords={(q) => (q.remaining)}
+                                textToHighlight={title}
+                            />
                             <span className="subtitle">
                                 {subtitle}
                             </span>

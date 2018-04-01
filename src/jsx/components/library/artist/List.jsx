@@ -13,12 +13,13 @@ class ArtistList extends Component {
 
     render() {
         const { entries } = this.props
-        const artists = entries.data.results
+        const { results: artists, query } = entries.data
 
         const libraryEntryArtistList = artists.map(artist =>
             <ArtistEntry
                 key={artist.id}
                 artist={artist}
+                query={query}
             />
         )
 
