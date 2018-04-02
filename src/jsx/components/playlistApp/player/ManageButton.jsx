@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
-import { Status } from 'reducers/alterationsStatus'
+import { Status, alterationStatusPropType } from 'reducers/alterationsStatus'
 
 /**
  * ManageButton class for a button connected to a player manage command
@@ -27,7 +27,7 @@ import { Status } from 'reducers/alterationsStatus'
  */
 export default class ManageButton extends Component {
     static propTypes = {
-        manageStatus: PropTypes.symbol,
+        manageStatus: alterationStatusPropType,
         disabled: PropTypes.bool,
         className: PropTypes.string,
         timeout: PropTypes.number,
@@ -51,11 +51,13 @@ export default class ManageButton extends Component {
         // do not watch for udptates during the transition
         if (this.state.isLeaving) return
 
-        const manageStatus = this.props.manageStatus
-        const prevManageStatus = prevProps.manageStatus
+        if (!this.props.manageStatus) return
 
-        if (manageStatus !== prevManageStatus) {
-            if (manageStatus === Status.pending) {
+        const status = this.props.manageStatus.status
+
+        if (typeof prevProps.manageStatus === 'unedfined' ||
+            status !== prevProps.status) {
+            if (status === Status.pending) {
                 // the status being pending means that the transition starts
                 this.setState({
                     isLeaving: true,
@@ -76,7 +78,7 @@ export default class ManageButton extends Component {
                 // reactivated when ready
                 this.setState({
                     display: true,
-                    error: manageStatus === Status.failed,
+                    error: status === Status.failed,
                 })
             }
         }
@@ -98,8 +100,8 @@ export default class ManageButton extends Component {
         const { manageStatus, icon } = this.props
         this.setState({
             isLeaving: false,
-            display: manageStatus !== Status.pending,
-            error: manageStatus === Status.failed,
+            display: manageStatus.status !== Status.pending,
+            error: manageStatus.status === Status.failed,
             icon,
         })
     }
@@ -116,7 +118,7 @@ export default class ManageButton extends Component {
     }
 
     render() {
-        const { manageStatus, onClick, disabled, className, timeout, iconDisabled } = this.props
+        const { onClick, disabled, className, timeout, iconDisabled } = this.props
 
         const onClickControlled = (e) => {
             // do not manage any other click during the transition

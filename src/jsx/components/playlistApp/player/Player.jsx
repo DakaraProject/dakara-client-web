@@ -6,17 +6,18 @@ import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import { formatDuration, formatTime } from 'utils'
 import Song from 'components/song/Song'
 import UserWidget from 'components/generics/UserWidget'
-import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
-import { sendPlayerCommands } from 'actions/player'
-import PlayerNotification from './Notification'
-import { playerDigestPropType, playerCommandsPropType } from 'reducers/player'
 import ManageButton from './ManageButton'
+import PlayerNotification from './Notification'
+import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
+import { sendPlayerCommand } from 'actions/player'
+import { playerDigestPropType, playerCommandsPropType } from 'reducers/player'
+import { alterationStatusPropType } from 'reducers/alterationsStatus'
 
 class Player extends Component {
     static propTypes = {
         playerDigest: playerDigestPropType.isRequired,
-        playerCommands: playerCommandsPropType.isRequired,
-        sendPlayerCommands: PropTypes.func.isRequired,
+        sendPlayerCommandStatus: PropTypes.objectOf(alterationStatusPropType),
+        sendPlayerCommand: PropTypes.func.isRequired,
     }
 
     render() {
@@ -24,8 +25,18 @@ class Player extends Component {
         const { fetchError } = this.props.playerDigest
         const isPlaying = !!player_status.playlist_entry
         const controlDisabled = !isPlaying || fetchError
-        const commandPauseStatus = this.props.playerCommands.pause.status
-        const commandSkipStatus = this.props.playerCommands.skip.status
+        const { sendPlayerCommandStatus } = this.props
+        let sendPlayerCommandStatusPause
+        let sendPlayerCommandStatusSkip
+        if (sendPlayerCommandStatus) {
+            if (sendPlayerCommandStatus.pause) {
+                sendPlayerCommandStatusPause = sendPlayerCommandStatus.pause.status
+            }
+
+            if (sendPlayerCommandStatus.skip) {
+                sendPlayerCommandStatusSkip = sendPlayerCommandStatus.skip.status
+            }
+        }
 
         /**
          * Song display if any song is currently playing
@@ -73,9 +84,9 @@ class Player extends Component {
                             disable
                         >
                             <ManageButton
-                                manageStatus={commandPauseStatus}
+                                manageStatus={sendPlayerCommandStatusPause}
                                 onClick={() => {
-                                    this.props.sendPlayerCommands({pause: !player_manage.pause})
+                                    this.props.sendPlayerCommand('pause', !player_manage.pause)
                                 }}
                                 disabled={controlDisabled}
                                 icon={player_manage.pause ? 'play' : 'pause'}
@@ -87,8 +98,10 @@ class Player extends Component {
                             disable
                         >
                             <ManageButton
-                                manageStatus={commandSkipStatus}
-                                onClick={() => this.props.sendPlayerCommands({skip: true})}
+                                manageStatus={sendPlayerCommandStatusSkip}
+                                onClick={() =>
+                                        this.props.sendPlayerCommand('skip', true)
+                                }
                                 disabled={controlDisabled}
                                 icon="step-forward"
                             />
@@ -127,10 +140,7 @@ class Player extends Component {
                             </div>
                         </CSSTransitionLazy>
                         <PlayerNotification
-                            alterationStatuses={[
-                                this.props.playerCommands.pause,
-                                this.props.playerCommands.skip
-                            ]}
+                            alterationStatuses={sendPlayerCommandStatus}
                             playerErrors={player_errors}
                         />
                     </div>
@@ -145,13 +155,13 @@ class Player extends Component {
 
 const mapStateToProps = (state) => ({
     playerDigest: state.player.digest,
-    playerCommands: state.player.commands,
+    sendPlayerCommandStatus: state.alterationsStatus.sendPlayerCommand,
 })
 
 Player = withRouter(connect(
     mapStateToProps,
     {
-        sendPlayerCommands,
+        sendPlayerCommand,
     }
 )(Player))
 

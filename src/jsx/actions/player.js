@@ -67,30 +67,25 @@ export const loadPlayerDigest = () => ({
 })
 
 /**
- * Send player commands
+ * Send a command to the player
+ * @param name: pause or skip
+ * @param value: boolean value
  */
-
-export const PLAYER_COMMANDS_REQUEST = 'PLAYER_COMMANDS_REQUEST'
-export const PLAYER_COMMANDS_SUCCESS = 'PLAYER_COMMANDS_SUCCESS'
-export const PLAYER_COMMANDS_FAILURE = 'PLAYER_COMMANDS_FAILURE'
-
-/**
- * Send commands to the player
- * @param commands : object containing pause and skip commands booleans
- */
-export const sendPlayerCommands = (commands) => ({
+export const sendPlayerCommand = (name, value) => ({
     [FETCH_API]: {
             endpoint: `${baseUrl}playlist/player/manage/`,
             method: 'PUT',
-            json: commands,
+            json: {[name]: value},
             types: [
-                PLAYER_COMMANDS_REQUEST,
-                PLAYER_COMMANDS_SUCCESS,
-                PLAYER_COMMANDS_FAILURE
+                ALTERATION_REQUEST,
+                ALTERATION_SUCCESS,
+                ALTERATION_FAILURE
             ],
             onSuccess: loadPlayerDigest(),
     },
-    commands
+    alterationName: "sendPlayerCommand",
+    elementId: name,
+    value,
 })
 
 /**

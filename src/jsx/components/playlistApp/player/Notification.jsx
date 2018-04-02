@@ -16,8 +16,12 @@ const notificationTypes = {
  */
 export default class PlayerNotification extends Component {
     static propTypes = {
-        alterationStatuses: PropTypes.arrayOf(alterationStatusPropType).isRequired,
+        alterationStatuses: PropTypes.objectOf(alterationStatusPropType),
         playerErrors: PropTypes.arrayOf(playerErrorPropType).isRequired,
+    }
+
+    static defaultProps = {
+        alterationStatuses: {},
     }
 
     state = {
@@ -37,26 +41,27 @@ export default class PlayerNotification extends Component {
         const alterationStatuses = this.props.alterationStatuses
         const prevAlterationStatuses = prevProps.alterationStatuses
 
-        // if the alterationStatuses prop has changed in length, throw an error
-        if (alterationStatuses.length != prevAlterationStatuses.length) {
-            throw new Error("Property alterationStatuses has changed")
-        }
+        // // if the alterationStatuses prop has changed in length, throw an error
+        // if (alterationStatuses.length != prevAlterationStatuses.length) {
+        //     throw new Error("Property alterationStatuses has changed")
+        // }
 
         // handle alterationStatuses changes
-        for (let i = 0; i < alterationStatuses.length; i++) {
-            const alterationsStatus = alterationStatuses[i]
-            const prevAlterationStatus = prevAlterationStatuses[i]
+        for (let id in alterationStatuses) {
+            const alterationsStatus = alterationStatuses[id]
+            const prevAlterationStatus = prevAlterationStatuses[id]
 
             // check a new error has occured
-            if (alterationsStatus.status != prevAlterationStatus.status &&
-                alterationsStatus.status == Status.failed) {
+            if (typeof prevAlterationStatuses === 'undefined' ||
+                alterationsStatus.status !== prevAlterationStatus.status &&
+                alterationsStatus.status === Status.failed) {
 
                 if (this.timeout) {
                     clearTimeout(this.timeout)
                 }
 
                 this.setState({
-                    displayAlterationStatusId: i,
+                    displayAlterationStatusId: id,
                     displayPlayerError: false,
                 })
                 this.setNotificationClearTimeout()

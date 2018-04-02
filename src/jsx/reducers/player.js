@@ -2,11 +2,10 @@ import { combineReducers } from 'redux'
 import PropTypes from 'prop-types'
 import playlist from './playlist'
 import { PLAYER_DIGEST_REQUEST, PLAYER_DIGEST_SUCCESS, PLAYER_DIGEST_FAILURE } from 'actions/player'
-import { PLAYER_COMMANDS_REQUEST, PLAYER_COMMANDS_SUCCESS, PLAYER_COMMANDS_FAILURE } from 'actions/player'
 import { FORM_SUCCESS } from 'actions/forms'
-import { Status, handleFailureMessage, alterationsStatusPropType } from './alterationsStatus'
+import { ALTERATION_SUCCESS } from 'actions/alterationsStatus'
+import { Status } from './alterationsStatus'
 import { playlistEntryPropType, playerStatusPropType, playerManagePropType, playerErrorPropType, karaStatusPropType } from 'serverPropTypes/playlist'
-import { alterationStatusPropType } from './alterationsStatus'
 
 /**
  * This reducer contains player related state
@@ -64,16 +63,18 @@ function digest(state = defaultPlayerDigest, action) {
                 status: Status.failed,
             }
 
-        case PLAYER_COMMANDS_SUCCESS:
-            if (action.commands &&
-                typeof action.commands.pause !== 'undefined') {
+        // if a pause command has been successfuly sent to the server,
+        // adapt the state now
+        case ALTERATION_SUCCESS:
+            if (action.alterationName === 'sendPlayerCommand' &&
+                action.elementId === 'pause') {
                 return {
                     ...state,
                     data: {
                         ...state.data,
                         player_manage: {
                             ...state.data.player_manage,
-                            pause: action.commands.pause
+                            pause: action.value,
                         }
                     }
                 }
@@ -81,6 +82,7 @@ function digest(state = defaultPlayerDigest, action) {
 
             return state
 
+        // if the kara status has been successfuly edited, adapt the state now
         case FORM_SUCCESS:
             if (action.formName == "editKaraStatus") {
                 return {
@@ -100,58 +102,11 @@ function digest(state = defaultPlayerDigest, action) {
 }
 
 /**
- * Player skip and pause management
- */
-
-const defaultPlayerCommand = {
-    status: null,
-    message: "",
-}
-
-const generatePlayerCommandReducer = commandName => (state = defaultPlayerCommand, action) => {
-    if (!(action.commands && typeof action.commands[commandName] !== 'undefined')) {
-        return state
-    }
-
-    switch (action.type) {
-        case PLAYER_COMMANDS_REQUEST:
-            return {
-                status: Status.pending
-            }
-
-        case PLAYER_COMMANDS_SUCCESS:
-            return {
-                status: Status.successful
-            }
-
-        case PLAYER_COMMANDS_FAILURE:
-            return {
-                status: Status.failed,
-                message: handleFailureMessage(action)
-            }
-
-        default:
-            return state
-    }
-}
-
-export const playerCommandsPropType = PropTypes.shape({
-    pause: alterationStatusPropType.isRequired,
-    skip: alterationStatusPropType.isRequired,
-})
-
-const commands = combineReducers({
-    pause: generatePlayerCommandReducer('pause'),
-    skip: generatePlayerCommandReducer('skip')
-})
-
-/**
  * Player
  */
 
 const player = combineReducers({
     digest,
-    commands,
     playlist,
 })
 
