@@ -36,6 +36,7 @@
 - Songs with disabled tags have a visual indicator.
 - Disabled tags are grayed out.
 - Kara status setting
+- Display in library when a song was previoulsy played
 
 ### Changed
 
