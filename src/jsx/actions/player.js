@@ -113,6 +113,25 @@ export const loadPlaylist = () => ({
 })
 
 /**
+ * Get playlist played entries
+ */
+
+export const PLAYLIST_PLAYED_REQUEST = 'PLAYLIST_PLAYED_REQUEST'
+export const PLAYLIST_PLAYED_SUCCESS = 'PLAYLIST_PLAYED_SUCCESS'
+export const PLAYLIST_PLAYED_FAILURE = 'PLAYLIST_PLAYED_FAILURE'
+
+/**
+ * Request playlist played entries
+ */
+export const loadPlaylistPlayed = () => ({
+    [FETCH_API]: {
+            endpoint: `${baseUrl}playlist/played-entries/`,
+            method: 'GET',
+            types: [PLAYLIST_PLAYED_REQUEST, PLAYLIST_PLAYED_SUCCESS, PLAYLIST_PLAYED_FAILURE],
+        }
+})
+
+/**
  * Add song to playlist
  */
 
