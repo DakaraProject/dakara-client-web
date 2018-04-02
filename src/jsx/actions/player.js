@@ -63,6 +63,7 @@ export const loadPlayerDigest = () => ({
             PLAYER_DIGEST_SUCCESS,
             PLAYER_DIGEST_FAILURE
         ],
+        onSuccess: addSongWhenFinished,
     }
 })
 
@@ -156,3 +157,31 @@ export const addSongToPlaylist = (songId) => ({
     alterationName: "addSongToPlaylist",
     elementId: songId,
 })
+
+/**
+ * Add entry to playlist played entries list
+ */
+
+export const PLAYLIST_PLAYED_ADD = 'PLAYLIST_PLAYED_ADD'
+
+/**
+ * Detects when a song had finished playing,
+ * and generate a PLAYLIST_PLAYED_ADD action accordingly
+ */
+const addSongWhenFinished = (dispatch, getState, newAction) => {
+    const previousEntry = getState().player.digest.data.player_status.playlist_entry
+    const newEntry = newAction.response.player_status.playlist_entry
+
+    if (!previousEntry) {
+        return null
+    }
+
+    if (newEntry && newEntry.id === previousEntry.id) {
+        return null
+    }
+
+    return dispatch({
+        type: PLAYLIST_PLAYED_ADD,
+        entry: previousEntry
+    })
+}

@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import PropTypes from 'prop-types'
 import { PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE } from 'actions/player'
 import { PLAYLIST_PLAYED_REQUEST, PLAYLIST_PLAYED_SUCCESS, PLAYLIST_PLAYED_FAILURE } from 'actions/player'
+import { PLAYLIST_PLAYED_ADD, PLAYER_DIGEST_SUCCESS } from 'actions/player'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 
 /**
@@ -54,6 +55,24 @@ function playedEntries(state = defaultEntries, action) {
 
         case PLAYLIST_PLAYED_FAILURE:
             return { ...state, isFetching: false }
+
+        case PLAYLIST_PLAYED_ADD:
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    results: [
+                        ...state.data.results,
+                        action.entry
+                    ]
+                }
+            }
+        case PLAYER_DIGEST_SUCCESS:
+            if (action.response.kara_status.status === 'stop') {
+                return defaultEntries
+            }
+
+            return state
 
         default:
             return state
