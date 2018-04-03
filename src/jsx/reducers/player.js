@@ -48,7 +48,7 @@ function digest(state = defaultPlayerDigest, action) {
         case PLAYER_DIGEST_REQUEST:
             return {
                 ...state,
-                status: Status.pending,
+                status: state.status ? Status.pending : Status.firstPending
             }
 
         case PLAYER_DIGEST_SUCCESS:

@@ -2,10 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import SettingsTabList from './TabList'
 import { FormBlock, RadioField} from 'components/generics/Form'
+import { Status } from 'reducers/alterationsStatus'
 
-class KaraStatus extends Component {
+class SettingsKaraStatus extends Component {
 
     render() {
+        // render nothing if the kara status is being fetched
+        if (this.props.playerDigestStatus === Status.firstPending) return null
+
         const statusOptions = [
             {
                 value: 'play',
@@ -53,12 +57,13 @@ class KaraStatus extends Component {
 }
 
 const mapStateToProps = (state) => ({
+    playerDigestStatus: state.player.digest.status,
     karaStatus: state.player.digest.data.kara_status,
 })
 
-KaraStatus = connect(
+SettingsKaraStatus = connect(
     mapStateToProps,
     {}
-)(KaraStatus)
+)(SettingsKaraStatus)
 
-export default KaraStatus
+export default SettingsKaraStatus
