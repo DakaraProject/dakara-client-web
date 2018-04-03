@@ -27,7 +27,7 @@ import { Status, alterationStatusPropType } from 'reducers/alterationsStatus'
  */
 export default class ManageButton extends Component {
     static propTypes = {
-        manageStatus: alterationStatusPropType,
+        manageStatus: alterationStatusPropType.isRequired,
         disabled: PropTypes.bool,
         className: PropTypes.string,
         timeout: PropTypes.number,
@@ -51,12 +51,10 @@ export default class ManageButton extends Component {
         // do not watch for udptates during the transition
         if (this.state.isLeaving) return
 
-        if (!this.props.manageStatus) return
-
         const status = this.props.manageStatus.status
+        const prevStatus = prevProps.manageStatus.status
 
-        if (typeof prevProps.manageStatus === 'unedfined' ||
-            status !== prevProps.status) {
+        if (status !== prevStatus) {
             if (status === Status.pending) {
                 // the status being pending means that the transition starts
                 this.setState({

@@ -83,7 +83,7 @@ export const sendPlayerCommand = (name, value) => ({
             ],
             onSuccess: loadPlayerDigest(),
     },
-    alterationName: "sendPlayerCommand",
+    alterationName: "sendPlayerCommands",
     elementId: name,
     value,
 })

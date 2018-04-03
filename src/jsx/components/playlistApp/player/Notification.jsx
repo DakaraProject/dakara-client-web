@@ -16,12 +16,8 @@ const notificationTypes = {
  */
 export default class PlayerNotification extends Component {
     static propTypes = {
-        alterationStatuses: PropTypes.objectOf(alterationStatusPropType),
+        alterationStatuses: PropTypes.objectOf(alterationStatusPropType).isRequired,
         playerErrors: PropTypes.arrayOf(playerErrorPropType).isRequired,
-    }
-
-    static defaultProps = {
-        alterationStatuses: {},
     }
 
     state = {
@@ -41,10 +37,10 @@ export default class PlayerNotification extends Component {
         const alterationStatuses = this.props.alterationStatuses
         const prevAlterationStatuses = prevProps.alterationStatuses
 
-        // // if the alterationStatuses prop has changed in length, throw an error
-        // if (alterationStatuses.length != prevAlterationStatuses.length) {
-        //     throw new Error("Property alterationStatuses has changed")
-        // }
+        // if the alterationStatuses prop has changed in length, throw an error
+        if (alterationStatuses.length != prevAlterationStatuses.length) {
+            throw new Error("Property alterationStatuses has changed")
+        }
 
         // handle alterationStatuses changes
         for (let id in alterationStatuses) {
@@ -52,8 +48,7 @@ export default class PlayerNotification extends Component {
             const prevAlterationStatus = prevAlterationStatuses[id]
 
             // check a new error has occured
-            if (typeof prevAlterationStatuses === 'undefined' ||
-                alterationsStatus.status !== prevAlterationStatus.status &&
+            if (alterationsStatus.status !== prevAlterationStatus.status &&
                 alterationsStatus.status === Status.failed) {
 
                 if (this.timeout) {
