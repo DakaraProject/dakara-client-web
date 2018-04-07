@@ -81,11 +81,6 @@ class Player extends Component {
                                 icon={player_manage.pause ? 'play' : 'pause'}
                                 iconDisabled="stop"
                             />
-                        </IsPlaylistManagerOrOwner>
-                        <IsPlaylistManagerOrOwner
-                            object={player_status.playlist_entry}
-                            disable
-                        >
                             <ManageButton
                                 manageStatus={commandSkipStatus}
                                 onClick={() => this.props.sendPlayerCommands({skip: true})}

@@ -65,11 +65,6 @@ export default class UserEntry extends Component {
                                 >
                                     <i className="fa fa-pencil"></i>
                                 </ControlLink>
-                            </IsNotSelf>
-                            <IsNotSelf
-                                object={user}
-                                disable
-                            >
                                 <button
                                     className="control danger"
                                     onClick={this.displayConfirm}
