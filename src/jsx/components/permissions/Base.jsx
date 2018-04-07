@@ -11,16 +11,15 @@ export class PermissionBase extends Component {
         disable: PropTypes.bool,
     }
 
-    _hasPermission = () => {
+    instanceHasPermission = () => {
         const { user, object } = this.props
         return this.constructor.hasPermission(
             user,
             object,
-            this.constructor
         )
     }
 
-    static hasPermission(user, object, permissionClass) {
+    static hasPermission(user, object) {
         // if the user is not connected, access denied
         if (!user) {
             return false
@@ -32,7 +31,7 @@ export class PermissionBase extends Component {
         }
 
         // apply custom permission
-        return permissionClass.hasPermissionCustom(user, object)
+        return this.hasPermissionCustom(user, object)
     }
 
     static hasPermissionCustom(user, object) {
@@ -43,7 +42,7 @@ export class PermissionBase extends Component {
         const { children, disable } = this.props
 
         // if the user has permission to display the children
-        if (this._hasPermission()) return children
+        if (this.instanceHasPermission()) return children
 
         // if the children can be disabled, display them disabled
         if (disable) {
