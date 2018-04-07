@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import PropTypes from 'prop-types'
 import playlist from './playlist'
-import { PLAYER_DIGEST_REQUEST, PLAYER_DIGEST_SUCCESS, PLAYER_DIGEST_FAILURE } from 'actions/player'
+import { PLAYLISTAPP_DIGEST_REQUEST, PLAYLISTAPP_DIGEST_SUCCESS, PLAYLISTAPP_DIGEST_FAILURE } from 'actions/playlistApp'
 import { FORM_SUCCESS } from 'actions/forms'
 import { ALTERATION_SUCCESS } from 'actions/alterationsStatus'
 import { Status } from './alterationsStatus'
@@ -15,7 +15,7 @@ import { playlistEntryPropType, playerStatusPropType, playerManagePropType, play
  * Player information digest from server
  */
 
-export const playerDigestPropType = PropTypes.shape({
+export const playlistAppDigestPropType = PropTypes.shape({
     status: PropTypes.symbol,
     data: PropTypes.shape({
         player_status: playerStatusPropType.isRequired,
@@ -25,7 +25,7 @@ export const playerDigestPropType = PropTypes.shape({
     }).isRequired,
 })
 
-const defaultPlayerDigest = {
+const defaultPlaylistAppDigest = {
     status: null,
     data: {
         player_status: {
@@ -43,21 +43,21 @@ const defaultPlayerDigest = {
     },
 }
 
-function digest(state = defaultPlayerDigest, action) {
+function digest(state = defaultPlaylistAppDigest, action) {
     switch (action.type) {
-        case PLAYER_DIGEST_REQUEST:
+        case PLAYLISTAPP_DIGEST_REQUEST:
             return {
                 ...state,
                 status: state.status || Status.pending
             }
 
-        case PLAYER_DIGEST_SUCCESS:
+        case PLAYLISTAPP_DIGEST_SUCCESS:
             return {
                 status: Status.successful,
                 data: action.response,
             }
 
-        case PLAYER_DIGEST_FAILURE:
+        case PLAYLISTAPP_DIGEST_FAILURE:
             return {
                 ...state,
                 status: Status.failed,
@@ -105,9 +105,9 @@ function digest(state = defaultPlayerDigest, action) {
  * Player
  */
 
-const player = combineReducers({
+const playlistApp = combineReducers({
     digest,
     playlist,
 })
 
-export default player
+export default playlistApp

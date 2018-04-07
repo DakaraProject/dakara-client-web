@@ -5,17 +5,17 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import { withRouter } from 'react-router-dom'
 import { formatHourTime, params } from 'utils'
-import { loadPlaylist } from 'actions/player'
-import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions/player'
+import { loadPlaylist } from 'actions/playlistApp'
+import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions/playlistApp'
 import PlaylistEntry from './Entry'
 import { playlistPropType } from 'reducers/playlist'
-import { playerDigestPropType } from 'reducers/player'
+import { playlistAppDigestPropType } from 'reducers/playlistApp'
 import { alterationStatusPropType, Status } from 'reducers/alterationsStatus'
 
 class Playlist extends Component {
     static propTypes = {
         playlist: playlistPropType.isRequired,
-        playerDigest: playerDigestPropType.isRequired,
+        playlistAppDigest: playlistAppDigestPropType.isRequired,
         removeEntryStatus: alterationStatusPropType,
         loadPlaylist: PropTypes.func.isRequired,
         removeEntryFromPlaylist: PropTypes.func.isRequired,
@@ -61,7 +61,7 @@ class Playlist extends Component {
 
         // compute time remaing for currently playing song
         let remainingTime = 0
-        const playerStatus = this.props.playerDigest.data.player_status
+        const playerStatus = this.props.playlistAppDigest.data.player_status
         if (playerStatus.playlist_entry) {
             remainingTime = playerStatus.playlist_entry.song.duration - playerStatus.timing
         }
@@ -181,8 +181,8 @@ class Playlist extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playerDigest: state.player.digest,
-    playlist: state.player.playlist,
+    playlistAppDigest: state.playlistApp.digest,
+    playlist: state.playlistApp.playlist,
     removeEntryStatus: state.alterationsStatus.removeEntryFromPlaylist,
 })
 

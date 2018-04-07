@@ -9,20 +9,20 @@ import UserWidget from 'components/generics/UserWidget'
 import ManageButton from './ManageButton'
 import PlayerNotification from './Notification'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
-import { sendPlayerCommand } from 'actions/player'
-import { playerDigestPropType, playerCommandsPropType } from 'reducers/player'
+import { sendPlayerCommand } from 'actions/playlistApp'
+import { playlistAppDigestPropType, playerCommandsPropType } from 'reducers/playlistApp'
 import { alterationStatusPropType } from 'reducers/alterationsStatus'
 
 class Player extends Component {
     static propTypes = {
-        playerDigest: playerDigestPropType.isRequired,
+        playlistAppDigest: playlistAppDigestPropType.isRequired,
         sendPlayerCommandsStatus: PropTypes.objectOf(alterationStatusPropType),
         sendPlayerCommand: PropTypes.func.isRequired,
     }
 
     render() {
-        const { player_status, player_manage, player_errors } = this.props.playerDigest.data
-        const { fetchError } = this.props.playerDigest
+        const { player_status, player_manage, player_errors } = this.props.playlistAppDigest.data
+        const { fetchError } = this.props.playlistAppDigest
         const isPlaying = !!player_status.playlist_entry
         const controlDisabled = !isPlaying || fetchError
 
@@ -153,7 +153,7 @@ class Player extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playerDigest: state.player.digest,
+    playlistAppDigest: state.playlistApp.digest,
     sendPlayerCommandsStatus: state.alterationsStatus.sendPlayerCommands,
 })
 

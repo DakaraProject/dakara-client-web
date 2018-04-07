@@ -8,8 +8,8 @@ class SettingsKaraStatus extends Component {
 
     render() {
         // render nothing if the kara status is being fetched
-        if (this.props.playerDigestStatus === Status.pending ||
-            this.props.playerDigestStatus === null) return null
+        if (this.props.playlistAppDigestStatus === Status.pending ||
+            this.props.playlistAppDigestStatus === null) return null
 
         const statusOptions = [
             {
@@ -58,8 +58,8 @@ class SettingsKaraStatus extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playerDigestStatus: state.player.digest.status,
-    karaStatus: state.player.digest.data.kara_status,
+    playlistAppDigestStatus: state.playlistApp.digest.status,
+    karaStatus: state.playlistApp.digest.data.kara_status,
 })
 
 SettingsKaraStatus = connect(

@@ -4,6 +4,41 @@ import { params } from 'utils'
 
 const { baseUrl } = params
 
+
+/**
+ * Playlist app actions
+ */
+
+
+/**
+ * Get playlist app information digest
+ */
+
+export const PLAYLISTAPP_DIGEST_REQUEST = 'PLAYLISTAPP_DIGEST_REQUEST'
+export const PLAYLISTAPP_DIGEST_SUCCESS = 'PLAYLISTAPP_DIGEST_SUCCESS'
+export const PLAYLISTAPP_DIGEST_FAILURE = 'PLAYLISTAPP_DIGEST_FAILURE'
+
+/**
+ * Request information digest
+ */
+export const loadPlaylistAppDigest = () => ({
+    [FETCH_API]: {
+        endpoint: `${baseUrl}playlist/digest/`,
+        method: 'GET',
+        types: [
+            PLAYLISTAPP_DIGEST_REQUEST,
+            PLAYLISTAPP_DIGEST_SUCCESS,
+            PLAYLISTAPP_DIGEST_FAILURE
+        ],
+    }
+})
+
+
+/**
+ * Playlist actions
+ */
+
+
 /**
  * Clear playlist entry notification
  */
@@ -17,6 +52,7 @@ export const clearPlaylistEntryNotification = (entryId) => ({
     alterationName: "removeEntryFromPlaylist",
     elementId: entryId,
 })
+
 
 /**
  * Remove song from playlist
@@ -43,50 +79,6 @@ export const removeEntryFromPlaylist = (entryId) => ({
     elementId: entryId,
 })
 
-/**
- * Get player information digest
- */
-
-export const PLAYER_DIGEST_REQUEST = 'PLAYER_DIGEST_REQUEST'
-export const PLAYER_DIGEST_SUCCESS = 'PLAYER_DIGEST_SUCCESS'
-export const PLAYER_DIGEST_FAILURE = 'PLAYER_DIGEST_FAILURE'
-
-/**
- * Request player information digest
- */
-export const loadPlayerDigest = () => ({
-    [FETCH_API]: {
-        endpoint: `${baseUrl}playlist/digest/`,
-        method: 'GET',
-        types: [
-            PLAYER_DIGEST_REQUEST,
-            PLAYER_DIGEST_SUCCESS,
-            PLAYER_DIGEST_FAILURE
-        ],
-    }
-})
-
-/**
- * Send a command to the player
- * @param name: pause or skip
- * @param value: boolean value
- */
-export const sendPlayerCommand = (name, value) => ({
-    [FETCH_API]: {
-            endpoint: `${baseUrl}playlist/player/manage/`,
-            method: 'PUT',
-            json: {[name]: value},
-            types: [
-                ALTERATION_REQUEST,
-                ALTERATION_SUCCESS,
-                ALTERATION_FAILURE
-            ],
-            onSuccess: loadPlayerDigest(),
-    },
-    alterationName: "sendPlayerCommands",
-    elementId: name,
-    value,
-})
 
 /**
  * Get playlist entries
@@ -97,7 +89,7 @@ export const PLAYLIST_SUCCESS = 'PLAYLIST_SUCCESS'
 export const PLAYLIST_FAILURE = 'PLAYLIST_FAILURE'
 
 /**
- * Request playlist 
+ * Request playlist entries
  */
 export const loadPlaylist = () => ({
     [FETCH_API]: {
@@ -132,3 +124,33 @@ export const addSongToPlaylist = (songId) => ({
     alterationName: "addSongToPlaylist",
     elementId: songId,
 })
+
+
+/**
+ * Player actions
+ */
+
+
+/**
+ * Send a command to the player
+ * @param name pause or skip
+ * @param value boolean value
+ */
+export const sendPlayerCommand = (name, value) => ({
+    [FETCH_API]: {
+            endpoint: `${baseUrl}playlist/player/manage/`,
+            method: 'PUT',
+            json: {[name]: value},
+            types: [
+                ALTERATION_REQUEST,
+                ALTERATION_SUCCESS,
+                ALTERATION_FAILURE
+            ],
+            onSuccess: loadPlaylistAppDigest(),
+    },
+    alterationName: "sendPlayerCommands",
+    elementId: name,
+    value,
+})
+
+

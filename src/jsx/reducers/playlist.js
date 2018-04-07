@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE } from 'actions/player'
+import { PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE } from 'actions/playlistApp'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 import { Status } from './alterationsStatus'
 import { updateData } from 'utils'
