@@ -8,7 +8,8 @@ class SettingsKaraStatus extends Component {
 
     render() {
         // render nothing if the kara status is being fetched
-        if (this.props.playerDigestStatus === Status.firstPending) return null
+        if (this.props.playerDigestStatus === Status.pending ||
+            this.props.playerDigestStatus === null) return null
 
         const statusOptions = [
             {

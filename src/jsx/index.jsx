@@ -13,7 +13,7 @@ import User from 'components/user/User'
 import SettingsUsersEdit from 'components/settings/users/Edit'
 import SettingsUsersList from 'components/settings/users/List'
 import SettingsSongTagsList from 'components/settings/song_tags/List'
-import KaraStatus from 'components/settings/KaraStatus'
+import SettingsKaraStatus from 'components/settings/KaraStatus'
 import Library from 'components/library/Library'
 import LibraryList from 'components/library/List'
 import NotFound from 'components/navigation/NotFound'
@@ -47,7 +47,7 @@ ReactDOM.render(
                     <ProtectedRoute exact path="/settings/users/:userId" component={SettingsUsersEdit}/>
                     <ProtectedRoute exact path="/settings/users" component={SettingsUsersList}/>
                     <ProtectedRoute exact path="/settings/song-tags" component={SettingsSongTagsList}/>
-                    <ProtectedRoute exact path="/settings/kara-status" component={KaraStatus}/>
+                    <ProtectedRoute exact path="/settings/kara-status" component={SettingsKaraStatus}/>
                     <Redirect exact from="/settings" to="/settings/users"/>
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/logout" component={Logout}/>
