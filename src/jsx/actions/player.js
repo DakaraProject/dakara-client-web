@@ -172,14 +172,17 @@ const addSongWhenFinished = (dispatch, getState, newAction) => {
     const previousEntry = getState().player.digest.data.player_status.playlist_entry
     const newEntry = newAction.response.player_status.playlist_entry
 
+    // there was no song playing
     if (!previousEntry) {
         return null
     }
 
+    // the same playlist entry is played
     if (newEntry && newEntry.id === previousEntry.id) {
         return null
     }
 
+    // a song ended
     return dispatch({
         type: PLAYLIST_PLAYED_ADD,
         entry: previousEntry
