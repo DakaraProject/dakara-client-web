@@ -11,7 +11,7 @@ import { updateData } from 'utils'
  * List of users
  */
 
-export const listUsersSettingsPropType = PropTypes.shape({
+export const listUsersStatePropType = PropTypes.shape({
     status: PropTypes.symbol,
     data: PropTypes.shape({
         pagination: PropTypes.shape({
@@ -64,7 +64,7 @@ function list(state = defaultList, action) {
  * Edit one user
  */
 
-export const editUsersSettingsPropType = PropTypes.shape({
+export const editUsersStatePropType = PropTypes.shape({
     status: PropTypes.symbol,
     data: PropTypes.shape({
         user: userPropType,

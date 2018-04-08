@@ -35,7 +35,7 @@ function updateTagInState(tagId, state, valueDict) {
  * Tag entries
  */
 
-export const songTagsSettingsPropType = PropTypes.shape({
+export const songTagsStatePropType = PropTypes.shape({
     status: PropTypes.symbol,
     data: PropTypes.shape({
         pagination: PropTypes.shape({

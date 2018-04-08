@@ -12,7 +12,7 @@ import { updateData } from 'utils'
  * Playlist from server
  */
 
-export const playlistPropType = PropTypes.shape({
+export const playlistStatePropType = PropTypes.shape({
     status: PropTypes.symbol,
     data: PropTypes.shape({
         count: PropTypes.number.isRequired,

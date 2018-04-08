@@ -9,14 +9,14 @@ import Navigator from 'components/generics/Navigator'
 import { IsUserManager } from 'components/permissions/Users'
 import SettingsUserEntry from './Entry'
 import SettingsTabList from '../TabList'
-import { listUsersSettingsPropType } from 'reducers/users'
+import { listUsersStatePropType } from 'reducers/users'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 
 class SettingsUsersList extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
-        listUsersSettings: listUsersSettingsPropType.isRequired,
-        deleteStatusList: PropTypes.object,
+        listUsersState: listUsersStatePropType.isRequired,
+        deleteUserStatusList: PropTypes.object,
         deleteUser: PropTypes.func.isRequired,
         clearUsersEntryNotification: PropTypes.func.isRequired,
         getUsers: PropTypes.func.isRequired,
@@ -41,13 +41,13 @@ class SettingsUsersList extends Component {
     }
 
     render() {
-        const { deleteStatusList, location } = this.props
-        const { users, pagination } = this.props.listUsersSettings.data
+        const { deleteUserStatusList, location } = this.props
+        const { users, pagination } = this.props.listUsersState.data
 
         const userList = users.map((user) => {
             let deleteStatus
-            if (deleteStatusList) {
-                deleteStatus = deleteStatusList[user.id]
+            if (deleteUserStatusList) {
+                deleteStatus = deleteUserStatusList[user.id]
             }
 
             return (
@@ -68,7 +68,7 @@ class SettingsUsersList extends Component {
                     <h1>Users management</h1>
                 </div>
                 <ListingFetchWrapper
-                    status={this.props.listUsersSettings.status}
+                    status={this.props.listUsersState.status}
                 >
                     <div className="listing-table-container">
                         <table className="listing users-list notifiable">
@@ -132,8 +132,8 @@ class SettingsUsersList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    listUsersSettings: state.settings.users.list,
-    deleteStatusList: state.alterationsStatus.deleteUser
+    listUsersState: state.settings.users.list,
+    deleteUserStatusList: state.alterationsStatus.deleteUser
 })
 
 SettingsUsersList = withRouter(connect(

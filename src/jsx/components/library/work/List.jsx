@@ -4,21 +4,21 @@ import PropTypes from 'prop-types'
 import WorkEntry from './Entry'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
-import { workLibraryItemPropType, workTypeLibraryPropType } from 'reducers/library'
+import { workStatePropType, workTypeStatePropType } from 'reducers/library'
 
 class WorkList extends Component {
     static propTypes = {
-        workLibraryItem: workLibraryItemPropType,
+        workState: workStatePropType,
         libraryType: PropTypes.string.isRequired,
-        workTypeLibrary: workTypeLibraryPropType.isRequired,
+        workTypeState: workTypeStatePropType.isRequired,
     }
 
     render() {
-        if (!this.props.workLibraryItem || !this.props.workLibraryItem.data) {
+        if (!this.props.workState || !this.props.workState.data) {
             return null
         }
 
-        const { works, count, pagination, query } = this.props.workLibraryItem.data
+        const { works, count, pagination, query } = this.props.workState.data
 
         const libraryEntryWorkList = works.map(work =>
               <WorkEntry
@@ -31,13 +31,13 @@ class WorkList extends Component {
 
         const libraryNameInfo = getWorkLibraryNameInfo(
             this.props.libraryType,
-            this.props.workTypeLibrary.data.workTypes
+            this.props.workTypeState.data.workTypes
         )
 
         return (
             <div className="work-list">
                 <ListingFetchWrapper
-                    status={this.props.workLibraryItem.status}
+                    status={this.props.workState.status}
                 >
                     <ul className="library-list listing">
                         {libraryEntryWorkList}
@@ -58,8 +58,8 @@ class WorkList extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    workLibraryItem: state.library.work[ownProps.libraryType],
-    workTypeLibrary: state.library.workType,
+    workState: state.library.works[ownProps.libraryType],
+    workTypeState: state.library.workType,
 })
 
 WorkList = connect(

@@ -8,12 +8,12 @@ import { IsUserManager, IsNotSelf } from 'components/permissions/Users'
 import NotFound from 'components/navigation/NotFound'
 import Forbidden from 'components/navigation/Forbidden'
 import { userPropType } from 'serverPropTypes/users'
-import { editUsersSettingsPropType } from 'reducers/users'
+import { editUsersStatePropType } from 'reducers/users'
 import { Status } from 'reducers/alterationsStatus'
 
 class SettingsUsersEdit extends Component {
     static propTypes = {
-        editUsersSettings: editUsersSettingsPropType.isRequired,
+        editUsersState: editUsersStatePropType.isRequired,
         authenticatedUser: userPropType.isRequired,
         location: PropTypes.object.isRequired,
         match: PropTypes.shape({
@@ -36,10 +36,10 @@ class SettingsUsersEdit extends Component {
 
     render() {
         const { location, authenticatedUser } = this.props
-        const { user } = this.props.editUsersSettings.data
+        const { user } = this.props.editUsersState.data
 
         // render nothing if the user is being fetched
-        if (this.props.editUsersSettings.status === Status.pending) {
+        if (this.props.editUsersState.status === Status.pending) {
             return null
         }
 
@@ -137,7 +137,7 @@ class SettingsUsersEdit extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    editUsersSettings: state.settings.users.edit,
+    editUsersState: state.settings.users.edit,
     authenticatedUser: state.authenticatedUser
 })
 

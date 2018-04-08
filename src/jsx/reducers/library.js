@@ -79,24 +79,25 @@ const generateLibraryReducer = libraryType => {
  * Song library
  */
 
-export const songLibraryPropType = generateLibraryPropType(songPropType, "songs")
+export const songStatePropType = generateLibraryPropType(songPropType, "songs")
 const song = generateLibraryReducer("songs")
 
 /**
  * Artist library
  */
 
-export const artistLibraryPropType = generateLibraryPropType(artistPropType, "artists")
+export const artistStatePropType = generateLibraryPropType(artistPropType, "artists")
 const artist = generateLibraryReducer("artists")
 
 /**
  * Work library
  */
 
-export const workLibraryItemPropType = generateLibraryPropType(workPropType, "works")
+export const workStatePropType = generateLibraryPropType(workPropType, "works")
 const defaultWork = generateDefaultLibrary("works")
 
-function work(state = {}, action) {
+function works(state = {}, action) {
+    // create works when work types have been successfuly fetched
     if (action.type === WORK_TYPES_SUCCESS) {
         let newState = {...state}
         for (let type of action.response.results) {
@@ -152,7 +153,7 @@ function work(state = {}, action) {
  * Work Types
  */
 
-export const workTypeLibraryPropType = PropTypes.shape({
+export const workTypeStatePropType = PropTypes.shape({
     status: PropTypes.symbol,
     data: PropTypes.shape({
         workTypes: PropTypes.arrayOf(workTypePropType).isRequired,
@@ -198,6 +199,6 @@ function workType(state = defaultWorkType, action) {
 export default combineReducers({
     song,
     artist,
-    work,
+    works,
     workType,
 })

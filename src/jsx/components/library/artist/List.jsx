@@ -4,15 +4,15 @@ import PropTypes from 'prop-types'
 import ArtistEntry from './Entry'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
-import { artistLibraryPropType } from 'reducers/library'
+import { artistStatePropType } from 'reducers/library'
 
 class ArtistList extends Component {
     static propTypes = {
-        artistLibrary: artistLibraryPropType.isRequired,
+        artistState: artistStatePropType.isRequired,
     }
 
     render() {
-        const { artists, query, count, pagination } = this.props.artistLibrary.data
+        const { artists, query, count, pagination } = this.props.artistState.data
 
         const libraryEntryArtistList = artists.map(artist =>
             <ArtistEntry
@@ -25,7 +25,7 @@ class ArtistList extends Component {
         return (
             <div className="artist-list">
                 <ListingFetchWrapper
-                    status={this.props.artistLibrary.status}
+                    status={this.props.artistState.status}
                 >
                     <ul className="library-list listing">
                         {libraryEntryArtistList}
@@ -46,7 +46,7 @@ class ArtistList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    artistLibrary: state.library.artist,
+    artistState: state.library.artist,
 })
 
 ArtistList = connect(

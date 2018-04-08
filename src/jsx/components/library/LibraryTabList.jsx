@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Tab from 'components/generics/Tab'
-import { workTypeLibraryPropType } from 'reducers/library'
+import { workTypeStatePropType } from 'reducers/library'
 
 export default class LibraryTabList extends Component {
     static propTypes = {
-        workTypeLibrary: workTypeLibraryPropType.isRequired,
+        workTypeState: workTypeStatePropType.isRequired,
     }
 
     render() {
         // Work Types links
-        const workTypesTabs = this.props.workTypeLibrary.data.workTypes.map((workType) => (
+        const workTypesTabs = this.props.workTypeState.data.workTypes.map((workType) => (
                 <Tab
                     key={workType.query_name}
                     to={`/library/${workType.query_name}`}

@@ -7,7 +7,7 @@ import { getSongTagList, editSongTag, clearTagListEntryNotification } from 'acti
 import Navigator from 'components/generics/Navigator'
 import SettingsSongTagsEntry from './Entry'
 import SettingsTabList from '../TabList'
-import { songTagsSettingsPropType } from 'reducers/songTags'
+import { songTagsStatePropType } from 'reducers/songTags'
 import { alterationStatusPropType } from 'reducers/alterationsStatus'
 import { formPropType } from 'reducers/forms'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
@@ -15,7 +15,7 @@ import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 class SettingsSongTagsList extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
-        songTagsSettings: songTagsSettingsPropType.isRequired,
+        songTagsState: songTagsStatePropType.isRequired,
         editStatus: alterationStatusPropType,
         formsResponse: PropTypes.objectOf(formPropType),
         editSongTag: PropTypes.func.isRequired,
@@ -43,7 +43,7 @@ class SettingsSongTagsList extends Component {
 
     render() {
         const { editsStatus, editSongTag, location, formsResponse } = this.props
-        const { songTags, pagination } = this.props.songTagsSettings.data
+        const { songTags, pagination } = this.props.songTagsState.data
 
         const tagList = songTags.map((tag) => {
             let editStatus
@@ -72,7 +72,7 @@ class SettingsSongTagsList extends Component {
                     <h1>Song tags management</h1>
                 </div>
                 <ListingFetchWrapper
-                    status={this.props.songTagsSettings.status}
+                    status={this.props.songTagsState.status}
                 >
                     <div className="listing-table-container">
                         <table className="listing song-tag-list-listing notifiable">
@@ -99,7 +99,7 @@ class SettingsSongTagsList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    songTagsSettings: state.settings.songTags,
+    songTagsState: state.settings.songTags,
     editsStatus: state.alterationsStatus.editSongTag,
     formsResponse: state.forms
 })

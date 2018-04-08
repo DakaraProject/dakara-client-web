@@ -8,12 +8,12 @@ import SongList, { getSongLibraryNameInfo } from './song/List'
 import ArtistList, { getArtistLibraryNameInfo } from './artist/List'
 import WorkList, { getWorkLibraryNameInfo } from './work/List'
 import { loadLibraryEntries } from 'actions/library'
-import { workTypeLibraryPropType } from 'reducers/library'
+import { workTypeStatePropType } from 'reducers/library'
 import { Status } from 'reducers/alterationsStatus'
 
 class List extends Component {
     static propTypes = {
-        workTypeLibrary: workTypeLibraryPropType,
+        workTypeState: workTypeStatePropType,
         location: PropTypes.object.isRequired,
         match: PropTypes.shape({
             params: PropTypes.shape({
@@ -34,7 +34,7 @@ class List extends Component {
         // when navigating through work types, so we have to watch when the
         // component is updated wether we have jumped to another work type
         if (this.props.match.params.libraryType != prevProps.match.params.libraryType ||
-            this.props.workTypeLibrary.status != prevProps.workTypeLibrary.status ||
+            this.props.workTypeState.status != prevProps.workTypeState.status ||
             queryObj.page != prevqueryObj.page ||
             queryObj.query != prevqueryObj.query) {
             this.refreshEntries()
@@ -42,21 +42,21 @@ class List extends Component {
     }
 
     checkWorkTypesHasFetched = () => {
-        return this.props.workTypeLibrary.status == Status.successful
+        return this.props.workTypeState.status == Status.successful
     }
 
     /**
      * Check library type exists: 'song' or 'artist' or contained in worktypes
      */
     checkLibraryTypeExists = () => {
-        const { workTypeLibrary } = this.props
+        const { workTypeState } = this.props
         const { libraryType } = this.props.match.params
 
         if (['song', 'artist'].includes(libraryType)) {
             return true
         }
 
-        const workTypeMatched = workTypeLibrary.data.workTypes.find(
+        const workTypeMatched = workTypeState.data.workTypes.find(
             (workTypeObject) => workTypeObject.query_name == libraryType
         )
 
@@ -86,7 +86,7 @@ class List extends Component {
     }
 
     render() {
-        const { workTypeLibrary, location } = this.props
+        const { workTypeState, location } = this.props
         const { libraryType } = this.props.match.params
 
         if (!this.checkWorkTypesHasFetched()) {
@@ -118,14 +118,14 @@ class List extends Component {
                 break
         }
 
-        const libraryNameInfo = getLibraryNameInfo(libraryType, workTypeLibrary.data.workTypes)
+        const libraryNameInfo = getLibraryNameInfo(libraryType, workTypeState.data.workTypes)
 
         return (
             <Library
                 location={this.props.location}
                 match={this.props.match}
                 nameInfo={libraryNameInfo}
-                workTypeLibrary={workTypeLibrary}
+                workTypeState={workTypeState}
             >
                 <ListComponent
                     libraryType={libraryType}
@@ -137,7 +137,7 @@ class List extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    workTypeLibrary: state.library.workType,
+    workTypeState: state.library.workType,
 })
 
 List = connect(

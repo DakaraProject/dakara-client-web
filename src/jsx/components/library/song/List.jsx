@@ -4,20 +4,20 @@ import PropTypes from 'prop-types'
 import SongEntry from './Entry'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
-import { songLibraryPropType } from 'reducers/library'
-import { playlistPropType } from 'reducers/playlist'
+import { songStatePropType } from 'reducers/library'
+import { playlistStatePropType } from 'reducers/playlist'
 import { playlistAppDigestPropType } from 'reducers/playlistApp'
 
 class SongList extends Component {
     static propTypes = {
-        songLibrary: songLibraryPropType.isRequired,
-        playlist: playlistPropType.isRequired,
+        songState: songStatePropType.isRequired,
+        playlistState: playlistStatePropType.isRequired,
         playlistAppDigest: playlistAppDigestPropType.isRequired,
         location: PropTypes.object.isRequired,
     }
 
     render() {
-        const { songs, count, pagination } = this.props.songLibrary.data
+        const { songs, count, pagination } = this.props.songState.data
 
         /**
          * Compute playlist info
@@ -51,7 +51,7 @@ class SongList extends Component {
         // generate a map with song id as key
         // and time + owner as value
 
-        for (let entry of this.props.playlist.data.playlistEntries) {
+        for (let entry of this.props.playlistState.data.playlistEntries) {
             if (!playlistInfo[entry.song.id]) {
                 playlistInfo[entry.song.id] = {
                     timeOfPlay: currentTime + remainingTime * 1000,
@@ -78,7 +78,7 @@ class SongList extends Component {
         return (
             <div className="song-list">
                 <ListingFetchWrapper
-                    status={this.props.songLibrary.status}
+                    status={this.props.songState.status}
                 >
                     <ul className="library-list listing">
                         {libraryEntrySongList}
@@ -99,8 +99,8 @@ class SongList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    songLibrary: state.library.song,
-    playlist: state.playlistApp.playlist,
+    songState: state.library.song,
+    playlistState: state.playlistApp.playlist,
     playlistAppDigest: state.playlistApp.digest,
 })
 

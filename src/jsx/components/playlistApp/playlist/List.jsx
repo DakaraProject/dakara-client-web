@@ -8,13 +8,13 @@ import { formatHourTime, params } from 'utils'
 import { loadPlaylist } from 'actions/playlistApp'
 import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions/playlistApp'
 import PlaylistEntry from './Entry'
-import { playlistPropType } from 'reducers/playlist'
+import { playlistStatePropType } from 'reducers/playlist'
 import { playlistAppDigestPropType } from 'reducers/playlistApp'
 import { alterationStatusPropType, Status } from 'reducers/alterationsStatus'
 
 class Playlist extends Component {
     static propTypes = {
-        playlist: playlistPropType.isRequired,
+        playlistState: playlistStatePropType.isRequired,
         playlistAppDigest: playlistAppDigestPropType.isRequired,
         removeEntryStatus: alterationStatusPropType,
         loadPlaylist: PropTypes.func.isRequired,
@@ -35,7 +35,7 @@ class Playlist extends Component {
     }
 
     pollPlaylist = () => {
-        if (this.props.playlist.status !== Status.pending) {
+        if (this.props.playlistState.status !== Status.pending) {
             this.props.loadPlaylist()
         }
         this.timeout = setTimeout(this.pollPlaylist, params.pollInterval)
@@ -57,7 +57,7 @@ class Playlist extends Component {
          */
 
         const currentTime = new Date().getTime()
-        const { playlistEntries, count } = this.props.playlist.data
+        const { playlistEntries, count } = this.props.playlistState.data
 
         // compute time remaing for currently playing song
         let remainingTime = 0
@@ -182,7 +182,7 @@ class Playlist extends Component {
 
 const mapStateToProps = (state) => ({
     playlistAppDigest: state.playlistApp.digest,
-    playlist: state.playlistApp.playlist,
+    playlistState: state.playlistApp.playlist,
     removeEntryStatus: state.alterationsStatus.removeEntryFromPlaylist,
 })
 
