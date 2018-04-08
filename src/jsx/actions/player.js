@@ -63,6 +63,7 @@ export const loadPlayerDigest = () => ({
             PLAYER_DIGEST_SUCCESS,
             PLAYER_DIGEST_FAILURE
         ],
+        onSuccess: addSongWhenFinished,
     }
 })
 
@@ -113,6 +114,25 @@ export const loadPlaylist = () => ({
 })
 
 /**
+ * Get playlist played entries
+ */
+
+export const PLAYLIST_PLAYED_REQUEST = 'PLAYLIST_PLAYED_REQUEST'
+export const PLAYLIST_PLAYED_SUCCESS = 'PLAYLIST_PLAYED_SUCCESS'
+export const PLAYLIST_PLAYED_FAILURE = 'PLAYLIST_PLAYED_FAILURE'
+
+/**
+ * Request playlist played entries
+ */
+export const loadPlaylistPlayed = () => ({
+    [FETCH_API]: {
+            endpoint: `${baseUrl}playlist/played-entries/`,
+            method: 'GET',
+            types: [PLAYLIST_PLAYED_REQUEST, PLAYLIST_PLAYED_SUCCESS, PLAYLIST_PLAYED_FAILURE],
+        }
+})
+
+/**
  * Add song to playlist
  */
 
@@ -137,3 +157,34 @@ export const addSongToPlaylist = (songId) => ({
     alterationName: "addSongToPlaylist",
     elementId: songId,
 })
+
+/**
+ * Add entry to playlist played entries list
+ */
+
+export const PLAYLIST_PLAYED_ADD = 'PLAYLIST_PLAYED_ADD'
+
+/**
+ * Detects when a song had finished playing,
+ * and generate a PLAYLIST_PLAYED_ADD action accordingly
+ */
+const addSongWhenFinished = (dispatch, getState, newAction) => {
+    const previousEntry = getState().player.digest.data.player_status.playlist_entry
+    const newEntry = newAction.response.player_status.playlist_entry
+
+    // there was no song playing
+    if (!previousEntry) {
+        return null
+    }
+
+    // the same playlist entry is played
+    if (newEntry && newEntry.id === previousEntry.id) {
+        return null
+    }
+
+    // a song ended
+    return dispatch({
+        type: PLAYLIST_PLAYED_ADD,
+        entry: previousEntry
+    })
+}

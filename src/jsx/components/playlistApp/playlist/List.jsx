@@ -5,7 +5,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import { withRouter } from 'react-router-dom'
 import { formatHourTime, params } from 'utils'
-import { loadPlaylist } from 'actions/player'
+import { loadPlaylist, loadPlaylistPlayed } from 'actions/player'
 import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions/player'
 import PlaylistEntry from './Entry'
 import { playlistEntriesPropType } from 'reducers/playlist'
@@ -20,6 +20,7 @@ class Playlist extends Component {
         playerDigest: playerDigestPropType.isRequired,
         removeEntryStatus: alterationStatusPropType,
         loadPlaylist: PropTypes.func.isRequired,
+        loadPlaylistPlayed: PropTypes.func.isRequired,
         removeEntryFromPlaylist: PropTypes.func.isRequired,
         clearPlaylistEntryNotification: PropTypes.func.isRequired,
     }
@@ -46,6 +47,7 @@ class Playlist extends Component {
     componentWillMount() {
         // start polling server
         this.pollPlaylist()
+        this.props.loadPlaylistPlayed()
     }
 
     componentWillUnmount() {
@@ -192,6 +194,7 @@ Playlist = withRouter(connect(
     mapStateToProps,
     {
         loadPlaylist,
+        loadPlaylistPlayed,
         removeEntryFromPlaylist,
         clearPlaylistEntryNotification
     }
