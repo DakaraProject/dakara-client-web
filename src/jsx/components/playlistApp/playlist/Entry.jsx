@@ -72,7 +72,7 @@ class PlaylistEntry extends Component {
                         song={entry.song}
                         handleClick={this.handleSearch}
                     />
-                    <PlayQueueInfo timeOfPlay={timeOfPlay} owner={entry.owner}/>
+                    <PlayQueueInfo queueInfo={{timeOfPlay, owner: entry.owner}}/>
                     <div className="controls">
                         <IsPlaylistManagerOrOwner object={entry} disable>
                             <button

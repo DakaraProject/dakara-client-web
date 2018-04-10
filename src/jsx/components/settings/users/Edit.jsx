@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getUser, clearUser } from 'actions/users'
 import { FormBlock, InputField, SelectField, CheckboxField } from 'components/generics/Form'
-import { PermissionBase } from 'components/permissions/Base'
 import { IsUserManager, IsNotSelf } from 'components/permissions/Users'
 import NotFound from 'components/navigation/NotFound'
 import Forbidden from 'components/navigation/Forbidden'
@@ -46,8 +45,8 @@ class SettingsUsersEdit extends Component {
         // render an error page if the current user has no right to display the page
         const userId = this.props.match.params.userId
         const fakeUser = {id: userId}
-        if (!(PermissionBase.hasPermission(authenticatedUser, fakeUser, IsUserManager) &&
-                PermissionBase.hasPermission(authenticatedUser, fakeUser, IsNotSelf))) {
+        if (!(IsUserManager.hasPermission(authenticatedUser, fakeUser) &&
+                IsNotSelf.hasPermission(authenticatedUser, fakeUser))) {
 
             return (
                 <Forbidden location={location}/>

@@ -5,19 +5,20 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import { withRouter } from 'react-router-dom'
 import { formatHourTime, params } from 'utils'
-import { loadPlaylist } from 'actions/playlistApp'
+import { loadPlaylist, loadPlaylistPlayed } from 'actions/playlistApp'
 import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions/playlistApp'
 import PlaylistEntry from './Entry'
-import { playlistStatePropType } from 'reducers/playlist'
+import { playlistEntriesStatePropType } from 'reducers/playlist'
 import { playlistAppDigestPropType } from 'reducers/playlistApp'
 import { alterationStatusPropType, Status } from 'reducers/alterationsStatus'
 
 class Playlist extends Component {
     static propTypes = {
-        playlistState: playlistStatePropType.isRequired,
+        playlistEntriesState: playlistEntriesStatePropType.isRequired,
         playlistAppDigest: playlistAppDigestPropType.isRequired,
         removeEntryStatus: alterationStatusPropType,
         loadPlaylist: PropTypes.func.isRequired,
+        loadPlaylistPlayed: PropTypes.func.isRequired,
         removeEntryFromPlaylist: PropTypes.func.isRequired,
         clearPlaylistEntryNotification: PropTypes.func.isRequired,
     }
@@ -35,7 +36,7 @@ class Playlist extends Component {
     }
 
     pollPlaylist = () => {
-        if (this.props.playlistState.status !== Status.pending) {
+        if (this.props.playlistEntriesState.status !== Status.pending) {
             this.props.loadPlaylist()
         }
         this.timeout = setTimeout(this.pollPlaylist, params.pollInterval)
@@ -44,6 +45,7 @@ class Playlist extends Component {
     componentWillMount() {
         // start polling server
         this.pollPlaylist()
+        this.props.loadPlaylistPlayed()
     }
 
     componentWillUnmount() {
@@ -57,7 +59,7 @@ class Playlist extends Component {
          */
 
         const currentTime = new Date().getTime()
-        const { playlistEntries, count } = this.props.playlistState.data
+        const { playlistEntries, count } = this.props.playlistEntriesState.data
 
         // compute time remaing for currently playing song
         let remainingTime = 0
@@ -182,7 +184,7 @@ class Playlist extends Component {
 
 const mapStateToProps = (state) => ({
     playlistAppDigest: state.playlistApp.digest,
-    playlistState: state.playlistApp.playlist,
+    playlistEntriesState: state.playlistApp.entries,
     removeEntryStatus: state.alterationsStatus.removeEntryFromPlaylist,
 })
 
@@ -190,6 +192,7 @@ Playlist = withRouter(connect(
     mapStateToProps,
     {
         loadPlaylist,
+        loadPlaylistPlayed,
         removeEntryFromPlaylist,
         clearPlaylistEntryNotification
     }

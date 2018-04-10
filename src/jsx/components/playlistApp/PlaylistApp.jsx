@@ -8,6 +8,7 @@ import { IsPlaylistManager } from 'components/permissions/Playlist'
 import { loadPlaylistAppDigest } from 'actions/playlistApp'
 import { playlistAppDigestPropType } from 'reducers/playlistApp'
 import { params } from 'utils'
+import { Status } from 'reducers/alterationsStatus'
 
 class PlaylistApp extends Component {
     static propTypes = {
@@ -16,7 +17,7 @@ class PlaylistApp extends Component {
     }
 
     pollPlaylistAppDigest = () => {
-        if (!this.props.playlistAppDigest.isFetching) {
+        if (this.props.playlistAppDigest.status !== Status.pending) {
             this.props.loadPlaylistAppDigest()
         }
         this.timeout = setTimeout(this.pollPlaylistAppDigest, params.pollInterval)

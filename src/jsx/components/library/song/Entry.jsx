@@ -15,6 +15,7 @@ import Notification from 'components/generics/Notification'
 import PlayQueueInfo from 'components/song/PlayQueueInfo'
 import DisabledFeedback from 'components/song/DisabledFeedback'
 import { songPropType } from 'serverPropTypes/library'
+import { playerStatusPropType, playlistPlayedEntryPropType } from 'serverPropTypes/playlist'
 import { alterationStatusPropType } from 'reducers/alterationsStatus'
 
 class SongEntry extends Component {
@@ -22,7 +23,11 @@ class SongEntry extends Component {
         song: songPropType.isRequired,
         location: PropTypes.object.isRequired,
         query: PropTypes.object,
-        playlistInfo: PropTypes.object,
+        queueInfo: PropTypes.object,
+        playlistPlayedEntries: PropTypes.arrayOf(
+            playlistPlayedEntryPropType
+        ).isRequired,
+        playerStatus: playerStatusPropType,
         addSongStatus: alterationStatusPropType,
         addSongToPlaylist: PropTypes.func.isRequired,
         clearSongListNotification: PropTypes.func.isRequired,
@@ -59,16 +64,44 @@ class SongEntry extends Component {
     }
 
     render() {
-        const { location, song, query, playlistInfo } = this.props
+        const { location, song, query, queueInfo, playlistPlayedEntries, playerStatus } = this.props
         const queryObj = parse(location.search)
         const expanded = queryObj.expanded == song.id
+
+        /**
+         * Song is playing info
+         */
+
+        let playingInfo
+        if (playerStatus.playlist_entry && playerStatus.playlist_entry.song.id === song.id) {
+            // Player is playing this song
+            playingInfo = {
+                owner: playerStatus.playlist_entry.owner
+            }
+        }
+
+        /**
+         * Song previously played info
+         */
+
+        const playlistPlayedEntry = playlistPlayedEntries.slice().reverse().find(
+                e => (e.song.id === song.id)
+                )
+
+        let playedInfo
+        if (playlistPlayedEntry) {
+            playedInfo = {
+                timeOfPlay: Date.parse(playlistPlayedEntry.date_played),
+                owner: playlistPlayedEntry.owner,
+            }
+        }
 
         /**
          * Play queue info
          */
 
         let playQueueInfo
-        if (playlistInfo) {
+        if (playingInfo || playedInfo || queueInfo) {
             playQueueInfo = (
                 <CSSTransition
                     classNames="playlist-info"
@@ -77,7 +110,11 @@ class SongEntry extends Component {
                         exit: 150
                     }}
                 >
-                    <PlayQueueInfo {...playlistInfo}/>
+                    <PlayQueueInfo
+                        playingInfo={playingInfo}
+                        playedInfo={playedInfo}
+                        queueInfo={queueInfo}
+                    />
                 </CSSTransition>
             )
         }
@@ -146,6 +183,8 @@ const mapStateToProps = (state, ownProps) => ({
     query: state.library.song.data.query,
     addSongStatus: state.alterationsStatus.addSongToPlaylist ?
         state.alterationsStatus.addSongToPlaylist[ownProps.song.id] : null,
+    playlistPlayedEntries: state.playlistApp.playedEntries.data.playlistPlayedEntries,
+    playerStatus: state.playlistApp.digest.data.player_status,
 })
 
 SongEntry = withRouter(connect(

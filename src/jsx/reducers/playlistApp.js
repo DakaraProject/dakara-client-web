@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import PropTypes from 'prop-types'
-import playlist from './playlist'
+import { entries, playedEntries } from './playlist'
 import { PLAYLISTAPP_DIGEST_REQUEST, PLAYLISTAPP_DIGEST_SUCCESS, PLAYLISTAPP_DIGEST_FAILURE } from 'actions/playlistApp'
 import { FORM_SUCCESS } from 'actions/forms'
 import { ALTERATION_SUCCESS } from 'actions/alterationsStatus'
@@ -107,7 +107,8 @@ function digest(state = defaultPlaylistAppDigest, action) {
 
 const playlistApp = combineReducers({
     digest,
-    playlist,
+    entries,
+    playedEntries,
 })
 
 export default playlistApp
