@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import PropTypes from 'prop-types'
-import { PLAYLISTAPP_DIGEST_REQUEST, PLAYLISTAPP_DIGEST_SUCCESS, PLAYLISTAPP_DIGEST_FAILURE } from 'actions/playlist'
+import { PLAYLIST_DIGEST_REQUEST, PLAYLIST_DIGEST_SUCCESS, PLAYLIST_DIGEST_FAILURE } from 'actions/playlist'
 import { PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE } from 'actions/playlist'
 import { PLAYLIST_PLAYED_REQUEST, PLAYLIST_PLAYED_SUCCESS, PLAYLIST_PLAYED_FAILURE } from 'actions/playlist'
 import { PLAYLIST_PLAYED_ADD } from 'actions/playlist'
@@ -52,19 +52,19 @@ const defaultPlaylistAppDigest = {
 
 function digest(state = defaultPlaylistAppDigest, action) {
     switch (action.type) {
-        case PLAYLISTAPP_DIGEST_REQUEST:
+        case PLAYLIST_DIGEST_REQUEST:
             return {
                 ...state,
                 status: state.status || Status.pending
             }
 
-        case PLAYLISTAPP_DIGEST_SUCCESS:
+        case PLAYLIST_DIGEST_SUCCESS:
             return {
                 status: Status.successful,
                 data: action.response,
             }
 
-        case PLAYLISTAPP_DIGEST_FAILURE:
+        case PLAYLIST_DIGEST_FAILURE:
             return {
                 ...state,
                 status: Status.failed,
@@ -214,7 +214,7 @@ function playedEntries(state = defaultPlayedEntries, action) {
             }
 
         // when the kara status is set to stop, reset the played entries
-        case PLAYLISTAPP_DIGEST_SUCCESS:
+        case PLAYLIST_DIGEST_SUCCESS:
             if (action.response.kara_status.status === 'stop') {
                 return defaultPlayedEntries
             }

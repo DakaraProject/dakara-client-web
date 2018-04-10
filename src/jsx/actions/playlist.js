@@ -14,9 +14,9 @@ const { baseUrl } = params
  * Get playlist app information digest
  */
 
-export const PLAYLISTAPP_DIGEST_REQUEST = 'PLAYLISTAPP_DIGEST_REQUEST'
-export const PLAYLISTAPP_DIGEST_SUCCESS = 'PLAYLISTAPP_DIGEST_SUCCESS'
-export const PLAYLISTAPP_DIGEST_FAILURE = 'PLAYLISTAPP_DIGEST_FAILURE'
+export const PLAYLIST_DIGEST_REQUEST = 'PLAYLIST_DIGEST_REQUEST'
+export const PLAYLIST_DIGEST_SUCCESS = 'PLAYLIST_DIGEST_SUCCESS'
+export const PLAYLIST_DIGEST_FAILURE = 'PLAYLIST_DIGEST_FAILURE'
 
 /**
  * Request information digest
@@ -26,9 +26,9 @@ export const loadPlaylistAppDigest = () => ({
         endpoint: `${baseUrl}playlist/digest/`,
         method: 'GET',
         types: [
-            PLAYLISTAPP_DIGEST_REQUEST,
-            PLAYLISTAPP_DIGEST_SUCCESS,
-            PLAYLISTAPP_DIGEST_FAILURE
+            PLAYLIST_DIGEST_REQUEST,
+            PLAYLIST_DIGEST_SUCCESS,
+            PLAYLIST_DIGEST_FAILURE
         ],
     }
 })
