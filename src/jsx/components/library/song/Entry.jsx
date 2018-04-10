@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom'
 import classNames from 'classnames'
 import { parse, stringify } from 'query-string'
 import PropTypes from 'prop-types'
-import { addSongToPlaylist } from 'actions/playlistApp'
+import { addSongToPlaylist } from 'actions/playlist'
 import { clearSongListNotification } from 'actions/library'
 import Song from 'components/song/Song'
 import SongEntryExpanded from './EntryExpanded'
@@ -183,8 +183,8 @@ const mapStateToProps = (state, ownProps) => ({
     query: state.library.song.data.query,
     addSongStatus: state.alterationsStatus.addSongToPlaylist ?
         state.alterationsStatus.addSongToPlaylist[ownProps.song.id] : null,
-    playlistPlayedEntries: state.playlistApp.playedEntries.data.playlistPlayedEntries,
-    playerStatus: state.playlistApp.digest.data.player_status,
+    playlistPlayedEntries: state.playlist.playedEntries.data.playlistPlayedEntries,
+    playerStatus: state.playlist.digest.data.player_status,
 })
 
 SongEntry = withRouter(connect(

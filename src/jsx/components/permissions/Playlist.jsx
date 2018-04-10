@@ -83,7 +83,7 @@ class KaraStatusIsNotStopped extends Component {
 }
 
 const mapStateToPropsKaraStatus = (state) => ({
-    karaStatus: state.playlistApp.digest.data.kara_status,
+    karaStatus: state.playlist.digest.data.kara_status,
 })
 
 KaraStatusIsNotStopped = connect(

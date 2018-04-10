@@ -5,17 +5,17 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import { withRouter } from 'react-router-dom'
 import { formatHourTime, params } from 'utils'
-import { loadPlaylist, loadPlaylistPlayed } from 'actions/playlistApp'
-import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions/playlistApp'
+import { loadPlaylist, loadPlaylistPlayed } from 'actions/playlist'
+import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions/playlist'
 import PlaylistEntry from './Entry'
 import { playlistEntriesStatePropType } from 'reducers/playlist'
-import { playlistAppDigestPropType } from 'reducers/playlistApp'
+import { playlistDigestPropType } from 'reducers/playlist'
 import { alterationStatusPropType, Status } from 'reducers/alterationsStatus'
 
 class Playlist extends Component {
     static propTypes = {
         playlistEntriesState: playlistEntriesStatePropType.isRequired,
-        playlistAppDigest: playlistAppDigestPropType.isRequired,
+        playlistDigest: playlistDigestPropType.isRequired,
         removeEntryStatus: alterationStatusPropType,
         loadPlaylist: PropTypes.func.isRequired,
         loadPlaylistPlayed: PropTypes.func.isRequired,
@@ -63,7 +63,7 @@ class Playlist extends Component {
 
         // compute time remaing for currently playing song
         let remainingTime = 0
-        const playerStatus = this.props.playlistAppDigest.data.player_status
+        const playerStatus = this.props.playlistDigest.data.player_status
         if (playerStatus.playlist_entry) {
             remainingTime = playerStatus.playlist_entry.song.duration - playerStatus.timing
         }
@@ -183,8 +183,8 @@ class Playlist extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playlistAppDigest: state.playlistApp.digest,
-    playlistEntriesState: state.playlistApp.entries,
+    playlistDigest: state.playlist.digest,
+    playlistEntriesState: state.playlist.entries,
     removeEntryStatus: state.alterationsStatus.removeEntryFromPlaylist,
 })
 

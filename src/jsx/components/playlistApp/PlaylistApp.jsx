@@ -5,19 +5,19 @@ import Player from './player/Player'
 import Playlist from './playlist/List'
 import KaraStatusNotification from './KaraStatusNotification'
 import { IsPlaylistManager } from 'components/permissions/Playlist'
-import { loadPlaylistAppDigest } from 'actions/playlistApp'
-import { playlistAppDigestPropType } from 'reducers/playlistApp'
+import { loadPlaylistAppDigest } from 'actions/playlist'
+import { playlistDigestPropType } from 'reducers/playlist'
 import { params } from 'utils'
 import { Status } from 'reducers/alterationsStatus'
 
 class PlaylistApp extends Component {
     static propTypes = {
-        playlistAppDigest: playlistAppDigestPropType.isRequired,
+        playlistDigest: playlistDigestPropType.isRequired,
         loadPlaylistAppDigest: PropTypes.func.isRequired,
     }
 
     pollPlaylistAppDigest = () => {
-        if (this.props.playlistAppDigest.status !== Status.pending) {
+        if (this.props.playlistDigest.status !== Status.pending) {
             this.props.loadPlaylistAppDigest()
         }
         this.timeout = setTimeout(this.pollPlaylistAppDigest, params.pollInterval)
@@ -34,7 +34,7 @@ class PlaylistApp extends Component {
     }
 
     render() {
-        const { kara_status } = this.props.playlistAppDigest.data
+        const { kara_status } = this.props.playlistDigest.data
 
         if (!kara_status.status) return null
 
@@ -56,7 +56,7 @@ class PlaylistApp extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playlistAppDigest: state.playlistApp.digest,
+    playlistDigest: state.playlist.digest,
 })
 
 PlaylistApp = connect(

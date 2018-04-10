@@ -6,13 +6,13 @@ import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import { songStatePropType } from 'reducers/library'
 import { playlistEntriesStatePropType } from 'reducers/playlist'
-import { playlistAppDigestPropType } from 'reducers/playlistApp'
+import { playlistDigestPropType } from 'reducers/playlist'
 
 class SongList extends Component {
     static propTypes = {
         songState: songStatePropType.isRequired,
         playlistEntriesState: playlistEntriesStatePropType.isRequired,
-        playlistAppDigest: playlistAppDigestPropType.isRequired,
+        playlistDigest: playlistDigestPropType.isRequired,
         location: PropTypes.object.isRequired,
     }
 
@@ -26,7 +26,7 @@ class SongList extends Component {
          */
 
         let remainingTime = 0
-        const playerStatus = this.props.playlistAppDigest.data.player_status
+        const playerStatus = this.props.playlistDigest.data.player_status
 
         // First, if a song is playing,
         // set remainingTime to the duration until end of the song
@@ -95,8 +95,8 @@ class SongList extends Component {
 
 const mapStateToProps = (state) => ({
     songState: state.library.song,
-    playlistEntriesState: state.playlistApp.entries,
-    playlistAppDigest: state.playlistApp.digest,
+    playlistEntriesState: state.playlist.entries,
+    playlistDigest: state.playlist.digest,
 })
 
 SongList = connect(
