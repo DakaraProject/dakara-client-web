@@ -11,7 +11,7 @@ import PlayerNotification from './Notification'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import { sendPlayerCommand } from 'actions/playlist'
 import { playlistDigestPropType, playerCommandsPropType } from 'reducers/playlist'
-import { alterationStatusPropType } from 'reducers/alterationsStatus'
+import { alterationStatusPropType, Status } from 'reducers/alterationsStatus'
 
 class Player extends Component {
     static propTypes = {
@@ -22,7 +22,7 @@ class Player extends Component {
 
     render() {
         const { player_status, player_manage, player_errors } = this.props.playlistDigest.data
-        const { fetchError } = this.props.playlistDigest
+        const fetchError = this.props.playlistDigest.status === Status.failed
         const isPlaying = !!player_status.playlist_entry
         const controlDisabled = !isPlaying || fetchError
 
