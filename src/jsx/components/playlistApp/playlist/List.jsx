@@ -16,7 +16,7 @@ class Playlist extends Component {
     static propTypes = {
         playlistEntriesState: playlistEntriesStatePropType.isRequired,
         playlistDigest: playlistDigestPropType.isRequired,
-        removeEntryStatus: alterationStatusPropType,
+        statusRemoveEntry: alterationStatusPropType,
         loadPlaylist: PropTypes.func.isRequired,
         loadPlaylistPlayed: PropTypes.func.isRequired,
         removeEntryFromPlaylist: PropTypes.func.isRequired,
@@ -24,7 +24,7 @@ class Playlist extends Component {
     }
 
     static defaultProps = {
-        removeEntryStatus: {},
+        statusRemoveEntry: {},
     }
 
     state = {
@@ -81,7 +81,7 @@ class Playlist extends Component {
          */
 
         const removeEntry = this.props.removeEntryFromPlaylist
-        const removeEntryStatus = this.props.removeEntryStatus
+        const statusRemoveEntry = this.props.statusRemoveEntry
         const playlistEntriesComponent = playlistEntries.map( entry => (
             <CSSTransition
                 classNames='add-remove'
@@ -96,7 +96,7 @@ class Playlist extends Component {
                     timeOfPlay={timeOfPlay[entry.id]}
                     removeEntry={removeEntry}
                     clearPlaylistEntryNotification={this.props.clearPlaylistEntryNotification}
-                    removeEntryStatus={removeEntryStatus[entry.id]}
+                    statusRemoveEntry={statusRemoveEntry[entry.id]}
                 />
             </CSSTransition>
         ))
@@ -185,7 +185,7 @@ class Playlist extends Component {
 const mapStateToProps = (state) => ({
     playlistDigest: state.playlist.digest,
     playlistEntriesState: state.playlist.entries,
-    removeEntryStatus: state.alterationsStatus.removeEntryFromPlaylist,
+    statusRemoveEntry: state.alterationsStatus.removeEntryFromPlaylist,
 })
 
 Playlist = withRouter(connect(

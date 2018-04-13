@@ -28,7 +28,7 @@ class SongEntry extends Component {
             playlistPlayedEntryPropType
         ).isRequired,
         playerStatus: playerStatusPropType,
-        addSongStatus: alterationStatusPropType,
+        statusAddSong: alterationStatusPropType,
         addSongToPlaylist: PropTypes.func.isRequired,
         clearSongListNotification: PropTypes.func.isRequired,
     }
@@ -153,7 +153,7 @@ class SongEntry extends Component {
                             </KaraStatusIsNotStopped>
                         </div>
                         <Notification
-                            alterationStatus={this.props.addSongStatus}
+                            alterationStatus={this.props.statusAddSong}
                             pendingMessage="Adding…"
                             successfulMessage="Successfuly added!"
                             failedMessage="Error attempting to add song to playlist"
@@ -181,7 +181,7 @@ class SongEntry extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
     query: state.library.song.data.query,
-    addSongStatus: state.alterationsStatus.addSongToPlaylist ?
+    statusAddSong: state.alterationsStatus.addSongToPlaylist ?
         state.alterationsStatus.addSongToPlaylist[ownProps.song.id] : null,
     playlistPlayedEntries: state.playlist.playedEntries.data.playlistPlayedEntries,
     playerStatus: state.playlist.digest.data.player_status,

@@ -16,7 +16,7 @@ import { alterationStatusPropType } from 'reducers/alterationsStatus'
 class Player extends Component {
     static propTypes = {
         playlistDigest: playlistDigestPropType.isRequired,
-        sendPlayerCommandsStatus: PropTypes.objectOf(alterationStatusPropType),
+        statusSendPlayerCommands: PropTypes.objectOf(alterationStatusPropType),
         sendPlayerCommand: PropTypes.func.isRequired,
     }
 
@@ -31,10 +31,10 @@ class Player extends Component {
          * with default values
          */
 
-        const sendPlayerCommandsStatusSafe = {
+        const statusSendPlayerCommandsSafe = {
             pause: {status: null},
             skip: {status: null},
-            ...this.props.sendPlayerCommandsStatus,
+            ...this.props.statusSendPlayerCommands,
         }
 
         /**
@@ -83,7 +83,7 @@ class Player extends Component {
                             disable
                         >
                             <ManageButton
-                                manageStatus={sendPlayerCommandsStatusSafe.pause}
+                                statusManage={statusSendPlayerCommandsSafe.pause}
                                 onClick={() => {
                                     this.props.sendPlayerCommand('pause', !player_manage.pause)
                                 }}
@@ -92,7 +92,7 @@ class Player extends Component {
                                 iconDisabled="stop"
                             />
                             <ManageButton
-                                manageStatus={sendPlayerCommandsStatusSafe.skip}
+                                statusManage={statusSendPlayerCommandsSafe.skip}
                                 onClick={() =>
                                         this.props.sendPlayerCommand('skip', true)
                                 }
@@ -134,7 +134,7 @@ class Player extends Component {
                             </div>
                         </CSSTransitionLazy>
                         <PlayerNotification
-                            alterationStatuses={sendPlayerCommandsStatusSafe}
+                            alterationStatuses={statusSendPlayerCommandsSafe}
                             playerErrors={player_errors}
                         />
                     </div>
@@ -149,7 +149,7 @@ class Player extends Component {
 
 const mapStateToProps = (state) => ({
     playlistDigest: state.playlist.digest,
-    sendPlayerCommandsStatus: state.alterationsStatus.sendPlayerCommands,
+    statusSendPlayerCommands: state.alterationsStatus.sendPlayerCommands,
 })
 
 Player = withRouter(connect(

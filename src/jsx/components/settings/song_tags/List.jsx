@@ -16,7 +16,7 @@ class SettingsSongTagsList extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
         songTagsState: songTagsStatePropType.isRequired,
-        editStatus: alterationStatusPropType,
+        statusEdit: alterationStatusPropType,
         formsResponse: PropTypes.objectOf(formPropType),
         editSongTag: PropTypes.func.isRequired,
         getSongTagList: PropTypes.func.isRequired,
@@ -42,13 +42,13 @@ class SettingsSongTagsList extends Component {
     }
 
     render() {
-        const { editsStatus, editSongTag, location, formsResponse } = this.props
+        const { statusEdits, editSongTag, location, formsResponse } = this.props
         const { songTags, pagination } = this.props.songTagsState.data
 
         const tagList = songTags.map((tag) => {
-            let editStatus
-            if (editsStatus) {
-                editStatus = editsStatus[tag.id]
+            let statusEdit
+            if (statusEdits) {
+                statusEdit = statusEdits[tag.id]
             }
 
             const formResponse = formsResponse[`tagColorEdit${tag.id}`]
@@ -57,7 +57,7 @@ class SettingsSongTagsList extends Component {
                 <SettingsSongTagsEntry
                     key={tag.id}
                     tag={tag}
-                    editStatus={editStatus}
+                    statusEdit={statusEdit}
                     formResponse={formResponse}
                     editSongTag={editSongTag}
                     clearTagListEntryNotification={this.props.clearTagListEntryNotification}
@@ -100,7 +100,7 @@ class SettingsSongTagsList extends Component {
 
 const mapStateToProps = (state) => ({
     songTagsState: state.settings.songTags,
-    editsStatus: state.alterationsStatus.editSongTag,
+    statusEdits: state.alterationsStatus.editSongTag,
     formsResponse: state.forms
 })
 
