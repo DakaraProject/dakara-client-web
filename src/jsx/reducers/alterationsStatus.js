@@ -3,7 +3,6 @@ import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE,
     ALTERATION_CLEAR } from 'actions/alterationsStatus'
 
 export const Status = Object.freeze({
-    firstPending: Symbol('first-pending'), // first pending of a poll
     pending: Symbol('pending'),
     successful: Symbol('successful'),
     failed: Symbol('failed')
