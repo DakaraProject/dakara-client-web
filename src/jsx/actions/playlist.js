@@ -30,6 +30,7 @@ export const loadPlaylistAppDigest = () => ({
             PLAYLIST_DIGEST_SUCCESS,
             PLAYLIST_DIGEST_FAILURE
         ],
+        onSuccess: [addSongWhenFinished],
     }
 })
 
@@ -130,7 +131,7 @@ export const PLAYLIST_PLAYED_ADD = 'PLAYLIST_PLAYED_ADD'
  * and generate a PLAYLIST_PLAYED_ADD action accordingly
  */
 const addSongWhenFinished = (dispatch, getState, newAction) => {
-    const previousEntry = getState().player.digest.data.player_status.playlist_entry
+    const previousEntry = getState().playlist.digest.data.player_status.playlist_entry
     const newEntry = newAction.response.player_status.playlist_entry
 
     // there was no song playing
