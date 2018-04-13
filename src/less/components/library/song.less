@@ -132,7 +132,7 @@
 
             &.expand-view-enter-active {
                 max-height: 10 * 0.75 * @listing-entry-height;
-                .transition(max-height 600ms ease-out);
+                transition: max-height 600ms ease-out;
             }
         }
 
@@ -143,7 +143,7 @@
 
             &.expand-view-exit-active {
                 max-height: 0;
-                .transition(max-height 300ms ease-out);
+                transition: max-height 300ms ease-out;
             }
         }
     }
