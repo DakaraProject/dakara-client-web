@@ -27,7 +27,10 @@ module.exports = {
                       }
                   },
                   {
-                      loader: 'postcss-loader'
+                      loader: 'postcss-loader',
+                      options: {
+                          remove: false, // do not seek outdated prefixes
+                      }
                   },
                   {
                       loader: 'less-loader'
