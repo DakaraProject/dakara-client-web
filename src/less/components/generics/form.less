@@ -269,6 +269,7 @@
                 }
 
                 // override the way Firefox adds opacity
+                // TODO see if this can be removed
                 &::-moz-placeholder {
                     opacity: 1;
                 }
@@ -311,9 +312,6 @@
                 }
 
                 // remove the marker
-                -moz-appearance: none;
-                -webkit-appearance: none;
-                -ms-appearance: none;
                 appearance: none;
 
                 // Firefox adds an ugly triangle that can't be stylized
@@ -370,9 +368,6 @@
 
             input[type="radio"] {
                 // delete initial marker
-                -moz-appearance: none;
-                -webkit-appearance: none;
-                -ms-appearance: none;
                 appearance: none;
 
                 width: 0;
@@ -463,9 +458,6 @@
 
             input[type="checkbox"] {
                 // delete initial marker
-                -moz-appearance: none;
-                -webkit-appearance: none;
-                -ms-appearance: none;
                 appearance: none;
 
                 width: 0;
@@ -631,16 +623,8 @@
                 font-weight: 700;
                 font-size: medium;
 
-                .selection() {
-                    background: red;
-                }
-
-                &::-moz-selection {
-                    .selection;
-                }
-
                 &::selection {
-                    .selection;
+                    background: red;
                 }
             }
 

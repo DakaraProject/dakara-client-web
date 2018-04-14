@@ -21,17 +21,9 @@ mark {
 // Firefox seems to still use its vendor pseudo selector, moreover we cannot
 // define the standard selector and Firefox' on the same line
 * {
-    .selection() {
+    &::selection {
         background: @brand-primary;
         color: @text-dark;
-    }
-
-    &::-moz-selection {
-        .selection;
-    }
-
-    &::selection {
-        .selection;
     }
 }
 
@@ -42,7 +34,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 // make long text clearly readible
-.make-long-text {
+.make-long-text() {
     font-size: 1.2em;
 }
 
