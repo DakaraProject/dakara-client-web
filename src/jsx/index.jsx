@@ -14,8 +14,8 @@ import SettingsUsersEdit from 'components/settings/users/Edit'
 import SettingsUsersList from 'components/settings/users/List'
 import SettingsSongTagsList from 'components/settings/song_tags/List'
 import SettingsKaraStatus from 'components/settings/KaraStatus'
-import Library from 'components/library/Library'
 import LibraryList from 'components/library/List'
+import Playlist from 'components/playlist/List'
 import NotFound from 'components/navigation/NotFound'
 import reducer from  'reducers'
 import fetchApiMiddleware from 'middleware/fetchApi'
@@ -43,6 +43,7 @@ ReactDOM.render(
                 <Switch>
                     <ProtectedRoute exact path="/library/:libraryType" component={LibraryList}/>
                     <Redirect exact from="/library" to="/library/song"/>
+                    <ProtectedRoute exact path="/playlist" component={Playlist}/>
                     <ProtectedRoute exact path="/user" component={User}/>
                     <ProtectedRoute exact path="/settings/users/:userId" component={SettingsUsersEdit}/>
                     <ProtectedRoute exact path="/settings/users" component={SettingsUsersList}/>

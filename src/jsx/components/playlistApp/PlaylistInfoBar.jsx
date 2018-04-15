@@ -1,38 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
-import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
-import { withRouter } from 'react-router-dom'
 import { formatHourTime, params } from 'utils'
 import { loadPlaylist, loadPlaylistPlayed } from 'actions/playlist'
-import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions/playlist'
-import PlaylistEntry from './Entry'
 import { playlistEntriesStatePropType } from 'reducers/playlist'
 import { playlistDigestPropType } from 'reducers/playlist'
-import { alterationStatusPropType, Status } from 'reducers/alterationsStatus'
+import { Status } from 'reducers/alterationsStatus'
 
-class Playlist extends Component {
+class PlaylistInfoBar extends Component {
     static propTypes = {
         playlistEntriesState: playlistEntriesStatePropType.isRequired,
         playlistDigest: playlistDigestPropType.isRequired,
-        statusRemoveEntry: alterationStatusPropType,
         loadPlaylist: PropTypes.func.isRequired,
         loadPlaylistPlayed: PropTypes.func.isRequired,
-        removeEntryFromPlaylist: PropTypes.func.isRequired,
-        clearPlaylistEntryNotification: PropTypes.func.isRequired,
-    }
-
-    static defaultProps = {
-        statusRemoveEntry: {},
-    }
-
-    state = {
-        expanded: false,
-    }
-
-    togglePlaylist = () => {
-        this.setState({expanded: !this.state.expanded})
     }
 
     pollPlaylist = () => {
@@ -56,40 +37,6 @@ class Playlist extends Component {
     render() {
         const { playlistEntries, date_end } = this.props.playlistEntriesState.data
         const playerStatus = this.props.playlistDigest.data.player_status
-
-        /**
-         * Display entries when playlist is not collapsed
-         */
-
-        const removeEntry = this.props.removeEntryFromPlaylist
-        const statusRemoveEntry = this.props.statusRemoveEntry
-        const playlistEntriesComponent = playlistEntries.map( entry => (
-            <CSSTransition
-                classNames='add-remove'
-                timeout={{
-                    enter: 300,
-                    exit: 650
-                }}
-                key={entry.id}
-            >
-                <PlaylistEntry
-                    entry={entry}
-                    removeEntry={removeEntry}
-                    clearPlaylistEntryNotification={this.props.clearPlaylistEntryNotification}
-                    statusRemoveEntry={statusRemoveEntry[entry.id]}
-                />
-            </CSSTransition>
-        ))
-
-        const playlistContent = (
-            <TransitionGroup
-                component="ul"
-                className="listing playlist-list"
-            >
-                {playlistEntriesComponent}
-            </TransitionGroup>
-        )
-
 
         /**
          * If there is at least one song in playlist
@@ -138,28 +85,15 @@ class Playlist extends Component {
                     </span>
                 </div>
             )
-
         return (
-        <div id="playlist">
-            <CSSTransitionLazy
-                in={this.state.expanded}
-                classNames="collapse"
-                timeout={{
-                    enter: 300,
-                    exit: 150
-                }}
-            >
-                {playlistContent}
-            </CSSTransitionLazy>
-            <button
-                className="playlist-summary"
-                onClick={this.togglePlaylist}
+            <Link
+                id="playlist-info-bar"
+                to="/playlist"
             >
                 {amount}
                 {next}
                 {ending}
-            </button>
-        </div>
+            </Link>
         )
     }
 }
@@ -167,17 +101,14 @@ class Playlist extends Component {
 const mapStateToProps = (state) => ({
     playlistDigest: state.playlist.digest,
     playlistEntriesState: state.playlist.entries,
-    statusRemoveEntry: state.alterationsStatus.removeEntryFromPlaylist,
 })
 
-Playlist = withRouter(connect(
+PlaylistInfoBar = withRouter(connect(
     mapStateToProps,
     {
         loadPlaylist,
         loadPlaylistPlayed,
-        removeEntryFromPlaylist,
-        clearPlaylistEntryNotification
     }
-)(Playlist))
+)(PlaylistInfoBar))
 
-export default Playlist
+export default PlaylistInfoBar
