@@ -88,8 +88,11 @@ class Player extends Component {
                                     this.props.sendPlayerCommand('pause', !player_manage.pause)
                                 }}
                                 disabled={controlDisabled}
-                                icon={player_manage.pause ? 'play' : 'pause'}
-                                iconDisabled="stop"
+                                icon={
+                                    isPlaying ?
+                                    (player_manage.pause ? 'play' : 'pause') :
+                                    'stop'
+                                }
                             />
                             <ManageButton
                                 statusManage={statusSendPlayerCommandsSafe.skip}
