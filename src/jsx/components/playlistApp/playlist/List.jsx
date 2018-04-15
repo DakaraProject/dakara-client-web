@@ -54,27 +54,8 @@ class Playlist extends Component {
     }
 
     render() {
-        /**
-         * Compute time of play of each song
-         */
-
-        const currentTime = new Date().getTime()
-        const { playlistEntries, count } = this.props.playlistEntriesState.data
-
-        // compute time remaing for currently playing song
-        let remainingTime = 0
+        const { playlistEntries, date_end } = this.props.playlistEntriesState.data
         const playerStatus = this.props.playlistDigest.data.player_status
-        if (playerStatus.playlist_entry) {
-            remainingTime = playerStatus.playlist_entry.song.duration - playerStatus.timing
-        }
-
-        //compute time when each song is going to be played
-        const timeOfPlay = {}
-        for (let entry of playlistEntries) {
-            timeOfPlay[entry.id] = currentTime + remainingTime * 1000
-            remainingTime += +(entry.song.duration)
-        }
-        const playListEndTime = currentTime + remainingTime * 1000
 
         /**
          * Display entries when playlist is not collapsed
@@ -93,7 +74,6 @@ class Playlist extends Component {
             >
                 <PlaylistEntry
                     entry={entry}
-                    timeOfPlay={timeOfPlay[entry.id]}
                     removeEntry={removeEntry}
                     clearPlaylistEntryNotification={this.props.clearPlaylistEntryNotification}
                     statusRemoveEntry={statusRemoveEntry[entry.id]}
@@ -134,9 +114,10 @@ class Playlist extends Component {
 
         let ending
         if (playlistEntries.length != 0 || playerStatus.playlist_entry) {
+            const playlistEndTime = Date.parse(date_end)
             ending = (
                 <div className="item">
-                    <span className="stat">{formatHourTime(playListEndTime)}</span>
+                    <span className="stat">{formatHourTime(playlistEndTime)}</span>
                     <span className="description">ending<br/>time</span>
                 </div>
                 )
@@ -146,6 +127,7 @@ class Playlist extends Component {
          * Playlist size
          */
 
+        const count = playlistEntries.length
         const amount = (
                 <div className="item">
                     <span className="stat">{count}</span>

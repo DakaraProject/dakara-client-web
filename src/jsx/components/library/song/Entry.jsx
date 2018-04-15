@@ -15,7 +15,8 @@ import Notification from 'components/generics/Notification'
 import PlayQueueInfo from 'components/song/PlayQueueInfo'
 import DisabledFeedback from 'components/song/DisabledFeedback'
 import { songPropType } from 'serverPropTypes/library'
-import { playerStatusPropType, playlistPlayedEntryPropType } from 'serverPropTypes/playlist'
+import { playerStatusPropType } from 'serverPropTypes/playlist'
+import { playlistPlayedEntryPropType, playlistEntryPropType } from 'serverPropTypes/playlist'
 import { alterationStatusPropType } from 'reducers/alterationsStatus'
 
 class SongEntry extends Component {
@@ -23,9 +24,11 @@ class SongEntry extends Component {
         song: songPropType.isRequired,
         location: PropTypes.object.isRequired,
         query: PropTypes.object,
-        queueInfo: PropTypes.object,
         playlistPlayedEntries: PropTypes.arrayOf(
             playlistPlayedEntryPropType
+        ).isRequired,
+        playlistEntries: PropTypes.arrayOf(
+            playlistEntryPropType
         ).isRequired,
         playerStatus: playerStatusPropType,
         statusAddSong: alterationStatusPropType,
@@ -64,7 +67,8 @@ class SongEntry extends Component {
     }
 
     render() {
-        const { location, song, query, queueInfo, playlistPlayedEntries, playerStatus } = this.props
+        const { location, song, query, playerStatus } = this.props
+        const { playlistPlayedEntries, playlistEntries } = this.props
         const queryObj = parse(location.search)
         const expanded = queryObj.expanded == song.id
 
@@ -93,6 +97,22 @@ class SongEntry extends Component {
             playedInfo = {
                 timeOfPlay: Date.parse(playlistPlayedEntry.date_played),
                 owner: playlistPlayedEntry.owner,
+            }
+        }
+
+        /**
+         * Song queue info
+         */
+
+        const playlistEntry = playlistEntries.find(
+                e => (e.song.id === song.id)
+                )
+
+        let queueInfo
+        if (playlistEntry) {
+            queueInfo = {
+                timeOfPlay: Date.parse(playlistEntry.date_play),
+                owner: playlistEntry.owner,
             }
         }
 
@@ -184,6 +204,7 @@ const mapStateToProps = (state, ownProps) => ({
     statusAddSong: state.alterationsStatus.addSongToPlaylist ?
         state.alterationsStatus.addSongToPlaylist[ownProps.song.id] : null,
     playlistPlayedEntries: state.playlist.playedEntries.data.playlistPlayedEntries,
+    playlistEntries: state.playlist.entries.data.playlistEntries,
     playerStatus: state.playlist.digest.data.player_status,
 })
 
