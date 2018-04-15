@@ -14,7 +14,6 @@ import { playlistEntryPropType } from 'serverPropTypes/playlist'
 class PlaylistEntry extends Component {
     static propTypes = {
         entry: playlistEntryPropType.isRequired,
-        timeOfPlay: PropTypes.number.isRequired,
         statusRemoveEntry: PropTypes.object,
         removeEntry: PropTypes.func.isRequired,
         clearPlaylistEntryNotification: PropTypes.func.isRequired,
@@ -55,7 +54,8 @@ class PlaylistEntry extends Component {
     }
 
     render() {
-        const { timeOfPlay, entry } = this.props
+        const { entry } = this.props
+        const datePlay = Date.parse(entry.date_play)
 
         return (
             <li className={classNames(
@@ -72,7 +72,7 @@ class PlaylistEntry extends Component {
                         song={entry.song}
                         handleClick={this.handleSearch}
                     />
-                    <PlayQueueInfo queueInfo={{timeOfPlay, owner: entry.owner}}/>
+                    <PlayQueueInfo queueInfo={{timeOfPlay: datePlay, owner: entry.owner}}/>
                     <div className="controls">
                         <IsPlaylistManagerOrOwner object={entry} disable>
                             <button

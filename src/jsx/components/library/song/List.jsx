@@ -20,52 +20,13 @@ class SongList extends Component {
         const { songs, count, pagination } = this.props.songState.data
 
         /**
-         * Compute playlist info
-         * time when each song is going to be played
-         * and currently playing song
-         */
-
-        let remainingTime = 0
-        const playerStatus = this.props.playlistDigest.data.player_status
-
-        // First, if a song is playing,
-        // set remainingTime to the duration until end of the song
-
-        if (playerStatus.playlist_entry) {
-            // Player is playing a song
-            // add remaining duration
-            const playingId = playerStatus.playlist_entry.song.id
-            remainingTime = playerStatus.playlist_entry.song.duration - playerStatus.timing
-        }
-
-
-        // Then for each song in playlist,
-        // generate a map with song id as key
-        // and time + owner as value
-
-        const currentTime = new Date().getTime()
-        const queueInfo = {}
-
-        for (let entry of this.props.playlistEntriesState.data.playlistEntries) {
-            if (!queueInfo[entry.song.id]) {
-                queueInfo[entry.song.id] = {
-                    timeOfPlay: currentTime + remainingTime * 1000,
-                    owner: entry.owner
-                }
-            }
-
-            remainingTime += +(entry.song.duration)
-        }
-
-        /**
          * Create SongEntry for each song
          */
 
-         const libraryEntrySongList = songs.map( song => (
+         const libraryEntrySongList = songs.map(song => (
                 <SongEntry
                         key={song.id}
                         song={song}
-                        queueInfo={queueInfo[song.id]}
                         location={this.props.location}
                     />
             ))

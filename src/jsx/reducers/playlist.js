@@ -117,7 +117,7 @@ function digest(state = defaultPlaylistAppDigest, action) {
 export const playlistEntriesStatePropType = PropTypes.shape({
     status: PropTypes.symbol,
     data: PropTypes.shape({
-        count: PropTypes.number.isRequired,
+        date_end: PropTypes.string.isRequired,
         playlistEntries: PropTypes.arrayOf(playlistEntryPropType).isRequired,
     }).isRequired,
 })
@@ -125,7 +125,7 @@ export const playlistEntriesStatePropType = PropTypes.shape({
 const defaultEntries = {
     status: null,
     data: {
-        count: 0,
+        date_end: "",
         playlistEntries: []
     },
 }
