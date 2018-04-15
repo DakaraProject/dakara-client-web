@@ -5,26 +5,27 @@ import Player from './player/Player'
 import Playlist from './playlist/List'
 import KaraStatusNotification from './KaraStatusNotification'
 import { IsPlaylistManager } from 'components/permissions/Playlist'
-import { loadPlayerDigest } from 'actions/player'
-import { playerDigestPropType } from 'reducers/player'
+import { loadPlaylistAppDigest } from 'actions/playlist'
+import { playlistDigestPropType } from 'reducers/playlist'
 import { params } from 'utils'
+import { Status } from 'reducers/alterationsStatus'
 
 class PlaylistApp extends Component {
     static propTypes = {
-        playerDigest: playerDigestPropType.isRequired,
-        loadPlayerDigest: PropTypes.func.isRequired,
+        playlistDigest: playlistDigestPropType.isRequired,
+        loadPlaylistAppDigest: PropTypes.func.isRequired,
     }
 
-    pollPlayerDigest = () => {
-        if (!this.props.playerDigest.isFetching) {
-            this.props.loadPlayerDigest()
+    pollPlaylistAppDigest = () => {
+        if (this.props.playlistDigest.status !== Status.pending) {
+            this.props.loadPlaylistAppDigest()
         }
-        this.timeout = setTimeout(this.pollPlayerDigest, params.pollInterval)
+        this.timeout = setTimeout(this.pollPlaylistAppDigest, params.pollInterval)
     }
 
     componentWillMount() {
         // start polling server
-        this.pollPlayerDigest()
+        this.pollPlaylistAppDigest()
     }
 
     componentWillUnmount() {
@@ -33,7 +34,7 @@ class PlaylistApp extends Component {
     }
 
     render() {
-        const { kara_status } = this.props.playerDigest.data
+        const { kara_status } = this.props.playlistDigest.data
 
         if (!kara_status.status) return null
 
@@ -55,13 +56,13 @@ class PlaylistApp extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playerDigest: state.player.digest,
+    playlistDigest: state.playlist.digest,
 })
 
 PlaylistApp = connect(
     mapStateToProps,
     {
-        loadPlayerDigest,
+        loadPlaylistAppDigest,
     }
 )(PlaylistApp)
 

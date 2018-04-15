@@ -159,10 +159,40 @@ table.listing {
     }
 }
 
-// Container for table listing
+// `listing-table-container` class:
 //
 // This container forces the table listing to have the height of 10 rows plus one
 // header.
 .listing-table-container {
     min-height: 11 * @listing-entry-height;
+}
+
+
+// `listing-fetch-wrapper` class:
+//
+// Wrapper containing error messages, pending notification overlay, and content.
+.listing-fetch-wrapper{
+    position: relative;
+
+    // error notification
+    > .notified {
+        height: @listing-entry-height;
+        line-height: @listing-entry-height;
+    }
+
+    // overlay
+    > .overlay {
+        top: 0;
+        left: 0;
+        position: absolute;
+        background: fade(black, 30%);
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .pending {
+        }
+    }
 }

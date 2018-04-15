@@ -5,17 +5,18 @@ import { parse } from 'query-string'
 import PropTypes from 'prop-types'
 import { getSongTagList, editSongTag, clearTagListEntryNotification } from 'actions/songTags'
 import Navigator from 'components/generics/Navigator'
-import SongTagEntry from './Entry'
+import SettingsSongTagsEntry from './Entry'
 import SettingsTabList from '../TabList'
-import { songTagsPropType } from 'reducers/songTags'
+import { songTagsStatePropType } from 'reducers/songTags'
 import { alterationStatusPropType } from 'reducers/alterationsStatus'
 import { formPropType } from 'reducers/forms'
+import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 
-class SongTagList extends Component {
+class SettingsSongTagsList extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
-        entries: songTagsPropType.isRequired,
-        editStatus: alterationStatusPropType,
+        songTagsState: songTagsStatePropType.isRequired,
+        statusEdit: alterationStatusPropType,
         formsResponse: PropTypes.objectOf(formPropType),
         editSongTag: PropTypes.func.isRequired,
         getSongTagList: PropTypes.func.isRequired,
@@ -41,21 +42,22 @@ class SongTagList extends Component {
     }
 
     render() {
-        const { entries, editsStatus, editSongTag, location, formsResponse } = this.props
+        const { statusEdits, editSongTag, location, formsResponse } = this.props
+        const { songTags, pagination } = this.props.songTagsState.data
 
-        const tagList = entries.data.results.map((tag) => {
-            let editStatus
-            if (editsStatus) {
-                editStatus = editsStatus[tag.id]
+        const tagList = songTags.map((tag) => {
+            let statusEdit
+            if (statusEdits) {
+                statusEdit = statusEdits[tag.id]
             }
 
             const formResponse = formsResponse[`tagColorEdit${tag.id}`]
 
             return (
-                <SongTagEntry
+                <SettingsSongTagsEntry
                     key={tag.id}
                     tag={tag}
-                    editStatus={editStatus}
+                    statusEdit={statusEdit}
                     formResponse={formResponse}
                     editSongTag={editSongTag}
                     clearTagListEntryNotification={this.props.clearTagListEntryNotification}
@@ -69,22 +71,26 @@ class SongTagList extends Component {
                 <div className="box-header">
                     <h1>Song tags management</h1>
                 </div>
-                <div className="listing-table-container">
-                    <table className="listing song-tag-list-listing notifiable">
-                        <thead>
-                            <tr className="listing-header">
-                                <th className="name">Name</th>
-                                <th className="enabled">Enabled</th>
-                                <th className="color">Color</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {tagList}
-                        </tbody>
-                    </table>
-                </div>
+                <ListingFetchWrapper
+                    status={this.props.songTagsState.status}
+                >
+                    <div className="listing-table-container">
+                        <table className="listing song-tag-list-listing notifiable">
+                            <thead>
+                                <tr className="listing-header">
+                                    <th className="name">Name</th>
+                                    <th className="enabled">Enabled</th>
+                                    <th className="color">Color</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {tagList}
+                            </tbody>
+                        </table>
+                    </div>
+                </ListingFetchWrapper>
                 <Navigator
-                    data={entries.data}
+                    pagination={pagination}
                     location={location}
                 />
             </div>
@@ -93,18 +99,18 @@ class SongTagList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    entries: state.settings.songTags.entries,
-    editsStatus: state.alterationsStatus.editSongTag,
+    songTagsState: state.settings.songTags,
+    statusEdits: state.alterationsStatus.editSongTag,
     formsResponse: state.forms
 })
 
-SongTagList = withRouter(connect(
+SettingsSongTagsList = withRouter(connect(
     mapStateToProps,
     {
         getSongTagList,
         editSongTag,
         clearTagListEntryNotification
     }
-)(SongTagList))
+)(SettingsSongTagsList))
 
-export default SongTagList
+export default SettingsSongTagsList

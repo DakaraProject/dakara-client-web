@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
-import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE, ALTERATION_STATUS_CLEAR } from 'actions/alterationsStatus'
+import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE,
+    ALTERATION_CLEAR } from 'actions/alterationsStatus'
 
 export const Status = Object.freeze({
     pending: Symbol('pending'),
@@ -57,7 +58,7 @@ function alterationStatus(state, action) {
                 status: Status.successful,
             }
 
-        case ALTERATION_STATUS_CLEAR:
+        case ALTERATION_CLEAR:
             return undefined
 
         default:

@@ -2,23 +2,22 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import SongEntry from './Entry'
-import ListWrapper from '../ListWrapper'
+import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
-import { songLibraryPropType } from 'reducers/library'
-import { playlistEntriesPropType } from 'reducers/playlist'
-import { playerDigestPropType } from 'reducers/player'
+import { songStatePropType } from 'reducers/library'
+import { playlistEntriesStatePropType } from 'reducers/playlist'
+import { playlistDigestPropType } from 'reducers/playlist'
 
 class SongList extends Component {
     static propTypes = {
-        entries: songLibraryPropType.isRequired,
-        playlistEntries: playlistEntriesPropType.isRequired,
-        playerDigest: playerDigestPropType.isRequired,
+        songState: songStatePropType.isRequired,
+        playlistEntriesState: playlistEntriesStatePropType.isRequired,
+        playlistDigest: playlistDigestPropType.isRequired,
         location: PropTypes.object.isRequired,
     }
 
     render() {
-        const { entries } = this.props
-        const songs = entries.data.results
+        const { songs, count, pagination } = this.props.songState.data
 
         /**
          * Compute playlist info
@@ -27,7 +26,7 @@ class SongList extends Component {
          */
 
         let remainingTime = 0
-        const playerStatus = this.props.playerDigest.data.player_status
+        const playerStatus = this.props.playlistDigest.data.player_status
 
         // First, if a song is playing,
         // set remainingTime to the duration until end of the song
@@ -47,7 +46,7 @@ class SongList extends Component {
         const currentTime = new Date().getTime()
         const queueInfo = {}
 
-        for (let entry of this.props.playlistEntries.data.results) {
+        for (let entry of this.props.playlistEntriesState.data.playlistEntries) {
             if (!queueInfo[entry.song.id]) {
                 queueInfo[entry.song.id] = {
                     timeOfPlay: currentTime + remainingTime * 1000,
@@ -71,20 +70,18 @@ class SongList extends Component {
                     />
             ))
 
-        const { isFetching, fetchError } = entries
-
         return (
             <div className="song-list">
-                <ListWrapper
-                    isFetching={isFetching}
-                    fetchError={fetchError}
+                <ListingFetchWrapper
+                    status={this.props.songState.status}
                 >
                     <ul className="library-list listing">
                         {libraryEntrySongList}
                     </ul>
-                </ListWrapper>
+                </ListingFetchWrapper>
                 <Navigator
-                    data={entries.data}
+                    count={count}
+                    pagination={pagination}
                     names={{
                         singular: 'song found',
                         plural: 'songs found'
@@ -97,9 +94,9 @@ class SongList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    entries: state.library.song,
-    playlistEntries: state.player.playlist.entries,
-    playerDigest: state.player.digest,
+    songState: state.library.song,
+    playlistEntriesState: state.playlist.entries,
+    playlistDigest: state.playlist.digest,
 })
 
 SongList = connect(

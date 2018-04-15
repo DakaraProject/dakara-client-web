@@ -7,15 +7,16 @@ import { deleteUser, getUsers, clearUsersEntryNotification } from 'actions/users
 import { FormBlock, InputField } from 'components/generics/Form'
 import Navigator from 'components/generics/Navigator'
 import { IsUserManager } from 'components/permissions/Users'
-import UserEntry from './Entry'
+import SettingsUserEntry from './Entry'
 import SettingsTabList from '../TabList'
-import { userEntriesPropType } from 'reducers/users'
+import { listUsersStatePropType } from 'reducers/users'
+import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 
-class UserList extends Component {
+class SettingsUsersList extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
-        entries: userEntriesPropType.isRequired,
-        deleteStatusList: PropTypes.object,
+        listUsersState: listUsersStatePropType.isRequired,
+        statusDeleteUserList: PropTypes.object,
         deleteUser: PropTypes.func.isRequired,
         clearUsersEntryNotification: PropTypes.func.isRequired,
         getUsers: PropTypes.func.isRequired,
@@ -40,19 +41,20 @@ class UserList extends Component {
     }
 
     render() {
-        const { entries, deleteStatusList, location } = this.props
+        const { statusDeleteUserList, location } = this.props
+        const { users, pagination } = this.props.listUsersState.data
 
-        const userList = entries.data.results.map((user) => {
-            let deleteStatus
-            if (deleteStatusList) {
-                deleteStatus = deleteStatusList[user.id]
+        const userList = users.map((user) => {
+            let statusDelete
+            if (statusDeleteUserList) {
+                statusDelete = statusDeleteUserList[user.id]
             }
 
             return (
-                <UserEntry
+                <SettingsUserEntry
                     key={user.id}
                     user={user}
-                    deleteStatus={deleteStatus}
+                    statusDelete={statusDelete}
                     deleteUser={this.props.deleteUser}
                     clearUsersEntryNotification={this.props.clearUsersEntryNotification}
                 />
@@ -65,25 +67,29 @@ class UserList extends Component {
                 <div className="box-header">
                     <h1>Users management</h1>
                 </div>
-                <div className="listing-table-container">
-                    <table className="listing users-list notifiable">
-                        <thead>
-                            <tr className="listing-header">
-                                <th className="username">Username</th>
-                                <th className="permission">Is superuser</th>
-                                <th className="permission">Users rights</th>
-                                <th className="permission">Library rights</th>
-                                <th className="permission">Playlist rights</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {userList}
-                        </tbody>
-                    </table>
-                </div>
+                <ListingFetchWrapper
+                    status={this.props.listUsersState.status}
+                >
+                    <div className="listing-table-container">
+                        <table className="listing users-list notifiable">
+                            <thead>
+                                <tr className="listing-header">
+                                    <th className="username">Username</th>
+                                    <th className="permission">Is superuser</th>
+                                    <th className="permission">Users rights</th>
+                                    <th className="permission">Library rights</th>
+                                    <th className="permission">Playlist rights</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {userList}
+                            </tbody>
+                        </table>
+                    </div>
+                </ListingFetchWrapper>
                 <Navigator
-                    data={entries.data}
+                    pagination={pagination}
                     location={location}
                 />
                 <IsUserManager>
@@ -126,17 +132,17 @@ class UserList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    entries: state.settings.users.entries,
-    deleteStatusList: state.alterationsStatus.deleteUser
+    listUsersState: state.settings.users.list,
+    statusDeleteUserList: state.alterationsStatus.deleteUser
 })
 
-UserList = withRouter(connect(
+SettingsUsersList = withRouter(connect(
     mapStateToProps,
     {
         deleteUser,
         getUsers,
         clearUsersEntryNotification
     }
-)(UserList))
+)(SettingsUsersList))
 
-export default UserList
+export default SettingsUsersList

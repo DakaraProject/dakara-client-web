@@ -23,3 +23,11 @@ export const params = {
     baseUrl: "/api/",
     pollInterval: 1000
 }
+
+export function updateData(newData, resultsKey) {
+    const { results, ...remaining } = newData
+    return {
+        [resultsKey]: results,
+        ...remaining,
+    }
+}

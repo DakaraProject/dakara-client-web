@@ -2,23 +2,24 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import LibraryTabList from './LibraryTabList'
 import SearchBox from './SearchBox'
+import { workTypeStatePropType } from 'reducers/library'
 
 class Library extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
-        workTypes: PropTypes.object.isRequired,
+        workTypeState: workTypeStatePropType.isRequired,
         nameInfo: PropTypes.shape({
             placeholder: PropTypes.string.isRequired,
         }).isRequired
     }
 
     render() {
-        const { location, workTypes, nameInfo } = this.props
+        const { location, workTypeState, nameInfo } = this.props
 
         return (
             <div id="library" className="box">
                 <LibraryTabList
-                    workTypes={workTypes}
+                    workTypeState={workTypeState}
                 />
 
                 <SearchBox

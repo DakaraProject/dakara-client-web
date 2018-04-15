@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom'
 import classNames from 'classnames'
 import { parse, stringify } from 'query-string'
 import PropTypes from 'prop-types'
-import { addSongToPlaylist } from 'actions/player'
+import { addSongToPlaylist } from 'actions/playlist'
 import { clearSongListNotification } from 'actions/library'
 import Song from 'components/song/Song'
 import SongEntryExpanded from './EntryExpanded'
@@ -15,7 +15,7 @@ import Notification from 'components/generics/Notification'
 import PlayQueueInfo from 'components/song/PlayQueueInfo'
 import DisabledFeedback from 'components/song/DisabledFeedback'
 import { songPropType } from 'serverPropTypes/library'
-import { playerStatusPropType } from 'serverPropTypes/playlist'
+import { playerStatusPropType, playlistPlayedEntryPropType } from 'serverPropTypes/playlist'
 import { alterationStatusPropType } from 'reducers/alterationsStatus'
 
 class SongEntry extends Component {
@@ -24,8 +24,11 @@ class SongEntry extends Component {
         location: PropTypes.object.isRequired,
         query: PropTypes.object,
         queueInfo: PropTypes.object,
+        playlistPlayedEntries: PropTypes.arrayOf(
+            playlistPlayedEntryPropType
+        ).isRequired,
         playerStatus: playerStatusPropType,
-        addSongStatus: alterationStatusPropType,
+        statusAddSong: alterationStatusPropType,
         addSongToPlaylist: PropTypes.func.isRequired,
         clearSongListNotification: PropTypes.func.isRequired,
     }
@@ -150,7 +153,7 @@ class SongEntry extends Component {
                             </KaraStatusIsNotStopped>
                         </div>
                         <Notification
-                            alterationStatus={this.props.addSongStatus}
+                            alterationStatus={this.props.statusAddSong}
                             pendingMessage="Adding…"
                             successfulMessage="Successfuly added!"
                             failedMessage="Error attempting to add song to playlist"
@@ -178,10 +181,10 @@ class SongEntry extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
     query: state.library.song.data.query,
-    addSongStatus: state.alterationsStatus.addSongToPlaylist ?
+    statusAddSong: state.alterationsStatus.addSongToPlaylist ?
         state.alterationsStatus.addSongToPlaylist[ownProps.song.id] : null,
-    playlistPlayedEntries: state.player.playlist.playedEntries.data.results,
-    playerStatus: state.player.digest.data.player_status,
+    playlistPlayedEntries: state.playlist.playedEntries.data.playlistPlayedEntries,
+    playerStatus: state.playlist.digest.data.player_status,
 })
 
 SongEntry = withRouter(connect(

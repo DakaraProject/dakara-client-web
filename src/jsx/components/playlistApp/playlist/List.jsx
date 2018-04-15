@@ -5,20 +5,18 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import { withRouter } from 'react-router-dom'
 import { formatHourTime, params } from 'utils'
-import { loadPlaylist, loadPlaylistPlayed } from 'actions/player'
-import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions/player'
+import { loadPlaylist, loadPlaylistPlayed } from 'actions/playlist'
+import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions/playlist'
 import PlaylistEntry from './Entry'
-import { playlistEntriesPropType } from 'reducers/playlist'
-import { playerDigestPropType } from 'reducers/player'
-import { alterationStatusPropType } from 'reducers/alterationsStatus'
+import { playlistEntriesStatePropType } from 'reducers/playlist'
+import { playlistDigestPropType } from 'reducers/playlist'
+import { alterationStatusPropType, Status } from 'reducers/alterationsStatus'
 
 class Playlist extends Component {
     static propTypes = {
-        playlist: PropTypes.shape({
-            entries: playlistEntriesPropType.isRequired,
-        }).isRequired,
-        playerDigest: playerDigestPropType.isRequired,
-        removeEntryStatus: alterationStatusPropType,
+        playlistEntriesState: playlistEntriesStatePropType.isRequired,
+        playlistDigest: playlistDigestPropType.isRequired,
+        statusRemoveEntry: alterationStatusPropType,
         loadPlaylist: PropTypes.func.isRequired,
         loadPlaylistPlayed: PropTypes.func.isRequired,
         removeEntryFromPlaylist: PropTypes.func.isRequired,
@@ -26,7 +24,7 @@ class Playlist extends Component {
     }
 
     static defaultProps = {
-        removeEntryStatus: {},
+        statusRemoveEntry: {},
     }
 
     state = {
@@ -38,7 +36,7 @@ class Playlist extends Component {
     }
 
     pollPlaylist = () => {
-        if (!this.props.playlist.entries.isFetching) {
+        if (this.props.playlistEntriesState.status !== Status.pending) {
             this.props.loadPlaylist()
         }
         this.timeout = setTimeout(this.pollPlaylist, params.pollInterval)
@@ -61,18 +59,18 @@ class Playlist extends Component {
          */
 
         const currentTime = new Date().getTime()
-        const list = this.props.playlist.entries.data.results
+        const { playlistEntries, count } = this.props.playlistEntriesState.data
 
         // compute time remaing for currently playing song
         let remainingTime = 0
-        const playerStatus = this.props.playerDigest.data.player_status
+        const playerStatus = this.props.playlistDigest.data.player_status
         if (playerStatus.playlist_entry) {
             remainingTime = playerStatus.playlist_entry.song.duration - playerStatus.timing
         }
 
         //compute time when each song is going to be played
         const timeOfPlay = {}
-        for (let entry of list) {
+        for (let entry of playlistEntries) {
             timeOfPlay[entry.id] = currentTime + remainingTime * 1000
             remainingTime += +(entry.song.duration)
         }
@@ -83,8 +81,8 @@ class Playlist extends Component {
          */
 
         const removeEntry = this.props.removeEntryFromPlaylist
-        const removeEntryStatus = this.props.removeEntryStatus
-        const playlistEntries = list.map( entry => (
+        const statusRemoveEntry = this.props.statusRemoveEntry
+        const playlistEntriesComponent = playlistEntries.map( entry => (
             <CSSTransition
                 classNames='add-remove'
                 timeout={{
@@ -98,7 +96,7 @@ class Playlist extends Component {
                     timeOfPlay={timeOfPlay[entry.id]}
                     removeEntry={removeEntry}
                     clearPlaylistEntryNotification={this.props.clearPlaylistEntryNotification}
-                    removeEntryStatus={removeEntryStatus[entry.id]}
+                    statusRemoveEntry={statusRemoveEntry[entry.id]}
                 />
             </CSSTransition>
         ))
@@ -108,7 +106,7 @@ class Playlist extends Component {
                 component="ul"
                 className="listing playlist-list"
             >
-                {playlistEntries}
+                {playlistEntriesComponent}
             </TransitionGroup>
         )
 
@@ -119,22 +117,23 @@ class Playlist extends Component {
          */
 
         let next
-        if (list[0]){
+        const nextPlaylistEntry = playlistEntries[0]
+        if (nextPlaylistEntry) {
             next = (
                 <div className="item">
                     <span className="stat">Next</span>
-                    <span className="description">{list[0].song.title}</span>
+                    <span className="description">{nextPlaylistEntry.song.title}</span>
                 </div>
             )
         }
 
         /**
-         * Display playlist en time
+         * Display playlist end time
          * when playlist is not empty
          */
 
         let ending
-        if (list.length != 0 || playerStatus.playlist_entry) {
+        if (playlistEntries.length != 0 || playerStatus.playlist_entry) {
             ending = (
                 <div className="item">
                     <span className="stat">{formatHourTime(playListEndTime)}</span>
@@ -147,12 +146,11 @@ class Playlist extends Component {
          * Playlist size
          */
 
-        const playlistSize = this.props.playlist.entries.data.count
         const amount = (
                 <div className="item">
-                    <span className="stat">{playlistSize}</span>
+                    <span className="stat">{count}</span>
                     <span className="description">
-                        song{playlistSize == 1? '': 's'}
+                        song{count == 1 ? '' : 's'}
                         <br/>
                         in playlist
                     </span>
@@ -185,9 +183,9 @@ class Playlist extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playerDigest: state.player.digest,
-    playlist: state.player.playlist,
-    removeEntryStatus: state.alterationsStatus.removeEntryFromPlaylist,
+    playlistDigest: state.playlist.digest,
+    playlistEntriesState: state.playlist.entries,
+    statusRemoveEntry: state.alterationsStatus.removeEntryFromPlaylist,
 })
 
 Playlist = withRouter(connect(

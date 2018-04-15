@@ -8,6 +8,13 @@ export const playlistEntryPropType = PropTypes.shape({
     owner: userPropType.isRequired,
 })
 
+export const playlistPlayedEntryPropType = PropTypes.shape({
+    id: PropTypes.any.isRequired,
+    song: songPropType.isRequired,
+    owner: userPropType.isRequired,
+    date_played: PropTypes.string.isRequired,
+})
+
 export const playerStatusPropType = PropTypes.shape({
     playlist_entry: playlistEntryPropType,
     timing: PropTypes.number.isRequired,
@@ -24,5 +31,5 @@ export const playerErrorPropType = PropTypes.shape({
 })
 
 export const karaStatusPropType = PropTypes.shape({
-    status: PropTypes.string.isRequired,
+    status: PropTypes.string,
 })

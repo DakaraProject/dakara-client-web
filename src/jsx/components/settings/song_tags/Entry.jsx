@@ -9,10 +9,10 @@ import { songTagPropType } from 'serverPropTypes/library'
 import { alterationStatusPropType } from 'reducers/alterationsStatus'
 import { formPropType } from 'reducers/forms'
 
-export default class SongTagEntry extends Component {
+export default class SettingsSongTagsEntry extends Component {
     static propTypes = {
         tag: songTagPropType.isRequired,
-        editStatus: alterationStatusPropType,
+        statusEdit: alterationStatusPropType,
         editSongTag: PropTypes.func.isRequired,
         formResponse: formPropType, // should be isRequired
     }
@@ -34,7 +34,7 @@ export default class SongTagEntry extends Component {
     }
 
     render() {
-        const { editStatus, formResponse, tag, editSongTag } = this.props
+        const { statusEdit, formResponse, tag, editSongTag } = this.props
 
         /**
          * form to change color
@@ -79,7 +79,7 @@ export default class SongTagEntry extends Component {
          * handle disabled state
          */
 
-        const disabled = editStatus && editStatus.status == Status.pending
+        const disabled = statusEdit && statusEdit.status == Status.pending
         const setValue = (id, value) => {
             if (!disabled)
                 editSongTag(tag.id, !value)
@@ -123,7 +123,7 @@ export default class SongTagEntry extends Component {
                         {colorForm}
                     </CSSTransitionLazy>
                     <Notification
-                        alterationStatus={editStatus}
+                        alterationStatus={statusEdit}
                         failedMessage="Error attempting to edit tag"
                         pendingMessage={false}
                         successfulMessage={false}
