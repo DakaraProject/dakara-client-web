@@ -7,7 +7,7 @@ module.exports = {
     './src/less/main.less'
   ],
   module: {
-    loaders: [
+    rules: [
       {
           loader: "babel-loader",
           test: /\.jsx?$/,
@@ -15,19 +15,29 @@ module.exports = {
       },
       {
           test: /\.less$/,
+          exclude: /node_modules/,
           include: path.resolve(__dirname, 'src/less'),
           use: ExtractTextPlugin.extract({
               fallback: 'style-loader',
               use: [
                   {
-                      loader: 'css-loader'
+                      loader: 'css-loader',
+                      options: {
+                          importLoaders: 1,
+                      }
+                  },
+                  {
+                      loader: 'postcss-loader',
+                      options: {
+                          remove: false, // do not seek outdated prefixes
+                      }
                   },
                   {
                       loader: 'less-loader'
                   }
               ]
           })
-      }
+      },
     ]
   },
   resolve: {

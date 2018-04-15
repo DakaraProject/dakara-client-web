@@ -105,7 +105,7 @@
 
                             &.error-enter-active {
                                 max-height: calc(~"1em + " @gap-vertical * 2);
-                                .transition(max-height 300ms ease-out);
+                                transition: max-height 300ms ease-out;
                             }
                         }
 
@@ -115,7 +115,7 @@
 
                             &.error-exit-active {
                                 max-height: 0;
-                                .transition(max-height 100ms ease-out);
+                                transition: max-height 100ms ease-out;
                             }
                         }
                     }
@@ -263,9 +263,13 @@
         .text-input {
             input, textarea {
                 color: @text-dark;
-                .placeholder(@black-80);
+
+                &::placeholder {
+                    color: @black-80;
+                }
 
                 // override the way Firefox adds opacity
+                // TODO see if this can be removed
                 &::-moz-placeholder {
                     opacity: 1;
                 }
@@ -308,9 +312,6 @@
                 }
 
                 // remove the marker
-                -moz-appearance: none;
-                -webkit-appearance: none;
-                -ms-appearance: none;
                 appearance: none;
 
                 // Firefox adds an ugly triangle that can't be stylized
@@ -367,9 +368,6 @@
 
             input[type="radio"] {
                 // delete initial marker
-                -moz-appearance: none;
-                -webkit-appearance: none;
-                -ms-appearance: none;
                 appearance: none;
 
                 width: 0;
@@ -460,9 +458,6 @@
 
             input[type="checkbox"] {
                 // delete initial marker
-                -moz-appearance: none;
-                -webkit-appearance: none;
-                -ms-appearance: none;
                 appearance: none;
 
                 width: 0;
@@ -533,14 +528,14 @@
             // add style to marker when not checked
             input:not(:checked) + label.marker::after {
                 left: @field-height * 0.1;
-                .transition(left 150ms ease-out);
-                .transition-delay(150ms);
+                transition: left 150ms ease-out;
+                transition-delay: 150ms;
             }
 
             // add style to marker when checked
             input:checked + label.marker::after {
                 left: @field-height * 0.6;
-                .transition(left 150ms ease-out);
+                transition: left 150ms ease-out;
             }
 
             // add second marker
@@ -556,14 +551,14 @@
             // add style to second marker when not checked
             input:not(:checked) + label.marker::before {
                 right: @field-height;
-                .transition(right 150ms ease-out);
+                transition: right 150ms ease-out;
             }
 
             // add style to second marker when checked
             input:checked + label.marker::before {
                 right: 0;
-                .transition(right 150ms ease-out);
-                .transition-delay(150ms);
+                transition: right 150ms ease-out;
+                transition-delay: 150ms;
             }
         }
 
@@ -628,16 +623,10 @@
                 font-weight: 700;
                 font-size: medium;
 
-                .selection() {
-                    background: red;
-                }
-
-                &::-moz-selection {
-                    .selection;
-                }
-
                 &::selection {
-                    .selection;
+                    // the real color of the background will change due to the
+                    // `hue-rotate` filter
+                    background: red;
                 }
             }
 

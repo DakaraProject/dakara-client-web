@@ -43,15 +43,9 @@
         background-color: desaturate(@color, 33%);
     }
 
-    .selection() {
-        background: red;
-    }
-
-    &::-moz-selection {
-        .selection;
-    }
-
     &::selection {
-        .selection;
+        // the real color of the background will change due to the
+        // `hue-rotate` filter
+        background: red;
     }
 }
