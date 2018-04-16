@@ -9,9 +9,11 @@ module.exports = {
   module: {
     rules: [
       {
-          loader: "babel-loader",
           test: /\.jsx?$/,
-          include: path.resolve(__dirname, 'src/jsx')
+          exclude: /node_modules/,
+          use: {
+              loader: "babel-loader",
+          }
       },
       {
           test: /\.less$/,
@@ -46,7 +48,7 @@ module.exports = {
   },
   output: {
     filename: "dakara.js",
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve('dist')
   },
   plugins: [
       new ExtractTextPlugin("dakara.css")
