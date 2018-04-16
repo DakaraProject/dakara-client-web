@@ -16,7 +16,6 @@ module.exports = {
       {
           test: /\.less$/,
           exclude: /node_modules/,
-          include: path.resolve(__dirname, 'src/less'),
           use: ExtractTextPlugin.extract({
               fallback: 'style-loader',
               use: [
@@ -27,10 +26,7 @@ module.exports = {
                       }
                   },
                   {
-                      loader: 'postcss-loader',
-                      options: {
-                          remove: false, // do not seek outdated prefixes
-                      }
+                      loader: 'postcss-loader'
                   },
                   {
                       loader: 'less-loader'
