@@ -9,14 +9,15 @@ module.exports = {
   module: {
     rules: [
       {
-          loader: "babel-loader",
           test: /\.jsx?$/,
-          include: path.resolve(__dirname, 'src/jsx')
+          exclude: /node_modules/,
+          use: {
+              loader: "babel-loader",
+          }
       },
       {
           test: /\.less$/,
           exclude: /node_modules/,
-          include: path.resolve(__dirname, 'src/less'),
           use: ExtractTextPlugin.extract({
               fallback: 'style-loader',
               use: [
@@ -27,10 +28,7 @@ module.exports = {
                       }
                   },
                   {
-                      loader: 'postcss-loader',
-                      options: {
-                          remove: false, // do not seek outdated prefixes
-                      }
+                      loader: 'postcss-loader'
                   },
                   {
                       loader: 'less-loader'
@@ -50,7 +48,7 @@ module.exports = {
   },
   output: {
     filename: "dakara.js",
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve('dist')
   },
   plugins: [
       new ExtractTextPlugin("dakara.css")
