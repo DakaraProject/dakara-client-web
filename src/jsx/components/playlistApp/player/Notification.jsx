@@ -111,7 +111,7 @@ export default class PlayerNotification extends Component {
     render() {
         const { displayAlterationStatusId, displayPlayerError } = this.state
         const { alterationStatuses, playerErrors } = this.props
-        let notification
+
         let message
         let key
         if (displayAlterationStatusId != null) {
@@ -124,6 +124,7 @@ export default class PlayerNotification extends Component {
         }
 
         // if there is no message to display, do not show any notification
+        let notification
         if (message) {
             notification = (
                 <CSSTransition
@@ -132,8 +133,9 @@ export default class PlayerNotification extends Component {
                         enter: 300,
                         exit: 150
                     }}
+                    key={key}
                 >
-                    <div className="notified" key={key}>
+                    <div className="notified">
                         <div className="notification message danger">
                             {message}
                         </div>
