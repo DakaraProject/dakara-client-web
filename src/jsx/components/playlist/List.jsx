@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom'
 import { formatHourTime, params } from 'utils'
 import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions/playlist'
 import PlaylistEntry from './Entry'
+import Navigator from 'components/generics/Navigator'
 import { playlistEntriesStatePropType } from 'reducers/playlist'
 import { playlistDigestPropType } from 'reducers/playlist'
 import { alterationStatusPropType, Status } from 'reducers/alterationsStatus'
@@ -57,6 +58,13 @@ class Playlist extends Component {
                 >
                     {playlistEntriesComponent}
                 </TransitionGroup>
+                <Navigator
+                    count={playlistEntries.length}
+                    names={{
+                        singular: 'song',
+                        plural: 'songs'
+                    }}
+                />
             </div>
         )
     }
