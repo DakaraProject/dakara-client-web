@@ -5,13 +5,13 @@
 //
 
 
+// kara status notification sizes
+@kara-status-notification-height: @form-field-height + 2 * @gap-vertical;
+
+
 // `kara-status-notification` class: message displayed to the playlist
 // manager when the kara is stopped.
 #kara-status-notification {
-    .get-kara-status-notification-height() {
-        @kara-status-notification-height: @form-field-height + 2 * @gap-vertical;
-    }
-
     background: @brand-primary-darker;
     color: @brand-primary;
     display: flex;

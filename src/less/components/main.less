@@ -35,15 +35,11 @@
         padding-top: @tab-bar-height + @gap-vertical;
         .make-center();
 
-
         &.with-player {
-            #player.get-player-height();
-            #playlist-info-bar.get-playlist-info-bar-height();
             padding-top: @tab-bar-height + @player-height + @playlist-info-bar-height + 2 * @gap-vertical;
         }
 
         &.with-notification {
-            #kara-status-notification.get-kara-status-notification-height();
             padding-top: @tab-bar-height + @kara-status-notification-height + 2 * @gap-vertical;
         }
     }
