@@ -4,6 +4,11 @@
 // Navigator style file
 //
 
+
+// navigatr sizes
+@navigator-height: @row-height;
+
+
 // `navigator` class:
 //
 // The paginator supplies the interface to change page and display count.
@@ -13,7 +18,7 @@
 
     .paginator {
         &.controls {
-            .make-controls(@paginator-height, @paginator-font-size);
+            .make-controls(@navigator-height, 2em);
         }
     }
 
@@ -28,7 +33,7 @@
             font-weight: 100;
             font-size: 2.5em;
             vertical-align: middle;
-            line-height: @paginator-height;
+            line-height: @navigator-height;
         }
 
         .text {
