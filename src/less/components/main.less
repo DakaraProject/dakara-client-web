@@ -6,17 +6,45 @@
 
 
 #main {
-    .center-block();
-    max-width: @page-width;
+    .make-center() {
+        .center-block();
+        max-width: @page-width-max;
+        min-width: @page-width-min;
+    }
 
-    // we use flexbox to easily push the footer on the bottom of the screen
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    #fixed {
+        position: fixed;
+        width: 100%;
+        background-color: @body-background;
+        z-index: 1000;
 
-}
+        .box {
+            .make-center();
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    #scrollable {
+        display: grid;
+        grid-template-rows: 1fr auto;
+        min-height: 100vh;
+        box-sizing: border-box;
+        padding-top: @tab-bar-height + @gap-vertical;
+        .make-center();
 
 
-#content {
-    flex: 1;
+        &.with-player {
+            #player.get-player-height();
+            #playlist-info-bar.get-playlist-info-bar-height();
+            padding-top: @tab-bar-height + @player-height + @playlist-info-bar-height + 2 * @gap-vertical;
+        }
+
+        &.with-notification {
+            #kara-status-notification.get-kara-status-notification-height();
+            padding-top: @tab-bar-height + @kara-status-notification-height + 2 * @gap-vertical;
+        }
+    }
 }

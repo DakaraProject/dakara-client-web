@@ -13,6 +13,11 @@
 //
 // Info don't have specific classes.
 #playlist-info-bar {
+    .get-playlist-info-bar-height() {
+        @playlist-info-bar-height: 5rem;
+    }
+
+    .get-playlist-info-bar-height();
     cursor: pointer;
     padding: 0 @gap-horizontal;
     background: @brand-primary;
@@ -20,6 +25,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: @playlist-info-bar-height;
 
     &:hover,
     &:focus, {

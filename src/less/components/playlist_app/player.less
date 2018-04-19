@@ -10,6 +10,13 @@
 // This component stylizes the player, containing controls, song info and a
 // progression bar.
 #player {
+    .get-player-height() {
+        @player-controls-height: 7rem;
+        @progressbar-height: 0.4rem;
+        @player-height: 2 * @gap-vertical + @player-controls-height + @progressbar-height;
+    }
+
+    .get-player-height();
     background: @brand-primary-darker;
     color: @brand-primary;
 
@@ -19,7 +26,6 @@
         display: flex;
         align-items: center;
         padding: @gap-vertical 0;
-        @player-controls-height: 7rem;
 
         // `controls` subclass: buttons of the player.
         .controls {
@@ -152,7 +158,7 @@
     // progression.
     .progressbar {
         width: 100%;
-        height: 0.4rem;
+        height: @progressbar-height;
 
         .progress {
             height: 100%;

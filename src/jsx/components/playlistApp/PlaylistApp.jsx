@@ -35,16 +35,26 @@ class PlaylistApp extends Component {
 
     render() {
         const { kara_status } = this.props.playlistDigest.data
+        const scrollable = document.getElementById('scrollable')
 
         if (!kara_status.status) return null
 
         if (kara_status.status === 'stop') {
-            return (
-                <IsPlaylistManager>
+            scrollable.classList.remove('with-player')
+
+            if (IsPlaylistManager.hasPermission(this.props.user)) {
+                scrollable.classList.add('with-notification')
+
+                return (
                     <KaraStatusNotification/>
-                </IsPlaylistManager>
-            )
+                )
+            }
+
+            return null
         }
+
+        scrollable.classList.remove('with-notification')
+        scrollable.classList.add('with-player')
 
         return (
             <div className="box">
@@ -57,6 +67,7 @@ class PlaylistApp extends Component {
 
 const mapStateToProps = (state) => ({
     playlistDigest: state.playlist.digest,
+    user: state.authenticatedUser,
 })
 
 PlaylistApp = connect(

@@ -33,14 +33,18 @@ class Main extends Component {
     render() {
         return (
             <div id="main">
-                <Header/>
-                <div id="content">
+                <div id="fixed">
+                    <Header/>
                     <IsAuthenticated>
                         <PlaylistApp/>
                     </IsAuthenticated>
-                    {this.props.children}
                 </div>
-                <Footer/>
+                <div id="scrollable">
+                    <div id="content">
+                        {this.props.children}
+                    </div>
+                    <Footer/>
+                </div>
             </div>
         )
     }
