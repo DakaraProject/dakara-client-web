@@ -49,8 +49,10 @@ class Playlist extends Component {
 
         return (
             <div id="playlist" className="box">
-                <div className="box-header">
-                    <h1>Playlist</h1>
+                <div className="fixed">
+                    <div className="box-header">
+                        <h1>Playlist</h1>
+                    </div>
                 </div>
                 <TransitionGroup
                     component="ul"

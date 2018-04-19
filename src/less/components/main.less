@@ -13,17 +13,17 @@
     }
 
     #fixed {
-        position: fixed;
-        width: 100%;
         background-color: @body-background;
+    }
+
+    .fixed {
+        position: fixed;
         z-index: 1000;
+        left: 0;
+        width: 100%;
 
-        .box {
+        > * {
             .make-center();
-
-            &:last-child {
-                margin-bottom: 0;
-            }
         }
     }
 

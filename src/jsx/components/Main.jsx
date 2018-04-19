@@ -33,7 +33,7 @@ class Main extends Component {
     render() {
         return (
             <div id="main">
-                <div id="fixed">
+                <div id="fixed" className="fixed">
                     <Header/>
                     <IsAuthenticated>
                         <PlaylistApp/>
