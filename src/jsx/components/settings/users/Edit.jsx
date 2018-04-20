@@ -62,7 +62,7 @@ class SettingsUsersEdit extends Component {
 
         return (
                 <div className="box" id="users-edit">
-                    <div className="box-header">
+                    <div className="box-header sticked">
                         <h1>Users management</h1>
                     </div>
                     <FormBlock

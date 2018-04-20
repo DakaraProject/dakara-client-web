@@ -64,7 +64,7 @@ class SettingsUsersList extends Component {
         return (
             <div className="box" id="users-list">
                 <SettingsTabList/>
-                <div className="box-header">
+                <div className="box-header sticked">
                     <h1>Users management</h1>
                 </div>
                 <ListingFetchWrapper

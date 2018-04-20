@@ -6,41 +6,10 @@
 
 
 #main {
-    .make-center() {
-        .center-block();
-        max-width: @page-width-max;
-        min-width: @page-width-min;
-    }
-
-    #fixed {
-        background-color: @body-background;
-    }
-
-    .fixed {
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        width: 100%;
-
-        > * {
-            .make-center();
-        }
-    }
-
-    #scrollable {
-        display: grid;
-        grid-template-rows: 1fr auto;
-        min-height: 100vh;
-        box-sizing: border-box;
-        padding-top: @tab-bar-height + @gap-vertical;
-        .make-center();
-
-        &.with-player {
-            padding-top: @tab-bar-height + @player-height + @playlist-info-bar-height + 2 * @gap-vertical;
-        }
-
-        &.with-notification {
-            padding-top: @tab-bar-height + @kara-status-notification-height + 2 * @gap-vertical;
-        }
-    }
+    .center-block();
+    max-width: @page-width-max;
+    min-width: @page-width-min;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    min-height: 100vh;
 }

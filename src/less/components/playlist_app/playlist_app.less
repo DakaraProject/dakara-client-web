@@ -8,3 +8,14 @@
 @import "playlist_info_bar";
 @import "player";
 @import "kara_status_notification";
+
+
+#playlist-app {
+}
+
+#playlist-app-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: @body-background; // fill the space beneath the player with the bg
+}

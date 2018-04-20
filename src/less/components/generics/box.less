@@ -5,11 +5,6 @@
 //
 
 
-// box sizes
-@box-header-h1-height: 6rem + 2 * @gap-vertical;
-@box-header-h2-height: 4rem + 2 * @gap-vertical;
-
-
 // `box` class:
 //
 // This class is aimed to style a generic box container in the layout. The box
@@ -19,7 +14,6 @@
     background: darken(@black-80, 5%);
     // box-shadow: 0 0 2rem fade(black, 50%);
     // box-shadow: 0 0 2rem red;
-    overflow: hidden;
     margin-bottom: @gap-vertical;
 
     .box-header {
@@ -45,6 +39,20 @@
         background: @brand-primary-darker;
         color: @brand-primary-light;
     }
+
+    .sticked {
+        position: sticky;
+        z-index: 900;
+
+        &.with-player {
+            top: @player-height + @playlist-info-bar-height + @gap-vertical;
+        }
+
+        &.with-notification {
+            top: @kara-status-notification-height + @gap-vertical;
+        }
+    }
+
 
     p {
         margin-left: @gap-horizontal;

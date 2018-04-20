@@ -35,15 +35,19 @@ class PlaylistApp extends Component {
 
     render() {
         const { kara_status } = this.props.playlistDigest.data
-        const scrollable = document.getElementById('scrollable')
+        const stickedElements = document.getElementsByClassName('sticked')
 
         if (!kara_status.status) return null
 
         if (kara_status.status === 'stop') {
-            scrollable.classList.remove('with-player')
+            Array.prototype.forEach.call(stickedElements, (element) => {
+                element.classList.remove('with-player')
+            })
 
             if (IsPlaylistManager.hasPermission(this.props.user)) {
-                scrollable.classList.add('with-notification')
+                Array.prototype.forEach.call(stickedElements, (element) => {
+                    element.classList.add('with-notification')
+                })
 
                 return (
                     <KaraStatusNotification/>
@@ -53,8 +57,10 @@ class PlaylistApp extends Component {
             return null
         }
 
-        scrollable.classList.remove('with-notification')
-        scrollable.classList.add('with-player')
+        Array.prototype.forEach.call(stickedElements, (element) => {
+            element.classList.remove('with-notification')
+            element.classList.add('with-player')
+        })
 
         return (
             <div className="box">

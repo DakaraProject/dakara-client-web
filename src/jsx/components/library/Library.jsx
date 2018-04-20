@@ -18,11 +18,10 @@ class Library extends Component {
 
         return (
             <div id="library" className="box">
-                <div class="library-header">
+                <div className="sticked">
                     <LibraryTabList
                         workTypeState={workTypeState}
                     />
-
                     <SearchBox
                         placeholder={nameInfo.placeholder}
                         location={location}
