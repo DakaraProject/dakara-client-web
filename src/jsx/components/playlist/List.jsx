@@ -8,6 +8,7 @@ import { formatHourTime, params } from 'utils'
 import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions/playlist'
 import PlaylistEntry from './Entry'
 import Navigator from 'components/generics/Navigator'
+import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import { playlistEntriesStatePropType } from 'reducers/playlist'
 import { playlistDigestPropType } from 'reducers/playlist'
 import { alterationStatusPropType, Status } from 'reducers/alterationsStatus'
@@ -26,6 +27,7 @@ class Playlist extends Component {
 
     render() {
         const { playlistEntries } = this.props.playlistEntriesState.data
+        const { status } = this.props.playlistEntriesState
         const removeEntry = this.props.removeEntryFromPlaylist
         const statusRemoveEntry = this.props.statusRemoveEntry
 
@@ -52,12 +54,16 @@ class Playlist extends Component {
                 <div className="box-header sticked">
                     <h1>Playlist</h1>
                 </div>
-                <TransitionGroup
-                    component="ul"
-                    className="listing"
+                <ListingFetchWrapper
+                    status={status}
                 >
-                    {playlistEntriesComponent}
-                </TransitionGroup>
+                    <TransitionGroup
+                        component="ul"
+                        className="listing"
+                    >
+                        {playlistEntriesComponent}
+                    </TransitionGroup>
+                </ListingFetchWrapper>
                 <Navigator
                     count={playlistEntries.length}
                     names={{
