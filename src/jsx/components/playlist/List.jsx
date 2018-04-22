@@ -4,13 +4,12 @@ import PropTypes from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import { withRouter } from 'react-router-dom'
-import { formatHourTime, params } from 'utils'
 import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions/playlist'
 import PlaylistEntry from './Entry'
+import PlaylistTabList from './TabList'
 import Navigator from 'components/generics/Navigator'
 import { playlistEntriesStatePropType } from 'reducers/playlist'
-import { playlistDigestPropType } from 'reducers/playlist'
-import { alterationStatusPropType, Status } from 'reducers/alterationsStatus'
+import { alterationStatusPropType } from 'reducers/alterationsStatus'
 
 class Playlist extends Component {
     static propTypes = {
@@ -49,6 +48,7 @@ class Playlist extends Component {
 
         return (
             <div id="playlist" className="box">
+                <PlaylistTabList/>
                 <div className="box-header">
                     <h1>Playlist</h1>
                 </div>
