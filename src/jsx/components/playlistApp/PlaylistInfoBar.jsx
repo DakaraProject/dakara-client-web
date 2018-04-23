@@ -47,7 +47,7 @@ class PlaylistInfoBar extends Component {
         const nextPlaylistEntry = playlistEntries[0]
         if (nextPlaylistEntry) {
             next = (
-                <div className="item">
+                <div className="item next">
                     <span className="stat">Next</span>
                     <span className="description">{nextPlaylistEntry.song.title}</span>
                 </div>
@@ -63,7 +63,7 @@ class PlaylistInfoBar extends Component {
         if (playlistEntries.length != 0 || playerStatus.playlist_entry) {
             const playlistEndTime = Date.parse(date_end)
             ending = (
-                <div className="item">
+                <div className="item ending">
                     <span className="stat">{formatHourTime(playlistEndTime)}</span>
                     <span className="description">ending<br/>time</span>
                 </div>
@@ -76,7 +76,7 @@ class PlaylistInfoBar extends Component {
 
         const count = playlistEntries.length
         const amount = (
-                <div className="item">
+                <div className="item amount">
                     <span className="stat">{count}</span>
                     <span className="description">
                         song{count == 1 ? '' : 's'}
