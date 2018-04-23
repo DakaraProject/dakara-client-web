@@ -26,50 +26,13 @@
         align-items: center;
         padding: @gap-vertical 0;
 
-        // `controls` subclass: buttons of the player.
-        .controls {
-            .make-controls(@player-controls-height, 1.66em);
-
-            .control {
-                overflow: hidden;
-                position: relative;
-
-                &.managed-error .managed.managed-enter {
-                    left: -100%;
-                }
-
-                .managed {
-                    position: absolute;
-                    line-height: @player-controls-height;
-                    width: @player-controls-height;
-                    top: 0;
-                    left: 0;
-
-                    // appearance transition
-                    &.managed-enter {
-                        left: 100%;
-
-                        &.managed-enter-active {
-                            left: 0;
-                            transition: left 150ms ease-out;
-                        }
-                    }
-
-                    // appearance transition
-                    &.managed-exit {
-                        left: 0;
-
-                        &.managed-exit-active {
-                            left: -100%;
-                            transition: left 150ms ease-out;
-                        }
-                    }
-                }
-            }
+        .notifiable {
+            overflow: hidden;
+            width: 100%;
         }
 
         // `song-container` class: container for info of the song.
-        .song-container {
+        .playlist-entry {
             flex: 1;
             display: flex;
             justify-content: flex-end;
@@ -103,45 +66,63 @@
                     margin: 0;
 
                     .work-link {
+                        flex-direction: row-reverse;
+                        justify-content: end;
+
                         .link {
                             border-color: shade(@brand-primary, 25%);
+                        }
+
+                        .work-link-item:last-child {
+                            margin-right: 0.5em;
+                        }
+
+                        .work-link-item:first-child {
+                            margin-right: 0;
                         }
                     }
                 }
             }
 
-            // `playlist-entry-owner` class: owner of the playlist entry.
-            .playlist-entry-owner {
-                padding-right: @gap-horizontal;
-                text-align: right;
-                margin-top: 0.25rem;
-
-                .icon {
-                    font-size: 1em;
-                    margin-right: 0.4em;
-                }
-            }
-
-            // `song-timing` class: current progression of the song in numerical
-            // form.
-            .song-timing {
-                @ratio: 0.8;
+            .extra {
+                @ratio-extra: 0.7;
+                margin-right: @gap-horizontal;
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
-                margin-right: @gap-horizontal;
-                @player-status-height: 1 * @player-controls-height;
 
-                .current {
-                    font-size: @player-status-height * @ratio;
-                    font-weight: 100;
-                    line-height: @player-status-height * @ratio;
+                // `song-timing` class: current progression of the song in numerical
+                // form.
+                .timing {
+                    @ratio-timing: 0.6;
+                    @height: @ratio-extra * @player-controls-height;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+
+                    .current {
+                        font-size: @height * @ratio-timing;
+                        font-weight: 100;
+                        line-height: @height * @ratio-timing;
+                    }
+
+                    .duration {
+                        font-size: @height * (1 - @ratio-timing);
+                        line-height: @height * (1 - @ratio-timing);
+                        font-weight: 300;
+                        text-align: right;
+                    }
                 }
 
-                .duration {
-                    font-size: @player-status-height * (1 - @ratio);
-                    line-height: @player-status-height * (1 - @ratio);
+                // `playlist-entry-owner` class: owner of the playlist entry.
+                .owner {
+                    @height: (1 - @ratio-extra) * @player-controls-height;
                     text-align: right;
+                    line-height: @height;
+
+                    .icon {
+                        font-size: 1em;
+                        margin-right: 0.4em;
+                    }
                 }
             }
 
@@ -162,6 +143,65 @@
         .progress {
             height: 100%;
             background: @brand-primary-dark;
+        }
+    }
+
+    // `controls` subclass: buttons of the player.
+    .controls {
+        .control {
+            overflow: hidden;
+            position: relative;
+
+            &.managed-error .managed.managed-enter {
+                left: -100%;
+            }
+
+            .managed {
+                position: absolute;
+                line-height: inherit;
+                width: inherit;
+                top: 0;
+                left: 0;
+
+                // appearance transition
+                &.managed-enter {
+                    left: 100%;
+
+                    &.managed-enter-active {
+                        left: 0;
+                        transition: left 150ms ease-out;
+                    }
+                }
+
+                // appearance transition
+                &.managed-exit {
+                    left: 0;
+
+                    &.managed-exit-active {
+                        left: -100%;
+                        transition: left 150ms ease-out;
+                    }
+                }
+            }
+        }
+    }
+
+    .controls.main {
+        .make-controls(@player-controls-height, 1.66em);
+    }
+
+    .controls.other {
+        .make-controls(@row-height, 1.33em);
+        overflow: hidden;
+        padding-bottom: @gap-vertical;
+        transition: height 150ms,
+                    padding-bottom 150ms;
+
+        &.reduced {
+            height: 0;
+            padding-bottom: 0;
+            transition: height 150ms,
+                        padding-bottom 150ms;
         }
     }
 }

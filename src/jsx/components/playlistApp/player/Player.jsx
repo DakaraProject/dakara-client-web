@@ -8,6 +8,7 @@ import Song from 'components/song/Song'
 import UserWidget from 'components/generics/UserWidget'
 import ManageButton from './ManageButton'
 import PlayerNotification from './Notification'
+import { Reduceable } from 'components/generics/Box'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import { sendPlayerCommand } from 'actions/playlist'
 import { playlistDigestPropType, playerCommandsPropType } from 'reducers/playlist'
@@ -38,34 +39,53 @@ class Player extends Component {
         }
 
         /**
-         * Song display if any song is currently playing
+         * Display playlist entry if any song is currently playing
          */
 
-        let song
-        let playlistEntryOwner
-        let duration
         let progress
+        let playlistEntry
         if (isPlaying) {
-            song = (
+            const duration = player_status.playlist_entry.song.duration
+            progress = Math.min(player_status.timing * 100 / duration, 100)
+            playlistEntry = (
+                <div className="playlist-entry">
                     <Song
                         song={player_status.playlist_entry.song}
                         noDuration
                         noTag
                     />
-                )
-
-            playlistEntryOwner = (
-                    <UserWidget
-                        user={player_status.playlist_entry.owner}
-                        className="playlist-entry-owner"
-                    />
-                )
-
-            duration = player_status.playlist_entry.song.duration
-            progress = Math.min(player_status.timing * 100 / duration, 100)
+                    <div className="extra">
+                        <div className="timing">
+                            <div className="current">
+                                {formatTime(player_status.timing)}
+                            </div>
+                            <div className="duration">
+                                {formatDuration(duration)}
+                            </div>
+                        </div>
+                        <UserWidget
+                            user={player_status.playlist_entry.owner}
+                            className="owner"
+                        />
+                    </div>
+                </div>
+            )
         } else {
             progress = 0
-            duration = 0
+            playlistEntry = (
+                <div className="playlist-entry">
+                    <div className="extra">
+                        <div className="timing">
+                            <div className="current">
+                                {formatTime(0)}
+                            </div>
+                            <div className="duration">
+                                {formatDuration(0)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )
         }
 
         /**
@@ -77,7 +97,7 @@ class Player extends Component {
         return (
             <div id="player">
                 <div className="display-area">
-                    <div className="controls">
+                    <div className="controls main">
                         <IsPlaylistManagerOrOwner
                             object={player_status.playlist_entry}
                             disable
@@ -94,27 +114,10 @@ class Player extends Component {
                                     'stop'
                                 }
                             />
-                            <ManageButton
-                                statusManage={statusSendPlayerCommandsSafe.skip}
-                                onClick={() =>
-                                        this.props.sendPlayerCommand('skip', true)
-                                }
-                                disabled={controlDisabled}
-                                icon="step-forward"
-                            />
                         </IsPlaylistManagerOrOwner>
                     </div>
-                    <div className="song-container notifiable">
-                        {song}
-                        {playlistEntryOwner}
-                        <div className="song-timing">
-                            <div className="current">
-                                {formatTime(player_status.timing)}
-                            </div>
-                            <div className="duration">
-                                {formatDuration(duration)}
-                            </div>
-                        </div>
+                    <div className="notifiable">
+                        {playlistEntry}
                         <CSSTransitionLazy
                             in={fetchError}
                             classNames="notified"
@@ -123,18 +126,7 @@ class Player extends Component {
                                 exit: 150
                             }}
                         >
-                            <div className="notified">
-                                <div className="notification danger">
-                                    <div className="message">
-                                        Unable to get status from server
-                                    </div>
-                                    <div className="animation pending">
-                                        <span className="point">·</span>
-                                        <span className="point">·</span>
-                                        <span className="point">·</span>
-                                    </div>
-                                </div>
-                            </div>
+                            <ServerLost/>
                         </CSSTransitionLazy>
                         <PlayerNotification
                             alterationStatuses={statusSendPlayerCommandsSafe}
@@ -142,6 +134,18 @@ class Player extends Component {
                         />
                     </div>
                 </div>
+                <Reduceable>
+                    <div className="controls other">
+                        <ManageButton
+                            statusManage={statusSendPlayerCommandsSafe.skip}
+                            onClick={() =>
+                                    this.props.sendPlayerCommand('skip', true)
+                            }
+                            disabled={controlDisabled}
+                            icon="step-forward"
+                        />
+                    </div>
+                </Reduceable>
                 <div className="progressbar">
                     <div className="progress" style={progressStyle}></div>
                 </div>
@@ -149,6 +153,21 @@ class Player extends Component {
         )
     }
 }
+
+const ServerLost = () => (
+    <div className="notified">
+        <div className="notification danger">
+            <div className="message">
+                Unable to get status from server
+            </div>
+            <div className="animation pending">
+                <span className="point">·</span>
+                <span className="point">·</span>
+                <span className="point">·</span>
+            </div>
+        </div>
+    </div>
+)
 
 const mapStateToProps = (state) => ({
     playlistDigest: state.playlist.digest,
