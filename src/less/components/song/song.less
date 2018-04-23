@@ -20,14 +20,12 @@
     position: relative;
     overflow-y: hidden;
     height: @listing-entry-height;
+    white-space: nowrap;
 
     // `header` class: song's main info.
     .header {
-        flex: 1;
+        flex-grow: 1;
         .text-truncate();
-
-        // this is a hack
-        // width: 0;
 
         .title {
             font-size: 1.05em;
@@ -43,11 +41,14 @@
     .artist-work {
         margin-right: @gap-horizontal;
         display: flex;
-        align-items: flex-end;
         flex-direction: column;
+        text-align: right;
         font-size: 0.9em;
+        overflow: hidden;
 
         .artists {
+            .text-truncate();
+
             .artist:not(:last-child)::after {
                 content: ", ";
             }

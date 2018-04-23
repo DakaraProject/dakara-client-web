@@ -48,10 +48,12 @@ export default class WorkLink extends Component {
         }
 
         const link = (
-                <span className="work-link-item link">
+            <span className="work-link-item">
+                <span className="link">
                     {linkType}
                     {linkNb}
                 </span>
+            </span>
             )
 
         // Display work icon conditionally
@@ -76,22 +78,24 @@ export default class WorkLink extends Component {
 
         return (
                 <div className="work-link">
-                    <HighlighterQuery
-                        query={query}
-                        className="work-link-item title"
-                        searchWords={(q) => {
-                            let searchWords = q.work.contains.concat(q.remaining)
-                            const workTypeQuery = q.work_type[workLink.work.work_type.query_name]
-                            if (workTypeQuery) {
-                                // Add keyword for specific worktype if it exists
-                                searchWords = searchWords.concat(workTypeQuery.contains)
-                            }
+                    <span className="title-group work-link-item">
+                        <HighlighterQuery
+                            query={query}
+                            className="work-link-item title"
+                            searchWords={(q) => {
+                                let searchWords = q.work.contains.concat(q.remaining)
+                                const workTypeQuery = q.work_type[workLink.work.work_type.query_name]
+                                if (workTypeQuery) {
+                                    // Add keyword for specific worktype if it exists
+                                    searchWords = searchWords.concat(workTypeQuery.contains)
+                                }
 
-                            return searchWords
-                        }}
-                        textToHighlight={workLink.work.title}
-                    />
-                    {subtitle}
+                                return searchWords
+                            }}
+                            textToHighlight={workLink.work.title}
+                        />
+                        {subtitle}
+                    </span>
                     {link}
                     {episodes}
                     {icon}
