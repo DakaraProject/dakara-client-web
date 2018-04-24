@@ -68,14 +68,19 @@
         border-spacing: 0 @gap-vertical;
 
         .make-smartphone({
-            border-spacing: 0 @gap-vertical-smartphone;
+            display: block;
+            padding: @gap-vertical-smartphone 0;
         });
 
         .expanded-item {
             display: table-row;
 
+            .make-smartphone({
+                display: block;
+            });
+
             &:not(:last-child) {
-                .make-gap(padding, bottom, 0.5);
+                .make-gap(padding, bottom);
             }
 
             .header {
@@ -126,15 +131,16 @@
             }
 
             &.lyrics .text {
-                white-space: pre-line; // TODO change that
                 line-height: 1.5em;
                 padding-top: 2 * @gap-horizontal / 3;
                 padding-bottom: 2 * @gap-horizontal / 3;
 
-                .truncated::after {
-                    content: "…";
-                    font-size: 1.5em;
-                    line-height: 0;
+                &.truncated {
+                    .line:last-child::after {
+                        content: "…";
+                        font-size: 1.5em;
+                        line-height: 0;
+                    }
                 }
             }
         }

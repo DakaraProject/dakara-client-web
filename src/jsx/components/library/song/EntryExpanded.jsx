@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { stringify } from 'query-string'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import SongTagList from 'components/song/SongTagList'
 import SongEntryExpandedWork from './EntryExpandedWork'
 import SongEntryExpandedArtist from './EntryExpandedArtist'
@@ -149,12 +150,9 @@ class SongEntryExpanded extends Component {
 
         let lyrics
         if (song.lyrics) {
-            let truncated
-            if (song.lyrics.truncated) {
-                truncated = (
-                    <span className="truncated"></span>
-                )
-            }
+            const text = song.lyrics.text.split("\n").map(line => (
+                <div className="line">{line}</div>
+            ))
 
             lyrics = (
                 <div className="lyrics expanded-item">
@@ -164,7 +162,14 @@ class SongEntryExpanded extends Component {
                         </span>
                         <span className="name">Lyrics</span>
                     </h4>
-                    <div className="text">{song.lyrics.text}{truncated}</div>
+                    <div
+                        className={classNames(
+                            "text",
+                            {truncated: song.lyrics.truncated}
+                        )}
+                    >
+                        {text}
+                    </div>
                 </div>
             )
         }
