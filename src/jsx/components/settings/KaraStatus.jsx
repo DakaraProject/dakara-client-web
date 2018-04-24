@@ -33,7 +33,7 @@ class SettingsKaraStatus extends Component {
         return (
             <div className="box" id="kara-status">
                 <SettingsTabList/>
-                <div className="box-header sticked">
+                <div className="box-header">
                     <h1>Kara status management</h1>
                 </div>
                 <FormBlock

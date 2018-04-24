@@ -51,7 +51,7 @@ class Playlist extends Component {
 
         return (
             <div id="playlist" className="box">
-                <div className="box-header sticked">
+                <div className="box-header">
                     <h1>Playlist</h1>
                 </div>
                 <ListingFetchWrapper

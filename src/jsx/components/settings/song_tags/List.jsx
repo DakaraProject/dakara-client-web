@@ -68,7 +68,7 @@ class SettingsSongTagsList extends Component {
         return (
             <div className="box" id="song-tag-list">
                 <SettingsTabList/>
-                <div className="box-header sticked">
+                <div className="box-header">
                     <h1>Song tags management</h1>
                 </div>
                 <ListingFetchWrapper

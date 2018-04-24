@@ -18,7 +18,6 @@ class Library extends Component {
 
         return (
             <div id="library" className="box">
-                <div className="sticked">
                     <LibraryTabList
                         workTypeState={workTypeState}
                     />
@@ -26,7 +25,6 @@ class Library extends Component {
                         placeholder={nameInfo.placeholder}
                         location={location}
                     />
-                </div>
                 {this.props.children}
             </div>
         )
