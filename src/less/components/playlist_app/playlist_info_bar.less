@@ -28,6 +28,12 @@
     height: @playlist-info-bar-height;
     overflow: hidden;
 
+    .make-smartphone({
+        height: @playlist-info-bar-height-smartphone;
+        padding: 0 @gap-horizontal-smartphone;
+        font-size: 0.85em;
+    });
+
     &:hover,
     &:focus, {
         background: @brand-primary-lighter;
@@ -63,6 +69,10 @@
             .description {
                 .text-truncate();
             }
+
+            .make-smartphone({
+                display: none;
+            });
         }
     }
 }

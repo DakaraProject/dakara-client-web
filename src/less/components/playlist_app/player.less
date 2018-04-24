@@ -31,6 +31,12 @@
             .make-gap(margin, left);
             overflow: hidden;
             width: 100%;
+
+            // `notified` subclass: notification banner.
+            .notified {
+                line-height: @player-controls-height;
+                height: @player-controls-height;
+            }
         }
 
         // `song-container` class: container for info of the song.
@@ -91,46 +97,58 @@
                 display: flex;
                 flex-direction: column;
 
+                .make-extra(@ratio-extra, @ratio-timing, @font-weight-current, @font-weight-duration) {
+                    .timing {
+                        @height: @ratio-extra * @player-controls-height;
+
+                        .current {
+                            font-size: @height * @ratio-timing;
+                            line-height: @height * @ratio-timing;
+                            font-weight: @font-weight-current;
+                        }
+
+                        .duration {
+                            font-size: @height * (1 - @ratio-timing);
+                            line-height: @height * (1 - @ratio-timing);
+                            font-weight: @font-weight-duration;
+                        }
+                    }
+
+                    .owner {
+                        @height: (1 - @ratio-extra) * @player-controls-height;
+                        line-height: @height;
+                    }
+                }
+
+                .make-extra(0.8, 0.7, 100, initial);
+                .make-smartphone({
+                    .make-extra(0.7, 0.6, 100, 300);
+                });
+
                 // `song-timing` class: current progression of the song in numerical
                 // form.
                 .timing {
                     @ratio-timing: 0.6;
-                    @height: @ratio-extra * @player-controls-height;
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
 
                     .current {
-                        font-size: @height * @ratio-timing;
-                        font-weight: 100;
-                        line-height: @height * @ratio-timing;
                     }
 
                     .duration {
-                        font-size: @height * (1 - @ratio-timing);
-                        line-height: @height * (1 - @ratio-timing);
-                        font-weight: 300;
                         text-align: right;
                     }
                 }
 
                 // `playlist-entry-owner` class: owner of the playlist entry.
                 .owner {
-                    @height: (1 - @ratio-extra) * @player-controls-height;
                     text-align: right;
-                    line-height: @height;
 
                     .icon {
                         font-size: 1em;
-                        margin-right: 0.4em;
                     }
                 }
-            }
-
-            // `notified` subclass: notification banner.
-            .notified {
-                line-height: @player-controls-height;
-                height: @player-controls-height;
             }
         }
     }
@@ -192,7 +210,6 @@
     }
 
     .controls.other {
-        .make-controls(@row-height, 1.33em);
         overflow: hidden;
         .make-gap(padding, bottom);
         transition: height 150ms,
@@ -203,6 +220,12 @@
             padding-bottom: 0;
             transition: height 150ms,
                         padding-bottom 150ms;
+        }
+
+        .make-controls(@row-height * 0.6, 1.1em);
+
+        > .control {
+            width: @row-height;
         }
     }
 }
