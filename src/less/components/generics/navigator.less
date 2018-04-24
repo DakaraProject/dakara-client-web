@@ -23,23 +23,43 @@
     }
 
     .counter {
+        display: flex;
         padding: 0 @gap-horizontal;
         color: @brand-primary;
-        flex: 1;
+        flex-grow: 1;
+        align-items: center;
+        justify-content: right;
+        overflow: hidden;
         text-align: right;
 
         .figure {
-            display: inline-block;
             font-weight: 100;
             font-size: 2.5em;
-            vertical-align: middle;
-            line-height: @navigator-height;
         }
 
         .text {
             margin-left: 0.4em;
-            display: inline-block;
-            vertical-align: middle;
+            .text-truncate();
         }
+
+        .make-smartphone({
+            @ratio: 0.6;
+            @factor: 0.8;
+            padding: 0 @gap-horizontal-smartphone;
+            flex-direction: column;
+            align-items: initial;
+            justify-content: center;
+
+            .figure {
+                font-size: 2em;
+                line-height: @ratio * @navigator-height * @factor;
+            }
+
+            .text {
+                margin-left: 0;
+                font-size: 0.85em;
+                line-height: (1 - @ratio) * @navigator-height * @factor;
+            }
+        });
     }
 }
