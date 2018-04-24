@@ -103,16 +103,18 @@ export default class Song extends Component {
 
         return (
                 <div className="song" onClick={this.props.handleClick}>
-                    <div className="header">
-                        <HighlighterQuery
-                            query={query}
-                            className="title"
-                            searchWords={(q) => (q.title.contains.concat(q.remaining))}
-                            textToHighlight={song.title}
-                        />
-                        {version}
+                    <div className="general">
+                        <div className="header">
+                            <HighlighterQuery
+                                query={query}
+                                className="title"
+                                searchWords={(q) => (q.title.contains.concat(q.remaining))}
+                                textToHighlight={song.title}
+                            />
+                            {version}
+                        </div>
+                        {artistWork}
                     </div>
-                    {artistWork}
                     {duration}
                     {tags}
                 </div>

@@ -70,6 +70,10 @@
                     // this allows to shrink the label 'column' as small as possible
                     display: table-cell;
 
+                    .make-smartphone({
+                        display: block;
+                    });
+
                     // this allows the shrink to be exactly the length of the label,
                     // but since the label is now un-breakable, it *must* be kept
                     // short
@@ -104,6 +108,10 @@
                 .input {
                     display: table-cell;
                     width: 100%;
+
+                    .make-smartphone({
+                        display: block;
+                    });
 
                     .notification {
                         .error {
@@ -636,6 +644,7 @@
                 color: fade(@text-dark, 50%);
                 font-weight: 700;
                 font-size: medium;
+                flex-shrink: 0;
 
                 &::selection {
                     // the real color of the background will change due to the

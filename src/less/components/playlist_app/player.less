@@ -58,6 +58,9 @@
                 align-items: initial;
                 overflow: hidden;
 
+                .general {
+                    flex-direction: column;
+                }
                 .header {
                     flex-grow: initial;
                     font-size: 1.45em;
@@ -78,19 +81,10 @@
                     }
 
                     .work-link {
-                        flex-direction: row-reverse;
-                        justify-content: end;
+                        .work-link.make-reverse();
 
                         .link {
                             border-color: shade(@brand-primary, 25%);
-                        }
-
-                        .work-link-item:last-child {
-                            margin-right: 0.5em;
-                        }
-
-                        .work-link-item:first-child {
-                            margin-right: 0;
                         }
                     }
                 }

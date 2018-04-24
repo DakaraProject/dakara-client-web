@@ -16,41 +16,48 @@
 // part of a listing).
 .song {
     display: flex;
-    align-items: baseline;
     position: relative;
     overflow-y: hidden;
     height: @listing-entry-height;
     white-space: nowrap;
+    align-items: center;
 
-    // `header` class: song's main info.
-    .header {
+    .general {
         flex-grow: 1;
-        .text-truncate();
-
-        .title {
-            font-size: 1.05em;
-        }
-
-        .version {
-            margin-left: 0.5em;
-            opacity: 0.65;
-        }
-    }
-
-    // `artist-work` class: collapsed info for the song artists and works.
-    .artist-work {
-        .make-gap(margin, right);
         display: flex;
-        flex-direction: column;
-        text-align: right;
-        font-size: 0.9em;
+        align-items: baseline;
         overflow: hidden;
 
-        .artists {
+        // `header` class: song's main info.
+        .header {
+            flex-grow: 1;
             .text-truncate();
 
-            .artist:not(:last-child)::after {
-                content: ", ";
+            .title {
+                font-size: 1.05em;
+            }
+
+            .version {
+                margin-left: 0.5em;
+                opacity: 0.65;
+            }
+        }
+
+        // `artist-work` class: collapsed info for the song artists and works.
+        .artist-work {
+            .make-gap(margin, right);
+            display: flex;
+            flex-direction: column;
+            text-align: right;
+            font-size: 0.9em;
+            overflow: hidden;
+
+            .artists {
+                .text-truncate();
+
+                .artist:not(:last-child)::after {
+                    content: ", ";
+                }
             }
         }
     }
@@ -63,6 +70,7 @@
         background: @text-light;
         color: @neutral-mid;
         text-align: center;
+        flex-shrink: 0;
     }
 
     // `song-tag-list` subclass: tag songs.
@@ -73,6 +81,15 @@
         left: 0;
         font-size: 0.65em;
         line-height: 1em;
+
+        .make-smartphone({
+            font-size: 0.5em;
+            line-height: 0.9em;
+
+            .tag {
+                color: fade(@text-dark, 65%);
+            }
+        });
 
         .tag {
             font-size: inherit;
