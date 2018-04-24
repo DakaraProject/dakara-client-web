@@ -9,9 +9,11 @@
 @gap-horizontal: 1.5rem;
 @gap-vertical: 2 * @gap-horizontal;
 
+@gap-horizontal-smartphone: 0.5 * @gap-horizontal;
+@gap-vertical-smartphone: 0.5 * @gap-vertical;
+
 // page sizes
-@page-width-max: 90rem;
-@page-width-min: 60rem;
+@page-width-max: 96.1rem;
 
 // row sizes
 @row-height: 5rem;
@@ -28,4 +30,45 @@ html {
 
 body {
     font-size: 1.6rem;
+}
+
+// helper for padding or margin gaps
+// @param @type property to use (padding or margin
+// @param @direction where to apply the gap (top, bottom, left, right, vertical
+//  (top and bottom) or horizontal (left and right))
+// @param @factor extra scale to apply to the gap (number)
+.make-gap(@type, @direction, @factor: 1) {
+    // detect if the gap has to be applied to one axis or one direction only
+    @is-multi: if((@direction = vertical) or (@direction = horizontal),
+        1, 0
+    );
+
+    // format the value accordingly
+    // for large device
+    @value: if((@is-multi = 1),
+        if((@direction = vertical), @gap-vertical * @factor 0, 0 @gap-horizontal * @factor),
+        if((@direction = top) or (@direction = bottom), @gap-vertical * @factor,
+            if((@direction = right) or (@direction = left), @gap-horizontal * @factor, 0)
+        )
+    );
+
+    // for smartphone
+    @value-smartphone: if((@is-multi = 1),
+        if((@direction = vertical), @gap-vertical-smartphone * @factor 0, 0 @gap-horizontal-smartphone * @factor),
+        if((@direction = top) or (@direction = bottom), @gap-vertical-smartphone * @factor,
+            if((@direction = right) or (@direction = left), @gap-horizontal-smartphone * @factor, 0)
+        )
+    );
+
+    // create the property name accordingly
+    @property: if((@is-multi = 1),
+        @type,
+        ~"@{type}-@{direction}"
+    );
+
+    // apply the rule
+    @{property}: @value;
+    .make-smartphone({
+        @{property}: @value-smartphone;
+    });
 }

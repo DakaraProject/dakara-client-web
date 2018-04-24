@@ -39,6 +39,18 @@
         text-align: center;
         .text-truncate();
 
+        .make-smartphone({
+            padding: 0;
+
+            .name {
+                display: none;
+            }
+
+            :not(.squared) {
+                width: @tab-bar-height;
+            }
+        });
+
         &:nth-child(2n) {
             background: @neutral-mid-light;
         }

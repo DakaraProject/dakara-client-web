@@ -29,8 +29,8 @@
         // `song` subclass: the song itself.
         .song {
             flex: 1;
-            padding-left: @gap-horizontal;
             cursor: pointer;
+            .make-gap(padding, left);
         }
     }
 
@@ -47,19 +47,23 @@
         border-collapse: separate;
         border-spacing: 0 @gap-vertical;
 
+        .make-smartphone({
+            border-spacing: 0 @gap-vertical-smartphone;
+        });
+
         .expanded-item {
             display: table-row;
 
             &:not(:last-child) {
-                padding-bottom: 0.5 * @gap-vertical;
+                .make-gap(padding, bottom, 0.5);
             }
 
             .header {
                 display: table-cell;
-                padding: 0 @gap-horizontal;
                 font-weight: normal;
                 white-space: nowrap;
                 vertical-align: top;
+                .make-gap(padding, horizontal);
 
                 .icon {
                 }
@@ -75,8 +79,8 @@
             }
 
             .text {
-                padding: 0 @gap-horizontal;
                 line-height: @height;
+                .make-gap(padding, horizontal);
             }
 
             .song-tag-list {
@@ -104,14 +108,14 @@
         .artists {
             .artist {
                 flex: 1;
-                padding: 0 @gap-horizontal;
+                .make-gap(padding, horizontal);
             }
         }
 
         .works {
             .work-link {
                 flex: 1;
-                padding: 0 @gap-horizontal;
+                .make-gap(padding, horizontal);
 
                 .link {
                     font-size: 0.81em;

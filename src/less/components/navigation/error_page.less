@@ -6,8 +6,8 @@
 
 #error-page {
     background: @brand-danger-darker;
-    padding-bottom: @gap-vertical;
     color: @brand-danger;
+    .make-gap(padding, bottom);
 
     .box-header {
         background: transparent;
@@ -19,10 +19,10 @@
         font-size: 1.1em;
         margin-right: 0;
         margin-left: 0;
-        padding: 0 @gap-horizontal;
         line-height: 1.5em;
         background: @brand-danger;
         color: @brand-danger-darker;
+        .make-gap(padding, horizontal);
     }
 
     ::selection {

@@ -6,9 +6,10 @@
 
 
 #main {
-    .center-block();
-    max-width: @page-width-max;
-    // min-width: @page-width-min;
+    .make-desktop({
+        .center-block();
+        max-width: @page-width-max;
+    });
 
     // disable grid for now
     // display: grid;

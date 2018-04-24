@@ -17,6 +17,7 @@
     display: flex;
     align-items: center;
     padding: @gap-vertical 0;
+    .make-gap(padding, vertical);
 
     .message {
         flex: 1;
@@ -25,7 +26,7 @@
     }
 
     .control {
-        padding: 0 @gap-horizontal;
+        .make-gap(padding, horizontal);
         line-height: @form-field-height;
         font-size: @form-control-font-size;
     }

@@ -7,6 +7,7 @@
 
 // playlist info bar sizes
 @playlist-info-bar-height: 5rem;
+@playlist-info-bar-height-smartphone: 4rem;
 
 
 // `playlist-info-bar` id:
@@ -38,7 +39,7 @@
         white-space: nowrap;
 
         &:not(:first-child) {
-            padding-left: @gap-horizontal;
+            .make-gap(padding, left);
         }
 
         .stat {

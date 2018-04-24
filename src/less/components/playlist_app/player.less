@@ -9,6 +9,7 @@
 @player-controls-height: 7rem;
 @player-progressbar-height: 0.4rem;
 @player-height: 2 * @gap-vertical + @player-controls-height + @player-progressbar-height;
+@player-height-smartphone: 2 * @gap-vertical-smartphone + @player-controls-height + @player-progressbar-height;
 
 
 // `player` id:
@@ -24,9 +25,10 @@
     .display-area {
         display: flex;
         align-items: center;
-        padding: @gap-vertical 0;
+        .make-gap(padding, vertical);
 
         .notifiable {
+            .make-gap(margin, left);
             overflow: hidden;
             width: 100%;
         }
@@ -36,13 +38,13 @@
             flex: 1;
             display: flex;
             justify-content: flex-end;
-            margin-left: @gap-horizontal;
+
             position: relative;
             overflow: hidden;
 
             // `song` subclass: the song itself.
             .song {
-                margin-right: @gap-horizontal;
+                .make-gap(margin, right);
                 flex: 1;
                 height: @player-controls-height;
                 flex-direction: column;
@@ -85,8 +87,7 @@
             }
 
             .extra {
-                @ratio-extra: 0.7;
-                margin-right: @gap-horizontal;
+                .make-gap(margin, right);
                 display: flex;
                 flex-direction: column;
 
@@ -193,7 +194,7 @@
     .controls.other {
         .make-controls(@row-height, 1.33em);
         overflow: hidden;
-        padding-bottom: @gap-vertical;
+        .make-gap(padding, bottom);
         transition: height 150ms,
                     padding-bottom 150ms;
 

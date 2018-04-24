@@ -54,8 +54,8 @@
         padding: 0;
 
         // spacing between controls
-        &:not(:first-child) {
-            margin-left: @gap-horizontal;
+        &:not(:last-child) {
+            .make-gap(margin, right);
         }
 
         // if the control contains a picture, it is vertically centered

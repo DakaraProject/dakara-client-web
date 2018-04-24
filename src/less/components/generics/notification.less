@@ -70,7 +70,7 @@
 
     &.message,
     .message {
-        padding: 0 @gap-horizontal;
+        .make-gap(padding, horizontal);
     }
 }
 
@@ -121,7 +121,7 @@
                 // The `pending` animation class puts blinking dots (usually,
                 // three).
                 &.pending {
-                    margin-right: @gap-horizontal;
+                    .make-gap(margin, right);
                     font-size: 3em;
 
                     .point {
