@@ -16,10 +16,10 @@
     .library-entry-artist-display {
         flex: 1;
         display: flex;
+        align-items: center;
 
         .name {
             flex: 1;
-            line-height: @listing-entry-height;
             .make-gap(padding, horizontal);
         }
 
@@ -30,6 +30,7 @@
             width: @listing-entry-height;
             color: @neutral-mid;
             text-align: center;
+            flex-shrink: 0;
 
             .icon {
                 padding-right: 0.5em;

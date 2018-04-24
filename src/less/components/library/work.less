@@ -20,7 +20,6 @@
 
         .header {
             flex: 1;
-            line-height: @listing-entry-height;
             .make-gap(padding, horizontal);
 
             .subtitle {
@@ -36,6 +35,7 @@
             width: @listing-entry-height;
             color: @neutral-mid;
             text-align: center;
+            flex-shrink: 0;
 
             .icon {
                 padding-right: 0.5em;
