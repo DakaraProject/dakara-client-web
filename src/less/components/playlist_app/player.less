@@ -156,10 +156,85 @@
     .progressbar {
         width: 100%;
         height: @player-progressbar-height;
+        display: block;
 
-        .progress {
-            height: 100%;
-            background: @brand-primary-dark;
+        // reset default style
+        appearance: none;
+        border: none;
+
+        &[value] {
+            .make-bar() {
+                background: transparent;
+            }
+
+            .make-value() {
+                background: @brand-primary-dark;
+            }
+
+            // for webkit
+            &::-webkit-progress-bar {
+                .make-bar();
+            }
+
+            &::-webkit-progress-value {
+                .make-value();
+            }
+
+            // for firefox
+            &::-moz-progress-bar {
+                .make-value();
+            }
+
+            // for firefox and ie
+            .make-bar();
+
+            // for ie
+            color: @brand-primary-dark;
+
+            // fallback styling
+            .bar {
+                .make-bar();
+
+                .value {
+                    height: 100%;
+                    .make-value();
+                }
+            }
+        }
+
+        &:not([value]),
+        &:indeterminate {
+            @keyframes sliding-animation {
+                to {
+                    background-position-x: sqrt(2) * 4rem;
+                }
+            }
+
+            .make-bar() {
+                background: repeating-linear-gradient(
+                -45deg,
+                @brand-primary-dark,
+                @brand-primary-dark 2rem,
+                @brand-primary-darker 2rem,
+                @brand-primary-darker 4rem
+                );
+
+                animation: sliding-animation 1s linear infinite;
+            }
+
+            // for webkit
+            &::-webkit-progress-bar {
+                // it does not seem to work for now
+                .make-bar();
+            }
+
+            // firefox considers that the bar is at 100%
+            &::-moz-progress-bar {
+                background: transparent;
+            }
+
+            // for firefox and ie
+            .make-bar();
         }
     }
 

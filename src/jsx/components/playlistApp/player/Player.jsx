@@ -46,7 +46,12 @@ class Player extends Component {
         let playlistEntry
         if (isPlaying) {
             const duration = player_status.playlist_entry.song.duration
-            progress = Math.min(player_status.timing * 100 / duration, 100)
+
+            // the progress is displayed only when the song has really started
+            if (player_status.timing > 0) {
+                progress = Math.min(player_status.timing * 100 / duration, 100)
+            }
+
             playlistEntry = (
                 <div className="playlist-entry">
                     <Song
@@ -87,12 +92,6 @@ class Player extends Component {
                 </div>
             )
         }
-
-        /**
-         * Progress bar
-         */
-
-        let progressStyle = {width: `${progress}%`}
 
         return (
             <div id="player">
@@ -146,9 +145,15 @@ class Player extends Component {
                         />
                     </div>
                 </Reduceable>
-                <div className="progressbar">
-                    <div className="progress" style={progressStyle}></div>
-                </div>
+                <progress
+                    className="progressbar"
+                    max="100"
+                    value={progress}
+                >
+                    <div className="bar">
+                        <div className="value" style={{width: `${progress}%`}}></div>
+                    </div>
+                </progress>
             </div>
         )
     }
