@@ -135,14 +135,19 @@ class Player extends Component {
                 </div>
                 <Reduceable>
                     <div className="controls other">
-                        <ManageButton
-                            statusManage={statusSendPlayerCommandsSafe.skip}
-                            onClick={() =>
-                                    this.props.sendPlayerCommand('skip', true)
-                            }
-                            disabled={controlDisabled}
-                            icon="step-forward"
-                        />
+                        <IsPlaylistManagerOrOwner
+                            object={player_status.playlist_entry}
+                            disable
+                        >
+                            <ManageButton
+                                statusManage={statusSendPlayerCommandsSafe.skip}
+                                onClick={() =>
+                                        this.props.sendPlayerCommand('skip', true)
+                                }
+                                disabled={controlDisabled}
+                                icon="step-forward"
+                            />
+                        </IsPlaylistManagerOrOwner>
                     </div>
                 </Reduceable>
                 <progress
