@@ -28,7 +28,7 @@ export default class WorkLink extends Component {
         // Subtitle if any
         let subtitle
         if (workLink.work.subtitle) {
-            subtitle = (<span className="work-link-item subtitle">
+            subtitle = (<span className="subtitle">
                 {workLink.work.subtitle}
                 </span>)
         }
@@ -81,7 +81,7 @@ export default class WorkLink extends Component {
                     <span className="title-group work-link-item">
                         <HighlighterQuery
                             query={query}
-                            className="work-link-item title"
+                            className="title"
                             searchWords={(q) => {
                                 let searchWords = q.work.contains.concat(q.remaining)
                                 const workTypeQuery = q.work_type[workLink.work.work_type.query_name]
