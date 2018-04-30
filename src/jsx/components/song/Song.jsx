@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import { formatDuration } from 'utils'
 import HighlighterQuery from 'components/generics/HighlighterQuery'
 import WorkLink from './WorkLink'
@@ -102,7 +103,13 @@ export default class Song extends Component {
         }
 
         return (
-                <div className="song" onClick={this.props.handleClick}>
+            <div
+                className={classNames(
+                    "song",
+                    {disabled: song.tags.some((tag) => (tag.disabled))}
+                )}
+                onClick={this.props.handleClick}
+            >
                     <div className="general">
                         <div className="header">
                             <HighlighterQuery

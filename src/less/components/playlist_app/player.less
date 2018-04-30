@@ -58,9 +58,17 @@
                 align-items: initial;
                 overflow: hidden;
 
+                // remove special colors of disabled songs
+                &.disabled {
+                    color: inherit;
+                    background-color: unset;
+                }
+
                 .general {
                     flex-direction: column;
+                    align-items: initial;
                 }
+
                 .header {
                     flex-grow: initial;
                     font-size: 1.45em;

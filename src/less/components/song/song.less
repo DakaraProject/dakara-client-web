@@ -7,7 +7,6 @@
 
 @import "work_link";
 @import "play_queue_info";
-@import "disabled_feedback";
 
 
 // `song` class:
@@ -99,20 +98,65 @@
             font-size: inherit;
         }
     }
+
+    // `disabled` optionnal class: when the song has been disabled.
+    // The class colors the song in blue and adds a slashed-eye icon.
+    &.disabled {
+        @background: hsl(hue(@brand-info), 10%, lightness(@neutral-mid));
+        @foreground: desaturate(@brand-info-darkish, 25%);
+        background-color: @background;
+        color: @foreground;
+
+        .general {
+            .title {
+                &::before {
+                    font-family: fontawesome;
+                    content: "\f070"; // slashed-eye icon
+                    font-size: 1.1em;
+                    margin-right: 0.4em;
+                }
+            }
+        }
+
+        .duration {
+            background-color: @foreground;
+            color: @background;
+        }
+    }
 }
 
 // alteration of colors when used in a listing
 .listing-entry {
     &:nth-child(2n) {
-        .duration {
-            background: @neutral-clear-light;
+        .song {
+            .duration {
+                background: @neutral-clear-light;
+            }
+
+            &.disabled {
+                background-color: hsl(hue(@brand-info), 10%, lightness(@neutral-mid-light));
+
+                .duration {
+                    background-color: lighten(desaturate(@brand-info-darkish, 25%), 2.5%);
+                }
+            }
         }
     }
 
     .hoverizable:hover,
     &.hoverizable:hover {
-        .duration {
-            background: @neutral-clear-lighter;
+        .song {
+            .duration {
+                background: @neutral-clear-lighter;
+            }
+
+            &.disabled {
+                background-color: hsl(hue(@brand-info), 10%, lightness(@neutral-mid-lighter));
+
+                .duration {
+                    background-color: lighten(desaturate(@brand-info-darkish, 25%), 7%);
+                }
+            }
         }
     }
 }
