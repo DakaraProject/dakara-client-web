@@ -14,11 +14,8 @@ Installation guidelines are provided over here:
 
 * [NodeJS](https://nodejs.org/), to transpile the sources.
 
-You need also some NodeJS modules installed at system level:
-
-```shell
-sudo npm install -g webpack
-```
+On Linux, the NodeJS provided by your system may be out to date.
+It is advised to install the latest version with [nvm](http://nvm.sh/).
 
 #### Node dependencies
 
@@ -28,12 +25,21 @@ Install dependencies, at root level of the repo:
 npm install
 ```
 
-### Running the stuff
+### Building the stuff
 
 To build JS bundle and transpile LESS into CSS:
 
 ```shell
-webpack
+npx webpack
 ```
 
-The `-w` option doesn't close webpack at the end, it waits for changes in Less or js files.
+With the `-w` option, webpack does not close and waits for changes in LESS or JS files.
+
+If you are using npm < 5.2.0, npx may be unavailable.
+You can mimic its basic behavior with a shell function (Bash):
+
+```bash
+function npx {
+    (PATH=$(npm bin):$PATH; eval $@;)
+}
+```

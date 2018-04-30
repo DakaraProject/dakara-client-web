@@ -17,7 +17,7 @@ export const playlistPlayedEntryPropType = PropTypes.shape({
 })
 
 export const playerStatusPropType = PropTypes.shape({
-    playlist_entry: playlistEntryPropType,
+    playlist_entry: playlistPlayedEntryPropType,
     timing: PropTypes.number.isRequired,
 })
 
