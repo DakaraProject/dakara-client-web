@@ -48,7 +48,8 @@ class Player extends Component {
             const duration = player_status.playlist_entry.song.duration
 
             // the progress is displayed only when the song has really started
-            if (player_status.timing > 0) {
+            // and only if the song has a known duration
+            if (player_status.timing > 0 && duration > 0) {
                 progress = Math.min(player_status.timing * 100 / duration, 100)
             }
 
