@@ -37,17 +37,26 @@
                     flex-direction: column;
                     align-items: initial;
 
-                    .work-link {
-                        .work-link.make-reverse();
+                    // if the song si expanded
+                    .header:only-child {
+                        overflow: initial;
+                        white-space: initial;
+                        text-overflow: initial;
                     }
 
-                    .artists {
-                        text-align: left;
-                    }
+                    .artist-work {
+                        .work-link {
+                            .work-link.make-reverse();
+                        }
 
-                    // for small devices, hide the artist if there is one work
-                    .work-link + .artists {
-                        display: none;
+                        .artists {
+                            text-align: left;
+                        }
+
+                        // for small devices, hide the artist if there is one work
+                        .work-link + .artists {
+                            display: none;
+                        }
                     }
                 }
             });
