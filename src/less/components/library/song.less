@@ -112,37 +112,64 @@
                 }
             }
 
-            .text, .song-tag-list {
+            .text, .song-tag-list, .paragraph {
                 background: darken(@neutral-mid, 2%);
             }
 
+            .text, .paragraph, .artist, .work-link {
+                // add a special vertical padding that is tiny enough to not
+                // mess with the horizontal centering, and large enough to keep
+                // the content away from borders when it spreads on several
+                // lines
+                padding: (1.5 * @gap-horizontal / 3) @gap-horizontal;
+
+                .make-smartphone({
+                    padding: (2 * @gap-horizontal-smartphone / 3) @gap-horizontal-smartphone;
+                });
+            }
+
             .text {
-                line-height: @height;
-                .make-gap(padding, horizontal);
+                min-height: @height;
+                display: flex;
+                align-items: center;
             }
 
             .song-tag-list {
                 line-height: @height;
-
-                .make-smartphone({
-                    overflow-y: auto;
-                });
 
                 .tag {
                     height: @height;
                 }
             }
 
-            .work-link {
-                .link {
-                    display: inline;
+            &.works {
+                .sublisting-entry {
+                    .work-link {
+                        flex: 1;
+                        display: block;
+                        white-space: unset;
+
+                        .title-group {
+                            white-space: unset;
+                        }
+
+                        .link {
+                            font-size: 0.81em;
+                        }
+                    }
                 }
             }
 
-            &.lyrics .text {
-                line-height: 1.5em;
-                padding-top: 2 * @gap-horizontal / 3;
-                padding-bottom: 2 * @gap-horizontal / 3;
+            &.artists {
+                .artist {
+                    flex: 1;
+                }
+            }
+
+            &.lyrics .paragraph {
+                .line:not(:last-child) {
+                    margin-bottom: 0.25em;
+                }
 
                 &.truncated {
                     .line:last-child::after {
@@ -150,24 +177,6 @@
                         font-size: 1.5em;
                         line-height: 0;
                     }
-                }
-            }
-        }
-
-        .artists {
-            .artist {
-                flex: 1;
-                .make-gap(padding, horizontal);
-            }
-        }
-
-        .works {
-            .work-link {
-                flex: 1;
-                .make-gap(padding, horizontal);
-
-                .link {
-                    font-size: 0.81em;
                 }
             }
         }

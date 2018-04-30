@@ -26,8 +26,9 @@
 
     .sublisting-entry {
         @height: @sublisting-entry-height;
-        line-height: @height;
+        min-height: @height;
         display: flex;
+        align-items: center;
         background: darken(@neutral-mid, 2%);
 
         &:nth-child(even) {
@@ -44,6 +45,7 @@
 
         .controls {
             .make-controls(@height, @sublisting-entry-control-font-size);
+            align-self: flex-start;
         }
     }
 }

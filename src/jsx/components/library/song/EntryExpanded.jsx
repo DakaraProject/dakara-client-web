@@ -164,7 +164,7 @@ class SongEntryExpanded extends Component {
                     </h4>
                     <div
                         className={classNames(
-                            "text",
+                            "paragraph",
                             {truncated: song.lyrics.truncated}
                         )}
                     >
