@@ -10,6 +10,7 @@ import SettingsTabList from '../TabList'
 import { songTagsStatePropType } from 'reducers/songTags'
 import { alterationStatusPropType } from 'reducers/alterationsStatus'
 import { formPropType } from 'reducers/forms'
+import { alterationPropType } from 'reducers/alterations'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 
 class SettingsSongTagsList extends Component {
@@ -17,7 +18,7 @@ class SettingsSongTagsList extends Component {
         location: PropTypes.object.isRequired,
         songTagsState: songTagsStatePropType.isRequired,
         statusEdit: alterationStatusPropType,
-        formsResponse: PropTypes.objectOf(formPropType),
+        formsResponse: PropTypes.objectOf(alterationPropType),
         editSongTag: PropTypes.func.isRequired,
         getSongTagList: PropTypes.func.isRequired,
         clearTagListEntryNotification: PropTypes.func.isRequired,
@@ -51,14 +52,12 @@ class SettingsSongTagsList extends Component {
                 statusEdit = statusEdits[tag.id]
             }
 
-            const formResponse = formsResponse[`tagColorEdit${tag.id}`]
-
             return (
                 <SettingsSongTagsEntry
                     key={tag.id}
                     tag={tag}
                     statusEdit={statusEdit}
-                    formResponse={formResponse}
+                    formResponse={formsResponse[tag.id]}
                     editSongTag={editSongTag}
                     clearTagListEntryNotification={this.props.clearTagListEntryNotification}
                 />
@@ -101,7 +100,7 @@ class SettingsSongTagsList extends Component {
 const mapStateToProps = (state) => ({
     songTagsState: state.settings.songTags,
     statusEdits: state.alterationsStatus.editSongTag,
-    formsResponse: state.forms
+    formsResponse: state.alterations.multiple.tagColorEdit || {},
 })
 
 SettingsSongTagsList = withRouter(connect(

@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
-import { setFormValidationErrors, submitForm, clearForm } from 'actions/forms'
+import { setAlterationValidationErrors, submitAlteration, clearAlteration } from 'actions/alterations'
 import { Status } from 'reducers/alterationsStatus'
 import Notification from 'components/generics/Notification'
-import { formPropType } from 'reducers/forms'
+import { alterationPropType } from 'reducers/alterations'
 
 class Form extends Component {
     static propTypes = {
@@ -16,13 +16,17 @@ class Form extends Component {
             PropTypes.string,
             PropTypes.element,
         ]).isRequired,
-        formResponse: formPropType,
+        formResponse: alterationPropType,
         noClearOnSuccess: PropTypes.bool,
         onSuccess: PropTypes.func,
-        setFormValidationErrors: PropTypes.func.isRequired,
-        submitForm: PropTypes.func.isRequired,
-        clearForm: PropTypes.func.isRequired,
-        formName: PropTypes.string.isRequired,
+        setAlterationValidationErrors: PropTypes.func.isRequired,
+        submitAlteration: PropTypes.func.isRequired,
+        clearAlteration: PropTypes.func.isRequired,
+        alterationName: PropTypes.string.isRequired,
+        elementId: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]),
         validate: PropTypes.func,
         action: PropTypes.string.isRequired,
         title: PropTypes.string,
@@ -68,7 +72,8 @@ class Form extends Component {
 
     componentWillUnmount() {
         // Clear form messages
-        this.props.clearForm(this.props.formName)
+        const { alterationName, elementId } = this.props
+        this.props.clearAlteration(alterationName, elementId)
     }
 
 
@@ -101,7 +106,8 @@ class Form extends Component {
      * @return boolean indicating validation success
      */
     validate = () => {
-        const { setFormValidationErrors, formName, children, validate } = this.props
+        const { setAlterationValidationErrors, alterationName, elementId,
+            children, validate } = this.props
         const { formValues } = this.state
 
         // Global validation
@@ -142,7 +148,7 @@ class Form extends Component {
         if (Object.keys(fieldsErrors).length !== 0 || globalErrors) {
             // Validation errors
             // Dispatch action to set errors
-            setFormValidationErrors(formName, globalErrors, fieldsErrors)
+            setAlterationValidationErrors(alterationName, elementId, globalErrors, fieldsErrors)
             return false
         }
 
@@ -154,10 +160,11 @@ class Form extends Component {
      */
     submit = () => {
         const {
-            formName,
+            alterationName,
+            elementId,
             action,
             method,
-            submitForm,
+            submitAlteration,
             children
         } = this.props
 
@@ -178,7 +185,7 @@ class Form extends Component {
             json[id] = value
         })
 
-        submitForm(formName, action, method, json)
+        submitAlteration(alterationName, elementId, action, method, json)
     }
 
     /**
@@ -236,9 +243,23 @@ class Form extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-    formResponse: state.forms[ownProps.formName]
-})
+const mapStateToProps = (state, ownProps) => {
+    const { alterationName, elementId } = ownProps
+
+    // form attached to an alteration of type multiper
+    if (typeof elementId !== 'undefined') {
+        return {
+            formResponse: state.alterations.multiple[alterationName] ?
+                state.alterations.multiple[alterationName][elementId] :
+                undefined
+        }
+    }
+
+    // form attached to an alteration of type unique
+    return {
+        formResponse: state.alterations.unique[alterationName]
+    }
+}
 
 /**
  * FormBlock component
@@ -246,7 +267,7 @@ const mapStateToProps = (state, ownProps) => ({
  *
  * Required properties:
  * - title <str>: Name to display in the form header.
- * - formName <str>: Unique form identifier.
+ * - alterationName <str>: Unique form identifier.
  * - action <str>: url to submit form to, relative to base url
  *
  * Optional properties:
@@ -270,7 +291,7 @@ const mapStateToProps = (state, ownProps) => ({
  */
 class FormBlock extends Form {
     render() {
-        const { title, formName, formResponse, successMessage } = this.props
+        const { title, alterationName, formResponse, successMessage } = this.props
 
         // get fields
         const fieldsSet = this.renderFieldsSet()
@@ -317,9 +338,9 @@ class FormBlock extends Form {
 FormBlock = connect(
     mapStateToProps,
     {
-        setFormValidationErrors,
-        submitForm,
-        clearForm
+        setAlterationValidationErrors,
+        submitAlteration,
+        clearAlteration
     }
 )(FormBlock)
 
@@ -331,7 +352,7 @@ export { FormBlock }
  *
  * Required properties:
  * - title <str>: Name to display in the form header.
- * - formName <str>: Unique form identifier.
+ * - alterationName <str>: Unique form identifier.
  * - action <str>: url to submit form to, relative to base url
  *
  * Optional properties:
@@ -355,7 +376,7 @@ export { FormBlock }
  */
 class FormInline extends Form {
     render() {
-        const { formName } = this.props
+        const { alterationName } = this.props
 
         // get fields
         const fieldsSet = this.renderFieldsSet(true)
@@ -384,9 +405,9 @@ class FormInline extends Form {
 FormInline = connect(
     mapStateToProps,
     {
-        setFormValidationErrors,
-        submitForm,
-        clearForm
+        setAlterationValidationErrors,
+        submitAlteration,
+        clearAlteration
     }
 )(FormInline)
 

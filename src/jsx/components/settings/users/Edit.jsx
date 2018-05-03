@@ -70,7 +70,7 @@ class SettingsUsersEdit extends Component {
                         action={`users/${user.id}/`}
                         method="PATCH"
                         submitText="Edit"
-                        formName="updateUser"
+                        alterationName="updateUser"
                         successMessage="User sucessfully updated!"
                         noClearOnSuccess
                     >

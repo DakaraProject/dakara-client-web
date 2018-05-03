@@ -7,14 +7,14 @@ import Notification from 'components/generics/Notification'
 import { Status } from 'reducers/alterationsStatus'
 import { songTagPropType } from 'serverPropTypes/library'
 import { alterationStatusPropType } from 'reducers/alterationsStatus'
-import { formPropType } from 'reducers/forms'
+import { alterationPropType } from 'reducers/alterations'
 
 export default class SettingsSongTagsEntry extends Component {
     static propTypes = {
         tag: songTagPropType.isRequired,
         statusEdit: alterationStatusPropType,
         editSongTag: PropTypes.func.isRequired,
-        formResponse: formPropType, // should be isRequired
+        formResponse: alterationPropType,
     }
 
     state = {
@@ -53,7 +53,8 @@ export default class SettingsSongTagsEntry extends Component {
                     method="PATCH"
                     submitText={submitText}
                     submitClass="success"
-                    formName={`tagColorEdit${tag.id}`}
+                    alterationName="tagColorEdit"
+                    elementId={tag.id}
                     noClearOnSuccess
                     onSuccess={this.clearColorForm}
                 >

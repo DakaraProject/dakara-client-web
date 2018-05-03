@@ -5,6 +5,7 @@ import playlist from './playlist'
 import authenticatedUser from './authenticatedUser'
 import forms from './forms'
 import alterationsStatus from './alterationsStatus'
+import alterations from './alterations'
 import settings from './settings'
 
 /**
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
     authenticatedUser,
     forms,
     alterationsStatus,
+    alterations,
 })
 
 export default rootReducer

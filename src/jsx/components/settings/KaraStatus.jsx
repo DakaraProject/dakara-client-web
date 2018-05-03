@@ -41,7 +41,7 @@ class SettingsKaraStatus extends Component {
                     action="playlist/kara-status/"
                     method="PUT"
                     submitText="Set"
-                    formName="editKaraStatus"
+                    alterationName="editKaraStatus"
                     successMessage="Kara status sucessfully updated!"
                     noClearOnSuccess
                 >

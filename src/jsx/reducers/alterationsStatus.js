@@ -9,7 +9,7 @@ export const Status = Object.freeze({
 })
 
 /**
- * Alterations status contains is an object of alteration status items
+ * Alterations status contains an object of alteration status items
  */
 
 export default function alterationsStatus(state = {}, action) {

@@ -96,7 +96,7 @@ class SettingsUsersList extends Component {
                     <FormBlock
                         title="Create user"
                         submitText="Create"
-                        formName="createUser"
+                        alterationName="createUser"
                         action="users/"
                         successMessage="User sucessfully created!"
                         onSuccess={this.refreshEntries}
