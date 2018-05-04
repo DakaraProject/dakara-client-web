@@ -16,7 +16,7 @@ class SettingsUsersList extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
         listUsersState: listUsersStatePropType.isRequired,
-        responseDeleteUserList: PropTypes.object,
+        responseMultipleOfDeleteUser: PropTypes.object,
         deleteUser: PropTypes.func.isRequired,
         clearUsersEntryNotification: PropTypes.func.isRequired,
         getUsers: PropTypes.func.isRequired,
@@ -41,25 +41,19 @@ class SettingsUsersList extends Component {
     }
 
     render() {
-        const { responseDeleteUserList, location } = this.props
+        const { deleteUser, clearUsersEntryNotification, location,
+            responseMultipleOfDeleteUser } = this.props
         const { users, pagination } = this.props.listUsersState.data
 
-        const userList = users.map((user) => {
-            let responseDelete
-            if (responseDeleteUserList) {
-                responseDelete = responseDeleteUserList[user.id]
-            }
-
-            return (
-                <SettingsUserEntry
-                    key={user.id}
-                    user={user}
-                    responseDelete={responseDelete}
-                    deleteUser={this.props.deleteUser}
-                    clearUsersEntryNotification={this.props.clearUsersEntryNotification}
-                />
-            )
-        })
+        const userList = users.map((user) => (
+            <SettingsUserEntry
+                key={user.id}
+                user={user}
+                responseOfDelete={responseMultipleOfDeleteUser[user.id]}
+                deleteUser={deleteUser}
+                clearUsersEntryNotification={clearUsersEntryNotification}
+            />
+        ))
 
         return (
             <div className="box" id="users-list">
@@ -133,7 +127,7 @@ class SettingsUsersList extends Component {
 
 const mapStateToProps = (state) => ({
     listUsersState: state.settings.users.list,
-    responseDeleteUserList: state.alterationsResponse.multiple.deleteUser
+    responseMultipleOfDeleteUser: state.alterationsResponse.multiple.deleteUser || {}
 })
 
 SettingsUsersList = withRouter(connect(

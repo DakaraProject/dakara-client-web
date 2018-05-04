@@ -4,6 +4,41 @@ import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE,
     ALTERATION_RESPONSE_CLEAR, ALTERATION_VALIDATION_ERROR } from 'actions/alterations'
 
 /**
+ * Alterations response state
+ *
+ * The `alterationsResponse` state stores the response of the alterations. The
+ * response consists in a status which defines the outcome of the alteration. If
+ * the alteration has failed, the response contains one global error message and
+ * several fields error messages which should explain the cause of the failure.
+ *
+ * The `alterationsResponse` is identified by its `alterationId`. If the
+ * alteration is unique, i.e. unique of its kind and cannot be applied identically
+ * to another element (like login or logout), the response is stored in
+ * `state.alterationsResponse.unique[alterationId]`. The key `alterationId` alone
+ * is enough to recover it.
+ *
+ * If the alteration is multiple, i.e. can be applied identically to another
+ * element (e.g. alterations of the elements of a listing, like adding a song to
+ * the playlist), the response is stored in
+ * `state.alterationsResponse.multiple[alterationId][elementId]`. The key
+ * `alterationId` and the subkey `elementId` are both necessary to recover it. The
+ * storage point `state.alterationsResponse.multiple[alterationId]` represents
+ * multiple responses.
+ *
+ * Note that the presence or the `elementId` key within an action is the only way
+ * for the reducer to distinguish a unique response from multiple ones.
+ *
+ * An unique response should be connected to the props of a component with the
+ * prefix `responseOf` and the name of the alteration, which should start with a
+ * verb (e.g. `responseOfLogout`).
+ *
+ * Multiple responses should be connected to the props with the prefix
+ * `responseMultipleOf` and the name of the alteration (e.g.
+ * `responseMultipleOfRemoveEntry`). A response among the multiple responses should
+ * be connected like an unique response.
+ */
+
+/**
  * status of an alteration response
  */
 
@@ -15,7 +50,7 @@ export const Status = Object.freeze({
 
 /**
  * alteration response content
- *   status: status of the alteration request
+ *   status: status of the outcome of the alteration request
  *   message: global message relative to the current alteration request
  *   fields: error messages associated to fields
  */

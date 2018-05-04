@@ -14,7 +14,7 @@ import { playlistEntryPropType } from 'serverPropTypes/playlist'
 class PlaylistEntry extends Component {
     static propTypes = {
         entry: playlistEntryPropType.isRequired,
-        responseRemoveEntry: PropTypes.object,
+        responseOfRemoveEntry: PropTypes.object,
         removeEntry: PropTypes.func.isRequired,
         clearPlaylistEntryNotification: PropTypes.func.isRequired,
     }
@@ -64,7 +64,7 @@ class PlaylistEntry extends Component {
                 'library-entry',
                 'library-entry-song',
                 'hoverizable',
-                {delayed: this.props.responseRemoveEntry}
+                {delayed: this.props.responseOfRemoveEntry}
             )}>
                 <div className="library-entry-song-compact notifiable">
                     <DisabledFeedback tags={entry.song.tags}/>
@@ -99,7 +99,7 @@ class PlaylistEntry extends Component {
                         />
                     </CSSTransitionLazy>
                     <Notification
-                        alterationResponse={this.props.responseRemoveEntry}
+                        alterationResponse={this.props.responseOfRemoveEntry}
                         pendingMessage="Removing…"
                         successfulMessage="Successfuly removed!"
                         successfulDuration={null}
