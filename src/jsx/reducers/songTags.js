@@ -3,7 +3,7 @@ import { ALTERATION_SUCCESS } from 'actions/alterations'
 import { TAG_LIST_REQUEST, TAG_LIST_SUCCESS, TAG_LIST_FAILURE } from 'actions/songTags'
 import { ALTERATION_FAILURE, ALTERATION_REQUEST } from 'actions/alterations'
 import { songTagPropType } from 'serverPropTypes/library'
-import { Status } from './alterations'
+import { Status } from './alterationsResponse'
 import { updateData } from 'utils'
 
 /**

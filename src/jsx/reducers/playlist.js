@@ -5,7 +5,7 @@ import { PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE } from 'actions/pl
 import { PLAYLIST_PLAYED_REQUEST, PLAYLIST_PLAYED_SUCCESS, PLAYLIST_PLAYED_FAILURE } from 'actions/playlist'
 import { PLAYLIST_PLAYED_ADD } from 'actions/playlist'
 import { ALTERATION_SUCCESS } from 'actions/alterations'
-import { Status } from './alterations'
+import { Status } from './alterationsResponse'
 import { playerStatusPropType, playerManagePropType, playerErrorPropType, karaStatusPropType } from 'serverPropTypes/playlist'
 import { playlistEntryPropType, playlistPlayedEntryPropType } from 'serverPropTypes/playlist'
 import { updateData } from 'utils'

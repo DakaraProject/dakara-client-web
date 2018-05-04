@@ -17,7 +17,7 @@ import DisabledFeedback from 'components/song/DisabledFeedback'
 import { songPropType } from 'serverPropTypes/library'
 import { playerStatusPropType } from 'serverPropTypes/playlist'
 import { playlistPlayedEntryPropType, playlistEntryPropType } from 'serverPropTypes/playlist'
-import { alterationPropType } from 'reducers/alterations'
+import { alterationResponsePropType } from 'reducers/alterationsResponse'
 
 class SongEntry extends Component {
     static propTypes = {
@@ -31,7 +31,7 @@ class SongEntry extends Component {
             playlistEntryPropType
         ).isRequired,
         playerStatus: playerStatusPropType,
-        statusAddSong: alterationPropType,
+        statusAddSong: alterationResponsePropType,
         addSongToPlaylist: PropTypes.func.isRequired,
         clearSongListNotification: PropTypes.func.isRequired,
     }
@@ -201,8 +201,8 @@ class SongEntry extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
     query: state.library.song.data.query,
-    statusAddSong: state.alterations.multiple.addSongToPlaylist ?
-        state.alterations.multiple.addSongToPlaylist[ownProps.song.id] : undefined,
+    statusAddSong: state.alterationsResponse.multiple.addSongToPlaylist ?
+        state.alterationsResponse.multiple.addSongToPlaylist[ownProps.song.id] : undefined,
     playlistPlayedEntries: state.playlist.playedEntries.data.playlistPlayedEntries,
     playlistEntries: state.playlist.entries.data.playlistEntries,
     playerStatus: state.playlist.digest.data.player_status,

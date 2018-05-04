@@ -4,15 +4,15 @@ import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import classNames from 'classnames'
 import { FormInline, CheckboxField, HueField } from 'components/generics/Form'
 import Notification from 'components/generics/Notification'
-import { Status, alterationPropType } from 'reducers/alterations'
+import { Status, alterationResponsePropType } from 'reducers/alterationsResponse'
 import { songTagPropType } from 'serverPropTypes/library'
 
 export default class SettingsSongTagsEntry extends Component {
     static propTypes = {
         tag: songTagPropType.isRequired,
-        statusEdit: alterationPropType,
+        statusEdit: alterationResponsePropType,
         editSongTag: PropTypes.func.isRequired,
-        formResponse: alterationPropType,
+        formResponse: alterationResponsePropType,
     }
 
     state = {

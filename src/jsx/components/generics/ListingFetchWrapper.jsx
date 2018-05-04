@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { CSSTransitionLazy } from './ReactTransitionGroup'
 import Delayer from './Delayer'
-import { Status } from 'reducers/alterations'
+import { Status } from 'reducers/alterationsResponse'
 
 export default class ListingFetchWrapper extends Component {
     static propTypes = {

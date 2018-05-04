@@ -10,13 +10,13 @@ import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions
 import PlaylistEntry from './Entry'
 import { playlistEntriesStatePropType } from 'reducers/playlist'
 import { playlistDigestPropType } from 'reducers/playlist'
-import { alterationPropType, Status } from 'reducers/alterations'
+import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
 
 class Playlist extends Component {
     static propTypes = {
         playlistEntriesState: playlistEntriesStatePropType.isRequired,
         playlistDigest: playlistDigestPropType.isRequired,
-        statusRemoveEntry: alterationPropType,
+        statusRemoveEntry: alterationResponsePropType,
         loadPlaylist: PropTypes.func.isRequired,
         loadPlaylistPlayed: PropTypes.func.isRequired,
         removeEntryFromPlaylist: PropTypes.func.isRequired,
@@ -167,7 +167,7 @@ class Playlist extends Component {
 const mapStateToProps = (state) => ({
     playlistDigest: state.playlist.digest,
     playlistEntriesState: state.playlist.entries,
-    statusRemoveEntry: state.alterations.multiple.removeEntryFromPlaylist,
+    statusRemoveEntry: state.alterationsResponse.multiple.removeEntryFromPlaylist,
 })
 
 Playlist = withRouter(connect(

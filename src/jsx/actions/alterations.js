@@ -10,7 +10,7 @@ const { baseUrl } = params
 export const ALTERATION_REQUEST = 'ALTERATION_REQUEST'
 export const ALTERATION_SUCCESS = 'ALTERATION_SUCCESS'
 export const ALTERATION_FAILURE = 'ALTERATION_FAILURE'
-export const ALTERATION_CLEAR = 'ALTERATION_CLEAR'
+export const ALTERATION_RESPONSE_CLEAR = 'ALTERATION_RESPONSE_CLEAR'
 export const ALTERATION_VALIDATION_ERROR = 'ALTERATION_VALIDATION_ERROR'
 
 /**
@@ -39,7 +39,7 @@ export const submitAlteration = (alterationName, elementId,
  * @param alterationName name of the alteration
  */
 export const clearAlteration = (alterationName, elementId) => ({
-    type: ALTERATION_CLEAR,
+    type: ALTERATION_RESPONSE_CLEAR,
     alterationName,
     elementId,
 })

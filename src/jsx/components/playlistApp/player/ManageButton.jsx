@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
-import { Status, alterationPropType } from 'reducers/alterations'
+import { Status, alterationResponsePropType } from 'reducers/alterationsResponse'
 
 /**
  * ManageButton class for a button connected to a player manage command
@@ -27,7 +27,7 @@ import { Status, alterationPropType } from 'reducers/alterations'
  */
 export default class ManageButton extends Component {
     static propTypes = {
-        statusManage: alterationPropType.isRequired,
+        statusManage: alterationResponsePropType.isRequired,
         disabled: PropTypes.bool,
         className: PropTypes.string,
         timeout: PropTypes.number,

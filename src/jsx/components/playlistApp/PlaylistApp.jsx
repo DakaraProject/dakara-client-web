@@ -8,7 +8,7 @@ import { IsPlaylistManager } from 'components/permissions/Playlist'
 import { loadPlaylistAppDigest } from 'actions/playlist'
 import { playlistDigestPropType } from 'reducers/playlist'
 import { params } from 'utils'
-import { Status } from 'reducers/alterations'
+import { Status } from 'reducers/alterationsResponse'
 
 class PlaylistApp extends Component {
     static propTypes = {

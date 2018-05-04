@@ -3,7 +3,7 @@ import library from './library'
 import token from './token'
 import playlist from './playlist'
 import authenticatedUser from './authenticatedUser'
-import alterations from './alterations'
+import alterationsResponse from './alterationsResponse'
 import settings from './settings'
 
 /**
@@ -16,7 +16,7 @@ const rootReducer = combineReducers({
     playlist,
     settings,
     authenticatedUser,
-    alterations,
+    alterationsResponse,
 })
 
 export default rootReducer

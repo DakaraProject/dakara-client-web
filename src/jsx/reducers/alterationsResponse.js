@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import PropTypes from 'prop-types'
 import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE,
-    ALTERATION_CLEAR, ALTERATION_VALIDATION_ERROR } from 'actions/alterations'
+    ALTERATION_RESPONSE_CLEAR, ALTERATION_VALIDATION_ERROR } from 'actions/alterations'
 
 /**
- * status of an alteration
+ * status of an alteration response
  */
 
 export const Status = Object.freeze({
@@ -14,13 +14,13 @@ export const Status = Object.freeze({
 })
 
 /**
- * alteration content
+ * alteration response content
  *   status: status of the alteration request
  *   message: global message relative to the current alteration request
  *   fields: error messages associated to fields
  */
 
-export const alterationPropType = PropTypes.shape({
+export const alterationResponsePropType = PropTypes.shape({
     status: PropTypes.symbol,
     message: PropTypes.string,
     fields: PropTypes.objectOf(
@@ -90,7 +90,7 @@ function alteration(state, action) {
                 fields
             }
 
-        case ALTERATION_CLEAR:
+        case ALTERATION_RESPONSE_CLEAR:
             return undefined
 
         default:
@@ -101,7 +101,7 @@ function alteration(state, action) {
 function unique(state = {}, action) {
     const { alterationName, elementId } = action
 
-    // treat alterations of type unique only
+    // treat alterations response of type unique only
     if (typeof alterationName !== 'undefined' &&
         typeof elementId === 'undefined') {
         return {
@@ -116,7 +116,7 @@ function unique(state = {}, action) {
 function multiple(state = {}, action) {
     const { alterationName, elementId } = action
 
-    // treat alterations of type multiple only
+    // treat alterations response of type multiple only
     if (typeof alterationName !== 'undefined' &&
         typeof elementId !== 'undefined') {
         const elements = state[alterationName] || {}
@@ -132,9 +132,9 @@ function multiple(state = {}, action) {
     return state
 }
 
-const alterations = combineReducers({
+const alterationsResponse = combineReducers({
     unique,
     multiple,
 })
 
-export default alterations
+export default alterationsResponse

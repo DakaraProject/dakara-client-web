@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
 import { setAlterationValidationErrors, submitAlteration, clearAlteration } from 'actions/alterations'
-import { Status } from 'reducers/alterations'
+import { Status } from 'reducers/alterationsResponse'
 import Notification from 'components/generics/Notification'
-import { alterationPropType } from 'reducers/alterations'
+import { alterationResponsePropType } from 'reducers/alterationsResponse'
 
 class Form extends Component {
     static propTypes = {
@@ -16,7 +16,7 @@ class Form extends Component {
             PropTypes.string,
             PropTypes.element,
         ]).isRequired,
-        formResponse: alterationPropType,
+        formResponse: alterationResponsePropType,
         noClearOnSuccess: PropTypes.bool,
         onSuccess: PropTypes.func,
         setAlterationValidationErrors: PropTypes.func.isRequired,
@@ -249,15 +249,15 @@ const mapStateToProps = (state, ownProps) => {
     // form attached to an alteration of type multiper
     if (typeof elementId !== 'undefined') {
         return {
-            formResponse: state.alterations.multiple[alterationName] ?
-                state.alterations.multiple[alterationName][elementId] :
+            formResponse: state.alterationsResponse.multiple[alterationName] ?
+                state.alterationsResponse.multiple[alterationName][elementId] :
                 undefined
         }
     }
 
     // form attached to an alteration of type unique
     return {
-        formResponse: state.alterations.unique[alterationName]
+        formResponse: state.alterationsResponse.unique[alterationName]
     }
 }
 

@@ -133,7 +133,7 @@ class SettingsUsersList extends Component {
 
 const mapStateToProps = (state) => ({
     listUsersState: state.settings.users.list,
-    statusDeleteUserList: state.alterations.multiple.deleteUser
+    statusDeleteUserList: state.alterationsResponse.multiple.deleteUser
 })
 
 SettingsUsersList = withRouter(connect(
