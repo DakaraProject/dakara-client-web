@@ -16,7 +16,7 @@ class Form extends Component {
             PropTypes.string,
             PropTypes.element,
         ]).isRequired,
-        formResponse: alterationResponsePropType,
+        alterationResponse: alterationResponsePropType,
         noClearOnSuccess: PropTypes.bool,
         onSuccess: PropTypes.func,
         setAlterationValidationErrors: PropTypes.func.isRequired,
@@ -78,13 +78,13 @@ class Form extends Component {
 
 
     componentDidUpdate(prevProps) {
-        const { formResponse, noClearOnSuccess, onSuccess } = this.props
-        const prevFormResponse = prevProps.formResponse
+        const { alterationResponse, noClearOnSuccess, onSuccess } = this.props
+        const prevAlterationResponse = prevProps.alterationResponse
 
         // If there is a success notification
-        if (formResponse && formResponse.status == Status.successful) {
+        if (alterationResponse && alterationResponse.status == Status.successful) {
             // and there was no response, or a different notification before
-            if (!prevFormResponse || formResponse.status != prevFormResponse.status) {
+            if (!prevAlterationResponse || alterationResponse.status != prevAlterationResponse.status) {
                 if (!noClearOnSuccess) this.setDefaultFormValues()
                 if (onSuccess) onSuccess()
             }
@@ -194,15 +194,15 @@ class Form extends Component {
      * @returns set of fields with props.
      */
     renderFieldsSet = (inline) => {
-        const { children, formResponse } = this.props
+        const { children, alterationResponse } = this.props
         const { formValues } = this.state
 
         const fields = React.Children.map(children,
             (field) => {
                 const id = field.props.id
                 let fieldErrors
-                if (formResponse) {
-                    fieldErrors = formResponse.fields[id]
+                if (alterationResponse) {
+                    fieldErrors = alterationResponse.fields[id]
                 }
 
                 return React.cloneElement(field,
@@ -249,7 +249,7 @@ const mapStateToProps = (state, ownProps) => {
     // form attached to an alteration of type multiper
     if (typeof elementId !== 'undefined') {
         return {
-            formResponse: state.alterationsResponse.multiple[alterationName] ?
+            alterationResponse: state.alterationsResponse.multiple[alterationName] ?
                 state.alterationsResponse.multiple[alterationName][elementId] :
                 undefined
         }
@@ -257,7 +257,7 @@ const mapStateToProps = (state, ownProps) => {
 
     // form attached to an alteration of type unique
     return {
-        formResponse: state.alterationsResponse.unique[alterationName]
+        alterationResponse: state.alterationsResponse.unique[alterationName]
     }
 }
 
@@ -291,7 +291,7 @@ const mapStateToProps = (state, ownProps) => {
  */
 class FormBlock extends Form {
     render() {
-        const { title, alterationName, formResponse, successMessage } = this.props
+        const { title, alterationName, alterationResponse, successMessage } = this.props
 
         // get fields
         const fieldsSet = this.renderFieldsSet()
@@ -301,7 +301,7 @@ class FormBlock extends Form {
 
         // get failed message if unconsistent case
         let failedMessage
-        if (formResponse && Object.keys(formResponse.fields).length === 0) {
+        if (alterationResponse && Object.keys(alterationResponse.fields).length === 0) {
             failedMessage = "Unknown error!"
         } else {
             failedMessage = null
@@ -321,7 +321,7 @@ class FormBlock extends Form {
                 <div className="header notifiable">
                     <h3>{title}</h3>
                     <Notification
-                        alterationResponse={formResponse}
+                        alterationResponse={alterationResponse}
                         pendingMessage={false}
                         successfulMessage={successMessage}
                         failedMessage={failedMessage}

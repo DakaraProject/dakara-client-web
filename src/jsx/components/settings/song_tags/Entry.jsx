@@ -10,9 +10,10 @@ import { songTagPropType } from 'serverPropTypes/library'
 export default class SettingsSongTagsEntry extends Component {
     static propTypes = {
         tag: songTagPropType.isRequired,
-        statusEdit: alterationResponsePropType,
+        responseEdit: alterationResponsePropType,
+        responseEditColor: alterationResponsePropType,
         editSongTag: PropTypes.func.isRequired,
-        formResponse: alterationResponsePropType,
+        clearTagListEntryNotification: PropTypes.func.isRequired,
     }
 
     state = {
@@ -32,7 +33,7 @@ export default class SettingsSongTagsEntry extends Component {
     }
 
     render() {
-        const { statusEdit, formResponse, tag, editSongTag } = this.props
+        const { responseEdit, responseEditColor, tag, editSongTag } = this.props
 
         /**
          * form to change color
@@ -78,7 +79,7 @@ export default class SettingsSongTagsEntry extends Component {
          * handle disabled state
          */
 
-        const disabled = statusEdit && statusEdit.status == Status.pending
+        const disabled = responseEdit && responseEdit.status == Status.pending
         const setValue = (id, value) => {
             if (!disabled)
                 editSongTag(tag.id, !value)
@@ -122,13 +123,13 @@ export default class SettingsSongTagsEntry extends Component {
                         {colorForm}
                     </CSSTransitionLazy>
                     <Notification
-                        alterationResponse={statusEdit}
+                        alterationResponse={responseEdit}
                         failedMessage="Error attempting to edit tag"
                         pendingMessage={false}
                         successfulMessage={false}
                     />
                     <Notification
-                        alterationResponse={formResponse}
+                        alterationResponse={responseEditColor}
                         successfulMessage={false}
                         pendingMessage={false}
                         failedMessage="Error attempting to edit tag color"

@@ -13,7 +13,7 @@ import { Status, alterationResponsePropType } from 'reducers/alterationsResponse
  * account at the end of the exit transition, to be sure the icon exits
  * gracefully. This is done by using the state of the component.
  *
- * - statusManage: when the status is pending, the button is in transition and
+ * - responseManage: when the status is pending, the button is in transition and
  *      won't take account of the status untill the exit transition ends.
  * - icon: icon to display on the button. If the icon changes, it will be taken
  *      into account immediately if there is no transition or when the exit
@@ -27,7 +27,7 @@ import { Status, alterationResponsePropType } from 'reducers/alterationsResponse
  */
 export default class ManageButton extends Component {
     static propTypes = {
-        statusManage: alterationResponsePropType.isRequired,
+        responseManage: alterationResponsePropType.isRequired,
         disabled: PropTypes.bool,
         className: PropTypes.string,
         timeout: PropTypes.number,
@@ -51,8 +51,8 @@ export default class ManageButton extends Component {
         // do not watch for udptates during the transition
         if (this.state.isLeaving) return
 
-        const status = this.props.statusManage.status
-        const prevStatus = prevProps.statusManage.status
+        const status = this.props.responseManage.status
+        const prevStatus = prevProps.responseManage.status
 
         if (status !== prevStatus) {
             if (status === Status.pending) {
@@ -95,11 +95,11 @@ export default class ManageButton extends Component {
         // current state
         // if the request has not finished, the display is reset in
         // `componentDidUpdate`
-        const { statusManage, icon } = this.props
+        const { responseManage, icon } = this.props
         this.setState({
             isLeaving: false,
-            display: statusManage.status !== Status.pending,
-            error: statusManage.status === Status.failed,
+            display: responseManage.status !== Status.pending,
+            error: responseManage.status === Status.failed,
             icon,
         })
     }

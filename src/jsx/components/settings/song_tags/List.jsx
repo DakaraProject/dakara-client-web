@@ -15,8 +15,8 @@ class SettingsSongTagsList extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
         songTagsState: songTagsStatePropType.isRequired,
-        statusEdit: alterationResponsePropType,
-        formsResponse: PropTypes.objectOf(alterationResponsePropType),
+        responseEdit: alterationResponsePropType,
+        responseMultipleEditColor: PropTypes.objectOf(alterationResponsePropType),
         editSongTag: PropTypes.func.isRequired,
         getSongTagList: PropTypes.func.isRequired,
         clearTagListEntryNotification: PropTypes.func.isRequired,
@@ -41,26 +41,20 @@ class SettingsSongTagsList extends Component {
     }
 
     render() {
-        const { statusEdits, editSongTag, location, formsResponse } = this.props
+        const { editSongTag, clearTagListEntryNotification, location,
+            responseMultipleEdit, responseMultipleEditColor } = this.props
         const { songTags, pagination } = this.props.songTagsState.data
 
-        const tagList = songTags.map((tag) => {
-            let statusEdit
-            if (statusEdits) {
-                statusEdit = statusEdits[tag.id]
-            }
-
-            return (
-                <SettingsSongTagsEntry
-                    key={tag.id}
-                    tag={tag}
-                    statusEdit={statusEdit}
-                    formResponse={formsResponse[tag.id]}
-                    editSongTag={editSongTag}
-                    clearTagListEntryNotification={this.props.clearTagListEntryNotification}
-                />
-            )
-        })
+        const tagList = songTags.map((tag) => (
+            <SettingsSongTagsEntry
+                key={tag.id}
+                tag={tag}
+                responseEdit={responseMultipleEdit[tag.id]}
+                responseEditColor={responseMultipleEditColor[tag.id]}
+                editSongTag={editSongTag}
+                clearTagListEntryNotification={clearTagListEntryNotification}
+            />
+        ))
 
         return (
             <div className="box" id="song-tag-list">
@@ -97,8 +91,8 @@ class SettingsSongTagsList extends Component {
 
 const mapStateToProps = (state) => ({
     songTagsState: state.settings.songTags,
-    statusEdits: state.alterationsResponse.multiple.editSongTag,
-    formsResponse: state.alterationsResponse.multiple.editSongTagColor || {},
+    responseMultipleEdit: state.alterationsResponse.multiple.editSongTag || {},
+    responseMultipleEditColor: state.alterationsResponse.multiple.editSongTagColor || {},
 })
 
 SettingsSongTagsList = withRouter(connect(

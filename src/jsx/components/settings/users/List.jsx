@@ -16,7 +16,7 @@ class SettingsUsersList extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
         listUsersState: listUsersStatePropType.isRequired,
-        statusDeleteUserList: PropTypes.object,
+        responseDeleteUserList: PropTypes.object,
         deleteUser: PropTypes.func.isRequired,
         clearUsersEntryNotification: PropTypes.func.isRequired,
         getUsers: PropTypes.func.isRequired,
@@ -41,20 +41,20 @@ class SettingsUsersList extends Component {
     }
 
     render() {
-        const { statusDeleteUserList, location } = this.props
+        const { responseDeleteUserList, location } = this.props
         const { users, pagination } = this.props.listUsersState.data
 
         const userList = users.map((user) => {
-            let statusDelete
-            if (statusDeleteUserList) {
-                statusDelete = statusDeleteUserList[user.id]
+            let responseDelete
+            if (responseDeleteUserList) {
+                responseDelete = responseDeleteUserList[user.id]
             }
 
             return (
                 <SettingsUserEntry
                     key={user.id}
                     user={user}
-                    statusDelete={statusDelete}
+                    responseDelete={responseDelete}
                     deleteUser={this.props.deleteUser}
                     clearUsersEntryNotification={this.props.clearUsersEntryNotification}
                 />
@@ -133,7 +133,7 @@ class SettingsUsersList extends Component {
 
 const mapStateToProps = (state) => ({
     listUsersState: state.settings.users.list,
-    statusDeleteUserList: state.alterationsResponse.multiple.deleteUser
+    responseDeleteUserList: state.alterationsResponse.multiple.deleteUser
 })
 
 SettingsUsersList = withRouter(connect(
