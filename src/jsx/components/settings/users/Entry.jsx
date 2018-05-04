@@ -88,7 +88,7 @@ export default class SettingsUsersEntry extends Component {
                         />
                     </CSSTransitionLazy>
                     <Notification
-                        alterationStatus={this.props.statusDelete}
+                        alterationResponse={this.props.statusDelete}
                         pendingMessage="Deleting…"
                         successfulMessage="Successfuly deleted!"
                         successfulDuration={null}

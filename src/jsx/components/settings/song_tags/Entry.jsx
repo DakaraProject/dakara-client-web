@@ -122,13 +122,13 @@ export default class SettingsSongTagsEntry extends Component {
                         {colorForm}
                     </CSSTransitionLazy>
                     <Notification
-                        alterationStatus={statusEdit}
+                        alterationResponse={statusEdit}
                         failedMessage="Error attempting to edit tag"
                         pendingMessage={false}
                         successfulMessage={false}
                     />
                     <Notification
-                        alterationStatus={formResponse}
+                        alterationResponse={formResponse}
                         successfulMessage={false}
                         pendingMessage={false}
                         failedMessage="Error attempting to edit tag color"

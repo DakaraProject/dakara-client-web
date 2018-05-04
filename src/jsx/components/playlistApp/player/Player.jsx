@@ -137,7 +137,7 @@ class Player extends Component {
                             </div>
                         </CSSTransitionLazy>
                         <PlayerNotification
-                            alterationStatuses={statusSendPlayerCommandsSafe}
+                            alterationsResponse={statusSendPlayerCommandsSafe}
                             playerErrors={player_errors}
                         />
                     </div>

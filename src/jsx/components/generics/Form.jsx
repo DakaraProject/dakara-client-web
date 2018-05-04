@@ -321,7 +321,7 @@ class FormBlock extends Form {
                 <div className="header notifiable">
                     <h3>{title}</h3>
                     <Notification
-                        alterationStatus={formResponse}
+                        alterationResponse={formResponse}
                         pendingMessage={false}
                         successfulMessage={successMessage}
                         failedMessage={failedMessage}

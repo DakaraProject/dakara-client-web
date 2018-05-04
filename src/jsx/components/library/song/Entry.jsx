@@ -173,7 +173,7 @@ class SongEntry extends Component {
                             </KaraStatusIsNotStopped>
                         </div>
                         <Notification
-                            alterationStatus={this.props.statusAddSong}
+                            alterationResponse={this.props.statusAddSong}
                             pendingMessage="Adding…"
                             successfulMessage="Successfuly added!"
                             failedMessage="Error attempting to add song to playlist"

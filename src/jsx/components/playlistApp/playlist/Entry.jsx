@@ -99,7 +99,7 @@ class PlaylistEntry extends Component {
                         />
                     </CSSTransitionLazy>
                     <Notification
-                        alterationStatus={this.props.statusRemoveEntry}
+                        alterationResponse={this.props.statusRemoveEntry}
                         pendingMessage="Removing…"
                         successfulMessage="Successfuly removed!"
                         successfulDuration={null}
