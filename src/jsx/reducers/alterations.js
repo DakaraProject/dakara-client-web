@@ -1,8 +1,17 @@
 import { combineReducers } from 'redux'
 import PropTypes from 'prop-types'
-import { Status } from './alterationsStatus'
 import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE,
     ALTERATION_CLEAR, ALTERATION_VALIDATION_ERROR } from 'actions/alterations'
+
+/**
+ * status of an alteration
+ */
+
+export const Status = Object.freeze({
+    pending: Symbol('pending'),
+    successful: Symbol('successful'),
+    failed: Symbol('failed')
+})
 
 /**
  * alteration content

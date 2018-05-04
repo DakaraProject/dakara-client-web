@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
-import { FORM_SUCCESS } from 'actions/forms'
+import { ALTERATION_SUCCESS } from 'actions/alterations'
 import { TAG_LIST_REQUEST, TAG_LIST_SUCCESS, TAG_LIST_FAILURE } from 'actions/songTags'
-import { ALTERATION_FAILURE, ALTERATION_REQUEST } from 'actions/alterationsStatus'
+import { ALTERATION_FAILURE, ALTERATION_REQUEST } from 'actions/alterations'
 import { songTagPropType } from 'serverPropTypes/library'
-import { Status } from './alterationsStatus'
+import { Status } from './alterations'
 import { updateData } from 'utils'
 
 /**
@@ -12,8 +12,12 @@ import { updateData } from 'utils'
 
 /**
  * Helper to update tag
+ * The tag is not directly accessible by its ID (as in
+ * `state.data.songTags[tagId]`), so this helper helps to access it.
+ * @param tagId ID of the tag to edit
+ * @param state current state
+ * @pararm valueDict object of values to update
  */
-
 function updateTagInState(tagId, state, valueDict) {
     const songTags = state.data.songTags.slice()
     const index = songTags.findIndex(e => (e.id == tagId))
@@ -60,13 +64,11 @@ const defaultSongTagsSettings = {
 }
 
 export default function songTags(state = defaultSongTagsSettings, action) {
-    const { json } = action
+    const { json, alterationName, elementId } = action
     let disabled
     if (json) {
         disabled = json.disabled
     }
-
-    let tagId
 
     switch (action.type) {
         case TAG_LIST_REQUEST:
@@ -88,25 +90,22 @@ export default function songTags(state = defaultSongTagsSettings, action) {
             }
 
         case ALTERATION_FAILURE:
+            // If the update failed, revert the disableness and enter
+            // the ALTERATION_REQUEST case
             disabled = !disabled
 
         case ALTERATION_REQUEST:
-            if (action.alterationName != 'editSongTag') {
-                return state
-            }
+            if (alterationName !== 'editSongTag') return state
 
-            // Update disabled status of updated tag
-            tagId = action.elementId
-            return updateTagInState(tagId, state, {disabled})
+            // Update disableness of updated tag
+            return updateTagInState(elementId, state, {disabled})
 
-        case FORM_SUCCESS:
-            const tagColorFormPrefix = "tagColorEdit"
-            if (!action.formName.startsWith(tagColorFormPrefix)) return state
+        case ALTERATION_SUCCESS:
+            if (alterationName !== 'editSongTagColor') return state
 
             // Update new color of updated tag
-            tagId = action.formName.split(tagColorFormPrefix)[1]
             const { color_hue } = json
-            return updateTagInState(tagId, state, {color_hue})
+            return updateTagInState(elementId, state, {color_hue})
 
         default:
             return state

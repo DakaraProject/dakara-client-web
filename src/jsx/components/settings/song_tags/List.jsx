@@ -8,8 +8,6 @@ import Navigator from 'components/generics/Navigator'
 import SettingsSongTagsEntry from './Entry'
 import SettingsTabList from '../TabList'
 import { songTagsStatePropType } from 'reducers/songTags'
-import { alterationStatusPropType } from 'reducers/alterationsStatus'
-import { formPropType } from 'reducers/forms'
 import { alterationPropType } from 'reducers/alterations'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 
@@ -17,7 +15,7 @@ class SettingsSongTagsList extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
         songTagsState: songTagsStatePropType.isRequired,
-        statusEdit: alterationStatusPropType,
+        statusEdit: alterationPropType,
         formsResponse: PropTypes.objectOf(alterationPropType),
         editSongTag: PropTypes.func.isRequired,
         getSongTagList: PropTypes.func.isRequired,
@@ -99,8 +97,8 @@ class SettingsSongTagsList extends Component {
 
 const mapStateToProps = (state) => ({
     songTagsState: state.settings.songTags,
-    statusEdits: state.alterationsStatus.editSongTag,
-    formsResponse: state.alterations.multiple.tagColorEdit || {},
+    statusEdits: state.alterations.multiple.editSongTag,
+    formsResponse: state.alterations.multiple.editSongTagColor || {},
 })
 
 SettingsSongTagsList = withRouter(connect(

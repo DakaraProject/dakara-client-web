@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
 import { setAlterationValidationErrors, submitAlteration, clearAlteration } from 'actions/alterations'
-import { Status } from 'reducers/alterationsStatus'
+import { Status } from 'reducers/alterations'
 import Notification from 'components/generics/Notification'
 import { alterationPropType } from 'reducers/alterations'
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import SettingsTabList from './TabList'
 import { FormBlock, RadioField} from 'components/generics/Form'
-import { Status } from 'reducers/alterationsStatus'
+import { Status } from 'reducers/alterations'
 
 class SettingsKaraStatus extends Component {
 

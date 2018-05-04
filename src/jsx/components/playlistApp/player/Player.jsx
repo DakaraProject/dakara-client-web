@@ -11,12 +11,12 @@ import PlayerNotification from './Notification'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import { sendPlayerCommand } from 'actions/playlist'
 import { playlistDigestPropType, playerCommandsPropType } from 'reducers/playlist'
-import { alterationStatusPropType, Status } from 'reducers/alterationsStatus'
+import { alterationPropType, Status } from 'reducers/alterations'
 
 class Player extends Component {
     static propTypes = {
         playlistDigest: playlistDigestPropType.isRequired,
-        statusSendPlayerCommands: PropTypes.objectOf(alterationStatusPropType),
+        statusSendPlayerCommands: PropTypes.objectOf(alterationPropType),
         sendPlayerCommand: PropTypes.func.isRequired,
     }
 
@@ -152,7 +152,7 @@ class Player extends Component {
 
 const mapStateToProps = (state) => ({
     playlistDigest: state.playlist.digest,
-    statusSendPlayerCommands: state.alterationsStatus.sendPlayerCommands,
+ statusSendPlayerCommands: state.alterations.multiple.sendPlayerCommands,
 })
 
 Player = withRouter(connect(

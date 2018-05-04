@@ -4,15 +4,13 @@ import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import classNames from 'classnames'
 import { FormInline, CheckboxField, HueField } from 'components/generics/Form'
 import Notification from 'components/generics/Notification'
-import { Status } from 'reducers/alterationsStatus'
+import { Status, alterationPropType } from 'reducers/alterations'
 import { songTagPropType } from 'serverPropTypes/library'
-import { alterationStatusPropType } from 'reducers/alterationsStatus'
-import { alterationPropType } from 'reducers/alterations'
 
 export default class SettingsSongTagsEntry extends Component {
     static propTypes = {
         tag: songTagPropType.isRequired,
-        statusEdit: alterationStatusPropType,
+        statusEdit: alterationPropType,
         editSongTag: PropTypes.func.isRequired,
         formResponse: alterationPropType,
     }
@@ -53,7 +51,7 @@ export default class SettingsSongTagsEntry extends Component {
                     method="PATCH"
                     submitText={submitText}
                     submitClass="success"
-                    alterationName="tagColorEdit"
+                    alterationName="editSongTagColor"
                     elementId={tag.id}
                     noClearOnSuccess
                     onSuccess={this.clearColorForm}

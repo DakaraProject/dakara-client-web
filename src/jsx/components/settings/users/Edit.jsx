@@ -8,7 +8,7 @@ import NotFound from 'components/navigation/NotFound'
 import Forbidden from 'components/navigation/Forbidden'
 import { userPropType } from 'serverPropTypes/users'
 import { editUsersStatePropType } from 'reducers/users'
-import { Status } from 'reducers/alterationsStatus'
+import { Status } from 'reducers/alterations'
 
 class SettingsUsersEdit extends Component {
     static propTypes = {

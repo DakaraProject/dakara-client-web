@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
-import { Status } from 'reducers/alterationsStatus'
+import { Status } from 'reducers/alterations'
 import PropTypes from 'prop-types'
-import { alterationStatusPropType } from 'reducers/alterationsStatus'
+import { alterationPropType } from 'reducers/alterations'
 import { playerErrorPropType } from 'serverPropTypes/playlist'
 
 const notificationTypes = {
@@ -16,7 +16,7 @@ const notificationTypes = {
  */
 export default class PlayerNotification extends Component {
     static propTypes = {
-        alterationStatuses: PropTypes.objectOf(alterationStatusPropType).isRequired,
+        alterationStatuses: PropTypes.objectOf(alterationPropType).isRequired,
         playerErrors: PropTypes.arrayOf(playerErrorPropType).isRequired,
     }
 

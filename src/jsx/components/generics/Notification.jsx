@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
-import { Status } from 'reducers/alterationsStatus'
-import { alterationStatusPropType } from 'reducers/alterationsStatus'
+import { Status } from 'reducers/alterations'
+import { alterationPropType } from 'reducers/alterations'
 
 const notificationTypes = {
     [Status.pending]: 'success',
@@ -31,7 +31,7 @@ export default class Notification extends Component {
         pendingDuration: PropTypes.number,
         successfulDuration: PropTypes.number,
         failedDuration: PropTypes.number,
-        alterationStatus: alterationStatusPropType,
+        alterationStatus: alterationPropType,
     }
 
     static defaultProps = {
