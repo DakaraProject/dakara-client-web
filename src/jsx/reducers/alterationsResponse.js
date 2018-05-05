@@ -11,7 +11,7 @@ import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE,
  * the alteration has failed, the response contains one global error message and
  * several fields error messages which should explain the cause of the failure.
  *
- * The `alterationsResponse` is identified by its `alterationId`. If the
+ * The `alterationResponse` is identified by its `alterationId`. If the
  * alteration is unique, i.e. unique of its kind and cannot be applied identically
  * to another element (like login or logout), the response is stored in
  * `state.alterationsResponse.unique[alterationId]`. The key `alterationId` alone
@@ -25,7 +25,7 @@ import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE,
  * storage point `state.alterationsResponse.multiple[alterationId]` represents
  * multiple responses.
  *
- * Note that the presence or the `elementId` key within an action is the only way
+ * Note that the presence of the `elementId` key within an action is the only way
  * for the reducer to distinguish a unique response from multiple ones.
  *
  * An unique response should be connected to the props of a component with the
