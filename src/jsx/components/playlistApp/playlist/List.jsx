@@ -16,7 +16,7 @@ class Playlist extends Component {
     static propTypes = {
         playlistEntriesState: playlistEntriesStatePropType.isRequired,
         playlistDigest: playlistDigestPropType.isRequired,
-        responseMultipleOfRemoveEntry: PropTypes.objectOf(alterationResponsePropType),
+        responseOfMultipleRemoveEntry: PropTypes.objectOf(alterationResponsePropType),
         loadPlaylist: PropTypes.func.isRequired,
         loadPlaylistPlayed: PropTypes.func.isRequired,
         removeEntryFromPlaylist: PropTypes.func.isRequired,
@@ -57,8 +57,7 @@ class Playlist extends Component {
          * Display entries when playlist is not collapsed
          */
 
-        const removeEntry = this.props.removeEntryFromPlaylist
-        const responseMultipleOfRemoveEntry = this.props.responseMultipleOfRemoveEntry
+        const { removeEntryFromPlaylist: removeEntry, responseOfMultipleRemoveEntry } = this.props
         const playlistEntriesComponent = playlistEntries.map( entry => (
             <CSSTransition
                 classNames='add-remove'
@@ -72,7 +71,7 @@ class Playlist extends Component {
                     entry={entry}
                     removeEntry={removeEntry}
                     clearPlaylistEntryNotification={this.props.clearPlaylistEntryNotification}
-                    responseOfRemoveEntry={responseMultipleOfRemoveEntry[entry.id]}
+                    responseOfRemoveEntry={responseOfMultipleRemoveEntry[entry.id]}
                 />
             </CSSTransition>
         ))
@@ -163,7 +162,7 @@ class Playlist extends Component {
 const mapStateToProps = (state) => ({
     playlistDigest: state.playlist.digest,
     playlistEntriesState: state.playlist.entries,
-    responseMultipleOfRemoveEntry: state.alterationsResponse.multiple.removeEntryFromPlaylist || {},
+    responseOfMultipleRemoveEntry: state.alterationsResponse.multiple.removeEntryFromPlaylist || {},
 })
 
 Playlist = withRouter(connect(

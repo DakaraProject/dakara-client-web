@@ -33,8 +33,8 @@ import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE,
  * verb (e.g. `responseOfLogout`).
  *
  * Multiple responses should be connected to the props with the prefix
- * `responseMultipleOf` and the name of the alteration (e.g.
- * `responseMultipleOfRemoveEntry`). A response among the multiple responses should
+ * `responseOfMultiple` and the name of the alteration (e.g.
+ * `responseOfMultipleRemoveEntry`). A response among the multiple responses should
  * be connected like an unique response.
  */
 

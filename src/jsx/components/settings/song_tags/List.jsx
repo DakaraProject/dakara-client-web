@@ -15,8 +15,8 @@ class SettingsSongTagsList extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
         songTagsState: songTagsStatePropType.isRequired,
-        responseMultipleOfEdit: PropTypes.objectOf(alterationResponsePropType),
-        responseMultipleOfEditColor: PropTypes.objectOf(alterationResponsePropType),
+        responseOfMultipleEdit: PropTypes.objectOf(alterationResponsePropType),
+        responseOfMultipleEditColor: PropTypes.objectOf(alterationResponsePropType),
         editSongTag: PropTypes.func.isRequired,
         getSongTagList: PropTypes.func.isRequired,
         clearTagListEntryNotification: PropTypes.func.isRequired,
@@ -42,15 +42,15 @@ class SettingsSongTagsList extends Component {
 
     render() {
         const { editSongTag, clearTagListEntryNotification, location,
-            responseMultipleOfEdit, responseMultipleOfEditColor } = this.props
+            responseOfMultipleEdit, responseOfMultipleEditColor } = this.props
         const { songTags, pagination } = this.props.songTagsState.data
 
         const tagList = songTags.map((tag) => (
             <SettingsSongTagsEntry
                 key={tag.id}
                 tag={tag}
-                responseOfEdit={responseMultipleOfEdit[tag.id]}
-                responseOfEditColor={responseMultipleOfEditColor[tag.id]}
+                responseOfEdit={responseOfMultipleEdit[tag.id]}
+                responseOfEditColor={responseOfMultipleEditColor[tag.id]}
                 editSongTag={editSongTag}
                 clearTagListEntryNotification={clearTagListEntryNotification}
             />
@@ -91,8 +91,8 @@ class SettingsSongTagsList extends Component {
 
 const mapStateToProps = (state) => ({
     songTagsState: state.settings.songTags,
-    responseMultipleOfEdit: state.alterationsResponse.multiple.editSongTag || {},
-    responseMultipleOfEditColor: state.alterationsResponse.multiple.editSongTagColor || {},
+    responseOfMultipleEdit: state.alterationsResponse.multiple.editSongTag || {},
+    responseOfMultipleEditColor: state.alterationsResponse.multiple.editSongTagColor || {},
 })
 
 SettingsSongTagsList = withRouter(connect(
