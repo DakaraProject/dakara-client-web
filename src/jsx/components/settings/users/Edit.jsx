@@ -6,6 +6,7 @@ import { FormBlock, InputField, SelectField, CheckboxField } from 'components/ge
 import { IsUserManager, IsNotSelf } from 'components/permissions/Users'
 import NotFound from 'components/navigation/NotFound'
 import Forbidden from 'components/navigation/Forbidden'
+import SettingsTabList from '../TabList'
 import { userPropType } from 'serverPropTypes/users'
 import { editUsersStatePropType } from 'reducers/users'
 import { Status } from 'reducers/alterationsStatus'
@@ -62,9 +63,7 @@ class SettingsUsersEdit extends Component {
 
         return (
                 <div className="box" id="users-edit">
-                    <div className="box-header">
-                        <h1>Users management</h1>
-                    </div>
+                    <SettingsTabList/>
                     <FormBlock
                         title={`Edit user “${user.username}”`}
                         action={`users/${user.id}/`}

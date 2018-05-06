@@ -6,12 +6,27 @@
 
 
 #user {
-    .box-header {
+    .user-header {
+        .make-gap(padding, vertical);
+        background: @brand-primary-darker;
+        color: @brand-primary-light;
         display: flex;
         justify-content: space-between;
 
         .permissions {
             text-align: right;
+        }
+
+        h1 {
+            .make-gap(padding, horizontal);
+            font-size: 3em;
+            height: 6rem;
+        }
+
+        h2 {
+            .make-gap(padding, horizontal);
+            font-size: 2em;
+            height: 4rem; // TODO not sure
         }
     }
 

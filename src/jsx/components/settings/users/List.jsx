@@ -64,9 +64,6 @@ class SettingsUsersList extends Component {
         return (
             <div className="box" id="users-list">
                 <SettingsTabList/>
-                <div className="box-header">
-                    <h1>Users management</h1>
-                </div>
                 <ListingFetchWrapper
                     status={this.props.listUsersState.status}
                 >
