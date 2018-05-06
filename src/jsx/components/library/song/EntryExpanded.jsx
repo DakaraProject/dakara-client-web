@@ -150,8 +150,8 @@ class SongEntryExpanded extends Component {
 
         let lyrics
         if (song.lyrics) {
-            const text = song.lyrics.text.split("\n").map(line => (
-                <div className="line">{line}</div>
+            const text = song.lyrics.text.split("\n").map((line, index) => (
+                <div className="line" key={index}>{line}</div>
             ))
 
             lyrics = (
