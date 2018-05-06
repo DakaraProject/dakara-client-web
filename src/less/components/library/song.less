@@ -32,17 +32,18 @@
             cursor: pointer;
             .make-gap(padding, left);
 
-            .make-smartphone({
-                .general {
+            .general {
+                // add a special vertical padding that is tiny enough to not
+                // mess with the horizontal centering, and large enough to keep
+                // the content away from borders when it spreads on several
+                // lines
+                padding: (@gap-horizontal / 4) 0;
+
+                .make-smartphone({
+                    padding: (@gap-horizontal / 3) 0;
+
                     flex-direction: column;
                     align-items: initial;
-
-                    // if the song si expanded
-                    .header:only-child {
-                        overflow: initial;
-                        white-space: initial;
-                        text-overflow: initial;
-                    }
 
                     .artist-work {
                         .work-link {
@@ -58,8 +59,15 @@
                             display: none;
                         }
                     }
+                });
+
+                // if the song si expanded
+                .header:only-child {
+                    overflow: initial;
+                    white-space: initial;
+                    text-overflow: initial;
                 }
-            });
+            }
         }
     }
 
@@ -121,7 +129,7 @@
                 // mess with the horizontal centering, and large enough to keep
                 // the content away from borders when it spreads on several
                 // lines
-                padding: (1.5 * @gap-horizontal / 3) @gap-horizontal;
+                padding: (@gap-horizontal / 2) @gap-horizontal;
 
                 .make-smartphone({
                     padding: (2 * @gap-horizontal-smartphone / 3) @gap-horizontal-smartphone;
