@@ -33,21 +33,21 @@
         height: @tab-bar-height;
         cursor: pointer;
         background: @neutral-mid;
-        padding: 0 @gap-horizontal;
+        .make-gap(padding, horizontal);
         white-space: nowrap;
         line-height: @tab-bar-height;
         text-align: center;
         .text-truncate();
 
         .make-smartphone({
-            padding: 0;
-
-            .name {
-                display: none;
-            }
-
-            :not(.squared) {
+            &:not(.active),
+            &.no-name-mobile {
+                padding: 0;
                 width: @tab-bar-height;
+
+                .name {
+                    display: none;
+                }
             }
         });
 
