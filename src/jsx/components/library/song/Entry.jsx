@@ -153,7 +153,9 @@ class SongEntry extends Component {
                             noTag={expanded}
                             handleClick={() => expanded ? this.setExpanded(null) : this.setExpanded(song.id)}
                         />
-                        <TransitionGroup>
+                        <TransitionGroup
+                            className="play-queue-info-wrapper"
+                        >
                             {playQueueInfo}
                         </TransitionGroup>
                         <div

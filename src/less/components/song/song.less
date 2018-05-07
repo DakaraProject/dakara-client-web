@@ -70,13 +70,14 @@
     // `duration` class: show song duration.
     .duration {
         font-size: 0.85em;
-        line-height: @listing-entry-height;
         width: @listing-entry-height;
         background: @text-light;
         color: @neutral-mid;
-        text-align: center;
         flex-shrink: 0;
-        align-self: flex-start;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-self: stretch;
     }
 
     // `song-tag-list` subclass: tag songs.

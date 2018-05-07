@@ -30,6 +30,7 @@
         .song {
             flex: 1;
             cursor: pointer;
+            min-height: @listing-entry-height;
 
             .general {
                 // add a special vertical padding that is tiny enough to not
@@ -60,6 +61,10 @@
                     }
                 });
             }
+        }
+
+        .play-queue-info-wrapper {
+            display: flex;
         }
     }
 

@@ -106,13 +106,10 @@
             // inbetween
             .control {
                 margin: 0;
-            }
-        }
 
-        // notification
-        .notified {
-            height: @listing-entry-height;
-            line-height: @listing-entry-height;
+                // allow button to stretch vertically
+                height: unset;
+            }
         }
     }
 }
@@ -135,6 +132,9 @@ table.listing {
     .controls-col {
         width: 1px;
         white-space: nowrap;
+    }
+
+    .notification-col {
     }
 
     // remove default bold
@@ -162,6 +162,11 @@ table.listing {
         // default is 1px, but no idea for the reason why
         padding: 0;
     }
+
+    // notification
+    .notified {
+        height: @listing-entry-height;
+    }
 }
 
 // `listing-table-container` class:
@@ -177,14 +182,13 @@ table.listing {
 // `listing-fetch-wrapper` class:
 //
 // Wrapper containing error messages, pending notification overlay, and content.
-.listing-fetch-wrapper{
+.listing-fetch-wrapper {
     position: relative;
     overflow: hidden;
 
     // error notification
-    > .notified {
+    > .notification-wrapper .notified {
         height: @listing-entry-height;
-        line-height: @listing-entry-height;
     }
 
     // overlay

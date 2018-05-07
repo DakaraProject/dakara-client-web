@@ -87,6 +87,8 @@ export default class SettingsUsersEntry extends Component {
                             onCancel={this.clearConfirm}
                         />
                     </CSSTransitionLazy>
+                </td>
+                <td className="notification-col">
                     <Notification
                         alterationStatus={this.props.statusDelete}
                         pendingMessage="Deleting…"

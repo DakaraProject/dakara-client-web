@@ -122,6 +122,8 @@ export default class SettingsSongTagsEntry extends Component {
                     >
                         {colorForm}
                     </CSSTransitionLazy>
+                </td>
+                <td className="notification-col">
                     <Notification
                         alterationStatus={statusEdit}
                         failedMessage="Error attempting to edit tag"

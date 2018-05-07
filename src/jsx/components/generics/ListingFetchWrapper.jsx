@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { CSSTransitionLazy } from './ReactTransitionGroup'
 import Delayer from './Delayer'
+import Notification from './Notification'
 import { Status } from 'reducers/alterationsStatus'
 
 export default class ListingFetchWrapper extends Component {
@@ -11,6 +12,7 @@ export default class ListingFetchWrapper extends Component {
 
     render() {
         const { status } = this.props
+        const alterationStatus = {status}
 
         let pending
         if (status === Status.pending) {
@@ -29,21 +31,13 @@ export default class ListingFetchWrapper extends Component {
             <div className="listing-fetch-wrapper notifiable">
                 {this.props.children}
 
-                <CSSTransitionLazy
-                    in={status === Status.failed}
-                    classNames="notified"
-                    appear={true}
-                    timeout={{
-                        enter: 300,
-                        exit: 150
-                    }}
-                >
-                    <div className="notified">
-                        <div className="notification danger message">
-                            Unable to get results
-                        </div>
-                    </div>
-                </CSSTransitionLazy>
+                <Notification
+                    alterationStatus={alterationStatus}
+                    pendingMessage={false}
+                    successfulMessage={false}
+                    failedMessage="Unable to get results"
+                    failedDuration={null}
+                />
                 {pending}
             </div>
         )

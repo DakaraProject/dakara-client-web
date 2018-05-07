@@ -108,12 +108,6 @@ export default class Notification extends Component {
 
             // if there is no message to display, do not show any notification
             if (message) {
-                const notificationClass = classNames(
-                    'notification',
-                    'message',
-                    notificationTypes[status]
-                )
-
                 notification = (
                     <CSSTransition
                         classNames="notified"
@@ -123,8 +117,15 @@ export default class Notification extends Component {
                         }}
                     >
                         <div className="notified">
-                            <div className={notificationClass}>
-                                {message}
+                            <div
+                                className={classNames(
+                                    'notification',
+                                    notificationTypes[status]
+                                )}
+                            >
+                                <div className="message">
+                                    {message}
+                                </div>
                             </div>
                         </div>
                     </CSSTransition>
@@ -133,7 +134,7 @@ export default class Notification extends Component {
         }
 
         return (
-            <TransitionGroup>
+            <TransitionGroup className="notification-wrapper">
                 {notification}
             </TransitionGroup>
         )
