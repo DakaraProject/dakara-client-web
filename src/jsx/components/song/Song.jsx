@@ -40,6 +40,7 @@ export default class Song extends Component {
 
         // Display artist and work conditionally
         let artistWork
+        let withArtistAndWork = false
         if (!this.props.noArtistWork) {
 
             // Display first work if any
@@ -54,6 +55,9 @@ export default class Song extends Component {
                             noEpisodes
                         />
                 )
+
+                // check if there is at least an artist too
+                withArtistAndWork = song.artists.length > 0
             }
 
             // Display artists
@@ -106,7 +110,10 @@ export default class Song extends Component {
             <div
                 className={classNames(
                     "song",
-                    {disabled: song.tags.some((tag) => (tag.disabled))}
+                    {
+                        disabled: song.tags.some((tag) => (tag.disabled)),
+                        "with-artist-and-work": withArtistAndWork
+                    }
                 )}
                 onClick={this.props.handleClick}
             >

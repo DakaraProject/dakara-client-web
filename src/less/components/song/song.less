@@ -20,10 +20,14 @@
     white-space: nowrap;
     align-items: center;
 
+    &.with-artist-and-work .general {
+        align-items: center;
+    }
+
     .general {
         flex-grow: 1;
         display: flex;
-        align-items: center;
+        align-items: baseline;
         overflow: hidden;
 
         // `header` class: song's main info.
