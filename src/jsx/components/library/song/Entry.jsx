@@ -139,7 +139,12 @@ class SongEntry extends Component {
         }
 
         return (
-                <li className="library-entry listing-entry library-entry-song">
+                <li
+                    className={classNames(
+                        "library-entry listing-entry library-entry-song",
+                        {expanded}
+                    )}
+                >
                     <div className="library-entry-song-compact hoverizable notifiable">
                         <Song
                             song={song}
