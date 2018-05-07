@@ -27,9 +27,10 @@ class ArtistEntry extends Component {
     render() {
         return (
                 <li className="library-entry listing-entry library-entry-artist hoverizable">
-                    <div className="library-entry-artist-display">
-                        <div className="name">
+                    <div className="library-entry-work-artist-display">
+                        <div className="header">
                             <HighlighterQuery
+                                className="name"
                                 query={this.props.query}
                                 searchWords={(q) => (q.remaining)}
                                 textToHighlight={this.props.artist.name}
