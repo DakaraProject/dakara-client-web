@@ -96,7 +96,7 @@ class Player extends Component {
 
         return (
             <div id="player">
-                <div className="display-area">
+                <div className="first-line">
                     <div className="controls main">
                         <IsPlaylistManagerOrOwner
                             object={player_status.playlist_entry}
@@ -116,7 +116,7 @@ class Player extends Component {
                             />
                         </IsPlaylistManagerOrOwner>
                     </div>
-                    <div className="notifiable">
+                    <div className="display-area notifiable">
                         {playlistEntry}
                         <CSSTransitionLazy
                             in={fetchError}
