@@ -191,6 +191,7 @@ class SongEntry extends Component {
                             <SongEntryExpanded
                                 song={this.props.song}
                                 location={location}
+                                query={this.props.query}
                             />
                         </div>
                     </CSSTransitionLazy>
