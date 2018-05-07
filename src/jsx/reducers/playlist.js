@@ -149,6 +149,14 @@ function entries(state = defaultEntries, action) {
                 status: Status.failed,
             }
 
+        // when the kara status is set to stop, reset entries
+        case PLAYLIST_DIGEST_SUCCESS:
+            if (action.response.kara_status.status === 'stop') {
+                return defaultEntries
+            }
+
+            return state
+
         default:
             return state
     }

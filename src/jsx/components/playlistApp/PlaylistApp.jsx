@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Player from './player/Player'
-import Playlist from './playlist/List'
+import PlaylistInfoBar from './PlaylistInfoBar'
 import KaraStatusNotification from './KaraStatusNotification'
 import { IsPlaylistManager } from 'components/permissions/Playlist'
 import { loadPlaylistAppDigest } from 'actions/playlist'
@@ -49,7 +49,7 @@ class PlaylistApp extends Component {
         return (
             <div className="box">
                 <Player/>
-                <Playlist/>
+                <PlaylistInfoBar/>
             </div>
         )
     }

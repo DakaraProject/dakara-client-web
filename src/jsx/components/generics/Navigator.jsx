@@ -5,39 +5,35 @@ import ControlLink from './ControlLink'
 
 export default class Navigator extends Component {
     static propTypes = {
-        location: PropTypes.object.isRequired,
+        location: PropTypes.object,
         names: PropTypes.shape({
             singular: PropTypes.string.isRequired,
             plural: PropTypes.string.isRequired,
-        }), // should be isRequired
+        }),
         pagination: PropTypes.shape({
             current: PropTypes.number.isRequired,
             last: PropTypes.number.isRequired,
-        }).isRequired,
+        }),
         count: PropTypes.number,
     }
 
     render() {
-        const { location, names, count } = this.props
-        const { current, last } = this.props.pagination
+        const { location, names, count, pagination } = this.props
 
-        const hasNext = current != last
-        const hasPrevious = current != 1
-        const pathname = location.pathname
-        const queryObj = parse(location.search)
+        /**
+         * paginator
+         */
 
-        let counter
-        if (names && typeof count !== 'undefined') {
-            counter = (
-                <div className="counter">
-                    <span className="figure">{count}</span>
-                    <span className="text">{count == 1 ? names.singular : names.plural}</span>
-                </div>
-            )
-        }
+        let paginator
+        if (pagination) {
+            const { current, last } = pagination
 
-        return (
-            <div className="navigator">
+            const hasNext = current != last
+            const hasPrevious = current != 1
+            const pathname = location.pathname
+            const queryObj = parse(location.search)
+
+            paginator = (
                 <nav className="paginator controls">
                     <ControlLink
                         to={{pathname, queryObj: {...queryObj, page: 1}}}
@@ -76,6 +72,26 @@ export default class Navigator extends Component {
                         </span>
                     </ControlLink>
                 </nav>
+            )
+        }
+
+        /**
+         * items counter
+         */
+
+        let counter
+        if (names && typeof count !== 'undefined') {
+            counter = (
+                <div className="counter">
+                    <span className="figure">{count}</span>
+                    <span className="text">{count == 1 ? names.singular : names.plural}</span>
+                </div>
+            )
+        }
+
+        return (
+            <div className="navigator">
+                {paginator}
                 {counter}
             </div>
         )

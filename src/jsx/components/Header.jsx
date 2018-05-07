@@ -34,6 +34,10 @@ class Header extends Component {
                         iconName="home"
                     />
                     <Tab
+                        to="/playlist"
+                        iconName="list-ol"
+                    />
+                    <Tab
                         to="/settings"
                         iconName="cog"
                     />
