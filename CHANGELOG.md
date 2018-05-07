@@ -37,12 +37,14 @@
 - Disabled tags are grayed out.
 - Kara status setting
 - Display in library when a song was previoulsy played
+- New page to display songs played during current sessions (Past playlist)
 - Song tags and users settings pages are overlayed if the fetching takes too long.
 
 ### Changed
 
 - Users and song tags page moved to settings page
 - Selection color for tags has a correct hue.
+- Playlist moved to a separate page
 
 ### Fixed
 

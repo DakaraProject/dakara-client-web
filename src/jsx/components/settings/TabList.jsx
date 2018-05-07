@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import Tab from 'components/generics/Tab'
-import UsersList from './users/List'
-import SongTagsList from './song_tags/List'
 
 export default class SettingsTabList extends Component {
 
