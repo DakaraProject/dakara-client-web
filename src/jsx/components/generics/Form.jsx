@@ -216,7 +216,7 @@ class Form extends Component {
         )
     }
 
-    renderControls = () => {
+    renderSubmit = () => {
         const { submitText, submitClass } = this.props
         const controlClass = classNames(
             'control',
@@ -224,14 +224,12 @@ class Form extends Component {
         )
 
         return (
-            <div className="controls">
-                <button
-                    type="submit"
-                    className={controlClass}
-                >
-                    {submitText}
-                </button>
-            </div>
+            <button
+                type="submit"
+                className={controlClass}
+            >
+                {submitText}
+            </button>
         )
     }
 }
@@ -253,7 +251,9 @@ const mapStateToProps = (state, ownProps) => ({
  * - method <str>: Method used to submit form, default to 'POST'
  * - submitText <str>: Submit button text, default: "Submit"
  * - successMessage <str>: Message to display when form submit suceed,
- *                           if null, no messsage is displayed.
+ *                           if false, no messsage is displayed.
+ * - pendingMessage <str>: Message to display when submit request is pending
+ *                           if false, no messsage is displayed.
  * - validate <func>: Called on submit, with object containing form values.
  *                      When validation fails,
  *                      Should return an array of validation error message.
@@ -270,13 +270,14 @@ const mapStateToProps = (state, ownProps) => ({
  */
 class FormBlock extends Form {
     render() {
-        const { title, formName, formResponse, successMessage } = this.props
+        const { title, formName, formResponse,
+            successMessage, pendingMessage } = this.props
 
         // get fields
         const fieldsSet = this.renderFieldsSet()
 
-        // get controls
-        const controls = this.renderControls()
+        // get submit
+        const submit = this.renderSubmit()
 
         // get failed message if unconsistent case
         let failedMessage
@@ -297,18 +298,19 @@ class FormBlock extends Form {
                 className="form block"
                 noValidate
             >
-                <div className="header notifiable">
+                <div className="header">
                     <h3>{title}</h3>
-                    <Notification
-                        alterationStatus={formResponse}
-                        pendingMessage={false}
-                        successfulMessage={successMessage}
-                        failedMessage={failedMessage}
-                        failedDuration={null}
-                    />
                 </div>
                 {fieldsSet}
-                {controls}
+                <div className="controls notifiable">
+                    <Notification
+                        alterationStatus={formResponse}
+                        successfulMessage={successMessage}
+                        failedMessage={failedMessage}
+                        pendingMessage={pendingMessage}
+                    />
+                    {submit}
+                </div>
             </form>
         )
     }
@@ -360,8 +362,8 @@ class FormInline extends Form {
         // get fields
         const fieldsSet = this.renderFieldsSet(true)
 
-        // get controls
-        const controls = this.renderControls()
+        // get submit
+        const submit = this.renderSubmit()
 
         return (
             <form
@@ -375,7 +377,9 @@ class FormInline extends Form {
                 noValidate
             >
                 {fieldsSet}
-                {controls}
+                <div className="controls">
+                    {submit}
+                </div>
             </form>
         )
     }
