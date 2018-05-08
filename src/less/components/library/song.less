@@ -70,7 +70,11 @@
 
     // if the song si expanded, disable truncature of text in song header
     &.expanded .library-entry-song-compact .song .general .header {
+        // disallow text truncate, thus allow text to spread on several lines
         .text-untruncate();
+
+        // allow words to break
+        overflow-wrap: break-word;
     }
 
     // `library-entry-song-expanded` class: song expanded view.
@@ -122,11 +126,29 @@
                 }
             }
 
+            .sublisting-entry {
+                // allow words to break
+                overflow: hidden;
+
+                // keep control buttons stretched
+                .controls {
+                    align-self: stretch;
+
+                    .control {
+                        height: unset;
+                    }
+                }
+            }
+
             .text, .song-tag-list, .paragraph {
                 background: darken(@neutral-mid, 2%);
             }
 
             .text, .paragraph, .artist, .work-link {
+                // allow words to break
+                overflow: hidden;
+                overflow-wrap: break-word;
+
                 // add a special vertical padding that is tiny enough to not
                 // mess with the vertical centering, and large enough to keep
                 // the content away from borders when it spreads on several

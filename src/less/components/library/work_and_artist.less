@@ -20,12 +20,15 @@
         display: flex;
         align-items: center;
 
+        // allow words to break (necessary for header)
+        overflow: hidden;
+
         .header {
             flex: 1;
-            hyphens: auto;
 
-            // for webkit
-            word-break: break-word;
+            // allow words to break
+            overflow: hidden;
+            overflow-wrap: break-word;
 
             // add a special vertical padding that is tiny enough to not
             // mess with the vertical centering, and large enough to keep
@@ -45,9 +48,9 @@
             color: @neutral-mid;
             flex-shrink: 0;
             display: flex;
-            height: 100%;
             justify-content: center;
             align-items: center;
+            align-self: stretch;
 
             .icon {
                 padding-right: 0.5em;
