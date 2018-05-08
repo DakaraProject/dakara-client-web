@@ -47,6 +47,32 @@ export default class SettingsUsersEntry extends Component {
 
         return (
             <tr className="listing-entry user-listing-entry hoverizable">
+                <td className="notification-col">
+                    <div className="notifiable-wrapper">
+                        <div className="notifiable" style={{width: document.getElementById("content").clientWidth}}>
+                            <CSSTransitionLazy
+                                in={this.state.confirmDisplayed}
+                                classNames="notified"
+                                timeout={{
+                                    enter: 300,
+                                    exit: 150
+                                }}
+                            >
+                                <ConfirmationBar
+                                    onConfirm={() => {deleteUser(user.id)}}
+                                    onCancel={this.clearConfirm}
+                                />
+                            </CSSTransitionLazy>
+                            <Notification
+                                alterationStatus={this.props.statusDelete}
+                                pendingMessage="Deleting…"
+                                successfulMessage="Successfuly deleted!"
+                                successfulDuration={null}
+                                failedMessage="Error attempting to delete user"
+                            />
+                        </div>
+                    </div>
+                </td>
                 <td className="username">{user.username}</td>
                 <td className="permission superuser">{superuserMarker}</td>
                 <td className="permission">{permissionLevels[user.users_permission_level]}</td>
@@ -74,28 +100,6 @@ export default class SettingsUsersEntry extends Component {
                             </IsNotSelf>
                         </div>
                     </IsUserManager>
-                    <CSSTransitionLazy
-                        in={this.state.confirmDisplayed}
-                        classNames="notified"
-                        timeout={{
-                            enter: 300,
-                            exit: 150
-                        }}
-                    >
-                        <ConfirmationBar
-                            onConfirm={() => {deleteUser(user.id)}}
-                            onCancel={this.clearConfirm}
-                        />
-                    </CSSTransitionLazy>
-                </td>
-                <td className="notification-col">
-                    <Notification
-                        alterationStatus={this.props.statusDelete}
-                        pendingMessage="Deleting…"
-                        successfulMessage="Successfuly deleted!"
-                        successfulDuration={null}
-                        failedMessage="Error attempting to delete user"
-                    />
                 </td>
             </tr>
         )
