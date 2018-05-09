@@ -10,25 +10,20 @@ import PlaylistTabList from './TabList'
 import Navigator from 'components/generics/Navigator'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import { playlistEntriesStatePropType } from 'reducers/playlist'
-import { alterationStatusPropType } from 'reducers/alterationsStatus'
+import { alterationResponsePropType } from 'reducers/alterationsResponse'
 
 class Playlist extends Component {
     static propTypes = {
         playlistEntriesState: playlistEntriesStatePropType.isRequired,
-        statusRemoveEntry: alterationStatusPropType,
+        responseOfMultipleRemoveEntry: PropTypes.objectOf(alterationResponsePropType),
         removeEntryFromPlaylist: PropTypes.func.isRequired,
         clearPlaylistEntryNotification: PropTypes.func.isRequired,
-    }
-
-    static defaultProps = {
-        statusRemoveEntry: {},
     }
 
     render() {
         const { playlistEntries } = this.props.playlistEntriesState.data
         const { status } = this.props.playlistEntriesState
-        const removeEntry = this.props.removeEntryFromPlaylist
-        const statusRemoveEntry = this.props.statusRemoveEntry
+        const { removeEntryFromPlaylist: removeEntry, responseOfMultipleRemoveEntry } = this.props
 
         const playlistEntriesComponent = playlistEntries.map( entry => (
             <CSSTransition
@@ -43,7 +38,7 @@ class Playlist extends Component {
                     entry={entry}
                     removeEntry={removeEntry}
                     clearPlaylistEntryNotification={this.props.clearPlaylistEntryNotification}
-                    statusRemoveEntry={statusRemoveEntry[entry.id]}
+                    responseOfRemoveEntry={responseOfMultipleRemoveEntry[entry.id]}
                 />
             </CSSTransition>
         ))
@@ -75,7 +70,7 @@ class Playlist extends Component {
 
 const mapStateToProps = (state) => ({
     playlistEntriesState: state.playlist.entries,
-    statusRemoveEntry: state.alterationsStatus.removeEntryFromPlaylist,
+    responseOfMultipleRemoveEntry: state.alterationsResponse.multiple.removeEntryFromPlaylist || {},
 })
 
 Playlist = withRouter(connect(

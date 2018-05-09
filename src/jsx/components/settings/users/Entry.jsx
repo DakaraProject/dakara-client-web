@@ -90,7 +90,7 @@ export default class SettingsUsersEntry extends Component {
                 </td>
                 <td className="notification-col">
                     <Notification
-                        alterationStatus={this.props.statusDelete}
+                        alterationResponse={this.props.responseOfDelete}
                         pendingMessage="Deleting…"
                         successfulMessage="Successfuly deleted!"
                         successfulDuration={null}

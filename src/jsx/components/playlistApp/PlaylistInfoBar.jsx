@@ -6,7 +6,7 @@ import { formatHourTime, params } from 'utils'
 import { loadPlaylist, loadPlaylistPlayed } from 'actions/playlist'
 import { playlistEntriesStatePropType } from 'reducers/playlist'
 import { playlistDigestPropType } from 'reducers/playlist'
-import { Status } from 'reducers/alterationsStatus'
+import { Status } from 'reducers/alterationsResponse'
 
 class PlaylistInfoBar extends Component {
     static propTypes = {

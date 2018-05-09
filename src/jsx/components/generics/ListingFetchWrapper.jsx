@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { CSSTransitionLazy } from './ReactTransitionGroup'
 import Delayer from './Delayer'
 import Notification from './Notification'
-import { Status } from 'reducers/alterationsStatus'
+import { Status } from 'reducers/alterationsResponse'
 
 export default class ListingFetchWrapper extends Component {
     static propTypes = {

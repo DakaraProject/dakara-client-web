@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
-import { setFormValidationErrors, submitForm, clearForm } from 'actions/forms'
-import { Status } from 'reducers/alterationsStatus'
+import { setAlterationValidationErrors, submitAlteration, clearAlteration } from 'actions/alterations'
+import { Status } from 'reducers/alterationsResponse'
 import Notification from 'components/generics/Notification'
-import { formPropType } from 'reducers/forms'
+import { alterationResponsePropType } from 'reducers/alterationsResponse'
 
 class Form extends Component {
     static propTypes = {
@@ -16,13 +16,17 @@ class Form extends Component {
             PropTypes.string,
             PropTypes.element,
         ]).isRequired,
-        formResponse: formPropType,
+        alterationResponse: alterationResponsePropType,
         noClearOnSuccess: PropTypes.bool,
         onSuccess: PropTypes.func,
-        setFormValidationErrors: PropTypes.func.isRequired,
-        submitForm: PropTypes.func.isRequired,
-        clearForm: PropTypes.func.isRequired,
-        formName: PropTypes.string.isRequired,
+        setAlterationValidationErrors: PropTypes.func.isRequired,
+        submitAlteration: PropTypes.func.isRequired,
+        clearAlteration: PropTypes.func.isRequired,
+        alterationName: PropTypes.string.isRequired,
+        elementId: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]),
         validate: PropTypes.func,
         action: PropTypes.string.isRequired,
         title: PropTypes.string,
@@ -68,18 +72,19 @@ class Form extends Component {
 
     componentWillUnmount() {
         // Clear form messages
-        this.props.clearForm(this.props.formName)
+        const { alterationName, elementId } = this.props
+        this.props.clearAlteration(alterationName, elementId)
     }
 
 
     componentDidUpdate(prevProps) {
-        const { formResponse, noClearOnSuccess, onSuccess } = this.props
-        const prevFormResponse = prevProps.formResponse
+        const { alterationResponse, noClearOnSuccess, onSuccess } = this.props
+        const prevAlterationResponse = prevProps.alterationResponse
 
         // If there is a success notification
-        if (formResponse && formResponse.status == Status.successful) {
+        if (alterationResponse && alterationResponse.status == Status.successful) {
             // and there was no response, or a different notification before
-            if (!prevFormResponse || formResponse.status != prevFormResponse.status) {
+            if (!prevAlterationResponse || alterationResponse.status != prevAlterationResponse.status) {
                 if (!noClearOnSuccess) this.setDefaultFormValues()
                 if (onSuccess) onSuccess()
             }
@@ -101,7 +106,8 @@ class Form extends Component {
      * @return boolean indicating validation success
      */
     validate = () => {
-        const { setFormValidationErrors, formName, children, validate } = this.props
+        const { setAlterationValidationErrors, alterationName, elementId,
+            children, validate } = this.props
         const { formValues } = this.state
 
         // Global validation
@@ -142,7 +148,7 @@ class Form extends Component {
         if (Object.keys(fieldsErrors).length !== 0 || globalErrors) {
             // Validation errors
             // Dispatch action to set errors
-            setFormValidationErrors(formName, globalErrors, fieldsErrors)
+            setAlterationValidationErrors(alterationName, elementId, globalErrors, fieldsErrors)
             return false
         }
 
@@ -154,10 +160,11 @@ class Form extends Component {
      */
     submit = () => {
         const {
-            formName,
+            alterationName,
+            elementId,
             action,
             method,
-            submitForm,
+            submitAlteration,
             children
         } = this.props
 
@@ -178,7 +185,7 @@ class Form extends Component {
             json[id] = value
         })
 
-        submitForm(formName, action, method, json)
+        submitAlteration(alterationName, elementId, action, method, json)
     }
 
     /**
@@ -187,15 +194,15 @@ class Form extends Component {
      * @returns set of fields with props.
      */
     renderFieldsSet = (inline) => {
-        const { children, formResponse } = this.props
+        const { children, alterationResponse } = this.props
         const { formValues } = this.state
 
         const fields = React.Children.map(children,
             (field) => {
                 const id = field.props.id
                 let fieldErrors
-                if (formResponse) {
-                    fieldErrors = formResponse.fields[id]
+                if (alterationResponse) {
+                    fieldErrors = alterationResponse.fields[id]
                 }
 
                 return React.cloneElement(field,
@@ -234,9 +241,23 @@ class Form extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-    formResponse: state.forms[ownProps.formName]
-})
+const mapStateToProps = (state, ownProps) => {
+    const { alterationName, elementId } = ownProps
+
+    // form attached to an alteration of type multiper
+    if (typeof elementId !== 'undefined') {
+        return {
+            alterationResponse: state.alterationsResponse.multiple[alterationName] ?
+                state.alterationsResponse.multiple[alterationName][elementId] :
+                undefined
+        }
+    }
+
+    // form attached to an alteration of type unique
+    return {
+        alterationResponse: state.alterationsResponse.unique[alterationName]
+    }
+}
 
 /**
  * FormBlock component
@@ -244,7 +265,7 @@ const mapStateToProps = (state, ownProps) => ({
  *
  * Required properties:
  * - title <str>: Name to display in the form header.
- * - formName <str>: Unique form identifier.
+ * - alterationName <str>: Unique form identifier.
  * - action <str>: url to submit form to, relative to base url
  *
  * Optional properties:
@@ -270,7 +291,7 @@ const mapStateToProps = (state, ownProps) => ({
  */
 class FormBlock extends Form {
     render() {
-        const { title, formName, formResponse,
+        const { title, formName, alterationResponse,
             successMessage, pendingMessage } = this.props
 
         // get fields
@@ -281,7 +302,7 @@ class FormBlock extends Form {
 
         // get failed message if unconsistent case
         let failedMessage
-        if (formResponse && Object.keys(formResponse.fields).length === 0) {
+        if (alterationResponse && Object.keys(alterationResponse.fields).length === 0) {
             failedMessage = "Unknown error!"
         } else {
             failedMessage = null
@@ -304,7 +325,7 @@ class FormBlock extends Form {
                 {fieldsSet}
                 <div className="controls notifiable">
                     <Notification
-                        alterationStatus={formResponse}
+                        alterationResponse={alterationResponse}
                         successfulMessage={successMessage}
                         failedMessage={failedMessage}
                         pendingMessage={pendingMessage}
@@ -319,9 +340,9 @@ class FormBlock extends Form {
 FormBlock = connect(
     mapStateToProps,
     {
-        setFormValidationErrors,
-        submitForm,
-        clearForm
+        setAlterationValidationErrors,
+        submitAlteration,
+        clearAlteration
     }
 )(FormBlock)
 
@@ -333,7 +354,7 @@ export { FormBlock }
  *
  * Required properties:
  * - title <str>: Name to display in the form header.
- * - formName <str>: Unique form identifier.
+ * - alterationName <str>: Unique form identifier.
  * - action <str>: url to submit form to, relative to base url
  *
  * Optional properties:
@@ -357,7 +378,7 @@ export { FormBlock }
  */
 class FormInline extends Form {
     render() {
-        const { formName } = this.props
+        const { alterationName } = this.props
 
         // get fields
         const fieldsSet = this.renderFieldsSet(true)
@@ -388,9 +409,9 @@ class FormInline extends Form {
 FormInline = connect(
     mapStateToProps,
     {
-        setFormValidationErrors,
-        submitForm,
-        clearForm
+        setAlterationValidationErrors,
+        submitAlteration,
+        clearAlteration
     }
 )(FormInline)
 

@@ -79,7 +79,7 @@ class User extends Component {
                     action={`users/${user.id}/password/`}
                     method="PUT"
                     submitText="Change password"
-                    formName="updatePassword"
+                    alterationName="updatePassword"
                     successMessage="Password sucessfully updated!"
                 >
                     <InputField

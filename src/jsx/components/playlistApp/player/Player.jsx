@@ -12,12 +12,12 @@ import { Reduceable } from 'components/generics/Box'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import { sendPlayerCommand } from 'actions/playlist'
 import { playlistDigestPropType, playerCommandsPropType } from 'reducers/playlist'
-import { alterationStatusPropType, Status } from 'reducers/alterationsStatus'
+import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
 
 class Player extends Component {
     static propTypes = {
         playlistDigest: playlistDigestPropType.isRequired,
-        statusSendPlayerCommands: PropTypes.objectOf(alterationStatusPropType),
+        responseOfSendPlayerCommands: PropTypes.objectOf(alterationResponsePropType),
         sendPlayerCommand: PropTypes.func.isRequired,
     }
 
@@ -32,10 +32,10 @@ class Player extends Component {
          * with default values
          */
 
-        const statusSendPlayerCommandsSafe = {
+        const responseOfSendPlayerCommandsSafe = {
             pause: {status: null},
             skip: {status: null},
-            ...this.props.statusSendPlayerCommands,
+            ...this.props.responseOfSendPlayerCommands,
         }
 
         /**
@@ -103,7 +103,7 @@ class Player extends Component {
                             disable
                         >
                             <ManageButton
-                                statusManage={statusSendPlayerCommandsSafe.pause}
+                                responseOfManage={responseOfSendPlayerCommandsSafe.pause}
                                 onClick={() => {
                                     this.props.sendPlayerCommand('pause', !player_manage.pause)
                                 }}
@@ -129,7 +129,7 @@ class Player extends Component {
                             <ServerLost/>
                         </CSSTransitionLazy>
                         <PlayerNotification
-                            alterationStatuses={statusSendPlayerCommandsSafe}
+                            alterationsResponse={responseOfSendPlayerCommandsSafe}
                             playerErrors={player_errors}
                         />
                     </div>
@@ -141,7 +141,7 @@ class Player extends Component {
                             disable
                         >
                             <ManageButton
-                                statusManage={statusSendPlayerCommandsSafe.skip}
+                                responseOfManage={responseOfSendPlayerCommandsSafe.skip}
                                 onClick={() =>
                                         this.props.sendPlayerCommand('skip', true)
                                 }
@@ -182,7 +182,7 @@ const ServerLost = () => (
 
 const mapStateToProps = (state) => ({
     playlistDigest: state.playlist.digest,
-    statusSendPlayerCommands: state.alterationsStatus.sendPlayerCommands,
+    responseOfSendPlayerCommands: state.alterationsResponse.multiple.sendPlayerCommands,
 })
 
 Player = withRouter(connect(

@@ -28,7 +28,7 @@ class Login extends Component {
                     action="token-auth/"
                     title="Login"
                     submitText="Login"
-                    formName="login"
+                    alterationName="login"
                     successMessage={false}
                     pendingMessage={false}
                 >

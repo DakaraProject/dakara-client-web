@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
-import { Status } from 'reducers/alterationsStatus'
-import { alterationStatusPropType } from 'reducers/alterationsStatus'
+import { Status } from 'reducers/alterationsResponse'
+import { alterationResponsePropType } from 'reducers/alterationsResponse'
 
 const notificationTypes = {
     [Status.pending]: 'success',
@@ -31,7 +31,7 @@ export default class Notification extends Component {
         pendingDuration: PropTypes.number,
         successfulDuration: PropTypes.number,
         failedDuration: PropTypes.number,
-        alterationStatus: alterationStatusPropType,
+        alterationResponse: alterationResponsePropType,
     }
 
     static defaultProps = {
@@ -50,11 +50,11 @@ export default class Notification extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const alterationStatus = this.props.alterationStatus
-        const prevAlterationStatus = prevProps.alterationStatus
+        const alterationResponse = this.props.alterationResponse
+        const prevAlterationResponse = prevProps.alterationResponse
 
-        const status = alterationStatus ? alterationStatus.status : null
-        const prevStatus = prevAlterationStatus ? prevAlterationStatus.status : null
+        const status = alterationResponse ? alterationResponse.status : null
+        const prevStatus = prevAlterationResponse ? prevAlterationResponse.status : null
         if (status != prevStatus) {
             if (this.timeout) {
                 clearTimeout(this.timeout)
@@ -70,8 +70,8 @@ export default class Notification extends Component {
     }
 
     setNotificationClearTimeout = () => {
-        const alterationStatus = this.props.alterationStatus
-        const status = alterationStatus ? alterationStatus.status : null
+        const alterationResponse = this.props.alterationResponse
+        const status = alterationResponse ? alterationResponse.status : null
         const durations = {
             [Status.pending]: this.props.pendingDuration,
             [Status.successful]: this.props.successfulDuration,
@@ -90,9 +90,9 @@ export default class Notification extends Component {
 
     render() {
         let notification
-        if (this.state.display && this.props.alterationStatus) {
-            const status = this.props.alterationStatus.status
-            let message = this.props.alterationStatus.message
+        if (this.state.display && this.props.alterationResponse) {
+            const status = this.props.alterationResponse.status
+            let message = this.props.alterationResponse.message
 
             // if there is a message in the state, keep it
             // otherwise, use the message passed to the compenent

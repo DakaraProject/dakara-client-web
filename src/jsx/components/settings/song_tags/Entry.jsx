@@ -4,17 +4,16 @@ import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import classNames from 'classnames'
 import { FormInline, CheckboxField, HueField } from 'components/generics/Form'
 import Notification from 'components/generics/Notification'
-import { Status } from 'reducers/alterationsStatus'
+import { Status, alterationResponsePropType } from 'reducers/alterationsResponse'
 import { songTagPropType } from 'serverPropTypes/library'
-import { alterationStatusPropType } from 'reducers/alterationsStatus'
-import { formPropType } from 'reducers/forms'
 
 export default class SettingsSongTagsEntry extends Component {
     static propTypes = {
         tag: songTagPropType.isRequired,
-        statusEdit: alterationStatusPropType,
+        responseOfEdit: alterationResponsePropType,
+        responseOfEditColor: alterationResponsePropType,
         editSongTag: PropTypes.func.isRequired,
-        formResponse: formPropType, // should be isRequired
+        clearTagListEntryNotification: PropTypes.func.isRequired,
     }
 
     state = {
@@ -34,7 +33,7 @@ export default class SettingsSongTagsEntry extends Component {
     }
 
     render() {
-        const { statusEdit, formResponse, tag, editSongTag } = this.props
+        const { responseOfEdit, responseOfEditColor, tag, editSongTag } = this.props
 
         /**
          * form to change color
@@ -53,7 +52,8 @@ export default class SettingsSongTagsEntry extends Component {
                     method="PATCH"
                     submitText={submitText}
                     submitClass="success"
-                    formName={`tagColorEdit${tag.id}`}
+                    alterationName="editSongTagColor"
+                    elementId={tag.id}
                     noClearOnSuccess
                     onSuccess={this.clearColorForm}
                 >
@@ -79,7 +79,7 @@ export default class SettingsSongTagsEntry extends Component {
          * handle disabled state
          */
 
-        const disabled = statusEdit && statusEdit.status == Status.pending
+        const disabled = responseOfEdit && responseOfEdit.status == Status.pending
         const setValue = (id, value) => {
             if (!disabled)
                 editSongTag(tag.id, !value)
@@ -125,13 +125,13 @@ export default class SettingsSongTagsEntry extends Component {
                 </td>
                 <td className="notification-col">
                     <Notification
-                        alterationStatus={statusEdit}
+                        alterationResponse={responseOfEdit}
                         failedMessage="Error attempting to edit tag"
                         pendingMessage={false}
                         successfulMessage={false}
                     />
                     <Notification
-                        alterationStatus={formResponse}
+                        alterationResponse={responseOfEditColor}
                         successfulMessage={false}
                         pendingMessage={false}
                         failedMessage="Error attempting to edit tag color"

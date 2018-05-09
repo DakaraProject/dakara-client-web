@@ -16,7 +16,7 @@ import PlayQueueInfo from 'components/song/PlayQueueInfo'
 import { songPropType } from 'serverPropTypes/library'
 import { playerStatusPropType } from 'serverPropTypes/playlist'
 import { playlistPlayedEntryPropType, playlistEntryPropType } from 'serverPropTypes/playlist'
-import { alterationStatusPropType } from 'reducers/alterationsStatus'
+import { alterationResponsePropType } from 'reducers/alterationsResponse'
 
 class SongEntry extends Component {
     static propTypes = {
@@ -30,7 +30,7 @@ class SongEntry extends Component {
             playlistEntryPropType
         ).isRequired,
         playerStatus: playerStatusPropType,
-        statusAddSong: alterationStatusPropType,
+        responseOfAddSong: alterationResponsePropType,
         addSongToPlaylist: PropTypes.func.isRequired,
         clearSongListNotification: PropTypes.func.isRequired,
     }
@@ -178,7 +178,7 @@ class SongEntry extends Component {
                             </KaraStatusIsNotStopped>
                         </div>
                         <Notification
-                            alterationStatus={this.props.statusAddSong}
+                            alterationResponse={this.props.responseOfAddSong}
                             pendingMessage="Adding…"
                             successfulMessage="Successfuly added!"
                             failedMessage="Error attempting to add song to playlist"
@@ -206,8 +206,8 @@ class SongEntry extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
     query: state.library.song.data.query,
-    statusAddSong: state.alterationsStatus.addSongToPlaylist ?
-        state.alterationsStatus.addSongToPlaylist[ownProps.song.id] : null,
+    responseOfAddSong: state.alterationsResponse.multiple.addSongToPlaylist ?
+        state.alterationsResponse.multiple.addSongToPlaylist[ownProps.song.id] : undefined,
     playlistPlayedEntries: state.playlist.playedEntries.data.playlistPlayedEntries,
     playlistEntries: state.playlist.entries.data.playlistEntries,
     playerStatus: state.playlist.digest.data.player_status,

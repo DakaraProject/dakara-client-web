@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { LIBRARY_REQUEST, LIBRARY_SUCCESS, LIBRARY_FAILURE } from 'actions/library'
 import { WORK_TYPES_REQUEST, WORK_TYPES_SUCCESS, WORK_TYPES_FAILURE } from 'actions/library'
 import { songPropType, artistPropType, workPropType, workTypePropType } from 'serverPropTypes/library'
-import { Status } from './alterationsStatus'
+import { Status } from './alterationsResponse'
 import { updateData } from 'utils'
 
 /**
