@@ -8,16 +8,15 @@ import Navigator from 'components/generics/Navigator'
 import SettingsSongTagsEntry from './Entry'
 import SettingsTabList from '../TabList'
 import { songTagsStatePropType } from 'reducers/songTags'
-import { alterationStatusPropType } from 'reducers/alterationsStatus'
-import { formPropType } from 'reducers/forms'
+import { alterationResponsePropType } from 'reducers/alterationsResponse'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 
 class SettingsSongTagsList extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
         songTagsState: songTagsStatePropType.isRequired,
-        statusEdit: alterationStatusPropType,
-        formsResponse: PropTypes.objectOf(formPropType),
+        responseOfMultipleEdit: PropTypes.objectOf(alterationResponsePropType),
+        responseOfMultipleEditColor: PropTypes.objectOf(alterationResponsePropType),
         editSongTag: PropTypes.func.isRequired,
         getSongTagList: PropTypes.func.isRequired,
         clearTagListEntryNotification: PropTypes.func.isRequired,
@@ -42,28 +41,20 @@ class SettingsSongTagsList extends Component {
     }
 
     render() {
-        const { statusEdits, editSongTag, location, formsResponse } = this.props
+        const { editSongTag, clearTagListEntryNotification, location,
+            responseOfMultipleEdit, responseOfMultipleEditColor } = this.props
         const { songTags, pagination } = this.props.songTagsState.data
 
-        const tagList = songTags.map((tag) => {
-            let statusEdit
-            if (statusEdits) {
-                statusEdit = statusEdits[tag.id]
-            }
-
-            const formResponse = formsResponse[`tagColorEdit${tag.id}`]
-
-            return (
-                <SettingsSongTagsEntry
-                    key={tag.id}
-                    tag={tag}
-                    statusEdit={statusEdit}
-                    formResponse={formResponse}
-                    editSongTag={editSongTag}
-                    clearTagListEntryNotification={this.props.clearTagListEntryNotification}
-                />
-            )
-        })
+        const tagList = songTags.map((tag) => (
+            <SettingsSongTagsEntry
+                key={tag.id}
+                tag={tag}
+                responseOfEdit={responseOfMultipleEdit[tag.id]}
+                responseOfEditColor={responseOfMultipleEditColor[tag.id]}
+                editSongTag={editSongTag}
+                clearTagListEntryNotification={clearTagListEntryNotification}
+            />
+        ))
 
         return (
             <div className="box" id="song-tag-list">
@@ -100,8 +91,8 @@ class SettingsSongTagsList extends Component {
 
 const mapStateToProps = (state) => ({
     songTagsState: state.settings.songTags,
-    statusEdits: state.alterationsStatus.editSongTag,
-    formsResponse: state.forms
+    responseOfMultipleEdit: state.alterationsResponse.multiple.editSongTag || {},
+    responseOfMultipleEditColor: state.alterationsResponse.multiple.editSongTagColor || {},
 })
 
 SettingsSongTagsList = withRouter(connect(

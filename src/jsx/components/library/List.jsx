@@ -9,7 +9,7 @@ import ArtistList, { getArtistLibraryNameInfo } from './artist/List'
 import WorkList, { getWorkLibraryNameInfo } from './work/List'
 import { loadLibraryEntries } from 'actions/library'
 import { workTypeStatePropType } from 'reducers/library'
-import { Status } from 'reducers/alterationsStatus'
+import { Status } from 'reducers/alterationsResponse'
 
 class List extends Component {
     static propTypes = {

@@ -8,7 +8,7 @@ import NotFound from 'components/navigation/NotFound'
 import Forbidden from 'components/navigation/Forbidden'
 import { userPropType } from 'serverPropTypes/users'
 import { editUsersStatePropType } from 'reducers/users'
-import { Status } from 'reducers/alterationsStatus'
+import { Status } from 'reducers/alterationsResponse'
 
 class SettingsUsersEdit extends Component {
     static propTypes = {
@@ -70,7 +70,7 @@ class SettingsUsersEdit extends Component {
                         action={`users/${user.id}/`}
                         method="PATCH"
                         submitText="Edit"
-                        formName="updateUser"
+                        alterationName="updateUser"
                         successMessage="User sucessfully updated!"
                         noClearOnSuccess
                     >

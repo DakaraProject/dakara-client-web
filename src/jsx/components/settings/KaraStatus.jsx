@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import SettingsTabList from './TabList'
 import { FormBlock, RadioField} from 'components/generics/Form'
-import { Status } from 'reducers/alterationsStatus'
+import { Status } from 'reducers/alterationsResponse'
 
 class SettingsKaraStatus extends Component {
 
@@ -41,7 +41,7 @@ class SettingsKaraStatus extends Component {
                     action="playlist/kara-status/"
                     method="PUT"
                     submitText="Set"
-                    formName="editKaraStatus"
+                    alterationName="editKaraStatus"
                     successMessage="Kara status sucessfully updated!"
                     noClearOnSuccess
                 >

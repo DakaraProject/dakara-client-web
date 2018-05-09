@@ -16,7 +16,7 @@ class SettingsUsersList extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
         listUsersState: listUsersStatePropType.isRequired,
-        statusDeleteUserList: PropTypes.object,
+        responseOfMultipleDeleteUser: PropTypes.object,
         deleteUser: PropTypes.func.isRequired,
         clearUsersEntryNotification: PropTypes.func.isRequired,
         getUsers: PropTypes.func.isRequired,
@@ -41,25 +41,19 @@ class SettingsUsersList extends Component {
     }
 
     render() {
-        const { statusDeleteUserList, location } = this.props
+        const { deleteUser, clearUsersEntryNotification, location,
+            responseOfMultipleDeleteUser } = this.props
         const { users, pagination } = this.props.listUsersState.data
 
-        const userList = users.map((user) => {
-            let statusDelete
-            if (statusDeleteUserList) {
-                statusDelete = statusDeleteUserList[user.id]
-            }
-
-            return (
-                <SettingsUserEntry
-                    key={user.id}
-                    user={user}
-                    statusDelete={statusDelete}
-                    deleteUser={this.props.deleteUser}
-                    clearUsersEntryNotification={this.props.clearUsersEntryNotification}
-                />
-            )
-        })
+        const userList = users.map((user) => (
+            <SettingsUserEntry
+                key={user.id}
+                user={user}
+                responseOfDelete={responseOfMultipleDeleteUser[user.id]}
+                deleteUser={deleteUser}
+                clearUsersEntryNotification={clearUsersEntryNotification}
+            />
+        ))
 
         return (
             <div className="box" id="users-list">
@@ -96,7 +90,7 @@ class SettingsUsersList extends Component {
                     <FormBlock
                         title="Create user"
                         submitText="Create"
-                        formName="createUser"
+                        alterationName="createUser"
                         action="users/"
                         successMessage="User sucessfully created!"
                         onSuccess={this.refreshEntries}
@@ -133,7 +127,7 @@ class SettingsUsersList extends Component {
 
 const mapStateToProps = (state) => ({
     listUsersState: state.settings.users.list,
-    statusDeleteUserList: state.alterationsStatus.deleteUser
+    responseOfMultipleDeleteUser: state.alterationsResponse.multiple.deleteUser || {}
 })
 
 SettingsUsersList = withRouter(connect(

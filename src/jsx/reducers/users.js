@@ -4,7 +4,7 @@ import { USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LIST_FAILURE } from 'actions
 import { USER_GET_REQUEST, USER_GET_SUCCESS, USER_GET_FAILURE } from 'actions/users'
 import { USER_CLEAR } from 'actions/users'
 import { userPropType } from 'serverPropTypes/users'
-import { Status } from './alterationsStatus'
+import { Status } from './alterationsResponse'
 import { updateData } from 'utils'
 
 /**
