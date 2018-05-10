@@ -135,12 +135,13 @@ table.listing {
         white-space: nowrap;
     }
 
-    tr {
+    // make the notification column widthless
+    .notification-col {
+        width: 0;
         height: 100%;
     }
 
-    .notification-col {
-        width: 0;
+    tr {
         height: 100%;
     }
 
@@ -153,7 +154,7 @@ table.listing {
         height: @listing-entry-height;
     }
 
-    td {
+    td, th {
         // default is 1px, but no idea for the reason why
         padding: 0;
     }

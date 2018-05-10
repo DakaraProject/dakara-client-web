@@ -16,8 +16,18 @@
             text-align: right;
         }
 
-        .color .field {
-            flex: 1;
+        .color {
+            .notified {
+                z-index: 900;
+
+                &.color-form-notified {
+                    z-index: 800;
+                }
+            }
+
+            .field {
+                flex: 1;
+            }
         }
 
         .set {

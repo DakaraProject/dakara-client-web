@@ -72,9 +72,10 @@ class SettingsSongTagsList extends Component {
                     status={this.props.songTagsState.status}
                 >
                     <div className="listing-table-container">
-                        <table className="listing song-tag-list-listing notifiable">
+                        <table className="listing song-tag-list-listing">
                             <thead>
                                 <tr className="listing-header">
+                                    <th></th>
                                     <th className="name">Name</th>
                                     <th className="enabled">Enabled</th>
                                     <th className="color">Color</th>
