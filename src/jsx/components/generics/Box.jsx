@@ -1,9 +1,24 @@
 import React, { Component } from 'react'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
 
 export class Reduceable extends Component {
+    static propTypes = {
+        thresold: PropTypes.oneOfType([
+            PropTypes.number.isRequired,
+            PropTypes.shape({
+                up: PropTypes.number.isRequired,
+                down: PropTypes.number.isRequired
+            })
+        ]),
+        classNameOnThresold: PropTypes.string
+    }
+
     state = {
         isReduced: false,
+        latestPosition: 0,
+        thresoldUp: 0,
+        thresoldDown: 0,
     }
 
     static defaultProps = {
@@ -12,6 +27,22 @@ export class Reduceable extends Component {
     }
 
     componentDidMount() {
+        // set up thresolds
+        const { thresold } = this.props
+        if (typeof thresold === 'object') {
+            const { up, down } = thresold
+            this.setState({
+                thresoldUp: up,
+                thresoldDown: down
+            })
+        } else {
+            this.setState({
+                thresoldUp: thresold,
+                thresoldDown: thresold
+            })
+        }
+
+        // add scroll event listener
         window.addEventListener('scroll', this.onScroll, false)
     }
 
@@ -20,14 +51,17 @@ export class Reduceable extends Component {
     }
 
     onScroll = (e) => {
-        const { isReduced } = this.state
-        const { thresold } = this.props
+        const { isReduced, thresoldUp, thresoldDown, latestPosition } = this.state
+        const currentPosition = window.pageYOffset
+        const deltaPosition = currentPosition - latestPosition
 
-        if (window.pageYOffset > thresold) {
+        if (currentPosition > thresoldUp && deltaPosition > 0) {
             if (!isReduced) this.setState({isReduced: true})
-        } else {
-            this.setState({isReduced: false})
+        } else if (currentPosition < thresoldDown && deltaPosition < 0) {
+            if (isReduced) this.setState({isReduced: false})
         }
+
+        this.setState({latestPosition: currentPosition})
     }
 
     render() {

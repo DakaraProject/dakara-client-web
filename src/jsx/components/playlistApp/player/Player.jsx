@@ -134,7 +134,12 @@ class Player extends Component {
                         />
                     </div>
                 </div>
-                <Reduceable>
+                <Reduceable
+                    thresold={{
+                        up: 0,
+                        down: 50
+                    }}
+                >
                     <div className="controls other">
                         <IsPlaylistManagerOrOwner
                             object={player_status.playlist_entry}
