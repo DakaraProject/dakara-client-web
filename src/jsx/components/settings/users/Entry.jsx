@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { permissionLevels, IsUserManager, IsNotSelf } from 'components/permissions/Users'
 import ControlLink from 'components/generics/ControlLink'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
-import Notification from 'components/generics/Notification'
+import Notification, { NotifiableForTable } from 'components/generics/Notification'
 import { userPropType } from 'serverPropTypes/users'
 
 export default class SettingsUsersEntry extends Component {
@@ -48,30 +48,28 @@ export default class SettingsUsersEntry extends Component {
         return (
             <tr className="listing-entry user-listing-entry hoverizable">
                 <td className="notification-col">
-                    <div className="notifiable-wrapper">
-                        <div className="notifiable" style={{width: document.getElementById("content").clientWidth}}>
-                            <CSSTransitionLazy
-                                in={this.state.confirmDisplayed}
-                                classNames="notified"
-                                timeout={{
-                                    enter: 300,
-                                    exit: 150
-                                }}
-                            >
-                                <ConfirmationBar
-                                    onConfirm={() => {deleteUser(user.id)}}
-                                    onCancel={this.clearConfirm}
-                                />
-                            </CSSTransitionLazy>
-                            <Notification
-                                alterationStatus={this.props.statusDelete}
-                                pendingMessage="Deleting…"
-                                successfulMessage="Successfuly deleted!"
-                                successfulDuration={null}
-                                failedMessage="Error attempting to delete user"
+                    <NotifiableForTable>
+                        <CSSTransitionLazy
+                            in={this.state.confirmDisplayed}
+                            classNames="notified"
+                            timeout={{
+                                enter: 300,
+                                exit: 150
+                            }}
+                        >
+                            <ConfirmationBar
+                                onConfirm={() => {deleteUser(user.id)}}
+                                onCancel={this.clearConfirm}
                             />
-                        </div>
-                    </div>
+                        </CSSTransitionLazy>
+                        <Notification
+                            alterationStatus={this.props.statusDelete}
+                            pendingMessage="Deleting…"
+                            successfulMessage="Successfuly deleted!"
+                            successfulDuration={null}
+                            failedMessage="Error attempting to delete user"
+                        />
+                    </NotifiableForTable>
                 </td>
                 <td className="username">{user.username}</td>
                 <td className="permission superuser">{superuserMarker}</td>

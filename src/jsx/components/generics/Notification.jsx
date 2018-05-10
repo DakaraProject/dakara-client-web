@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
@@ -137,6 +138,46 @@ export default class Notification extends Component {
             <TransitionGroup className="notification-wrapper">
                 {notification}
             </TransitionGroup>
+        )
+    }
+}
+
+/**
+ * Helper to create a notifiable area in a table
+ *
+ * Must be used on the cell of the first column.
+ */
+export class NotifiableForTable extends Component {
+    state = {
+        parentTableElement: null,
+    }
+
+    componentDidMount() {
+        // find parent table DOM node
+        const element = ReactDOM.findDOMNode(this)
+        if (element) {
+            this.setState({parentTableElement: element.closest('table')})
+        }
+    }
+
+    render() {
+        const { children, className } = this.props
+        const { parentTableElement } = this.state
+
+        // get the width of the element with the width of the closest table
+        const width = parentTableElement ?
+            parentTableElement.clientWidth :
+            undefined
+
+        return (
+            <div className="notifiable-for-table">
+                <div
+                    className={classNames("notifiable", className)}
+                    style={{width}}
+                >
+                    {children}
+                </div>
+            </div>
         )
     }
 }

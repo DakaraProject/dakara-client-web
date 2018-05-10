@@ -142,29 +142,6 @@ table.listing {
     .notification-col {
         width: 0;
         height: 100%;
-
-        .notifiable-wrapper {
-            position: relative;
-            height: 100%;
-
-            .notifiable {
-                position: absolute;
-                top: 0;
-                left: 0;
-                height: 100%;
-                pointer-events: none;
-                /*//viewport width without scrollbar
-                width: 100vw;
-
-                .make-desktop({
-                    width: @page-width-max;
-                });
-*/
-                .notified {
-                    pointer-events: initial;
-                }
-            }
-        }
     }
 
     // remove default bold
@@ -172,21 +149,9 @@ table.listing {
         font-weight: normal;
     }
 
-    // Hack, to position each notification on its line,
-    // since we can't position relative to the tr
     .listing-entry {
-        min-height: @listing-entry-height;
-/*
-        .loop-notified-offset(@n) when (@n > 0) {
-            .loop-notified-offset(@n - 1);
-            &:nth-child(@{n}) .notified {
-                top: @n * @listing-entry-height;
-            }
-        }
-
-        // This value can be increased when using tables with more rows
-        .loop-notified-offset(10);
-*/    }
+        height: @listing-entry-height;
+    }
 
     td {
         // default is 1px, but no idea for the reason why
