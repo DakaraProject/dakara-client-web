@@ -66,7 +66,7 @@ class SettingsSongTagsList extends Component {
                         <table className="listing song-tag-list-listing">
                             <thead>
                                 <tr className="listing-header">
-                                    <th></th>
+                                    <th className="notification-col"></th>
                                     <th className="name">Name</th>
                                     <th className="enabled">Enabled</th>
                                     <th className="color">Color</th>

@@ -11,12 +11,45 @@
 #users-list {
     .users-list {
         .username {
-            .make-gap(padding, left);
             text-align: left;
+        }
+
+        .listing-entry .username {
+            overflow: hidden;
+            overflow-wrap: break-word;
+
+            .make-tabled({
+                max-width: calc(
+                    100vw // the width of the window
+                    - 2 * @listing-entry-height // the control-col with 2 controls
+                    - 1.5 * @listing-entry-height // the superuser col
+                    - 3 * 1.5 * @listing-entry-height // 3 permission cols
+                    - 0.3 * @listing-entry-height // arbitrary coefficient
+                );
+            });
+
+            .make-smartphone({
+                max-width: calc(
+                    100vw // the width of the window
+                    - 2 * @listing-entry-height // the control-col with 2 controls
+                    - @listing-entry-height // the superuser col
+                    - 3 * @listing-entry-height // 3 permission cols
+                );
+            });
         }
 
         .permission {
             text-align: center;
+
+            .make-smartphone({
+                .permission-text {
+                    text-transform: uppercase;
+
+                    .hideable {
+                        display: none;
+                    }
+                }
+            });
         }
 
         .superuser {

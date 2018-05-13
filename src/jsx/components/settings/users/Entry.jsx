@@ -73,9 +73,15 @@ export default class SettingsUsersEntry extends Component {
                 </td>
                 <td className="username">{user.username}</td>
                 <td className="permission superuser">{superuserMarker}</td>
-                <td className="permission">{permissionLevels[user.users_permission_level]}</td>
-                <td className="permission">{permissionLevels[user.library_permission_level]}</td>
-                <td className="permission">{permissionLevels[user.playlist_permission_level]}</td>
+                <td className="permission">
+                    <PermissionText level={user.users_permission_level}/>
+                </td>
+                <td className="permission">
+                    <PermissionText level={user.library_permission_level}/>
+                </td>
+                <td className="permission">
+                    <PermissionText level={user.playlist_permission_level}/>
+                </td>
                 <td className="controls-col">
                     <IsUserManager>
                         <div className="controls">
@@ -102,4 +108,22 @@ export default class SettingsUsersEntry extends Component {
             </tr>
         )
     }
+}
+
+const PermissionText = ({level}) => {
+    if (!level) {
+        return null
+    }
+
+    const permissionText = permissionLevels[level]
+
+    return (
+        <span className="permission-text">
+            {permissionText.substring(0, 1)}
+            <span className="hideable">
+                {permissionText.substring(1)}
+            </span>
+        </span>
+    )
+
 }

@@ -126,7 +126,7 @@ ul.listing {
 // Specialization for tables
 table.listing {
     width: 100%;
-    height: 100%;
+    // height: 100%;
     border-collapse: collapse;
 
     // make the controls column as small as possible
@@ -148,15 +148,31 @@ table.listing {
     // remove default bold
     .listing-header > th {
         font-weight: normal;
+
+        .make-smartphone({
+            font-size: 0.85em;
+        });
     }
 
-    .listing-entry {
+    // it seems that a row has no really height, so we have to set the height to
+    // the cell itself
+    .listing-entry > td,
+    .listing-header > th {
         height: @listing-entry-height;
     }
+
+    // for Firefox
+    // .listing-entry {
+    //     height: @listing-entry-height;
+    // }
 
     td, th {
         // default is 1px, but no idea for the reason why
         padding: 0;
+
+        &:not(.controls-col):not(.notification-col) {
+            .make-gap(padding, left);
+        }
     }
 
 }
