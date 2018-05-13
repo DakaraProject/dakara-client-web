@@ -65,6 +65,7 @@ class SettingsUsersList extends Component {
                         <table className="listing users-list notifiable">
                             <thead>
                                 <tr className="listing-header">
+                                    <th></th>
                                     <th className="username">Username</th>
                                     <th className="permission">Is superuser</th>
                                     <th className="permission">Users rights</th>

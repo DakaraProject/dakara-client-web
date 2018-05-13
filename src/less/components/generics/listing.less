@@ -126,6 +126,7 @@ ul.listing {
 // Specialization for tables
 table.listing {
     width: 100%;
+    height: 100%;
     border-collapse: collapse;
 
     // make the controls column as small as possible
@@ -134,7 +135,14 @@ table.listing {
         white-space: nowrap;
     }
 
+    // make the notification column widthless
     .notification-col {
+        width: 0;
+        height: 100%;
+    }
+
+    tr {
+        height: 100%;
     }
 
     // remove default bold
@@ -142,31 +150,15 @@ table.listing {
         font-weight: normal;
     }
 
-    // Hack, to position each notification on its line,
-    // since we can't position relative to the tr
     .listing-entry {
         height: @listing-entry-height;
-
-        .loop-notified-offset(@n) when (@n > 0) {
-            .loop-notified-offset(@n - 1);
-            &:nth-child(@{n}) .notified {
-                top: @n * @listing-entry-height;
-            }
-        }
-
-        // This value can be increased when using tables with more rows
-        .loop-notified-offset(10);
     }
 
-    td {
+    td, th {
         // default is 1px, but no idea for the reason why
         padding: 0;
     }
 
-    // notification
-    .notified {
-        height: @listing-entry-height;
-    }
 }
 
 // `listing-table-container` class:

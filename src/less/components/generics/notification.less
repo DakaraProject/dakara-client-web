@@ -154,3 +154,29 @@
         }
     }
 }
+
+// `notifiable-for-table` class:
+//
+// The notifiable class for table provides the equivalent notifiable class
+// rules, adapted for a table.
+//
+// This class must be used in the cell of the first column.
+.notifiable-for-table {
+    position: relative;
+    height: 100%;
+
+    .notifiable {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+
+        // make the element ensensitive to clicks and restore it right
+        // after
+        pointer-events: none;
+
+        .notified {
+            pointer-events: initial;
+        }
+    }
+}
