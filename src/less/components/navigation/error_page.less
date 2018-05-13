@@ -10,8 +10,14 @@
     .make-gap(padding, bottom);
 
     .box-header {
+        .make-gap(padding, vertical);
         background: transparent;
         color: inherit;
+
+        h2 {
+            font-size: 2em;
+            .make-gap(padding, horizontal);
+        }
     }
 
     .url {
