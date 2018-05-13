@@ -55,7 +55,9 @@ export default class Notification extends Component {
 
         const status = alterationResponse ? alterationResponse.status : null
         const prevStatus = prevAlterationResponse ? prevAlterationResponse.status : null
-        if (status != prevStatus) {
+        const date = alterationResponse ? alterationResponse.date : null
+        const prevDate = prevAlterationResponse ? prevAlterationResponse.date : null
+        if (status !== prevStatus || date !== prevDate) {
             if (this.timeout) {
                 clearTimeout(this.timeout)
             }
@@ -91,12 +93,18 @@ export default class Notification extends Component {
     render() {
         let notification
         if (this.state.display && this.props.alterationResponse) {
-            const status = this.props.alterationResponse.status
-            let message = this.props.alterationResponse.message
+            const { status, message: messageInState, fields: fieldsInState } =
+                this.props.alterationResponse
+
+            let message
 
             // if there is a message in the state, keep it
             // otherwise, use the message passed to the compenent
-            if (!message) {
+            if (messageInState) {
+                message = messageInState
+            } else if (Object.keys(fieldsInState).length > 0) {
+                message = "There are field errors."
+            } else {
                 const messages = {
                     [Status.pending]: this.props.pendingMessage,
                     [Status.successful]: this.props.successfulMessage,

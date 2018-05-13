@@ -291,7 +291,7 @@ const mapStateToProps = (state, ownProps) => {
  */
 class FormBlock extends Form {
     render() {
-        const { title, formName, alterationResponse,
+        const { title, alterationResponse,
             successMessage, pendingMessage } = this.props
 
         // get fields
@@ -390,7 +390,7 @@ class FormInline extends Form {
             <form
                 onSubmit={e => {
                     e.preventDefault()
-                    if(this.validate()) {
+                    if (this.validate()) {
                         this.submit()
                     }
                 }}
