@@ -10,7 +10,6 @@ http.createServer(function (request, response) {
     var filePath = request.url;
     if (filePath.startsWith('/static/')) {
         filePath = './dist/' + filePath.split('/static/')[1]
-        console.log(filePath)
     } else {
         filePath = './dist/index.html';
     }
