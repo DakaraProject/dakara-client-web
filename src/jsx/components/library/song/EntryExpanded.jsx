@@ -4,12 +4,14 @@ import PropTypes from 'prop-types'
 import SongTagList from 'components/song/SongTagList'
 import SongEntryExpandedWork from './EntryExpandedWork'
 import SongEntryExpandedArtist from './EntryExpandedArtist'
+import HighlighterQuery from 'components/generics/HighlighterQuery'
 import { songPropType } from 'serverPropTypes/library'
 
 class SongEntryExpanded extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
         song: songPropType.isRequired,
+        query: PropTypes.object
     }
 
     static contextTypes = {
@@ -31,7 +33,7 @@ class SongEntryExpanded extends Component {
     }
 
     render() {
-        const song = this.props.song
+        const {song, query} = this.props
 
         /**
          * Works
@@ -123,7 +125,13 @@ class SongEntryExpanded extends Component {
                             </span>
                             <span className="name">Music details</span>
                         </h4>
-                        <div className="text">{song.detail}</div>
+                        <div className="text">
+                            <HighlighterQuery
+                                query={query}
+                                searchWords={(q) => (q.remaining)}
+                                textToHighlight={song.detail}
+                            />
+                        </div>
                     </div>
                 )
         }
@@ -138,7 +146,13 @@ class SongEntryExpanded extends Component {
                             </span>
                             <span className="name">Video details</span>
                         </h4>
-                        <div className="text">{song.detail_video}</div>
+                        <div className="text">
+                            <HighlighterQuery
+                                query={query}
+                                searchWords={(q) => (q.remaining)}
+                                textToHighlight={song.detail_video}
+                            />
+                        </div>
                     </div>
                 )
         }
