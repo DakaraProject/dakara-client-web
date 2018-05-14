@@ -33,7 +33,7 @@ body {
 }
 
 // helper for padding or margin gaps
-// @param @type property to use (padding or margin
+// @param @type property to use (padding or margin)
 // @param @direction where to apply the gap (top, bottom, left, right, vertical
 //  (top and bottom) or horizontal (left and right))
 // @param @factor extra scale to apply to the gap (number)
@@ -46,17 +46,31 @@ body {
     // format the value accordingly
     // for large device
     @value: if((@is-multi = 1),
-        if((@direction = vertical), @gap-vertical * @factor 0, 0 @gap-horizontal * @factor),
-        if((@direction = top) or (@direction = bottom), @gap-vertical * @factor,
-            if((@direction = right) or (@direction = left), @gap-horizontal * @factor, 0)
+        if((@direction = vertical),
+            @gap-vertical * @factor 0,
+            0 @gap-horizontal * @factor
+        ),
+        if((@direction = top) or (@direction = bottom),
+            @gap-vertical * @factor,
+            if((@direction = right) or (@direction = left),
+                @gap-horizontal * @factor,
+                0 // error case
+            )
         )
     );
 
     // for smartphone
     @value-smartphone: if((@is-multi = 1),
-        if((@direction = vertical), @gap-vertical-smartphone * @factor 0, 0 @gap-horizontal-smartphone * @factor),
-        if((@direction = top) or (@direction = bottom), @gap-vertical-smartphone * @factor,
-            if((@direction = right) or (@direction = left), @gap-horizontal-smartphone * @factor, 0)
+        if((@direction = vertical),
+            @gap-vertical-smartphone * @factor 0,
+            0 @gap-horizontal-smartphone * @factor
+        ),
+        if((@direction = top) or (@direction = bottom),
+            @gap-vertical-smartphone * @factor,
+            if((@direction = right) or (@direction = left),
+                @gap-horizontal-smartphone * @factor,
+                0 // error case
+            )
         )
     );
 
