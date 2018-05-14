@@ -30,15 +30,7 @@
             overflow: hidden;
             overflow-wrap: break-word;
 
-            // add a special vertical padding that is tiny enough to not
-            // mess with the vertical centering, and large enough to keep
-            // the content away from borders when it spreads on several
-            // lines
-            padding: (@gap-horizontal / 4) @gap-horizontal;
-
-            .make-smartphone({
-                padding: (@gap-horizontal-smartphone / 3) @gap-horizontal-smartphone;
-            });
+            .make-vertical-row-padding(horizontal);
         }
 
         .songs-amount {

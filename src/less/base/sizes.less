@@ -86,3 +86,24 @@ body {
         @{property}: @value-smartphone;
     });
 }
+
+// add a special vertical padding that is tiny enough to not mess with the
+// vertical centering, and large enough to keep the content away from borders
+// when it spreads on several lines
+// @param @extra when set to horizontal, apply a normal horizontal gap too
+// @param @factor extra scale to apply to the vertical padding (number)
+.make-vertical-row-padding(@extra: none, @factor: 1) {
+    padding-top: (@gap-horizontal / 4) * @factor;
+    padding-bottom: (@gap-horizontal / 4) * @factor;
+
+    .make-smartphone({
+        padding-top: (@gap-horizontal-smartphone / 3) * @factor;
+        padding-bottom: (@gap-horizontal-smartphone / 3) * @factor;
+    });
+
+    // apply extra horizontal gap if necessary
+    & when (@extra = horizontal) {
+        .make-gap(padding, right);
+        .make-gap(padding, left);
+    }
+}
