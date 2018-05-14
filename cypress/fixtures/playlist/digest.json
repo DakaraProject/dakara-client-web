@@ -1,12 +1,15 @@
 {
-    "status": {
+    "player_status": {
         "playlist_entry": null,
         "timing": 0,
         "paused": false
     },
-    "manage": {
+    "player_manage": {
         "pause": false,
         "skip": false
     },
-    "errors": []
+    "player_errors": [],
+    "kara_status": {
+        "status": "play"
+    }
 }

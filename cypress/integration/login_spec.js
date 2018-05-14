@@ -5,8 +5,9 @@ describe('Login tests', function() {
         cy.route('/api/users/current/', 'fixture:users/current.json').as('getCurrentUser')
         cy.route('/api/library/work-types/', 'fixture:library/work-types.json')
         cy.route('/api/library/songs/*', 'fixture:library/songs.json')
-        cy.route('/api/playlist/', 'fixture:playlist/playlist.json')
-        cy.route('/api/playlist/player/', 'fixture:playlist/player.json')
+        cy.route('/api/playlist/digest/', 'fixture:playlist/digest.json')
+        cy.route('/api/playlist/entries/', 'fixture:playlist/entries.json')
+        cy.route('/api/playlist/played-entries/', 'fixture:playlist/played-entries.json')
     })
 
     it('logs in successfuly, is redirected after login and sends token in requests', function() {
