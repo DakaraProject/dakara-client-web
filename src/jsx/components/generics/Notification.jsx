@@ -163,9 +163,7 @@ export class NotifiableForTable extends Component {
     componentDidMount() {
         // find parent table DOM node
         const element = ReactDOM.findDOMNode(this)
-        if (element) {
-            this.setState({parentTableElement: element.closest('table')})
-        }
+        this.setState({parentTableElement: element.closest('table')})
     }
 
     render() {
