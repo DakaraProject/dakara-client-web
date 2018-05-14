@@ -1,36 +1,36 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
-import Delayer from 'components/generics/Delayer'
+import { CSSTransitionLazy } from './ReactTransitionGroup'
+import Delayer from './Delayer'
+import { Status } from 'reducers/alterationsResponse'
 
-export default class ListWrapper extends Component {
+export default class ListingFetchWrapper extends Component {
     static propTypes = {
-        isFetching: PropTypes.bool.isRequired,
-        fetchError: PropTypes.bool.isRequired,
+        status: PropTypes.symbol,
     }
 
     render() {
-        const { isFetching, fetchError } = this.props
+        const { status } = this.props
 
         let pending
-        if (isFetching) {
+        if (status === Status.pending) {
             pending = (
                 <Delayer delay={200}>
                     <div className="overlay">
-                        <div className="pending">
+                        <p className="pending">
                             Fetching...
-                        </div>
+                        </p>
                     </div>
                 </Delayer>
             )
         }
 
         return (
-            <div className="library-list-wrapper notifiable">
+            <div className="listing-fetch-wrapper notifiable">
                 {this.props.children}
 
                 <CSSTransitionLazy
-                    in={fetchError}
+                    in={status === Status.failed}
                     classNames="notified"
                     appear={true}
                     timeout={{
@@ -44,7 +44,6 @@ export default class ListWrapper extends Component {
                         </div>
                     </div>
                 </CSSTransitionLazy>
-
                 {pending}
             </div>
         )

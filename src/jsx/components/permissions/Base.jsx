@@ -2,24 +2,24 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { userPropType } from 'serverPropTypes/users'
 
 export class PermissionBase extends Component {
     static propTypes = {
-        user: PropTypes.object, // TODO should be isRequired
-        object: PropTypes.any,
+        user: userPropType, // TODO should be isRequired
+        object: PropTypes.object,
         disable: PropTypes.bool,
     }
 
-    _hasPermission = () => {
+    instanceHasPermission = () => {
         const { user, object } = this.props
         return this.constructor.hasPermission(
             user,
             object,
-            this.constructor
         )
     }
 
-    static hasPermission(user, object, permissionClass) {
+    static hasPermission(user, object) {
         // if the user is not connected, access denied
         if (!user) {
             return false
@@ -31,7 +31,7 @@ export class PermissionBase extends Component {
         }
 
         // apply custom permission
-        return permissionClass.hasPermissionCustom(user, object)
+        return this.hasPermissionCustom(user, object)
     }
 
     static hasPermissionCustom(user, object) {
@@ -41,23 +41,22 @@ export class PermissionBase extends Component {
     render() {
         const { children, disable } = this.props
 
-        if (React.Children.count(children) > 1) {
-            throw new Error("Permission component should only have one child")
+        // if the user has permission to display the children
+        if (this.instanceHasPermission()) return children
+
+        // if the children can be disabled, display them disabled
+        if (disable) {
+            const childrenToProcess = React.Children.count(children) > 1 ?
+                children : [children]
+
+            return React.Children.map(childrenToProcess, (child) => (
+                React.cloneElement(child, {disabled: true})
+            ))
         }
 
-        // if the user does not have the permission to display the children
-        if (!this._hasPermission()) {
-            // if the children can be disabled, display them disabled
-            if (disable) {
-                return React.cloneElement(React.Children.only(children), {disabled: true})
-            }
+        // else, do not display them at all
+        return null
 
-            // else, do not display them at all
-            return null
-        }
-
-        // otherwize, if the user has permission to display the children
-        return children
     }
 }
 

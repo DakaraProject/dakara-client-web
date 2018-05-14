@@ -2,118 +2,47 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import SongEntry from './Entry'
-import ListWrapper from '../ListWrapper'
+import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
+import { songStatePropType } from 'reducers/library'
+import { playlistEntriesStatePropType } from 'reducers/playlist'
+import { playlistDigestPropType } from 'reducers/playlist'
 
 class SongList extends Component {
     static propTypes = {
-        entries: PropTypes.shape({
-            data: PropTypes.shape({
-                results: PropTypes.arrayOf(PropTypes.shape({
-                    id: PropTypes.any.isRequired,
-
-                }).isRequired).isRequired
-            }).isRequired,
-            isFetching: PropTypes.bool.isRequired,
-            fetchError: PropTypes.bool.isRequired,
-        }).isRequired,
-        playlistEntries: PropTypes.shape({
-            results: PropTypes.arrayOf(PropTypes.shape({
-                song: PropTypes.shape({
-                    id: PropTypes.any.isRequired,
-                }).isRequired,
-                owner: PropTypes.object.isRequired,
-            }).isRequired).isRequired,
-        }).isRequired,
-        playerStatus: PropTypes.shape({
-            status: PropTypes.shape({
-                playlist_entry: PropTypes.shape({
-                    song: PropTypes.shape({
-                        id: PropTypes.any.isRequired,
-                        duration: PropTypes.number.isRequired,
-                    }).isRequired,
-                    owner: PropTypes.object.isRequired,
-                }),
-                timing: PropTypes.number.isRequired,
-            }).isRequired,
-        }).isRequired,
+        songState: songStatePropType.isRequired,
+        playlistEntriesState: playlistEntriesStatePropType.isRequired,
+        playlistDigest: playlistDigestPropType.isRequired,
         location: PropTypes.object.isRequired,
     }
 
     render() {
-        const { entries } = this.props
-        const songs = entries.data.results
-
-        /**
-         * Compute playlist info
-         * time when each song is going to be played
-         * and currently playing song
-         */
-
-        const currentTime = new Date().getTime()
-        let remainingTime = 0
-        const playerStatus = this.props.playerStatus.status
-        const playlistInfo = {}
-
-        // First, if a song is playing,
-        // set remainingTime to the duration until end of the song
-
-        if (playerStatus.playlist_entry) {
-            // Player is playing a song
-            // get playing id
-            // and add remaining duration
-            const playingId = playerStatus.playlist_entry.song.id
-            playlistInfo[playingId] = {
-                isPlaying: true,
-                owner: playerStatus.playlist_entry.owner
-            }
-
-            remainingTime = playerStatus.playlist_entry.song.duration - playerStatus.timing
-        }
-
-
-        // Then for each song in playlist,
-        // generate a map with song id as key
-        // and time + owner as value
-
-        for (let entry of this.props.playlistEntries.results) {
-            if (!playlistInfo[entry.song.id]) {
-                playlistInfo[entry.song.id] = {
-                    timeOfPlay: currentTime + remainingTime * 1000,
-                    owner: entry.owner
-                }
-            }
-
-            remainingTime += +(entry.song.duration)
-        }
+        const { songs, count, pagination } = this.props.songState.data
 
         /**
          * Create SongEntry for each song
          */
 
-         const libraryEntrySongList = songs.map( song => (
+         const libraryEntrySongList = songs.map(song => (
                 <SongEntry
                         key={song.id}
                         song={song}
-                        playlistInfo={playlistInfo[song.id]}
                         location={this.props.location}
                     />
             ))
 
-        const { isFetching, fetchError } = entries
-
         return (
             <div className="song-list">
-                <ListWrapper
-                    isFetching={isFetching}
-                    fetchError={fetchError}
+                <ListingFetchWrapper
+                    status={this.props.songState.status}
                 >
                     <ul className="library-list listing">
                         {libraryEntrySongList}
                     </ul>
-                </ListWrapper>
+                </ListingFetchWrapper>
                 <Navigator
-                    data={entries.data}
+                    count={count}
+                    pagination={pagination}
                     names={{
                         singular: 'song found',
                         plural: 'songs found'
@@ -126,9 +55,9 @@ class SongList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    entries: state.library.song,
-    playlistEntries: state.player.playlist.entries.data,
-    playerStatus: state.player.status.data,
+    songState: state.library.song,
+    playlistEntriesState: state.playlist.entries,
+    playlistDigest: state.playlist.digest,
 })
 
 SongList = connect(

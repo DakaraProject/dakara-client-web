@@ -2,41 +2,38 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ArtistEntry from './Entry'
-import ListWrapper from '../ListWrapper'
+import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
+import { artistStatePropType } from 'reducers/library'
 
 class ArtistList extends Component {
     static propTypes = {
-        entries: PropTypes.shape({
-            data: PropTypes.object.isRequired,
-        }).isRequired,
+        artistState: artistStatePropType.isRequired,
     }
 
     render() {
-        const { entries } = this.props
-        const artists = entries.data.results
+        const { artists, query, count, pagination } = this.props.artistState.data
 
         const libraryEntryArtistList = artists.map(artist =>
             <ArtistEntry
                 key={artist.id}
                 artist={artist}
+                query={query}
             />
         )
 
-        const { isFetching, fetchError } = entries
-
         return (
             <div className="artist-list">
-                <ListWrapper
-                    isFetching={isFetching}
-                    fetchError={fetchError}
+                <ListingFetchWrapper
+                    status={this.props.artistState.status}
                 >
                     <ul className="library-list listing">
                         {libraryEntryArtistList}
                     </ul>
-                </ListWrapper>
+                </ListingFetchWrapper>
                 <Navigator
-                    data={entries.data}
+                    count={count}
+                    pagination={pagination}
                     names={{
                         singular: 'artist found',
                         plural: 'artists found'
@@ -49,7 +46,7 @@ class ArtistList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    entries: state.library.artist,
+    artistState: state.library.artist,
 })
 
 ArtistList = connect(

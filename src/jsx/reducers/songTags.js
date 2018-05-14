@@ -1,25 +1,28 @@
-import { combineReducers } from 'redux'
-import { FORM_SUCCESS } from 'actions/forms'
+import PropTypes from 'prop-types'
+import { ALTERATION_SUCCESS } from 'actions/alterations'
 import { TAG_LIST_REQUEST, TAG_LIST_SUCCESS, TAG_LIST_FAILURE } from 'actions/songTags'
-import { ALTERATION_FAILURE, ALTERATION_REQUEST } from 'actions/alterationsStatus'
-
-const defaultEntries = {
-    data: {
-        count: 0,
-        results: []
-    },
-    isFetching: false
-}
+import { ALTERATION_FAILURE, ALTERATION_REQUEST } from 'actions/alterations'
+import { songTagPropType } from 'serverPropTypes/library'
+import { Status } from './alterationsResponse'
+import { updateData } from 'utils'
 
 /**
  * List of tags
  */
 
+/**
+ * Helper to update tag
+ * The tag is not directly accessible by its ID (as in
+ * `state.data.songTags[tagId]`), so this helper helps to access it.
+ * @param tagId ID of the tag to edit
+ * @param state current state
+ * @pararm valueDict object of values to update
+ */
 function updateTagInState(tagId, state, valueDict) {
-    const results = state.data.results.slice()
-    const index = results.findIndex(e => (e.id == tagId))
-    results[index] = {
-        ...results[index],
+    const songTags = state.data.songTags.slice()
+    const index = songTags.findIndex(e => (e.id == tagId))
+    songTags[index] = {
+        ...songTags[index],
         ...valueDict
     }
 
@@ -27,58 +30,84 @@ function updateTagInState(tagId, state, valueDict) {
         ...state,
         data: {
             ...state.data,
-            results
+            songTags,
         }
     }
 }
 
-function entries(state = defaultEntries, action) {
-    const { json } = action
+/**
+ * Tag entries
+ */
+
+export const songTagsStatePropType = PropTypes.shape({
+    status: PropTypes.symbol,
+    data: PropTypes.shape({
+        pagination: PropTypes.shape({
+            current: PropTypes.number.isRequired,
+            last: PropTypes.number.isRequired,
+        }).isRequired,
+        count: PropTypes.number.isRequired,
+        songTags: PropTypes.arrayOf(songTagPropType).isRequired,
+    }).isRequired,
+})
+
+const defaultSongTagsSettings = {
+    status: null,
+    data: {
+        pagination: {
+            current: 1,
+            last: 1,
+        },
+        count: 0,
+        songTags: []
+    },
+}
+
+export default function songTags(state = defaultSongTagsSettings, action) {
+    const { json, alterationName, elementId } = action
     let disabled
     if (json) {
         disabled = json.disabled
     }
 
-    let tagId
-
     switch (action.type) {
         case TAG_LIST_REQUEST:
-            return { ...state, isFetching: true }
+            return {
+                ...state,
+                status: Status.pending,
+            }
 
         case TAG_LIST_SUCCESS:
-            return { data: action.response, isFetching: false }
+            return {
+                status: Status.successful,
+                data: updateData(action.response, 'songTags'),
+            }
 
         case TAG_LIST_FAILURE:
-            return { ...state, isFetching: false }
+            return {
+                ...state,
+                status: Status.failed,
+            }
 
         case ALTERATION_FAILURE:
+            // If the update failed, revert the disableness and enter
+            // the ALTERATION_REQUEST case
             disabled = !disabled
 
         case ALTERATION_REQUEST:
-            if (action.alterationName != 'editSongTag') {
-                return state
-            }
+            if (alterationName !== 'editSongTag') return state
 
-            // Update disabled status of updated tag
-            tagId = action.elementId
-            return updateTagInState(tagId, state, {disabled})
+            // Update disableness of updated tag
+            return updateTagInState(elementId, state, {disabled})
 
-        case FORM_SUCCESS:
-            const tagColorFormPrefix = "tagColorEdit"
-            if (!action.formName.startsWith(tagColorFormPrefix)) return state
+        case ALTERATION_SUCCESS:
+            if (alterationName !== 'editSongTagColor') return state
 
             // Update new color of updated tag
-            tagId = action.formName.split(tagColorFormPrefix)[1]
             const { color_hue } = json
-            return updateTagInState(tagId, state, {color_hue})
+            return updateTagInState(elementId, state, {color_hue})
 
         default:
             return state
     }
 }
-
-const songTags = combineReducers({
-    entries,
-})
-
-export default songTags

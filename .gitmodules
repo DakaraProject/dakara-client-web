@@ -1,3 +1,0 @@
-[submodule "src/less/thirdparty/preboot"]
-	path = src/less/thirdparty/preboot
-	url = https://github.com/mdo/preboot.git

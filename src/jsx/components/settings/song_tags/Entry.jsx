@@ -4,21 +4,16 @@ import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import classNames from 'classnames'
 import { FormInline, CheckboxField, HueField } from 'components/generics/Form'
 import Notification from 'components/generics/Notification'
-import { Status } from 'reducers/alterationsStatus'
+import { Status, alterationResponsePropType } from 'reducers/alterationsResponse'
+import { songTagPropType } from 'serverPropTypes/library'
 
-export default class SongTagEntry extends Component {
+export default class SettingsSongTagsEntry extends Component {
     static propTypes = {
-        tag: PropTypes.shape({
-            id: PropTypes.any.isRequired,
-            color_hue: PropTypes.number.isRequired,
-            name: PropTypes.string.isRequired,
-            disabled: PropTypes.bool.isRequired,
-        }).isRequired,
-        editStatus: PropTypes.shape({
-            status: PropTypes.symbol,
-        }),
+        tag: songTagPropType.isRequired,
+        responseOfEdit: alterationResponsePropType,
+        responseOfEditColor: alterationResponsePropType,
         editSongTag: PropTypes.func.isRequired,
-        formResponse: PropTypes.object, // should be isRequired
+        clearTagListEntryNotification: PropTypes.func.isRequired,
     }
 
     state = {
@@ -38,7 +33,7 @@ export default class SongTagEntry extends Component {
     }
 
     render() {
-        const { editStatus, formResponse, tag, editSongTag } = this.props
+        const { responseOfEdit, responseOfEditColor, tag, editSongTag } = this.props
 
         /**
          * form to change color
@@ -57,7 +52,8 @@ export default class SongTagEntry extends Component {
                     method="PATCH"
                     submitText={submitText}
                     submitClass="success"
-                    formName={`tagColorEdit${tag.id}`}
+                    alterationName="editSongTagColor"
+                    elementId={tag.id}
                     noClearOnSuccess
                     onSuccess={this.clearColorForm}
                 >
@@ -83,7 +79,7 @@ export default class SongTagEntry extends Component {
          * handle disabled state
          */
 
-        const disabled = editStatus && editStatus.status == Status.pending
+        const disabled = responseOfEdit && responseOfEdit.status == Status.pending
         const setValue = (id, value) => {
             if (!disabled)
                 editSongTag(tag.id, !value)
@@ -127,13 +123,13 @@ export default class SongTagEntry extends Component {
                         {colorForm}
                     </CSSTransitionLazy>
                     <Notification
-                        alterationStatus={editStatus}
+                        alterationResponse={responseOfEdit}
                         failedMessage="Error attempting to edit tag"
                         pendingMessage={false}
                         successfulMessage={false}
                     />
                     <Notification
-                        alterationStatus={formResponse}
+                        alterationResponse={responseOfEditColor}
                         successfulMessage={false}
                         pendingMessage={false}
                         failedMessage="Error attempting to edit tag color"

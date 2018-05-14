@@ -5,10 +5,11 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import UserWidget from 'components/generics/UserWidget'
 import Tab from 'components/generics/Tab'
+import { userPropType } from 'serverPropTypes/users'
 
 class Header extends Component {
     static propTypes = {
-        user: PropTypes.object,
+        user: userPropType,
         isLoggedIn: PropTypes.bool.isRequired,
     }
 
@@ -31,6 +32,10 @@ class Header extends Component {
                     <Tab
                         to="/library"
                         iconName="home"
+                    />
+                    <Tab
+                        to="/playlist"
+                        iconName="list-ol"
                     />
                     <Tab
                         to="/settings"

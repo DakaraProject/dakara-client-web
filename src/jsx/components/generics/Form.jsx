@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
-import { setFormValidationErrors, submitForm, clearForm } from 'actions/forms'
-import { Status } from 'reducers/alterationsStatus'
+import { setAlterationValidationErrors, submitAlteration, clearAlteration } from 'actions/alterations'
+import { Status } from 'reducers/alterationsResponse'
 import Notification from 'components/generics/Notification'
+import { alterationResponsePropType } from 'reducers/alterationsResponse'
 
 class Form extends Component {
     static propTypes = {
@@ -15,13 +16,17 @@ class Form extends Component {
             PropTypes.string,
             PropTypes.element,
         ]).isRequired,
-        formResponse: PropTypes.object, // TODO should be isRequired
+        alterationResponse: alterationResponsePropType,
         noClearOnSuccess: PropTypes.bool,
         onSuccess: PropTypes.func,
-        setFormValidationErrors: PropTypes.func.isRequired,
-        submitForm: PropTypes.func.isRequired,
-        clearForm: PropTypes.func.isRequired,
-        formName: PropTypes.string.isRequired,
+        setAlterationValidationErrors: PropTypes.func.isRequired,
+        submitAlteration: PropTypes.func.isRequired,
+        clearAlteration: PropTypes.func.isRequired,
+        alterationName: PropTypes.string.isRequired,
+        elementId: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]),
         validate: PropTypes.func,
         action: PropTypes.string.isRequired,
         title: PropTypes.string,
@@ -67,18 +72,19 @@ class Form extends Component {
 
     componentWillUnmount() {
         // Clear form messages
-        this.props.clearForm(this.props.formName)
+        const { alterationName, elementId } = this.props
+        this.props.clearAlteration(alterationName, elementId)
     }
 
 
     componentDidUpdate(prevProps) {
-        const { formResponse, noClearOnSuccess, onSuccess } = this.props
-        const prevFormResponse = prevProps.formResponse
+        const { alterationResponse, noClearOnSuccess, onSuccess } = this.props
+        const prevAlterationResponse = prevProps.alterationResponse
 
         // If there is a success notification
-        if (formResponse && formResponse.status == Status.successful) {
+        if (alterationResponse && alterationResponse.status == Status.successful) {
             // and there was no response, or a different notification before
-            if (!prevFormResponse || formResponse.status != prevFormResponse.status) {
+            if (!prevAlterationResponse || alterationResponse.status != prevAlterationResponse.status) {
                 if (!noClearOnSuccess) this.setDefaultFormValues()
                 if (onSuccess) onSuccess()
             }
@@ -100,7 +106,8 @@ class Form extends Component {
      * @return boolean indicating validation success
      */
     validate = () => {
-        const { setFormValidationErrors, formName, children, validate } = this.props
+        const { setAlterationValidationErrors, alterationName, elementId,
+            children, validate } = this.props
         const { formValues } = this.state
 
         // Global validation
@@ -141,7 +148,7 @@ class Form extends Component {
         if (Object.keys(fieldsErrors).length !== 0 || globalErrors) {
             // Validation errors
             // Dispatch action to set errors
-            setFormValidationErrors(formName, globalErrors, fieldsErrors)
+            setAlterationValidationErrors(alterationName, elementId, globalErrors, fieldsErrors)
             return false
         }
 
@@ -153,10 +160,11 @@ class Form extends Component {
      */
     submit = () => {
         const {
-            formName,
+            alterationName,
+            elementId,
             action,
             method,
-            submitForm,
+            submitAlteration,
             children
         } = this.props
 
@@ -177,7 +185,7 @@ class Form extends Component {
             json[id] = value
         })
 
-        submitForm(formName, action, method, json)
+        submitAlteration(alterationName, elementId, action, method, json)
     }
 
     /**
@@ -186,15 +194,15 @@ class Form extends Component {
      * @returns set of fields with props.
      */
     renderFieldsSet = (inline) => {
-        const { children, formResponse } = this.props
+        const { children, alterationResponse } = this.props
         const { formValues } = this.state
 
         const fields = React.Children.map(children,
             (field) => {
                 const id = field.props.id
                 let fieldErrors
-                if (formResponse) {
-                    fieldErrors = formResponse.fields[id]
+                if (alterationResponse) {
+                    fieldErrors = alterationResponse.fields[id]
                 }
 
                 return React.cloneElement(field,
@@ -235,9 +243,23 @@ class Form extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-    formResponse: state.forms[ownProps.formName]
-})
+const mapStateToProps = (state, ownProps) => {
+    const { alterationName, elementId } = ownProps
+
+    // form attached to an alteration of type multiper
+    if (typeof elementId !== 'undefined') {
+        return {
+            alterationResponse: state.alterationsResponse.multiple[alterationName] ?
+                state.alterationsResponse.multiple[alterationName][elementId] :
+                undefined
+        }
+    }
+
+    // form attached to an alteration of type unique
+    return {
+        alterationResponse: state.alterationsResponse.unique[alterationName]
+    }
+}
 
 /**
  * FormBlock component
@@ -245,7 +267,7 @@ const mapStateToProps = (state, ownProps) => ({
  *
  * Required properties:
  * - title <str>: Name to display in the form header.
- * - formName <str>: Unique form identifier.
+ * - alterationName <str>: Unique form identifier.
  * - action <str>: url to submit form to, relative to base url
  *
  * Optional properties:
@@ -269,7 +291,7 @@ const mapStateToProps = (state, ownProps) => ({
  */
 class FormBlock extends Form {
     render() {
-        const { title, formName, formResponse, successMessage } = this.props
+        const { title, alterationName, alterationResponse, successMessage } = this.props
 
         // get fields
         const fieldsSet = this.renderFieldsSet()
@@ -279,7 +301,7 @@ class FormBlock extends Form {
 
         // get failed message if unconsistent case
         let failedMessage
-        if (formResponse && Object.keys(formResponse.fields).length === 0) {
+        if (alterationResponse && Object.keys(alterationResponse.fields).length === 0) {
             failedMessage = "Unknown error!"
         } else {
             failedMessage = null
@@ -299,7 +321,7 @@ class FormBlock extends Form {
                 <div className="header notifiable">
                     <h3>{title}</h3>
                     <Notification
-                        alterationStatus={formResponse}
+                        alterationResponse={alterationResponse}
                         pendingMessage={false}
                         successfulMessage={successMessage}
                         failedMessage={failedMessage}
@@ -316,9 +338,9 @@ class FormBlock extends Form {
 FormBlock = connect(
     mapStateToProps,
     {
-        setFormValidationErrors,
-        submitForm,
-        clearForm
+        setAlterationValidationErrors,
+        submitAlteration,
+        clearAlteration
     }
 )(FormBlock)
 
@@ -330,7 +352,7 @@ export { FormBlock }
  *
  * Required properties:
  * - title <str>: Name to display in the form header.
- * - formName <str>: Unique form identifier.
+ * - alterationName <str>: Unique form identifier.
  * - action <str>: url to submit form to, relative to base url
  *
  * Optional properties:
@@ -354,7 +376,7 @@ export { FormBlock }
  */
 class FormInline extends Form {
     render() {
-        const { formName } = this.props
+        const { alterationName } = this.props
 
         // get fields
         const fieldsSet = this.renderFieldsSet(true)
@@ -383,9 +405,9 @@ class FormInline extends Form {
 FormInline = connect(
     mapStateToProps,
     {
-        setFormValidationErrors,
-        submitForm,
-        clearForm
+        setAlterationValidationErrors,
+        submitAlteration,
+        clearAlteration
     }
 )(FormInline)
 
@@ -400,9 +422,9 @@ export { FormInline }
  *
  * Required properties:
  * - id <str>: Unique field identifier.
- * - label <str/jsx>: Label of the field.
  *
  * Optional properties:
+ * - label <str/jsx>: Label of the field.
  * - defaultValue <any>: Pre-fill field with given value.
  * - validate <func>: Called on submit, with the following params:
  *                          - value of the field
@@ -537,10 +559,10 @@ class Field extends Component {
  *
  * Required properties:
  * - id <str>: Unique field identifier.
- * - label <str/jsx>: Label of the field.
  *
  * Optional properties:
  * - type <str>: Html input type, default to text field.
+ * - label <str/jsx>: Label of the field.
  * - defaultValue <str>: Pre-fill field with given value.
  * - inline <bool>: If true do not render label.
  * - validate <func>: Called on submit, with the following params:
@@ -580,11 +602,11 @@ export class InputField extends Field {
  *
  * Required properties:
  * - id <str>: Unique field identifier.
- * - label <str/jsx>: Label of the field.
  * - options <Array>: List of the different options to display. Each list item
  *                      must be an object with a `value` key and a `name` key.
  *
  * Optional properties:
+ * - label <str/jsx>: Label of the field.
  * - defaultValue <str>: Pre-fill field with given value.
  * - inline <bool>: If true do not render label.
  * - validate <func>: Called on submit, with the following params:
@@ -622,11 +644,11 @@ export class SelectField extends Field {
     }
 
     subRender = (args) => {
-        const { options, multiple, value, ...remainingProps } = args
+        const { options, multiple, value, ...remainingArgs } = args
         const { id, setValue } = this.props
 
         // remove props from remaining
-        const { onChange, ...remaining } = remainingProps
+        const { onChange, ...remaining } = remainingArgs
 
         // create options
         const content = options.map((option, id) => ((
@@ -661,6 +683,108 @@ export class SelectField extends Field {
 }
 
 /**
+ * Form Field component based on the input tag of type radio
+ * Should be used as a direct child of a Form
+ *
+ * Required properties:
+ * - id <str>: Unique field identifier.
+ * - options <Array>: List of the different options to display. Each list item
+ *                      must be an object with a `value` key and a `name` key.
+ *
+ * Optional properties:
+ * - long <bool>: If true, the `name` key in the items of `options` is supposed
+ *                   to be long and cand spread on several lines.
+ * - label <str/jsx>: Label of the field.
+ * - defaultValue <str>: Pre-fill field with given value.
+ * - inline <bool>: If true do not render label.
+ * - validate <func>: Called on submit, with the following params:
+ *                          - value of the field
+ *                          - object containing all fields values.
+ *                      When validation fails,
+ *                      Should return an array of validation error message.
+ *                      When validation succeed,
+ *                      Should return a falsy value or empty array.
+ *
+ * Validation modifiers:
+ * - required <bool>: When true, field can not be empty.
+ *
+ * Filtering modifiers
+ * - ignore <bool>: When true, the field is never passed to the server.
+ * - ignoreIfEmpty <bool>: When true, the field is passed to the server only if
+ *                          its value is not empty.
+ *
+ * Extra properties are passed to the input tag.
+ */
+export class RadioField extends Field {
+    static propTypes = {
+        ...Field.propTypes,
+        options: PropTypes.arrayOf(PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            value: PropTypes.any,
+        }).isRequired).isRequired,
+        defaultValue: PropTypes.string,
+        long: PropTypes.bool
+    }
+
+    static getEmptyValue() {
+        return null
+    }
+
+    subRender = (args) => {
+        const { options, value, long, ...remainingArgs } = args
+        const { id, setValue } = this.props
+
+        // remove onChange from remaining args
+        const { onChange: onChangeArgs, id: idArgs, ...remaining } = remainingArgs
+
+        // redefine onChange
+        const onChange = (e) => {setValue(id, e.target.value || null)}
+
+        // create options
+        const inputs = options.map((option, itemId) => {
+            const optionId = `${id}-${itemId}`
+
+            return (
+                <div
+                    key={optionId}
+                    className="radio-option"
+                >
+                    <input
+                        type="radio"
+                        name={id}
+                        value={option.value}
+                        id={optionId}
+                        onChange={onChange}
+                        checked={option.value == value}
+                        {...remaining}
+                    />
+                    <label
+                        htmlFor={optionId}
+                        className="fake marker"
+                    >
+                    </label>
+                    <label
+                        htmlFor={optionId}
+                        className={classNames(
+                            "description",
+                            {long}
+                        )}
+                    >
+                        {option.name}
+                    </label>
+                </div>
+            )
+        })
+
+        return (
+            <div className="radio-input">
+                {inputs}
+            </div>
+        )
+    }
+}
+
+/**
  * Form Field component based on the Input tag of type checkbox
  * Should be used as a direct child of a Form
  *
@@ -668,12 +792,12 @@ export class SelectField extends Field {
  *
  * Required properties:
  * - id <str>: Unique field identifier.
- * - label <str/jsx>: Label of the field.
  *
  * Optional properties:
+ * - toggle <bool>: If true, display as toggle instead of checkbox.
+ * - label <str/jsx>: Label of the field.
  * - defaultValue <bool>: Pre-fill field with given value.
  * - inline <bool>: If true do not render label.
- * - toggle <bool>: If true, display as toggle instead of checkbox.
  * - validate <func>: Called on submit, with the following params:
  *                          - value of the field
  *                          - object containing all fields values.
@@ -739,9 +863,9 @@ export class CheckboxField extends Field {
  *
  * Required properties:
  * - id <str>: Unique field identifier.
- * - label <str/jsx>: Label of the field.
  *
  * Optional properties:
+ * - label <str/jsx>: Label of the field.
  * - defaultValue <number>: Pre-fill field with given value.
  * - inline <bool>: If true do not render label.
  * - validate <func>: Called on submit, with the following params:

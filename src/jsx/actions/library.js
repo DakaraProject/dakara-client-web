@@ -1,6 +1,6 @@
 import { stringify } from 'query-string'
 import { FETCH_API } from 'middleware/fetchApi'
-import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE, ALTERATION_STATUS_CLEAR } from './alterationsStatus'
+import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE, ALTERATION_RESPONSE_CLEAR } from './alterations'
 import { params } from 'utils'
 
 const { baseUrl } = params
@@ -85,7 +85,7 @@ export const loadWorkTypes = () => ({
  * @param songId the ID of the song to clear the notification
  */
 export const clearSongListNotification = (songId) => ({
-    type: ALTERATION_STATUS_CLEAR,
+    type: ALTERATION_RESPONSE_CLEAR,
     alterationName: "addSongToPlaylist",
     elementId: songId,
 })

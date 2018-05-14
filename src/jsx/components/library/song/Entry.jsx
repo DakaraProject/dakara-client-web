@@ -6,28 +6,32 @@ import { withRouter } from 'react-router-dom'
 import classNames from 'classnames'
 import { parse, stringify } from 'query-string'
 import PropTypes from 'prop-types'
-import { formatHourTime } from 'utils'
-import { addSongToPlaylist } from 'actions/player'
+import { addSongToPlaylist } from 'actions/playlist'
 import { clearSongListNotification } from 'actions/library'
 import Song from 'components/song/Song'
 import SongEntryExpanded from './EntryExpanded'
-import UserWidget from 'components/generics/UserWidget'
-import { IsPlaylistUser } from 'components/permissions/Playlist'
+import { IsPlaylistUser, KaraStatusIsNotStopped } from 'components/permissions/Playlist'
 import Notification from 'components/generics/Notification'
+import PlayQueueInfo from 'components/song/PlayQueueInfo'
+import DisabledFeedback from 'components/song/DisabledFeedback'
+import { songPropType } from 'serverPropTypes/library'
+import { playerStatusPropType } from 'serverPropTypes/playlist'
+import { playlistPlayedEntryPropType, playlistEntryPropType } from 'serverPropTypes/playlist'
+import { alterationResponsePropType } from 'reducers/alterationsResponse'
 
 class SongEntry extends Component {
     static propTypes = {
-        song: PropTypes.shape({
-            id: PropTypes.any.isRequired,
-        }).isRequired,
+        song: songPropType.isRequired,
         location: PropTypes.object.isRequired,
         query: PropTypes.object,
-        playlistInfo: PropTypes.shape({
-            isPlaying: PropTypes.bool,
-            timeOfPlay: PropTypes.number,
-            owner: PropTypes.object,
-        }),
-        addSongStatus: PropTypes.object,
+        playlistPlayedEntries: PropTypes.arrayOf(
+            playlistPlayedEntryPropType
+        ).isRequired,
+        playlistEntries: PropTypes.arrayOf(
+            playlistEntryPropType
+        ).isRequired,
+        playerStatus: playerStatusPropType,
+        responseOfAddSong: alterationResponsePropType,
         addSongToPlaylist: PropTypes.func.isRequired,
         clearSongListNotification: PropTypes.func.isRequired,
     }
@@ -43,9 +47,8 @@ class SongEntry extends Component {
     }
 
     /**
-     * Toogle expanded view of song
+     * Toggle expanded view of song
      */
-
     setExpanded = (expanded) => {
         const { location } = this.props
         const queryObj = parse(location.search)
@@ -64,37 +67,61 @@ class SongEntry extends Component {
     }
 
     render() {
-        const { location, song, query, playlistInfo } = this.props
+        const { location, song, query, playerStatus } = this.props
+        const { playlistPlayedEntries, playlistEntries } = this.props
         const queryObj = parse(location.search)
         const expanded = queryObj.expanded == song.id
 
         /**
-         * Playlist info
-         * Box displaying time of play or currently playing status
+         * Song is playing info
+         */
+
+        let playingInfo
+        if (playerStatus.playlist_entry && playerStatus.playlist_entry.song.id === song.id) {
+            // Player is playing this song
+            playingInfo = {
+                owner: playerStatus.playlist_entry.owner
+            }
+        }
+
+        /**
+         * Song previously played info
+         */
+
+        const playlistPlayedEntry = playlistPlayedEntries.slice().reverse().find(
+                e => (e.song.id === song.id)
+                )
+
+        let playedInfo
+        if (playlistPlayedEntry) {
+            playedInfo = {
+                timeOfPlay: Date.parse(playlistPlayedEntry.date_played),
+                owner: playlistPlayedEntry.owner,
+            }
+        }
+
+        /**
+         * Song queue info
+         */
+
+        const playlistEntry = playlistEntries.find(
+                e => (e.song.id === song.id)
+                )
+
+        let queueInfo
+        if (playlistEntry) {
+            queueInfo = {
+                timeOfPlay: Date.parse(playlistEntry.date_play),
+                owner: playlistEntry.owner,
+            }
+        }
+
+        /**
+         * Play queue info
          */
 
         let playQueueInfo
-        if (playlistInfo) {
-            let playQueueInfoContent
-            if (playlistInfo.isPlaying) {
-                playQueueInfoContent = (
-                    <div className="playing">
-                        <span className="icon">
-                            <i className="fa fa-play"></i>
-                        </span>
-                    </div>
-                )
-            } else {
-                playQueueInfoContent = (
-                    <div className="queueing">
-                        <span className="icon">
-                            <i className="fa fa-clock-o"></i>
-                        </span>
-                        {formatHourTime(playlistInfo.timeOfPlay)}
-                    </div>
-                )
-            }
-
+        if (playingInfo || playedInfo || queueInfo) {
             playQueueInfo = (
                 <CSSTransition
                     classNames="playlist-info"
@@ -103,13 +130,11 @@ class SongEntry extends Component {
                         exit: 150
                     }}
                 >
-                    <div className="playlist-info">
-                        <UserWidget
-                            className="owner"
-                            user={playlistInfo.owner}
-                        />
-                        {playQueueInfoContent}
-                    </div>
+                    <PlayQueueInfo
+                        playingInfo={playingInfo}
+                        playedInfo={playedInfo}
+                        queueInfo={queueInfo}
+                    />
                 </CSSTransition>
             )
         }
@@ -117,6 +142,7 @@ class SongEntry extends Component {
         return (
                 <li className="library-entry listing-entry library-entry-song">
                     <div className="library-entry-song-compact hoverizable notifiable">
+                        <DisabledFeedback tags={song.tags}/>
                         <Song
                             song={song}
                             query={query}
@@ -131,21 +157,23 @@ class SongEntry extends Component {
                             className="controls"
                             id={`song-${this.props.song.id}`}
                         >
-                            <IsPlaylistUser>
-                                <button
-                                    className="control primary"
-                                    onClick={() => {
-                                        this.props.addSongToPlaylist(this.props.song.id)
-                                    }}
-                                >
-                                    <span className="icon">
-                                        <i className="fa fa-plus"></i>
-                                    </span>
-                                </button>
-                            </IsPlaylistUser>
+                            <KaraStatusIsNotStopped>
+                                <IsPlaylistUser>
+                                    <button
+                                        className="control primary"
+                                        onClick={() => {
+                                            this.props.addSongToPlaylist(this.props.song.id)
+                                        }}
+                                    >
+                                        <span className="icon">
+                                            <i className="fa fa-plus"></i>
+                                        </span>
+                                    </button>
+                                </IsPlaylistUser>
+                            </KaraStatusIsNotStopped>
                         </div>
                         <Notification
-                            alterationStatus={this.props.addSongStatus}
+                            alterationResponse={this.props.responseOfAddSong}
                             pendingMessage="Adding…"
                             successfulMessage="Successfuly added!"
                             failedMessage="Error attempting to add song to playlist"
@@ -163,6 +191,7 @@ class SongEntry extends Component {
                             <SongEntryExpanded
                                 song={this.props.song}
                                 location={location}
+                                query={this.props.query}
                             />
                         </div>
                     </CSSTransitionLazy>
@@ -173,8 +202,11 @@ class SongEntry extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
     query: state.library.song.data.query,
-    addSongStatus: state.alterationsStatus.addSongToPlaylist ?
-        state.alterationsStatus.addSongToPlaylist[ownProps.song.id] : null,
+    responseOfAddSong: state.alterationsResponse.multiple.addSongToPlaylist ?
+        state.alterationsResponse.multiple.addSongToPlaylist[ownProps.song.id] : undefined,
+    playlistPlayedEntries: state.playlist.playedEntries.data.playlistPlayedEntries,
+    playlistEntries: state.playlist.entries.data.playlistEntries,
+    playerStatus: state.playlist.digest.data.player_status,
 })
 
 SongEntry = withRouter(connect(

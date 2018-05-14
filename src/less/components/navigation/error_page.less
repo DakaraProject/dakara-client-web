@@ -25,17 +25,7 @@
         color: @brand-danger-darker;
     }
 
-    * {
-        .selection() {
-            background: @brand-danger;
-        }
-
-        &::-moz-selection {
-            .selection;
-        }
-
-        &::selection {
-            .selection;
-        }
+    ::selection {
+        background: @brand-danger;
     }
 }

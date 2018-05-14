@@ -18,25 +18,22 @@ mark {
 }
 
 // selection highlighting
-// Firefox seems to still use its vendor pseudo selector, moreover we cannot
-// define the standard selector and Firefox' on the same line
-* {
-    .selection() {
-        background: @brand-primary;
-        color: @text-dark;
-    }
-
-    &::-moz-selection {
-        .selection;
-    }
-
-    &::selection {
-        .selection;
-    }
+::selection {
+    background: @brand-primary;
+    color: @text-dark;
 }
 
 // make headers thin and marginless
 h1, h2, h3, h4, h5, h6 {
     font-weight: 100;
     margin: 0;
+}
+
+// make long text clearly readible
+.make-long-text() {
+    font-size: 1.2em;
+}
+
+p {
+    .make-long-text();
 }

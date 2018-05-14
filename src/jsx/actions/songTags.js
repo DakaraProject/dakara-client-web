@@ -1,5 +1,5 @@
 import { FETCH_API } from 'middleware/fetchApi'
-import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE, ALTERATION_STATUS_CLEAR } from './alterationsStatus'
+import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE, ALTERATION_RESPONSE_CLEAR } from './alterations'
 import { params } from 'utils'
 
 const { baseUrl } = params
@@ -52,7 +52,7 @@ export const editSongTag = (tagId, disabled) => ({
  * @param tagId line to clear
  */
 export const clearTagListEntryNotification = (tagId) => ({
-    type: ALTERATION_STATUS_CLEAR,
+    type: ALTERATION_RESPONSE_CLEAR,
     alterationName: "editSongTag",
     elementId: tagId,
 })

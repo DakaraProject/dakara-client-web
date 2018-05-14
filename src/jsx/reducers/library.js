@@ -1,69 +1,109 @@
 import { combineReducers } from 'redux'
+import PropTypes from 'prop-types'
 import { LIBRARY_REQUEST, LIBRARY_SUCCESS, LIBRARY_FAILURE } from 'actions/library'
 import { WORK_TYPES_REQUEST, WORK_TYPES_SUCCESS, WORK_TYPES_FAILURE } from 'actions/library'
+import { songPropType, artistPropType, workPropType, workTypePropType } from 'serverPropTypes/library'
+import { Status } from './alterationsResponse'
+import { updateData } from 'utils'
 
 /**
  * This reducer contains library related state
  */
 
-
 /**
- * Current content of the library
+ * Generators for library content
  */
 
-const defaultLibraryEntries =  {
+const generateLibraryPropType = (libraryEntryPropType, libraryKey) => (
+    PropTypes.shape({
+        status: PropTypes.symbol,
+        data: PropTypes.shape({
+            pagination: PropTypes.shape({
+                current: PropTypes.number.isRequired,
+                last: PropTypes.number.isRequired,
+            }).isRequired,
+            count: PropTypes.number.isRequired,
+            query: PropTypes.object,
+            [libraryKey]: PropTypes.arrayOf(libraryEntryPropType).isRequired,
+        }),
+    })
+)
+
+const generateDefaultLibrary = (libraryKey) => ({
+    status: null,
     data: {
-        current: 1,
-        last: 1,
+        pagination: {
+            current: 1,
+            last: 1,
+        },
         count: 0,
-        results: []
+        query: {},
+        [libraryKey]: []
     },
-    isFetching: false,
-    fetchError: false
-}
+})
 
-const generateLibraryReducer = libraryType => (state = defaultLibraryEntries, action) => {
-    if (action.libraryType != libraryType) {
-        return state
-    }
+const generateLibraryReducer = libraryType => {
+    const defaultLibrary = generateDefaultLibrary(libraryType)
 
-    switch (action.type) {
-        case LIBRARY_REQUEST:
-            return {
-                ...state,
-                isFetching: true,
-                fetchError: false
-            }
-
-        case LIBRARY_SUCCESS:
-            return {
-                data: action.response,
-                isFetching: false,
-                fetchError: false
-            }
-
-        case LIBRARY_FAILURE:
-            return {
-                data: defaultLibraryEntries.data,
-                isFetching: false,
-                fetchError: true
-            }
-
-        default:
+    return (state = defaultLibrary, action) => {
+        if (action.libraryType != libraryType) {
             return state
+        }
+
+        switch (action.type) {
+            case LIBRARY_REQUEST:
+                return {
+                    ...state,
+                    status: Status.pending,
+                }
+
+            case LIBRARY_SUCCESS:
+                return {
+                    status: Status.successful,
+                    data: updateData(action.response, libraryType),
+                }
+
+            case LIBRARY_FAILURE:
+                return {
+                    status: Status.failed,
+                    data: defaultLibrary.data,
+                }
+
+            default:
+                return state
+        }
     }
 }
 
+/**
+ * Song library
+ */
+
+export const songStatePropType = generateLibraryPropType(songPropType, "songs")
 const song = generateLibraryReducer("songs")
+
+/**
+ * Artist library
+ */
+
+export const artistStatePropType = generateLibraryPropType(artistPropType, "artists")
 const artist = generateLibraryReducer("artists")
 
-function work(state = {}, action) {
+/**
+ * Work library
+ */
+
+export const workStatePropType = generateLibraryPropType(workPropType, "works")
+const defaultWork = generateDefaultLibrary("works")
+
+function works(state = {}, action) {
+    // create works when work types have been successfuly fetched
     if (action.type === WORK_TYPES_SUCCESS) {
         let newState = {...state}
         for (let type of action.response.results) {
             const name = type.query_name
-            if (newState[name] == undefined) {
-                newState[name] = defaultLibraryEntries
+            if (typeof newState[name] === 'undefined') {
+                newState[name] = defaultWork
             }
         }
 
@@ -82,8 +122,7 @@ function work(state = {}, action) {
                 ...state,
                 [workType]: {
                     ...state[workType],
-                    isFetching: true,
-                    fetchError: false
+                    status: Status.pending,
                 }
             }
 
@@ -91,10 +130,8 @@ function work(state = {}, action) {
             return {
                 ...state,
                 [workType]: {
-                    ...state[workType],
-                    data: action.response,
-                    isFetching: false,
-                    fetchError: false
+                    status: Status.successful,
+                    data: updateData(action.response, "works"),
                 }
             }
 
@@ -102,10 +139,8 @@ function work(state = {}, action) {
             return {
                 ...state,
                 [workType]: {
-                    ...state[workType],
-                    data: defaultLibraryEntries.data,
-                    isFetching: false,
-                    fetchError: true
+                    status: Status.failed,
+                    data: defaultWork.data,
                 }
             }
 
@@ -118,30 +153,52 @@ function work(state = {}, action) {
  * Work Types
  */
 
-const defaultWorkTypes =  {
+export const workTypeStatePropType = PropTypes.shape({
+    status: PropTypes.symbol,
+    data: PropTypes.shape({
+        workTypes: PropTypes.arrayOf(workTypePropType).isRequired,
+    }).isRequired,
+})
+
+const defaultWorkType =  {
+    status: null,
     data: {
-        results: []
+        workTypes: []
     },
-    hasFetched: false
 }
 
-function workTypes(state = defaultWorkTypes, action) {
-    if (action.type === WORK_TYPES_SUCCESS) {
-        return {
-            data: action.response,
-            hasFetched: true
-        }
-    } else {
-        return state
+function workType(state = defaultWorkType, action) {
+    switch (action.type) {
+        case WORK_TYPES_REQUEST:
+            return {
+                ...state,
+                status: Status.pending,
+            }
+
+        case WORK_TYPES_SUCCESS:
+            return {
+                status: Status.successful,
+                data: updateData(action.response, "workTypes")
+            }
+
+        case WORK_TYPES_FAILURE:
+            return {
+                status: Status.failed,
+                data: defaultWorkType.data,
+            }
+
+        default:
+            return state
     }
 }
 
+/**
+ * Library
+ */
 
-const library = combineReducers({
+export default combineReducers({
     song,
     artist,
-    work,
-    workTypes,
+    works,
+    workType,
 })
-
-export default library

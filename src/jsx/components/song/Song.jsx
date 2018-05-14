@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import Highlighter from 'react-highlight-words'
 import PropTypes from 'prop-types'
 import { formatDuration } from 'utils'
+import HighlighterQuery from 'components/generics/HighlighterQuery'
 import WorkLink from './WorkLink'
 import SongArtistList from './SongArtistList'
 import SongTagList from './SongTagList'
+import { songPropType } from 'serverPropTypes/library'
 
 /**
  * Displays a song info in a compact format.
@@ -17,47 +18,15 @@ import SongTagList from './SongTagList'
  */
 export default class Song extends Component {
     static propTypes = {
-        song: PropTypes.shape({
-            title: PropTypes.string.isRequired,
-            version: PropTypes.string,
-            works: PropTypes.arrayOf(
-                PropTypes.object
-            ).isRequired,
-            artits: PropTypes.arrayOf(
-                PropTypes.object
-            ), // should be isRequired
-            noArtistWork: PropTypes.bool,
-            duration: PropTypes.number.isRequired,
-            noDuration: PropTypes.bool,
-            tags: PropTypes.array.isRequired,
-            noTag: PropTypes.bool,
-        }).isRequired,
+        song: songPropType.isRequired,
         query: PropTypes.object, // should be isRequired
+        noArtistWork: PropTypes.bool,
+        noDuration: PropTypes.bool,
+        noTag: PropTypes.bool,
     }
 
     render() {
-        const song = this.props.song
-
-        /**
-         * Song title
-         * highlighted with search query
-         */
-
-        let title
-        if (this.props.query != undefined) {
-            title = (
-                        <Highlighter
-                            className="title"
-                            searchWords={this.props.query.title.contains.concat(
-                                    this.props.query.remaining
-                                    )}
-                            textToHighlight={song.title}
-                            autoEscape
-                        />
-                    )
-        } else {
-            title = (<span className="title">{song.title}</span>)
-        }
+        const { song, query } = this.props
 
         /**
          * Song version
@@ -65,7 +34,15 @@ export default class Song extends Component {
 
         let version
         if (song.version) {
-            version = (<span className="version">{song.version} version</span>)
+            version = (
+                <span className="version">
+                    <HighlighterQuery
+                        query={query}
+                        searchWords={(q) => (q.remaining)}
+                        textToHighlight={song.version}
+                    /> version
+                </span>
+            )
         }
 
         // Display artist and work conditionally
@@ -80,7 +57,7 @@ export default class Song extends Component {
                 firstWorkLink = (
                         <WorkLink
                             workLink={song.works[0]}
-                            query={this.props.query}
+                            query={query}
                             noEpisodes
                         />
                 )
@@ -90,7 +67,7 @@ export default class Song extends Component {
             const artists = (
                         <SongArtistList
                             artists={song.artists}
-                            query={this.props.query}
+                            query={query}
                         />
                 )
 
@@ -102,7 +79,11 @@ export default class Song extends Component {
             )
         }
 
-        // Display duration conditionally
+        /**
+         * Song duration
+         * Display conditionally
+         */
+
         let duration
         if (!this.props.noDuration) {
             duration = (
@@ -112,13 +93,17 @@ export default class Song extends Component {
             )
         }
 
-        // Display tags conditionally
+        /**
+         * Song tags
+         * Display conditionally
+         */
+
         let tags
         if (!this.props.noTag) {
             tags = (
                 <SongTagList
                     tags={song.tags}
-                    query={this.props.query}
+                    query={query}
                     unclickable={true}
                 />
             )
@@ -127,7 +112,12 @@ export default class Song extends Component {
         return (
                 <div className="song" onClick={this.props.handleClick}>
                     <div className="header">
-                        {title}
+                        <HighlighterQuery
+                            query={query}
+                            className="title"
+                            searchWords={(q) => (q.title.contains.concat(q.remaining))}
+                            textToHighlight={song.title}
+                        />
                         {version}
                     </div>
                     {artistWork}

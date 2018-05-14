@@ -50,45 +50,15 @@
         }
     }
 
-    // Style for library list wrapper
-    // containing error messages,
-    // pending notification overlay,
-    // and library list
-    .library-list-wrapper {
-        position: relative;
-
-        // error notification
-        .notified {
-            height: @listing-entry-height;
-            line-height: @listing-entry-height;
-        }
-
-        // overlay
-        .overlay {
-            top: 0;
-            left: 0;
-            position: absolute;
-            background: fade(black, 0.3);
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            .pending {
-            }
-        }
-
-        // Here goes the styles for the library pages
-        // These pages are:
-        //     Songs library,
-        //     Artists library,
-        //     Works library (and all the different works, like Anime, Game...)
-        // The current class gathers all the common elements needed by the different pages
-        .library-list {
-            min-height: 10 * @listing-entry-height;
-            background: darken(@neutral-mid, 3%);
-        }
+    // Here goes the styles for the library pages
+    // These pages are:
+    //     Songs library,
+    //     Artists library,
+    //     Works library (and all the different works, like Anime, Game...)
+    // The current class gathers all the common elements needed by the different pages
+    .library-list {
+        min-height: 10 * @listing-entry-height;
+        background: darken(@neutral-mid, 3%);
     }
 
     // Navigator for choosing which library to display

@@ -3,22 +3,17 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getUser, clearUser } from 'actions/users'
 import { FormBlock, InputField, SelectField, CheckboxField } from 'components/generics/Form'
-import { PermissionBase } from 'components/permissions/Base'
 import { IsUserManager, IsNotSelf } from 'components/permissions/Users'
 import NotFound from 'components/navigation/NotFound'
 import Forbidden from 'components/navigation/Forbidden'
+import { userPropType } from 'serverPropTypes/users'
+import { editUsersStatePropType } from 'reducers/users'
+import { Status } from 'reducers/alterationsResponse'
 
-class UsersEdit extends Component {
+class SettingsUsersEdit extends Component {
     static propTypes = {
-        user: PropTypes.shape({
-            username: PropTypes.string.isRequired,
-            is_superuser: PropTypes.bool.isRequired,
-            users_permission_level: PropTypes.string,
-            library_permission_level: PropTypes.string,
-            playlist_permission_level: PropTypes.string,
-        }),
-        isFetching: PropTypes.bool.isRequired,
-        authenticatedUser: PropTypes.object.isRequired,
+        editUsersState: editUsersStatePropType.isRequired,
+        authenticatedUser: userPropType.isRequired,
         location: PropTypes.object.isRequired,
         match: PropTypes.shape({
             params: PropTypes.shape({
@@ -39,18 +34,19 @@ class UsersEdit extends Component {
     }
 
     render() {
-        const { location, user, isFetching, authenticatedUser } = this.props
+        const { location, authenticatedUser } = this.props
+        const { user } = this.props.editUsersState.data
 
         // render nothing if the user is being fetched
-        if (isFetching) {
+        if (this.props.editUsersState.status === Status.pending) {
             return null
         }
 
         // render an error page if the current user has no right to display the page
         const userId = this.props.match.params.userId
         const fakeUser = {id: userId}
-        if (!(PermissionBase.hasPermission(authenticatedUser, fakeUser, IsUserManager) &&
-                PermissionBase.hasPermission(authenticatedUser, fakeUser, IsNotSelf))) {
+        if (!(IsUserManager.hasPermission(authenticatedUser, fakeUser) &&
+                IsNotSelf.hasPermission(authenticatedUser, fakeUser))) {
 
             return (
                 <Forbidden location={location}/>
@@ -74,7 +70,7 @@ class UsersEdit extends Component {
                         action={`users/${user.id}/`}
                         method="PATCH"
                         submitText="Edit"
-                        formName="updateUser"
+                        alterationName="updateUser"
                         successMessage="User sucessfully updated!"
                         noClearOnSuccess
                     >
@@ -100,6 +96,7 @@ class UsersEdit extends Component {
                             label="Superuser"
                             defaultValue={user.is_superuser}
                             disabled
+                            ignore
                         />
                         <SelectField
                             id="users_permission_level"
@@ -139,17 +136,16 @@ class UsersEdit extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    user: state.settings.users.userEdit.user,
-    isFetching: state.settings.users.userEdit.isFetching,
+    editUsersState: state.settings.users.edit,
     authenticatedUser: state.authenticatedUser
 })
 
-UsersEdit = connect(
+SettingsUsersEdit = connect(
     mapStateToProps,
     {
         getUser,
         clearUser,
     }
-)(UsersEdit)
+)(SettingsUsersEdit)
 
-export default UsersEdit
+export default SettingsUsersEdit

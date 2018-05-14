@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
-import { Status } from 'reducers/alterationsStatus'
+import { Status } from 'reducers/alterationsResponse'
 import PropTypes from 'prop-types'
+import { alterationResponsePropType } from 'reducers/alterationsResponse'
+import { playerErrorPropType } from 'serverPropTypes/playlist'
 
 const notificationTypes = {
     [Status.pending]: 'success',
@@ -14,18 +16,12 @@ const notificationTypes = {
  */
 export default class PlayerNotification extends Component {
     static propTypes = {
-        alterationStatuses: PropTypes.arrayOf(PropTypes.shape({
-            status: PropTypes.symbol,
-            message: PropTypes.string,
-        })).isRequired,
-        playerErrors: PropTypes.arrayOf(PropTypes.shape({
-            id: PropTypes.any.isRequired,
-            error_message: PropTypes.string.isRequired,
-        })).isRequired,
+        alterationsResponse: PropTypes.objectOf(alterationResponsePropType).isRequired,
+        playerErrors: PropTypes.arrayOf(playerErrorPropType).isRequired,
     }
 
     state = {
-        displayAlterationStatusId: null,
+        displayAlterationResponseId: null,
         displayPlayerError: false,
     }
 
@@ -38,29 +34,29 @@ export default class PlayerNotification extends Component {
          * Handle arterationStatus
          */
 
-        const alterationStatuses = this.props.alterationStatuses
-        const prevAlterationStatuses = prevProps.alterationStatuses
+        const alterationsResponse = this.props.alterationsResponse
+        const prevAlterationsResponse = prevProps.alterationsResponse
 
-        // if the alterationStatuses prop has changed in length, throw an error
-        if (alterationStatuses.length != prevAlterationStatuses.length) {
-            throw new Error("Property alterationStatuses has changed")
+        // if the alterationsResponse prop has changed in length, throw an error
+        if (alterationsResponse.length != prevAlterationsResponse.length) {
+            throw new Error("Property alterationsResponse has changed")
         }
 
-        // handle alterationStatuses changes
-        for (let i = 0; i < alterationStatuses.length; i++) {
-            const alterationsStatus = alterationStatuses[i]
-            const prevAlterationStatus = prevAlterationStatuses[i]
+        // handle alterationsResponse changes
+        for (let id in alterationsResponse) {
+            const alterationResponse = alterationsResponse[id]
+            const prevAlterationResponse = prevAlterationsResponse[id]
 
             // check a new error has occured
-            if (alterationsStatus.status != prevAlterationStatus.status &&
-                alterationsStatus.status == Status.failed) {
+            if (alterationResponse.status !== prevAlterationsResponse.status &&
+                alterationResponse.status === Status.failed) {
 
                 if (this.timeout) {
                     clearTimeout(this.timeout)
                 }
 
                 this.setState({
-                    displayAlterationStatusId: i,
+                    displayAlterationResponseId: id,
                     displayPlayerError: false,
                 })
                 this.setNotificationClearTimeout()
@@ -78,10 +74,10 @@ export default class PlayerNotification extends Component {
         const prevPlayerErrors = prevProps.playerErrors
 
         // check there is at least one element in the list
-        if (playerErrors.length == 0) return
+        if (playerErrors.length === 0) return
 
         // check the latest error has changed
-        if (prevPlayerErrors.length == 0 ||
+        if (prevPlayerErrors.length === 0 ||
             playerErrors[playerErrors.length - 1].id !=
             prevPlayerErrors[prevPlayerErrors.length - 1].id) {
 
@@ -90,7 +86,7 @@ export default class PlayerNotification extends Component {
             }
 
             this.setState({
-                displayAlterationStatusId: null,
+                displayAlterationResponseId: null,
                 displayPlayerError: true,
             })
             this.setNotificationClearTimeout()
@@ -104,7 +100,7 @@ export default class PlayerNotification extends Component {
     setNotificationClearTimeout = () => {
         this.timeout = setTimeout( () => {
                 this.setState({
-                    displayAlterationStatusId: null,
+                    displayAlterationResponseId: null,
                     displayPlayerError: false,
                 })
             },
@@ -113,21 +109,23 @@ export default class PlayerNotification extends Component {
     }
 
     render() {
-        const { displayAlterationStatusId, displayPlayerError } = this.state
-        const { alterationStatuses, playerErrors } = this.props
-        let notification
+        const { displayAlterationResponseId, displayPlayerError } = this.state
+        const { alterationsResponse, playerErrors } = this.props
+
         let message
         let key
-        if (displayAlterationStatusId != null) {
-            message = alterationStatuses[displayAlterationStatusId].message
-            key = displayAlterationStatusId
+        if (displayAlterationResponseId !== null) {
+            key = displayAlterationResponseId
+            message = alterationsResponse[key].message
         } else if (displayPlayerError) {
+            // take the latest playerError
             const playerError = playerErrors[playerErrors.length - 1]
             message = playerError.error_message
             key = playerError.id
         }
 
         // if there is no message to display, do not show any notification
+        let notification
         if (message) {
             notification = (
                 <CSSTransition
@@ -136,8 +134,9 @@ export default class PlayerNotification extends Component {
                         enter: 300,
                         exit: 150
                     }}
+                    key={key}
                 >
-                    <div className="notified" key={key}>
+                    <div className="notified">
                         <div className="notification message danger">
                             {message}
                         </div>

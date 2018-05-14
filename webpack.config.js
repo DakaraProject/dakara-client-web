@@ -7,27 +7,35 @@ module.exports = {
     './src/less/main.less'
   ],
   module: {
-    loaders: [
+    rules: [
       {
-          loader: "babel-loader",
           test: /\.jsx?$/,
-          include: path.resolve(__dirname, 'src/jsx')
+          exclude: /node_modules/,
+          use: {
+              loader: "babel-loader",
+          }
       },
       {
           test: /\.less$/,
-          include: path.resolve(__dirname, 'src/less'),
+          exclude: /node_modules/,
           use: ExtractTextPlugin.extract({
               fallback: 'style-loader',
               use: [
                   {
-                      loader: 'css-loader'
+                      loader: 'css-loader',
+                      options: {
+                          importLoaders: 1,
+                      }
+                  },
+                  {
+                      loader: 'postcss-loader'
                   },
                   {
                       loader: 'less-loader'
                   }
               ]
           })
-      }
+      },
     ]
   },
   resolve: {
@@ -40,7 +48,7 @@ module.exports = {
   },
   output: {
     filename: "dakara.js",
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve('dist')
   },
   plugins: [
       new ExtractTextPlugin("dakara.css")

@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { stringify } from 'query-string'
 import PropTypes from 'prop-types'
+import HighlighterQuery from 'components/generics/HighlighterQuery'
+import { artistPropType } from 'serverPropTypes/library'
 
 class ArtistEntry extends Component {
     static propTypes = {
-        artist: PropTypes.shape({
-            name: PropTypes.string.isRequired,
-            song_count: PropTypes.number.isRequired,
-        }).isRequired,
+        artist: artistPropType.isRequired,
+        query: PropTypes.object,
     }
 
     static contextTypes = {
@@ -29,7 +29,11 @@ class ArtistEntry extends Component {
                 <li className="library-entry listing-entry library-entry-artist hoverizable">
                     <div className="library-entry-artist-display">
                         <div className="name">
-                            {this.props.artist.name}
+                            <HighlighterQuery
+                                query={this.props.query}
+                                searchWords={(q) => (q.remaining)}
+                                textToHighlight={this.props.artist.name}
+                            />
                         </div>
                         <div className="songs-amount">
                             {this.props.artist.song_count}

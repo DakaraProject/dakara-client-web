@@ -7,22 +7,16 @@ import { deleteUser, getUsers, clearUsersEntryNotification } from 'actions/users
 import { FormBlock, InputField } from 'components/generics/Form'
 import Navigator from 'components/generics/Navigator'
 import { IsUserManager } from 'components/permissions/Users'
-import UserEntry from './Entry'
+import SettingsUserEntry from './Entry'
 import SettingsTabList from '../TabList'
+import { listUsersStatePropType } from 'reducers/users'
+import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 
-class UserList extends Component {
+class SettingsUsersList extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
-        entries: PropTypes.shape({
-            data: PropTypes.shape({
-                results: PropTypes.arrayOf(
-                    PropTypes.shape({
-                        id: PropTypes.any.isRequired,
-                    })
-                ).isRequired,
-            }).isRequired,
-        }).isRequired,
-        deleteStatusList: PropTypes.object,
+        listUsersState: listUsersStatePropType.isRequired,
+        responseOfMultipleDeleteUser: PropTypes.object,
         deleteUser: PropTypes.func.isRequired,
         clearUsersEntryNotification: PropTypes.func.isRequired,
         getUsers: PropTypes.func.isRequired,
@@ -47,24 +41,19 @@ class UserList extends Component {
     }
 
     render() {
-        const { entries, deleteStatusList, location } = this.props
+        const { deleteUser, clearUsersEntryNotification, location,
+            responseOfMultipleDeleteUser } = this.props
+        const { users, pagination } = this.props.listUsersState.data
 
-        const userList = entries.data.results.map((user) => {
-            let deleteStatus
-            if (deleteStatusList) {
-                deleteStatus = deleteStatusList[user.id]
-            }
-
-            return (
-                <UserEntry
-                    key={user.id}
-                    user={user}
-                    deleteStatus={deleteStatus}
-                    deleteUser={this.props.deleteUser}
-                    clearUsersEntryNotification={this.props.clearUsersEntryNotification}
-                />
-            )
-        })
+        const userList = users.map((user) => (
+            <SettingsUserEntry
+                key={user.id}
+                user={user}
+                responseOfDelete={responseOfMultipleDeleteUser[user.id]}
+                deleteUser={deleteUser}
+                clearUsersEntryNotification={clearUsersEntryNotification}
+            />
+        ))
 
         return (
             <div className="box" id="users-list">
@@ -72,32 +61,36 @@ class UserList extends Component {
                 <div className="box-header">
                     <h1>Users management</h1>
                 </div>
-                <div className="listing-table-container">
-                    <table className="listing users-list notifiable">
-                        <thead>
-                            <tr className="listing-header">
-                                <th className="username">Username</th>
-                                <th className="permission">Is superuser</th>
-                                <th className="permission">Users rights</th>
-                                <th className="permission">Library rights</th>
-                                <th className="permission">Playlist rights</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {userList}
-                        </tbody>
-                    </table>
-                </div>
+                <ListingFetchWrapper
+                    status={this.props.listUsersState.status}
+                >
+                    <div className="listing-table-container">
+                        <table className="listing users-list notifiable">
+                            <thead>
+                                <tr className="listing-header">
+                                    <th className="username">Username</th>
+                                    <th className="permission">Is superuser</th>
+                                    <th className="permission">Users rights</th>
+                                    <th className="permission">Library rights</th>
+                                    <th className="permission">Playlist rights</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {userList}
+                            </tbody>
+                        </table>
+                    </div>
+                </ListingFetchWrapper>
                 <Navigator
-                    data={entries.data}
+                    pagination={pagination}
                     location={location}
                 />
                 <IsUserManager>
                     <FormBlock
                         title="Create user"
                         submitText="Create"
-                        formName="createUser"
+                        alterationName="createUser"
                         action="users/"
                         successMessage="User sucessfully created!"
                         onSuccess={this.refreshEntries}
@@ -133,17 +126,17 @@ class UserList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    entries: state.settings.users.entries,
-    deleteStatusList: state.alterationsStatus.deleteUser
+    listUsersState: state.settings.users.list,
+    responseOfMultipleDeleteUser: state.alterationsResponse.multiple.deleteUser || {}
 })
 
-UserList = withRouter(connect(
+SettingsUsersList = withRouter(connect(
     mapStateToProps,
     {
         deleteUser,
         getUsers,
         clearUsersEntryNotification
     }
-)(UserList))
+)(SettingsUsersList))
 
-export default UserList
+export default SettingsUsersList

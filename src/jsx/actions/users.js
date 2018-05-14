@@ -1,5 +1,5 @@
 import { FETCH_API } from 'middleware/fetchApi'
-import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE, ALTERATION_STATUS_CLEAR } from './alterationsStatus'
+import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE, ALTERATION_RESPONSE_CLEAR } from './alterations'
 import { params } from 'utils'
 
 const { baseUrl } = params
@@ -21,12 +21,12 @@ export const USER_LIST_FAILURE = "USER_LIST_FAILURE"
  * Action creator to refresh users in the current page
  */
 const refreshUsers = (dispatch, getState) => {
-    const page = getState().settings.users.entries.data.current
+    const page = getState().settings.users.list.data.pagination.current
     return dispatch(getUsers(page))
 }
 
 const refreshUsersDelayed = (dispatch, getState) => {
-    const page = getState().settings.users.entries.data.current
+    const page = getState().settings.users.list.data.pagination.current
     return dispatch(delay(getUsers(page), 3000))
 }
 
@@ -76,7 +76,7 @@ export const deleteUser = (userId) => ({
  * @param userId line to clear
  */
 export const clearUsersEntryNotification = (userId) => ({
-    type: ALTERATION_STATUS_CLEAR,
+    type: ALTERATION_RESPONSE_CLEAR,
     alterationName: "deleteUser",
     elementId: userId
 })

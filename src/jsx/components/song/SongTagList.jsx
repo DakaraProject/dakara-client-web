@@ -1,23 +1,17 @@
 import React, { Component } from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
+import { songTagPropType } from 'serverPropTypes/library'
 
 export default class SongTagList extends Component {
     static propTypes = {
-        tags: PropTypes.arrayOf(
-            PropTypes.shape({
-                color_hue: PropTypes.number.isRequired,
-                name: PropTypes.string.isRequired,
-            })
-        ).isRequired,
+        tags: PropTypes.arrayOf(songTagPropType).isRequired,
         setQuery: PropTypes.func,
         query: PropTypes.object,
         unclickable: PropTypes.bool,
     }
 
     render() {
-        const songTagClassArray = ['tag']
-
         /**
          * Display Tags
          * display as cliquable tags if a setQuery prop is passed
@@ -27,7 +21,6 @@ export default class SongTagList extends Component {
         let searchIcon
         if (setQuery) {
             // Set clickable and add search icon
-            songTagClassArray.push('clickable')
             searchIcon = (
                 <span className="icon">
                     <i className="fa fa-search"></i>
@@ -36,15 +29,22 @@ export default class SongTagList extends Component {
         }
 
         const tagList = tags.map( tag => {
-            // Grey out tag when searching a tag other than this
-            songTagClassArray.push({
-                'disabled': query && query.tag.length && query.tag.indexOf(tag.name) == -1
-            })
+            const className = classNames(
+                'tag',
+                {
+                    clickable: !!setQuery,
+                    disabled:
+                        // grey out tag when searching a tag other than this
+                        query && query.tag.length && query.tag.indexOf(tag.name) == -1 ||
+                        // or when explicitely disabled
+                        tag.disabled,
+                }
+            )
 
             if (this.props.unclickable) {
                 return (
                     <div
-                        className={classNames(songTagClassArray)}
+                        className={className}
                         style={{filter: `hue-rotate(${tag.color_hue}deg)`}}
                         key={tag.name}
                     >
@@ -56,7 +56,7 @@ export default class SongTagList extends Component {
 
             return (
                 <button
-                    className={classNames(songTagClassArray)}
+                    className={className}
                     style={{filter: `hue-rotate(${tag.color_hue}deg)`}}
                     key={tag.name}
                     onClick={() => setQuery && setQuery(`#${tag.name}`)}

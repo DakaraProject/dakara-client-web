@@ -1,7 +1,6 @@
-import { FORM_SUCCESS } from 'actions/forms'
+import { ALTERATION_SUCCESS } from 'actions/alterations'
 import { LOGOUT } from 'actions/token'
 import { SET_TOKEN } from 'actions/token'
-
 
 /**
  * Authentication token with the Dakara server
@@ -9,19 +8,20 @@ import { SET_TOKEN } from 'actions/token'
 
 function token(state = null, action) {
     switch (action.type) {
-        case FORM_SUCCESS:
-            // special case for the login form
-            if (action.formName == 'login') {
+        case ALTERATION_SUCCESS:
+            // log in with the form
+            if (action.alterationName === 'login') {
                 return action.response.token
             }
 
             return state
 
+        case SET_TOKEN:
+            // log in with a special event
+            return action.token
+
         case LOGOUT:
             return null
-
-        case SET_TOKEN:
-            return action.token
 
         default:
             return state

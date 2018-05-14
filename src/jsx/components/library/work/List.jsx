@@ -2,59 +2,50 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import WorkEntry from './Entry'
-import ListWrapper from '../ListWrapper'
+import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
+import { workStatePropType, workTypeStatePropType } from 'reducers/library'
 
 class WorkList extends Component {
     static propTypes = {
-        entries: PropTypes.shape({
-            data: PropTypes.shape({
-                results: PropTypes.arrayOf(PropTypes.shape({
-                    id: PropTypes.any.isRequired,
-                }).isRequired).isRequired,
-            }),
-            isFetching: PropTypes.bool.isRequired,
-            fetchError: PropTypes.bool.isRequired,
-        }),
+        workState: workStatePropType,
         libraryType: PropTypes.string.isRequired,
-        workTypes: PropTypes.object.isRequired,
+        workTypeState: workTypeStatePropType.isRequired,
     }
 
     render() {
-        const { entries } = this.props
-
-        if (!entries || !entries.data) {
+        if (!this.props.workState || !this.props.workState.data) {
             return null
         }
 
-        const works = entries.data.results
+        const { works, count, pagination, query } = this.props.workState.data
 
         const libraryEntryWorkList = works.map(work =>
               <WorkEntry
                 key={work.id}
                 work={work}
                 workType={this.props.libraryType}
+                query={query}
               />
         )
 
-        const { isFetching, fetchError } = entries
         const libraryNameInfo = getWorkLibraryNameInfo(
             this.props.libraryType,
-            this.props.workTypes
+            this.props.workTypeState.data.workTypes
         )
 
         return (
             <div className="work-list">
-                <ListWrapper
-                    isFetching={isFetching}
-                    fetchError={fetchError}
+                <ListingFetchWrapper
+                    status={this.props.workState.status}
                 >
                     <ul className="library-list listing">
                         {libraryEntryWorkList}
                     </ul>
-                </ListWrapper>
+                </ListingFetchWrapper>
                 <Navigator
-                    data={entries.data}
+                    count={count}
+                    pagination={pagination}
                     names={{
                         singular: `${libraryNameInfo.singular} found`,
                         plural: `${libraryNameInfo.plural} found`
@@ -67,8 +58,8 @@ class WorkList extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    entries: state.library.work[ownProps.libraryType],
-    workTypes: state.library.workTypes
+    workState: state.library.works[ownProps.libraryType],
+    workTypeState: state.library.workType,
 })
 
 WorkList = connect(
@@ -85,7 +76,7 @@ export default WorkList
  */
 export const getWorkLibraryNameInfo = (workTypeQueryName, workTypes) => {
     // Find work type matching the query name
-    const workType = workTypes.data.results.find(
+    const workType = workTypes.find(
         (workType) => workType.query_name == workTypeQueryName
     )
 
