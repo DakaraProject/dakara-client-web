@@ -35,20 +35,11 @@ class PlaylistApp extends Component {
 
     render() {
         const { kara_status } = this.props.playlistDigest.data
-        const stickedElements = document.getElementsByClassName('sticked')
 
         if (!kara_status.status) return null
 
         if (kara_status.status === 'stop') {
-            Array.prototype.forEach.call(stickedElements, (element) => {
-                element.classList.remove('with-player')
-            })
-
             if (IsPlaylistManager.hasPermission(this.props.user)) {
-                Array.prototype.forEach.call(stickedElements, (element) => {
-                    element.classList.add('with-notification')
-                })
-
                 return (
                     <KaraStatusNotification/>
                 )
@@ -57,13 +48,8 @@ class PlaylistApp extends Component {
             return null
         }
 
-        Array.prototype.forEach.call(stickedElements, (element) => {
-            element.classList.remove('with-notification')
-            element.classList.add('with-player')
-        })
-
         return (
-            <div className="box">
+            <div className="box" id="playlist-app">
                 <Player/>
                 <PlaylistInfoBar/>
             </div>

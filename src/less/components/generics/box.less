@@ -24,28 +24,6 @@
         color: @brand-primary-light;
     }
 
-    .sticked {
-        position: sticky;
-        z-index: 900;
-
-        &.with-player {
-            top: @player-height + @playlist-info-bar-height + @gap-vertical;
-
-            .make-tabled({
-                top: @player-height + @playlist-info-bar-height;
-            });
-
-            .make-smartphone({
-                top: @player-height-smartphone + @playlist-info-bar-height;
-            });
-        }
-
-        &.with-notification {
-            top: @kara-status-notification-height + @gap-vertical;
-        }
-    }
-
-
     p {
         .make-gap(margin, left);
         .make-gap(margin, right);
