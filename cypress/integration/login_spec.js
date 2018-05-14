@@ -8,6 +8,7 @@ describe('Login tests', function() {
         cy.route('/api/playlist/digest/', 'fixture:playlist/digest.json')
         cy.route('/api/playlist/entries/', 'fixture:playlist/entries.json')
         cy.route('/api/playlist/played-entries/', 'fixture:playlist/played-entries.json')
+        cy.clearLocalStorage();
     })
 
     it('logs in successfuly, is redirected after login and sends token in requests', function() {
