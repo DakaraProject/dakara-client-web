@@ -1,13 +1,17 @@
 language: node_js
 node_js:
   - 9
+
 cache:
   directories:
     - ~/.npm
     - node_modules
+
 install:
   - npm install
+
 before_script:
   - npx webpack
+
 script:
   - npm test
