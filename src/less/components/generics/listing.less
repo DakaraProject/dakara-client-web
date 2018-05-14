@@ -52,7 +52,6 @@
     }
 
     .listing-entry {
-
         // normal and alternate row colors
         background: @neutral-mid;
 
@@ -126,8 +125,15 @@ ul.listing {
 // Specialization for tables
 table.listing {
     width: 100%;
-    // height: 100%;
     border-collapse: collapse;
+
+    // set height so as a div in a cell to take 100% height
+
+    // for Chrome
+    height: 100%;
+
+    // for Firefox
+    tr {height: 100%;}
 
     // make the controls column as small as possible
     .controls-col {
@@ -141,10 +147,6 @@ table.listing {
         height: 100%;
     }
 
-    tr {
-        height: 100%;
-    }
-
     // remove default bold
     .listing-header > th {
         font-weight: normal;
@@ -154,17 +156,11 @@ table.listing {
         });
     }
 
-    // it seems that a row has no really height, so we have to set the height to
-    // the cell itself
+    // it is safer to set row height by the cell itself
     .listing-entry > td,
     .listing-header > th {
         height: @listing-entry-height;
     }
-
-    // for Firefox
-    // .listing-entry {
-    //     height: @listing-entry-height;
-    // }
 
     td, th {
         // default is 1px, but no idea for the reason why
