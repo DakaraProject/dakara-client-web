@@ -79,7 +79,7 @@ export default class SettingsUsersEntry extends Component {
                 <td className="permission">
                     <PermissionText level={user.library_permission_level}/>
                 </td>
-                <td className="permission">
+                <td className="permission last">
                     <PermissionText level={user.playlist_permission_level}/>
                 </td>
                 <td className="controls-col">

@@ -156,22 +156,26 @@ table.listing {
         });
     }
 
-    // it is safer to set row height by the cell itself
     .listing-entry > td,
     .listing-header > th {
+        // it is safer to set row height by the cell itself
         height: @listing-entry-height;
-    }
 
-    td, th {
         // default is 1px, but no idea for the reason why
         padding: 0;
 
+        // add padding
         &:not(.controls-col):not(.notification-col) {
             .make-vertical-row-padding();
             .make-gap(padding, left);
+
+            &:last-child,
+            &.last {
+                .make-gap(padding, right);
+            }
+
         }
     }
-
 }
 
 // `listing-table-container` class:
