@@ -58,8 +58,6 @@ describe('Song library tests', function() {
     })
 
     it('searches songs and highlight result', function() {
-        cy.url().should('include', '/library/song')
-
         cy.get("#library-searchbox-fake input").type('black{enter}')
 
         // check request is sent
@@ -75,5 +73,27 @@ describe('Song library tests', function() {
         cy.get('.library-entry-song:nth-child(2) mark').should('contain', 'Black')
 
 
+    })
+
+    it('can navigate through pages', function() {
+        cy.get('.paginator .control').as('controls')
+
+        // click next page button
+        cy.get('.paginator a.control').first().should('have.attr', 'href', '/library/song?page=2').click()
+
+        // now on second page
+        cy.url().should('include', '/library/song?page=2')
+
+        // check first song of page 2
+        cy.get('.library-entry-song').first().should('contain', 'Song15') 
+
+        // go to last page
+        cy.get('.paginator a.control').last().should('have.attr', 'href', '/library/song?page=4').click()
+
+        // now on page 4
+        cy.url().should('include', '/library/song?page=4')
+
+        // check first song of page 4
+        cy.get('.library-entry-song').first().should('contain', 'Song9') 
     })
 })
