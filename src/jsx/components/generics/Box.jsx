@@ -2,6 +2,13 @@ import React, { Component } from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 
+/**
+ * Reduceable component
+ *
+ * This component adds a class to its child when a the user has scrolled passed a
+ * certain given thresold. The thresold can be unique, or double, one for ascending
+ * and the other for descending scroll.
+ */
 export class Reduceable extends Component {
     static propTypes = {
         thresold: PropTypes.oneOfType([
@@ -53,15 +60,26 @@ export class Reduceable extends Component {
     onScroll = (e) => {
         const { isReduced, thresoldUp, thresoldDown, latestPosition } = this.state
         const currentPosition = window.pageYOffset
+
+        // save position
+        this.setState({latestPosition: currentPosition})
+
+        // direction of scroll
         const deltaPosition = currentPosition - latestPosition
 
+        // we descend beneath the up thresold
         if (currentPosition > thresoldUp && deltaPosition > 0) {
             if (!isReduced) this.setState({isReduced: true})
-        } else if (currentPosition < thresoldDown && deltaPosition < 0) {
-            if (isReduced) this.setState({isReduced: false})
+
+            return
         }
 
-        this.setState({latestPosition: currentPosition})
+        // if we ascend above the down thresold
+        if (currentPosition < thresoldDown && deltaPosition < 0) {
+            if (isReduced) this.setState({isReduced: false})
+
+            return
+        }
     }
 
     render() {

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
@@ -156,13 +155,15 @@ export default class Notification extends Component {
  * Must be used on the cell of the first column.
  */
 export class NotifiableForTable extends Component {
+    elementRef = React.createRef()
+
     state = {
         parentTableElement: null,
     }
 
     componentDidMount() {
         // find parent table DOM node
-        const element = ReactDOM.findDOMNode(this)
+        const element = this.elementRef.current
         this.setState({parentTableElement: element.closest('table')})
     }
 
@@ -176,7 +177,7 @@ export class NotifiableForTable extends Component {
             undefined
 
         return (
-            <div className="notifiable-for-table">
+            <div className="notifiable-for-table" ref={this.elementRef}>
                 <div
                     className={classNames("notifiable", className)}
                     style={{width}}
