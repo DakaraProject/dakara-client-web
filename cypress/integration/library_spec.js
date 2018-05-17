@@ -25,8 +25,11 @@ describe('Song library tests', function() {
     it('displays songs details in compact and expanded form', function() {
         cy.url().should('include', '/library/song')
 
+        // check the second song in list
+        cy.get('.library-entry-song:nth-child(2)').as('song2')
+
         // check basic info about a song are displayed 
-        cy.get('.library-entry-song:nth-child(2)').should('be.visible')
+        cy.get('@song2').should('be.visible')
             .and('contain', 'BlackRunning') // title
             .and('contain', 'versultimate version') // version
             .and('contain', 'Super work') // work
@@ -37,10 +40,10 @@ describe('Song library tests', function() {
             .and('contain', 'INST') // tag
 
         // expand listing entry
-        cy.get('.library-entry-song:nth-child(2) .song').click()
+        cy.get('@song2').find('.song').click()
 
         // check detailed info about a song are displayed 
-        cy.get('.library-entry-song:nth-child(2) .library-entry-song-expanded').should('be.visible')
+        cy.get('@song2').find('.library-entry-song-expanded').should('be.visible')
             .and('contain', 'Super work') // work
             .and('contain', 'Opening2') // work link
             .and('contain', 'The artist') // artist
