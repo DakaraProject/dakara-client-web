@@ -22,6 +22,6 @@ install:
 before_script:
   - npx webpack
 
-# run actual tests
+# run actual tests with video recording
 script:
-  - npm test
+  - npm run test-record
