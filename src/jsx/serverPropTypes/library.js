@@ -21,7 +21,6 @@ export const workPropType = PropTypes.shape({
 
 export const workLinkPropType = PropTypes.shape({
     work: workPropType.isRequired,
-    link_type_name: PropTypes.string.isRequired,
     link_type_number: PropTypes.number,
     link_type: PropTypes.string.isRequired,
     episodes: PropTypes.string,
