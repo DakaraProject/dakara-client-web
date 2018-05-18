@@ -35,7 +35,15 @@ export default class Song extends Component {
 
         let version
         if (song.version) {
-            version = (<span className="version">{song.version} version</span>)
+            version = (
+                <span className="version">
+                    <HighlighterQuery
+                        query={query}
+                        searchWords={(q) => (q.remaining)}
+                        textToHighlight={song.version}
+                    /> version
+                </span>
+            )
         }
 
         // Display artist and work conditionally
