@@ -1,18 +1,5 @@
 describe('Song library tests', function() {
     beforeEach(function() {
-        // Stub api routes
-        cy.server()
-        cy.route('/api/users/current/', 'fixture:users/current.json')
-        cy.route('/api/library/work-types/', 'fixture:library/work-types.json')
-        cy.route('/api/library/songs/?page=1', 'fixture:library/songs_page1.json')
-        cy.route('/api/library/songs/?page=2', 'fixture:library/songs_page2.json')
-        cy.route('/api/library/songs/?page=3', 'fixture:library/songs_page3.json')
-        cy.route('/api/library/songs/?page=4', 'fixture:library/songs_page4.json')
-        cy.route('/api/library/songs/?page=1&query=*', 'fixture:library/songs_query.json').as('songs_query')
-        cy.route('/api/playlist/digest/', 'fixture:playlist/digest.json')
-        cy.route('/api/playlist/entries/', 'fixture:playlist/entries.json')
-        cy.route('/api/playlist/played-entries/', 'fixture:playlist/played-entries.json')
-
         // visits home page
         // with token set, to appear logged in
         cy.visit('/', {
@@ -33,6 +20,7 @@ describe('Song library tests', function() {
             .and('contain', 'BlackRunning') // title
             .and('contain', 'versultimate version') // version
             .and('contain', 'Super work') // work
+            .and('contain', 'subsuper') // work subtitle
             .and('contain', 'OP2') // work link
             .and('contain', 'The artist') // artist
             .and('contain', 'Artist1') // artist
@@ -57,8 +45,11 @@ describe('Song library tests', function() {
 
     })
 
-    it('searches songs and highlight result', function() {
+    it('can search songs and highlight result', function() {
         cy.get("#library-searchbox-fake input").type('black{enter}')
+
+        // url changes to include search
+        cy.url().should('include', 'query=black')
 
         // check request is sent
         cy.wait('@songs_query')
@@ -66,11 +57,11 @@ describe('Song library tests', function() {
             .should('contains', 'query=black')
 
         // 2 results
-        cy.get('.library-entry-song').children().should('have.length', 2)
+        cy.get('.library-list').children().should('have.length', 2)
 
         // check highlighting
-        cy.get('.library-entry-song:nth-child(1) mark').should('contain', 'Black')
-        cy.get('.library-entry-song:nth-child(2) mark').should('contain', 'Black')
+        cy.get('.library-entry-song:nth-child(1) mark').should('have.text', 'Black')
+        cy.get('.library-entry-song:nth-child(2) mark').should('have.text', 'Black')
 
 
     })
@@ -95,5 +86,40 @@ describe('Song library tests', function() {
 
         // check first song of page 4
         cy.get('.library-entry-song').first().should('contain', 'Song9') 
+    })
+
+    it('can search artists works and tags from expanded view', function() {
+        // second song in list
+        cy.get('.library-entry-song:nth-child(2)').as('song2')
+
+        // expand listing entry
+        cy.get('@song2').find('.song').click()
+
+        // Click search button for first artist
+        cy.get('@song2').find('.artists .control').first().click()
+
+        // url changes to include search
+        cy.url().should('include', 'query=' + encodeURIComponent('artist:""The artist""'))
+
+        // return to previous page
+        cy.go('back')
+
+        // Click search button for the work
+        cy.get('@song2').find('.works .control').first().click()
+
+        // url changes to include search
+        cy.url().should('include', 'query=' + encodeURIComponent('anime:""Super work""'))
+
+        // return to previous page
+        cy.go('back')
+
+        // Click search button for the first tag
+        cy.get('@song2').find('.tags .tag.clickable').first().click()
+
+        // url changes to include search
+        cy.url().should('include', 'query=' + encodeURIComponent('#PV'))
+
+
+
     })
 })

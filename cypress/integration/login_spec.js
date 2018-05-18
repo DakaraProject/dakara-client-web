@@ -1,13 +1,5 @@
 describe('Login tests', function() {
     beforeEach(function() {
-        // Stub api routes
-        cy.server()
-        cy.route('/api/users/current/', 'fixture:users/current.json').as('getCurrentUser')
-        cy.route('/api/library/work-types/', 'fixture:library/work-types.json')
-        cy.route('/api/library/songs/*', 'fixture:library/songs_page1.json')
-        cy.route('/api/playlist/digest/', 'fixture:playlist/digest.json')
-        cy.route('/api/playlist/entries/', 'fixture:playlist/entries.json')
-        cy.route('/api/playlist/played-entries/', 'fixture:playlist/played-entries.json')
         cy.clearLocalStorage();
     })
 

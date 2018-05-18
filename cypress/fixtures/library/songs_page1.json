@@ -54,7 +54,7 @@
                     "work": {
                         "id": 1,
                         "title": "Super work",
-                        "subtitle": "",
+                        "subtitle": "subsuper",
                         "work_type": {
                             "name": "Anime",
                             "name_plural": "Animes",

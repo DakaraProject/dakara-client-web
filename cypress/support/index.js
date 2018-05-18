@@ -1,9 +1,6 @@
 // ***********************************************************
-// This example support/index.js is processed and
-// loaded automatically before your test files.
-//
-// This is a great place to put global configuration and
-// behavior that modifies Cypress.
+// This file support/index.js is processed and
+// loaded automatically before each test files.
 //
 // You can change the location of this file or turn off
 // automatically serving support files with the
@@ -13,11 +10,8 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-// Import commands.js using ES2015 syntax:
-import './commands'
-
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
+// General api routes stubs
+import './stubs'
 
 // Workaround to support fetch
 Cypress.on("window:before:load", win => {
