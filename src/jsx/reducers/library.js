@@ -11,6 +11,17 @@ import { updateData } from 'utils'
  */
 
 /**
+ * Work link complete name
+ */
+
+export const WorkLinkName = Object.freeze({
+    OP: "Opening",
+    ED: "Ending",
+    IN: "Insert song",
+    IS: "Image song",
+})
+
+/**
  * Generators for library content
  */
 

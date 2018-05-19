@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Highlighter from 'react-highlight-words'
 import HighlighterQuery from 'components/generics/HighlighterQuery'
 import PropTypes from 'prop-types'
+import { WorkLinkName } from 'reducers/library'
 import { workLinkPropType } from 'serverPropTypes/library'
 
 /**
@@ -37,7 +38,7 @@ export default class WorkLink extends Component {
         // Link type
         const linkType = (
                 <span className="link-type">
-                    {longLinkType ? workLink.link_type_name : workLink.link_type}
+                    {longLinkType ? WorkLinkName[workLink.link_type] : workLink.link_type}
                 </span>
         )
 

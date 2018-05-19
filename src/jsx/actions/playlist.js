@@ -163,7 +163,7 @@ export const addSongToPlaylist = (songId) => ({
     [FETCH_API]: {
             endpoint: `${baseUrl}playlist/entries/`,
             method: 'POST',
-            json: {song: songId},
+            json: {song_id: songId},
             types: [
                 ALTERATION_REQUEST,
                 ALTERATION_SUCCESS,
