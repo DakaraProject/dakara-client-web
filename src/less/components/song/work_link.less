@@ -10,28 +10,51 @@
 // This module is used to style a work link, ie. a work and its link to the
 // song.
 .work-link {
-    > .work-link-item:not(:first-child) {
-        margin-left: 0.5em;
+    flex-shrink: 2;
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    white-space: nowrap;
+    overflow: hidden;
+
+    .work-link-item:not(:last-child) {
+        margin-right: 0.5em;
     }
 
-    // `title` class: title of the work.
-    .title {
+    .make-reverse() {
+        flex-direction: row-reverse;
+
+        .work-link-item:last-child {
+            margin-right: 0.5em;
+        }
+
+        .work-link-item:first-child {
+            margin-right: 0;
+        }
     }
 
-    // `subtitle` class: subtitle of the work, if any.
-    .subtitle {
-        opacity: 0.65;
+    // `title-groud` class: title and subtitle of the work.
+    .title-group {
+        .text-truncate();
+
+        .title {
+        }
+
+        .subtitle {
+            opacity: 0.65;
+            margin-left: 0.5em;
+        }
     }
 
     // `link` class: the type of the link (OP, ED) and a number if any.
     .link {
+        display: inline-block;
         text-transform: uppercase;
         font-size: 0.9em;
-        line-height: 2em;
         border-style: solid;
         border-width: 1px;
         border-color: fade(@text-light, 65%);
-        padding: 0 0.2em;
+        padding: 0.1em 0.2em;
 
         .link-type {
         }

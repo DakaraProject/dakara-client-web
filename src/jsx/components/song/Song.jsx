@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import { formatDuration } from 'utils'
 import HighlighterQuery from 'components/generics/HighlighterQuery'
 import WorkLink from './WorkLink'
@@ -47,6 +48,7 @@ export default class Song extends Component {
 
         // Display artist and work conditionally
         let artistWork
+        let withArtistAndWork = false
         if (!this.props.noArtistWork) {
 
             // Display first work if any
@@ -61,6 +63,9 @@ export default class Song extends Component {
                             noEpisodes
                         />
                 )
+
+                // check if there is at least an artist too
+                withArtistAndWork = song.artists.length > 0
             }
 
             // Display artists
@@ -110,17 +115,28 @@ export default class Song extends Component {
         }
 
         return (
-                <div className="song" onClick={this.props.handleClick}>
-                    <div className="header">
-                        <HighlighterQuery
-                            query={query}
-                            className="title"
-                            searchWords={(q) => (q.title.contains.concat(q.remaining))}
-                            textToHighlight={song.title}
-                        />
-                        {version}
+            <div
+                className={classNames(
+                    "song",
+                    {
+                        disabled: song.tags.some((tag) => (tag.disabled)),
+                        "with-artist-and-work": withArtistAndWork
+                    }
+                )}
+                onClick={this.props.handleClick}
+            >
+                    <div className="general">
+                        <div className="header">
+                            <HighlighterQuery
+                                query={query}
+                                className="title"
+                                searchWords={(q) => (q.title.contains.concat(q.remaining))}
+                                textToHighlight={song.title}
+                            />
+                            {version}
+                        </div>
+                        {artistWork}
                     </div>
-                    {artistWork}
                     {duration}
                     {tags}
                 </div>

@@ -5,6 +5,11 @@
 //
 
 
+// playlist info bar sizes
+@playlist-info-bar-height: 5rem;
+@playlist-info-bar-height-smartphone: 4rem;
+
+
 // `playlist-info-bar` id:
 //
 // The playlist info bar gives some pieces of information on the status of the
@@ -20,6 +25,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: @playlist-info-bar-height;
+    overflow: hidden;
+
+    .make-smartphone({
+        height: @playlist-info-bar-height-smartphone;
+        padding: 0 @gap-horizontal-smartphone;
+        font-size: 0.85em;
+    });
 
     &:hover,
     &:focus, {
@@ -29,6 +42,11 @@
     .item {
         display: flex;
         align-items: center;
+        white-space: nowrap;
+
+        &:not(:first-child) {
+            .make-gap(padding, left);
+        }
 
         .stat {
             display: inline-block;
@@ -43,6 +61,18 @@
             vertical-align: middle;
             flex: 1;
             text-align: left;
+        }
+
+        &.next {
+            overflow: hidden;
+
+            .description {
+                .text-truncate();
+            }
+
+            .make-smartphone({
+                display: none;
+            });
         }
     }
 }

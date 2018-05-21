@@ -18,15 +18,13 @@ class Library extends Component {
 
         return (
             <div id="library" className="box">
-                <LibraryTabList
-                    workTypeState={workTypeState}
-                />
-
-                <SearchBox
-                    placeholder={nameInfo.placeholder}
-                    location={location}
-                />
-
+                    <LibraryTabList
+                        workTypeState={workTypeState}
+                    />
+                    <SearchBox
+                        placeholder={nameInfo.placeholder}
+                        location={location}
+                    />
                 {this.props.children}
             </div>
         )

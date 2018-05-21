@@ -8,7 +8,6 @@ import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
 import PlayQueueInfo from 'components/song/PlayQueueInfo'
-import DisabledFeedback from 'components/song/DisabledFeedback'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 
 class PlaylistEntry extends Component {
@@ -67,7 +66,6 @@ class PlaylistEntry extends Component {
                 {delayed: this.props.responseOfRemoveEntry}
             )}>
                 <div className="library-entry-song-compact notifiable">
-                    <DisabledFeedback tags={entry.song.tags}/>
                     <Song
                         song={entry.song}
                         handleClick={this.handleSearch}

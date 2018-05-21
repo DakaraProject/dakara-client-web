@@ -8,6 +8,7 @@ import { removeEntryFromPlaylist, clearPlaylistEntryNotification } from 'actions
 import PlaylistEntry from './Entry'
 import PlaylistTabList from './TabList'
 import Navigator from 'components/generics/Navigator'
+import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import { playlistEntriesStatePropType } from 'reducers/playlist'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
 
@@ -21,6 +22,7 @@ class Playlist extends Component {
 
     render() {
         const { playlistEntries } = this.props.playlistEntriesState.data
+        const { status } = this.props.playlistEntriesState
         const { removeEntryFromPlaylist: removeEntry, responseOfMultipleRemoveEntry } = this.props
 
         const playlistEntriesComponent = playlistEntries.map( entry => (
@@ -43,16 +45,17 @@ class Playlist extends Component {
 
         return (
             <div id="playlist" className="box">
-                <PlaylistTabList/>
-                <div className="box-header">
-                    <h1>Playlist</h1>
-                </div>
-                <TransitionGroup
-                    component="ul"
-                    className="listing"
+                <ListingFetchWrapper
+                    status={status}
                 >
-                    {playlistEntriesComponent}
-                </TransitionGroup>
+                    <PlaylistTabList/>
+                    <TransitionGroup
+                        component="ul"
+                        className="listing"
+                    >
+                        {playlistEntriesComponent}
+                    </TransitionGroup>
+                </ListingFetchWrapper>
                 <Navigator
                     count={playlistEntries.length}
                     names={{

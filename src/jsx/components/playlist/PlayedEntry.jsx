@@ -3,7 +3,6 @@ import { stringify } from 'query-string'
 import PropTypes from 'prop-types'
 import Song from 'components/song/Song'
 import PlayQueueInfo from 'components/song/PlayQueueInfo'
-import DisabledFeedback from 'components/song/DisabledFeedback'
 import { playlistPlayedEntryPropType } from 'serverPropTypes/playlist'
 
 class PlaylistPlayedEntry extends Component {
@@ -36,7 +35,6 @@ class PlaylistPlayedEntry extends Component {
         return (
             <li className="listing-entry playlist-entry library-entry library-entry-song hoverizable">
                 <div className="library-entry-song-compact">
-                    <DisabledFeedback tags={entry.song.tags}/>
                     <Song
                         song={entry.song}
                         handleClick={this.handleSearch}

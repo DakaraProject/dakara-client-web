@@ -12,7 +12,7 @@ const notificationTypes = {
 }
 
 /**
- * Notification message
+ * Notification message for the player
  */
 export default class PlayerNotification extends Component {
     static propTypes = {
@@ -137,8 +137,10 @@ export default class PlayerNotification extends Component {
                     key={key}
                 >
                     <div className="notified">
-                        <div className="notification message danger">
-                            {message}
+                        <div className="notification danger">
+                            <div className="message">
+                                {message}
+                            </div>
                         </div>
                     </div>
                 </CSSTransition>

@@ -29,16 +29,53 @@
         // `song` subclass: the song itself.
         .song {
             flex: 1;
-            padding-left: @gap-horizontal;
             cursor: pointer;
+            min-height: @listing-entry-height;
+
+            .general {
+                .make-vertical-row-padding(horizontal);
+
+                .make-smartphone({
+                    flex-direction: column;
+                    align-items: initial;
+
+                    .artist-work {
+                        .work-link {
+                            .work-link.make-reverse();
+                        }
+
+                        .artists {
+                            text-align: left;
+                        }
+
+                        // for small devices, hide the artist if there is one work
+                        .work-link + .artists {
+                            display: none;
+                        }
+                    }
+                });
+            }
         }
+
+        .play-queue-info-wrapper {
+            display: flex;
+        }
+    }
+
+    // if the song si expanded, disable truncature of text in song header
+    &.expanded .library-entry-song-compact .song .general .header {
+        // disallow text truncate, thus allow text to spread on several lines
+        .text-untruncate();
+
+        // allow words to break
+        overflow-wrap: break-word;
     }
 
     // `library-entry-song-expanded` class: song expanded view.
     // It should not be used with the `hoverized` subclass, otherwise some hover
     // will be wrong.
     // The class behaves like a table in order to keep a column of labels of the
-    // same width. This does no go without consequenses, as a table element is
+    // same width. This does not go without consequenses, as a table element is
     // difficult to style.
     .library-entry-song-expanded {
         @height: @sublisting-entry-height;
@@ -47,19 +84,32 @@
         border-collapse: separate;
         border-spacing: 0 @gap-vertical;
 
+        .make-smartphone({
+            display: block;
+            padding: @gap-vertical-smartphone 0;
+        });
+
         .expanded-item {
             display: table-row;
 
+            .make-smartphone({
+                display: block;
+            });
+
             &:not(:last-child) {
-                padding-bottom: 0.5 * @gap-vertical;
+                .make-gap(padding, bottom);
             }
 
             .header {
                 display: table-cell;
-                padding: 0 @gap-horizontal;
                 font-weight: normal;
                 white-space: nowrap;
                 vertical-align: top;
+                .make-gap(padding, horizontal);
+
+                .make-smartphone({
+                    display: block;
+                });
 
                 .icon {
                 }
@@ -70,13 +120,36 @@
                 }
             }
 
-            .text, .song-tag-list {
+            .sublisting-entry {
+                // allow words to break
+                overflow: hidden;
+
+                // keep control buttons stretched
+                .controls {
+                    align-self: stretch;
+
+                    .control {
+                        height: unset;
+                    }
+                }
+            }
+
+            .text, .song-tag-list, .paragraph {
                 background: darken(@neutral-mid, 2%);
             }
 
+            .text, .paragraph, .artist, .work-link {
+                // allow words to break
+                overflow: hidden;
+                overflow-wrap: break-word;
+
+                .make-vertical-row-padding(horizontal, 2);
+            }
+
             .text {
-                padding: 0 @gap-horizontal;
-                line-height: @height;
+                min-height: @height;
+                display: flex;
+                align-items: center;
             }
 
             .song-tag-list {
@@ -87,34 +160,41 @@
                 }
             }
 
-            &.lyrics .text {
-                white-space: pre-line; // TODO change that
-                line-height: 1.5em;
-                padding-top: 2 * @gap-horizontal / 3;
-                padding-bottom: 2 * @gap-horizontal / 3;
+            &.works {
+                .sublisting-entry {
+                    .work-link {
+                        flex: 1;
+                        display: block;
+                        white-space: unset;
 
-                .truncated::after {
-                    content: "…";
-                    font-size: 1.5em;
-                    line-height: 0;
+                        .title-group {
+                            white-space: unset;
+                        }
+
+                        .link {
+                            font-size: 0.81em;
+                        }
+                    }
                 }
             }
-        }
 
-        .artists {
-            .artist {
-                flex: 1;
-                padding: 0 @gap-horizontal;
+            &.artists {
+                .artist {
+                    flex: 1;
+                }
             }
-        }
 
-        .works {
-            .work-link {
-                flex: 1;
-                padding: 0 @gap-horizontal;
+            &.lyrics .paragraph {
+                .line:not(:last-child) {
+                    margin-bottom: 0.25em;
+                }
 
-                .link {
-                    font-size: 0.81em;
+                &.truncated {
+                    .line:last-child::after {
+                        content: "…";
+                        font-size: 1.5em;
+                        line-height: 0;
+                    }
                 }
             }
         }

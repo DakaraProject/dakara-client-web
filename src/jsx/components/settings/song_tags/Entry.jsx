@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import classNames from 'classnames'
 import { FormInline, CheckboxField, HueField } from 'components/generics/Form'
-import Notification from 'components/generics/Notification'
+import Notification, { NotifiableForTable } from 'components/generics/Notification'
 import { Status, alterationResponsePropType } from 'reducers/alterationsResponse'
 import { songTagPropType } from 'serverPropTypes/library'
 
@@ -90,8 +90,34 @@ export default class SettingsSongTagsEntry extends Component {
 
         return (
             <tr className="listing-entry hoverizable">
+                <td className="notification-col color">
+                    <NotifiableForTable>
+                        <Notification
+                            alterationResponse={responseOfEdit}
+                            failedMessage="Error attempting to edit tag"
+                            pendingMessage={false}
+                            successfulMessage={false}
+                        />
+                        <Notification
+                            alterationResponse={responseOfEditColor}
+                            successfulMessage={false}
+                            pendingMessage={false}
+                            failedMessage="Error attempting to edit tag color"
+                        />
+                        <CSSTransitionLazy
+                            in={this.state.colorFormDisplayed}
+                            classNames="notified"
+                            timeout={{
+                                enter: 300,
+                                exit: 150
+                            }}
+                        >
+                            {colorForm}
+                        </CSSTransitionLazy>
+                    </NotifiableForTable>
+                </td>
                 <td className="name">{tag.name}</td>
-                <td className="enabled">
+                <td className="enabled controls-col">
                     <div className="form inline">
                         <CheckboxField
                             id={`enabled-state${tag.id}`}
@@ -102,7 +128,7 @@ export default class SettingsSongTagsEntry extends Component {
                         />
                     </div>
                 </td>
-                <td className="color controls-col">
+                <td className="controls-col">
                     <div className="controls">
                         <button
                             className="control display-color-form"
@@ -112,28 +138,6 @@ export default class SettingsSongTagsEntry extends Component {
                             <i className="fa fa-paint-brush"></i>
                         </button>
                     </div>
-                    <CSSTransitionLazy
-                        in={this.state.colorFormDisplayed}
-                        classNames="notified"
-                        timeout={{
-                            enter: 300,
-                            exit: 150
-                        }}
-                    >
-                        {colorForm}
-                    </CSSTransitionLazy>
-                    <Notification
-                        alterationResponse={responseOfEdit}
-                        failedMessage="Error attempting to edit tag"
-                        pendingMessage={false}
-                        successfulMessage={false}
-                    />
-                    <Notification
-                        alterationResponse={responseOfEditColor}
-                        successfulMessage={false}
-                        pendingMessage={false}
-                        failedMessage="Error attempting to edit tag color"
-                    />
                 </td>
             </tr>
         )

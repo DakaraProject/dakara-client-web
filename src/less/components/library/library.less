@@ -6,6 +6,7 @@
 
 
 @import "song";
+@import "work_and_artist";
 @import "artist";
 @import "work";
 
@@ -20,8 +21,8 @@
     // That is, songs for Songs library, artists for Artists library and works
     // (anime, game...) for Works library
     .library-searchbox {
-        padding: @gap-vertical 0;
         background: @brand-primary-darker;
+        .make-gap(padding, vertical);
 
         .set {
             .field {
@@ -36,7 +37,7 @@
                     }
 
                     .controls {
-                        .make-controls(@library-searchbox-height, 1.25em);
+                        .make-controls(@form-field-height, 1.25em);
                     }
                 }
             }
@@ -57,8 +58,6 @@
     //     Works library (and all the different works, like Anime, Game...)
     // The current class gathers all the common elements needed by the different pages
     .library-list {
-        min-height: 10 * @listing-entry-height;
-        background: darken(@neutral-mid, 3%);
     }
 
     // Navigator for choosing which library to display
@@ -69,6 +68,12 @@
         .tab {
             // spread the width of the tabs to fill all the space
             flex: 1;
+
+            .make-smartphone({
+                &:not(.active) {
+                    flex: 0 0 auto;
+                }
+            });
         }
 
         // This is the home library tab, it has to stand out even when not

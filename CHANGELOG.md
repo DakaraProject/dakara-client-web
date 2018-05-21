@@ -39,12 +39,16 @@
 - Display in library when a song was previoulsy played
 - New page to display songs played during current sessions (Past playlist)
 - Song tags and users settings pages are overlayed if the fetching takes too long.
+- Design adapts to smartphones and tablets.
 
 ### Changed
 
 - Users and song tags page moved to settings page
 - Selection color for tags has a correct hue.
 - Playlist moved to a separate page
+- Player stays on the top border of the screen.
+- Notifications on forms are displayed on the line of the submit button.
+- A global error notification is displayed on forms if there are only field errors.
 
 ### Fixed
 

@@ -58,9 +58,6 @@ class SettingsUsersList extends Component {
         return (
             <div className="box" id="users-list">
                 <SettingsTabList/>
-                <div className="box-header">
-                    <h1>Users management</h1>
-                </div>
                 <ListingFetchWrapper
                     status={this.props.listUsersState.status}
                 >
@@ -68,12 +65,13 @@ class SettingsUsersList extends Component {
                         <table className="listing users-list notifiable">
                             <thead>
                                 <tr className="listing-header">
-                                    <th className="username">Username</th>
-                                    <th className="permission">Is superuser</th>
+                                    <th className="notification-col"></th>
+                                    <th className="username">User&shy;name</th>
+                                    <th className="permission">Super&shy;user</th>
                                     <th className="permission">Users rights</th>
                                     <th className="permission">Library rights</th>
                                     <th className="permission">Playlist rights</th>
-                                    <th></th>
+                                    <th className="controls-col"></th>
                                 </tr>
                             </thead>
                             <tbody>

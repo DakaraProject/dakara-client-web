@@ -48,6 +48,7 @@ export const submitAlteration = (alterationName, elementId,
             },
         alterationName,
         elementId,
+        alterationDate: Date.now()
     }
 }
 
@@ -80,4 +81,5 @@ export const setAlterationValidationErrors = (alterationName, elementId,
     },
     alterationName,
     elementId,
+    alterationDate: Date.now()
 })

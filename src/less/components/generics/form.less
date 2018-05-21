@@ -5,6 +5,12 @@
 //
 
 
+// form sizes
+@form-field-height: @row-height;
+@form-control-font-size: 1.25em;
+@form-control-icon-size: @row-icon-font-size;
+
+
 // `form` class:
 //
 // This class provides the tools to create forms in the project. Forms come in
@@ -47,10 +53,14 @@
             border-collapse: separate;
             border-spacing: 0 @gap-vertical;
 
+            .make-smartphone({
+                border-spacing: 0 @gap-vertical-smartphone;
+            });
+
             // this rule removes the space at the top of the set due to
             // `border-spacing`, but the rule is cancelled if there is a header
             // just before
-            margin-top: -@gap-vertical;
+            .make-gap(margin, top, -1);
 
             // The field contains a label and an input.
             .field {
@@ -59,6 +69,10 @@
                 .label {
                     // this allows to shrink the label 'column' as small as possible
                     display: table-cell;
+
+                    .make-smartphone({
+                        display: block;
+                    });
 
                     // this allows the shrink to be exactly the length of the label,
                     // but since the label is now un-breakable, it *must* be kept
@@ -73,7 +87,7 @@
 
                     // if label is empty, do not add padding
                     &:not(:empty) {
-                        padding: 0 @gap-horizontal;
+                        .make-gap(padding, horizontal);
                     }
 
                     .icon {
@@ -94,6 +108,10 @@
                 .input {
                     display: table-cell;
                     width: 100%;
+
+                    .make-smartphone({
+                        display: block;
+                    });
 
                     .notification {
                         .error {
@@ -131,8 +149,8 @@
             .control {
                 height: @field-height;
                 line-height: @field-height;
-                padding: 0 @gap-horizontal;
                 font-size: @control-font-size;
+                .make-gap(padding, horizontal);
 
                 .icon {
                     font-size: @control-icon-size / @control-font-size;
@@ -142,13 +160,10 @@
 
         // `header` class: header of the form.
         .header {
-            position: relative;
-            overflow: hidden;
-            line-height: 2.5em;
-            height: 2.5em;
-
             h3 {
-                padding: 0 @gap-horizontal;
+                .make-gap(padding, horizontal);
+                margin-top: @gap-vertical / 4;
+                margin-bottom: @gap-vertical / 4;
                 font-size: 1.75em;
             }
         }
@@ -171,13 +186,13 @@
         .set {
             flex: 1;
             display: flex;
-            padding-right: @gap-horizontal;
+            .make-gap(padding, right);
 
             .input {
                 flex: initial;
 
-                &:not(:first-child) {
-                    margin-left: @gap-horizontal;
+                &:not(:last-child) {
+                    .make-gap(margin, right);
                 }
             }
         }
@@ -212,7 +227,7 @@
 
             // give an appareance
             &:not(.faked) {
-                padding: 0 @gap-horizontal;
+                .make-gap(padding, horizontal);
                 background: @neutral-soft;
 
                 &:focus, &.focus,
@@ -224,6 +239,9 @@
             // spread all possible width
             &:not([type="checkbox"]) {
                 width: 100%;
+
+                // remove the limitation if Firefox
+                min-width: 0;
             }
         }
 
@@ -325,7 +343,7 @@
                 }
 
                 &[multiple] {
-                    padding: @gap-horizontal;
+                    .make-gap(padding, horizontal);
                 }
 
             }
@@ -408,12 +426,16 @@
 
                 .description {
                     flex: 1;
-                    padding: 0 @gap-horizontal;
+                    .make-gap(padding, horizontal);
 
                     &.long {
                         padding: calc(@field-height * 0.5 ~"- 0.7em") @gap-horizontal;
                         line-height: normal;
                         .make-long-text();
+
+                        .make-smartphone({
+                            padding: calc(@field-height * 0.5 ~"- 0.7em") @gap-horizontal-smartphone;
+                        });
                     }
                 }
             }
@@ -622,6 +644,7 @@
                 color: fade(@text-dark, 50%);
                 font-weight: 700;
                 font-size: medium;
+                flex-shrink: 0;
 
                 &::selection {
                     // the real color of the background will change due to the

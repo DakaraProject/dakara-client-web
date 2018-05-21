@@ -149,9 +149,9 @@ export default class ManageButton extends Component {
                     classNames="managed"
                     timeout={timeout}
                 >
-                    <span className="managed icon">
+                    <div className="managed icon">
                         <i className={`fa fa-${icon}`}></i>
-                    </span>
+                    </div>
                 </CSSTransitionLazy>
             </button>
         )

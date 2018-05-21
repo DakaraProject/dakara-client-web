@@ -59,16 +59,14 @@ class SettingsSongTagsList extends Component {
         return (
             <div className="box" id="song-tag-list">
                 <SettingsTabList/>
-                <div className="box-header">
-                    <h1>Song tags management</h1>
-                </div>
                 <ListingFetchWrapper
                     status={this.props.songTagsState.status}
                 >
                     <div className="listing-table-container">
-                        <table className="listing song-tag-list-listing notifiable">
+                        <table className="listing song-tag-list-listing">
                             <thead>
                                 <tr className="listing-header">
+                                    <th className="notification-col"></th>
                                     <th className="name">Name</th>
                                     <th className="enabled">Enabled</th>
                                     <th className="color">Color</th>

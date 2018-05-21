@@ -6,17 +6,22 @@
 
 
 #main {
-    .center-block();
-    max-width: @page-width;
+    .make-desktop({
+        .center-block();
+        max-width: @page-width-max;
+    });
 
-    // we use flexbox to easily push the footer on the bottom of the screen
+    // disable grid for now
+    // display: grid;
+    // grid-template-rows: auto auto 1fr auto;
+
+    // use flex instead
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
 
+    min-height: 100vh;
 }
 
-
 #content {
-    flex: 1;
+    flex-grow: 1;
 }

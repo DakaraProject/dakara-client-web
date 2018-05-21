@@ -5,36 +5,27 @@
 //
 
 
+// `box` class:
+//
+// This class is aimed to style a generic box container in the layout. The box
+// has a header of class `box-header`, a footer of class `box-footer` and a
+// content.
 .box {
     background: darken(@black-80, 5%);
     box-shadow: 0 0 2rem fade(black, 50%);
-    overflow: hidden;
-    margin-bottom: @gap-vertical;
 
-    .box-header {
-        padding: @gap-vertical 0;
-        background: @brand-primary-darker;
-        color: @brand-primary-light;
-
-        h1 {
-            padding: 0 @gap-horizontal;
-            font-size: 3em;
-        }
-
-        h2 {
-            padding: 0 @gap-horizontal;
-            font-size: 2em;
-        }
-    }
+    .make-desktop({
+        margin-bottom: @gap-vertical;
+    });
 
     .box-footer {
-        padding: @gap-vertical 0;
+        .make-gap(padding, vertical);
         background: @brand-primary-darker;
         color: @brand-primary-light;
     }
 
     p {
-        margin-left: @gap-horizontal;
-        margin-right: @gap-horizontal;
+        .make-gap(margin, left);
+        .make-gap(margin, right);
     }
 }

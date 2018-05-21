@@ -5,6 +5,11 @@
 //
 
 
+// sublisting sizes
+@sublisting-entry-height: @subrow-height;
+@sublisting-entry-control-font-size: @subrow-icon-font-size;
+
+
 // `sublisting` class:
 //
 // This module is a submodule for `listing` and aim to style inner lists of a
@@ -15,10 +20,15 @@
     display: table-cell;
     width: 100%;
 
+    .make-smartphone({
+        display: block;
+    });
+
     .sublisting-entry {
         @height: @sublisting-entry-height;
-        line-height: @height;
+        min-height: @height;
         display: flex;
+        align-items: center;
         background: darken(@neutral-mid, 2%);
 
         &:nth-child(even) {
@@ -35,6 +45,7 @@
 
         .controls {
             .make-controls(@height, @sublisting-entry-control-font-size);
+            align-self: flex-start;
         }
     }
 }

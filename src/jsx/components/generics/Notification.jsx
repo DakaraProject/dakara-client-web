@@ -55,7 +55,9 @@ export default class Notification extends Component {
 
         const status = alterationResponse ? alterationResponse.status : null
         const prevStatus = prevAlterationResponse ? prevAlterationResponse.status : null
-        if (status != prevStatus) {
+        const date = alterationResponse ? alterationResponse.date : null
+        const prevDate = prevAlterationResponse ? prevAlterationResponse.date : null
+        if (status !== prevStatus || date !== prevDate) {
             if (this.timeout) {
                 clearTimeout(this.timeout)
             }
@@ -91,12 +93,18 @@ export default class Notification extends Component {
     render() {
         let notification
         if (this.state.display && this.props.alterationResponse) {
-            const status = this.props.alterationResponse.status
-            let message = this.props.alterationResponse.message
+            const { status, message: messageInState, fields: fieldsInState } =
+                this.props.alterationResponse
+
+            let message
 
             // if there is a message in the state, keep it
             // otherwise, use the message passed to the compenent
-            if (!message) {
+            if (messageInState) {
+                message = messageInState
+            } else if (Object.keys(fieldsInState).length > 0) {
+                message = "There are field errors."
+            } else {
                 const messages = {
                     [Status.pending]: this.props.pendingMessage,
                     [Status.successful]: this.props.successfulMessage,
@@ -108,12 +116,6 @@ export default class Notification extends Component {
 
             // if there is no message to display, do not show any notification
             if (message) {
-                const notificationClass = classNames(
-                    'notification',
-                    'message',
-                    notificationTypes[status]
-                )
-
                 notification = (
                     <CSSTransition
                         classNames="notified"
@@ -123,8 +125,15 @@ export default class Notification extends Component {
                         }}
                     >
                         <div className="notified">
-                            <div className={notificationClass}>
-                                {message}
+                            <div
+                                className={classNames(
+                                    'notification',
+                                    notificationTypes[status]
+                                )}
+                            >
+                                <div className="message">
+                                    {message}
+                                </div>
                             </div>
                         </div>
                     </CSSTransition>
@@ -133,9 +142,49 @@ export default class Notification extends Component {
         }
 
         return (
-            <TransitionGroup>
+            <TransitionGroup className="notification-wrapper">
                 {notification}
             </TransitionGroup>
+        )
+    }
+}
+
+/**
+ * Helper to create a notifiable area in a table
+ *
+ * Must be used on the cell of the first column.
+ */
+export class NotifiableForTable extends Component {
+    elementRef = React.createRef()
+
+    state = {
+        parentTableElement: null,
+    }
+
+    componentDidMount() {
+        // find parent table DOM node
+        const element = this.elementRef.current
+        this.setState({parentTableElement: element.closest('table')})
+    }
+
+    render() {
+        const { children, className } = this.props
+        const { parentTableElement } = this.state
+
+        // get the width of the element with the width of the closest table
+        const width = parentTableElement ?
+            parentTableElement.clientWidth :
+            undefined
+
+        return (
+            <div className="notifiable-for-table" ref={this.elementRef}>
+                <div
+                    className={classNames("notifiable", className)}
+                    style={{width}}
+                >
+                    {children}
+                </div>
+            </div>
         )
     }
 }

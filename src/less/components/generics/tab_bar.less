@@ -5,6 +5,11 @@
 //
 
 
+// tab bar sizes
+@tab-bar-height: @row-height;
+@tab-bar-icon-font-size: 1.25em;
+
+
 // `tab-bar` class:
 //
 // The `tab-bar` class is aimed to stylize a tab bar, contiaining several tabs
@@ -28,11 +33,24 @@
         height: @tab-bar-height;
         cursor: pointer;
         background: @neutral-mid;
-        padding: 0 @gap-horizontal;
+        .make-gap(padding, horizontal);
         white-space: nowrap;
         line-height: @tab-bar-height;
         text-align: center;
         .text-truncate();
+
+        .make-smartphone({
+            &:not(.active),
+            &.no-name-mobile {
+                padding: 0;
+                width: @tab-bar-height;
+                flex: 0 0 auto;
+
+                .name {
+                    display: none;
+                }
+            }
+        });
 
         &:nth-child(2n) {
             background: @neutral-mid-light;
@@ -47,6 +65,7 @@
         &.squared {
             width: @tab-bar-height;
             padding: 0;
+            flex: 0 0 auto;
 
             .icon {
                 font-size: 1.5em;

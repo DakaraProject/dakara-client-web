@@ -17,12 +17,12 @@
     @color: hsl(0, @custom-color-saturation, @custom-color-luminosity);
     border: none;
     outline: none;
-    padding: 0 @gap-horizontal;
     display: inline-block;
     color: fade(@text-dark, 50%);
     font-weight: 700;
     font-size: medium;
     background-color: @color;
+    .make-gap(padding, horizontal);
 
     &.clickable {
         cursor: pointer;
