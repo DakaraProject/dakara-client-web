@@ -60,7 +60,7 @@ class PlaylistInfoBar extends Component {
          */
 
         let ending
-        if (playlistEntries.length != 0 || playerStatus.playlist_entry) {
+        if ((playlistEntries.length != 0 || playerStatus.playlist_entry) && date_end) {
             const playlistEndTime = Date.parse(date_end)
             ending = (
                 <div className="item ending">
@@ -85,6 +85,8 @@ class PlaylistInfoBar extends Component {
                     </span>
                 </div>
             )
+
+
         return (
             <Link
                 id="playlist-info-bar"
