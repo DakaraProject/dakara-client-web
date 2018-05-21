@@ -8,7 +8,6 @@ import Song from 'components/song/Song'
 import UserWidget from 'components/generics/UserWidget'
 import ManageButton from './ManageButton'
 import PlayerNotification from './Notification'
-import { Reduceable } from 'components/generics/Box'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import { sendPlayerCommand } from 'actions/playlist'
 import { playlistDigestPropType, playerCommandsPropType } from 'reducers/playlist'
@@ -114,6 +113,14 @@ class Player extends Component {
                                     'stop'
                                 }
                             />
+                            <ManageButton
+                                responseOfManage={responseOfSendPlayerCommandsSafe.skip}
+                                onClick={() =>
+                                        this.props.sendPlayerCommand('skip', true)
+                                }
+                                disabled={controlDisabled}
+                                icon="step-forward"
+                            />
                         </IsPlaylistManagerOrOwner>
                     </div>
                     <div className="display-area notifiable">
@@ -134,28 +141,6 @@ class Player extends Component {
                         />
                     </div>
                 </div>
-                <Reduceable
-                    thresold={{
-                        up: 0,
-                        down: 50
-                    }}
-                >
-                    <div className="controls other">
-                        <IsPlaylistManagerOrOwner
-                            object={player_status.playlist_entry}
-                            disable
-                        >
-                            <ManageButton
-                                responseOfManage={responseOfSendPlayerCommandsSafe.skip}
-                                onClick={() =>
-                                        this.props.sendPlayerCommand('skip', true)
-                                }
-                                disabled={controlDisabled}
-                                icon="step-forward"
-                            />
-                        </IsPlaylistManagerOrOwner>
-                    </div>
-                </Reduceable>
                 <progress
                     className="progressbar"
                     max="100"

@@ -41,12 +41,9 @@ class Main extends Component {
                         <PlaylistApp/>
                     </IsAuthenticated>
                 </div>
-                <Content
-                    thresold={50}
-                    playlistAppWrapperRef={this.playlistAppWrapperRef}
-                >
+                <div id="content">
                     {this.props.children}
-                </Content>
+                </div>
                 <Footer/>
             </div>
         )
@@ -70,6 +67,8 @@ export default Main
 
 /**
  * Content component
+ *
+ * This component needs some rework to be used.
  *
  * This component bahaves like a magnet for the scrollbar. When the user scrolls
  * passed to a certain thresold arount its top berder, the window is attracted to

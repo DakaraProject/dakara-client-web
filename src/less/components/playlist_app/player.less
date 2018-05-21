@@ -9,7 +9,7 @@
 @player-controls-height: 7rem;
 @player-progressbar-height: 0.4rem;
 @player-height: 2 * @gap-vertical + @player-controls-height + @player-progressbar-height;
-@player-height-smartphone: 2 * @gap-vertical-smartphone + @player-controls-height + @player-progressbar-height;
+@player-height-smartphone: 2 * @gap-vertical-smartphone + 2 * @row-height * 0.6 + @gap-vertical-smartphone + @player-progressbar-height;
 
 
 // `player` id:
@@ -292,8 +292,23 @@
 
     .controls.main {
         .make-controls(@player-controls-height, 1.66em);
+
+        .make-smartphone({
+            .make-controls(@row-height * 0.6, 1.1em);
+            flex-direction: column;
+
+            > .control {
+                width: @row-height;
+                margin: 0;
+
+                &:not(:last-child) {
+                    margin-bottom: @gap-vertical-smartphone;
+                }
+            }
+        });
     }
 
+    // this second line of controls has been deactivated
     .controls.other {
         overflow: hidden;
         .make-gap(padding, bottom);
