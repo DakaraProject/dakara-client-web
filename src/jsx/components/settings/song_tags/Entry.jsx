@@ -117,7 +117,7 @@ export default class SettingsSongTagsEntry extends Component {
                     </NotifiableForTable>
                 </td>
                 <td className="name">{tag.name}</td>
-                <td className="enabled">
+                <td className="enabled controls-col">
                     <div className="form inline">
                         <CheckboxField
                             id={`enabled-state${tag.id}`}
