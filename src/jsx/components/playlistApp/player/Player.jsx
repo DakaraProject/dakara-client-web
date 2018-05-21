@@ -68,10 +68,11 @@ class Player extends Component {
                                 {formatDuration(duration)}
                             </div>
                         </div>
-                        <UserWidget
-                            user={player_status.playlist_entry.owner}
-                            className="owner"
-                        />
+                        <div className="owner">
+                            <UserWidget
+                                user={player_status.playlist_entry.owner}
+                            />
+                        </div>
                     </div>
                 </div>
             )
