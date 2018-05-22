@@ -60,7 +60,7 @@ describe('Login tests', function() {
 
         cy.wait('@postLogin')
 
-        cy.get('.header .notification')
+        cy.get('.controls .notification')
             .should('be.visible')
             .and('have.class', 'danger')
             .and('contain', "Server error message")
