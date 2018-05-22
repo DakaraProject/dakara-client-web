@@ -13,7 +13,6 @@ import SongEntryExpanded from './EntryExpanded'
 import { IsPlaylistUser, KaraStatusIsNotStopped } from 'components/permissions/Playlist'
 import Notification from 'components/generics/Notification'
 import PlayQueueInfo from 'components/song/PlayQueueInfo'
-import DisabledFeedback from 'components/song/DisabledFeedback'
 import { songPropType } from 'serverPropTypes/library'
 import { playerStatusPropType } from 'serverPropTypes/playlist'
 import { playlistPlayedEntryPropType, playlistEntryPropType } from 'serverPropTypes/playlist'
@@ -140,9 +139,13 @@ class SongEntry extends Component {
         }
 
         return (
-                <li className="library-entry listing-entry library-entry-song">
+                <li
+                    className={classNames(
+                        "library-entry listing-entry library-entry-song",
+                        {expanded}
+                    )}
+                >
                     <div className="library-entry-song-compact hoverizable notifiable">
-                        <DisabledFeedback tags={song.tags}/>
                         <Song
                             song={song}
                             query={query}
@@ -150,7 +153,9 @@ class SongEntry extends Component {
                             noTag={expanded}
                             handleClick={() => expanded ? this.setExpanded(null) : this.setExpanded(song.id)}
                         />
-                        <TransitionGroup>
+                        <TransitionGroup
+                            className="play-queue-info-wrapper"
+                        >
                             {playQueueInfo}
                         </TransitionGroup>
                         <div

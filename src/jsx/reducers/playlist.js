@@ -134,7 +134,7 @@ function entries(state = defaultEntries, action) {
         case PLAYLIST_REQUEST:
             return {
                 ...state,
-                status: Status.pending,
+                status: state.status || Status.pending,
             }
 
         case PLAYLIST_SUCCESS:

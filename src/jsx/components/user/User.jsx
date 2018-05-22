@@ -18,34 +18,54 @@ class User extends Component {
         // superuser
         if (user.is_superuser) {
             permissions.push((
-                <p key="superuser">You are super user.</p>
+                <p
+                    className="permission"
+                    key="superuser"
+                >
+                    You are super user.
+                </p>
             ))
         }
 
         // users permission
         if (user.users_permission_level) {
             permissions.push((
-                <p key="users">You are users {permissionLevels[user.users_permission_level]}.</p>
+                <p
+                    className="permission"
+                    key="users"
+                >
+                    You are users {permissionLevels[user.users_permission_level]}.
+                </p>
             ))
         }
 
         // library permission
         if (user.library_permission_level) {
             permissions.push((
-                <p key="library">You are library {permissionLevels[user.library_permission_level]}.</p>
+                <p
+                    className="permission"
+                    key="library"
+                >
+                    You are library {permissionLevels[user.library_permission_level]}.
+                </p>
             ))
         }
 
         // playlist permission
         if (user.playlist_permission_level) {
             permissions.push((
-                <p key="playlist">You are playlist {permissionLevels[user.playlist_permission_level]}.</p>
+                <p
+                    className="permission"
+                    key="playlist"
+                >
+                    You are playlist {permissionLevels[user.playlist_permission_level]}.
+                </p>
             ))
         }
 
         return (
             <div className="box" id="user">
-                <div className="box-header">
+                <div className="user-header">
                     <h1>{user.username}</h1>
                     <div className="permissions">
                         {permissions}

@@ -10,7 +10,7 @@ export default class Forbidden extends Component {
         const url = this.props.location.pathname
         return (
                 <div className="box" id="error-page">
-                    <div className="box-header">
+                    <div className="header">
                         <h2>Forbidden</h2>
                     </div>
                     <div className="url">{url}</div>

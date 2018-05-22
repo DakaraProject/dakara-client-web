@@ -29,6 +29,8 @@ class Login extends Component {
                     title="Login"
                     submitText="Login"
                     alterationName="login"
+                    successMessage={false}
+                    pendingMessage={false}
                 >
                     <InputField
                         id="username"

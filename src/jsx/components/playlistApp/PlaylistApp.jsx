@@ -39,15 +39,17 @@ class PlaylistApp extends Component {
         if (!kara_status.status) return null
 
         if (kara_status.status === 'stop') {
-            return (
-                <IsPlaylistManager>
+            if (IsPlaylistManager.hasPermission(this.props.user)) {
+                return (
                     <KaraStatusNotification/>
-                </IsPlaylistManager>
-            )
+                )
+            }
+
+            return null
         }
 
         return (
-            <div className="box">
+            <div className="box" id="playlist-app">
                 <Player/>
                 <PlaylistInfoBar/>
             </div>
@@ -57,6 +59,7 @@ class PlaylistApp extends Component {
 
 const mapStateToProps = (state) => ({
     playlistDigest: state.playlist.digest,
+    user: state.authenticatedUser,
 })
 
 PlaylistApp = connect(

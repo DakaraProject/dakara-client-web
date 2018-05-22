@@ -33,9 +33,6 @@ class PlaylistPlayed extends Component {
         return (
             <div id="playlist-played" className="box">
                 <PlaylistTabList/>
-                <div className="box-header">
-                    <h1>Past playlist</h1>
-                </div>
                 <TransitionGroup
                     component="ul"
                     className="listing"

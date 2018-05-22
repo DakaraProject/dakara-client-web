@@ -63,19 +63,23 @@ export const alterationResponsePropType = PropTypes.shape({
             PropTypes.string
         )
     ),
+    date: PropTypes.number,
 })
 
 function alteration(state, action) {
+    const { alterationDate } = action
     switch (action.type) {
         case ALTERATION_REQUEST:
             return {
                 status: Status.pending,
+                date: alterationDate,
                 fields: {}
             }
 
         case ALTERATION_SUCCESS:
             return {
                 status: Status.successful,
+                date: alterationDate,
                 fields: {}
             }
 
@@ -88,7 +92,8 @@ function alteration(state, action) {
                 return {
                     status: Status.failed,
                     message,
-                    fields: {}
+                    fields: {},
+                    date: alterationDate,
                 }
             }
 
@@ -97,7 +102,8 @@ function alteration(state, action) {
                 return {
                     status: Status.failed,
                     message: detail,
-                    fields: {}
+                    fields: {},
+                    date: alterationDate,
                 }
             }
 
@@ -115,14 +121,16 @@ function alteration(state, action) {
             if (!globalMessage && Object.keys(fields).length === 0) {
                 return {
                     status: Status.failed,
-                    fields: {}
+                    fields: {},
+                    date: alterationDate,
                 }
             }
 
             return {
                 status: Status.failed,
                 message: globalMessage,
-                fields
+                fields,
+                date: alterationDate,
             }
 
         case ALTERATION_RESPONSE_CLEAR:

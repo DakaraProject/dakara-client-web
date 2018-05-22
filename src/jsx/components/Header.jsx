@@ -23,6 +23,7 @@ class Header extends Component {
                         to="/user"
                         iconName="user"
                         name={this.props.user.username}
+                        extraClassName="no-name-mobile"
                     />
                 )
             }

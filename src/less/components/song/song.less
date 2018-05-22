@@ -7,7 +7,6 @@
 
 @import "work_link";
 @import "play_queue_info";
-@import "disabled_feedback";
 
 
 // `song` class:
@@ -16,40 +15,54 @@
 // part of a listing).
 .song {
     display: flex;
-    align-items: center;
     position: relative;
     overflow-y: hidden;
-    height: @listing-entry-height;
+    white-space: nowrap;
+    align-items: center;
 
-    // `header` class: song's main info.
-    .header {
-        flex: 1;
-        .text-truncate();
-
-        // this is a hack
-        // width: 0;
-
-        .title {
-            font-size: 1.05em;
-        }
-
-        .version {
-            margin-left: 0.5em;
-            opacity: 0.65;
-        }
+    &.with-artist-and-work .general {
+        align-items: center;
     }
 
-    // `artist-work` class: collapsed info for the song artists and works.
-    .artist-work {
-        margin-right: @gap-horizontal;
+    .general {
+        flex-grow: 1;
         display: flex;
-        align-items: flex-end;
-        flex-direction: column;
-        font-size: 0.9em;
+        align-items: baseline;
+        overflow: hidden;
 
-        .artists {
-            .artist:not(:last-child)::after {
-                content: ", ";
+        // `header` class: song's main info.
+        .header {
+            flex-grow: 1;
+            .text-truncate();
+
+            .title {
+                font-size: 1.05em;
+            }
+
+            .version {
+                margin-left: 0.5em;
+                opacity: 0.65;
+            }
+        }
+
+        // `artist-work` class: collapsed info for the song artists and works.
+        .artist-work {
+            display: flex;
+            flex-direction: column;
+            text-align: right;
+            font-size: 0.9em;
+            overflow: hidden;
+
+            .make-smartphone({
+                text-align: left;
+            });
+
+            .artists {
+                .text-truncate();
+
+                .artist:not(:last-child)::after {
+                    content: ", ";
+                }
             }
         }
     }
@@ -57,11 +70,14 @@
     // `duration` class: show song duration.
     .duration {
         font-size: 0.85em;
-        line-height: @listing-entry-height;
         width: @listing-entry-height;
         background: @text-light;
         color: @neutral-mid;
-        text-align: center;
+        flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-self: stretch;
     }
 
     // `song-tag-list` subclass: tag songs.
@@ -73,8 +89,44 @@
         font-size: 0.65em;
         line-height: 1em;
 
+        .make-smartphone({
+            font-size: 0.5em;
+            line-height: 0.9em;
+
+            .tag {
+                color: fade(@text-dark, 65%);
+            }
+        });
+
         .tag {
             font-size: inherit;
+        }
+    }
+
+    // `disabled` optionnal class: when the song has been disabled.
+    // The class colors the song in blue and adds a slashed-eye icon.
+    &.disabled {
+        @background: hsl(hue(@brand-info), 10%, lightness(@neutral-mid));
+        @foreground: desaturate(@brand-info-darkish, 25%);
+        background-color: @background;
+        color: @foreground;
+
+        .general {
+            .header {
+                .title {
+                    &::before {
+                        font-family: fontawesome;
+                        content: "\f070"; // slashed-eye icon
+                        font-size: 1.1em;
+                        margin-right: 0.4em;
+                    }
+                }
+            }
+        }
+
+        .duration {
+            background-color: @foreground;
+            color: @background;
         }
     }
 }
@@ -82,15 +134,35 @@
 // alteration of colors when used in a listing
 .listing-entry {
     &:nth-child(2n) {
-        .duration {
-            background: @neutral-clear-light;
+        .song {
+            .duration {
+                background: @neutral-clear-light;
+            }
+
+            &.disabled {
+                background-color: hsl(hue(@brand-info), 10%, lightness(@neutral-mid-light));
+
+                .duration {
+                    background-color: lighten(desaturate(@brand-info-darkish, 25%), 2.5%);
+                }
+            }
         }
     }
 
     .hoverizable:hover,
     &.hoverizable:hover {
-        .duration {
-            background: @neutral-clear-lighter;
+        .song {
+            .duration {
+                background: @neutral-clear-lighter;
+            }
+
+            &.disabled {
+                background-color: hsl(hue(@brand-info), 10%, lightness(@neutral-mid-lighter));
+
+                .duration {
+                    background-color: lighten(desaturate(@brand-info-darkish, 25%), 7%);
+                }
+            }
         }
     }
 }

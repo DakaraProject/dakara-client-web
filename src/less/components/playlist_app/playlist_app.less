@@ -8,3 +8,40 @@
 @import "playlist_info_bar";
 @import "player";
 @import "kara_status_notification";
+
+
+#playlist-app {
+}
+
+#playlist-app-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    // If the viewport is not height enough, let the component where it is
+    // supposed to be. This avoids to hide the search box of the library when
+    // the visual keyboard is on, on a smartphone.
+    @media (max-height: 2 * @player-height) {
+        position: relative;
+    }
+
+    .make-smartphone({
+        @media (max-height: 2 * @player-height-smartphone) {
+            position: relative;
+        }
+    });
+
+    // Manage the bottom margin of #playlist-app or #kara-status-notification.
+    // Remove their own margin and pass it to the compnent instead. This avoids
+    // that the margin of the content cathes the action of the mouse when the
+    // component is in fixed mode.
+    &:not(:empty) {
+        .make-desktop({
+            margin-bottom: @gap-vertical;
+        });
+    }
+
+    .box:last-child {
+        margin: 0;
+    }
+}

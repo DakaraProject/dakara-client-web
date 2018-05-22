@@ -18,13 +18,11 @@
 .make-controls(@height, @font-size: 1em, @icon-size: @font-size) {
     > .control {
         .square(@height);
-        line-height: @height;
         font-size: @font-size;
 
         .icon {
             @size: @icon-size / @font-size;
             font-size: @size;
-            line-height: @size;
         }
     }
 }
@@ -41,22 +39,22 @@
 // It provides a `control` subclass for those elements, which has the basic
 // properties. Extra subclasses are available for the color of the control.
 .controls {
-    // maybe not necessary
     display: flex;
 
     // subclass for a control button
     .control {
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
-        text-align: center;
         color: @text-dark;
         border: none;
         outline: none;
         padding: 0;
 
         // spacing between controls
-        &:not(:first-child) {
-            margin-left: @gap-horizontal;
+        &:not(:last-child) {
+            .make-gap(margin, right);
         }
 
         // if the control contains a picture, it is vertically centered
@@ -180,6 +178,7 @@
 
 .controls-col {
     .controls {
+        height: 100%;
         justify-content: flex-end;
     }
 }
