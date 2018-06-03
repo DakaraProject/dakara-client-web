@@ -4,8 +4,10 @@ import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import classNames from 'classnames'
 import { FormInline, CheckboxField, HueField } from 'components/generics/Form'
 import Notification, { NotifiableForTable } from 'components/generics/Notification'
+import { IsLibraryManager } from 'components/permissions/Library'
 import { Status, alterationResponsePropType } from 'reducers/alterationsResponse'
 import { songTagPropType } from 'serverPropTypes/library'
+import { userPropType } from 'serverPropTypes/users'
 
 export default class SettingsSongTagsEntry extends Component {
     static propTypes = {
@@ -14,6 +16,7 @@ export default class SettingsSongTagsEntry extends Component {
         responseOfEditColor: alterationResponsePropType,
         editSongTag: PropTypes.func.isRequired,
         clearTagListEntryNotification: PropTypes.func.isRequired,
+        authenticatedUser: userPropType.isRequired,
     }
 
     state = {
@@ -33,10 +36,72 @@ export default class SettingsSongTagsEntry extends Component {
     }
 
     render() {
-        const { responseOfEdit, responseOfEditColor, tag, editSongTag } = this.props
+        const { responseOfEdit, responseOfEditColor,
+            authenticatedUser, tag, editSongTag } = this.props
+        const isManager = IsLibraryManager.hasPermission(authenticatedUser)
 
         /**
-         * form to change color
+         * Enableness status
+         */
+
+        const disabled = responseOfEdit && responseOfEdit.status == Status.pending
+        const setValue = (id, value) => {
+            if (!disabled)
+                editSongTag(tag.id, !value)
+        }
+
+        // TODO It would be nice to set the checkbox to disabled if
+        // the request (fetching) takes too much time.
+
+        let enablenessWidget
+        if (isManager) {
+            enablenessWidget = (
+                <div className="form inline">
+                    <CheckboxField
+                        id={`enabled-state${tag.id}`}
+                        value={!tag.disabled}
+                        setValue={setValue}
+                        inline
+                        toggle
+                    />
+                </div>
+            )
+        } else {
+            enablenessWidget = (
+                <i className="fa fa-check"></i>
+            )
+        }
+
+        /**
+         * Color
+         */
+
+        let colorWidget
+        if (isManager) {
+            colorWidget = (
+                <div className="controls">
+                    <button
+                        className="control display-color"
+                        onClick={this.displayColorForm}
+                        style={{filter: `hue-rotate(${tag.color_hue}deg)`}}
+                    >
+                        <i className="fa fa-paint-brush"></i>
+                    </button>
+                </div>
+            )
+        } else {
+            colorWidget = (
+                <div className="display-color-container">
+                    <div
+                        className="display-color"
+                        style={{filter: `hue-rotate(${tag.color_hue}deg)`}}
+                    />
+            </div>
+            )
+        }
+
+        /**
+         * Form to change color
          */
 
         const submitText = (
@@ -75,19 +140,6 @@ export default class SettingsSongTagsEntry extends Component {
             </div>
         )
 
-        /**
-         * handle disabled state
-         */
-
-        const disabled = responseOfEdit && responseOfEdit.status == Status.pending
-        const setValue = (id, value) => {
-            if (!disabled)
-                editSongTag(tag.id, !value)
-        }
-
-        // TODO It would be nice to set the checkbox to disabled if
-        // the request (fetching) takes too much time.
-
         return (
             <tr className="listing-entry hoverizable">
                 <td className="notification-col color">
@@ -117,27 +169,15 @@ export default class SettingsSongTagsEntry extends Component {
                     </NotifiableForTable>
                 </td>
                 <td className="name">{tag.name}</td>
-                <td className="enabled controls-col">
-                    <div className="form inline">
-                        <CheckboxField
-                            id={`enabled-state${tag.id}`}
-                            value={!tag.disabled}
-                            setValue={setValue}
-                            inline
-                            toggle
-                        />
-                    </div>
+                <td className={classNames(
+                    "enableness",
+                    {'controls-col': isManager}
+                )}
+                >
+                    {enablenessWidget}
                 </td>
                 <td className="controls-col">
-                    <div className="controls">
-                        <button
-                            className="control display-color-form"
-                            onClick={this.displayColorForm}
-                            style={{filter: `hue-rotate(${tag.color_hue}deg)`}}
-                        >
-                            <i className="fa fa-paint-brush"></i>
-                        </button>
-                    </div>
+                    {colorWidget}
                 </td>
             </tr>
         )
