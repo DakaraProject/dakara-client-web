@@ -36,11 +36,9 @@ class Main extends Component {
         return (
             <div id="main">
                 <Header/>
-                <div id="playlist-app-wrapper" ref={this.playlistAppWrapperRef}>
-                    <IsAuthenticated>
-                        <PlaylistApp/>
-                    </IsAuthenticated>
-                </div>
+                <IsAuthenticated>
+                    <PlaylistApp/>
+                </IsAuthenticated>
                 <div id="content">
                     {this.props.children}
                 </div>
