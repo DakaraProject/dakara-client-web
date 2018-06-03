@@ -11,9 +11,6 @@
 
 
 #playlist-app {
-}
-
-#playlist-app-wrapper {
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -30,18 +27,4 @@
             position: relative;
         }
     });
-
-    // Manage the bottom margin of #playlist-app or #kara-status-notification.
-    // Remove their own margin and pass it to the compnent instead. This avoids
-    // that the margin of the content cathes the action of the mouse when the
-    // component is in fixed mode.
-    &:not(:empty) {
-        .make-desktop({
-            margin-bottom: @gap-vertical;
-        });
-    }
-
-    .box:last-child {
-        margin: 0;
-    }
 }

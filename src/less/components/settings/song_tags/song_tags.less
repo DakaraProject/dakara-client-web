@@ -33,11 +33,16 @@
             padding: 0;
         }
 
-        .color, .enabled {
+        .color, .enableness {
             .form {
                 justify-content: center;
                 height: @listing-entry-height;
             }
+        }
+
+        .enableness {
+            text-align: center;
+            font-size: 1.5em;
         }
 
         .controls-col {
@@ -59,7 +64,7 @@
         .listing-entry {
             @background: hsl(0, @custom-color-saturation, @custom-color-luminosity);
 
-            .display-color-form {
+            .display-color {
                 background: @background;
 
                 &:focus {
@@ -67,8 +72,19 @@
                 }
             }
 
-            &:hover .display-color-form {
+            &:hover .display-color {
                 background: lighten(@background, 3.5%);
+            }
+
+            .display-color-container {
+                display: flex;
+                justify-content: flex-end;
+                height: 100%;
+
+                .display-color{
+                    width: @listing-entry-height;
+                    height: 100%;
+                }
             }
         }
     }

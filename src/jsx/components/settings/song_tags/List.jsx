@@ -7,9 +7,10 @@ import { getSongTagList, editSongTag, clearTagListEntryNotification } from 'acti
 import Navigator from 'components/generics/Navigator'
 import SettingsSongTagsEntry from './Entry'
 import SettingsTabList from '../TabList'
+import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import { songTagsStatePropType } from 'reducers/songTags'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
-import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
+import { userPropType } from 'serverPropTypes/users'
 
 class SettingsSongTagsList extends Component {
     static propTypes = {
@@ -20,6 +21,7 @@ class SettingsSongTagsList extends Component {
         editSongTag: PropTypes.func.isRequired,
         getSongTagList: PropTypes.func.isRequired,
         clearTagListEntryNotification: PropTypes.func.isRequired,
+        authenticatedUser: userPropType.isRequired,
     }
 
     componentWillMount() {
@@ -41,7 +43,7 @@ class SettingsSongTagsList extends Component {
     }
 
     render() {
-        const { editSongTag, clearTagListEntryNotification, location,
+        const { editSongTag, clearTagListEntryNotification, location, authenticatedUser,
             responseOfMultipleEdit, responseOfMultipleEditColor } = this.props
         const { songTags, pagination } = this.props.songTagsState.data
 
@@ -53,6 +55,7 @@ class SettingsSongTagsList extends Component {
                 responseOfEditColor={responseOfMultipleEditColor[tag.id]}
                 editSongTag={editSongTag}
                 clearTagListEntryNotification={clearTagListEntryNotification}
+                authenticatedUser={authenticatedUser}
             />
         ))
 
@@ -91,6 +94,7 @@ const mapStateToProps = (state) => ({
     songTagsState: state.settings.songTags,
     responseOfMultipleEdit: state.alterationsResponse.multiple.editSongTag || {},
     responseOfMultipleEditColor: state.alterationsResponse.multiple.editSongTagColor || {},
+    authenticatedUser: state.authenticatedUser,
 })
 
 SettingsSongTagsList = withRouter(connect(

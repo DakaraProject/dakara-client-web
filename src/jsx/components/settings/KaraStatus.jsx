@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import SettingsTabList from './TabList'
 import { FormBlock, RadioField} from 'components/generics/Form'
 import { Status } from 'reducers/alterationsResponse'
+import { IsPlaylistManager} from 'components/permissions/Playlist'
 
 class SettingsKaraStatus extends Component {
 
@@ -10,6 +11,9 @@ class SettingsKaraStatus extends Component {
         // render nothing if the kara status is being fetched
         if (this.props.playlistDigestStatus === Status.pending ||
             this.props.playlistDigestStatus === null) return null
+
+        const { authenticatedUser, karaStatus } = this.props
+        const isManager = IsPlaylistManager.hasPermission(authenticatedUser)
 
         const statusOptions = [
             {
@@ -30,9 +34,9 @@ class SettingsKaraStatus extends Component {
             },
         ]
 
-        return (
-            <div className="box" id="kara-status">
-                <SettingsTabList/>
+        let karaStatusWidget
+        if (isManager) {
+            karaStatusWidget = (
                 <FormBlock
                     title="Edit kara status"
                     action="playlist/kara-status/"
@@ -44,11 +48,23 @@ class SettingsKaraStatus extends Component {
                 >
                     <RadioField
                         id="status"
-                        defaultValue={this.props.karaStatus.status}
+                        defaultValue={karaStatus.status}
                         options={statusOptions}
                         long
                     />
                 </FormBlock>
+            )
+        } else {
+            const status = statusOptions.find(e => (e.value == karaStatus.status))
+            karaStatusWidget = (
+                <p className="status-text">{status.name}</p>
+            )
+        }
+
+        return (
+            <div className="box" id="kara-status">
+                <SettingsTabList/>
+                {karaStatusWidget}
             </div>
         )
     }
@@ -57,6 +73,7 @@ class SettingsKaraStatus extends Component {
 const mapStateToProps = (state) => ({
     playlistDigestStatus: state.playlist.digest.status,
     karaStatus: state.playlist.digest.data.kara_status,
+    authenticatedUser: state.authenticatedUser,
 })
 
 SettingsKaraStatus = connect(
