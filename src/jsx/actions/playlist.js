@@ -1,4 +1,5 @@
 import { FETCH_API } from 'middleware/fetchApi'
+import { WEBSOCKET } from 'middleware/websocket'
 import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE, ALTERATION_RESPONSE_CLEAR } from './alterations'
 import { params } from 'utils'
 
@@ -30,7 +31,7 @@ export const loadPlaylistAppDigest = () => ({
             PLAYLIST_DIGEST_SUCCESS,
             PLAYLIST_DIGEST_FAILURE
         ],
-        onSuccess: [addSongWhenFinished],
+        // onSuccess: [addSongWhenFinished],
     }
 })
 
@@ -73,7 +74,7 @@ export const removeEntryFromPlaylist = (entryId) => ({
                 ALTERATION_FAILURE,
             ],
             onSuccess: [
-                loadPlaylist(),
+                // loadPlaylist(),
             ],
         },
     alterationName: "removeEntryFromPlaylist",
@@ -170,7 +171,7 @@ export const addSongToPlaylist = (songId) => ({
                 ALTERATION_FAILURE
             ],
             onSuccess: [
-                loadPlaylist()
+                // loadPlaylist()
             ],
         },
     alterationName: "addSongToPlaylist",
@@ -188,19 +189,53 @@ export const addSongToPlaylist = (songId) => ({
  * @param name pause or skip
  * @param value boolean value
  */
-export const sendPlayerCommand = (name, value) => ({
+export const sendPlayerCommand = (command, name) => ({
     [FETCH_API]: {
             endpoint: `${baseUrl}playlist/player/manage/`,
             method: 'PUT',
-            json: {[name]: value},
+            json: {command},
             types: [
                 ALTERATION_REQUEST,
                 ALTERATION_SUCCESS,
                 ALTERATION_FAILURE
             ],
-            onSuccess: loadPlaylistAppDigest(),
+            // onSuccess: loadPlaylistAppDigest(),
     },
     alterationName: "sendPlayerCommands",
-    elementId: name,
-    value,
+    elementId: name || command,
+})
+
+export const DEVICE_NEW_ENTRY = "DEVICE_NEW_ENTRY"
+export const DEVICE_IDLE = "DEVICE_IDLE"
+export const DEVICE_ENTRY_ERROR = "DEVICE_ENTRY_ERROR"
+export const DEVICE_ENTRY_STARTED = "DEVICE_ENTRY_STARTED"
+export const DEVICE_STATUS = "DEVICE_STATUS"
+export const KARA_STATUS = "KARA_STATUS"
+export const PLAYLIST_ADD = "PLAYLIST_ADD"
+export const PLAYLIST = "PLAYLIST"
+
+/*
+ * WebSocket management for playlist
+ */
+
+export const connectToPlaylistFront = () => ({
+    [WEBSOCKET]: {
+        endpoint: '/ws/playlist/front/',
+        operation: 'connect'
+    }
+})
+
+export const disconnectFromPlaylistFront = () => ({
+    [WEBSOCKET]: {
+        endpoint: '/ws/playlist/front/',
+        operation: 'disconnect'
+    }
+})
+
+export const sendToPlaylistFront = (data) => ({
+    [WEBSOCKET]: {
+        endpoint: '/ws/playlist/front/',
+        operation: 'send',
+        data
+    }
 })

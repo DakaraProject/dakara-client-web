@@ -5,13 +5,11 @@ import PropTypes from 'prop-types'
 import { formatHourTime, params } from 'utils'
 import { loadPlaylist, loadPlaylistPlayed } from 'actions/playlist'
 import { playlistEntriesStatePropType } from 'reducers/playlist'
-import { playlistDigestPropType } from 'reducers/playlist'
 import { Status } from 'reducers/alterationsResponse'
 
 class PlaylistInfoBar extends Component {
     static propTypes = {
         playlistEntriesState: playlistEntriesStatePropType.isRequired,
-        playlistDigest: playlistDigestPropType.isRequired,
         loadPlaylist: PropTypes.func.isRequired,
         loadPlaylistPlayed: PropTypes.func.isRequired,
     }
@@ -24,19 +22,16 @@ class PlaylistInfoBar extends Component {
     }
 
     componentWillMount() {
-        // start polling server
-        this.pollPlaylist()
+        this.props.loadPlaylist()
         this.props.loadPlaylistPlayed()
     }
 
     componentWillUnmount() {
-        // Stop polling server
-        clearTimeout(this.timeout)
     }
 
     render() {
         const { playlistEntries, date_end } = this.props.playlistEntriesState.data
-        const playerStatus = this.props.playlistDigest.data.player_status
+        const { playerStatus } = this.props
 
         /**
          * If there is at least one song in playlist
@@ -60,7 +55,7 @@ class PlaylistInfoBar extends Component {
          */
 
         let ending
-        if ((playlistEntries.length != 0 || playerStatus.playlist_entry) && date_end) {
+        if ((playlistEntries.length != 0 || playerStatus.currentEntry) && date_end) {
             const playlistEndTime = Date.parse(date_end)
             ending = (
                 <div className="item ending">
@@ -101,7 +96,7 @@ class PlaylistInfoBar extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playlistDigest: state.playlist.digest,
+    playerStatus: state.playlist.playerStatus.data,
     playlistEntriesState: state.playlist.entries,
 })
 

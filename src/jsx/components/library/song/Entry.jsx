@@ -76,10 +76,10 @@ class SongEntry extends Component {
          */
 
         let playingInfo
-        if (playerStatus.playlist_entry && playerStatus.playlist_entry.song.id === song.id) {
+        if (playerStatus.currentEntry && playerStatus.currentEntry.song.id === song.id) {
             // Player is playing this song
             playingInfo = {
-                owner: playerStatus.playlist_entry.owner
+                owner: playerStatus.currentEntry.owner
             }
         }
 
@@ -88,8 +88,8 @@ class SongEntry extends Component {
          */
 
         const playlistPlayedEntry = playlistPlayedEntries.slice().reverse().find(
-                e => (e.song.id === song.id)
-                )
+            e => (e.song.id === song.id)
+        )
 
         let playedInfo
         if (playlistPlayedEntry) {
@@ -211,7 +211,7 @@ const mapStateToProps = (state, ownProps) => ({
         state.alterationsResponse.multiple.addSongToPlaylist[ownProps.song.id] : undefined,
     playlistPlayedEntries: state.playlist.playedEntries.data.playlistPlayedEntries,
     playlistEntries: state.playlist.entries.data.playlistEntries,
-    playerStatus: state.playlist.digest.data.player_status,
+    playerStatus: state.playlist.playerStatus.data
 })
 
 SongEntry = withRouter(connect(

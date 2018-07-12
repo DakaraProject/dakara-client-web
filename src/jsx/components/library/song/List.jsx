@@ -6,13 +6,11 @@ import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import { songStatePropType } from 'reducers/library'
 import { playlistEntriesStatePropType } from 'reducers/playlist'
-import { playlistDigestPropType } from 'reducers/playlist'
 
 class SongList extends Component {
     static propTypes = {
         songState: songStatePropType.isRequired,
         playlistEntriesState: playlistEntriesStatePropType.isRequired,
-        playlistDigest: playlistDigestPropType.isRequired,
         location: PropTypes.object.isRequired,
     }
 
@@ -57,7 +55,6 @@ class SongList extends Component {
 const mapStateToProps = (state) => ({
     songState: state.library.song,
     playlistEntriesState: state.playlist.entries,
-    playlistDigest: state.playlist.digest,
 })
 
 SongList = connect(

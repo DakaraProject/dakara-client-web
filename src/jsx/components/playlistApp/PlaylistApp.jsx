@@ -6,39 +6,33 @@ import PlaylistInfoBar from './PlaylistInfoBar'
 import KaraStatusNotification from './KaraStatusNotification'
 import { IsPlaylistManager } from 'components/permissions/Playlist'
 import { loadPlaylistAppDigest } from 'actions/playlist'
+import { connectToPlaylistFront, disconnectFromPlaylistFront } from 'actions/playlist'
 import { playlistDigestPropType } from 'reducers/playlist'
 import { params } from 'utils'
 import { Status } from 'reducers/alterationsResponse'
 
 class PlaylistApp extends Component {
     static propTypes = {
-        playlistDigest: playlistDigestPropType.isRequired,
         loadPlaylistAppDigest: PropTypes.func.isRequired,
-    }
-
-    pollPlaylistAppDigest = () => {
-        if (this.props.playlistDigest.status !== Status.pending) {
-            this.props.loadPlaylistAppDigest()
-        }
-        this.timeout = setTimeout(this.pollPlaylistAppDigest, params.pollInterval)
+        connectToPlaylistFront: PropTypes.func.isRequired,
+        disconnectFromPlaylistFront: PropTypes.func.isRequired,
     }
 
     componentWillMount() {
-        // start polling server
-        this.pollPlaylistAppDigest()
+        this.props.loadPlaylistAppDigest()
+        this.props.connectToPlaylistFront()
     }
 
     componentWillUnmount() {
-        // Stop polling server
-        clearTimeout(this.timeout)
+        this.props.disconnectFromPlaylistFront()
     }
 
     render() {
-        const { kara_status } = this.props.playlistDigest.data
+        const { karaStatus } = this.props
 
-        if (!kara_status.status) return null
+        if (!karaStatus.status) return null
 
-        if (kara_status.status === 'stop') {
+        if (karaStatus.status === 'stop') {
             if (IsPlaylistManager.hasPermission(this.props.user)) {
                 return (
                     <KaraStatusNotification/>
@@ -58,7 +52,7 @@ class PlaylistApp extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playlistDigest: state.playlist.digest,
+    karaStatus: state.playlist.karaStatus.data,
     user: state.authenticatedUser,
 })
 
@@ -66,6 +60,8 @@ PlaylistApp = connect(
     mapStateToProps,
     {
         loadPlaylistAppDigest,
+        connectToPlaylistFront,
+        disconnectFromPlaylistFront,
     }
 )(PlaylistApp)
 

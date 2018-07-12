@@ -8,9 +8,11 @@ import { IsPlaylistManager} from 'components/permissions/Playlist'
 class SettingsKaraStatus extends Component {
 
     render() {
+        const { karaStatusState } = this.props
+
         // render nothing if the kara status is being fetched
-        if (this.props.playlistDigestStatus === Status.pending ||
-            this.props.playlistDigestStatus === null) return null
+        if (karaStatusState.status === Status.pending ||
+            karaStatusState.status === null) return null
 
         const { authenticatedUser, karaStatus } = this.props
         const isManager = IsPlaylistManager.hasPermission(authenticatedUser)
@@ -71,8 +73,8 @@ class SettingsKaraStatus extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playlistDigestStatus: state.playlist.digest.status,
-    karaStatus: state.playlist.digest.data.kara_status,
+    karaStatusState: state.playlist.karaStatus,
+    karaStatus: state.playlist.karaStatus.data,
     authenticatedUser: state.authenticatedUser,
 })
 

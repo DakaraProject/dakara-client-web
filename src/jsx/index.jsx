@@ -21,12 +21,17 @@ import NotFound from 'components/navigation/NotFound'
 import reducer from  'reducers'
 import fetchApiMiddleware from 'middleware/fetchApi'
 import delayMiddleware from 'middleware/delay'
+import websocketMiddleware from 'middleware/websocket'
+import playlistRotateMiddleware from 'middleware/playlistRotate'
 import { logout, setToken } from 'actions/token'
+import { config } from 'actions/websocket'
 
 const store = createStore(
     reducer,
     compose(
         applyMiddleware(
+            playlistRotateMiddleware,
+            websocketMiddleware(config),
             fetchApiMiddleware,
             ReduxThunk,
             delayMiddleware

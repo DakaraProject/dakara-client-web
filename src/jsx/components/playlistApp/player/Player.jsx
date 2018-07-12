@@ -12,19 +12,23 @@ import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import { sendPlayerCommand } from 'actions/playlist'
 import { playlistDigestPropType, playerCommandsPropType } from 'reducers/playlist'
 import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
+import { TimeIntervalPlayer } from 'components/generics/Time'
 
 class Player extends Component {
     static propTypes = {
-        playlistDigest: playlistDigestPropType.isRequired,
         responseOfSendPlayerCommands: PropTypes.objectOf(alterationResponsePropType),
         sendPlayerCommand: PropTypes.func.isRequired,
     }
 
     render() {
-        const { player_status, player_manage, player_errors } = this.props.playlistDigest.data
-        const fetchError = this.props.playlistDigest.status === Status.failed
-        const isPlaying = !!player_status.playlist_entry
-        const controlDisabled = !isPlaying || fetchError
+        const { playerStatus, entryErrors, webSocketConnection } = this.props
+        const isPlaying = !!playerStatus.currentEntry
+        const controlDisabled = !isPlaying
+
+        // const { player_status, player_manage, player_errors } = this.props.playlistDigest.data
+        // const fetchError = this.props.playlistDigest.status === Status.failed
+        // const isPlaying = !!player_status.playlist_entry
+        // const controlDisabled = !isPlaying || fetchError
 
         /**
          * Create a safe version of the send player commands alteration status
@@ -32,7 +36,7 @@ class Player extends Component {
          */
 
         const responseOfSendPlayerCommandsSafe = {
-            pause: {status: null},
+            playPause: {status: null},
             skip: {status: null},
             ...this.props.responseOfSendPlayerCommands,
         }
@@ -44,25 +48,25 @@ class Player extends Component {
         let progress
         let playlistEntry
         if (isPlaying) {
-            const duration = player_status.playlist_entry.song.duration
+            const duration = playerStatus.currentEntry.song.duration
 
             // the progress is displayed only when the song has really started
             // and only if the song has a known duration
-            if (player_status.timing > 0 && duration > 0) {
-                progress = Math.min(player_status.timing * 100 / duration, 100)
+            if (playerStatus.timing > 0 && duration > 0) {
+                progress = Math.min(playerStatus.timing * 100 / duration, 100)
             }
 
             playlistEntry = (
                 <div className="playlist-entry">
                     <Song
-                        song={player_status.playlist_entry.song}
+                        song={playerStatus.currentEntry.song}
                         noDuration
                         noTag
                     />
                     <div className="extra">
                         <div className="timing">
                             <div className="current">
-                                {formatTime(player_status.timing)}
+                                <TimeIntervalPlayer/>
                             </div>
                             <div className="duration">
                                 {formatDuration(duration)}
@@ -70,7 +74,7 @@ class Player extends Component {
                         </div>
                         <div className="owner">
                             <UserWidget
-                                user={player_status.playlist_entry.owner}
+                                user={playerStatus.currentEntry.owner}
                             />
                         </div>
                     </div>
@@ -99,25 +103,28 @@ class Player extends Component {
                 <div className="first-line">
                     <div className="controls main">
                         <IsPlaylistManagerOrOwner
-                            object={player_status.playlist_entry}
+                            object={playerStatus.currentEntry}
                             disable
                         >
                             <ManageButton
-                                responseOfManage={responseOfSendPlayerCommandsSafe.pause}
+                                responseOfManage={responseOfSendPlayerCommandsSafe.playPause}
                                 onClick={() => {
-                                    this.props.sendPlayerCommand('pause', !player_manage.pause)
+                                    this.props.sendPlayerCommand(
+                                        playerStatus.paused ? 'play' : 'pause',
+                                        'playPause'
+                                    )
                                 }}
                                 disabled={controlDisabled}
                                 icon={
                                     isPlaying ?
-                                    (player_manage.pause ? 'play' : 'pause') :
+                                    (playerStatus.paused ? 'play' : 'pause') :
                                     'stop'
                                 }
                             />
                             <ManageButton
                                 responseOfManage={responseOfSendPlayerCommandsSafe.skip}
                                 onClick={() =>
-                                        this.props.sendPlayerCommand('skip', true)
+                                        this.props.sendPlayerCommand('skip')
                                 }
                                 disabled={controlDisabled}
                                 icon="step-forward"
@@ -127,7 +134,7 @@ class Player extends Component {
                     <div className="display-area notifiable">
                         {playlistEntry}
                         <CSSTransitionLazy
-                            in={fetchError}
+                            in={webSocketConnection.status === Status.failed}
                             classNames="notified"
                             timeout={{
                                 enter: 300,
@@ -138,7 +145,7 @@ class Player extends Component {
                         </CSSTransitionLazy>
                         <PlayerNotification
                             alterationsResponse={responseOfSendPlayerCommandsSafe}
-                            playerErrors={player_errors}
+                            playerErrors={entryErrors}
                         />
                     </div>
                 </div>
@@ -172,7 +179,9 @@ const ServerLost = () => (
 )
 
 const mapStateToProps = (state) => ({
-    playlistDigest: state.playlist.digest,
+    playerStatus: state.playlist.playerStatus.data,
+    entryErrors: state.playlist.entryErrors.data,
+    webSocketConnection: state.playlist.webSocketConnection,
     responseOfSendPlayerCommands: state.alterationsResponse.multiple.sendPlayerCommands,
 })
 

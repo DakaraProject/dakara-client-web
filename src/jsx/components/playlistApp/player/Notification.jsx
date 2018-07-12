@@ -22,7 +22,7 @@ export default class PlayerNotification extends Component {
 
     state = {
         displayAlterationResponseId: null,
-        displayPlayerError: false,
+        displayPlayerErrorId: null,
     }
 
     componentDidMount() {
@@ -57,7 +57,7 @@ export default class PlayerNotification extends Component {
 
                 this.setState({
                     displayAlterationResponseId: id,
-                    displayPlayerError: false,
+                    displayPlayerErrorId: null,
                 })
                 this.setNotificationClearTimeout()
 
@@ -78,8 +78,8 @@ export default class PlayerNotification extends Component {
 
         // check the latest error has changed
         if (prevPlayerErrors.length === 0 ||
-            playerErrors[playerErrors.length - 1].id !=
-            prevPlayerErrors[prevPlayerErrors.length - 1].id) {
+            playerErrors[playerErrors.length - 1].entry.id !=
+            prevPlayerErrors[prevPlayerErrors.length - 1].entry.id) {
 
             if (this.timeout) {
                 clearTimeout(this.timeout)
@@ -87,7 +87,8 @@ export default class PlayerNotification extends Component {
 
             this.setState({
                 displayAlterationResponseId: null,
-                displayPlayerError: true,
+                displayPlayerErrorId:
+                    playerErrors[playerErrors.length - 1].entry.id,
             })
             this.setNotificationClearTimeout()
         }
@@ -101,7 +102,7 @@ export default class PlayerNotification extends Component {
         this.timeout = setTimeout( () => {
                 this.setState({
                     displayAlterationResponseId: null,
-                    displayPlayerError: false,
+                    displayPlayerErrorId: null,
                 })
             },
             5000
@@ -109,7 +110,7 @@ export default class PlayerNotification extends Component {
     }
 
     render() {
-        const { displayAlterationResponseId, displayPlayerError } = this.state
+        const { displayAlterationResponseId, displayPlayerErrorId } = this.state
         const { alterationsResponse, playerErrors } = this.props
 
         let message
@@ -117,11 +118,11 @@ export default class PlayerNotification extends Component {
         if (displayAlterationResponseId !== null) {
             key = displayAlterationResponseId
             message = alterationsResponse[key].message
-        } else if (displayPlayerError) {
+        } else if (displayPlayerErrorId !== null) {
             // take the latest playerError
             const playerError = playerErrors[playerErrors.length - 1]
+            key = displayPlayerErrorId
             message = playerError.error_message
-            key = playerError.id
         }
 
         // if there is no message to display, do not show any notification
