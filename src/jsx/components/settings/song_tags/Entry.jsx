@@ -15,7 +15,7 @@ export default class SettingsSongTagsEntry extends Component {
         responseOfEdit: alterationResponsePropType,
         responseOfEditColor: alterationResponsePropType,
         editSongTag: PropTypes.func.isRequired,
-        clearTagListEntryNotification: PropTypes.func.isRequired,
+        clearAlteration: PropTypes.func.isRequired,
         authenticatedUser: userPropType.isRequired,
     }
 
@@ -24,7 +24,7 @@ export default class SettingsSongTagsEntry extends Component {
     }
 
     componentWillUnmount() {
-        this.props.clearTagListEntryNotification(this.props.tag.id)
+        this.props.clearAlteration("editSongTag", this.props.tag.id)
     }
 
     displayColorForm = () => {

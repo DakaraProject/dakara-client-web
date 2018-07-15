@@ -7,7 +7,7 @@ import classNames from 'classnames'
 import { parse, stringify } from 'query-string'
 import PropTypes from 'prop-types'
 import { addSongToPlaylist } from 'actions/playlist'
-import { clearSongListNotification } from 'actions/library'
+import { clearAlteration } from 'actions/alterations'
 import Song from 'components/song/Song'
 import SongEntryExpanded from './EntryExpanded'
 import { IsPlaylistUser, KaraStatusIsNotStopped } from 'components/permissions/Playlist'
@@ -32,7 +32,7 @@ class SongEntry extends Component {
         playerStatus: playerStatusPropType,
         responseOfAddSong: alterationResponsePropType,
         addSongToPlaylist: PropTypes.func.isRequired,
-        clearSongListNotification: PropTypes.func.isRequired,
+        clearAlteration: PropTypes.func.isRequired,
     }
 
     static contextTypes = {
@@ -42,7 +42,7 @@ class SongEntry extends Component {
     }
 
     componentWillUnmount() {
-        this.props.clearSongListNotification(this.props.song.id)
+        this.props.clearAlteration("addSongToPlaylist", this.props.song.id)
     }
 
     /**
@@ -218,7 +218,7 @@ SongEntry = withRouter(connect(
     mapStateToProps,
     {
         addSongToPlaylist,
-        clearSongListNotification
+        clearAlteration
     }
 )(SongEntry))
 

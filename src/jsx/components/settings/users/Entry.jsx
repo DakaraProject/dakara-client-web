@@ -11,7 +11,7 @@ import { userPropType } from 'serverPropTypes/users'
 export default class SettingsUsersEntry extends Component {
     static propTypes = {
         user: userPropType.isRequired,
-        clearUsersEntryNotification: PropTypes.func.isRequired,
+        clearAlteration: PropTypes.func.isRequired,
         deleteUser: PropTypes.func.isRequired,
     }
 
@@ -20,7 +20,7 @@ export default class SettingsUsersEntry extends Component {
     }
 
     componentWillUnmount() {
-        this.props.clearUsersEntryNotification(this.props.user.id)
+        this.props.clearAlteration("deleteUser", this.props.user.id)
     }
 
     displayConfirm = () => {

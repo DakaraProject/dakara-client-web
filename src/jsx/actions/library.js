@@ -75,17 +75,3 @@ export const loadWorkTypes = () => ({
             types: [WORK_TYPES_REQUEST, WORK_TYPES_SUCCESS, WORK_TYPES_FAILURE]
         }
 })
-
-/**
- * Clear library song list notification
- */
-
-/**
- * Clear the notification for the given song
- * @param songId the ID of the song to clear the notification
- */
-export const clearSongListNotification = (songId) => ({
-    type: ALTERATION_RESPONSE_CLEAR,
-    alterationName: "addSongToPlaylist",
-    elementId: songId,
-})

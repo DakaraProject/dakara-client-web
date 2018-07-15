@@ -42,18 +42,3 @@ export const editSongTag = (tagId, disabled) => ({
     alterationName: "editSongTag",
     elementId: tagId,
 })
-
-/**
- * Clear tag list entry notification
- */
-
-/**
- * Clear one tag nofitication
- * @param tagId line to clear
- */
-export const clearTagListEntryNotification = (tagId) => ({
-    type: ALTERATION_RESPONSE_CLEAR,
-    alterationName: "editSongTag",
-    elementId: tagId,
-})
-
