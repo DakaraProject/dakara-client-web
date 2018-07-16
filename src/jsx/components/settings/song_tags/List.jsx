@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { parse } from 'query-string'
 import PropTypes from 'prop-types'
-import { getSongTagList, editSongTag, clearTagListEntryNotification } from 'actions/songTags'
+import { getSongTagList, editSongTag } from 'actions/songTags'
+import { clearAlteration } from 'actions/alterations'
 import Navigator from 'components/generics/Navigator'
 import SettingsSongTagsEntry from './Entry'
 import SettingsTabList from '../TabList'
@@ -20,7 +21,7 @@ class SettingsSongTagsList extends Component {
         responseOfMultipleEditColor: PropTypes.objectOf(alterationResponsePropType),
         editSongTag: PropTypes.func.isRequired,
         getSongTagList: PropTypes.func.isRequired,
-        clearTagListEntryNotification: PropTypes.func.isRequired,
+        clearAlteration: PropTypes.func.isRequired,
         authenticatedUser: userPropType.isRequired,
     }
 
@@ -43,7 +44,7 @@ class SettingsSongTagsList extends Component {
     }
 
     render() {
-        const { editSongTag, clearTagListEntryNotification, location, authenticatedUser,
+        const { editSongTag, clearAlteration, location, authenticatedUser,
             responseOfMultipleEdit, responseOfMultipleEditColor } = this.props
         const { songTags, pagination } = this.props.songTagsState.data
 
@@ -54,7 +55,7 @@ class SettingsSongTagsList extends Component {
                 responseOfEdit={responseOfMultipleEdit[tag.id]}
                 responseOfEditColor={responseOfMultipleEditColor[tag.id]}
                 editSongTag={editSongTag}
-                clearTagListEntryNotification={clearTagListEntryNotification}
+                clearAlteration={clearAlteration}
                 authenticatedUser={authenticatedUser}
             />
         ))
@@ -102,7 +103,7 @@ SettingsSongTagsList = withRouter(connect(
     {
         getSongTagList,
         editSongTag,
-        clearTagListEntryNotification
+        clearAlteration
     }
 )(SettingsSongTagsList))
 

@@ -68,20 +68,6 @@ export const deleteUser = (userId) => ({
 })
 
 /**
- * Clear users entry notification
- */
-
-/**
- * Clear one nofitication
- * @param userId line to clear
- */
-export const clearUsersEntryNotification = (userId) => ({
-    type: ALTERATION_RESPONSE_CLEAR,
-    alterationName: "deleteUser",
-    elementId: userId
-})
-
-/**
  * Get one user
  */
 

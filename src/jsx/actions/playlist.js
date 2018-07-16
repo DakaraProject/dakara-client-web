@@ -39,22 +39,6 @@ export const loadPlaylistAppDigest = () => ({
  * Playlist actions
  */
 
-
-/**
- * Clear playlist entry notification
- */
-
-/**
- * Clear the notification for the given playlist entry 
- * @param entryId the ID of the entry to clear the notification from
- */
-export const clearPlaylistEntryNotification = (entryId) => ({
-    type: ALTERATION_RESPONSE_CLEAR,
-    alterationName: "removeEntryFromPlaylist",
-    elementId: entryId,
-})
-
-
 /**
  * Remove song from playlist
  */
@@ -177,6 +161,51 @@ export const addSongToPlaylist = (songId) => ({
     elementId: songId,
 })
 
+/**
+ * Reorder playlist entry
+ */
+
+/**
+ * Request to reorder one entry before or after a specific entry
+ * @param playlistEntryId Id of the playlist entry to move
+ * @param beforeId Move current entry before this entry
+ * @param afterId Move current entry after this entry
+ */
+export const reorderPlaylistEntry = ({playlistEntryId, beforeId, afterId} = {}) => {
+    // alteration element id is target entry id, since Notification is displayed on target
+    let targetId
+
+    // either beforeId or afterId is given
+    // if both are given, only beforeId is used
+    const json = {}
+    if (beforeId) {
+        json.before_id = beforeId
+        targetId = beforeId
+    } else if (afterId) {
+        json.after_id = afterId
+        targetId = afterId
+    } else {
+        throw Error("Either `beforeId` or `afterId` must be provided")
+    }
+
+    return {
+        [FETCH_API]: {
+                endpoint: `${baseUrl}playlist/entries/${playlistEntryId}/`,
+                method: 'PUT',
+                json,
+                types: [
+                    ALTERATION_REQUEST,
+                    ALTERATION_SUCCESS,
+                    ALTERATION_FAILURE
+                ],
+                onSuccess: [
+                    loadPlaylist()
+                ],
+            },
+        alterationName: "reorderPlaylistEntry",
+        elementId: targetId,
+    }
+}
 
 /**
  * Player actions

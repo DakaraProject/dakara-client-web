@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { stringify } from 'query-string'
 import PropTypes from 'prop-types'
 import Song from 'components/song/Song'
-import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
+import { IsPlaylistManager, IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
 import PlayQueueInfo from 'components/song/PlayQueueInfo'
@@ -14,8 +14,12 @@ class PlaylistEntry extends Component {
     static propTypes = {
         entry: playlistEntryPropType.isRequired,
         responseOfRemoveEntry: PropTypes.object,
+        responseOfMultipleReorderPlaylistEntry: PropTypes.object,
+        position: PropTypes.number.isRequired,
+        reorderEntryPosition: PropTypes.number,
+        onReorderButtonClick: PropTypes.func.isRequired,
         removeEntry: PropTypes.func.isRequired,
-        clearPlaylistEntryNotification: PropTypes.func.isRequired,
+        clearAlteration: PropTypes.func.isRequired,
     }
 
     static contextTypes = {
@@ -29,7 +33,8 @@ class PlaylistEntry extends Component {
     }
 
     componentWillUnmount() {
-        this.props.clearPlaylistEntryNotification(this.props.entry.id)
+        this.props.clearAlteration("removeEntryFromPlaylist", this.props.entry.id)
+        this.props.clearAlteration("reorderPlaylistEntry", this.props.entry.id)
     }
 
     displayConfirm = () => {
@@ -53,8 +58,27 @@ class PlaylistEntry extends Component {
     }
 
     render() {
-        const { entry } = this.props
+        const { entry, onReorderButtonClick, position, reorderEntryPosition } = this.props
         const datePlay = Date.parse(entry.date_play)
+
+        /**
+         * Reorder button
+         */
+        let reorderIconName
+        if (reorderEntryPosition !== null) {
+            // if in reorder mode, display icon depending on the relative
+            // position of the current entry and the entry to reorder
+            if (reorderEntryPosition > position) {
+                reorderIconName = "arrow-up"
+            } else if (reorderEntryPosition < position) {
+                reorderIconName = "arrow-down"
+            } else {
+                reorderIconName = "ban"
+            }
+        } else {
+            // if not in reorder mode, display reorder icon
+            reorderIconName = "random"
+        }
 
         return (
             <li className={classNames(
@@ -72,6 +96,16 @@ class PlaylistEntry extends Component {
                     />
                     <PlayQueueInfo queueInfo={{timeOfPlay: datePlay, owner: entry.owner}}/>
                     <div className="controls">
+                        <IsPlaylistManager>
+                            <button
+                                className="control primary"
+                                onClick={() => {onReorderButtonClick(entry.id, position)}}
+                            >
+                                <span className="icon">
+                                    <i className={`fa fa-${reorderIconName}`}></i>
+                                </span>
+                            </button>
+                        </IsPlaylistManager>
                         <IsPlaylistManagerOrOwner object={entry} disable>
                             <button
                                 className="control warning"
@@ -102,6 +136,12 @@ class PlaylistEntry extends Component {
                         successfulMessage="Successfuly removed!"
                         successfulDuration={null}
                         failedMessage="Error attempting to remove song from playlist"
+                    />
+                    <Notification
+                        alterationResponse={this.props.responseOfReorderPlaylistEntry}
+                        pendingMessage={false}
+                        successfulMessage={false}
+                        failedMessage="Error attempting to reorder playlist"
                     />
                 </div>
             </li>

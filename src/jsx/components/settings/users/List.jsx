@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { parse } from 'query-string'
 import PropTypes from 'prop-types'
-import { deleteUser, getUsers, clearUsersEntryNotification } from 'actions/users'
+import { deleteUser, getUsers } from 'actions/users'
+import { clearAlteration } from 'actions/alterations'
 import { FormBlock, InputField } from 'components/generics/Form'
 import Navigator from 'components/generics/Navigator'
 import { IsUserManager } from 'components/permissions/Users'
@@ -18,7 +19,7 @@ class SettingsUsersList extends Component {
         listUsersState: listUsersStatePropType.isRequired,
         responseOfMultipleDeleteUser: PropTypes.object,
         deleteUser: PropTypes.func.isRequired,
-        clearUsersEntryNotification: PropTypes.func.isRequired,
+        clearAlteration: PropTypes.func.isRequired,
         getUsers: PropTypes.func.isRequired,
     }
 
@@ -41,7 +42,7 @@ class SettingsUsersList extends Component {
     }
 
     render() {
-        const { deleteUser, clearUsersEntryNotification, location,
+        const { deleteUser, clearAlteration, location,
             responseOfMultipleDeleteUser } = this.props
         const { users, pagination } = this.props.listUsersState.data
 
@@ -51,7 +52,7 @@ class SettingsUsersList extends Component {
                 user={user}
                 responseOfDelete={responseOfMultipleDeleteUser[user.id]}
                 deleteUser={deleteUser}
-                clearUsersEntryNotification={clearUsersEntryNotification}
+                clearAlteration={clearAlteration}
             />
         ))
 
@@ -133,7 +134,7 @@ SettingsUsersList = withRouter(connect(
     {
         deleteUser,
         getUsers,
-        clearUsersEntryNotification
+        clearAlteration
     }
 )(SettingsUsersList))
 
