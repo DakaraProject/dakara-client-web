@@ -29,25 +29,42 @@ class Playlist extends Component {
 
     componentDidUpdate() {
         const { reorderEntryId } = this.state
-        if (this.getEntryPosition(reorderEntryId) === -1) {
-            this.setState({reorderEntryId: null})
+
+        // when in reorder mode, if the entry to reorder has been removed, quit
+        // reorder mode
+        if (reorderEntryId !== null) {
+            if (this.getEntryPosition(reorderEntryId) === -1) {
+                this.setState({reorderEntryId: null})
+            }
         }
     }
 
+    /**
+     * Get the position of an intry within the array of entries
+     * @param entryId the ID of the entry to get the position of
+     * @return the position of the entry, `null` if `entryId` is null, `-1` if
+     * the entry was not found
+     */
     getEntryPosition = (entryId) => {
         if (entryId === null) {
             return null
         }
+
         return this.props.playlistEntriesState.data.playlistEntries.findIndex(
             e => e.id == entryId
         )
     }
 
+    /**
+     * Callback passed to entries for their reorder button
+     * @param id ID of the entry which button was clicked
+     */
     onReorderButtonClick = (id) => {
         const { reorderEntryId } = this.state
         const { reorderPlaylistEntry } = this.props
 
         if (reorderEntryId !== null) {
+            // if in reorder mode, reorderEntryId will be reordered relative to id
             const reorderEntryPosition = this.getEntryPosition(reorderEntryId)
             const position = this.getEntryPosition(id)
             if (reorderEntryPosition > position) {
@@ -61,16 +78,18 @@ class Playlist extends Component {
                     afterId: id,
                 })
             }
+            // otherwise, assume the user wants to cancel
 
+            // after reordering or cancel, quit reorder mode
             this.setState({
                 reorderEntryId: null,
             })
         } else {
+            // if not in reorder mode, enter reorder mode for the given id
             this.setState({
                 reorderEntryId: id,
             })
         }
-
     }
 
     render() {
@@ -80,7 +99,7 @@ class Playlist extends Component {
             responseOfMultipleRemoveEntry, responseOfMultipleReorderPlaylistEntry } = this.props
         const reorderEntryPosition = this.getEntryPosition(this.state.reorderEntryId)
 
-        const playlistEntriesComponent = playlistEntries.map( (entry, position) => (
+        const playlistEntriesComponent = playlistEntries.map((entry, position) => (
             <CSSTransition
                 classNames='add-remove'
                 timeout={{

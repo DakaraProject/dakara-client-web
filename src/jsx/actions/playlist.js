@@ -166,22 +166,26 @@ export const addSongToPlaylist = (songId) => ({
  */
 
 /**
- * Request to position entry before or after a specific entry
+ * Request to reorder one entry before or after a specific entry
  * @param playlistEntryId Id of the playlist entry to move
  * @param beforeId Move current entry before this entry
  * @param afterId Move current entry after this entry
- *
  */
 export const reorderPlaylistEntry = ({playlistEntryId, beforeId, afterId} = {}) => {
-    const json = {}
-    // Element id is target entry, since Notification is displayed on target
+    // alteration element id is target entry id, since Notification is displayed on target
     let targetId
+
+    // either beforeId or afterId is given
+    // if both are given, only beforeId is used
+    const json = {}
     if (beforeId) {
         json.before_id = beforeId
         targetId = beforeId
-    } else {
+    } else if (afterId) {
         json.after_id = afterId
         targetId = afterId
+    } else {
+        throw Error("Either `beforeId` or `afterId` must be provided")
     }
 
     return {

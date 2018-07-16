@@ -61,8 +61,13 @@ class PlaylistEntry extends Component {
         const { entry, onReorderButtonClick, position, reorderEntryPosition } = this.props
         const datePlay = Date.parse(entry.date_play)
 
+        /**
+         * Reorder button
+         */
         let reorderIconName
         if (reorderEntryPosition !== null) {
+            // if in reorder mode, display icon depending on the relative
+            // position of the current entry and the entry to reorder
             if (reorderEntryPosition > position) {
                 reorderIconName = "arrow-up"
             } else if (reorderEntryPosition < position) {
@@ -71,6 +76,7 @@ class PlaylistEntry extends Component {
                 reorderIconName = "ban"
             }
         } else {
+            // if not in reorder mode, display reorder icon
             reorderIconName = "random"
         }
 
