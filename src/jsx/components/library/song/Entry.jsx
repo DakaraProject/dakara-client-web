@@ -10,7 +10,7 @@ import { addSongToPlaylist } from 'actions/playlist'
 import { clearAlteration } from 'actions/alterations'
 import Song from 'components/song/Song'
 import SongEntryExpanded from './EntryExpanded'
-import { IsPlaylistUser, KaraStatusIsNotStopped } from 'components/permissions/Playlist'
+import { IsPlaylistUser, KaraokeIsNotStopped } from 'components/permissions/Playlist'
 import Notification from 'components/generics/Notification'
 import PlayQueueInfo from 'components/song/PlayQueueInfo'
 import { songPropType } from 'serverPropTypes/library'
@@ -162,7 +162,7 @@ class SongEntry extends Component {
                             className="controls"
                             id={`song-${this.props.song.id}`}
                         >
-                            <KaraStatusIsNotStopped>
+                            <KaraokeIsNotStopped>
                                 <IsPlaylistUser>
                                     <button
                                         className="control primary"
@@ -175,7 +175,7 @@ class SongEntry extends Component {
                                         </span>
                                     </button>
                                 </IsPlaylistUser>
-                            </KaraStatusIsNotStopped>
+                            </KaraokeIsNotStopped>
                         </div>
                         <Notification
                             alterationResponse={this.props.responseOfAddSong}

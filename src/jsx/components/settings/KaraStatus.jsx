@@ -12,7 +12,7 @@ class SettingsKaraStatus extends Component {
         if (this.props.playlistDigestStatus === Status.pending ||
             this.props.playlistDigestStatus === null) return null
 
-        const { authenticatedUser, karaStatus } = this.props
+        const { authenticatedUser, karaoke } = this.props
         const isManager = IsPlaylistManager.hasPermission(authenticatedUser)
 
         const statusOptions = [
@@ -39,7 +39,7 @@ class SettingsKaraStatus extends Component {
             karaStatusWidget = (
                 <FormBlock
                     title="Edit kara status"
-                    action="playlist/kara-status/"
+                    action="playlist/karaoke/"
                     method="PUT"
                     submitText="Set"
                     alterationName="editKaraStatus"
@@ -48,14 +48,14 @@ class SettingsKaraStatus extends Component {
                 >
                     <RadioField
                         id="status"
-                        defaultValue={karaStatus.status}
+                        defaultValue={karaoke.status}
                         options={statusOptions}
                         long
                     />
                 </FormBlock>
             )
         } else {
-            const status = statusOptions.find(e => (e.value == karaStatus.status))
+            const status = statusOptions.find(e => (e.value == karaoke.status))
             karaStatusWidget = (
                 <p className="status-text">{status.name}</p>
             )
@@ -72,7 +72,7 @@ class SettingsKaraStatus extends Component {
 
 const mapStateToProps = (state) => ({
     playlistDigestStatus: state.playlist.digest.status,
-    karaStatus: state.playlist.digest.data.kara_status,
+    karaoke: state.playlist.digest.data.karaoke,
     authenticatedUser: state.authenticatedUser,
 })
 
