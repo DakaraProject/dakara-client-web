@@ -14,6 +14,7 @@ import SettingsUsersEdit from 'components/settings/users/Edit'
 import SettingsUsersList from 'components/settings/users/List'
 import SettingsSongTagsList from 'components/settings/song_tags/List'
 import SettingsKaraStatus from 'components/settings/KaraStatus'
+import SettingsKaraDateStop from 'components/settings/KaraDateStop'
 import LibraryList from 'components/library/List'
 import Playlist from 'components/playlist/List'
 import PlaylistPlayed from 'components/playlist/PlayedList'
@@ -52,6 +53,7 @@ ReactDOM.render(
                     <ProtectedRoute exact path="/settings/users" component={SettingsUsersList}/>
                     <ProtectedRoute exact path="/settings/song-tags" component={SettingsSongTagsList}/>
                     <ProtectedRoute exact path="/settings/kara-status" component={SettingsKaraStatus}/>
+                    <ProtectedRoute exact path="/settings/kara-date-stop" component={SettingsKaraDateStop}/>
                     <Redirect exact from="/settings" to="/settings/users"/>
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/logout" component={Logout}/>
