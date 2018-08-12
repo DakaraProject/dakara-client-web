@@ -50,10 +50,10 @@ class PlaylistInfoBar extends Component {
         const count = playlistEntries.length
         const amount = (
                 <div className="item">
-                    <span className="value">{count}</span>
-                    <span className="description">
-                        song{count == 1 ? '' : 's'} in playlist
-                    </span>
+                    <div className="value">{count}</div>
+                    <div className="description">
+                        <div className="line">song{count == 1 ? '' : 's'} in playlist</div>
+                    </div>
                 </div>
             )
 
