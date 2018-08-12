@@ -6,7 +6,7 @@
 
 
 // playlist info bar sizes
-@playlist-info-bar-height: 5rem;
+@playlist-info-bar-height: 4rem;
 @playlist-info-bar-height-smartphone: 4rem;
 
 
@@ -40,39 +40,35 @@
     }
 
     .item {
-        display: flex;
-        align-items: center;
-        white-space: nowrap;
-
         &:not(:first-child) {
             .make-gap(padding, left);
         }
 
-        .stat {
+        .value {
             display: inline-block;
-            font-weight: 100;
-            font-size: 2.5em;
+            font-weight: 200;
+            font-size: 3.5rem;
             vertical-align: middle;
         }
 
         .description {
             margin-left: 0.5em;
             display: inline-block;
+            font-size: 1.5rem;
             vertical-align: middle;
-            flex: 1;
-            text-align: left;
+
+            .detail {
+                opacity: 0.65;
+            }
         }
 
-        &.next {
-            overflow: hidden;
+        &.reverse {
+            text-align: right;
 
             .description {
-                .text-truncate();
+                margin-right: 0.5em;
+                margin-left: 0;
             }
-
-            .make-smartphone({
-                display: none;
-            });
         }
     }
 }
