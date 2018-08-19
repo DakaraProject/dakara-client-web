@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import dayjs from 'dayjs'
-import { formatHourTime } from 'utils'
+import { formatHourTime, parseTime } from 'utils'
 import SettingsTabList from './TabList'
 import { FormBlock, InputField, CheckboxField } from 'components/generics/Form'
 import { Status } from 'reducers/alterationsResponse'
@@ -27,11 +27,7 @@ class SettingsKaraDateStop extends Component {
                         date_stop: null
                     }
                 }
-                let date = dayjs()
-                const time = values.time_stop.split(":")
-                date = date.set('hours', time[0])
-                date = date.set('minutes', time[1])
-                date = date.set('seconds', 0)
+                let date = parseTime(values.time_stop)
                 if (date.isBefore()) {
                     date = date.add(1, 'days')
                 }

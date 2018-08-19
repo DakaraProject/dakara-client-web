@@ -1,8 +1,8 @@
 import { sprintf } from 'sprintf-js'
+import dayjs from 'dayjs'
 
 export function formatHourTime(timestamp) {
-    let date = new Date(timestamp)
-    return sprintf("%02d:%02d",date.getHours(), date.getMinutes())
+    return dayjs(timestamp).format('HH:mm')
 }
 
 export function formatTime(seconds) {
@@ -30,4 +30,17 @@ export function updateData(newData, resultsKey) {
         [resultsKey]: results,
         ...remaining,
     }
+}
+
+export function parseTime(timeString) {
+    if (!/^\d{1,2}:\d{1,2}$/.test(timeString)) {
+        throw new Error("Invalid time format")
+    }
+
+    let date = dayjs()
+    const time = timeString.split(":")
+    date = date.set('hours', time[0])
+    date = date.set('minutes', time[1])
+    date = date.set('seconds', 0)
+    return date
 }
