@@ -33,6 +33,7 @@ class SongEntry extends Component {
         responseOfAddSong: alterationResponsePropType,
         addSongToPlaylist: PropTypes.func.isRequired,
         clearAlteration: PropTypes.func.isRequired,
+        karaokeRemainingSeconds: PropTypes.number,
     }
 
     static contextTypes = {
@@ -66,7 +67,7 @@ class SongEntry extends Component {
     }
 
     render() {
-        const { location, song, query, playerStatus } = this.props
+        const { location, song, query, playerStatus, karaokeRemainingSeconds } = this.props
         const { playlistPlayedEntries, playlistEntries } = this.props
         const queryObj = parse(location.search)
         const expanded = queryObj.expanded == song.id
@@ -151,6 +152,7 @@ class SongEntry extends Component {
                             query={query}
                             noArtistWork={expanded}
                             noTag={expanded}
+                            karaokeRemainingSeconds={karaokeRemainingSeconds}
                             handleClick={() => expanded ? this.setExpanded(null) : this.setExpanded(song.id)}
                         />
                         <TransitionGroup
