@@ -78,13 +78,13 @@ class SettingsKaraDateStop extends Component {
         } else {
             if (date_stop) {
                 karaDateStopWidget = (
-                    <p className="date-stop">
+                    <p className="date-stop-text">
                         Karaoke stop time: {dayjs(date_stop).format("HH:mm")}
                     </p>
                 )
             } else {
                 karaDateStopWidget = (
-                    <p className="date-stop"> Karaoke stop time is not set.</p>
+                    <p className="date-stop-text"> Karaoke stop time is not set.</p>
                 )
             }
         }
