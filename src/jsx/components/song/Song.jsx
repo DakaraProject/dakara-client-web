@@ -24,10 +24,11 @@ export default class Song extends Component {
         noArtistWork: PropTypes.bool,
         noDuration: PropTypes.bool,
         noTag: PropTypes.bool,
+        karaokeRemainingSeconds: PropTypes.number,
     }
 
     render() {
-        const { song, query } = this.props
+        const { song, query, karaokeRemainingSeconds } = this.props
 
         /**
          * Song version
@@ -91,9 +92,18 @@ export default class Song extends Component {
 
         let duration
         if (!this.props.noDuration) {
+            let warningIcon
+            if (karaokeRemainingSeconds < song.duration) {
+                warningIcon = (
+                    <span className="icon">
+                        <i className="fa fa-exclamation-triangle"></i>
+                    </span>
+                )
+            }
             duration = (
                 <div className="duration">
-                    {formatDuration(song.duration)}
+                    {warningIcon}
+                    <span className="value">{formatDuration(song.duration)}</span>
                 </div>
             )
         }

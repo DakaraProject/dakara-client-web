@@ -31,6 +31,6 @@ export const playerErrorPropType = PropTypes.shape({
     error_message: PropTypes.string.isRequired,
 })
 
-export const karaStatusPropType = PropTypes.shape({
+export const karaokePropType = PropTypes.shape({
     status: PropTypes.string,
 })

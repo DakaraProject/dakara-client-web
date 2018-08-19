@@ -10,7 +10,7 @@ import { addSongToPlaylist } from 'actions/playlist'
 import { clearAlteration } from 'actions/alterations'
 import Song from 'components/song/Song'
 import SongEntryExpanded from './EntryExpanded'
-import { IsPlaylistUser, KaraStatusIsNotStopped } from 'components/permissions/Playlist'
+import { IsPlaylistUser, KaraokeIsNotStopped } from 'components/permissions/Playlist'
 import Notification from 'components/generics/Notification'
 import PlayQueueInfo from 'components/song/PlayQueueInfo'
 import { songPropType } from 'serverPropTypes/library'
@@ -33,6 +33,7 @@ class SongEntry extends Component {
         responseOfAddSong: alterationResponsePropType,
         addSongToPlaylist: PropTypes.func.isRequired,
         clearAlteration: PropTypes.func.isRequired,
+        karaokeRemainingSeconds: PropTypes.number,
     }
 
     static contextTypes = {
@@ -66,7 +67,7 @@ class SongEntry extends Component {
     }
 
     render() {
-        const { location, song, query, playerStatus } = this.props
+        const { location, song, query, playerStatus, karaokeRemainingSeconds } = this.props
         const { playlistPlayedEntries, playlistEntries } = this.props
         const queryObj = parse(location.search)
         const expanded = queryObj.expanded == song.id
@@ -151,6 +152,7 @@ class SongEntry extends Component {
                             query={query}
                             noArtistWork={expanded}
                             noTag={expanded}
+                            karaokeRemainingSeconds={karaokeRemainingSeconds}
                             handleClick={() => expanded ? this.setExpanded(null) : this.setExpanded(song.id)}
                         />
                         <TransitionGroup
@@ -162,7 +164,7 @@ class SongEntry extends Component {
                             className="controls"
                             id={`song-${this.props.song.id}`}
                         >
-                            <KaraStatusIsNotStopped>
+                            <KaraokeIsNotStopped>
                                 <IsPlaylistUser>
                                     <button
                                         className="control primary"
@@ -175,7 +177,7 @@ class SongEntry extends Component {
                                         </span>
                                     </button>
                                 </IsPlaylistUser>
-                            </KaraStatusIsNotStopped>
+                            </KaraokeIsNotStopped>
                         </div>
                         <Notification
                             alterationResponse={this.props.responseOfAddSong}

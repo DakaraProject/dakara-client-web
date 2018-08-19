@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import dayjs from 'dayjs'
 import SongEntry from './Entry'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
@@ -11,13 +12,23 @@ import { playlistDigestPropType } from 'reducers/playlist'
 class SongList extends Component {
     static propTypes = {
         songState: songStatePropType.isRequired,
-        playlistEntriesState: playlistEntriesStatePropType.isRequired,
-        playlistDigest: playlistDigestPropType.isRequired,
+        playlistDateEnd: PropTypes.string.isRequired,
+        karaokeDateStop: PropTypes.string,
         location: PropTypes.object.isRequired,
     }
 
     render() {
         const { songs, count, pagination } = this.props.songState.data
+        const { playlistDateEnd, karaokeDateStop } = this.props
+
+        /**
+         * Compute remaining karoke time
+         */
+
+        let karaokeRemainingSeconds
+        if (karaokeDateStop) {
+            karaokeRemainingSeconds = dayjs(karaokeDateStop).diff(playlistDateEnd, 'seconds')
+        }
 
         /**
          * Create SongEntry for each song
@@ -27,6 +38,7 @@ class SongList extends Component {
                 <SongEntry
                         key={song.id}
                         song={song}
+                        karaokeRemainingSeconds={karaokeRemainingSeconds}
                         location={this.props.location}
                     />
             ))
@@ -56,8 +68,8 @@ class SongList extends Component {
 
 const mapStateToProps = (state) => ({
     songState: state.library.song,
-    playlistEntriesState: state.playlist.entries,
-    playlistDigest: state.playlist.digest,
+    playlistDateEnd: state.playlist.entries.data.date_end,
+    karaokeDateStop: state.playlist.digest.data.karaoke.date_stop,
 })
 
 SongList = connect(
