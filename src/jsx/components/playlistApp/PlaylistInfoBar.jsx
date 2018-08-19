@@ -80,17 +80,19 @@ class PlaylistInfoBar extends Component {
             )
         // only karaoke date end
         } else if (!playlistEndDate && karaokeEndDate) {
-            dateEndWidget = (
-                <div className="item reverse">
-                    <div className="description">
-                        <div className="line">karaoke end</div>
-                        <div className="line detail">
-                            {dayjs().to(karaokeEndDate, true)} remaining
+            if (karaokeEndDate.isAfter()) {
+                dateEndWidget = (
+                    <div className="item reverse">
+                        <div className="description">
+                            <div className="line">karaoke end</div>
+                            <div className="line detail">
+                                {dayjs().to(karaokeEndDate, true)} remaining
+                            </div>
                         </div>
+                        <div className="value">{karaokeEndDate.format('HH:mm')}</div>
                     </div>
-                    <div className="value">{karaokeEndDate.format('HH:mm')}</div>
-                </div>
-            )
+                )
+            }
         // both playlist date end and karaoke date end
         } else if (playlistEndDate && karaokeEndDate) {
             // karaoke date end is after playlist date end
