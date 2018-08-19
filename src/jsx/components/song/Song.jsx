@@ -94,11 +94,15 @@ export default class Song extends Component {
         if (!this.props.noDuration) {
             let warningIcon
             if (karaokeRemainingSeconds < song.duration) {
-                warningIcon = (<i className="fa fa-exclamation-triangle"></i>)
+                warningIcon = (
+                    <span className="icon">
+                        <i className="fa fa-exclamation-triangle"></i>
+                    </span>
+                )
             }
             duration = (
                 <div className="duration">
-                    <span className="icon">{warningIcon}</span>
+                    {warningIcon}
                     <span className="value">{formatDuration(song.duration)}</span>
                 </div>
             )
