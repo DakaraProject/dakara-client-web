@@ -64,7 +64,8 @@ class PlaylistInfoBar extends Component {
          * well together. At least, the code is easy to understand.
          */
 
-        const playlistEndDate = dateEnd && count ? dayjs(dateEnd) : null
+        const playlistEndDate = dateEnd &&
+            (count || playerStatus.playlist_entry) ? dayjs(dateEnd) : null
         const karaokeEndDate = dateStop ? dayjs(dateStop) : null
 
         let dateEndWidget
