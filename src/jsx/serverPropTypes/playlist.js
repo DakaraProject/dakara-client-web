@@ -19,11 +19,9 @@ export const playlistPlayedEntryPropType = PropTypes.shape({
 export const playerStatusPropType = PropTypes.shape({
     playlist_entry: playlistPlayedEntryPropType,
     timing: PropTypes.number.isRequired,
-})
-
-export const playerManagePropType = PropTypes.shape({
-    pause: PropTypes.bool.isRequired,
-    skip: PropTypes.bool.isRequired,
+    paused: PropTypes.bool.isRequired,
+    in_transition: PropTypes.bool.isRequired,
+    date: PropTypes.string.isRequired,
 })
 
 export const playerErrorPropType = PropTypes.shape({
