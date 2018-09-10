@@ -8,6 +8,7 @@ import Song from 'components/song/Song'
 import UserWidget from 'components/generics/UserWidget'
 import ManageButton from './ManageButton'
 import PlayerNotification from './Notification'
+import { TimingPlayer } from 'components/generics/Timing'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import { sendPlayerCommand } from 'actions/playlist'
 import { playlistDigestPropType, playerCommandsPropType } from 'reducers/playlist'
@@ -63,7 +64,7 @@ class Player extends Component {
                     <div className="extra">
                         <div className="timing">
                             <div className="current">
-                                {formatTime(player_status.timing)}
+                                <TimingPlayer/>
                             </div>
                             <div className="duration">
                                 {formatDuration(duration)}
@@ -105,15 +106,17 @@ class Player extends Component {
                         >
                             <ManageButton
                                 responseOfManage={
-                                    isPlaying ?
-                                    responseOfSendPlayerCommandsSafe.pause :
-                                    responseOfSendPlayerCommandsSafe.play
+                                    player_status.paused ?
+                                    responseOfSendPlayerCommandsSafe.play :
+                                    responseOfSendPlayerCommandsSafe.pause
                                 }
                                 onClick={() => {
-                                    if (isPlaying) {
-                                        this.props.sendPlayerCommand('pause')
-                                    } else {
+                                    if (!isPlaying) return
+
+                                    if (player_status.paused) {
                                         this.props.sendPlayerCommand('play')
+                                    } else {
+                                        this.props.sendPlayerCommand('pause')
                                     }
                                 }}
                                 disabled={controlDisabled}
