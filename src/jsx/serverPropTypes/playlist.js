@@ -25,7 +25,7 @@ export const playerStatusPropType = PropTypes.shape({
 })
 
 export const playerErrorPropType = PropTypes.shape({
-    id: PropTypes.any.isRequired,
+    playlist_entry: playlistPlayedEntryPropType.isRequired,
     error_message: PropTypes.string.isRequired,
 })
 
