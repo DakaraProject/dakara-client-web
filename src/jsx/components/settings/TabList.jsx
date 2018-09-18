@@ -21,6 +21,11 @@ export default class SettingsTabList extends Component {
                     iconName="check-square-o"
                     name="Kara status"
                 />
+                <Tab
+                    to="/settings/kara-date-stop"
+                    iconName="stop-circle-o"
+                    name="Kara stop time"
+                />
             </nav>
         )
     }

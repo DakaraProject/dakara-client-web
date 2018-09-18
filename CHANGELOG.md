@@ -33,6 +33,13 @@
 ### Added
 
 - Playlist entry can be re-ordered from the playlist page.
+- Setting page to set kara date stop.
+- Feedback on library when a song is too long to be added to playlist.
+
+### Changed
+
+- Playlist info bar now displays karaoke end or playlist end depending on what is set.
+- Playlist info bar does not display next song anymore.
 
 ## 1.2.0 - 2018-06-03
 

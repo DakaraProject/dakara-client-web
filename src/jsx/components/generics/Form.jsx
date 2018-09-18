@@ -30,6 +30,7 @@ class Form extends Component {
         validate: PropTypes.func,
         action: PropTypes.string.isRequired,
         title: PropTypes.string,
+        formatValues: PropTypes.func,
     }
 
     static defaultProps = {
@@ -123,8 +124,14 @@ class Form extends Component {
         // Check fields validations
         let fieldsErrors = {}
         React.Children.forEach(this.props.children, field => {
-            const { id, required, validate } = field.props
+            const { id, required, validate, disabled, disabledBy } = field.props
             const value = formValues[id]
+
+            // Don't validate when field is disabled, or disabled by other field
+            if (disabled || disabledBy && !formValues[disabledBy]) {
+                return
+            }
+
             // process each check for this field
             // for each failure, add error message to table
             let errors = []
@@ -165,13 +172,14 @@ class Form extends Component {
             action,
             method,
             submitAlteration,
-            children
+            children,
+            formatValues,
         } = this.props
 
         const { formValues } = this.state
 
         // generate the data to send
-        const json = {}
+        let json = {}
 
         React.Children.forEach(children, (field) => {
             const { ignore, ignoreIfEmpty, id } = field.props
@@ -184,6 +192,11 @@ class Form extends Component {
             // add data
             json[id] = value
         })
+
+        // Use provided custom method to alter values sent to server
+        if (formatValues) {
+            json = formatValues(json)
+        }
 
         submitAlteration(alterationName, elementId, action, method, json)
     }
@@ -199,10 +212,18 @@ class Form extends Component {
 
         const fields = React.Children.map(children,
             (field) => {
-                const id = field.props.id
+                const { id, disabledBy, disabled } = field.props
                 let fieldErrors
                 if (alterationResponse) {
                     fieldErrors = alterationResponse.fields[id]
+                }
+
+                // When the field has a disableBy property
+                // and the specified field has a falsy value
+                // this field is disabled
+                let disabledOverride = disabled
+                if (!disabled && disabledBy && !formValues[disabledBy]) {
+                    disabledOverride=true
                 }
 
                 return React.cloneElement(field,
@@ -211,6 +232,7 @@ class Form extends Component {
                         setValue: this.setFieldValue,
                         value: formValues[id],
                         inline,
+                        disabled: disabledOverride
                     }
                 )
             }
@@ -280,6 +302,10 @@ const mapStateToProps = (state, ownProps) => {
  *                      Should return an array of validation error message.
  *                      When validation succeed,
  *                      Should return a falsy value or empty array.
+ * - formatValues <func>: Called before sending request to server,
+ *                      with object containing form values.
+ *                      Allows to alter form data before sending.
+ *                      Should return a dict that will be sent to server.
  * - noClearOnSuccess <bool>: By default the form values are cleared when
  *                              request succeed.
  *                              If this value is true, forms are not cleared.
@@ -367,6 +393,10 @@ export { FormBlock }
  *                      Should return an array of validation error message.
  *                      When validation succeed,
  *                      Should return a falsy value or empty array.
+ * - formatValues <func>: Called before sending request to server,
+ *                      with object containing form values.
+ *                      Allows to alter form data before sending.
+ *                      Should return a dict that will be sent to server.
  * - noClearOnSuccess <bool>: By default the form values are cleared when
  *                              request succeed.
  *                              If this value is true, forms are not cleared.
@@ -437,6 +467,8 @@ export { FormInline }
  *                      Should return an array of validation error message.
  *                      When validation succeed,
  *                      Should return a falsy value or empty array.
+ * - disabledBy <str>: Id of another field controlling disabled status of this field.
+ *                     When this other field value is falsy, this field will be disabled.
  *
  * Validation modifiers:
  * - required <bool>: When true, field can not be empty.
@@ -464,6 +496,7 @@ class Field extends Component {
         value: PropTypes.any,
         fieldErrors: PropTypes.array,
         disabled: PropTypes.bool,
+        disabledBy: PropTypes.string,
         inline: PropTypes.bool
     }
 
@@ -486,6 +519,7 @@ class Field extends Component {
             ignore,
             ignoreIfEmpty,
             inline,
+            disabledBy,
             ...remaining
         } = this.props
 
@@ -576,6 +610,8 @@ class Field extends Component {
  *                      Should return an array of validation error message.
  *                      When validation succeed,
  *                      Should return a falsy value or empty array.
+ * - disabledBy <str>: Id of another field controlling disabled status of this field.
+ *                     When this other field value is falsy, this field will be disabled.
  *
  * Validation modifiers:
  * - required <bool>: When true, field can not be empty.
@@ -620,6 +656,8 @@ export class InputField extends Field {
  *                      Should return an array of validation error message.
  *                      When validation succeed,
  *                      Should return a falsy value or empty array.
+ * - disabledBy <str>: Id of another field controlling disabled status of this field.
+ *                     When this other field value is falsy, this field will be disabled.
  *
  * Validation modifiers:
  * - required <bool>: When true, field can not be empty.
@@ -708,6 +746,8 @@ export class SelectField extends Field {
  *                      Should return an array of validation error message.
  *                      When validation succeed,
  *                      Should return a falsy value or empty array.
+ * - disabledBy <str>: Id of another field controlling disabled status of this field.
+ *                     When this other field value is falsy, this field will be disabled.
  *
  * Validation modifiers:
  * - required <bool>: When true, field can not be empty.
@@ -809,6 +849,8 @@ export class RadioField extends Field {
  *                      Should return an array of validation error message.
  *                      When validation succeed,
  *                      Should return a falsy value or empty array.
+ * - disabledBy <str>: Id of another field controlling disabled status of this field.
+ *                     When this other field value is falsy, this field will be disabled.
  *
  * Validation modifiers:
  * - required <bool>: When true, field can not be empty.
@@ -879,6 +921,8 @@ export class CheckboxField extends Field {
  *                      Should return an array of validation error message.
  *                      When validation succeed,
  *                      Should return a falsy value or empty array.
+ * - disabledBy <str>: Id of another field controlling disabled status of this field.
+ *                     When this other field value is falsy, this field will be disabled.
  *
  * Validation modifiers:
  * - required <bool>: When true, field can not be empty.

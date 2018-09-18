@@ -6,7 +6,7 @@ import { PLAYLIST_PLAYED_REQUEST, PLAYLIST_PLAYED_SUCCESS, PLAYLIST_PLAYED_FAILU
 import { PLAYLIST_PLAYED_ADD } from 'actions/playlist'
 import { ALTERATION_SUCCESS } from 'actions/alterations'
 import { Status } from './alterationsResponse'
-import { playerStatusPropType, playerManagePropType, playerErrorPropType, karaStatusPropType } from 'serverPropTypes/playlist'
+import { playerStatusPropType, playerManagePropType, playerErrorPropType, karaokePropType } from 'serverPropTypes/playlist'
 import { playlistEntryPropType, playlistPlayedEntryPropType } from 'serverPropTypes/playlist'
 import { updateData } from 'utils'
 
@@ -27,7 +27,7 @@ export const playlistDigestPropType = PropTypes.shape({
         player_status: playerStatusPropType.isRequired,
         player_manage: playerManagePropType.isRequired,
         player_errors: PropTypes.arrayOf(playerErrorPropType).isRequired,
-        kara_status: karaStatusPropType.isRequired,
+        karaoke: karaokePropType.isRequired,
     }).isRequired,
 })
 
@@ -43,7 +43,7 @@ const defaultPlaylistAppDigest = {
             skip: false
         },
         player_errors: [],
-        kara_status: {
+        karaoke: {
             status: null,
         },
     },
@@ -95,7 +95,7 @@ function digest(state = defaultPlaylistAppDigest, action) {
                     ...state,
                     data: {
                         ...state.data,
-                        kara_status: {
+                        karaoke: {
                             status: action.response.status
                         }
                     }
@@ -151,7 +151,7 @@ function entries(state = defaultEntries, action) {
 
         // when the kara status is set to stop, reset entries
         case PLAYLIST_DIGEST_SUCCESS:
-            if (action.response.kara_status.status === 'stop') {
+            if (action.response.karaoke.status === 'stop') {
                 return defaultEntries
             }
 
@@ -222,7 +222,7 @@ function playedEntries(state = defaultPlayedEntries, action) {
 
         // when the kara status is set to stop, reset the played entries
         case PLAYLIST_DIGEST_SUCCESS:
-            if (action.response.kara_status.status === 'stop') {
+            if (action.response.karaoke.status === 'stop') {
                 return defaultPlayedEntries
             }
 
