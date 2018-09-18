@@ -12,13 +12,26 @@
 .library-entry.library-entry-work {
     .library-entry-work-artist-display {
         .header {
-            .title {
-            }
+	    display: flex;
+	    
+	    .title {
+	    }
 
-            .subtitle {
-                opacity: 0.65;
-                margin-left: 0.5em;
-            }
+	    .subtitle {
+		opacity: 0.65;
+		margin-left: 0.5em;
+	    }
+
+	    .alternative_titles {
+		flex: 1;
+		align-self: flex-end;
+		padding-left: 1.5em;
+		text-align: right;
+
+		.alternative_title {
+		}
+
+	    }
         }
     }
 }
