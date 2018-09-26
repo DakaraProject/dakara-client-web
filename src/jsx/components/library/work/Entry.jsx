@@ -28,15 +28,22 @@ class WorkEntry extends Component {
     render() {
 	const { title, subtitle, alternative_titles, song_count } = this.props.work
 
-	const alternativeTitlesList = alternative_titles.map((alt_title) => (
-	    <HighlighterQuery
-		query={this.props.query}
-		className="alternative_title"
-		key={alt_title.title}
-		searchWords={(q) => (q.work.contains.concat(q.remainining))}
-		textToHighlight={alt_title.title}
-	    />
-	))
+	const alternativeTitlesList = alternative_titles.map((alt_title, index) => {
+
+	    let separator = (index === alternative_titles.length - 1) ? "" : ", ";
+
+	    return (
+		<span className="alternative_title">
+		    <HighlighterQuery
+		        query={this.props.query}
+		        key={alt_title.title}
+		        searchWords={(q) => (q.remaining)}
+		        textToHighlight={alt_title.title}
+		    />
+		    {separator}
+	    	</span>
+	    );
+	})
 
         return(
                 <li className="library-entry listing-entry library-entry-work hoverizable">
@@ -45,7 +52,7 @@ class WorkEntry extends Component {
                             <HighlighterQuery
                                 query={this.props.query}
                                 className="title"
-                                searchWords={(q) => (q.work.contains.concat(q.remaining))}
+                                searchWords={(q) => (q.remaining)}
                                 textToHighlight={title}
                             />
                             <span className="subtitle">
