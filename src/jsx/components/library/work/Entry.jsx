@@ -33,7 +33,7 @@ class WorkEntry extends Component {
 	    let separator = (index === alternative_titles.length - 1) ? "" : ", ";
 
 	    return (
-		<span className="alternative_title">
+		<div className="alternative_title">
 		    <HighlighterQuery
 		        query={this.props.query}
 		        key={alt_title.title}
@@ -41,7 +41,7 @@ class WorkEntry extends Component {
 		        textToHighlight={alt_title.title}
 		    />
 		    {separator}
-	    	</span>
+	    	</div>
 	    );
 	})
 
