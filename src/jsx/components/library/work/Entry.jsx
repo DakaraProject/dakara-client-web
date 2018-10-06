@@ -30,7 +30,7 @@ class WorkEntry extends Component {
 
 	const alternativeTitlesList = alternative_titles.map((alt_title, index) => {
 
-	    let separator = (index === alternative_titles.length - 1) ? "" : ", ";
+	    let separator = (index === alternative_titles.length - 1) ? "" : ",\xa0";;
 
 	    return (
 		<div className="alternative_title">
