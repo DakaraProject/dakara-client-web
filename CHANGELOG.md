@@ -30,6 +30,8 @@
 
 ## Unreleased
 
+## 1.3.0 - 2018-10-07
+
 ### Added
 
 - Playlist entry can be re-ordered from the playlist page.
