@@ -3,6 +3,7 @@ import { stringify } from 'query-string'
 import PropTypes from 'prop-types'
 import HighlighterQuery from 'components/generics/HighlighterQuery'
 import { workPropType } from 'serverPropTypes/library'
+import classNames from 'classnames'
 
 class WorkEntry extends Component {
     static propTypes = {
@@ -30,10 +31,10 @@ class WorkEntry extends Component {
 
 	const alternativeTitlesList = alternative_titles.map((alt_title, index) => {
 
-	    let separator = (index === alternative_titles.length - 1) ? "" : ",\xa0";;
+	    let separator = (index === alternative_titles.length - 1) ? "" : ",\xa0";
 
 	    return (
-		<div className="alternative_title">
+		<div className="alternative-title">
 		    <HighlighterQuery
 		        query={this.props.query}
 		        key={alt_title.title}
@@ -43,25 +44,37 @@ class WorkEntry extends Component {
 		    {separator}
 	    	</div>
 	    );
-	})
+        })
+
+        const withAlternativeTitles = alternativeTitlesList.length > 0
 
         return(
                 <li className="library-entry listing-entry library-entry-work hoverizable">
                     <div className="library-entry-work-artist-display">
                         <div className="header">
-                            <HighlighterQuery
-                                query={this.props.query}
-                                className="title"
-                                searchWords={(q) => (q.remaining)}
-                                textToHighlight={title}
-                            />
-                            <span className="subtitle">
-                                {subtitle}
-			    </span>
-			    <div className="alternative_titles">
-				{alternativeTitlesList}
-			    </div>
-			</div>
+                            <div className="titles">
+                                <div className="complete-title">
+                                    <HighlighterQuery
+                                        query={this.props.query}
+                                        className="title"
+                                        searchWords={(q) => (q.remaining)}
+                                        textToHighlight={title}
+                                    />
+                                    <span className="subtitle">
+                                        {subtitle}
+                                    </span>
+                                </div>
+                                <div className={classNames(
+                                    {
+                                        "alternative-titles": withAlternativeTitles,
+                                        disabled: !withAlternativeTitles
+                                    }
+                                )}
+                                >
+                                     {alternativeTitlesList}
+                                </div>
+                            </div>
+                        </div>
                         <div className="songs-amount">
                             {song_count}
 			</div>

@@ -12,26 +12,30 @@
 .library-entry.library-entry-work {
     .library-entry-work-artist-display {
         .header {
-	    display: flex;
-	    
-	    .title {
-	    }
+            display: flex;
 
-	    .subtitle {
-		opacity: 0.65;
-		margin-left: 0.5em;
-	    }
+            .titles {
+                .complete-title {
+                    display: inline;
+                    
+                    .title {
+                    }
 
-	    .alternative_titles {
-		flex: 1;
-		align-self: flex-end;
-		padding-left: 1.5em;
-		text-align: right;
+                    .subtitle {
+                        opacity: 0.65;
+                        margin-left: 0.5em;
+                    }
+                }
 
-		.alternative_title {
-		    display: inline-block;
-		}
-	    }
+                .alternative-titles {
+                    margin-top: 0.5em;
+                    
+                    .alternative-title {
+                        display: inline;
+                        opacity: 0.85;
+                    }
+                }
+            }
         }
     }
 }
