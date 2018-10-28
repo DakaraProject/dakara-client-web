@@ -36,6 +36,13 @@ export const loadPlaylistAppDigest = () => ({
 
 
 /**
+ * Apdate the player timer
+ */
+
+export const PLAYLIST_PLAYER_TIMING_UPDATE = 'PLAYLIST_PLAYER_TIMING_UPDATE'
+
+
+/**
  * Playlist actions
  */
 

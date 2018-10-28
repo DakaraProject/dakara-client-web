@@ -22,6 +22,7 @@ import NotFound from 'components/navigation/NotFound'
 import reducer from  'reducers'
 import fetchApiMiddleware from 'middleware/fetchApi'
 import delayMiddleware from 'middleware/delay'
+import playerTimingMiddleware from 'middleware/playerTime'
 import { logout, setToken } from 'actions/token'
 
 const store = createStore(
@@ -30,7 +31,8 @@ const store = createStore(
         applyMiddleware(
             fetchApiMiddleware,
             ReduxThunk,
-            delayMiddleware
+            delayMiddleware,
+            playerTimingMiddleware
         ),
         persistState('token')
     )

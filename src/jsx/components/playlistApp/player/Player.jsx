@@ -8,7 +8,6 @@ import Song from 'components/song/Song'
 import UserWidget from 'components/generics/UserWidget'
 import ManageButton from './ManageButton'
 import PlayerNotification from './Notification'
-import { TimingPlayer } from 'components/generics/Timing'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import { sendPlayerCommand } from 'actions/playlist'
 import { playlistDigestPropType, playerCommandsPropType } from 'reducers/playlist'
@@ -63,9 +62,9 @@ class Player extends Component {
                     />
                     <div className="extra">
                         <div className="timing">
-                            <div className="current">
-                                <TimingPlayer/>
-                            </div>
+                            <time className="current">
+                                {formatTime(player_status.timing)}
+                            </time>
                             <div className="duration">
                                 {formatDuration(duration)}
                             </div>

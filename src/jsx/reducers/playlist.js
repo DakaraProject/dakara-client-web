@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import PropTypes from 'prop-types'
 import { PLAYLIST_DIGEST_REQUEST, PLAYLIST_DIGEST_SUCCESS, PLAYLIST_DIGEST_FAILURE } from 'actions/playlist'
+import { PLAYLIST_PLAYER_TIMING_UPDATE } from 'actions/playlist'
 import { PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE } from 'actions/playlist'
 import { PLAYLIST_PLAYED_REQUEST, PLAYLIST_PLAYED_SUCCESS, PLAYLIST_PLAYED_FAILURE } from 'actions/playlist'
 import { PLAYLIST_PLAYED_ADD } from 'actions/playlist'
@@ -65,6 +66,19 @@ function digest(state = defaultPlaylistAppDigest, action) {
             return {
                 ...state,
                 status: Status.failed,
+            }
+
+        // if the player is playing, its timing is updated every second
+        case PLAYLIST_PLAYER_TIMING_UPDATE:
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    player_status: {
+                        ...state.data.player_status,
+                        timing: action.timing
+                    }
+                }
             }
 
         // if a pause command has been successfuly sent to the server,
