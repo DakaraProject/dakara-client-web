@@ -105,15 +105,17 @@ class Player extends Component {
                         >
                             <ManageButton
                                 responseOfManage={
-                                    isPlaying ?
-                                    responseOfSendPlayerCommandsSafe.pause :
-                                    responseOfSendPlayerCommandsSafe.play
+                                    player_status.paused ?
+                                    responseOfSendPlayerCommandsSafe.play :
+                                    responseOfSendPlayerCommandsSafe.pause
                                 }
                                 onClick={() => {
-                                    if (isPlaying) {
-                                        this.props.sendPlayerCommand('pause')
-                                    } else {
+                                    if (!isPlaying) return
+
+                                    if (player_status.paused) {
                                         this.props.sendPlayerCommand('play')
+                                    } else {
+                                        this.props.sendPlayerCommand('pause')
                                     }
                                 }}
                                 disabled={controlDisabled}
