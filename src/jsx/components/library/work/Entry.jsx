@@ -64,13 +64,7 @@ class WorkEntry extends Component {
                                         {subtitle}
                                     </span>
                                 </div>
-                                <div className={classNames(
-                                    {
-                                        "alternative-titles": withAlternativeTitles,
-                                        disabled: !withAlternativeTitles
-                                    }
-                                )}
-                                >
+                                <div className={withAlternativeTitles ? "alternative-titles" : ""}>
                                      {alternativeTitlesList}
                                 </div>
                             </div>
