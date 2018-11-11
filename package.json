@@ -36,7 +36,6 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "dayjs": "^1.7.4",
-    "fast-levenshtein": "^2.0.6",
     "query-string": "^5.0.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",

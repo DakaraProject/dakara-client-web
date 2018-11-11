@@ -7,7 +7,6 @@ import WorkLink from './WorkLink'
 import SongArtistList from './SongArtistList'
 import SongTagList from './SongTagList'
 import { songPropType } from 'serverPropTypes/library'
-import levenshtein from 'fast-levenshtein'
 
 /**
  * Displays a song info in a compact format.
@@ -33,7 +32,7 @@ export default class Song extends Component {
         * Compute the best matching work and work title for a Song entry.
         * @param {array} workLinks - WorkLinks containing the work titles
         * @param {string} queryWork - Query which the work titles are matched with
-        * @returns {Object} 
+        * @returns {Object}
         */
         let workMatched = workLinks[0]
         let workTitle = workLinks[0].work.title
@@ -42,7 +41,7 @@ export default class Song extends Component {
             return { workMatched: workMatched, workTitle: workTitle }
         }
 
-        // compute the matching title and levenshtein distance for each worklink
+        // compute the matching title and distance for each worklink
         let stringDistanceList = workLinks.map((wl) => 
             matchTitle([wl.work.title].concat(wl.work.alternative_titles.map((t) => t.title)))).filter((e) => e)
         if (stringDistanceList.length > 0) {
@@ -70,17 +69,17 @@ export default class Song extends Component {
             let titleDistanceList = [];
             let regex = new RegExp(queryWork, "i");
 
-            // compute the levenshtein distance between each title and the query
+            // compute the distance between each title and the query
             // we need to check that the query is included in the title
             titles.forEach(function(title) {
                 if (regex.test(title))
                     titleDistanceList.push({
                         title: title, 
-                        distance: levenshtein.get(title, queryWork)
+                        distance: title.length - queryWork.length
                 });
             });
             if (titleDistanceList.length > 0) {
-                // compute the title that minimises the levenshtein distance
+                // compute the title that minimises the distance
                 return titleDistanceList.sort((a,b) => (a.distance - b.distance))[0];
             }
 
