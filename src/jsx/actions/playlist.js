@@ -214,14 +214,13 @@ export const reorderPlaylistEntry = ({playlistEntryId, beforeId, afterId} = {}) 
 
 /**
  * Send a command to the player
- * @param name pause or skip
- * @param value boolean value
+ * @param command event to send
  */
-export const sendPlayerCommand = (name, value) => ({
+export const sendPlayerCommand = (command) => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}playlist/player/manage/`,
+            endpoint: `${baseUrl}playlist/player/command/`,
             method: 'PUT',
-            json: {[name]: value},
+            json: {command},
             types: [
                 ALTERATION_REQUEST,
                 ALTERATION_SUCCESS,
@@ -230,6 +229,5 @@ export const sendPlayerCommand = (name, value) => ({
             onSuccess: loadPlaylistAppDigest(),
     },
     alterationName: "sendPlayerCommands",
-    elementId: name,
-    value,
+    elementId: command,
 })

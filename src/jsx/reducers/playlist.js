@@ -6,7 +6,7 @@ import { PLAYLIST_PLAYED_REQUEST, PLAYLIST_PLAYED_SUCCESS, PLAYLIST_PLAYED_FAILU
 import { PLAYLIST_PLAYED_ADD } from 'actions/playlist'
 import { ALTERATION_SUCCESS } from 'actions/alterations'
 import { Status } from './alterationsResponse'
-import { playerStatusPropType, playerManagePropType, playerErrorPropType, karaokePropType } from 'serverPropTypes/playlist'
+import { playerStatusPropType, playerErrorPropType, karaokePropType } from 'serverPropTypes/playlist'
 import { playlistEntryPropType, playlistPlayedEntryPropType } from 'serverPropTypes/playlist'
 import { updateData } from 'utils'
 
@@ -25,7 +25,6 @@ export const playlistDigestPropType = PropTypes.shape({
     status: PropTypes.symbol,
     data: PropTypes.shape({
         player_status: playerStatusPropType.isRequired,
-        player_manage: playerManagePropType.isRequired,
         player_errors: PropTypes.arrayOf(playerErrorPropType).isRequired,
         karaoke: karaokePropType.isRequired,
     }).isRequired,
@@ -36,11 +35,10 @@ const defaultPlaylistAppDigest = {
     data: {
         player_status: {
             playlist_entry: null,
-            timing: 0
-        },
-        player_manage: {
-            pause: false,
-            skip: false
+            timing: 0,
+            paused: false,
+            in_transition: false,
+            date: new Date().toString(),
         },
         player_errors: [],
         karaoke: {
@@ -72,15 +70,27 @@ function digest(state = defaultPlaylistAppDigest, action) {
         // if a pause command has been successfuly sent to the server,
         // adapt the state now
         case ALTERATION_SUCCESS:
-            if (action.alterationName === 'sendPlayerCommand' &&
-                action.elementId === 'pause') {
-                return {
-                    ...state,
-                    data: {
-                        ...state.data,
-                        player_manage: {
-                            ...state.data.player_manage,
-                            pause: action.value,
+            if (action.alterationName === 'sendPlayerCommand') {
+                if (action.elementId === 'pause') {
+                    return {
+                        ...state,
+                        data: {
+                            ...state.data,
+                            player_status: {
+                                ...state.data.player_status,
+                                paused: true,
+                            }
+                        }
+                    }
+                } else if (action.elementId === 'play') {
+                    return {
+                        ...state,
+                        data: {
+                            ...state.data,
+                            player_status: {
+                                ...state.data.player_status,
+                                paused: false,
+                            }
                         }
                     }
                 }

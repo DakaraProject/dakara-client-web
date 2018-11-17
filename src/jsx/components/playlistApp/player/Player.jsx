@@ -21,7 +21,7 @@ class Player extends Component {
     }
 
     render() {
-        const { player_status, player_manage, player_errors } = this.props.playlistDigest.data
+        const { player_status, player_errors } = this.props.playlistDigest.data
         const fetchError = this.props.playlistDigest.status === Status.failed
         const isPlaying = !!player_status.playlist_entry
         const controlDisabled = !isPlaying || fetchError
@@ -33,6 +33,7 @@ class Player extends Component {
 
         const responseOfSendPlayerCommandsSafe = {
             pause: {status: null},
+            play: {status: null},
             skip: {status: null},
             ...this.props.responseOfSendPlayerCommands,
         }
@@ -48,7 +49,7 @@ class Player extends Component {
 
             // the progress is displayed only when the song has really started
             // and only if the song has a known duration
-            if (player_status.timing > 0 && duration > 0) {
+            if (!player_status.in_transition && duration > 0) {
                 progress = Math.min(player_status.timing * 100 / duration, 100)
             }
 
@@ -103,14 +104,24 @@ class Player extends Component {
                             disable
                         >
                             <ManageButton
-                                responseOfManage={responseOfSendPlayerCommandsSafe.pause}
+                                responseOfManage={
+                                    player_status.paused ?
+                                    responseOfSendPlayerCommandsSafe.play :
+                                    responseOfSendPlayerCommandsSafe.pause
+                                }
                                 onClick={() => {
-                                    this.props.sendPlayerCommand('pause', !player_manage.pause)
+                                    if (!isPlaying) return
+
+                                    if (player_status.paused) {
+                                        this.props.sendPlayerCommand('play')
+                                    } else {
+                                        this.props.sendPlayerCommand('pause')
+                                    }
                                 }}
                                 disabled={controlDisabled}
                                 icon={
                                     isPlaying ?
-                                    (player_manage.pause ? 'play' : 'pause') :
+                                    (player_status.paused ? 'play' : 'pause') :
                                     'stop'
                                 }
                             />
