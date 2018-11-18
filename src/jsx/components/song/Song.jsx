@@ -28,8 +28,8 @@ export default class Song extends Component {
     }
     
     /**
-     * Compute the best matching work title to display with associated work link 
-     * among the work links depending on the query for a Song.
+     * Compute the best matching work title to display with the associated work link 
+     * for a Song query.
      * @param {array} workLinks - WorkLinks associated to the song
      * @returns {Object}
      */
@@ -42,58 +42,34 @@ export default class Song extends Component {
         
         let queryWork = this.props.query.remaining.join(' ')
         // Display the first work when the query is empty
-        if (queryWork.length == 0) return { workMatched : workMatched, workTitle: workTitle }
+        if (queryWork.length == 0) return { workMatched: workMatched, workTitle: workTitle }
 
-        // Compute the matching title and distance for each worklink
-        let stringDistanceList = workLinks.map(function(wl) {
-            
-            // Retrieve the work title and work alternative titles from the work link
-            let titleList = [wl.work.title].concat(wl.work.alternative_titles.map((t) => t.title));
-            
-            // Return the best matching title of this work link with the query
-            return matchTitle(titleList);
-        }).filter((e) => e)
+        // Compute the matching title and worklink
+        // Retrieve the list of work titles excluding the titles not included in the query
+        let regex = new RegExp(queryWork, "i")
+        let workTitleList = workLinks.map(
+            (wl) => [wl.work.title].concat(
+                wl.work.alternative_titles.map((e) => e.title)).filter((t) => regex.test(t))
+        )
+
+        // Retrieve the list of titles within a single list
+        let titleList = []
+        workTitleList.forEach((wt) => Array.prototype.push.apply(titleList, wt))
+
+        // Display the first work when there are not work titles matching
+        if (titleList.length == 0) return { workMatched: workMatched, workTitle: workTitle }
         
-        // Query may match the song title but not the work
-        // therefore we need to check if there is at least one work matching
-        if (stringDistanceList.length > 0) {
-            // Compute the index of the matching work
-            let distanceList = stringDistanceList.map((t) => t.distance)
-            let indexMin = distanceList.indexOf(Math.min(distanceList))
+        // Associate the work title indexes to the work links
+        let indexWorkLinks = workTitleList.map((wt) => wt.length)
 
-            workMatched = workLinks[indexMin]
-            workTitle = stringDistanceList[indexMin].title
-        }
+        // Sort the work titles depending on the title length
+        let matchingTitle = titleList.slice().sort((a,b) => a.length - b.length)[0]
+        let indexTitle = titleList.indexOf(matchingTitle)
 
-        return { workMatched: workMatched, workTitle: workTitle }
+        // Find the associated work link
+        let indexWorkLink = indexWorkLinks.findIndex((e) => indexTitle < e)
 
-        /** 
-         * Find the fittest title to match the query for a single work
-         * @param {array} titles - Title and alternative titles of the work
-         * @returns {Object} If at least one title has matched with the query,
-         * returns an object with title and distance as fields, if not
-         * returns false
-         */
-        function matchTitle(titles) {
-            let titleDistanceList = [];
-            let regex = new RegExp(queryWork, "i");
-
-            // Compute for each title the distance between the title and the query
-            // we need to check that the query is included in the title matching
-            titles.forEach(function(title) {
-                if (regex.test(title))
-                    titleDistanceList.push({
-                        title: title, 
-                        distance: title.length - queryWork.length
-                });
-            });
-            if (titleDistanceList.length > 0) {
-                // Compute the title for which the distance is the minimum
-                return titleDistanceList.sort((a,b) => (a.distance - b.distance))[0];
-            }
-
-            return false;
-        }
+        return { workMatched: workLinks[indexWorkLink], workTitle: matchingTitle }
     }
 
     render() {
