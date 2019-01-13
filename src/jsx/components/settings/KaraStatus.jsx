@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import SettingsTabList from './TabList'
-import { FormBlock, RadioField} from 'components/generics/Form'
+import { FormBlock, CheckboxField} from 'components/generics/Form'
 import { Status } from 'reducers/alterationsResponse'
 import { IsPlaylistManager} from 'components/permissions/Playlist'
 
@@ -46,11 +46,22 @@ class SettingsKaraStatus extends Component {
                     successMessage="Kara status sucessfully updated!"
                     noClearOnSuccess
                 >
-                    <RadioField
-                        id="status"
-                        defaultValue={karaoke.status}
-                        options={statusOptions}
-                        long
+                    <CheckboxField
+                        id="ongoing"
+                        defaultValue={karaoke.ongoing}
+                        label="Ongoing"
+                    />
+                    <CheckboxField
+                        id="can_add_to_playlist"
+                        defaultValue={karaoke.can_add_to_playlist}
+                        label="Can add to playlist"
+                        disabledBy="ongoing"
+                    />
+                    <CheckboxField
+                        id="player_play_next_song"
+                        defaultValue={karaoke.player_play_next_song}
+                        label="Player play next song"
+                        disabledBy="ongoing"
                     />
                 </FormBlock>
             )

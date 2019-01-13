@@ -42,7 +42,10 @@ const defaultPlaylistAppDigest = {
         },
         player_errors: [],
         karaoke: {
-            status: null,
+            ongoing: true,
+            can_add_to_playlist: true,
+            player_play_next_song: true,
+            date_stop: null
         },
     },
 }
