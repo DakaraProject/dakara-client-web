@@ -36,9 +36,9 @@ class PlaylistApp extends Component {
     render() {
         const { karaoke } = this.props.playlistDigest.data
 
-        if (!karaoke.status) return null
+        if (!karaoke.ongoing === null) return null
 
-        if (karaoke.status === 'stop') {
+        if (!karaoke.ongoing) {
             if (IsPlaylistManager.hasPermission(this.props.user)) {
                 return (
                     <KaraStatusNotification/>

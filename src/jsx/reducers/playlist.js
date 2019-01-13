@@ -42,9 +42,9 @@ const defaultPlaylistAppDigest = {
         },
         player_errors: [],
         karaoke: {
-            ongoing: true,
-            can_add_to_playlist: true,
-            player_play_next_song: true,
+            ongoing: false,
+            can_add_to_playlist: false,
+            player_play_next_song: false,
             date_stop: null
         },
     },
