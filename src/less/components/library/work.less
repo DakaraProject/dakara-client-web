@@ -31,8 +31,13 @@
                     margin-top: 0.5em;
                     
                     .alternative-title {
-                        display: inline;
+                        display: inline-block;
                         opacity: 0.85;
+                    }
+
+                    .alternative-title:not(:last-child)::after {
+                        content: ", ";
+                        white-space: pre;
                     }
                 }
             }

@@ -28,7 +28,7 @@ export default class WorkLink extends Component {
         const { workLink, workTitle, query, longLinkType, noIcon, noEpisodes } = this.props
         
         // Title if not specified
-        let title = workTitle ? workTitle : workLink.work.title
+        let title = workTitle || workLink.work.title
 
         // Subtitle if any
         let subtitle

@@ -27,26 +27,25 @@ class WorkEntry extends Component {
     }
 
     render() {
-	const { title, subtitle, alternative_titles, song_count } = this.props.work
+	    const { title, subtitle, alternative_titles, song_count } = this.props.work
 
-	const alternativeTitlesList = alternative_titles.map((alt_title, index) => {
-
-	    let separator = (index === alternative_titles.length - 1) ? "" : ",\xa0";
-
-	    return (
-		<div className="alternative-title">
-		    <HighlighterQuery
-		        query={this.props.query}
-		        key={alt_title.title}
-		        searchWords={(q) => (q.remaining)}
-		        textToHighlight={alt_title.title}
-		    />
-		    {separator}
+	    const alternativeTitlesList = alternative_titles.map((alt_title, index) =>
+		    <div className="alternative-title">
+		        <HighlighterQuery
+		            query={this.props.query}
+		            key={alt_title.title}
+		            searchWords={(q) => (q.remaining)}
+		            textToHighlight={alt_title.title}
+		        />
 	    	</div>
-	    );
-        })
+	    )
 
-        const withAlternativeTitles = alternativeTitlesList.length > 0
+        let alternativeTitles
+        if (alternativeTitlesList.length > 0) {
+            alternativeTitles = <div className="alternative-titles">
+                                    {alternativeTitlesList}
+                                </div>
+        }
 
         return(
                 <li className="library-entry listing-entry library-entry-work hoverizable">
@@ -64,14 +63,12 @@ class WorkEntry extends Component {
                                         {subtitle}
                                     </span>
                                 </div>
-                                <div className={withAlternativeTitles ? "alternative-titles" : ""}>
-                                     {alternativeTitlesList}
-                                </div>
+                                {alternativeTitles}
                             </div>
                         </div>
                         <div className="songs-amount">
                             {song_count}
-			</div>
+                        </div>
                     </div>
                     <div className="controls"> 
                         <button className="control primary" onClick={this.handleSearch}>
