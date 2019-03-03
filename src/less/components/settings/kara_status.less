@@ -12,6 +12,10 @@
     .status-text {
         margin-top: 0;
         margin-bottom: 0;
-        .make-gap(padding, vertical)
+        .make-gap(padding, bottom);
+
+        &:first-child {
+            .make-gap(padding, vertical);
+        }
     }
 }

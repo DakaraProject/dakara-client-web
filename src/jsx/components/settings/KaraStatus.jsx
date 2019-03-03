@@ -18,19 +18,15 @@ class SettingsKaraStatus extends Component {
         const statusOptions = [
             {
                 value: 'play',
-                name: "Playing: the player plays songs in the playlist, you \
-                can add songs to it."
+                name: ""
             },
             {
                 value: 'pause',
-                name: "Paused: no additional song is played by the player, \
-                which finishes playing its current song. You can add songs \
-                to the playlist."
+                name: "Paused: "
             },
             {
                 value: 'stop',
-                name: "Stopped: the player stops playing, the playlist is \
-                emptied and you can't add songs to it."
+                name: "Stopped: "
             },
         ]
 
@@ -66,16 +62,54 @@ class SettingsKaraStatus extends Component {
                 </FormBlock>
             )
         } else {
-            const status = statusOptions.find(e => (e.value == karaoke.status))
-            karaStatusWidget = (
-                <p className="status-text">{status.name}</p>
-            )
+            if (!karaoke.ongoing) {
+                karaStatusWidget = (
+                    <p className="status-text">
+                        Karaoke is not ongoing.
+                        The player is stopped, the playlist is
+                        empty and you can't add songs to it.
+                    </p>
+                )
+            } else {
+                karaStatusWidget = []
+                if (karaoke.player_play_next_song) {
+                    karaStatusWidget.push(
+                        <p className="status-text">
+                            The player plays songs in the playlist.
+                        </p>
+                    )
+                } else {
+                    karaStatusWidget.push(
+                        <p className="status-text">
+                            No additional song is played by the player,
+                            which finishes playing its current song if any.
+                        </p>
+                    )
+                }
+
+                if (karaoke.can_add_to_playlist) {
+                    karaStatusWidget.push(
+                        <p className="status-text">
+                            Songs can be added to the playlist.
+                        </p>
+                    )
+                } else {
+                    karaStatusWidget.push(
+                        <p className="status-text">
+                            Songs can't be added to the playlist.
+                        </p>
+                    )
+                }
+            
+            }
         }
 
         return (
             <div className="box" id="kara-status">
                 <SettingsTabList/>
-                {karaStatusWidget}
+                <div className="status-text-container">
+                    {karaStatusWidget}
+                </div>
             </div>
         )
     }

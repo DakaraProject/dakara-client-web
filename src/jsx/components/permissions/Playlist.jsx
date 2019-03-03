@@ -72,9 +72,10 @@ export const IsPlaylistUser = withRouter(connect(
  * Kara status is stopped
  */
 
-class KaraokeIsOngoing extends Component {
+class CanAddToPlaylist extends Component {
     render() {
-        if (!this.props.karaoke.ongoing) {
+        const { karaoke } = this.props
+        if (!(karaoke.ongoing && karaoke.can_add_to_playlist)) {
             return null
         }
 
@@ -86,9 +87,9 @@ const mapStateToPropsKaraoke = (state) => ({
     karaoke: state.playlist.digest.data.karaoke,
 })
 
-KaraokeIsOngoing= connect(
+CanAddToPlaylist= connect(
         mapStateToPropsKaraoke,
         {}
-)(KaraokeIsOngoing)
+)(CanAddToPlaylist)
 
-export {KaraokeIsOngoing}
+export {CanAddToPlaylist}

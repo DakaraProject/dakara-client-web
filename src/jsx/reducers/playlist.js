@@ -164,7 +164,7 @@ function entries(state = defaultEntries, action) {
 
         // when the kara status is set to stop, reset entries
         case PLAYLIST_DIGEST_SUCCESS:
-            if (action.response.karaoke.status === 'stop') {
+            if (!action.response.karaoke.ongoing) {
                 return defaultEntries
             }
 
@@ -235,7 +235,7 @@ function playedEntries(state = defaultPlayedEntries, action) {
 
         // when the kara status is set to stop, reset the played entries
         case PLAYLIST_DIGEST_SUCCESS:
-            if (action.response.karaoke.status === 'stop') {
+            if (!action.response.karaoke.ongoing) {
                 return defaultPlayedEntries
             }
 
