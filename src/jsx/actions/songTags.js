@@ -23,22 +23,3 @@ export const getSongTagList = (page = 1) => ({
             types: [TAG_LIST_REQUEST, TAG_LIST_SUCCESS, TAG_LIST_FAILURE],
         }
 })
-
-/**
- * Edit song tag
- */
-
-/**
- * Request to update song tag
- * @param disabled
- */
-export const editSongTag = (tagId, disabled) => ({
-    [FETCH_API]: {
-        endpoint: `${baseUrl}library/song-tags/${tagId}/`,
-        method: 'PATCH',
-        json: {disabled},
-        types: [ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE],
-    },
-    alterationName: "editSongTag",
-    elementId: tagId,
-})

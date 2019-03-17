@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { parse } from 'query-string'
 import PropTypes from 'prop-types'
-import { getSongTagList, editSongTag } from 'actions/songTags'
-import { clearAlteration } from 'actions/alterations'
+import { getSongTagList } from 'actions/songTags'
+import { clearAlteration, submitAlteration } from 'actions/alterations'
 import Navigator from 'components/generics/Navigator'
 import SettingsSongTagsEntry from './Entry'
 import SettingsTabList from '../TabList'
@@ -19,7 +19,7 @@ class SettingsSongTagsList extends Component {
         songTagsState: songTagsStatePropType.isRequired,
         responseOfMultipleEdit: PropTypes.objectOf(alterationResponsePropType),
         responseOfMultipleEditColor: PropTypes.objectOf(alterationResponsePropType),
-        editSongTag: PropTypes.func.isRequired,
+        submitAlteration: PropTypes.func.isRequired,
         getSongTagList: PropTypes.func.isRequired,
         clearAlteration: PropTypes.func.isRequired,
         authenticatedUser: userPropType.isRequired,
@@ -44,7 +44,7 @@ class SettingsSongTagsList extends Component {
     }
 
     render() {
-        const { editSongTag, clearAlteration, location, authenticatedUser,
+        const { submitAlteration, clearAlteration, location, authenticatedUser,
             responseOfMultipleEdit, responseOfMultipleEditColor } = this.props
         const { songTags, pagination } = this.props.songTagsState.data
 
@@ -54,7 +54,7 @@ class SettingsSongTagsList extends Component {
                 tag={tag}
                 responseOfEdit={responseOfMultipleEdit[tag.id]}
                 responseOfEditColor={responseOfMultipleEditColor[tag.id]}
-                editSongTag={editSongTag}
+                submitAlteration={submitAlteration}
                 clearAlteration={clearAlteration}
                 authenticatedUser={authenticatedUser}
             />
@@ -102,7 +102,7 @@ SettingsSongTagsList = withRouter(connect(
     mapStateToProps,
     {
         getSongTagList,
-        editSongTag,
+        submitAlteration,
         clearAlteration
     }
 )(SettingsSongTagsList))

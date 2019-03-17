@@ -14,7 +14,7 @@ export default class SettingsSongTagsEntry extends Component {
         tag: songTagPropType.isRequired,
         responseOfEdit: alterationResponsePropType,
         responseOfEditColor: alterationResponsePropType,
-        editSongTag: PropTypes.func.isRequired,
+        submitAlteration: PropTypes.func.isRequired,
         clearAlteration: PropTypes.func.isRequired,
         authenticatedUser: userPropType.isRequired,
     }
@@ -37,7 +37,7 @@ export default class SettingsSongTagsEntry extends Component {
 
     render() {
         const { responseOfEdit, responseOfEditColor,
-            authenticatedUser, tag, editSongTag } = this.props
+            authenticatedUser, tag, submitAlteration } = this.props
         const isManager = IsLibraryManager.hasPermission(authenticatedUser)
 
         /**
@@ -47,7 +47,7 @@ export default class SettingsSongTagsEntry extends Component {
         const disabled = responseOfEdit && responseOfEdit.status == Status.pending
         const setValue = (id, value) => {
             if (!disabled)
-                editSongTag(tag.id, !value)
+                submitAlteration("editSongTag", tag.id, `library/song-tags/${tag.id}/`, 'PATCH', {disabled: !value})
         }
 
         // TODO It would be nice to set the checkbox to disabled if
