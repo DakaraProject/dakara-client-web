@@ -15,21 +15,6 @@ class SettingsKaraStatus extends Component {
         const { authenticatedUser, karaoke } = this.props
         const isManager = IsPlaylistManager.hasPermission(authenticatedUser)
 
-        const statusOptions = [
-            {
-                value: 'play',
-                name: ""
-            },
-            {
-                value: 'pause',
-                name: "Paused: "
-            },
-            {
-                value: 'stop',
-                name: "Stopped: "
-            },
-        ]
-
         let karaStatusWidget
         if (isManager) {
             karaStatusWidget = (

@@ -74,8 +74,16 @@ export const IsPlaylistUser = withRouter(connect(
 
 class CanAddToPlaylist extends Component {
     render() {
-        const { karaoke } = this.props
-        if (!(karaoke.ongoing && karaoke.can_add_to_playlist)) {
+        const { karaoke, user } = this.props
+        if (!karaoke.ongoing) {
+            return null
+        }
+
+        if (user.is_superuser || user.playlist_permission_level == 'm') {
+            return this.props.children
+        }
+
+        if (!karaoke.can_add_to_playlist) {
             return null
         }
 
@@ -85,6 +93,7 @@ class CanAddToPlaylist extends Component {
 
 const mapStateToPropsKaraoke = (state) => ({
     karaoke: state.playlist.digest.data.karaoke,
+    user: state.authenticatedUser
 })
 
 CanAddToPlaylist= connect(
