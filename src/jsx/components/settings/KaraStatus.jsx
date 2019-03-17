@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import SettingsTabList from './TabList'
-import { FormBlock, RadioField} from 'components/generics/Form'
+import { FormBlock, CheckboxField} from 'components/generics/Form'
 import { Status } from 'reducers/alterationsResponse'
 import { IsPlaylistManager} from 'components/permissions/Playlist'
 
@@ -15,25 +15,6 @@ class SettingsKaraStatus extends Component {
         const { authenticatedUser, karaoke } = this.props
         const isManager = IsPlaylistManager.hasPermission(authenticatedUser)
 
-        const statusOptions = [
-            {
-                value: 'play',
-                name: "Playing: the player plays songs in the playlist, you \
-                can add songs to it."
-            },
-            {
-                value: 'pause',
-                name: "Paused: no additional song is played by the player, \
-                which finishes playing its current song. You can add songs \
-                to the playlist."
-            },
-            {
-                value: 'stop',
-                name: "Stopped: the player stops playing, the playlist is \
-                emptied and you can't add songs to it."
-            },
-        ]
-
         let karaStatusWidget
         if (isManager) {
             karaStatusWidget = (
@@ -46,25 +27,74 @@ class SettingsKaraStatus extends Component {
                     successMessage="Kara status sucessfully updated!"
                     noClearOnSuccess
                 >
-                    <RadioField
-                        id="status"
-                        defaultValue={karaoke.status}
-                        options={statusOptions}
-                        long
+                    <CheckboxField
+                        id="ongoing"
+                        defaultValue={karaoke.ongoing}
+                        label="Ongoing"
+                    />
+                    <CheckboxField
+                        id="can_add_to_playlist"
+                        defaultValue={karaoke.can_add_to_playlist}
+                        label="Can add to playlist"
+                        disabledBy="ongoing"
+                    />
+                    <CheckboxField
+                        id="player_play_next_song"
+                        defaultValue={karaoke.player_play_next_song}
+                        label="Player play next song"
+                        disabledBy="ongoing"
                     />
                 </FormBlock>
             )
         } else {
-            const status = statusOptions.find(e => (e.value == karaoke.status))
-            karaStatusWidget = (
-                <p className="status-text">{status.name}</p>
-            )
+            if (!karaoke.ongoing) {
+                karaStatusWidget = (
+                    <p className="status-text">
+                        Karaoke is not ongoing.
+                        The player is stopped, the playlist is
+                        empty and you can't add songs to it.
+                    </p>
+                )
+            } else {
+                karaStatusWidget = []
+                if (karaoke.player_play_next_song) {
+                    karaStatusWidget.push(
+                        <p className="status-text">
+                            The player plays songs in the playlist.
+                        </p>
+                    )
+                } else {
+                    karaStatusWidget.push(
+                        <p className="status-text">
+                            No additional song is played by the player,
+                            which finishes playing its current song if any.
+                        </p>
+                    )
+                }
+
+                if (karaoke.can_add_to_playlist) {
+                    karaStatusWidget.push(
+                        <p className="status-text">
+                            Songs can be added to the playlist.
+                        </p>
+                    )
+                } else {
+                    karaStatusWidget.push(
+                        <p className="status-text">
+                            Songs can't be added to the playlist.
+                        </p>
+                    )
+                }
+            
+            }
         }
 
         return (
             <div className="box" id="kara-status">
                 <SettingsTabList/>
-                {karaStatusWidget}
+                <div className="status-text-container">
+                    {karaStatusWidget}
+                </div>
             </div>
         )
     }

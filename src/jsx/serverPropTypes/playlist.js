@@ -30,5 +30,8 @@ export const playerErrorPropType = PropTypes.shape({
 })
 
 export const karaokePropType = PropTypes.shape({
-    status: PropTypes.string,
+    ongoing: PropTypes.bool,
+    can_add_to_playlist: PropTypes.bool,
+    player_play_next_song: PropTypes.bool,
+    date_stop: PropTypes.string
 })
