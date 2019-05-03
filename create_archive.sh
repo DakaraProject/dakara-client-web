@@ -21,7 +21,7 @@ npx webpack -p
 ln -s dist static
 
 # archive the dist folder
-zip -r $archive_name static
+zip -r "$archive_name" static
 
 # remove the symlink
 rm static
