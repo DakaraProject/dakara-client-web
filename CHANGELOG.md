@@ -30,6 +30,12 @@
 
 ## Unreleased
 
+## 1.4.0 - 2019-05-03
+
+### Changed
+
+- Support for new kara status composed of 3 Booleans.
+
 ## 1.3.0 - 2018-10-07
 
 ### Added
