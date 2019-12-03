@@ -50,7 +50,7 @@ class WorkList extends Component {
                         singular: `${libraryNameInfo.singular} found`,
                         plural: `${libraryNameInfo.plural} found`
                     }}
-                    location={location}
+                    location={this.props.location}
                 />
             </div>
         )

@@ -106,7 +106,7 @@ export default class ManageButton extends Component {
 
     componentWillUnmount() {
         // clear the state update
-        clearTimeout(self.transitionEndedTimeout)
+        clearTimeout(this.transitionEndedTimeout)
     }
 
     componentWillMount() {

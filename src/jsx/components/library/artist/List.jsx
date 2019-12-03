@@ -38,7 +38,7 @@ class ArtistList extends Component {
                         singular: 'artist found',
                         plural: 'artists found'
                     }}
-                    location={location}
+                    location={this.props.location}
                 />
             </div>
         )

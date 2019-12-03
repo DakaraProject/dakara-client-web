@@ -19,7 +19,7 @@ class SongList extends Component {
 
     render() {
         const { songs, count, pagination } = this.props.songState.data
-        const { playlistDateEnd, karaokeDateStop } = this.props
+        const { playlistDateEnd, karaokeDateStop, location } = this.props
 
         /**
          * Compute remaining karoke time
@@ -39,7 +39,7 @@ class SongList extends Component {
                         key={song.id}
                         song={song}
                         karaokeRemainingSeconds={karaokeRemainingSeconds}
-                        location={this.props.location}
+                        location={location}
                     />
             ))
 

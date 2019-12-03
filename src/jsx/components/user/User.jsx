@@ -73,9 +73,6 @@ class User extends Component {
                 </div>
                 <FormBlock
                     title="Change password"
-                    onSubmit={values => {
-                        updatePassword(user.id, values.old_password, values.password)
-                    }}
                     action={`users/${user.id}/password/`}
                     method="PUT"
                     submitText="Change password"

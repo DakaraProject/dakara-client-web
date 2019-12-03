@@ -92,7 +92,7 @@ export default ({getState, dispatch}) => next => action => {
     // add header and body for JSON data
     const json = fetchApi.json
     if (json) {
-        body = JSON.stringify(json),
+        body = JSON.stringify(json)
         headers = {
             'Content-Type': 'application/json',
             ...headers
