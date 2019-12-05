@@ -1,0 +1,31 @@
+//
+// Dakara Project
+//
+// Box style file
+//
+
+
+// `box` class:
+//
+// This class is aimed to style a generic box container in the layout. The box
+// has a header of class `box-header`, a footer of class `box-footer` and a
+// content.
+.box {
+    background: darken($black-80, 5%);
+    box-shadow: 0 0 2rem change-color(black, $alpha: 0.5);
+
+    @include make-desktop {
+        margin-bottom: $gap-vertical;
+    }
+
+    .box-footer {
+        @include make-gap(padding, vertical);
+        background: $brand-primary-darker;
+        color: $brand-primary-light;
+    }
+
+    p {
+        @include make-gap(margin, left);
+        @include make-gap(margin, right);
+    }
+}

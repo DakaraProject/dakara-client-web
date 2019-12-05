@@ -1,0 +1,26 @@
+//
+// Dakara Project
+//
+// Components main style file
+//
+
+
+// Components are directly linked to React components and share the same name,
+// hyphenated for the class/ID name and snake-cased for the file name. LESS
+// components can be defined by class or ID. Definition by tag is reserved for
+// unique tags (ie: `body`).
+
+
+@import "all";
+@import "generics/generics";
+@import "body";
+@import "main";
+@import "header";
+@import "footer";
+@import "library/library";
+@import "song/song";
+@import "playlist_app/playlist_app";
+@import "navigation/navigation";
+@import "settings/settings";
+@import "user/user";
+@import "playlist/playlist";

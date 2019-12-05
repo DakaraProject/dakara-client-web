@@ -1,0 +1,49 @@
+//
+// Dakara Project
+//
+// Rules aiming for all or generic tags style file
+//
+
+
+// make links transparent
+a {
+    color: inherit;
+    text-decoration: none;
+
+    &.external {
+        color: $brand-primary-light;
+        text-decoration: underline;
+    }
+}
+
+// highlight tag
+mark {
+    background: $brand-primary;
+    color: $text-dark;
+}
+
+// selection highlighting
+::selection {
+    background: $brand-primary;
+    color: $text-dark;
+}
+
+// make headers thin and marginless
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 100;
+    margin: 0;
+}
+
+// make long text clearly readible
+@mixin make-long-text() {
+    font-size: 1.2em;
+}
+
+p {
+    @include make-long-text();
+}
+
+// remove border radius from button in some browsers
+button {
+    border-radius: 0;
+}
