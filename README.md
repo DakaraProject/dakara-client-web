@@ -40,7 +40,7 @@ You will also see any lint errors in the console.
 ### Building for production
 
 ```shell
-npm build
+npm run build
 ```
 
 This builds the app for production to the `build` folder.<br />

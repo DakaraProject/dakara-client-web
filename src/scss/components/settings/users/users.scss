@@ -20,20 +20,20 @@
 
             @include make-tabled {
                 max-width: calc(
-                    100vw // the width of the window
-                    - 2 * $listing-entry-height // the control-col with 2 controls
-                    - 1.5 * $listing-entry-height // the superuser col
-                    - 3 * 1.5 * $listing-entry-height // 3 permission cols
-                    - 0.3 * $listing-entry-height // arbitrary coefficient
+                    100vw /* the width of the window */
+                    - 2 * #{$listing-entry-height} /* the control-col with 2 controls */
+                    - 1.5 * #{$listing-entry-height} /* the superuser col */
+                    - 3 * 1.5 * #{$listing-entry-height} /* 3 permission cols */
+                    - 0.3 * #{$listing-entry-height} /* arbitrary coefficient */
                 );
             }
 
             @include make-smartphone {
                 max-width: calc(
-                    100vw // the width of the window
-                    - 2 * $listing-entry-height // the control-col with 2 controls
-                    - $listing-entry-height // the superuser col
-                    - 3 * $listing-entry-height // 3 permission cols
+                    100vw /* the width of the window */
+                    - 2 * #{$listing-entry-height} /* the control-col with 2 controls */
+                    - #{$listing-entry-height} /* the superuser col */
+                    - 3 * #{$listing-entry-height} /* 3 permission cols */
                 );
             }
         }

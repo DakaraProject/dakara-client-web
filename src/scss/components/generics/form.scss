@@ -122,14 +122,14 @@ $form-control-icon-size: $row-icon-font-size;
                             max-height: 0;
 
                             &.error-enter-active {
-                                max-height: calc("1em + " $gap-vertical * 2);
+                                max-height: calc(1em + #{$gap-vertical} * 2);
                                 transition: max-height 300ms ease-out;
                             }
                         }
 
                         // notification transition disappearance
                         &.error-exit {
-                            max-height: calc("1em + " $gap-vertical * 2);
+                            max-height: calc(1em + #{$gap-vertical} * 2);
 
                             &.error-exit-active {
                                 max-height: 0;
@@ -303,8 +303,8 @@ $form-control-icon-size: $row-icon-font-size;
 
                 // this simulates the correct space of single line `input`, but
                 // is pretty approximative
-                padding-top: calc(0.5 * $field-height "- 0.65em");
-                padding-bottom: calc(0.5 * $field-height "- 0.65em");
+                padding-top: calc(0.5 * #{$field-height} - 0.65em);
+                padding-bottom: calc(0.5 * #{$field-height} - 0.65em);
             }
         }
 
@@ -429,12 +429,12 @@ $form-control-icon-size: $row-icon-font-size;
                     @include make-gap(padding, horizontal);
 
                     &.long {
-                        padding: calc($field-height * 0.5 "- 0.7em") $gap-horizontal;
+                        padding: calc(#{$field-height * 0.5} - 0.7em) $gap-horizontal;
                         line-height: normal;
                         @include make-long-text()
 
                         @include make-smartphone {
-                            padding: calc($field-height * 0.5 "- 0.7em") $gap-horizontal-smartphone,
+                            padding: calc(#{$field-height * 0.5} - 0.7em) $gap-horizontal-smartphone,
                         }
                     }
                 }
