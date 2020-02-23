@@ -163,7 +163,7 @@ $player-height-smartphone: 2 * $gap-vertical-smartphone + 2 * $row-height * 0.6 
                         @include text-truncate()
 
                         .icon {
-                            font-size: 1em,
+                            font-size: 1em;
                         }
                     }
                 }

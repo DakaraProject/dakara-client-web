@@ -434,7 +434,7 @@ $form-control-icon-size: $row-icon-font-size;
                         @include make-long-text()
 
                         @include make-smartphone {
-                            padding: calc(#{$field-height * 0.5} - 0.7em) $gap-horizontal-smartphone,
+                            padding: calc(#{$field-height * 0.5} - 0.7em) $gap-horizontal-smartphone;
                         }
                     }
                 }
