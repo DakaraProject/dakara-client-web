@@ -30,6 +30,12 @@
 
 ## Unreleased
 
+## 1.5.0 - 2019-12-05
+
+### Security
+
+- Update dependencies
+
 ## 1.4.0 - 2019-05-03
 
 ### Changed
