@@ -1,7 +1,5 @@
-import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import PropTypes from 'prop-types'
 import { PermissionBase, mapStateToProps } from './Base'
 
 /**
@@ -17,7 +15,7 @@ export const IsLibraryManager = withRouter(connect(
         }
 
         static hasPermissionCustom(user) {
-            return user.library_permission_level == 'm'
+            return user.library_permission_level === 'm'
         }
     }
 ))

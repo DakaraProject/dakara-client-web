@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import dayjs from 'dayjs'
-import { formatHourTime, parseTime } from 'utils'
+import { parseTime } from 'utils'
 import SettingsTabList from './TabList'
 import { FormBlock, InputField, CheckboxField } from 'components/generics/Form'
 import { Status } from 'reducers/alterationsResponse'

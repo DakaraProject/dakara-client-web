@@ -77,7 +77,7 @@ export default WorkList
 export const getWorkLibraryNameInfo = (workTypeQueryName, workTypes) => {
     // Find work type matching the query name
     const workType = workTypes.find(
-        (workType) => workType.query_name == workTypeQueryName
+        (workType) => workType.query_name === workTypeQueryName
     )
 
     if (!workType) {

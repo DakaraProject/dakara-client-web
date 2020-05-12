@@ -103,12 +103,12 @@ export default ({getState, dispatch}) => next => action => {
     return fetch(endpoint, { headers, body, method })
         .then(response => {
             const contentLength = response.headers.get("content-length")
-            if (contentLength && contentLength == 0) {
+            if (contentLength && contentLength === '0') {
                 return null
             }
 
             const contentType = response.headers.get("content-type")
-            if (contentType != "application/json") {
+            if (contentType !== "application/json") {
                 if (!response.ok) {
                     return Promise.reject()
                 }
@@ -137,7 +137,7 @@ export default ({getState, dispatch}) => next => action => {
             })
             processAction(onFailure, newAction)
 
-            if (error && error.detail == "Invalid token.") {
+            if (error && error.detail === "Invalid token.") {
                 // Token expired on server, logout
                 dispatch({type: LOGOUT})
             }

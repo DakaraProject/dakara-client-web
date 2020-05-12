@@ -3,7 +3,6 @@ import { NavLink } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import UserWidget from 'components/generics/UserWidget'
 import Tab from 'components/generics/Tab'
 import { userPropType } from 'serverPropTypes/users'
 

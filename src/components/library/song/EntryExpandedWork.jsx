@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import WorkLink from 'components/song/WorkLink'
 import { workLinkPropType } from 'serverPropTypes/library'
 

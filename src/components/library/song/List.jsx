@@ -6,8 +6,6 @@ import SongEntry from './Entry'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import { songStatePropType } from 'reducers/library'
-import { playlistEntriesStatePropType } from 'reducers/playlist'
-import { playlistDigestPropType } from 'reducers/playlist'
 
 class SongList extends Component {
     static propTypes = {

@@ -32,7 +32,7 @@ class SettingsSongTagsList extends Component {
     componentDidUpdate(prevProps) {
         const queryObj = parse(this.props.location.search)
         const prevqueryObj = parse(prevProps.location.search)
-        if (queryObj.page != prevqueryObj.page) {
+        if (queryObj.page !== prevqueryObj.page) {
             this.refreshEntries()
         }
     }

@@ -83,9 +83,9 @@ class Form extends Component {
         const prevAlterationResponse = prevProps.alterationResponse
 
         // If there is a success notification
-        if (alterationResponse && alterationResponse.status == Status.successful) {
+        if (alterationResponse && alterationResponse.status === Status.successful) {
             // and there was no response, or a different notification before
-            if (!prevAlterationResponse || alterationResponse.status != prevAlterationResponse.status) {
+            if (!prevAlterationResponse || alterationResponse.status !== prevAlterationResponse.status) {
                 if (!noClearOnSuccess) this.setDefaultFormValues()
                 if (onSuccess) onSuccess()
             }
@@ -108,7 +108,7 @@ class Form extends Component {
      */
     validate = () => {
         const { setAlterationValidationErrors, alterationName, elementId,
-            children, validate } = this.props
+            validate } = this.props
         const { formValues } = this.state
 
         // Global validation
@@ -128,7 +128,7 @@ class Form extends Component {
             const value = formValues[id]
 
             // Don't validate when field is disabled, or disabled by other field
-            if (disabled || disabledBy && !formValues[disabledBy]) {
+            if (disabled || (disabledBy && !formValues[disabledBy])) {
                 return
             }
 
@@ -187,7 +187,7 @@ class Form extends Component {
 
             // if the field has to be ignored
             if (ignore) return
-            if (ignoreIfEmpty && value == field.type.getEmptyValue()) return
+            if (ignoreIfEmpty && value === field.type.getEmptyValue()) return
 
             // add data
             json[id] = value
@@ -408,8 +408,6 @@ export { FormBlock }
  */
 class FormInline extends Form {
     render() {
-        const { alterationName } = this.props
-
         // get fields
         const fieldsSet = this.renderFieldsSet(true)
 
@@ -799,7 +797,7 @@ export class RadioField extends Field {
                         value={option.value}
                         id={optionId}
                         onChange={onChange}
-                        checked={option.value == value}
+                        checked={option.value === value}
                         {...remaining}
                     />
                     <label

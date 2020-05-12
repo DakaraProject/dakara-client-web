@@ -101,20 +101,6 @@ function digest(state = defaultPlaylistAppDigest, action) {
 
             return state
 
-        // if the kara status has been successfuly edited, adapt the state now
-        case ALTERATION_SUCCESS:
-            if (action.alterationName == "editKaraStatus") {
-                return {
-                    ...state,
-                    data: {
-                        ...state.data,
-                        karaoke: {
-                            status: action.response.status
-                        }
-                    }
-                }
-            }
-
         default:
             return state
     }

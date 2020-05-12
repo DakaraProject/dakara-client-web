@@ -1,4 +1,3 @@
-import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { PermissionBase, mapStateToProps } from './Base'
@@ -19,7 +18,7 @@ export const IsUserManager = withRouter(connect(
 )(
     class extends PermissionBase {
         static hasPermissionCustom(user) {
-            return (user.users_permission_level == 'm')
+            return (user.users_permission_level === 'm')
         }
     }
 ))
@@ -38,7 +37,7 @@ export const IsNotSelf = withRouter(connect(
         }
 
         static hasPermissionCustom(user, object) {
-            return (user.id != object.id)
+            return (user.id !== object.id)
         }
     }
 ))

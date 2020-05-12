@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { parse, stringify } from 'query-string'
+import { parse } from 'query-string'
 import PropTypes from 'prop-types'
 import ControlLink from './ControlLink'
 
@@ -28,8 +28,8 @@ export default class Navigator extends Component {
         if (pagination) {
             const { current, last } = pagination
 
-            const hasNext = current != last
-            const hasPrevious = current != 1
+            const hasNext = current !== last
+            const hasPrevious = current !== 1
             const pathname = location.pathname
             const queryObj = parse(location.search)
 
@@ -84,7 +84,7 @@ export default class Navigator extends Component {
             counter = (
                 <div className="counter">
                     <span className="figure">{count}</span>
-                    <span className="text">{count == 1 ? names.singular : names.plural}</span>
+                    <span className="text">{count === 1 ? names.singular : names.plural}</span>
                 </div>
             )
         }

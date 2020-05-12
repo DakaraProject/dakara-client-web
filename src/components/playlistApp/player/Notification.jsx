@@ -5,12 +5,6 @@ import PropTypes from 'prop-types'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
 import { playerErrorPropType } from 'serverPropTypes/playlist'
 
-const notificationTypes = {
-    [Status.pending]: 'success',
-    [Status.successful]: 'success',
-    [Status.failed]: 'danger'
-}
-
 /**
  * Notification message for the player
  */
@@ -38,14 +32,13 @@ export default class PlayerNotification extends Component {
         const prevAlterationsResponse = prevProps.alterationsResponse
 
         // if the alterationsResponse prop has changed in length, throw an error
-        if (alterationsResponse.length != prevAlterationsResponse.length) {
+        if (alterationsResponse.length !== prevAlterationsResponse.length) {
             throw new Error("Property alterationsResponse has changed")
         }
 
         // handle alterationsResponse changes
         for (let id in alterationsResponse) {
             const alterationResponse = alterationsResponse[id]
-            const prevAlterationResponse = prevAlterationsResponse[id]
 
             // check a new error has occured
             if (alterationResponse.status !== prevAlterationsResponse.status &&
@@ -78,7 +71,7 @@ export default class PlayerNotification extends Component {
 
         // check the latest error has changed
         if (prevPlayerErrors.length === 0 ||
-            playerErrors[playerErrors.length - 1].playlist_entry.id !=
+            playerErrors[playerErrors.length - 1].playlist_entry.id !==
             prevPlayerErrors[prevPlayerErrors.length - 1].playlist_entry.id) {
 
             if (this.timeout) {

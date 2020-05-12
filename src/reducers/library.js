@@ -57,7 +57,7 @@ const generateLibraryReducer = libraryType => {
     const defaultLibrary = generateDefaultLibrary(libraryType)
 
     return (state = defaultLibrary, action) => {
-        if (action.libraryType != libraryType) {
+        if (action.libraryType !== libraryType) {
             return state
         }
 
@@ -121,7 +121,7 @@ function works(state = {}, action) {
         return newState
     }
 
-    if (action.libraryType != "works") {
+    if (action.libraryType !== "works") {
         return state
     }
 

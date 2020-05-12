@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Highlighter from 'react-highlight-words'
 import HighlighterQuery from 'components/generics/HighlighterQuery'
 import PropTypes from 'prop-types'
 import { WorkLinkName } from 'reducers/library'

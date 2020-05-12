@@ -22,7 +22,7 @@ class ProtectedRoute extends Component {
             if (!isLoggedIn) {
                 const { pathname, search } = this.props.location
                 let queryObj
-                if (search || pathname != defaultPathname ) {
+                if (search || pathname !== defaultPathname ) {
                     queryObj = {
                         from: pathname + search
                     }

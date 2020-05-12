@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
-import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import { withRouter } from 'react-router-dom'
 import PlaylistPlayedEntry from './PlayedEntry'
 import PlaylistTabList from './TabList'

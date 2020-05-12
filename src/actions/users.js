@@ -1,5 +1,5 @@
 import { FETCH_API } from 'middleware/fetchApi'
-import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE, ALTERATION_RESPONSE_CLEAR } from './alterations'
+import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE } from './alterations'
 import { params } from 'utils'
 
 const { baseUrl } = params
@@ -20,11 +20,6 @@ export const USER_LIST_FAILURE = "USER_LIST_FAILURE"
 /**
  * Action creator to refresh users in the current page
  */
-const refreshUsers = (dispatch, getState) => {
-    const page = getState().settings.users.list.data.pagination.current
-    return dispatch(getUsers(page))
-}
-
 const refreshUsersDelayed = (dispatch, getState) => {
     const page = getState().settings.users.list.data.pagination.current
     return dispatch(delay(getUsers(page), 3000))

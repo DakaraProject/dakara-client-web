@@ -44,7 +44,7 @@ export default class SettingsSongTagsEntry extends Component {
          * Enableness status
          */
 
-        const disabled = responseOfEdit && responseOfEdit.status == Status.pending
+        const disabled = responseOfEdit && responseOfEdit.status === Status.pending
         const setValue = (id, value) => {
             if (!disabled)
                 editSongTag(tag.id, !value)

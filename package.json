@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/DakaraProject/dakara-client-web/issues"
   },
-  "homepage": "https://github.com/DakaraProject/dakara-client-web",
+  "projectHomepage": "https://github.com/DakaraProject/dakara-client-web",
   "private": true,
   "proxy": "http://localhost:8000",
   "dependencies": {

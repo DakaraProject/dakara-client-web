@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { stringify } from 'query-string'
 import { withRouter } from 'react-router-dom'
-import PropTypes from 'prop-types'
 import Song from 'components/song/Song'
 import PlayQueueInfo from 'components/song/PlayQueueInfo'
 import { playlistPlayedEntryPropType } from 'serverPropTypes/playlist'

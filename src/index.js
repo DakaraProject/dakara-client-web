@@ -75,7 +75,7 @@ ReactDOM.render(
  */
 function handleStorageEvent({ key, oldValue, newValue }) {
     // check if the storage event is on the requested key
-    if (key != 'redux') {
+    if (key !== 'redux') {
         return
     }
 

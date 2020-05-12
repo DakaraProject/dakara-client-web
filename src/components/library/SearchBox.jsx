@@ -19,7 +19,7 @@ class SearchBox extends Component {
 
     componentDidUpdate(prevProps) {
         const newQuery = parse(this.props.location.search).query
-        if (newQuery != parse(prevProps.location.search).query && newQuery) {
+        if (newQuery !== parse(prevProps.location.search).query && newQuery) {
             this.updateQueryFromLocation()
         }
     }

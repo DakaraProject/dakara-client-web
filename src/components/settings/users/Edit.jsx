@@ -84,7 +84,7 @@ class SettingsUsersEdit extends Component {
                             type="password"
                             label="Confirm password"
                             validate={(value, values) => {
-                                if (values.password != value) {
+                                if (values.password !== value) {
                                     return ["This field should match password field."]
                                 }
                             }}

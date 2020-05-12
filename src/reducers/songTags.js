@@ -20,7 +20,7 @@ import { updateData } from 'utils'
  */
 function updateTagInState(tagId, state, valueDict) {
     const songTags = state.data.songTags.slice()
-    const index = songTags.findIndex(e => (e.id == tagId))
+    const index = songTags.findIndex(e => (e.id === tagId))
     songTags[index] = {
         ...songTags[index],
         ...valueDict
@@ -93,6 +93,7 @@ export default function songTags(state = defaultSongTagsSettings, action) {
             // If the update failed, revert the disableness and enter
             // the ALTERATION_REQUEST case
             disabled = !disabled
+            // falls through
 
         case ALTERATION_REQUEST:
             if (alterationName !== 'editSongTag') return state

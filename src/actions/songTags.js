@@ -1,5 +1,5 @@
 import { FETCH_API } from 'middleware/fetchApi'
-import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE, ALTERATION_RESPONSE_CLEAR } from './alterations'
+import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE } from './alterations'
 import { params } from 'utils'
 
 const { baseUrl } = params

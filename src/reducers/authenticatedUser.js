@@ -1,4 +1,4 @@
-import { CURRENT_USER_REQUEST, CURRENT_USER_SUCCESS, CURRENT_USER_FAILURE } from 'actions/authenticatedUser'
+import { CURRENT_USER_SUCCESS } from 'actions/authenticatedUser'
 import { LOGOUT } from 'actions/token'
 
 /**

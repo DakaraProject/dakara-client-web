@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { userPropType } from 'serverPropTypes/users'
 
@@ -12,7 +11,7 @@ class UserWidget extends Component {
 
     render() {
         const { user, currentUser, className } = this.props
-        const isCurrentUser = currentUser && currentUser.id == user.id
+        const isCurrentUser = currentUser && currentUser.id === user.id
 
         const iconClass = isCurrentUser ? "fa fa-user" : "fa fa-user-o"
         const userWidgetClass = classNames(

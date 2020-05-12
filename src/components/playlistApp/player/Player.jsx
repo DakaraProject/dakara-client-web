@@ -10,7 +10,7 @@ import ManageButton from './ManageButton'
 import PlayerNotification from './Notification'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import { sendPlayerCommand } from 'actions/playlist'
-import { playlistDigestPropType, playerCommandsPropType } from 'reducers/playlist'
+import { playlistDigestPropType } from 'reducers/playlist'
 import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
 
 class Player extends Component {

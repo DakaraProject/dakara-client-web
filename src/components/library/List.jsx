@@ -33,16 +33,16 @@ class List extends Component {
         // since there is only one `LibraryListWork` component, it is not unmounted
         // when navigating through work types, so we have to watch when the
         // component is updated wether we have jumped to another work type
-        if (this.props.match.params.libraryType != prevProps.match.params.libraryType ||
-            this.props.workTypeState.status != prevProps.workTypeState.status ||
-            queryObj.page != prevqueryObj.page ||
-            queryObj.query != prevqueryObj.query) {
+        if (this.props.match.params.libraryType !== prevProps.match.params.libraryType ||
+            this.props.workTypeState.status !== prevProps.workTypeState.status ||
+            queryObj.page !== prevqueryObj.page ||
+            queryObj.query !== prevqueryObj.query) {
             this.refreshEntries()
         }
     }
 
     checkWorkTypesHasFetched = () => {
-        return this.props.workTypeState.status == Status.successful
+        return this.props.workTypeState.status === Status.successful
     }
 
     /**
@@ -57,7 +57,7 @@ class List extends Component {
         }
 
         const workTypeMatched = workTypeState.data.workTypes.find(
-            (workTypeObject) => workTypeObject.query_name == libraryType
+            (workTypeObject) => workTypeObject.query_name === libraryType
         )
 
         return !!workTypeMatched

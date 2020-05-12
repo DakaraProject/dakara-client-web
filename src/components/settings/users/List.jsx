@@ -30,7 +30,7 @@ class SettingsUsersList extends Component {
     componentDidUpdate(prevProps) {
         const queryObj = parse(this.props.location.search)
         const prevqueryObj = parse(prevProps.location.search)
-        if (queryObj.page != prevqueryObj.page) {
+        if (queryObj.page !== prevqueryObj.page) {
             this.refreshEntries()
         }
     }
@@ -111,7 +111,7 @@ class SettingsUsersList extends Component {
                             label="Confirm password"
                             required
                             validate={(value, values) => {
-                                if (values.password != value) {
+                                if (values.password !== value) {
                                     return ["This field should match password field."]
                                 }
                             }}

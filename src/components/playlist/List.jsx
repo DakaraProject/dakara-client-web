@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
-import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import { withRouter } from 'react-router-dom'
 import { removeEntryFromPlaylist, reorderPlaylistEntry } from 'actions/playlist'
 import { clearAlteration } from 'actions/alterations'
@@ -51,7 +50,7 @@ class Playlist extends Component {
         }
 
         return this.props.playlistEntriesState.data.playlistEntries.findIndex(
-            e => e.id == entryId
+            e => e.id === entryId
         )
     }
 

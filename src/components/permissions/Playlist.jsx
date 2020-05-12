@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -21,7 +21,7 @@ export const IsPlaylistManagerOrOwner = withRouter(connect(
         }
 
         static hasPermissionCustom(user, object) {
-            if (user.playlist_permission_level == 'm') {
+            if (user.playlist_permission_level === 'm') {
                 return true
             }
 
@@ -29,7 +29,7 @@ export const IsPlaylistManagerOrOwner = withRouter(connect(
                 return false
             }
 
-            return user.id == object.owner.id
+            return user.id === object.owner.id
         }
     }
 ))
@@ -47,7 +47,7 @@ export const IsPlaylistManager = withRouter(connect(
         }
 
         static hasPermissionCustom(user) {
-            return user.playlist_permission_level == 'm'
+            return user.playlist_permission_level === 'm'
         }
     }
 ))
@@ -61,8 +61,8 @@ export const IsPlaylistUser = withRouter(connect(
 )(
     class extends PermissionBase {
         static hasPermissionCustom(user) {
-            return (user.playlist_permission_level == 'u' ||
-                user.playlist_permission_level == 'm')
+            return (user.playlist_permission_level === 'u' ||
+                user.playlist_permission_level === 'm')
         }
     }
 ))
@@ -79,7 +79,7 @@ class CanAddToPlaylist extends Component {
             return null
         }
 
-        if (user.is_superuser || user.playlist_permission_level == 'm') {
+        if (user.is_superuser || user.playlist_permission_level === 'm') {
             return this.props.children
         }
 

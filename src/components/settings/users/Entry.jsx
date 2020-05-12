@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
-import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { permissionLevels, IsUserManager, IsNotSelf } from 'components/permissions/Users'
 import ControlLink from 'components/generics/ControlLink'

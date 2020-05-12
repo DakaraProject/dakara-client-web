@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { CSSTransitionLazy } from './ReactTransitionGroup'
 import Delayer from './Delayer'
 import Notification from './Notification'
 import { Status } from 'reducers/alterationsResponse'
