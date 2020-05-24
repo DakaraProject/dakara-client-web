@@ -64,7 +64,7 @@ class SongEntry extends Component {
         const { location, song, query, playerStatus, karaokeRemainingSeconds } = this.props
         const { playlistPlayedEntries, playlistEntries } = this.props
         const queryObj = parse(location.search)
-        const expanded = queryObj.expanded === song.id
+        const expanded = +queryObj.expanded === song.id
 
         /**
          * Song is playing info
