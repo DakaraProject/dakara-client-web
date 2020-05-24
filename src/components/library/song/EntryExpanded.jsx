@@ -158,8 +158,8 @@ class SongEntryExpanded extends Component {
          */
 
         let lyrics
-        if (song.lyrics) {
-            const text = song.lyrics.text.split("\n").map((line, index) => (
+        if (song.lyrics_preview) {
+            const text = song.lyrics_preview.text.split("\n").map((line, index) => (
                 <div className="line" key={index}>{line}</div>
             ))
 
@@ -174,7 +174,7 @@ class SongEntryExpanded extends Component {
                     <div
                         className={classNames(
                             "paragraph",
-                            {truncated: song.lyrics.truncated}
+                            {truncated: song.lyrics_preview.truncated}
                         )}
                     >
                         {text}
