@@ -33,7 +33,7 @@ class PlaylistPlayedEntry extends Component {
                         song={entry.song}
                         handleClick={this.handleSearch}
                     />
-                    <PlayQueueInfo playedInfo={{timeOfPlay: datePlayed, owner: entry.owner}}/>
+                    <PlayQueueInfo playedInfo={{timeOfPlay: datePlayed, playlistEntry: entry}}/>
                 </div>
             </li>
         )

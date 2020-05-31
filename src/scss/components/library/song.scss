@@ -72,128 +72,162 @@
     }
 
     // `library-entry-song-expanded` class: song expanded view.
-    // It should not be used with the `hoverized` subclass, otherwise some hover
-    // will be wrong.
-    // The class behaves like a table in order to keep a column of labels of the
-    // same width. This does not go without consequenses, as a table element is
-    // difficult to style.
     .library-entry-song-expanded {
-        $height: $sublisting-entry-height;
-        display: table;
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0 $gap-vertical;
 
-        @include make-smartphone {
-            display: block;
-            padding: $gap-vertical-smartphone 0;
-        }
-
-        .expanded-item {
-            display: table-row;
+        // It should not be used with the `hoverized` subclass, otherwise some
+        // hover will be wrong.
+        // The class behaves like a table in order to keep a column of labels
+        // of the same width. This does not go without consequenses, as a table
+        // element is difficult to style.
+        .listing-expanded {
+            $height: $sublisting-entry-height;
+            display: table;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 $gap-vertical;
 
             @include make-smartphone {
                 display: block;
+                padding: $gap-vertical-smartphone 0;
             }
 
-            &:not(:last-child) {
-                @include make-gap(padding, bottom);
-            }
-
-            .header {
-                display: table-cell;
-                font-weight: normal;
-                white-space: nowrap;
-                vertical-align: top;
-                @include make-gap(padding, horizontal);
+            .expanded-item {
+                display: table-row;
 
                 @include make-smartphone {
                     display: block;
                 }
 
-                .icon {
+                &:not(:last-child) {
+                    @include make-gap(padding, bottom);
                 }
 
-                .name {
-                   padding-left: 0.5em; 
-                   line-height: $height;
-                }
-            }
+                .header {
+                    display: table-cell;
+                    font-weight: normal;
+                    white-space: nowrap;
+                    vertical-align: top;
+                    @include make-gap(padding, horizontal);
 
-            .sublisting-entry {
-                // allow words to break
-                overflow: hidden;
-
-                // keep control buttons stretched
-                .controls {
-                    align-self: stretch;
-
-                    .control {
-                        height: unset;
-                    }
-                }
-            }
-
-            .text, .song-tag-list, .paragraph {
-                background: darken($neutral-mid, 2%);
-            }
-
-            .text, .paragraph, .artist, .work-link {
-                // allow words to break
-                overflow: hidden;
-                overflow-wrap: break-word;
-
-                @include make-vertical-row-padding(horizontal, 2);
-            }
-
-            .text {
-                min-height: $height;
-                display: flex;
-                align-items: center;
-            }
-
-            .song-tag-list {
-                line-height: $height;
-
-                .tag {
-                    height: $height;
-                }
-            }
-
-            &.works {
-                .sublisting-entry {
-                    .work-link {
-                        flex: 1;
+                    @include make-smartphone {
                         display: block;
-                        white-space: unset;
+                    }
 
-                        .title-group {
-                            white-space: unset;
+                    .icon {
+                    }
+
+                    .name {
+                       padding-left: 0.5em; 
+                       line-height: $height;
+                    }
+                }
+
+                .sublisting-entry {
+                    // allow words to break
+                    overflow: hidden;
+
+                    // keep control buttons stretched
+                    .controls {
+                        align-self: stretch;
+
+                        .control {
+                            height: unset;
                         }
+                    }
+                }
 
-                        .link {
-                            font-size: 0.81em;
+                .text, .song-tag-list, .paragraph {
+                    background: darken($neutral-mid, 2%);
+                }
+
+                .text, .paragraph, .artist, .work-link {
+                    // allow words to break
+                    overflow: hidden;
+                    overflow-wrap: break-word;
+
+                    @include make-vertical-row-padding(horizontal, 2);
+                }
+
+                .text {
+                    min-height: $height;
+                    display: flex;
+                    align-items: center;
+                }
+
+                .song-tag-list {
+                    line-height: $height;
+
+                    .tag {
+                        height: $height;
+                    }
+                }
+
+                &.works {
+                    .sublisting-entry {
+                        .work-link {
+                            flex: 1;
+                            display: block;
+                            white-space: unset;
+
+                            .title-group {
+                                white-space: unset;
+                            }
+
+                            .link {
+                                font-size: 0.81em;
+                            }
+                        }
+                    }
+                }
+
+                &.artists {
+                    .artist {
+                        flex: 1;
+                    }
+                }
+
+                &.lyrics .paragraph {
+                    .line:not(:last-child) {
+                        margin-bottom: 0.25em;
+                    }
+
+                    &.truncated {
+                        .line:last-child::after {
+                            content: "…";
+                            font-size: 1.5em;
+                            line-height: 0;
                         }
                     }
                 }
             }
 
-            &.artists {
-                .artist {
-                    flex: 1;
-                }
+            &:empty + .instrumental {
+              padding-top: $gap-vertical;
             }
+        }
 
-            &.lyrics .paragraph {
-                .line:not(:last-child) {
-                    margin-bottom: 0.25em;
+        .instrumental {
+            padding-bottom: $gap-vertical;
+
+            .controls {
+                height: $listing-entry-height;
+                justify-content: flex-end;
+
+                .text {
+                  line-height: $listing-entry-height;
+                  padding-right: 0.5em;
                 }
 
-                &.truncated {
-                    .line:last-child::after {
-                        content: "…";
-                        font-size: 1.5em;
-                        line-height: 0;
+                .submit {
+                    .icon {
+                        position: relative;
+
+                        .sub-icon {
+                            position: absolute;
+                            top: -0.5em;
+                            right: -0.6em;
+                            font-size: 0.65em;
+                        }
                     }
                 }
             }

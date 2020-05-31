@@ -162,6 +162,33 @@ export const addSongToPlaylist = (songId) => ({
 })
 
 /**
+ * Request to add a song to the playlist with options
+ * @param songId ID of the song to add
+ * @param useInstrumental true to request instrumental track
+ */
+export const addSongToPlaylistWithOptions = (songId, useInstrumental=false) => ({
+    [FETCH_API]: {
+            endpoint: `${baseUrl}playlist/entries/`,
+            method: 'POST',
+            json: {
+              song_id: songId,
+              use_instrumental: useInstrumental
+            },
+            types: [
+                ALTERATION_REQUEST,
+                ALTERATION_SUCCESS,
+                ALTERATION_FAILURE
+            ],
+            onSuccess: [
+                loadPlaylist()
+            ],
+        },
+    alterationName: "addSongToPlaylistWithOptions",
+    elementId: songId,
+})
+
+
+/**
  * Reorder playlist entry
  */
 

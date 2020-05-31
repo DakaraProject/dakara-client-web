@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { stringify } from 'query-string'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -8,12 +9,20 @@ import SongEntryExpandedWork from './EntryExpandedWork'
 import SongEntryExpandedArtist from './EntryExpandedArtist'
 import HighlighterQuery from 'components/generics/HighlighterQuery'
 import { songPropType } from 'serverPropTypes/library'
+import { addSongToPlaylistWithOptions } from 'actions/playlist'
+import { clearAlteration } from 'actions/alterations'
+import { IsPlaylistUser, CanAddToPlaylist} from 'components/permissions/Playlist'
+import Notification from 'components/generics/Notification'
 
 class SongEntryExpanded extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
         song: songPropType.isRequired,
         query: PropTypes.object
+    }
+
+    componentWillUnmount() {
+        this.props.clearAlteration("addSongToPlaylistWithOptions", this.props.song.id)
     }
 
     /**
@@ -201,24 +210,77 @@ class SongEntryExpanded extends Component {
                     </div>
                 )
         }
+      
+        /**
+         * Instrumental
+         */
+        let instrumental
+        if (song.has_instrumental) {
+            instrumental = (
+                <CanAddToPlaylist>
+                    <IsPlaylistUser>
+                        <div className="instrumental">
+                            <div className="notifiable">
+                                <div className="controls">
+                                    <span className="text">
+                                        Request instrumental track
+                                    </span>
+                                    <button
+                                        className="control primary submit"
+                                        onClick={() => {
+                                            this.props.addSongToPlaylistWithOptions(this.props.song.id, true)
+                                        }}
+                                    >
+                                        <span className="icon">
+                                            <i className="fa fa-plus"></i>
+                                            <span className="sub-icon">
+                                                <i className="fa fa-microphone-slash"></i>
+                                            </span>
+                                        </span>
+                                    </button>
+                                </div>
+                                <Notification
+                                    alterationResponse={this.props.responseOfAddSongWithOptions}
+                                    pendingMessage="Adding…"
+                                    successfulMessage="Successfuly added!"
+                                    failedMessage="Error attempting to add song to playlist"
+                                />
+                            </div>
+                        </div>
+                    </IsPlaylistUser>
+                </CanAddToPlaylist>
+            )
+        }
 
         // NOTE see the documentation of the LESS class
         // `library-entry-song-expanded-subcontainer` for the nested `div`s
         return (
                 <div className="library-entry-song-expanded-subcontainer">
                     <div className="library-entry-song-expanded">
-                        {artists}
-                        {worksRenderList}
-                        {detailSong}
-                        {detailVideo}
-                        {lyrics}
-                        {tags}
+                        <div className="listing-expanded">
+                            {artists}
+                            {worksRenderList}
+                            {detailSong}
+                            {detailVideo}
+                            {lyrics}
+                            {tags}
+                        </div>
+                        {instrumental}
                     </div>
                 </div>
             )
     }
 }
 
-SongEntryExpanded = withRouter(SongEntryExpanded)
+const mapStateToProps = (state, ownProps) => ({
+    responseOfAddSongWithOptions: state.alterationsResponse.multiple.addSongToPlaylistWithOptions?.[ownProps.song.id],
+})
+SongEntryExpanded = withRouter(connect(
+    mapStateToProps,
+    {
+        addSongToPlaylistWithOptions,
+        clearAlteration
+    }
+)(SongEntryExpanded))
 
 export default SongEntryExpanded
