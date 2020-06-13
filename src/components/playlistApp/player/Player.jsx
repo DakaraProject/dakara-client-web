@@ -47,6 +47,18 @@ class Player extends Component {
         if (isPlaying) {
             const duration = player_status.playlist_entry.song.duration
 
+            /**
+             * Manage instrumental playlist entry
+             */
+            let useInstrumental
+            if (player_status.playlist_entry.use_instrumental) {
+                useInstrumental = (
+                    <div className="use-instrumental">
+                        <i className="fa fa-microphone-slash"></i>
+                    </div>
+                )
+            }
+
             // the progress is displayed only when the song has really started
             // and only if the song has a known duration
             if (!player_status.in_transition && duration > 0) {
@@ -55,6 +67,7 @@ class Player extends Component {
 
             playlistEntry = (
                 <div className="playlist-entry">
+                    {useInstrumental}
                     <Song
                         song={player_status.playlist_entry.song}
                         noDuration
