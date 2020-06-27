@@ -269,9 +269,7 @@ const mapStateToProps = (state, ownProps) => {
     // form attached to an alteration of type multiper
     if (typeof elementId !== 'undefined') {
         return {
-            alterationResponse: state.alterationsResponse.multiple[alterationName] ?
-                state.alterationsResponse.multiple[alterationName][elementId] :
-                undefined
+            alterationResponse: state.alterationsResponse.multiple[alterationName]?.[elementId]
         }
     }
 

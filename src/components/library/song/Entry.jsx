@@ -203,8 +203,7 @@ class SongEntry extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
     query: state.library.song.data.query,
-    responseOfAddSong: state.alterationsResponse.multiple.addSongToPlaylist ?
-        state.alterationsResponse.multiple.addSongToPlaylist[ownProps.song.id] : undefined,
+    responseOfAddSong: state.alterationsResponse.multiple.addSongToPlaylist?.[ownProps.song.id],
     playlistPlayedEntries: state.playlist.playedEntries.data.playlistPlayedEntries,
     playlistEntries: state.playlist.entries.data.playlistEntries,
     playerStatus: state.playlist.digest.data.player_status,
