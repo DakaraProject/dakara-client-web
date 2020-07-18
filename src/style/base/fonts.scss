@@ -1,0 +1,14 @@
+//
+// Dakara Project
+//
+// Fonts style file
+//
+
+
+@mixin make-font() {
+    font-family: Roboto, sans-serif;
+}
+
+body {
+    @include make-font();
+}

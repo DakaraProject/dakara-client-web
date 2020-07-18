@@ -14,17 +14,18 @@ version_number=$1
 archive_name=dakara-client-web_$version_number.zip
 
 # make production build
-echo "Running Webpack, please wait..."
-npx webpack -p
+echo "Creating build, please wait..."
+npm run build
 
-# the final directory must be 'static', so we create a symlink with this name
-ln -s dist static
 
-# archive the dist folder
-zip -r "$archive_name" static
+# Go to build directory
+cd build
 
-# remove the symlink
-rm static
+# Move index.html to static dir
+mv index.html static
+
+# archive the static folder
+zip -r ../"$archive_name" static
 
 echo "Archive created in $archive_name"
 

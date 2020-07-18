@@ -1,0 +1,12 @@
+//
+// Dakara project
+//
+// Login page style file
+//
+
+
+#login {
+    background: $brand-primary-darker;
+    color: $brand-primary;
+    @include make-gap(padding, vertical);
+}

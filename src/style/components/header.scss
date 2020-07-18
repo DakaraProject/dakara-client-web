@@ -1,0 +1,28 @@
+//
+// Dakara Project
+//
+// Header style file
+//
+
+
+// header sizes
+$header-height: $tab-bar-height;
+
+#header {
+    background: darken($neutral-mid, 3%);
+    height: $header-height;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1200;
+
+    h1 {
+        line-height: $tab-bar-height * 0.9;
+        font-size: xx-large;
+        @include make-gap(padding, horizontal);
+
+        @include make-smartphone {
+            font-size: x-large;
+        }
+    }
+}

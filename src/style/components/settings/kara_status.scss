@@ -1,0 +1,21 @@
+//
+// Dakara Project
+//
+// Settings style file
+//
+
+#kara-status {
+    .form {
+        @include make-gap(padding, vertical);
+    }
+
+    .status-text {
+        margin-top: 0;
+        margin-bottom: 0;
+        @include make-gap(padding, bottom);
+
+        &:first-child {
+            @include make-gap(padding, vertical);
+        }
+    }
+}

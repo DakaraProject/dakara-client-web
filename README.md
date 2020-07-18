@@ -25,21 +25,23 @@ Install dependencies, at root level of the repo:
 npm install
 ```
 
-### Building the stuff
-
-To build JS bundle and transpile LESS into CSS:
+### Running developement server 
 
 ```shell
-npx webpack
+npm start
 ```
 
-With the `-w` option, webpack does not close and waits for changes in LESS or JS files.
+This runs the app in the development mode.
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-If you are using npm < 5.2.0, npx may be unavailable.
-You can mimic its basic behavior with a shell function (Bash):
+The page will reload if you make edits.
+You will also see any lint errors in the console.
 
-```bash
-function npx {
-    (PATH=$(npm bin):$PATH; eval $@;)
-}
+### Building for production
+
+```shell
+npm run build
 ```
+
+This builds the app for production to the `build` folder.<br />
+It correctly bundles React in production mode and optimizes the build for the best performance.

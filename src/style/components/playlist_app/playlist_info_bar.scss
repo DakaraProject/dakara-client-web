@@ -1,0 +1,75 @@
+//
+// Dakara Project
+//
+// Playlist info bar style file
+//
+
+
+// `playlist-info-bar` id:
+//
+// The playlist info bar gives some pieces of information on the status of the
+// playlist, tipycally the amount of songs in queue and when the
+// playlist/karaoke will end.
+//
+// Info don't have specific classes.
+#playlist-info-bar {
+    cursor: pointer;
+    padding: 0 $gap-horizontal;
+    background: $brand-primary;
+    color: $body-background;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 4rem;
+    overflow: hidden;
+
+    @include make-smartphone {
+        height: 3.5rem;
+        padding: 0 $gap-horizontal-smartphone;
+        font-size: 0.85em;
+    }
+
+    &:hover,
+    &:focus, {
+        background: $brand-primary-lighter;
+    }
+
+    .item {
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        white-space: nowrap;
+
+        &:not(:first-child) {
+            @include make-gap(padding, left);
+        }
+
+        .value {
+            font-weight: 200;
+            font-size: 2.5em;
+        }
+
+        .description {
+            margin-left: 0.5em;
+            font-size: 1em;
+            overflow: hidden;
+
+            .line {
+                @include text-truncate();
+
+                &.detail {
+                    opacity: 0.65;
+                }
+            }
+        }
+
+        &.reverse {
+            text-align: right;
+
+            .description {
+                margin-right: 0.5em;
+                margin-left: 0;
+            }
+        }
+    }
+}
