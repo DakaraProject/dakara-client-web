@@ -53,10 +53,10 @@ export default class Notification extends Component {
         const alterationResponse = this.props.alterationResponse
         const prevAlterationResponse = prevProps.alterationResponse
 
-        const status = alterationResponse ? alterationResponse.status : null
-        const prevStatus = prevAlterationResponse ? prevAlterationResponse.status : null
-        const date = alterationResponse ? alterationResponse.date : null
-        const prevDate = prevAlterationResponse ? prevAlterationResponse.date : null
+        const status = alterationResponse?.status
+        const prevStatus = prevAlterationResponse?.status
+        const date = alterationResponse?.date
+        const prevDate = prevAlterationResponse?.date
         if (status !== prevStatus || date !== prevDate) {
             if (this.timeout) {
                 clearTimeout(this.timeout)
@@ -73,7 +73,7 @@ export default class Notification extends Component {
 
     setNotificationClearTimeout = () => {
         const alterationResponse = this.props.alterationResponse
-        const status = alterationResponse ? alterationResponse.status : null
+        const status = alterationResponse?.status
         const durations = {
             [Status.pending]: this.props.pendingDuration,
             [Status.successful]: this.props.successfulDuration,
@@ -172,9 +172,7 @@ export class NotifiableForTable extends Component {
         const { parentTableElement } = this.state
 
         // get the width of the element with the width of the closest table
-        const width = parentTableElement ?
-            parentTableElement.clientWidth :
-            undefined
+        const width = parentTableElement?.clientWidth
 
         return (
             <div className="notifiable-for-table" ref={this.elementRef}>

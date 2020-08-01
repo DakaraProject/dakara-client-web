@@ -24,7 +24,7 @@ import fetchApiMiddleware from 'middleware/fetchApi'
 import delayMiddleware from 'middleware/delay'
 import { logout, setToken } from 'actions/token'
 
-import './scss/main.scss'
+import './style/main.scss'
 
 const store = createStore(
     reducer,
