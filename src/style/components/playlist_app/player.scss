@@ -46,6 +46,13 @@ $player-height-smartphone: 2 * $gap-vertical-smartphone + 2 * $row-height * 0.6 
 
             overflow: hidden;
 
+            // `use-instrumental` subclass: indicate if the playlist entry use the instrumental track.
+            .use-instrumental {
+                margin-right: 0.5em;
+                font-size: 1.45em;
+                line-height: 1.5;
+            }
+
             // `song` subclass: the song itself.
             .song {
                 @include make-gap(margin, right);

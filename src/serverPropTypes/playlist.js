@@ -5,6 +5,7 @@ import { userPropType } from './users'
 export const playlistEntryPropType = PropTypes.shape({
     id: PropTypes.any.isRequired,
     song: songPropType.isRequired,
+    use_instrumental: PropTypes.bool,
     owner: userPropType.isRequired,
     date_play: PropTypes.string.isRequired,
 })
@@ -12,6 +13,7 @@ export const playlistEntryPropType = PropTypes.shape({
 export const playlistPlayedEntryPropType = PropTypes.shape({
     id: PropTypes.any.isRequired,
     song: songPropType.isRequired,
+    use_instrumental: PropTypes.bool,
     owner: userPropType.isRequired,
     date_played: PropTypes.string.isRequired,
 })

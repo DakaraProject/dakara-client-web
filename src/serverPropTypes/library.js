@@ -46,5 +46,6 @@ export const songPropType = PropTypes.shape({
         truncated: PropTypes.bool,
         text: PropTypes.string.isRequired
     }),
+    has_instrumental: PropTypes.bool,
     tags: PropTypes.arrayOf(songTagPropType).isRequired,
 })

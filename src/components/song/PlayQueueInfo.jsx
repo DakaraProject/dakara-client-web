@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import UserWidget from 'components/generics/UserWidget'
 import { formatHourTime } from 'utils'
-import { userPropType } from 'serverPropTypes/users'
+import { playlistEntryPropType, playlistPlayedEntryPropType } from 'serverPropTypes/playlist'
 
 /**
 * Playing or queuing info
@@ -11,15 +11,15 @@ import { userPropType } from 'serverPropTypes/users'
 export default class PlayQueueInfo extends Component {
     static propTypes = {
         playingInfo: PropTypes.shape({
-            owner: userPropType.isRequired
+            playlistEntry: playlistEntryPropType
         }),
         playedInfo: PropTypes.shape({
             timeOfPlay: PropTypes.number.isRequired,
-            owner: userPropType.isRequired
+            playlistEntry: playlistPlayedEntryPropType
         }),
         queueInfo: PropTypes.shape({
             timeOfPlay: PropTypes.number.isRequired,
-            owner: userPropType.isRequired
+            playlistEntry: playlistEntryPropType
         })
     }
 
@@ -27,7 +27,7 @@ export default class PlayQueueInfo extends Component {
         const { playingInfo, playedInfo, queueInfo } = this.props
 
         let content
-        let owner
+        let entry
         if (playingInfo) {
             content = (
                 <div className="playing">
@@ -36,7 +36,7 @@ export default class PlayQueueInfo extends Component {
                     </span>
                 </div>
             )
-            owner = playingInfo.owner
+            entry = playingInfo.playlistEntry
         } else if (queueInfo) {
             content = (
                 <div className="queueing">
@@ -46,7 +46,7 @@ export default class PlayQueueInfo extends Component {
                     </span>
                 </div>
             )
-            owner = queueInfo.owner
+            entry = queueInfo.playlistEntry
         } else if (playedInfo) {
             content = (
                 <div className="played">
@@ -56,20 +56,32 @@ export default class PlayQueueInfo extends Component {
                     {formatHourTime(playedInfo.timeOfPlay)}
                 </div>
             )
-            owner = playedInfo.owner
-
+            entry = playedInfo.playlistEntry
         } else {
             // nothing to display
             return null
+        }
+
+
+        let instrumentalIcon
+        if (entry.use_instrumental) {
+            instrumentalIcon = (
+                <div className="instrumental">
+                    <span className="icon">
+                        <i className="fa fa-microphone-slash"></i>
+                    </span>
+                </div>
+            )
         }
 
         return (
             <div className="play-queue-info">
                 <UserWidget
                     className="owner"
-                    user={owner}
+                    user={entry.owner}
                 />
                 {content}
+                {instrumentalIcon}
             </div>
         )
     }

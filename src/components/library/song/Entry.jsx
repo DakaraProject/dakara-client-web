@@ -74,7 +74,7 @@ class SongEntry extends Component {
         if (playerStatus.playlist_entry && playerStatus.playlist_entry.song.id === song.id) {
             // Player is playing this song
             playingInfo = {
-                owner: playerStatus.playlist_entry.owner
+                playlistEntry: playerStatus.playlist_entry
             }
         }
 
@@ -90,7 +90,7 @@ class SongEntry extends Component {
         if (playlistPlayedEntry) {
             playedInfo = {
                 timeOfPlay: Date.parse(playlistPlayedEntry.date_played),
-                owner: playlistPlayedEntry.owner,
+                playlistEntry: playlistPlayedEntry,
             }
         }
 
@@ -106,7 +106,7 @@ class SongEntry extends Component {
         if (playlistEntry) {
             queueInfo = {
                 timeOfPlay: Date.parse(playlistEntry.date_play),
-                owner: playlistEntry.owner,
+                playlistEntry,
             }
         }
 
