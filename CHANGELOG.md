@@ -30,6 +30,12 @@
 
 ## Unreleased
 
+## 1.6.0 - 2020-09-05
+
+### Added
+
+- Add instrumental track support.
+
 ## 1.5.0 - 2019-12-05
 
 ### Security

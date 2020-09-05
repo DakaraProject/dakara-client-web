@@ -1,6 +1,6 @@
 {
   "name": "dakara-client-web",
-  "version": "1.6.0-dev",
+  "version": "1.6.0",
   "description": "Web client for Dakara Project",
   "repository": {
     "type": "git",
