@@ -15,7 +15,6 @@
         color: inherit;
 
         h2 {
-            font-size: 2em;
             @include make-gap(padding, horizontal);
         }
     }

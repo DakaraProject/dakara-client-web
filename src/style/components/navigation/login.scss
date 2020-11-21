@@ -5,8 +5,12 @@
 //
 
 
-#login {
+#login-box {
     background: $brand-primary-darker;
     color: $brand-primary;
     @include make-gap(padding, vertical);
+}
+
+#login-links {
+    @include make-gap(padding, vertical, 0.5);
 }

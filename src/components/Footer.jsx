@@ -10,10 +10,10 @@ class Footer extends Component {
                 </h2>
                 <div className="contact">
                     <p className="project">
-                        Visit the <a className="external" href={projectHomepage}>project page</a>
+                        Visit the <a className="text" href={projectHomepage}>project page</a>
                     </p>
                     <p className="bug">
-                        Report a <a className="external" href={bugs.url}>bug</a>
+                        Report a <a className="text" href={bugs.url}>bug</a>
                     </p>
                 </div>
             </footer>

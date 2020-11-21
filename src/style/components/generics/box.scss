@@ -18,6 +18,12 @@
         margin-bottom: $gap-vertical;
     }
 
+    .box-header {
+        @include make-gap(padding, vertical);
+        background: $brand-primary-darker;
+        color: $brand-primary-light;
+    }
+
     .box-footer {
         @include make-gap(padding, vertical);
         background: $brand-primary-darker;
