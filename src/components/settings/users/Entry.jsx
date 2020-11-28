@@ -33,17 +33,6 @@ export default class SettingsUsersEntry extends Component {
     render() {
         const { user, deleteUser } = this.props
 
-        /**
-         * superuser marker
-         */
-
-        let superuserMarker
-        if (user.is_superuser) {
-            superuserMarker = (
-                <i className="fa fa-check"></i>
-            )
-        }
-
         return (
             <tr className="listing-entry user-listing-entry hoverizable">
                 <td className="notification-col">
@@ -71,7 +60,17 @@ export default class SettingsUsersEntry extends Component {
                     </NotifiableForTable>
                 </td>
                 <td className="username">{user.username}</td>
-                <td className="permission superuser">{superuserMarker}</td>
+                <IsUserManager>
+                    <td className="validated">
+                        <Marked marked={user.validated_by_email}/>
+                    </td>
+                    <td className="validated">
+                        <Marked marked={user.validated_by_manager}/>
+                    </td>
+                </IsUserManager>
+                <td className="superuser">
+                    <Marked marked={user.is_superuser}/>
+                </td>
                 <td className="permission">
                     <PermissionText level={user.users_permission_level}/>
                 </td>
@@ -126,3 +125,15 @@ const PermissionText = ({level}) => {
     )
 
 }
+
+
+const Marked = ({marked}) => {
+    if (!marked) {
+        return null
+    }
+
+    return (
+        <i className="fa fa-check"></i>
+    )
+}
+

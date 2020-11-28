@@ -68,7 +68,11 @@ class SettingsUsersList extends Component {
                                 <tr className="listing-header">
                                     <th className="notification-col"></th>
                                     <th className="username">User&shy;name</th>
-                                    <th className="permission">Super&shy;user</th>
+                                    <IsUserManager>
+                                        <th className="validated">Email check</th>
+                                        <th className="validated">Manager check</th>
+                                    </IsUserManager>
+                                    <th className="superuser">Super&shy;user</th>
                                     <th className="permission">Users rights</th>
                                     <th className="permission">Library rights</th>
                                     <th className="permission">Playlist rights</th>
@@ -98,6 +102,16 @@ class SettingsUsersList extends Component {
                             id="username"
                             label="Username"
                             required
+                        />
+                        <InputField
+                            id="email"
+                            label="Email"
+                            required
+                            validate={(value) => {
+                                if(!/\S+@\S+\.\S+/.test(value.toLowerCase())) {
+                                    return ["This should be a valid email address."]
+                                }
+                            }}
                         />
                         <InputField
                             id="password"

@@ -38,7 +38,7 @@ class Register extends Component {
                 />
                 <InputField
                     id="email"
-                    label="email"
+                    label="Email"
                     required
                     validate={(value) => {
                         if(!/\S+@\S+\.\S+/.test(value.toLowerCase())) {

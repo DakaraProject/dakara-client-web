@@ -245,6 +245,14 @@ $form-control-icon-size: $row-icon-font-size;
             }
         }
 
+        &.disabled {
+            input, textarea, select, .fake {
+                &:not(.faked) {
+                    background: darken($neutral-soft, 8%);
+                }
+            }
+        }
+
         input, .fake {
             height: $field-height;
             display: block;
@@ -268,11 +276,6 @@ $form-control-icon-size: $row-icon-font-size;
         // controls inside inputs
         .input .controls .icon {
             font-size: 1.1em;
-        }
-
-        // deactivated element
-        &.disabled {
-            opacity: 0.33;
         }
 
         // `text-input` class:

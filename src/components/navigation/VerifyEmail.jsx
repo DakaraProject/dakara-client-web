@@ -43,8 +43,9 @@ class VerifyEmail extends Component {
             )
         }
 
+        // TODO display in a proper box
         return (
-            <p>"Validating"</p>
+            <p>Validating...</p>
         )
     }
 }

@@ -74,6 +74,20 @@ class SettingsUsersEdit extends Component {
                         noClearOnSuccess
                     >
                         <InputField
+                            id="username"
+                            label="Username"
+                            defaultValue={user.username}
+                            disabled
+                            ignore
+                        />
+                        <InputField
+                            id="email"
+                            label="E-mail"
+                            defaultValue={user.email}
+                            disabled
+                            ignore
+                        />
+                        <InputField
                             id="password"
                             type="password"
                             label="Password"
@@ -89,6 +103,18 @@ class SettingsUsersEdit extends Component {
                                 }
                             }}
                             ignore
+                        />
+                        <CheckboxField
+                            id="validated_by_email"
+                            label="Validated by email"
+                            defaultValue={user.validated_by_email}
+                            disabled
+                            ignore
+                        />
+                        <CheckboxField
+                            id="validated_by_manager"
+                            label="Validated by manager"
+                            defaultValue={user.validated_by_manager}
                         />
                         <CheckboxField
                             id="is_superuser"
