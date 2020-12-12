@@ -13,24 +13,24 @@ $form-control-icon-size: $row-icon-font-size;
 
 // `form` class:
 //
-// This class provides the tools to create forms in the project. Forms come in
-// two ways: as block (common forms, for several fields, one per line) and as
-// inline (for one line). In each case, inputs will take all the space at their
-// disposal.
+// This class provides tools to create forms in the project. Forms come in two
+// ways: as block forms (common forms, for several fields, one per line) and as
+// inline forms (for one line). In each case, inputs will take all the
+// horizontal space at their disposal.
 //
-// It is important to know that forms are a moot point in CSS, as the standard
-// does not specify how to style `input`s. If porperties work on them, it is
-// because browser manufacturers decided so. But not all of them are supported.
+// It is important to keep in mind that forms are a moot point in CSS, as the
+// standard does not specify how to style `input`s. If some porperties work on
+// them, it is purely browser dependent, and not all of them are supported.
 // Sources:
 //     https://www.w3.org/TR/CSS21/conform.html#conformance
 //     https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element
 //
-// Input tags are wrapped into `input` class (for reasons related to the
-// previous paragraph). Inputs can be faked with the `input.fake` class: in
-// this case, the `input` class looks like the input tag. The corresponding
-// input tag must have the class `faked` to appear colorless. Focus cannot be
-// handled by native CSS in this case, you have to use some JS with the
-// `onFocus` and `onBlur` events of the faked input.
+// Because of this, input tags are wrapped into `input` class. Inputs can be
+// faked with the `input.fake` class: in this case, the `input` class looks
+// like the input tag. The corresponding input tag must have the class `faked`
+// to appear colorless. Focus cannot be handled by native CSS in this case, you
+// have to use some JS with the `onFocus` and `onBlur` events of the faked
+// input.
 .form {
     $field-height: $form-field-height;
     $control-font-size: $form-control-font-size;
@@ -39,11 +39,38 @@ $form-control-icon-size: $row-icon-font-size;
     // `block` subclass:
     //
     // The `block` subclass is appropriate for large forms involving several
-    // fields. It offers labels in a column style: their width is adjusted
-    // along the largest element. Labels can be a single icon (combined with a
-    // placeholder in the input tag), an icon and a text or a single text. As
-    // you wish. The subclass contains also a header area to put a title and
-    // display notifications related to the submission of the form.
+    // fields. It contains a `header`, a `set` of input fiels, and `controls`.
+    // The `header` is optional and can contain the form title. It has no
+    // color. The `set` contains `field`s, which are couples of `label` and
+    // `input`. Labels can be a single icon (combined with a placeholder in the
+    // input tag), an icon and a text or a single text. As you wish. On desktop
+    // view, labels are displayed in a column style: their width is adjusted
+    // along the largest element. On mobile view, labels and input are on a
+    // separate line. Each field row has a gap with the next one. A gap is
+    // added between the `header` and the `set` if they follow each other
+    // immediately. The `controls` block contains buttons of the form (to
+    // submit it, reset it, etc.). Buttons are of primary color. The `controls`
+    // space is used to display notifications of the form submission.
+    //
+    // Example with title:
+    // +-------------------+
+    // | Title             |
+    // |                   |
+    // | Label      Input__|
+    // |                   |
+    // | Long label Input__|
+    // |                   |
+    // |          Controls |
+    // +-------------------+
+    //
+    // Example without title:
+    // +-------------------+
+    // | Label      Input__|
+    // |                   |
+    // | Long label Input__|
+    // |                   |
+    // |          Controls |
+    // +-------------------+
     &.block {
 
         // `set` class: the set contains the fields of the form.
@@ -176,6 +203,11 @@ $form-control-icon-size: $row-icon-font-size;
     // The `inline` subclass is appropriate for single-field forms. This
     // subclass supports neither labels, nor titles, nor notifications. Use it
     // for simple forms involving GET requests.
+    //
+    // Example:
+    // +-------------------+
+    // | Input    Controls |
+    // +-------------------+
     &.inline {
         display: flex;
 
