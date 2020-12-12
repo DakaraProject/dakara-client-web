@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
+import classNames from 'classnames'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
 import { parse } from 'query-string'
 import PropTypes from 'prop-types'
 import { verifyEmail } from 'actions/users'
@@ -31,21 +31,44 @@ class VerifyEmail extends Component {
     }
 
     render() {
-        if (this.props.responseOfVerifyEmail.status === Status.successful) {
-            return (
-                    <Redirect to="/login"/>
-            )
+        let message
+        let error = false
+
+        switch (this.props.responseOfVerifyEmail.status) {
+            case Status.successful:
+                message = (
+                    <div className="message">
+                        <p>Email successfuly validated.</p>
+                        <p>A manager will validate your account, you'll be notified by email.</p>
+                    </div>
+                )
+                break
+
+            case Status.failed:
+                message = (
+                    <div className="message">
+                        <p>Error validating email</p>
+                        <p>{this.props.responseOfVerifyEmail.message}</p>
+                    </div>
+                )
+                error = true
+                break
+
+            default:
+                message = (
+                    <div className="message">
+                        <p>Validating...</p>
+                    </div>
+                )
         }
 
-        if (this.props.responseOfVerifyEmail.status === Status.failed) {
-            return (
-                <p>Error validating email</p>
-            )
-        }
-
-        // TODO display in a proper box
         return (
-            <p>Validating...</p>
+            <div id="verify-email" className={classNames("box", {error})}>
+                <div className="box-header">
+                    <h2>Email verification</h2>
+                </div>
+                {message}
+            </div>
         )
     }
 }

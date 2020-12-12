@@ -1,0 +1,26 @@
+//
+// Dakara project
+//
+// Email verification page style file
+//
+
+
+#verify-email{
+    @include make-gap(padding, bottom);
+
+    .box-header {
+        h2 {
+            @include make-gap(padding, horizontal);
+        }
+    }
+
+    &.error {
+        background: $brand-danger-darker;
+        color: $brand-danger;
+
+        .box-header {
+            background: transparent;
+            color: inherit;
+        }
+    }
+}
