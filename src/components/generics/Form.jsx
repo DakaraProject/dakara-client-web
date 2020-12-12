@@ -318,6 +318,16 @@ class FormBlock extends Form {
         const { title, alterationResponse,
             successMessage, pendingMessage } = this.props
 
+        // get title if defined
+        let header
+        if (title) {
+            header = (
+                <div className="header">
+                    <h3>{title}</h3>
+                </div>
+            )
+        }
+
         // get fields
         const fieldsSet = this.renderFieldsSet()
 
@@ -343,9 +353,7 @@ class FormBlock extends Form {
                 className="form block"
                 noValidate
             >
-                <div className="header">
-                    <h3>{title}</h3>
-                </div>
+                {header}
                 {fieldsSet}
                 <div className="controls notifiable">
                     <Notification

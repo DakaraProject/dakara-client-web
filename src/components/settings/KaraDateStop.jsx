@@ -80,15 +80,17 @@ class SettingsKaraDateStop extends Component {
                 )
             } else {
                 karaDateStopWidget = (
-                    <p className="date-stop-text"> Karaoke stop time is not set.</p>
+                    <p className="date-stop-text">Karaoke stop time is not set.</p>
                 )
             }
         }
 
         return (
-            <div className="box" id="kara-date-stop">
+            <div id="kara-date-stop" className="box">
                 <SettingsTabList/>
-                {karaDateStopWidget}
+                <div className="content">
+                    {karaDateStopWidget}
+                </div>
             </div>
         )
     }

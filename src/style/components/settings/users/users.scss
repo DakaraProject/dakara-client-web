@@ -59,8 +59,4 @@
             }
         }
     }
-
-    .form {
-        @include make-gap(padding, vertical);
-    }
 }

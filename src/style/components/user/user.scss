@@ -6,10 +6,7 @@
 
 
 #user {
-    .user-header {
-        @include make-gap(padding, vertical);
-        background: $brand-primary-darker;
-        color: $brand-primary-light;
+    .header {
         display: flex;
         flex-wrap: wrap;
 
@@ -23,16 +20,7 @@
         .permissions {
             text-align: right;
             flex: 1 0 auto;
-
-            .permission {
-                margin-top: 0.3em;
-                margin-bottom: 0.3em;
-            }
         }
 
-    }
-
-    .form {
-        @include make-gap(padding, vertical);
     }
 }

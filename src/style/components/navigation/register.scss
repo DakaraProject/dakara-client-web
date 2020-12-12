@@ -6,15 +6,4 @@
 
 
 #register {
-    @include make-gap(padding, bottom);
-
-    .box-header {
-        h2 {
-            @include make-gap(padding, horizontal);
-        }
-    }
-
-    .created-message {
-        @include make-gap(padding, horizontal);
-    }
 }

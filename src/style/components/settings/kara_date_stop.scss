@@ -5,13 +5,4 @@
 //
 
 #kara-date-stop {
-    .form {
-        @include make-gap(padding, vertical);
-    }
-
-    .date-stop-text {
-        margin-top: 0;
-        margin-bottom: 0;
-        @include make-gap(padding, vertical)
-    }
 }

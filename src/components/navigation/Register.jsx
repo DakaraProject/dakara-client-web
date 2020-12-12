@@ -67,15 +67,17 @@ class Register extends Component {
         )
 
         const createdMessage = (
-            <p className="created-message">Your account was successfully created, check your email</p>
+            <p>Your account was successfully created, please check your email.</p>
         )
 
         return (
             <div id="register" className="box">
-                <div className="box-header">
+                <div className="header">
                     <h2>Create a new account</h2>
                 </div>
-                { this.state.created ? createdMessage : registerForm }
+                <div className="content">
+                    { this.state.created ? createdMessage : registerForm }
+                </div>
             </div>
         )
     }

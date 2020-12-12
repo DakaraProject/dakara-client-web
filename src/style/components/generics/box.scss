@@ -7,31 +7,153 @@
 
 // `box` class:
 //
-// This class is aimed to style a generic box container in the layout. The box
-// has a header of class `box-header`, a footer of class `box-footer` and a
-// content.
+// This class is aimed to style a generic box container in the layout. It can
+// be subclassed to be of a specific color (`primary`, `success`, `warning`,
+// `danger`, or `info`). The box has direct child classes corresponding to its
+// different parts: a `header`, a `footer`, and a `content`. All of them are
+// optional. The `header` and the `footer` have a primary color by default and
+// have their own vertical gaps. The `content` has no color. In case of color
+// subclass, all elements are of the same requested color. The `content`
+// creates vertical gaps to isolate its elements. If the box has a color
+// subclass, top gap of the `content`, respectively bottom gap, is deactivated
+// if a `header` immediately precedes it, respectively if a `footer`
+// immediately succeeds it.
+//
+// Example without color subclass, with header and footer:
+// +-------------------+
+// |                   |
+// | Header            |
+// |                   |
+// + - - - - - - - - - +
+// |                   | < gap
+// | Content           |
+// |                   | < gap
+// + - - - - - - - - - +
+// |                   |
+// | Footer            |
+// |                   |
+// +-------------------+
+//
+// Example without color subclass, with header and no footer:
+// +-------------------+
+// |                   |
+// | Header            |
+// |                   |
+// + - - - - - - - - - +
+// |                   | < gap
+// | Content           |
+// |                   | < gap
+// +-------------------+
+//
+// Example with color subclass, with header and footer:
+// +-------------------+
+// |                   |
+// | Header            |
+// |                   |
+// | Content           | < no extra gap
+// |                   |
+// | Footer            |
+// |                   |
+// +-------------------+
+//
+// Example with color subclass, with header and no footer:
+// +-------------------+
+// |                   |
+// | Header            |
+// |                   |
+// | Content           | < no extra gap
+// |                   | < gap
+// +-------------------+
+//
+// Example with color subclass, with header, no footer and another element:
+// +-------------------+
+// |                   |
+// | Header            |
+// |                   |
+// | Other             |
+// |                   | < gap
+// | Content           |
+// |                   | < gap
+// +-------------------+
 .box {
     background: darken($black-80, 5%);
     box-shadow: 0 0 2rem change-color(black, $alpha: 0.5);
 
+    // separation margin on desktop only
     @include make-desktop {
         margin-bottom: $gap-vertical;
     }
 
-    .box-header {
+    > .header {
+        @include make-gap(padding, vertical);
+        background: $brand-primary-darker;
+        color: $brand-primary-light;
+
+        h2 {
+            @include make-gap(padding, horizontal);
+        }
+    }
+
+    > .footer {
         @include make-gap(padding, vertical);
         background: $brand-primary-darker;
         color: $brand-primary-light;
     }
 
-    .box-footer {
+    > .content {
         @include make-gap(padding, vertical);
+    }
+
+    &.primary, &.success, &.warning, &.danger, &.info {
+        // remove own colors of the header and the footer
+        > .header, > .footer {
+            background: transparent;
+            color: inherit;
+        }
+
+        // remove top gap for the content if after the header
+        > .header + .content {
+            padding-top: 0;
+        }
+
+        // remove bottom gap for the content if before the footer
+        // not the cleanest way
+        > .content + .footer {
+            @include make-gap(margin, top, -1);
+        }
+    }
+
+    &.primary {
         background: $brand-primary-darker;
         color: $brand-primary-light;
+    }
+
+    &.success {
+        background: $brand-success-darker;
+        color: $brand-success-light;
+    }
+
+    &.warning{
+        background: $brand-warning-darker;
+        color: $brand-warning-light;
+    }
+
+    &.danger {
+        background: $brand-danger-darker;
+        color: $brand-danger-light;
+    }
+
+    &.info{
+        background: $brand-info-darker;
+        color: $brand-info-light;
     }
 
     p {
-        @include make-gap(margin, left);
-        @include make-gap(margin, right);
+        @include make-gap(margin, horizontal);
+
+        // paragraphs have margin between them
+        + p {
+            margin-top: 0.5em;
+        }
     }
 }

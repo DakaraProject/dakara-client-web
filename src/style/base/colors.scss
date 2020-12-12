@@ -45,14 +45,14 @@ $brand-primary-light:    lighten($brand-primary, 2.5%);
 $brand-success-light:    lighten($brand-success, 5.5%);
 $brand-warning-light:    lighten($brand-warning, 4.5%);
 $brand-danger-light:     lighten($brand-danger,  4.5%);
-$brand-info-light:       lighten($brand-info,    2.5%);
+$brand-info-light:       lighten($brand-info,    7%  );
 
 // lighter brand colors
 $brand-primary-lighter:  lighten($brand-primary,  7%);
 $brand-success-lighter:  lighten($brand-success,  7%);
 $brand-warning-lighter:  lighten($brand-warning, 10%);
 $brand-danger-lighter:   lighten($brand-danger,   7%);
-$brand-info-lighter:     lighten($brand-info,     7%);
+$brand-info-lighter:     lighten($brand-info,    10%);
 
 // neutral colors
 $neutral-clear: $black-60;

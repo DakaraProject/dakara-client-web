@@ -18,7 +18,6 @@ class User extends Component {
         if (user.is_superuser) {
             permissions.push((
                 <p
-                    className="permission"
                     key="superuser"
                 >
                     You are super user.
@@ -30,7 +29,6 @@ class User extends Component {
         if (user.users_permission_level) {
             permissions.push((
                 <p
-                    className="permission"
                     key="users"
                 >
                     You are users {permissionLevels[user.users_permission_level]}.
@@ -42,7 +40,6 @@ class User extends Component {
         if (user.library_permission_level) {
             permissions.push((
                 <p
-                    className="permission"
                     key="library"
                 >
                     You are library {permissionLevels[user.library_permission_level]}.
@@ -54,7 +51,6 @@ class User extends Component {
         if (user.playlist_permission_level) {
             permissions.push((
                 <p
-                    className="permission"
                     key="playlist"
                 >
                     You are playlist {permissionLevels[user.playlist_permission_level]}.
@@ -64,45 +60,47 @@ class User extends Component {
 
         return (
             <div className="box" id="user">
-                <div className="user-header">
+                <div className="header">
                     <h1>{user.username}</h1>
                     <div className="permissions">
                         {permissions}
                     </div>
                 </div>
-                <FormBlock
-                    title="Change password"
-                    action={`users/${user.id}/password/`}
-                    method="PUT"
-                    submitText="Change password"
-                    alterationName="updatePassword"
-                    successMessage="Password sucessfully updated!"
-                >
-                    <InputField
-                        id="old_password"
-                        type="password"
-                        label="Current password"
-                        required
-                    />
-                    <InputField
-                        id="password"
-                        type="password"
-                        label="New password"
-                        required
-                    />
-                    <InputField
-                        id="confirm_password"
-                        type="password"
-                        label="Confirm password"
-                        required
-                        validate={(value, values) => {
-                            if (values.password !== value) {
-                                return ["This field should match password field."]
-                            }
-                        }}
-                        ignore
-                    />
-                </FormBlock>
+                <div className="content">
+                    <FormBlock
+                        title="Change password"
+                        action={`users/${user.id}/password/`}
+                        method="PUT"
+                        submitText="Change password"
+                        alterationName="updatePassword"
+                        successMessage="Password sucessfully updated!"
+                    >
+                        <InputField
+                            id="old_password"
+                            type="password"
+                            label="Current password"
+                            required
+                        />
+                        <InputField
+                            id="password"
+                            type="password"
+                            label="New password"
+                            required
+                        />
+                        <InputField
+                            id="confirm_password"
+                            type="password"
+                            label="Confirm password"
+                            required
+                            validate={(value, values) => {
+                                if (values.password !== value) {
+                                    return ["This field should match password field."]
+                                }
+                            }}
+                            ignore
+                        />
+                    </FormBlock>
+                </div>
             </div>
         )
     }

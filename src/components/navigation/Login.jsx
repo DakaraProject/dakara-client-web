@@ -24,40 +24,44 @@ class Login extends Component {
 
         return (
             <div>
-                <div id="login-box" className="box">
-                    <FormBlock
-                        action="accounts/login/"
-                        title="Login"
-                        submitText="Login"
-                        alterationName="login"
-                        successMessage={false}
-                        pendingMessage={false}
-                    >
-                        <InputField
-                            id="login"
-                            label={(
-                                <span className="icon">
-                                    <i className="fa fa-user"></i>
-                                </span>
-                            )}
-                            placeholder="Username or email..."
-                            required
-                        />
-                        <InputField
-                            id="password"
-                            label={(
-                                <span className="icon">
-                                    <i className="fa fa-lock"></i>
-                                </span>
-                            )}
-                            placeholder="Password..."
-                            type="password"
-                            required
-                        />
-                    </FormBlock>
+                <div id="login-form" className="box primary">
+                    <div className="header">
+                        <h2>Login</h2>
+                    </div>
+                    <div className="content">
+                        <FormBlock
+                            action="accounts/login/"
+                            submitText="Login"
+                            alterationName="login"
+                            successMessage={false}
+                            pendingMessage={false}
+                        >
+                            <InputField
+                                id="login"
+                                label={(
+                                    <span className="icon">
+                                        <i className="fa fa-user"></i>
+                                    </span>
+                                )}
+                                placeholder="Username or email..."
+                                required
+                            />
+                            <InputField
+                                id="password"
+                                label={(
+                                    <span className="icon">
+                                        <i className="fa fa-lock"></i>
+                                    </span>
+                                )}
+                                placeholder="Password..."
+                                type="password"
+                                required
+                            />
+                        </FormBlock>
+                    </div>
                 </div>
                 <div id="login-links" className="box">
-                    <p>
+                    <p class="content">
                         {"New here? Create a "}
                         <NavLink to="/register" className="text">
                             new account

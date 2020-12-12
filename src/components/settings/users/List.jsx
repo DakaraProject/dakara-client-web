@@ -90,48 +90,50 @@ class SettingsUsersList extends Component {
                     location={location}
                 />
                 <IsUserManager>
-                    <FormBlock
-                        title="Create user"
-                        submitText="Create"
-                        alterationName="createUser"
-                        action="users/"
-                        successMessage="User sucessfully created!"
-                        onSuccess={this.refreshEntries}
-                    >
-                        <InputField
-                            id="username"
-                            label="Username"
-                            required
-                        />
-                        <InputField
-                            id="email"
-                            label="Email"
-                            required
-                            validate={(value) => {
-                                if(!/\S+@\S+\.\S+/.test(value.toLowerCase())) {
-                                    return ["This should be a valid email address."]
-                                }
-                            }}
-                        />
-                        <InputField
-                            id="password"
-                            type="password"
-                            label="Password"
-                            required
-                        />
-                        <InputField
-                            id="confirm_password"
-                            type="password"
-                            label="Confirm password"
-                            required
-                            validate={(value, values) => {
-                                if (values.password !== value) {
-                                    return ["This field should match password field."]
-                                }
-                            }}
-                            ignore
-                        />
-                    </FormBlock>
+                    <div className="content">
+                        <FormBlock
+                            title="Create user"
+                            submitText="Create"
+                            alterationName="createUser"
+                            action="users/"
+                            successMessage="User sucessfully created!"
+                            onSuccess={this.refreshEntries}
+                        >
+                            <InputField
+                                id="username"
+                                label="Username"
+                                required
+                            />
+                            <InputField
+                                id="email"
+                                label="Email"
+                                required
+                                validate={(value) => {
+                                    if(!/\S+@\S+\.\S+/.test(value.toLowerCase())) {
+                                        return ["This should be a valid email address."]
+                                    }
+                                }}
+                            />
+                            <InputField
+                                id="password"
+                                type="password"
+                                label="Password"
+                                required
+                            />
+                            <InputField
+                                id="confirm_password"
+                                type="password"
+                                label="Confirm password"
+                                required
+                                validate={(value, values) => {
+                                    if (values.password !== value) {
+                                        return ["This field should match password field."]
+                                    }
+                                }}
+                                ignore
+                            />
+                        </FormBlock>
+                    </div>
                 </IsUserManager>
             </div>
         )

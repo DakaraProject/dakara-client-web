@@ -31,13 +31,16 @@ class VerifyEmail extends Component {
     }
 
     render() {
-        let message
+        const {
+            responseOfVerifyEmail
+        } = this.props
+        let content
         let error = false
 
-        switch (this.props.responseOfVerifyEmail.status) {
+        switch (responseOfVerifyEmail.status) {
             case Status.successful:
-                message = (
-                    <div className="message">
+                content = (
+                    <div className="content">
                         <p>Email successfuly validated.</p>
                         <p>A manager will validate your account, you'll be notified by email.</p>
                     </div>
@@ -45,29 +48,36 @@ class VerifyEmail extends Component {
                 break
 
             case Status.failed:
-                message = (
-                    <div className="message">
-                        <p>Error validating email</p>
-                        <p>{this.props.responseOfVerifyEmail.message}</p>
+                let message
+                if (responseOfVerifyEmail.message) {
+                    message = (
+                        <p>Reason: {responseOfVerifyEmail.message}</p>
+                    )
+                }
+
+                content = (
+                    <div className="content">
+                        <p>Error validating email.</p>
+                        {message}
                     </div>
                 )
                 error = true
                 break
 
             default:
-                message = (
-                    <div className="message">
+                content = (
+                    <div className="content">
                         <p>Validating...</p>
                     </div>
                 )
         }
 
         return (
-            <div id="verify-email" className={classNames("box", {error})}>
-                <div className="box-header">
+            <div id="verify-email" className={classNames("box", {danger: error})}>
+                <div className="header">
                     <h2>Email verification</h2>
                 </div>
-                {message}
+                {content}
             </div>
         )
     }

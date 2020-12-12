@@ -38,6 +38,10 @@ h2 {
     font-size: 2em;
 }
 
+h3 {
+    font-size: 1.75em;
+}
+
 // make long text clearly readible
 @mixin make-long-text() {
     font-size: 1.2em;

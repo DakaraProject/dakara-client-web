@@ -85,14 +85,13 @@ class SettingsKaraStatus extends Component {
                         </p>
                     )
                 }
-            
             }
         }
 
         return (
-            <div className="box" id="kara-status">
+            <div id="kara-status" className="box">
                 <SettingsTabList/>
-                <div className="status-text-container">
+                <div className="content">
                     {karaStatusWidget}
                 </div>
             </div>

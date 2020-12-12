@@ -159,17 +159,14 @@ $form-control-icon-size: $row-icon-font-size;
         }
 
         // `header` class: header of the form.
-        .header {
+        > .header {
             h3 {
                 @include make-gap(padding, horizontal);
-                margin-top: $gap-vertical / 4;
-                margin-bottom: $gap-vertical / 4;
-                font-size: 1.75em;
             }
         }
 
         // if the set is preceded by a header
-        .header + .set {
+        > .header + .set {
             margin-top: 0;
         }
     }
@@ -511,7 +508,7 @@ $form-control-icon-size: $row-icon-font-size;
             // add style to marker when checked
             input:checked + label.marker::after {
                 position: absolute;
-                @inclde square($field-height * 0.5);
+                @include square($field-height * 0.5);
 
                 // content align
                 line-height: $field-height * 0.5;
