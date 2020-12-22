@@ -49,7 +49,7 @@ class SettingsKaraStatus extends Component {
         } else {
             if (!karaoke.ongoing) {
                 karaStatusWidget = (
-                    <p className="status-text">
+                    <p>
                         Karaoke is not ongoing.
                         The player is stopped, the playlist is
                         empty and you can't add songs to it.
@@ -59,13 +59,13 @@ class SettingsKaraStatus extends Component {
                 karaStatusWidget = []
                 if (karaoke.player_play_next_song) {
                     karaStatusWidget.push(
-                        <p className="status-text">
+                        <p>
                             The player plays songs in the playlist.
                         </p>
                     )
                 } else {
                     karaStatusWidget.push(
-                        <p className="status-text">
+                        <p>
                             No additional song is played by the player,
                             which finishes playing its current song if any.
                         </p>
@@ -74,13 +74,13 @@ class SettingsKaraStatus extends Component {
 
                 if (karaoke.can_add_to_playlist) {
                     karaStatusWidget.push(
-                        <p className="status-text">
+                        <p>
                             Songs can be added to the playlist.
                         </p>
                     )
                 } else {
                     karaStatusWidget.push(
-                        <p className="status-text">
+                        <p>
                             Songs can't be added to the playlist.
                         </p>
                     )
