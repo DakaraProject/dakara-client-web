@@ -531,18 +531,18 @@ class Field extends Component {
         let fieldErrorMessages
         if (fieldErrors && !inline) {
             const fieldErrorContent = fieldErrors.map((fieldError, id) => (
-                <div className="error" key={id}>{fieldError}</div>
+                <div className="notification danger error" key={id}>{fieldError}</div>
             ))
 
             fieldErrorMessages = (
                 <CSSTransition
-                    classNames="error"
+                    classNames="error-container"
                     timeout={{
                         enter: 300,
                         exit: 150
                     }}
                 >
-                    <div className="notification danger">{fieldErrorContent}</div>
+                    <div className="error-container">{fieldErrorContent}</div>
                 </CSSTransition>
             )
         }

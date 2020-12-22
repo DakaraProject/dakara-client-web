@@ -140,25 +140,25 @@ $form-control-icon-size: $row-icon-font-size;
                         display: block;
                     }
 
-                    .notification {
+                    .error-container {
                         .error {
                             padding: $gap-vertical * 0.25;
                         }
 
-                        &.error-enter {
+                        &.error-container-enter {
                             max-height: 0;
 
-                            &.error-enter-active {
+                            &.error-container-enter-active {
                                 max-height: calc(1em + #{$gap-vertical} * 2);
                                 transition: max-height 300ms ease-out;
                             }
                         }
 
                         // notification transition disappearance
-                        &.error-exit {
+                        &.error-container-exit {
                             max-height: calc(1em + #{$gap-vertical} * 2);
 
-                            &.error-exit-active {
+                            &.error-container-exit-active {
                                 max-height: 0;
                                 transition: max-height 100ms ease-out;
                             }

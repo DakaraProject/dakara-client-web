@@ -17,28 +17,32 @@
     color: $body-background;
     box-sizing: border-box;
 
-    @mixin make-notification($color) {
+    @mixin make-notification($color, $color-light) {
         background: $color;
+
+        &:nth-child(2n) {
+                background: $color-light;
+        }
     }
 
     &.primary {
-        @include make-notification($brand-primary);
+        @include make-notification($brand-primary, $brand-primary-light);
     }
 
     &.success {
-        @include make-notification($brand-success);
+        @include make-notification($brand-success, $brand-success-light);
     }
 
     &.warning {
-        @include make-notification($brand-warning);
+        @include make-notification($brand-warning, $brand-warning-light);
     }
 
     &.danger {
-        @include make-notification($brand-danger);
+        @include make-notification($brand-danger, $brand-danger-light);
     }
 
     &.info {
-        @include make-notification($brand-info);
+        @include make-notification($brand-info, $brand-info-light);
     }
 
     // lighten notification when on even line of a list
