@@ -119,7 +119,7 @@
         // remove bottom gap for the content if before the footer
         // not the cleanest way
         > .content + .footer {
-            @include make-gap(margin, top, -1);
+            padding-top: 0;
         }
     }
 
