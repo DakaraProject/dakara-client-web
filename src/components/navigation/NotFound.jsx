@@ -13,7 +13,7 @@ export default class NotFound extends Component {
                 <div className="header">
                     <h2>Not found</h2>
                 </div>
-                <div class="content">
+                <div className="content">
                     <div className="url">{url}</div>
                     <p>We're sorry, your request did not match any route…</p>
                 </div>

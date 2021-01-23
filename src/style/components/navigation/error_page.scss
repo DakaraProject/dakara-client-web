@@ -15,9 +15,10 @@
         background: $brand-danger;
         color: $brand-danger-darker;
         @include make-gap(padding, horizontal);
-    }
 
-    ::selection {
-        background: $brand-danger;
+        &::selection {
+                background: $brand-danger-darker;
+                color: $brand-danger;
+        }
     }
 }
