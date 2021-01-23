@@ -61,7 +61,7 @@ class Login extends Component {
                     </div>
                 </div>
                 <div id="login-links" className="box">
-                    <p class="content">
+                    <p className="content">
                         {"New here? Create a "}
                         <NavLink to="/register">
                             new account
