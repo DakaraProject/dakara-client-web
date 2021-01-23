@@ -67,7 +67,7 @@ class Login extends Component {
                             new account
                         </NavLink>
                         {". Or "}
-                        <NavLink to="/forgot-password" className="text">
+                        <NavLink to="/send-reset-password-link" className="text">
                             reset your password
                         </NavLink>
                         {" if you have forgotten it."}
