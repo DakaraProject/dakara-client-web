@@ -38,6 +38,8 @@ $tab-bar-icon-font-size: 1.25em;
         line-height: $tab-bar-height;
         text-align: center;
         @include text-truncate();
+        color: inherit;
+        text-decoration: none;
 
         @include make-smartphone {
             &:not(.active),

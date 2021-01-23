@@ -63,11 +63,11 @@ class Login extends Component {
                 <div id="login-links" className="box">
                     <p class="content">
                         {"New here? Create a "}
-                        <NavLink to="/register" className="text">
+                        <NavLink to="/register">
                             new account
                         </NavLink>
                         {". Or "}
-                        <NavLink to="/send-reset-password-link" className="text">
+                        <NavLink to="/send-reset-password-link">
                             reset your password
                         </NavLink>
                         {" if you have forgotten it."}

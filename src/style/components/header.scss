@@ -24,5 +24,10 @@ $header-height: $tab-bar-height;
         @include make-smartphone {
             font-size: x-large;
         }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
     }
 }

@@ -5,15 +5,10 @@
 //
 
 
-// make links transparent
+// make links
 a {
-    color: inherit;
-    text-decoration: none;
-
-    &.text {
-        color: $brand-primary-light;
-        text-decoration: underline;
-    }
+    color: $brand-primary-light;
+    text-decoration: underline;
 }
 
 // highlight tag
