@@ -69,8 +69,8 @@ class User extends Component {
                 <div className="content">
                     <FormBlock
                         title="Change password"
-                        action={`users/${user.id}/password/`}
-                        method="PUT"
+                        action={`accounts/change-password/`}
+                        method="POST"
                         submitText="Change password"
                         alterationName="updatePassword"
                         successMessage="Password sucessfully updated!"
@@ -88,7 +88,7 @@ class User extends Component {
                             required
                         />
                         <InputField
-                            id="confirm_password"
+                            id="password_confirm"
                             type="password"
                             label="Confirm password"
                             required
@@ -97,7 +97,6 @@ class User extends Component {
                                     return ["This field should match password field."]
                                 }
                             }}
-                            ignore
                         />
                     </FormBlock>
                 </div>
