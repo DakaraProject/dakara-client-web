@@ -69,7 +69,7 @@ class User extends Component {
                 <div className="content">
                     <FormBlock
                         title="Change password"
-                        action={`accounts/change-password/`}
+                        action="accounts/change-password/"
                         method="POST"
                         submitText="Change password"
                         alterationName="updatePassword"
@@ -95,6 +95,25 @@ class User extends Component {
                             validate={(value, values) => {
                                 if (values.password !== value) {
                                     return ["This field should match password field."]
+                                }
+                            }}
+                        />
+                    </FormBlock>
+                    <FormBlock
+                        title="Change email"
+                        action="accounts/register-email/"
+                        method="POST"
+                        submitText="Change email"
+                        alterationName="registerEmail"
+                        successMessage="Validation email sent to you new address!"
+                    >
+                        <InputField
+                            id="email"
+                            label="New email"
+                            required
+                            validate={(value) => {
+                                if(!/\S+@\S+\.\S+/.test(value.toLowerCase())) {
+                                    return ["This should be a valid email address."]
                                 }
                             }}
                         />

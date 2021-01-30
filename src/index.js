@@ -10,6 +10,7 @@ import { ProtectedRoute } from 'components/generics/Router'
 import Login from 'components/registration/Login'
 import Register from 'components/registration/Register'
 import VerifyRegistration from 'components/registration/VerifyRegistration'
+import VerifyEmail from 'components/registration/VerifyEmail'
 import ResetPassword from 'components/registration/ResetPassword'
 import SendResetPasswordLink from 'components/registration/SendResetPasswordLink'
 import Logout from 'components/registration/Logout'
@@ -67,6 +68,7 @@ ReactDOM.render(
                     <Route exact path="/reset-password" component={ResetPassword}/>
                     <Route exact path="/send-reset-password-link" component={SendResetPasswordLink}/>
                     <Route exact path="/verify-registration" component={VerifyRegistration}/>
+                    <Route exact path="/verify-email" component={VerifyEmail}/>
                     <Redirect exact from="/" to="/library"/>
                     <Route component={NotFound}/>
                 </Switch>
