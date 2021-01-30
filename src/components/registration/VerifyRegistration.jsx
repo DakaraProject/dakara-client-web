@@ -3,14 +3,14 @@ import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { parse } from 'query-string'
 import PropTypes from 'prop-types'
-import { verifyEmail } from 'actions/users'
+import { verifyRegistration } from 'actions/users'
 import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
 
-class VerifyEmail extends Component {
+class VerifyRegistration extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
-        responseOfVerifyEmail: alterationResponsePropType,
-        verifyEmail: PropTypes.func.isRequired,
+        responseOfVerifyRegistration: alterationResponsePropType,
+        verifyRegistration: PropTypes.func.isRequired,
     }
 
     componentDidMount() {
@@ -23,7 +23,7 @@ class VerifyEmail extends Component {
         } = queryObj
 
         // Send verify request to server
-        this.props.verifyEmail(
+        this.props.verifyRegistration(
             user_id,
             timestamp,
             signature
@@ -32,12 +32,12 @@ class VerifyEmail extends Component {
 
     render() {
         const {
-            responseOfVerifyEmail
+            responseOfVerifyRegistration
         } = this.props
         let content
         let error = false
 
-        switch (responseOfVerifyEmail.status) {
+        switch (responseOfVerifyRegistration.status) {
             case Status.successful:
                 content = (
                     <div className="content">
@@ -49,9 +49,9 @@ class VerifyEmail extends Component {
 
             case Status.failed:
                 let message
-                if (responseOfVerifyEmail.message) {
+                if (responseOfVerifyRegistration.message) {
                     message = (
-                        <p>Reason: {responseOfVerifyEmail.message}</p>
+                        <p>Reason: {responseOfVerifyRegistration.message}</p>
                     )
                 }
 
@@ -73,7 +73,7 @@ class VerifyEmail extends Component {
         }
 
         return (
-            <div id="verify-email" className={classNames("box", {danger: error})}>
+            <div id="verify-registration" className={classNames("box", {danger: error})}>
                 <div className="header">
                     <h2>Email verification</h2>
                 </div>
@@ -85,13 +85,13 @@ class VerifyEmail extends Component {
 
 
 const mapStateToProps = (state) => ({
-    responseOfVerifyEmail: state.alterationsResponse.unique.verifyEmail || {},
+    responseOfVerifyRegistration: state.alterationsResponse.unique.verifyRegistration || {},
 })
 
-VerifyEmail = connect(
+VerifyRegistration = connect(
     mapStateToProps,
     {
-        verifyEmail
+        verifyRegistration
     }
-)(VerifyEmail)
-export default VerifyEmail
+)(VerifyRegistration)
+export default VerifyRegistration

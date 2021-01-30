@@ -90,12 +90,12 @@ export const clearUser = () => ({
 
 
 /**
- * Verify user email
+ * Verify user registration
  * @param userId if of the user
  * @param timestamp timestamp of the validation
  * @param signature signature of the validation
  */
-export const verifyEmail = (userId, timestamp, signature) => ({
+export const verifyRegistration = (userId, timestamp, signature) => ({
     [FETCH_API]: {
             endpoint: `${baseUrl}/accounts/verify-registration/`,
             method: 'POST',
@@ -110,5 +110,5 @@ export const verifyEmail = (userId, timestamp, signature) => ({
                 ALTERATION_FAILURE,
             ],
         },
-    alterationName: "verifyEmail",
+    alterationName: "verifyRegistration",
 })
