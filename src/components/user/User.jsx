@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import { FormBlock, InputField } from 'components/generics/Form'
 import { permissionLevels } from 'components/permissions/Users'
 import { userPropType } from 'serverPropTypes/users'
@@ -8,10 +9,11 @@ import { userPropType } from 'serverPropTypes/users'
 class User extends Component {
     static propTypes = {
         user: userPropType.isRequired,
+        serverSettings: PropTypes.object
     }
 
     render() {
-        const { user } = this.props
+        const { user, serverSettings } = this.props
         let permissions = []
 
         // superuser
@@ -105,7 +107,7 @@ class User extends Component {
                         method="POST"
                         submitText="Change email"
                         alterationName="registerEmail"
-                        successMessage="Validation email sent to you new address!"
+                        successMessage={serverSettings?.email_enabled ? "Validation email sent to you new address!" : "Email successfuly changed!"}
                     >
                         <InputField
                             id="email"
@@ -126,6 +128,7 @@ class User extends Component {
 
 const mapStateToProps = (state) => ({
     user: state.authenticatedUser,
+    serverSettings: state.internal.serverSettings
 })
 
 User = withRouter(connect(

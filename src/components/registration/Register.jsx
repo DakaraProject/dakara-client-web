@@ -7,6 +7,7 @@ import { FormBlock, InputField } from 'components/generics/Form'
 class Register extends Component {
     static propTypes = {
         isLoggedIn: PropTypes.bool.isRequired,
+        serverSettings: PropTypes.object
     }
 
     state = {
@@ -14,7 +15,7 @@ class Register extends Component {
     }
 
     render() {
-        const { isLoggedIn } = this.props
+        const { isLoggedIn, serverSettings } = this.props
 
         if (isLoggedIn) {
             return (
@@ -66,9 +67,16 @@ class Register extends Component {
             </FormBlock>
         )
 
-        const createdMessage = (
-            <p>Your account was successfully created, please check your email.</p>
-        )
+        let createdMessage
+        if (serverSettings?.email_enabled) {
+            createdMessage = (
+                <p>Your account was successfully created, please check your email.</p>
+            )
+        } else {
+            createdMessage = (
+                <p>Your account was successfully created. A manager will validate your account before you can login.</p>
+            )
+        }
 
         return (
             <div id="register" className="box">
@@ -85,6 +93,7 @@ class Register extends Component {
 
 const mapStateToProps = (state) => ({
     isLoggedIn: !!state.token,
+    serverSettings: state.internal.serverSettings
 })
 
 Register = connect(

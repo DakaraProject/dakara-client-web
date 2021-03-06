@@ -9,16 +9,30 @@ class Login extends Component {
     static propTypes = {
         isLoggedIn: PropTypes.bool.isRequired,
         location: PropTypes.object.isRequired,
+        serverSettings: PropTypes.object
     }
 
     render() {
-        const { isLoggedIn } = this.props
+        const { isLoggedIn, serverSettings } = this.props
 
         if (isLoggedIn) {
             const queryObj = parse(this.props.location.search)
             const from = queryObj.from || '/'
             return (
                     <Redirect to={from}/>
+            )
+        }
+
+        let forgottenPasswordLink
+        if (serverSettings?.email_enabled) {
+            forgottenPasswordLink = (
+                <span>
+                    {" Or "}
+                    <NavLink to="/send-reset-password-link">
+                        reset your password
+                    </NavLink>
+                    {" if you have forgotten it."}
+                </span>
             )
         }
 
@@ -66,11 +80,8 @@ class Login extends Component {
                         <NavLink to="/register">
                             new account
                         </NavLink>
-                        {". Or "}
-                        <NavLink to="/send-reset-password-link">
-                            reset your password
-                        </NavLink>
-                        {" if you have forgotten it."}
+                        {"."}
+                        {forgottenPasswordLink}
                     </p>
                 </div>
             </div>
@@ -80,6 +91,7 @@ class Login extends Component {
 
 const mapStateToProps = (state) => ({
     isLoggedIn: !!state.token,
+    serverSettings: state.internal.serverSettings
 })
 
 Login = connect(

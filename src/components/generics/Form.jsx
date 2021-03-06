@@ -47,7 +47,8 @@ class Form extends Component {
         const { formValues } = this.state
         const newFormValues = {}
 
-        React.Children.map(this.props.children, field => {
+        React.Children.forEach(this.props.children, field => {
+            if (!field) return
             // only undefined values are replaced to the default value of the
             // component
             // this avoids corrupting falsy values such as false or 0
@@ -124,6 +125,7 @@ class Form extends Component {
         // Check fields validations
         let fieldsErrors = {}
         React.Children.forEach(this.props.children, field => {
+            if (!field) return
             const { id, required, validate, disabled, disabledBy } = field.props
             const value = formValues[id]
 
@@ -182,6 +184,7 @@ class Form extends Component {
         let json = {}
 
         React.Children.forEach(children, (field) => {
+            if (!field) return
             const { ignore, ignoreIfEmpty, id } = field.props
             const value = formValues[id]
 
@@ -212,6 +215,7 @@ class Form extends Component {
 
         const fields = React.Children.map(children,
             (field) => {
+                if (!field) return field
                 const { id, disabledBy, disabled } = field.props
                 let fieldErrors
                 if (alterationResponse) {
