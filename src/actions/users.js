@@ -97,7 +97,7 @@ export const clearUser = () => ({
  */
 export const verifyRegistration = (userId, timestamp, signature) => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}/accounts/verify-registration/`,
+            endpoint: `${baseUrl}accounts/verify-registration/`,
             method: 'POST',
             json: {
                 user_id: userId,
@@ -123,7 +123,7 @@ export const verifyRegistration = (userId, timestamp, signature) => ({
  */
 export const verifyEmail = (userId, email, timestamp, signature) => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}/accounts/verify-email/`,
+            endpoint: `${baseUrl}accounts/verify-email/`,
             method: 'POST',
             json: {
                 user_id: userId,
