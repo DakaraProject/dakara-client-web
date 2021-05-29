@@ -60,10 +60,46 @@ class User extends Component {
             ))
         }
 
+        // change mail zone
+        let changeMailBlock
+        if (!(serverSettings?.email_enabled && !user.validated_by_email)) {
+            changeMailBlock = (
+                <FormBlock
+                    title="Change email"
+                    action="accounts/register-email/"
+                    method="POST"
+                    submitText="Change email"
+                    alterationName="registerEmail"
+                    successMessage={serverSettings?.email_enabled ? "Validation email sent to you new address!" : "Email successfuly changed!"}
+                >
+                    <InputField
+                        id="email"
+                        label="New email"
+                        required
+                        validate={(value) => {
+                            if(!/\S+@\S+\.\S+/.test(value.toLowerCase())) {
+                                return ["This should be a valid email address."]
+                            }
+                        }}
+                    />
+                </FormBlock>
+            )
+        } else {
+            changeMailBlock = (
+                <div className="change-email-disabled">
+                    <p>You should validate your email first before changing it.</p>
+                </div>
+            )
+        }
+
+
         return (
             <div className="box" id="user">
                 <div className="header">
-                    <h1>{user.username}</h1>
+                    <div className="user-name-block">
+                        <h1>{user.username}</h1>
+                        <h2>{user.email}</h2>
+                    </div>
                     <div className="permissions">
                         {permissions}
                     </div>
@@ -101,25 +137,7 @@ class User extends Component {
                             }}
                         />
                     </FormBlock>
-                    <FormBlock
-                        title="Change email"
-                        action="accounts/register-email/"
-                        method="POST"
-                        submitText="Change email"
-                        alterationName="registerEmail"
-                        successMessage={serverSettings?.email_enabled ? "Validation email sent to you new address!" : "Email successfuly changed!"}
-                    >
-                        <InputField
-                            id="email"
-                            label="New email"
-                            required
-                            validate={(value) => {
-                                if(!/\S+@\S+\.\S+/.test(value.toLowerCase())) {
-                                    return ["This should be a valid email address."]
-                                }
-                            }}
-                        />
-                    </FormBlock>
+                    {changeMailBlock}
                 </div>
             </div>
         )
