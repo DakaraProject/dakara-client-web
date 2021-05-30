@@ -86,7 +86,7 @@ class User extends Component {
             )
         } else {
             changeMailBlock = (
-                <div className="change-email-disabled">
+                <div className="change-email-disabled ribbon warning">
                     <p>You should validate your email first before changing it.</p>
                 </div>
             )

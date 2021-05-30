@@ -9,12 +9,20 @@
     .header {
         display: flex;
         flex-wrap: wrap;
+        align-items: center;
 
-        h1 {
+        .user-name-block {
             @include make-gap(padding, horizontal);
-            font-size: 3em;
             overflow-wrap: break-word;
             overflow: hidden;
+
+            h1 {
+                font-size: 3em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
         }
 
         .permissions {
@@ -22,5 +30,9 @@
             flex: 1 0 auto;
         }
 
+    }
+
+    .change-email-disabled {
+        @include make-gap(margin, top)
     }
 }
