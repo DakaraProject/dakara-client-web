@@ -17,7 +17,7 @@
 // creates vertical gaps to isolate its elements. If the box has a color
 // subclass, top gap of the `content`, respectively bottom gap, is deactivated
 // if a `header` immediately precedes it, respectively if a `footer`
-// immediately succeeds it.
+// immediately succeeds it. The content can have a ribbon.
 //
 // Example without color subclass, with header and footer:
 // +-------------------+
@@ -43,6 +43,22 @@
 // |                   | < gap
 // | Content           |
 // |                   | < gap
+// +-------------------+
+//
+// Example with no color subclass and ribbon:
+// +-------------------+
+// |                   |
+// | Header            |
+// |                   |
+// + - - - - - - - - - +
+// |                   | < gap
+// |/Ribbon////////////|
+// | Content           |
+// |                   | < gap
+// + - - - - - - - - - +
+// |                   |
+// | Footer            |
+// |                   |
 // +-------------------+
 //
 // Example with color subclass, with header and footer:
@@ -76,7 +92,6 @@
 // |                   | < gap
 // +-------------------+
 .box {
-    background: darken($black-80, 5%);
     box-shadow: 0 0 2rem change-color(black, $alpha: 0.5);
 
     // separation margin on desktop only
@@ -84,20 +99,32 @@
         margin-bottom: $gap-vertical;
     }
 
-    > .header {
-        @include make-gap(padding, vertical);
-        background: $brand-primary-darker;
-        color: $brand-primary-light;
+    // if not subclassed
+    &:not(.primary):not(.success):not(.warning):not(.danger):not(.info) {
+        background: darken($black-80, 5%);
 
-        > h2 {
-            @include make-gap(padding, horizontal);
+        > .header, > .footer {
+            @include make-gap(padding, vertical);
+            background: $brand-primary-darker;
+            color: $brand-primary-light;
         }
     }
 
-    > .footer {
-        @include make-gap(padding, vertical);
-        background: $brand-primary-darker;
-        color: $brand-primary-light;
+    // if subclassed
+    &.primary, &.success, &.warning, &.danger, &.info {
+        > .header {
+            @include make-gap(padding, top);
+        }
+
+        > .footer {
+            @include make-gap(padding, bottom);
+        }
+    }
+
+    > .header {
+        > h2 {
+            @include make-gap(padding, horizontal);
+        }
     }
 
     > .content {
@@ -108,22 +135,7 @@
         }
     }
 
-    &.primary, &.success, &.warning, &.danger, &.info {
-        // remove own colors of the header and the footer
-        > .header, > .footer {
-            background: transparent;
-            color: inherit;
-        }
-
-        // remove top gap for the content if after the header
-        > .header + .content {
-            padding-top: 0;
-        }
-
-        // remove bottom gap for the content if before the footer
-        > .content + .footer {
-            padding-top: 0;
-        }
+    > .footer {
     }
 
     p {
