@@ -79,3 +79,33 @@ $text-dark:  $black-90;
 // custom colors saturation and luminosity
 $custom-color-saturation: 55%;
 $custom-color-luminosity: 55%;
+
+// create colors
+@mixin make-color($background, $color, $background-selection) {
+    background: $background;
+    color: $color;
+
+    ::selection {
+        background: $background-selection;
+    }
+}
+
+.primary {
+    @include make-color($brand-primary-darker, $brand-primary-light, $brand-primary);
+}
+
+.success {
+    @include make-color($brand-success-darker, $brand-success-light, $brand-success);
+}
+
+.warning{
+    @include make-color($brand-warning-darker, $brand-warning-light, $brand-warning);
+}
+
+.danger {
+    @include make-color($brand-danger-darker, $brand-danger-light, $brand-danger);
+}
+
+.info{
+    @include make-color($brand-info-darker, $brand-info-light, $brand-info);
+}

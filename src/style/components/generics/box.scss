@@ -105,51 +105,6 @@
 
         > .ribbon {
             @include make-gap(padding, vertical, 0.5);
-
-            &.primary {
-                background: $brand-primary-darker;
-                color: $brand-primary-light;
-
-                ::selection {
-                    background: $brand-primary;
-                }
-            }
-
-            &.success {
-                background: $brand-success-darker;
-                color: $brand-success-light;
-
-                ::selection {
-                    background: $brand-success;
-                }
-            }
-
-            &.warning{
-                background: $brand-warning-darker;
-                color: $brand-warning-light;
-
-                ::selection {
-                    background: $brand-warning;
-                }
-            }
-
-            &.danger {
-                background: $brand-danger-darker;
-                color: $brand-danger-light;
-
-                ::selection {
-                    background: $brand-danger;
-                }
-            }
-
-            &.info{
-                background: $brand-info-darker;
-                color: $brand-info-light;
-
-                ::selection {
-                    background: $brand-info;
-                }
-            }
         }
     }
 
@@ -168,51 +123,6 @@
         // remove bottom gap for the content if before the footer
         > .content + .footer {
             padding-top: 0;
-        }
-    }
-
-    &.primary {
-        background: $brand-primary-darker;
-        color: $brand-primary-light;
-
-        ::selection {
-            background: $brand-primary;
-        }
-    }
-
-    &.success {
-        background: $brand-success-darker;
-        color: $brand-success-light;
-
-        ::selection {
-            background: $brand-success;
-        }
-    }
-
-    &.warning{
-        background: $brand-warning-darker;
-        color: $brand-warning-light;
-
-        ::selection {
-            background: $brand-warning;
-        }
-    }
-
-    &.danger {
-        background: $brand-danger-darker;
-        color: $brand-danger-light;
-
-        ::selection {
-            background: $brand-danger;
-        }
-    }
-
-    &.info{
-        background: $brand-info-darker;
-        color: $brand-info-light;
-
-        ::selection {
-            background: $brand-info;
         }
     }
 
