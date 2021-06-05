@@ -16,7 +16,7 @@ export const CURRENT_USER_FAILURE = 'CURRENT_USER_FAILURE'
  */
 export const loadCurrentUser = () => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}users/current/`,
+            endpoint: `${baseUrl}/users/current/`,
             method: 'GET',
             types: [CURRENT_USER_REQUEST, CURRENT_USER_SUCCESS, CURRENT_USER_FAILURE],
         }

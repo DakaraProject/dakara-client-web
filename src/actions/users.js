@@ -31,7 +31,7 @@ const refreshUsersDelayed = (dispatch, getState) => {
  */
 export const getUsers = (page = 1) => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}users/?page=${page}`,
+            endpoint: `${baseUrl}/users/?page=${page}`,
             method: 'GET',
             types: [USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LIST_FAILURE],
         }
@@ -47,7 +47,7 @@ export const getUsers = (page = 1) => ({
  */
 export const deleteUser = (userId) => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}users/${userId}/`,
+            endpoint: `${baseUrl}/users/${userId}/`,
             method: 'DELETE',
             types: [
                 ALTERATION_REQUEST,
@@ -78,7 +78,7 @@ export const USER_CLEAR = "USER_CLEAR"
  */
 export const getUser = (userId) => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}users/${userId}/`,
+            endpoint: `${baseUrl}/users/${userId}/`,
             method: 'GET',
             types: [USER_GET_REQUEST, USER_GET_SUCCESS, USER_GET_FAILURE],
         },
@@ -97,7 +97,7 @@ export const clearUser = () => ({
  */
 export const verifyRegistration = (userId, timestamp, signature) => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}accounts/verify-registration/`,
+            endpoint: `${baseUrl}/accounts/verify-registration/`,
             method: 'POST',
             json: {
                 user_id: userId,
@@ -123,7 +123,7 @@ export const verifyRegistration = (userId, timestamp, signature) => ({
  */
 export const verifyEmail = (userId, email, timestamp, signature) => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}accounts/verify-email/`,
+            endpoint: `${baseUrl}/accounts/verify-email/`,
             method: 'POST',
             json: {
                 user_id: userId,

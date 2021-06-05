@@ -37,7 +37,7 @@ export const submitAlteration = (alterationName, elementId,
     endpoint, method, json) => {
     return {
         [FETCH_API]: {
-                endpoint: baseUrl + endpoint,
+                endpoint: `${baseUrl}/${endpoint}`,
                 method,
                 json,
                 types: [

@@ -23,7 +23,7 @@ export const PLAYLIST_DIGEST_FAILURE = 'PLAYLIST_DIGEST_FAILURE'
  */
 export const loadPlaylistAppDigest = () => ({
     [FETCH_API]: {
-        endpoint: `${baseUrl}playlist/digest/`,
+        endpoint: `${baseUrl}/playlist/digest/`,
         method: 'GET',
         types: [
             PLAYLIST_DIGEST_REQUEST,
@@ -49,7 +49,7 @@ export const loadPlaylistAppDigest = () => ({
  */
 export const removeEntryFromPlaylist = (entryId) => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}playlist/entries/${entryId}/`,
+            endpoint: `${baseUrl}/playlist/entries/${entryId}/`,
             method: 'DELETE',
             types: [
                 ALTERATION_REQUEST,
@@ -78,7 +78,7 @@ export const PLAYLIST_FAILURE = 'PLAYLIST_FAILURE'
  */
 export const loadPlaylist = () => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}playlist/entries/`,
+            endpoint: `${baseUrl}/playlist/entries/`,
             method: 'GET',
             types: [PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE],
         }
@@ -97,7 +97,7 @@ export const PLAYLIST_PLAYED_FAILURE = 'PLAYLIST_PLAYED_FAILURE'
  */
 export const loadPlaylistPlayed = () => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}playlist/played-entries/`,
+            endpoint: `${baseUrl}/playlist/played-entries/`,
             method: 'GET',
             types: [PLAYLIST_PLAYED_REQUEST, PLAYLIST_PLAYED_SUCCESS, PLAYLIST_PLAYED_FAILURE],
         }
@@ -145,7 +145,7 @@ const addSongWhenFinished = (dispatch, getState, newAction) => {
  */
 export const addSongToPlaylist = (songId) => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}playlist/entries/`,
+            endpoint: `${baseUrl}/playlist/entries/`,
             method: 'POST',
             json: {song_id: songId},
             types: [
@@ -168,7 +168,7 @@ export const addSongToPlaylist = (songId) => ({
  */
 export const addSongToPlaylistWithOptions = (songId, useInstrumental=false) => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}playlist/entries/`,
+            endpoint: `${baseUrl}/playlist/entries/`,
             method: 'POST',
             json: {
               song_id: songId,
@@ -217,7 +217,7 @@ export const reorderPlaylistEntry = ({playlistEntryId, beforeId, afterId} = {}) 
 
     return {
         [FETCH_API]: {
-                endpoint: `${baseUrl}playlist/entries/${playlistEntryId}/`,
+                endpoint: `${baseUrl}/playlist/entries/${playlistEntryId}/`,
                 method: 'PUT',
                 json,
                 types: [
@@ -245,7 +245,7 @@ export const reorderPlaylistEntry = ({playlistEntryId, beforeId, afterId} = {}) 
  */
 export const sendPlayerCommand = (command) => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}playlist/player/command/`,
+            endpoint: `${baseUrl}/playlist/player/command/`,
             method: 'PUT',
             json: {command},
             types: [

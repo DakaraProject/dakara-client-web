@@ -16,7 +16,7 @@ export const SERVER_SETTINGS_FAILURE = 'SERVER_SETTINGS_FAILURE'
  */
 export const loadServerSettings = () => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}settings/`,
+            endpoint: `${baseUrl}/settings/`,
             method: 'GET',
             types: [SERVER_SETTINGS_REQUEST, SERVER_SETTINGS_SUCCESS, SERVER_SETTINGS_FAILURE],
         }
