@@ -26,7 +26,7 @@ class SettingsUsersEdit extends Component {
         serverSettings: PropTypes.object
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const userId = this.props.match.params.userId
         this.props.getUser(userId)
     }

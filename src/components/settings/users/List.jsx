@@ -23,7 +23,7 @@ class SettingsUsersList extends Component {
         getUsers: PropTypes.func.isRequired,
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.refreshEntries()
     }
 

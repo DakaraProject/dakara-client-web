@@ -109,7 +109,7 @@ export default class ManageButton extends Component {
         clearTimeout(this.transitionEndedTimeout)
     }
 
-    componentWillMount() {
+    componentDidMount() {
         // set the first icon
         const { icon } = this.props
         this.setState({icon})

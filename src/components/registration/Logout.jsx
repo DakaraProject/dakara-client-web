@@ -9,7 +9,7 @@ class Logout extends Component {
         logout: PropTypes.func.isRequired,
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.logout()
         this.props.history.push('/login')
     }

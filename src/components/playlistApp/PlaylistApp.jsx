@@ -23,7 +23,7 @@ class PlaylistApp extends Component {
         this.timeout = setTimeout(this.pollPlaylistAppDigest, params.pollInterval)
     }
 
-    componentWillMount() {
+    componentDidMount() {
         // start polling server
         this.pollPlaylistAppDigest()
     }

@@ -20,7 +20,7 @@ class Main extends Component {
         loadServerSettings: PropTypes.func.isRequired,
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.loadServerSettings()
 
         if (this.props.isLoggedIn) {
@@ -29,8 +29,8 @@ class Main extends Component {
         }
     }
 
-    componentWillUpdate(nextProps) {
-        if (!this.props.isLoggedIn && nextProps.isLoggedIn) {
+    componentDidUpdate(prevProps) {
+        if (this.props.isLoggedIn && !prevProps.isLoggedIn) {
             this.props.loadCurrentUser()
             this.props.loadWorkTypes()
         }

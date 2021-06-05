@@ -11,6 +11,7 @@ class ProtectedRoute extends Component {
         component: PropTypes.oneOfType([
             PropTypes.element,
             PropTypes.func,
+            PropTypes.object,
         ]).isRequired,
         isLoggedIn: PropTypes.bool,
         hasUserInfo: PropTypes.bool,
