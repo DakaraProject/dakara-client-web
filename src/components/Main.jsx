@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { loadCurrentUser } from 'actions/authenticatedUser'
+import { loadServerSettings } from 'actions/internal'
 import Header from './Header'
 import Footer from './Footer'
 import PlaylistApp from './playlistApp/PlaylistApp'
@@ -16,9 +17,12 @@ class Main extends Component {
         isLoggedIn: PropTypes.bool.isRequired,
         loadCurrentUser: PropTypes.func.isRequired,
         loadWorkTypes: PropTypes.func.isRequired,
+        loadServerSettings: PropTypes.func.isRequired,
     }
 
     componentWillMount() {
+        this.props.loadServerSettings()
+
         if (this.props.isLoggedIn) {
             this.props.loadCurrentUser()
             this.props.loadWorkTypes()
@@ -56,7 +60,8 @@ Main = withRouter(connect(
     mapStateToProps,
     {
         loadCurrentUser,
-        loadWorkTypes
+        loadWorkTypes,
+        loadServerSettings
     }
 )(Main))
 

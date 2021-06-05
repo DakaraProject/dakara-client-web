@@ -100,6 +100,11 @@
             @include make-control($brand-info, $brand-info-dark, $brand-info-lighter);
         }
     }
+
+    // make link transparent
+    a.control {
+        text-decoration: none;
+    }
 }
 
 

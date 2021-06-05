@@ -23,6 +23,7 @@ class SettingsUsersEdit extends Component {
         }).isRequired,
         getUser: PropTypes.func.isRequired,
         clearUser: PropTypes.func.isRequired,
+        serverSettings: PropTypes.object
     }
 
     componentWillMount() {
@@ -35,7 +36,7 @@ class SettingsUsersEdit extends Component {
     }
 
     render() {
-        const { location, authenticatedUser } = this.props
+        const { location, authenticatedUser, serverSettings } = this.props
         const { user } = this.props.editUsersState.data
 
         // render nothing if the user is being fetched
@@ -61,6 +62,32 @@ class SettingsUsersEdit extends Component {
             )
         }
 
+        let passwordField
+        let passwordConfirmField
+        if (serverSettings && !serverSettings.email_enabled) {
+            passwordField = (
+                <InputField
+                    id="password"
+                    type="password"
+                    label="Password"
+                    ignoreIfEmpty
+                />
+            )
+            passwordConfirmField = (
+                <InputField
+                    id="confirm_password"
+                    type="password"
+                    label="Confirm password"
+                    validate={(value, values) => {
+                        if (values.password !== value) {
+                            return ["This field should match password field."]
+                        }
+                    }}
+                    ignore
+                />
+            )
+        }
+
         return (
                 <div className="box" id="users-edit">
                     <SettingsTabList/>
@@ -74,21 +101,32 @@ class SettingsUsersEdit extends Component {
                         noClearOnSuccess
                     >
                         <InputField
-                            id="password"
-                            type="password"
-                            label="Password"
-                            ignoreIfEmpty
+                            id="username"
+                            label="Username"
+                            defaultValue={user.username}
+                            disabled
+                            ignore
                         />
                         <InputField
-                            id="confirm_password"
-                            type="password"
-                            label="Confirm password"
-                            validate={(value, values) => {
-                                if (values.password !== value) {
-                                    return ["This field should match password field."]
-                                }
-                            }}
+                            id="email"
+                            label="E-mail"
+                            defaultValue={user.email}
+                            disabled
                             ignore
+                        />
+                        {passwordField}
+                        {passwordConfirmField}
+                        <CheckboxField
+                            id="validated_by_email"
+                            label="Validated by email"
+                            defaultValue={user.validated_by_email}
+                            disabled
+                            ignore
+                        />
+                        <CheckboxField
+                            id="validated_by_manager"
+                            label="Validated by manager"
+                            defaultValue={user.validated_by_manager}
                         />
                         <CheckboxField
                             id="is_superuser"
@@ -136,7 +174,8 @@ class SettingsUsersEdit extends Component {
 
 const mapStateToProps = (state) => ({
     editUsersState: state.settings.users.edit,
-    authenticatedUser: state.authenticatedUser
+    authenticatedUser: state.authenticatedUser,
+    serverSettings: state.internal.serverSettings
 })
 
 SettingsUsersEdit = connect(

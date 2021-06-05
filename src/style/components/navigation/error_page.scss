@@ -5,33 +5,20 @@
 //
 
 #error-page {
-    background: $brand-danger-darker;
-    color: $brand-danger;
-    @include make-gap(padding, bottom);
-
-    .header {
-        @include make-gap(padding, vertical);
-        background: transparent;
-        color: inherit;
-
-        h2 {
-            font-size: 2em;
-            @include make-gap(padding, horizontal);
-        }
-    }
-
     .url {
         display: inline-block;
         font-size: 1.1em;
         margin-right: 0;
         margin-left: 0;
+        margin-bottom: 1em;
         line-height: 1.5em;
         background: $brand-danger;
         color: $brand-danger-darker;
         @include make-gap(padding, horizontal);
-    }
 
-    ::selection {
-        background: $brand-danger;
+        &::selection {
+                background: $brand-danger-darker;
+                color: $brand-danger;
+        }
     }
 }

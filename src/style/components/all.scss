@@ -5,15 +5,10 @@
 //
 
 
-// make links transparent
+// make links
 a {
-    color: inherit;
-    text-decoration: none;
-
-    &.external {
-        color: $brand-primary-light;
-        text-decoration: underline;
-    }
+    color: $brand-primary-light;
+    text-decoration: underline;
 }
 
 // highlight tag
@@ -32,6 +27,14 @@ mark {
 h1, h2, h3, h4, h5, h6 {
     font-weight: 100;
     margin: 0;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+h3 {
+    font-size: 1.75em;
 }
 
 // make long text clearly readible

@@ -18,9 +18,9 @@ export default class ListingFetchWrapper extends Component {
             pending = (
                 <Delayer delay={200}>
                     <div className="overlay">
-                        <p className="pending">
+                        <div className="pending">
                             Fetching...
-                        </p>
+                        </div>
                     </div>
                 </Delayer>
             )

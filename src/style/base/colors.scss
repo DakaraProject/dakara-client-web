@@ -22,14 +22,14 @@ $brand-info-darkish:    darken($brand-info,    9%);
 // darkened brand colors
 $brand-primary-darkened: darken($brand-primary, 9.5%);
 $brand-success-darkened: darken($brand-success, 7.5%);
-$brand-warning-darkened: darken($brand-warning, 27%);
+$brand-warning-darkened: darken($brand-warning, 10%);
 $brand-danger-darkened:  darken($brand-danger,  15%);
 $brand-info-darkened:    darken($brand-info,    15%);
 
 // dark brand colors
 $brand-primary-dark:     darken($brand-primary, 12%);
 $brand-success-dark:     darken($brand-success, 10%);
-$brand-warning-dark:     darken($brand-warning, 30%);
+$brand-warning-dark:     darken($brand-warning, 15%);
 $brand-danger-dark:      darken($brand-danger,  20%);
 $brand-info-dark:        darken($brand-info,    20%);
 
@@ -45,14 +45,14 @@ $brand-primary-light:    lighten($brand-primary, 2.5%);
 $brand-success-light:    lighten($brand-success, 5.5%);
 $brand-warning-light:    lighten($brand-warning, 4.5%);
 $brand-danger-light:     lighten($brand-danger,  4.5%);
-$brand-info-light:       lighten($brand-info,    2.5%);
+$brand-info-light:       lighten($brand-info,    7%  );
 
 // lighter brand colors
 $brand-primary-lighter:  lighten($brand-primary,  7%);
 $brand-success-lighter:  lighten($brand-success,  7%);
 $brand-warning-lighter:  lighten($brand-warning, 10%);
 $brand-danger-lighter:   lighten($brand-danger,   7%);
-$brand-info-lighter:     lighten($brand-info,     7%);
+$brand-info-lighter:     lighten($brand-info,    10%);
 
 // neutral colors
 $neutral-clear: $black-60;
@@ -79,3 +79,33 @@ $text-dark:  $black-90;
 // custom colors saturation and luminosity
 $custom-color-saturation: 55%;
 $custom-color-luminosity: 55%;
+
+// create colors
+@mixin make-color($background, $color, $background-selection) {
+    background: $background;
+    color: $color;
+
+    ::selection {
+        background: $background-selection;
+    }
+}
+
+.primary {
+    @include make-color($brand-primary-darker, $brand-primary-light, $brand-primary);
+}
+
+.success {
+    @include make-color($brand-success-darker, $brand-success-light, $brand-success);
+}
+
+.warning{
+    @include make-color($brand-warning-darker, $brand-warning-light, $brand-warning);
+}
+
+.danger {
+    @include make-color($brand-danger-darker, $brand-danger-light, $brand-danger);
+}
+
+.info{
+    @include make-color($brand-info-darker, $brand-info-light, $brand-info);
+}

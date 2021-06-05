@@ -68,7 +68,11 @@ class SettingsUsersList extends Component {
                                 <tr className="listing-header">
                                     <th className="notification-col"></th>
                                     <th className="username">User&shy;name</th>
-                                    <th className="permission">Super&shy;user</th>
+                                    <IsUserManager>
+                                        <th className="validated">Email check</th>
+                                        <th className="validated">Manager check</th>
+                                    </IsUserManager>
+                                    <th className="superuser">Super&shy;user</th>
                                     <th className="permission">Users rights</th>
                                     <th className="permission">Library rights</th>
                                     <th className="permission">Playlist rights</th>
@@ -86,38 +90,50 @@ class SettingsUsersList extends Component {
                     location={location}
                 />
                 <IsUserManager>
-                    <FormBlock
-                        title="Create user"
-                        submitText="Create"
-                        alterationName="createUser"
-                        action="users/"
-                        successMessage="User sucessfully created!"
-                        onSuccess={this.refreshEntries}
-                    >
-                        <InputField
-                            id="username"
-                            label="Username"
-                            required
-                        />
-                        <InputField
-                            id="password"
-                            type="password"
-                            label="Password"
-                            required
-                        />
-                        <InputField
-                            id="confirm_password"
-                            type="password"
-                            label="Confirm password"
-                            required
-                            validate={(value, values) => {
-                                if (values.password !== value) {
-                                    return ["This field should match password field."]
-                                }
-                            }}
-                            ignore
-                        />
-                    </FormBlock>
+                    <div className="content">
+                        <FormBlock
+                            title="Create user"
+                            submitText="Create"
+                            alterationName="createUser"
+                            action="users/"
+                            successMessage="User sucessfully created!"
+                            onSuccess={this.refreshEntries}
+                        >
+                            <InputField
+                                id="username"
+                                label="Username"
+                                required
+                            />
+                            <InputField
+                                id="email"
+                                label="Email"
+                                required
+                                validate={(value) => {
+                                    if(!/\S+@\S+\.\S+/.test(value.toLowerCase())) {
+                                        return ["This should be a valid email address."]
+                                    }
+                                }}
+                            />
+                            <InputField
+                                id="password"
+                                type="password"
+                                label="Password"
+                                required
+                            />
+                            <InputField
+                                id="confirm_password"
+                                type="password"
+                                label="Confirm password"
+                                required
+                                validate={(value, values) => {
+                                    if (values.password !== value) {
+                                        return ["This field should match password field."]
+                                    }
+                                }}
+                                ignore
+                            />
+                        </FormBlock>
+                    </div>
                 </IsUserManager>
             </div>
         )
