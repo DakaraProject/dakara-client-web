@@ -27,7 +27,7 @@ class PlaylistInfoBar extends Component {
         this.timeout = setTimeout(this.pollPlaylist, params.pollInterval)
     }
 
-    componentWillMount() {
+    componentDidMount() {
         // start polling server
         this.pollPlaylist()
         this.props.loadPlaylistPlayed()

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link as OldLink } from 'react-router-dom'
 import { stringify } from 'query-string'
 import PropTypes from 'prop-types'
 
-export default class extends Component {
+export default class Link extends Component {
     static propTypes = {
         to: PropTypes.oneOfType([
             PropTypes.object,
@@ -23,12 +23,12 @@ export default class extends Component {
         }
 
         return (
-            <Link
+            <OldLink
                 {...rest}
                 to={newTo}
             >
                 {this.props.children}
-            </Link>
+            </OldLink>
         )
     }
 }

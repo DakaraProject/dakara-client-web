@@ -25,7 +25,7 @@ class SettingsSongTagsList extends Component {
         authenticatedUser: userPropType.isRequired,
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.refreshEntries()
     }
 

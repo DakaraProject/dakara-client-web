@@ -18,7 +18,7 @@ export const TAG_LIST_FAILURE = "TAG_LIST_FAILURE"
  */
 export const getSongTagList = (page = 1) => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}library/song-tags/?page=${page}`,
+            endpoint: `${baseUrl}/library/song-tags/?page=${page}`,
             method: 'GET',
             types: [TAG_LIST_REQUEST, TAG_LIST_SUCCESS, TAG_LIST_FAILURE],
         }
@@ -34,7 +34,7 @@ export const getSongTagList = (page = 1) => ({
  */
 export const editSongTag = (tagId, disabled) => ({
     [FETCH_API]: {
-        endpoint: `${baseUrl}library/song-tags/${tagId}/`,
+        endpoint: `${baseUrl}/library/song-tags/${tagId}/`,
         method: 'PATCH',
         json: {disabled},
         types: [ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE],

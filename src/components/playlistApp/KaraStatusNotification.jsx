@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-export default () => (
+const karaStatusNotification = () => (
     <div className="box" id="kara-status-notification">
         <div className="message">
             The karaoke is stopped for now. You can activate
@@ -17,3 +17,5 @@ export default () => (
         </div>
     </div>
 )
+
+export default karaStatusNotification

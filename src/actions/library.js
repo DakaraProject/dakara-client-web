@@ -50,7 +50,7 @@ export const loadLibraryEntries = (libraryType = "song", { query, pageNumber = 1
         query
     })
 
-    const url = `${baseUrl}library/${serverLibraryName}/?${queryString}`
+    const url = `${baseUrl}/library/${serverLibraryName}/?${queryString}`
 
     return fetchLibraryEntries(url, serverLibraryName, workType)
 }
@@ -69,7 +69,7 @@ export const WORK_TYPES_FAILURE = 'WORK_TYPES_FAILURE'
  */
 export const loadWorkTypes = () => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}library/work-types/`,
+            endpoint: `${baseUrl}/library/work-types/`,
             method: 'GET',
             types: [WORK_TYPES_REQUEST, WORK_TYPES_SUCCESS, WORK_TYPES_FAILURE]
         }

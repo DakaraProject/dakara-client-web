@@ -21,7 +21,7 @@ export const FETCH_API = "FETCH_API"
  * If a token is present in state,
  * this token is send as authorization on each request
  */
-export default ({getState, dispatch}) => next => action => {
+const fetchApiMiddleware = ({getState, dispatch}) => next => action => {
     let fetchApi = action[FETCH_API]
 
     if (typeof fetchApi === 'undefined') {
@@ -146,3 +146,5 @@ export default ({getState, dispatch}) => next => action => {
         })
 
 }
+
+export default fetchApiMiddleware

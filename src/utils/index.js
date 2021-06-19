@@ -20,7 +20,7 @@ export function formatDuration(seconds) {
 }
 
 export const params = {
-    baseUrl: "/api/",
+    baseUrl: "/api",
     pollInterval: 1000
 }
 

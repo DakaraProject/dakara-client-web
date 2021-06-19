@@ -68,7 +68,7 @@ class Form extends Component {
         })
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.setDefaultFormValues()
     }
 
