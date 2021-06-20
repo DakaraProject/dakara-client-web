@@ -30,6 +30,10 @@
 
 ## Unreleased
 
+### Added
+
+- Add email support.
+
 ## 1.6.0 - 2020-09-05
 
 ### Added
