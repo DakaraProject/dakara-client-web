@@ -23,7 +23,7 @@ class Tokens extends Component {
                         <div className="key">{userToken}</div>
                         <div className="controls">
                             <button className="copy control primary" onClick={() => {
-                                this.copyToClipboard(userToken)
+                                this.copyToClipboard(userToken, "userTokenCopyStatus")
                             }}>
                                 <i className="fa fa-clipboard"></i>
                             </button>
@@ -39,16 +39,16 @@ class Tokens extends Component {
         )
     }
 
-    copyToClipboard = (text) => {
+    copyToClipboard = (text, copyStatusName) => {
         // copy text to clipboard using the clipboard API and manage success or
         // failure of the operation
-        this.setState({userTokenCopyStatus: Status.pending})
+        this.setState({[copyStatusName]: Status.pending})
         navigator.clipboard.writeText(text).then(
             () => {
-                this.setState({userTokenCopyStatus: Status.successful})
+                this.setState({[copyStatusName]: Status.successful})
             },
             () => {
-                this.setState({userTokenCopyStatus: Status.failed})
+                this.setState({[copyStatusName]: Status.failed})
             }
         )
     }

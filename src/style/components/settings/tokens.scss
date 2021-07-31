@@ -4,10 +4,12 @@
 // Tokens settings style file
 //
 
+// tokens sizes
+$token-height: $row-height;
+
 #tokens {
     .token {
-        height: $row-height;
-        line-height: $row-height;
+        height: $token-height;
         display: flex;
         background: $neutral-clear;
         color: $text-dark;
@@ -17,10 +19,12 @@
         .key {
             @include make-gap(padding, horizontal);
             flex: 1;
+            line-height: $token-height;
+            @include text-truncate();
         }
 
         .controls {
-            @include make-controls($row-height);
+            @include make-controls($token-height);
         }
     }
 }
