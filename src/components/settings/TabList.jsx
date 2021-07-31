@@ -26,6 +26,11 @@ export default class SettingsTabList extends Component {
                     iconName="stop-circle-o"
                     name="Kara stop time"
                 />
+                <Tab
+                    to="/settings/tokens"
+                    iconName="user-circle"
+                    name="Tokens"
+                />
             </nav>
         )
     }

@@ -1,0 +1,26 @@
+//
+// Dakara Project
+//
+// Tokens settings style file
+//
+
+#tokens {
+    .token {
+        height: $row-height;
+        line-height: $row-height;
+        display: flex;
+        background: $neutral-clear;
+        color: $text-dark;
+
+        @include make-gap(margin, top, 0.5);
+
+        .key {
+            @include make-gap(padding, horizontal);
+            flex: 1;
+        }
+
+        .controls {
+            @include make-controls($row-height);
+        }
+    }
+}
