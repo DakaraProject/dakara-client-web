@@ -6,6 +6,7 @@
 
 // tokens sizes
 $token-height: $row-height;
+$button-height: $row-height;
 
 #tokens {
     .token {
@@ -21,6 +22,22 @@ $token-height: $row-height;
             flex: 1;
             line-height: $token-height;
             @include text-truncate();
+        }
+
+        .controls {
+            @include make-controls($token-height);
+        }
+    }
+
+    .revoke {
+        @include make-gap(margin, top, 0.5);
+        display: flex;
+        align-items: center;
+
+        .message {
+            flex: 1;
+            margin-top: 0;
+            margin-bottom: 0;
         }
 
         .controls {
