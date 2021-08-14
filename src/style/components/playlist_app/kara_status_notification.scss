@@ -6,28 +6,32 @@
 
 
 // kara status notification sizes
-$kara-status-notification-height: $form-field-height + 2 * $gap-vertical;
+$kara-status-notification-height: $form-field-height;
+$kara-status-notification-font-size: $form-control-font-size;
 
 
 // `kara-status-notification` class: message displayed to the playlist
 // manager when the kara is stopped.
 #kara-status-notification {
-    background: $brand-primary-darker;
-    color: $brand-primary;
-    display: flex;
-    align-items: center;
-    padding: $gap-vertical 0;
-    @include make-gap(padding, vertical);
-
-    .message {
-        flex: 1;
-        margin-top: 0;
-        margin-bottom: 0;
+    .content {
+        padding: 0;
     }
 
-    .control {
-        @include make-gap(padding, horizontal);
-        line-height: $form-field-height;
-        font-size: $form-control-font-size;
+    .ribbon {
+        display: flex;
+        align-items: center;
+        @include make-gap(padding, vertical);
+
+        .message {
+            flex: 1;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .control {
+            @include make-gap(padding, horizontal);
+            line-height: $kara-status-notification-height;
+            font-size: $kara-status-notification-font-size;
+        }
     }
 }
