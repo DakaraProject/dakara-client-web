@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import SettingsTabList from './TabList'
-import { invalidateToken } from 'actions/token'
+import { revokeToken } from 'actions/token'
 import TokenWidget from 'components/generics/TokenWidget'
 import Notification from 'components/generics/Notification'
 import { IsPlaylistManager } from 'components/permissions/Playlist'
@@ -119,7 +119,7 @@ class Tokens extends Component {
     render() {
         const {
             userToken,
-            invalidateToken,
+            revokeToken,
             responseOfRevokeToken,
         } = this.props
 
@@ -145,7 +145,7 @@ class Tokens extends Component {
                             <div className="controls">
                                 <button
                                     className="control warning"
-                                    onClick={invalidateToken}
+                                    onClick={revokeToken}
                                 >
                                     <i className="fa fa-sign-out"></i>
                                 </button>
@@ -154,7 +154,7 @@ class Tokens extends Component {
                                 alterationResponse={responseOfRevokeToken}
                                 pendingMessage={null}
                                 successfulMessage={null}
-                                failedMessage="Unable to invalidate token"
+                                failedMessage="Unable to revoke token"
                             />
                         </div>
                     </div>
@@ -175,7 +175,7 @@ const mapStateToProps = (state) => ({
 
 Tokens = connect(
     mapStateToProps,
-    { invalidateToken }
+    { revokeToken }
 )(Tokens)
 
 export default Tokens

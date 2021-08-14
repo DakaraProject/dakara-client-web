@@ -36,7 +36,7 @@ export const logout = () => ({
 /**
  * Revoke token, causing current user to be logged out
  */
-export const invalidateToken = () => ({
+export const revokeToken = () => ({
     [FETCH_API]: {
             endpoint: `${baseUrl}/accounts/logout/`,
             method: 'POST',
