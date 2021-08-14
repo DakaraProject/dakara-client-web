@@ -130,7 +130,7 @@
     > .content {
         @include make-gap(padding, vertical);
 
-        > .ribbon {
+        .ribbon {
             @include make-gap(padding, vertical, 0.5);
         }
     }

@@ -32,7 +32,7 @@ export const playerErrorPropType = PropTypes.shape({
 })
 
 export const karaokePropType = PropTypes.shape({
-    id: PropTypes.any.isRequired,
+    id: PropTypes.any,
     ongoing: PropTypes.bool,
     can_add_to_playlist: PropTypes.bool,
     player_play_next_song: PropTypes.bool,

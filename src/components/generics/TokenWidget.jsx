@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import { Status } from 'reducers/alterationsResponse'
 import Notification from 'components/generics/Notification'
+import PropTypes from 'prop-types'
 
-export default class Token extends Component {
-    // TODO props types
+export default class TokenWidget extends Component {
+    static propTypes = {
+        token: PropTypes.string.isRequired,
+    }
 
     state = {
         tokenCopyStatus: undefined
@@ -28,10 +31,10 @@ export default class Token extends Component {
         const { tokenCopyStatus } = this.state
 
         return (
-            <div className="token notifiable">
-                <div className="key">{token}</div>
+            <div className="token-widget notifiable">
+                <div className="token">{token}</div>
                 <div className="controls">
-                    <button className="copy control primary" onClick={() => {
+                    <button className="control primary" onClick={() => {
                         this.copyToClipboard(token)
                     }}>
                         <i className="fa fa-clipboard"></i>

@@ -9,39 +9,38 @@ $token-height: $row-height;
 $button-height: $row-height;
 
 #tokens {
-    .token {
-        height: $token-height;
-        display: flex;
-        background: $neutral-clear;
-        color: $text-dark;
-
-        @include make-gap(margin, top, 0.5);
-
-        .key {
+    .token-box {
+        h3 {
             @include make-gap(padding, horizontal);
-            flex: 1;
-            line-height: $token-height;
-            @include text-truncate();
         }
 
-        .controls {
-            @include make-controls($token-height);
-        }
-    }
-
-    .revoke {
-        @include make-gap(margin, top, 0.5);
-        display: flex;
-        align-items: center;
-
-        .message {
-            flex: 1;
-            margin-top: 0;
-            margin-bottom: 0;
+        .token-widget {
+            @include make-gap(margin, top, 0.5);
         }
 
-        .controls {
-            @include make-controls($token-height);
+        .copy-help {
+            @include make-gap(margin, top, 0.5);
+        }
+
+        .create, .revoke {
+            @include make-gap(margin, top, 0.5);
+            display: flex;
+            align-items: center;
+
+            .message {
+                flex: 1;
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+
+            .controls {
+                @include make-controls($token-height);
+            }
+        }
+
+        & + .token-box {
+            // create margin for following token boxes
+            @include make-gap(margin, top);
         }
     }
 }
