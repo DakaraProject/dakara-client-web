@@ -267,7 +267,8 @@ function playerToken(state = defaultPlayerToken, action) {
             }
 
         case PLAYER_TOKEN_FAILURE:
-            // the token doesn't exist
+            // if the player token doesn't exist
+            // TODO change to low level check
             if (action.error.detail === "Not found.") {
                 return {
                     status: Status.successful,
@@ -280,6 +281,17 @@ function playerToken(state = defaultPlayerToken, action) {
             return {
                 ...state,
                 status: Status.failed,
+            }
+
+        case ALTERATION_SUCCESS:
+            // if the player token has been revoked
+            if (action.alterationName === "revokePlayerToken") {
+                return {
+                    status: Status.successful,
+                    data: {
+                        token: null,
+                    }
+                }
             }
 
         default:

@@ -5,7 +5,8 @@ import { invalidateToken } from 'actions/token'
 import TokenWidget from 'components/generics/TokenWidget'
 import Notification from 'components/generics/Notification'
 import { IsPlaylistManager } from 'components/permissions/Playlist'
-import { loadPlayerToken, createPlayerToken } from 'actions/playlist'
+import { IsLibraryManager } from 'components/permissions/Library'
+import { loadPlayerToken, createPlayerToken, revokePlayerToken } from 'actions/playlist'
 import { Status } from 'reducers/alterationsResponse'
 
 
@@ -25,6 +26,8 @@ class PlayerTokenBox extends Component {
             karaoke,
             playerTokenState,
             responseOfCreatePlayerToken,
+            responseOfRevokePlayerToken,
+            revokePlayerToken,
         } = this.props
         const { token: playerToken } = playerTokenState.data
         const { status: playerTokenStatus } = playerTokenState
@@ -41,6 +44,25 @@ class PlayerTokenBox extends Component {
                             <p className="message">
                                 You can copy this token to authenticate the player.
                             </p>
+                        </div>
+                        <div className="ribbon warning revoke notifiable">
+                            <p className="message">
+                                Click this button to revoke the player token.
+                            </p>
+                            <div className="controls">
+                                <button
+                                    className="control warning"
+                                    onClick={() => {revokePlayerToken(karaoke.id)}}
+                                >
+                                    <i className="fa fa-minus-circle"></i>
+                                </button>
+                            </div>
+                            <Notification
+                                alterationResponse={responseOfRevokePlayerToken}
+                                pendingMessage={null}
+                                successfulMessage={null}
+                                failedMessage="Unable to revoke player token"
+                            />
                         </div>
                     </>
                 )
@@ -82,13 +104,14 @@ class PlayerTokenBox extends Component {
 const mapStateToPropsPlayerTokenBox = (state) => ({
     playerTokenState: state.playlist.playerToken,
     responseOfCreatePlayerToken: state.alterationsResponse.unique.createPlayerToken,
+    responseOfRevokePlayerToken: state.alterationsResponse.unique.revokePlayerToken,
     karaoke: state.playlist.digest.data.karaoke,
 
 })
 
 PlayerTokenBox = connect(
     mapStateToPropsPlayerTokenBox,
-    { loadPlayerToken, createPlayerToken }
+    { loadPlayerToken, createPlayerToken, revokePlayerToken }
 )(PlayerTokenBox)
 
 
@@ -107,13 +130,13 @@ class Tokens extends Component {
                     <div className="token-box user">
                         <h3>User token</h3>
                         <TokenWidget token={userToken} />
-                        <IsPlaylistManager>
+                        <IsLibraryManager>
                             <div className="ribbon info copy-help">
                                 <p className="message">
                                     You can copy this token to authenticate the feeder.
                                 </p>
                             </div>
-                        </IsPlaylistManager>
+                        </IsLibraryManager>
                         <div className="ribbon warning revoke notifiable">
                             <p className="message">
                                 Click this button to revoke your token.
@@ -148,7 +171,6 @@ class Tokens extends Component {
 const mapStateToProps = (state) => ({
     userToken: state.token,
     responseOfRevokeToken: state.alterationsResponse.unique.revokeToken,
-
 })
 
 Tokens = connect(

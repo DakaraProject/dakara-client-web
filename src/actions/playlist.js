@@ -267,6 +267,10 @@ export const PLAYER_TOKEN_REQUEST = "PLAYER_TOKEN_REQUEST"
 export const PLAYER_TOKEN_SUCCESS = "PLAYER_TOKEN_SUCCESS"
 export const PLAYER_TOKEN_FAILURE = "PLAYER_TOKEN_FAILURE"
 
+/**
+ * Load player token
+ * @param karaokeId ID of the karaoke object
+ */
 export const loadPlayerToken = (karaokeId) => ({
     [FETCH_API]: {
             endpoint: `${baseUrl}/playlist/player-token/${karaokeId}/`,
@@ -279,6 +283,10 @@ export const loadPlayerToken = (karaokeId) => ({
     }
 })
 
+/**
+ * Create player token, causing to reload player token of the same karaoke
+ * @param karaokeId ID of the karaoke object
+ */
 export const createPlayerToken = (karaokeId) => ({
     [FETCH_API]: {
             endpoint: `${baseUrl}/playlist/player-token/`,
@@ -292,4 +300,22 @@ export const createPlayerToken = (karaokeId) => ({
             onSuccess: loadPlayerToken(karaokeId),
     },
     alterationName: "createPlayerToken",
+})
+
+/**
+ * Revoke player token
+ * @param karaokeId ID of the karaoke object
+ */
+export const revokePlayerToken = (karaokeId) => ({
+    [FETCH_API]: {
+            endpoint: `${baseUrl}/playlist/player-token/${karaokeId}/`,
+            method: 'DELETE',
+            types: [
+                ALTERATION_REQUEST,
+                ALTERATION_SUCCESS,
+                ALTERATION_FAILURE
+            ],
+
+    },
+    alterationName: "revokePlayerToken"
 })
