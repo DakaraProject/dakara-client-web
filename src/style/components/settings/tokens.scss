@@ -4,38 +4,14 @@
 // Tokens settings style file
 //
 
-// tokens sizes
-$token-height: $row-height;
-$button-height: $row-height;
-
 #tokens {
     .token-box {
         h3 {
             @include make-gap(padding, horizontal);
         }
 
-        .token-widget {
+        .token-widget, .copy-help, .create, .revoke {
             @include make-gap(margin, top, 0.5);
-        }
-
-        .copy-help {
-            @include make-gap(margin, top, 0.5);
-        }
-
-        .create, .revoke {
-            @include make-gap(margin, top, 0.5);
-            display: flex;
-            align-items: center;
-
-            .message {
-                flex: 1;
-                margin-top: 0;
-                margin-bottom: 0;
-            }
-
-            .controls {
-                @include make-controls($token-height);
-            }
         }
 
         & + .token-box {

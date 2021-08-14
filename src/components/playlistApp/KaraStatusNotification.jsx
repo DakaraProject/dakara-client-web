@@ -9,7 +9,7 @@ const karaStatusNotification = () => (
                     The karaoke is stopped for now.
                     You can activate it in the settings page.
                 </p>
-                <div className="controls">
+                <div className="controls free">
                     <Link
                         className="control primary"
                         to="/settings/kara-status"
