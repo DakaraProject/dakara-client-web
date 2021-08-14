@@ -110,7 +110,7 @@ const fetchApiMiddleware = ({getState, dispatch}) => next => action => {
             const contentType = response.headers.get("content-type")
             if (contentType !== "application/json") {
                 if (!response.ok) {
-                    return Promise.reject()
+                    return Promise.reject(response)
                 }
                 return null
             }

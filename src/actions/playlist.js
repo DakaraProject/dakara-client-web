@@ -258,3 +258,38 @@ export const sendPlayerCommand = (command) => ({
     alterationName: "sendPlayerCommands",
     elementId: command,
 })
+
+/**
+ * Player token
+ */
+
+export const PLAYER_TOKEN_REQUEST = "PLAYER_TOKEN_REQUEST"
+export const PLAYER_TOKEN_SUCCESS = "PLAYER_TOKEN_SUCCESS"
+export const PLAYER_TOKEN_FAILURE = "PLAYER_TOKEN_FAILURE"
+
+export const loadPlayerToken = (karaokeId) => ({
+    [FETCH_API]: {
+            endpoint: `${baseUrl}/playlist/player-token/${karaokeId}/`,
+            method: 'GET',
+            types: [
+                PLAYER_TOKEN_REQUEST,
+                PLAYER_TOKEN_SUCCESS,
+                PLAYER_TOKEN_FAILURE
+            ],
+    }
+})
+
+export const createPlayerToken = (karaokeId) => ({
+    [FETCH_API]: {
+            endpoint: `${baseUrl}/playlist/player-token/`,
+            method: 'POST',
+            json: {karaoke: karaokeId},
+            types: [
+                ALTERATION_REQUEST,
+                ALTERATION_SUCCESS,
+                ALTERATION_FAILURE
+            ],
+            onSuccess: loadPlayerToken(karaokeId),
+    },
+    alterationName: "createPlayerToken",
+})

@@ -4,6 +4,7 @@ import { PLAYLIST_DIGEST_REQUEST, PLAYLIST_DIGEST_SUCCESS, PLAYLIST_DIGEST_FAILU
 import { PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE } from 'actions/playlist'
 import { PLAYLIST_PLAYED_REQUEST, PLAYLIST_PLAYED_SUCCESS, PLAYLIST_PLAYED_FAILURE } from 'actions/playlist'
 import { PLAYLIST_PLAYED_ADD } from 'actions/playlist'
+import { PLAYER_TOKEN_REQUEST, PLAYER_TOKEN_SUCCESS, PLAYER_TOKEN_FAILURE } from 'actions/playlist'
 import { ALTERATION_SUCCESS } from 'actions/alterations'
 import { Status } from './alterationsResponse'
 import { playerStatusPropType, playerErrorPropType, karaokePropType } from 'serverPropTypes/playlist'
@@ -42,6 +43,7 @@ const defaultPlaylistAppDigest = {
         },
         player_errors: [],
         karaoke: {
+            id: null,
             ongoing: false,
             can_add_to_playlist: false,
             player_play_next_song: false,
@@ -233,6 +235,60 @@ function playedEntries(state = defaultPlayedEntries, action) {
 }
 
 /**
+ * Player token
+ */
+
+export const playerTokenPropType = PropTypes.shape({
+    status: PropTypes.symbol,
+    data: PropTypes.shape({
+        token: PropTypes.string.isRequired
+    }).isRequired,
+})
+
+const defaultPlayerToken = {
+    status: null,
+    data: {
+        token: null,
+    },
+}
+
+function playerToken(state = defaultPlayerToken, action) {
+    switch (action.type) {
+        case PLAYER_TOKEN_REQUEST:
+            return {
+                ...state,
+                status: state.status || Status.pending,
+            }
+
+        case PLAYER_TOKEN_SUCCESS:
+            return {
+                status: Status.successful,
+                data: action.response,
+            }
+
+        case PLAYER_TOKEN_FAILURE:
+            // the token doesn't exist
+            if (action.error.detail === "Not found.") {
+                return {
+                    status: Status.successful,
+                    data: {
+                        token: null,
+                    }
+                }
+            }
+
+            return {
+                ...state,
+                status: Status.failed,
+            }
+
+        default:
+            return state
+    }
+}
+
+
+/**
  * Playlist
  */
 
@@ -240,6 +296,7 @@ const playlist = combineReducers({
     digest,
     entries,
     playedEntries,
+    playerToken,
 })
 
 export default playlist
