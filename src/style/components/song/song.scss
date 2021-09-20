@@ -14,26 +14,26 @@
 // This class stylizes a song independently of its use (as a single item or as
 // part of a listing).
 .song {
-    display: flex;
-    position: relative;
-    overflow-y: hidden;
-    white-space: nowrap;
     align-items: center;
+    display: flex;
+    overflow-y: hidden;
+    position: relative;
+    white-space: nowrap;
 
     &.with-artist-and-work .general {
         align-items: center;
     }
 
     .general {
-        flex-grow: 1;
-        display: flex;
         align-items: baseline;
+        display: flex;
+        flex-grow: 1;
         overflow: hidden;
 
         // `header` class: song's main info.
         .header {
-            flex-grow: 1;
             @include text-truncate();
+            flex-grow: 1;
 
             .title {
                 font-size: 1.05em;
@@ -49,9 +49,9 @@
         .artist-work {
             display: flex;
             flex-direction: column;
-            text-align: right;
             font-size: 0.9em;
             overflow: hidden;
+            text-align: right;
 
             @include make-smartphone {
                 text-align: left;
@@ -69,26 +69,26 @@
 
     // `duration` class: show song duration.
     .duration {
-        font-size: 0.85em;
-        width: $listing-entry-height;
-        background: $text-light;
-        color: $neutral-mid;
-        flex-shrink: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
         align-items: center;
         align-self: stretch;
+        background: $text-light;
+        color: $neutral-mid;
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        font-size: 0.85em;
+        justify-content: center;
+        width: $listing-entry-height;
     }
 
     // `song-tag-list` subclass: tag songs.
     // The subclass only specifes the location of the tags.
     .song-tag-list {
-        position: absolute;
         bottom: 0;
-        left: 0;
         font-size: 0.65em;
+        left: 0;
         line-height: 1em;
+        position: absolute;
 
         @include make-smartphone {
             font-size: 0.5em;
@@ -116,8 +116,8 @@
             .header {
                 .title {
                     &::before {
-                        font-family: fontawesome;
                         content: "\f070"; // slashed-eye icon
+                        font-family: fontawesome;
                         font-size: 1.1em;
                         margin-right: 0.4em;
                     }

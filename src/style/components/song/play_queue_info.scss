@@ -10,28 +10,30 @@
 // Data relative to the status of the song in the playlist.
 .play-queue-info {
     background: $brand-info;
+    box-sizing: border-box;
     color: $text-dark;
-    text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 0 0.5em;
-    box-sizing: border-box;
+    text-align: center;
     width: 2 * $listing-entry-height;
 
     @include make-smartphone {
-        width: $listing-entry-height;
         font-size: 0.85em;
+        width: $listing-entry-height;
 
-        .played, .queueing, .owner {
+        .played,
+        .queueing,
+        .owner {
             font-size: 0.6em !important;
         }
     }
 
     .owner {
+        @include text-truncate();
         font-size: 0.85em;
         margin-bottom: 0.25em;
-        @include text-truncate();
 
         .icon {
             // Hack for bolder icon
@@ -54,7 +56,9 @@
         }
     }
 
-    .playing, .queueing, .played{
+    .playing,
+    .queueing,
+    .played {
         font-size: 0.75em;
     }
 

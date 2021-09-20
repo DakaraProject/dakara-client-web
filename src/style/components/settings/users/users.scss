@@ -53,9 +53,10 @@
                 }
             }
 
-            .superuser, .validated {
-                text-align: center;
+            .superuser,
+            .validated {
                 font-size: 1.5em;
+                text-align: center;
             }
         }
     }

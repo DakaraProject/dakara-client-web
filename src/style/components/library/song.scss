@@ -28,16 +28,16 @@
 
         // `song` subclass: the song itself.
         .song {
-            flex: 1;
             cursor: pointer;
+            flex: 1;
             min-height: $listing-entry-height;
 
             .general {
                 @include make-vertical-row-padding(horizontal);
 
                 @include make-smartphone {
-                    flex-direction: column;
                     align-items: initial;
+                    flex-direction: column;
 
                     .artist-work {
                         .work-link {
@@ -81,10 +81,10 @@
         // element is difficult to style.
         .listing-expanded {
             $height: $sublisting-entry-height;
-            display: table;
-            width: 100%;
             border-collapse: separate;
             border-spacing: 0 $gap-vertical;
+            display: table;
+            width: 100%;
 
             @include make-smartphone {
                 display: block;
@@ -103,22 +103,22 @@
                 }
 
                 .header {
+                    @include make-gap(padding, horizontal);
                     display: table-cell;
                     font-weight: normal;
-                    white-space: nowrap;
                     vertical-align: top;
-                    @include make-gap(padding, horizontal);
+                    white-space: nowrap;
 
                     @include make-smartphone {
                         display: block;
                     }
 
-                    .icon {
-                    }
+                    // .icon {
+                    // }
 
                     .name {
-                       padding-left: 0.5em; 
-                       line-height: $height;
+                        line-height: $height;
+                        padding-left: 0.5em;
                     }
                 }
 
@@ -136,22 +136,27 @@
                     }
                 }
 
-                .text, .song-tag-list, .paragraph {
+                .text,
+                .song-tag-list,
+                .paragraph {
                     background: darken($neutral-mid, 2%);
                 }
 
-                .text, .paragraph, .artist, .work-link {
+                .text,
+                .paragraph,
+                .artist,
+                .work-link {
+                    @include make-vertical-row-padding(horizontal, 2);
+
                     // allow words to break
                     overflow: hidden;
                     overflow-wrap: break-word;
-
-                    @include make-vertical-row-padding(horizontal, 2);
                 }
 
                 .text {
-                    min-height: $height;
-                    display: flex;
                     align-items: center;
+                    display: flex;
+                    min-height: $height;
                 }
 
                 .song-tag-list {
@@ -165,8 +170,8 @@
                 &.works {
                     .sublisting-entry {
                         .work-link {
-                            flex: 1;
                             display: block;
+                            flex: 1;
                             white-space: unset;
 
                             .title-group {
@@ -202,7 +207,7 @@
             }
 
             &:empty + .instrumental {
-              padding-top: $gap-vertical;
+                padding-top: $gap-vertical;
             }
         }
 
@@ -214,8 +219,8 @@
                 justify-content: flex-end;
 
                 .text {
-                  line-height: $listing-entry-height;
-                  padding-right: 0.5em;
+                    line-height: $listing-entry-height;
+                    padding-right: 0.5em;
                 }
 
                 .submit {
@@ -223,10 +228,10 @@
                         position: relative;
 
                         .sub-icon {
-                            position: absolute;
-                            top: -0.5em;
-                            right: -0.6em;
                             font-size: 0.65em;
+                            position: absolute;
+                            right: -0.6em;
+                            top: -0.5em;
                         }
                     }
                 }
@@ -241,8 +246,8 @@
     .library-entry-song-expanded-wrapper {
         // appearance transition of the expanded view
         &.expand-view-enter {
-            overflow: hidden;
             max-height: 0;
+            overflow: hidden;
 
             &.expand-view-enter-active {
                 max-height: 10 * 0.75 * $listing-entry-height;
@@ -252,8 +257,8 @@
 
         // disappearance transition of the expanded view
         &.expand-view-exit {
-            overflow: hidden;
             max-height: 10 * 0.75 * $listing-entry-height;
+            overflow: hidden;
 
             &.expand-view-exit-active {
                 max-height: 0;

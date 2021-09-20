@@ -6,19 +6,19 @@
 
 #error-page {
     .url {
-        display: inline-block;
-        font-size: 1.1em;
-        margin-right: 0;
-        margin-left: 0;
-        margin-bottom: 1em;
-        line-height: 1.5em;
+        @include make-gap(padding, horizontal);
         background: $brand-danger;
         color: $brand-danger-darker;
-        @include make-gap(padding, horizontal);
+        display: inline-block;
+        font-size: 1.1em;
+        line-height: 1.5em;
+        margin-bottom: 1em;
+        margin-left: 0;
+        margin-right: 0;
 
         &::selection {
-                background: $brand-danger-darker;
-                color: $brand-danger;
+            background: $brand-danger-darker;
+            color: $brand-danger;
         }
     }
 }

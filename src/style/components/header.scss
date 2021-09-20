@@ -10,16 +10,16 @@ $header-height: $tab-bar-height;
 
 #header {
     background: darken($neutral-mid, 3%);
-    height: $header-height;
     display: flex;
+    height: $header-height;
     justify-content: space-between;
     position: relative;
     z-index: 1200;
 
     h1 {
-        line-height: $tab-bar-height * 0.9;
-        font-size: xx-large;
         @include make-gap(padding, horizontal);
+        font-size: xx-large;
+        line-height: $tab-bar-height * 0.9;
 
         @include make-smartphone {
             font-size: x-large;

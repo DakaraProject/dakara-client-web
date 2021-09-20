@@ -39,13 +39,12 @@ $listing-entry-control-font-size: $row-icon-font-size;
 //      - Only allows tables up to 10 rows, but can be increased.
 //      - Each row must have a fixed height of `listing-entry-height`.
 .listing {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-
     // background is darker than actual rows in order to separate them
     // when the listing has a fixed height
     background: darken($neutral-mid, 3%);
+    margin: 0;
+    overflow-x: hidden;
+    padding: 0;
 
     .listing-header {
         height: $listing-entry-height;
@@ -71,9 +70,9 @@ $listing-entry-control-font-size: $row-icon-font-size;
 
         // appearance transition
         &.add-remove-enter {
-            overflow: hidden;
-            min-height: initial;
             height: 0;
+            min-height: initial;
+            overflow: hidden;
 
             &.add-remove-enter-active {
                 height: $listing-entry-height;
@@ -83,9 +82,9 @@ $listing-entry-control-font-size: $row-icon-font-size;
 
         // disappearance transition
         &.add-remove-exit {
-            overflow: hidden;
             height: $listing-entry-height;
             min-height: initial;
+            overflow: hidden;
 
             &.add-remove-exit-active {
                 height: 0;
@@ -104,10 +103,9 @@ $listing-entry-control-font-size: $row-icon-font-size;
             // in listings, controls are close one to other with no space
             // inbetween
             .control {
-                margin: 0;
-
                 // allow button to stretch vertically
                 height: unset;
+                margin: 0;
             }
         }
     }
@@ -125,27 +123,30 @@ ul.listing {
 
 // Specialization for tables
 table.listing {
-    width: 100%;
-    border-collapse: collapse;
-
     // set height so as a div in a cell to take 100% height
+    border-collapse: collapse;
+    width: 100%;
 
     // for Chrome
-    height: 100%;
+    & {
+        height: 100%;
+    }
 
     // for Firefox
-    tr {height: 100%;}
+    tr {
+        height: 100%;
+    }
 
     // make the controls column as small as possible
     .controls-col {
-        width: 1px;
         white-space: nowrap;
+        width: 1px;
     }
 
     // make the notification column widthless
     .notification-col {
-        width: 0;
         height: 100%;
+        width: 0;
     }
 
     // remove default bold
@@ -160,10 +161,9 @@ table.listing {
     .listing-entry > td,
     .listing-header > th {
         // it is safer to set row height by the cell itself
-        height: $listing-entry-height;
+        // default padding is 1px, but no idea for the reason why
         box-sizing: border-box;
-
-        // default is 1px, but no idea for the reason why
+        height: $listing-entry-height;
         padding: 0;
 
         // add padding
@@ -175,7 +175,6 @@ table.listing {
             &.last {
                 @include make-gap(padding, right);
             }
-
         }
     }
 }
@@ -194,8 +193,8 @@ table.listing {
 //
 // Wrapper containing error messages, pending notification overlay, and content.
 .listing-fetch-wrapper {
-    position: relative;
     overflow: hidden;
+    position: relative;
 
     // error notification
     > .notification-wrapper .notified {
@@ -204,17 +203,17 @@ table.listing {
 
     // overlay
     > .overlay {
-        top: 0;
+        align-items: center;
+        background: change-color(black, $alpha: 0.3);
+        display: flex;
+        height: 100%;
+        justify-content: center;
         left: 0;
         position: absolute;
-        background: change-color(black, $alpha: 0.3);
+        top: 0;
         width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
 
-        .pending {
-        }
+        // .pending {
+        // }
     }
 }

@@ -21,8 +21,8 @@
     // That is, songs for Songs library, artists for Artists library and works
     // (anime, game...) for Works library
     .library-searchbox {
-        background: $brand-primary-darker;
         @include make-gap(padding, vertical);
+        background: $brand-primary-darker;
 
         .set {
             .field {
@@ -57,8 +57,8 @@
     //     Artists library,
     //     Works library (and all the different works, like Anime, Game...)
     // The current class gathers all the common elements needed by the different pages
-    .library-list {
-    }
+    // .library-list {
+    // }
 
     // Navigator for choosing which library to display
     // The different libraries are Songs (which is the home library), Artists and all the

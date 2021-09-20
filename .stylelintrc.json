@@ -1,0 +1,13 @@
+{
+    "extends": "stylelint-config-sass-guidelines",
+    "rules": {
+        "color-named": "always-where-possible",
+        "indentation": 4,
+        "max-nesting-depth": 99,
+        "scss/selector-no-redundant-nesting-selector": null,
+        "selector-max-compound-selectors": 9,
+        "selector-max-id": 1,
+        "selector-no-qualifying-type": [false, {"ignore": ["attribute", "class"]}],
+        "string-quotes": "double"
+    }
+}

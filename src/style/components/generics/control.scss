@@ -43,12 +43,12 @@
 
     // subclass for a control button
     .control {
-        display: flex;
         align-items: center;
-        justify-content: center;
-        cursor: pointer;
+        border-style: none;
         color: $text-dark;
-        border: none;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
         outline: none;
         padding: 0;
 
@@ -80,23 +80,23 @@
             }
         }
 
-        &.primary{
+        &.primary {
             @include make-control($brand-primary, $brand-primary-dark, $brand-primary-lighter);
         }
 
-        &.success{
+        &.success {
             @include make-control($brand-success, $brand-success-dark, $brand-success-lighter);
         }
 
-        &.warning{
+        &.warning {
             @include make-control($brand-warning, $brand-warning-dark, $brand-warning-lighter);
         }
 
-        &.danger{
+        &.danger {
             @include make-control($brand-danger, $brand-danger-dark, $brand-danger-lighter);
         }
 
-        &.info{
+        &.info {
             @include make-control($brand-info, $brand-info-dark, $brand-info-lighter);
         }
     }
