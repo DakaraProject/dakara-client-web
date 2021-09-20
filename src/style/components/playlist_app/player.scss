@@ -24,11 +24,13 @@ $player-height-smartphone: 2 * $gap-vertical-smartphone + 2 * $row-height * 0.6 
     // song, its numerical progression and the controls of the player.
     .first-line {
         @include make-gap(padding, vertical);
+
         align-items: center;
         display: flex;
 
         .display-area {
             @include make-gap(margin, left);
+
             height: $player-controls-height;
             overflow: hidden;
             width: 100%;
@@ -55,6 +57,7 @@ $player-height-smartphone: 2 * $gap-vertical-smartphone + 2 * $row-height * 0.6 
             // `song` subclass: the song itself.
             .song {
                 @include make-gap(margin, right);
+
                 align-content: flex-start;
                 align-items: initial;
                 flex-direction: column;
@@ -129,6 +132,7 @@ $player-height-smartphone: 2 * $gap-vertical-smartphone + 2 * $row-height * 0.6 
 
                 @include make-gap(margin, right);
                 @include make-extra(0.8, 0.7, 100, initial);
+
                 // shrink the extra class element first when resizing, up to
                 // the width of the duration (4 digits plus one colon)
                 display: flex;
@@ -194,24 +198,28 @@ $player-height-smartphone: 2 * $gap-vertical-smartphone + 2 * $row-height * 0.6 
                 background: $brand-primary-dark;
             }
 
-            // for firefox and ie
-            @include make-bar();
-
-            // for ie
-            color: $brand-primary-dark;
-
-            // for firefox
-            &::-moz-progress-bar {
-                @include make-value();
-            }
-
-            // for webkit
-            &::-webkit-progress-bar {
+            & {
+                // for firefox and ie
                 @include make-bar();
             }
 
-            // for webkit
+            & {
+                // for ie
+                color: $brand-primary-dark;
+            }
+
+            &::-moz-progress-bar {
+                // for firefox
+                @include make-value();
+            }
+
+            &::-webkit-progress-bar {
+                // for webkit
+                @include make-bar();
+            }
+
             &::-webkit-progress-value {
+                // for webkit
                 @include make-value();
             }
 
@@ -239,8 +247,10 @@ $player-height-smartphone: 2 * $gap-vertical-smartphone + 2 * $row-height * 0.6 
                 );
             }
 
-            // for firefox and ie
-            @include make-bar();
+            & {
+                // for firefox and ie
+                @include make-bar();
+            }
 
             @keyframes sliding-animation {
                 to {
@@ -248,8 +258,8 @@ $player-height-smartphone: 2 * $gap-vertical-smartphone + 2 * $row-height * 0.6 
                 }
             }
 
-            // for webkit
             &::-webkit-progress-bar {
+                // for webkit
                 // it does not seem to work for now
                 @include make-bar();
             }
@@ -309,6 +319,7 @@ $player-height-smartphone: 2 * $gap-vertical-smartphone + 2 * $row-height * 0.6 
 
         @include make-smartphone {
             @include make-controls($row-height * 0.6, 1.1em);
+
             flex-direction: column;
 
             > .control {
@@ -326,15 +337,14 @@ $player-height-smartphone: 2 * $gap-vertical-smartphone + 2 * $row-height * 0.6 
     .controls.other {
         @include make-controls($row-height * 0.6, 1.1em);
         @include make-gap(padding, bottom);
+
         overflow: hidden;
-        transition: height 150ms,
-                    padding-bottom 150ms;
+        transition: height 150ms, padding-bottom 150ms;
 
         &.reduced {
             height: 0;
             padding-bottom: 0;
-            transition: height 150ms,
-                        padding-bottom 150ms;
+            transition: height 150ms, padding-bottom 150ms;
         }
 
 

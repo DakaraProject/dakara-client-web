@@ -11,7 +11,7 @@
 }
 
 // target medium and small devices
-@mixin make-tabled {
+@mixin make-tablet {
     @media (max-width: 961px) {@content;};
 }
 

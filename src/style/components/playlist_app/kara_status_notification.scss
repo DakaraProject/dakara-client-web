@@ -13,6 +13,7 @@ $kara-status-notification-height: $form-field-height + 2 * $gap-vertical;
 // manager when the kara is stopped.
 #kara-status-notification {
     @include make-gap(padding, vertical);
+
     align-items: center;
     background: $brand-primary-darker;
     color: $brand-primary;
@@ -27,6 +28,7 @@ $kara-status-notification-height: $form-field-height + 2 * $gap-vertical;
 
     .control {
         @include make-gap(padding, horizontal);
+
         font-size: $form-control-font-size;
         line-height: $form-field-height;
     }

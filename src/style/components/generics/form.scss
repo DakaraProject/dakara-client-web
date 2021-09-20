@@ -94,22 +94,29 @@ $form-control-icon-size: $row-icon-font-size;
                 display: table-row;
 
                 .label {
-                    // this allows to shrink the label 'column' as small as possible
-                    display: table-cell;
-
-                    // this allows to align in the middle if the field is one line
-                    // height (typical `input`) and align on the top for several
-                    // lines (typical `textarea`)
-                    line-height: $field-height;
-                    vertical-align: top;
-
-                    // this allows the shrink to be exactly the length of the label,
-                    // but since the label is now un-breakable, it *must* be kept
-                    // short
-                    white-space: nowrap;
-
                     @include make-smartphone {
-                        display: block;
+                        display: block !important;
+                    }
+
+                    & {
+                        // this allows to shrink the label 'column' as small as
+                        // possible
+                        display: table-cell;
+                    }
+
+                    & {
+                        // this allows to align in the middle if the field is
+                        // one line height (typical `input`) and align on the
+                        // top for several lines (typical `textarea`)
+                        line-height: $field-height;
+                        vertical-align: top;
+                    }
+
+                    & {
+                        // this allows the shrink to be exactly the length of
+                        // the label, but since the label is now un-breakable,
+                        // it *must* be kept short
+                        white-space: nowrap;
                     }
 
                     // if label is empty, do not add padding
@@ -175,6 +182,7 @@ $form-control-icon-size: $row-icon-font-size;
 
             .control {
                 @include make-gap(padding, horizontal);
+
                 font-size: $control-font-size;
                 height: $field-height;
                 line-height: $field-height;
@@ -214,6 +222,7 @@ $form-control-icon-size: $row-icon-font-size;
         // `set` class: the set contains the inputs of the form.
         .set {
             @include make-gap(padding, right);
+
             display: flex;
             flex: 1;
 
@@ -260,6 +269,7 @@ $form-control-icon-size: $row-icon-font-size;
             // give an appareance
             &:not(.faked) {
                 @include make-gap(padding, horizontal);
+
                 background: $neutral-soft;
 
                 &:focus,
@@ -330,17 +340,18 @@ $form-control-icon-size: $row-icon-font-size;
 
                 &::placeholder {
                     color: $black-80;
-                }
 
-                // override the way Firefox adds opacity
-                // TODO see if this can be removed
-                &::-moz-placeholder {
-                    opacity: 1;
+                    & {
+                        // override the way Firefox adds opacity
+                        // TODO see if this can be removed
+                        opacity: 1;
+                    }
                 }
 
                 & {
                     // Some browsers (Firefox) try to use system fonts
                     @include make-font();
+
                     font-size: medium;
                 }
             }
@@ -468,6 +479,7 @@ $form-control-icon-size: $row-icon-font-size;
 
                 .description {
                     @include make-gap(padding, horizontal);
+
                     flex: 1;
 
                     &.long {
@@ -710,7 +722,7 @@ $form-control-icon-size: $row-icon-font-size;
                 margin: 0 !important;
 
                 input[type=range] {
-                    -webkit-appearance: none;
+                    appearance: none;
                     background: transparent;
                     height: 100%;
 
@@ -735,7 +747,7 @@ $form-control-icon-size: $row-icon-font-size;
                     &::-webkit-slider-thumb {
                         @include thumb();
 
-                        -webkit-appearance: none;
+                        appearance: none;
 
                         & {
                             // Hack to center for chrome

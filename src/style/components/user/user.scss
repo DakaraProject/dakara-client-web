@@ -13,6 +13,7 @@
 
         .user-name-block {
             @include make-gap(padding, horizontal);
+
             overflow: hidden;
             overflow-wrap: break-word;
 

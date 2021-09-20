@@ -22,6 +22,7 @@
     // (anime, game...) for Works library
     .library-searchbox {
         @include make-gap(padding, vertical);
+
         background: $brand-primary-darker;
 
         .set {

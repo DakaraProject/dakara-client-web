@@ -33,6 +33,7 @@
         // `header` class: song's main info.
         .header {
             @include text-truncate();
+
             flex-grow: 1;
 
             .title {

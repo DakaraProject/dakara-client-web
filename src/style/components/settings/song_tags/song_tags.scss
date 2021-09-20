@@ -12,6 +12,7 @@
 
         .listing-header .color {
             @include make-gap(padding, right);
+
             text-align: right;
         }
 

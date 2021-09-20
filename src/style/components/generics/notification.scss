@@ -146,6 +146,7 @@
                 // You have to set its vertical size explicitally.
                 &.pending {
                     @include make-gap(margin, right);
+
                     font-size: 3em;
 
                     .point {

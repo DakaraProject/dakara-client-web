@@ -25,11 +25,14 @@
 
         .header {
             @include make-vertical-row-padding(horizontal);
+
             flex: 1;
 
-            // allow words to break
-            overflow: hidden;
-            overflow-wrap: break-word;
+            & {
+                // allow words to break
+                overflow: hidden;
+                overflow-wrap: break-word;
+            }
         }
 
         .songs-amount {

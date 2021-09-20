@@ -61,6 +61,7 @@ $navigator-height: $row-height;
 
         .text {
             @include text-truncate();
+
             margin-left: 0.4em;
         }
     }

@@ -32,6 +32,7 @@
 
     .owner {
         @include text-truncate();
+
         font-size: 0.85em;
         margin-bottom: 0.25em;
 

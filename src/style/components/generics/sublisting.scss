@@ -46,6 +46,7 @@ $sublisting-entry-control-font-size: $subrow-icon-font-size;
 
         .controls {
             @include make-controls($height, $sublisting-entry-control-font-size);
+
             align-self: flex-start;
         }
     }

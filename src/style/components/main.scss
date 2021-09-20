@@ -17,6 +17,7 @@
 
     @include make-desktop {
         @include center-block();
+
         max-width: $page-width-max;
     }
 }

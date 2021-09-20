@@ -104,6 +104,7 @@
 
                 .header {
                     @include make-gap(padding, horizontal);
+
                     display: table-cell;
                     font-weight: normal;
                     vertical-align: top;

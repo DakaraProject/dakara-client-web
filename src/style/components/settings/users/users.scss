@@ -19,7 +19,7 @@
                 overflow: hidden;
                 overflow-wrap: break-word;
 
-                @include make-tabled {
+                @include make-tablet {
                     max-width: calc(
                         100vw /* the width of the window */
                         - 2 * #{$listing-entry-height} /* the control-col with 2 controls */

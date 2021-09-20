@@ -17,6 +17,7 @@
 
     @include make-font();
     @include make-gap(padding, horizontal);
+
     background-color: $color;
     border-style: none;
     color: change-color($text-dark, $alpha: 0.5);

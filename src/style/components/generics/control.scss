@@ -18,6 +18,7 @@
 @mixin make-controls($height, $font-size: 1em, $icon-size: $font-size) {
     > .control {
         @include square($height);
+
         font-size: $font-size;
 
         .icon {

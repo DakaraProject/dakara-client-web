@@ -106,6 +106,7 @@
         > .header,
         > .footer {
             @include make-gap(padding, vertical);
+
             background: $brand-primary-darker;
             color: $brand-primary-light;
         }

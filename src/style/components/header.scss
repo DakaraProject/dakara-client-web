@@ -18,6 +18,7 @@ $header-height: $tab-bar-height;
 
     h1 {
         @include make-gap(padding, horizontal);
+
         font-size: xx-large;
         line-height: $tab-bar-height * 0.9;
 
