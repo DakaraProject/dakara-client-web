@@ -30,8 +30,7 @@
     "redux": "^4.1.0",
     "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.3.0",
-    "sprintf-js": "^1.1.2",
-    "stylelint-webpack-plugin": "^3.0.1"
+    "sprintf-js": "^1.1.2"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -56,6 +55,7 @@
   },
   "devDependencies": {
     "stylelint": "^13.13.1",
-    "stylelint-config-sass-guidelines": "^8.0.0"
+    "stylelint-config-sass-guidelines": "^8.0.0",
+    "stylelint-webpack-plugin": "^3.0.1"
   }
 }
