@@ -28,8 +28,7 @@
     "react-transition-group": "^4.4.2",
     "redux": "^4.1.0",
     "redux-localstorage": "^0.4.1",
-    "redux-thunk": "^2.3.0",
-    "sprintf-js": "^1.1.2"
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-app-rewired start",

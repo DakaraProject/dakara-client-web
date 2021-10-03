@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import dayjs from 'dayjs'
-import { parseTime } from 'utils'
+import { mergeTime } from 'utils'
 import SettingsTabList from './TabList'
 import { FormBlock, InputField, CheckboxField } from 'components/generics/Form'
 import { Status } from 'reducers/alterationsResponse'
@@ -27,7 +27,7 @@ class SettingsKaraDateStop extends Component {
                         date_stop: null
                     }
                 }
-                let date = parseTime(values.time_stop)
+                let date = mergeTime(values.time_stop)
                 if (date.isBefore()) {
                     date = date.add(1, 'days')
                 }

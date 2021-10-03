@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
-import { formatDuration, formatTime } from 'utils'
+import { formatDuration } from 'utils'
 import Song from 'components/song/Song'
 import UserWidget from 'components/generics/UserWidget'
 import ManageButton from './ManageButton'
@@ -76,7 +76,7 @@ class Player extends Component {
                     <div className="extra">
                         <div className="timing">
                             <div className="current">
-                                {formatTime(player_status.timing)}
+                                {formatDuration(player_status.timing)}
                             </div>
                             <div className="duration">
                                 {formatDuration(duration)}
@@ -97,7 +97,7 @@ class Player extends Component {
                     <div className="extra">
                         <div className="timing">
                             <div className="current">
-                                {formatTime(0)}
+                                {formatDuration(0)}
                             </div>
                             <div className="duration">
                                 {formatDuration(0)}
