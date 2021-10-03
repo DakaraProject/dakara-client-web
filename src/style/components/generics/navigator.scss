@@ -24,32 +24,23 @@ $navigator-height: $row-height;
     }
 
     .counter {
-        display: flex;
-        padding: 0 $gap-horizontal;
-        color: $brand-primary;
-        flex-grow: 1;
         align-items: center;
+        color: $brand-primary;
+        display: flex;
+        flex-grow: 1;
         justify-content: flex-end;
         overflow: hidden;
+        padding: 0 $gap-horizontal;
         text-align: right;
-
-        .figure {
-            font-weight: 100;
-            font-size: 2.5em;
-        }
-
-        .text {
-            margin-left: 0.4em;
-            @include text-truncate();
-        }
 
         @include make-smartphone {
             $ratio: 0.6;
             $factor: 0.8;
-            padding: 0 $gap-horizontal-smartphone;
-            flex-direction: column;
+
             align-items: initial;
+            flex-direction: column;
             justify-content: center;
+            padding: 0 $gap-horizontal-smartphone;
 
             .figure {
                 font-size: 2em;
@@ -57,10 +48,21 @@ $navigator-height: $row-height;
             }
 
             .text {
-                margin-left: 0;
                 font-size: 0.85em;
                 line-height: (1 - $ratio) * $navigator-height * $factor;
+                margin-left: 0;
             }
+        }
+
+        .figure {
+            font-size: 2.5em;
+            font-weight: 100;
+        }
+
+        .text {
+            @include text-truncate();
+
+            margin-left: 0.4em;
         }
     }
 }

@@ -7,15 +7,15 @@
 
 // target small devices only
 @mixin make-smartphone {
-    @media (max-width: 481px) {@content};
+    @media (max-width: 481px) {@content;};
 }
 
 // target medium and small devices
-@mixin make-tabled {
-    @media (max-width: 961px) {@content};
+@mixin make-tablet {
+    @media (max-width: 961px) {@content;};
 }
 
 // target large devices only
 @mixin make-desktop {
-    @media (min-width: 961px) {@content};
+    @media (min-width: 961px) {@content;};
 }

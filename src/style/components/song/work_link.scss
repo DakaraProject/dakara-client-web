@@ -10,12 +10,12 @@
 // This module is used to style a work link, ie. a work and its link to the
 // song.
 .work-link {
-    flex-shrink: 2;
-    display: flex;
     align-items: baseline;
+    display: flex;
+    flex-shrink: 2;
     justify-content: flex-end;
-    white-space: nowrap;
     overflow: hidden;
+    white-space: nowrap;
 
     .work-link-item:not(:last-child) {
         margin-right: 0.5em;
@@ -25,37 +25,37 @@
     .title-group {
         @include text-truncate();
 
-        .title {
-        }
+        // .title {
+        // }
 
         .subtitle {
-            opacity: 0.65;
             margin-left: 0.5em;
+            opacity: 0.65;
         }
     }
 
     // `link` class: the type of the link (OP, ED) and a number if any.
     .link {
-        display: inline-block;
-        text-transform: uppercase;
-        font-size: 0.9em;
+        border-color: change-color($text-light, $alpha: 0.65);
         border-style: solid;
         border-width: 1px;
-        border-color: change-color($text-light, $alpha: 0.65);
+        display: inline-block;
+        font-size: 0.9em;
         padding: 0.1em 0.2em;
+        text-transform: uppercase;
 
-        .link-type {
-        }
+        // .link-type {
+        // }
 
-        .link-nb {
-        }
+        // .link-nb {
+        // }
     }
 
     // `episodes` class: episodes concerned by this work link.
-    .episodes {
-    }
+    // .episodes {
+    // }
 
     // `icon` class: the icon of the work.
-    .icon {
-    }
+    // .icon {
+    // }
 }

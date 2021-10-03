@@ -15,9 +15,9 @@ $sublisting-entry-control-font-size: $subrow-icon-font-size;
 // This module is a submodule for `listing` and aim to style inner lists of a
 // list entry.
 .sublisting {
+    display: table-cell;
     list-style-type: none;
     padding: 0;
-    display: table-cell;
     width: 100%;
 
     @include make-smartphone {
@@ -26,10 +26,11 @@ $sublisting-entry-control-font-size: $subrow-icon-font-size;
 
     .sublisting-entry {
         $height: $sublisting-entry-height;
-        min-height: $height;
-        display: flex;
+
         align-items: center;
         background: darken($neutral-mid, 2%);
+        display: flex;
+        min-height: $height;
 
         &:nth-child(even) {
             background: darken($neutral-mid, 1%);
@@ -45,6 +46,7 @@ $sublisting-entry-control-font-size: $subrow-icon-font-size;
 
         .controls {
             @include make-controls($height, $sublisting-entry-control-font-size);
+
             align-self: flex-start;
         }
     }

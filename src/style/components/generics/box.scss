@@ -103,15 +103,21 @@
     &:not(.primary):not(.success):not(.warning):not(.danger):not(.info) {
         background: darken($black-80, 5%);
 
-        > .header, > .footer {
+        > .header,
+        > .footer {
             @include make-gap(padding, vertical);
+
             background: $brand-primary-darker;
             color: $brand-primary-light;
         }
     }
 
     // if subclassed
-    &.primary, &.success, &.warning, &.danger, &.info {
+    &.primary,
+    &.success,
+    &.warning,
+    &.danger,
+    &.info {
         > .header {
             @include make-gap(padding, top);
         }
@@ -135,8 +141,8 @@
         }
     }
 
-    > .footer {
-    }
+    // > .footer {
+    // }
 
     p {
         @include make-gap(margin, horizontal);

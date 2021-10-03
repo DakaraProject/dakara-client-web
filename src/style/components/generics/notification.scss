@@ -14,8 +14,8 @@
 //
 // The class provides also alterations when used with the class `listing-entry`.
 .notification {
-    color: $body-background;
     box-sizing: border-box;
+    color: $body-background;
 
     @mixin make-notification($background, $selection, $background-light, $selection-light) {
         background: $background;
@@ -25,11 +25,11 @@
         }
 
         &:nth-child(2n) {
-                background: $background-light;
+            background: $background-light;
 
-                ::selection {
-                    background: $selection-light;
-                }
+            ::selection {
+                background: $selection-light;
+            }
         }
     }
 
@@ -98,15 +98,15 @@
 // The notifiable class provides the way to make the notifiation appear. It also
 // contains rules for animations in the right corner of the notification banner.
 .notifiable {
-    position: relative;
     overflow: hidden;
+    position: relative;
 
     .notified {
-        width: 100%;
         height: 100%;
+        left: 0;
         position: absolute;
         top: 0;
-        left: 0;
+        width: 100%;
 
         // notification transition appearance
         &.notified-appear,
@@ -135,8 +135,8 @@
             min-height: 100%;
 
             .message {
-                display: flex;
                 align-items: center;
+                display: flex;
                 flex: 1;
             }
 
@@ -146,6 +146,7 @@
                 // You have to set its vertical size explicitally.
                 &.pending {
                     @include make-gap(margin, right);
+
                     font-size: 3em;
 
                     .point {
@@ -178,18 +179,16 @@
 //
 // This class must be used in the cell of the first column.
 .notifiable-for-table {
-    position: relative;
     height: 100%;
+    position: relative;
 
     .notifiable {
+        // make the element ensensitive to clicks and restore it right after
+        height: 100%;
+        left: 0;
+        pointer-events: none;
         position: absolute;
         top: 0;
-        left: 0;
-        height: 100%;
-
-        // make the element ensensitive to clicks and restore it right
-        // after
-        pointer-events: none;
 
         .notified {
             pointer-events: initial;
