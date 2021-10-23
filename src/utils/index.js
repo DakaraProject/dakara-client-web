@@ -46,21 +46,3 @@ export function formatDuration(seconds) {
     // default to minutes and seconds
     return duration.format("m:ss")
 }
-
-/**
- * Merge current date with the provided time.
- * @param timeString Formated time as hh:mm.
- * @returns Date object.
- */
-export function mergeTime(timeString) {
-    if (!/^\d{1,2}:\d{1,2}$/.test(timeString)) {
-        throw new Error("Invalid time format")
-    }
-
-    let date = dayjs()
-    const time = timeString.split(":")
-    date = date.set('hours', time[0])
-    date = date.set('minutes', time[1])
-    date = date.set('seconds', 0)
-    return date
-}
