@@ -141,7 +141,9 @@ export default class Song extends Component {
                             <HighlighterQuery
                                 query={query}
                                 className="title"
-                                searchWords={(q) => (q.title.contains.concat(q.remaining))}
+                                searchWords={
+                                    (q) => (q.title.contains.concat(q.remaining))
+                                }
                                 textToHighlight={song.title}
                             />
                             {version}

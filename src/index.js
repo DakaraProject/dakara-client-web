@@ -51,24 +51,64 @@ ReactDOM.render(
         <BrowserRouter>
             <Main>
                 <Switch>
-                    <ProtectedRoute exact path="/library/:libraryType" component={LibraryList}/>
+                    <ProtectedRoute
+                        exact
+                        path="/library/:libraryType"
+                        component={LibraryList}
+                    />
                     <Redirect exact from="/library" to="/library/song"/>
-                    <ProtectedRoute exact path="/playlist/queueing" component={Playlist}/>
-                    <ProtectedRoute exact path="/playlist/played" component={PlaylistPlayed}/>
+                    <ProtectedRoute
+                        exact
+                        path="/playlist/queueing"
+                        component={Playlist}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path="/playlist/played"
+                        component={PlaylistPlayed}
+                    />
                     <Redirect exact from="/playlist" to="/playlist/queueing"/>
                     <ProtectedRoute exact path="/user" component={User}/>
-                    <ProtectedRoute exact path="/settings/users/:userId" component={SettingsUsersEdit}/>
-                    <ProtectedRoute exact path="/settings/users" component={SettingsUsersList}/>
-                    <ProtectedRoute exact path="/settings/song-tags" component={SettingsSongTagsList}/>
-                    <ProtectedRoute exact path="/settings/kara-status" component={SettingsKaraStatus}/>
-                    <ProtectedRoute exact path="/settings/kara-date-stop" component={SettingsKaraDateStop}/>
+                    <ProtectedRoute
+                        exact
+                        path="/settings/users/:userId"
+                        component={SettingsUsersEdit}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path="/settings/users"
+                        component={SettingsUsersList}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path="/settings/song-tags"
+                        component={SettingsSongTagsList}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path="/settings/kara-status"
+                        component={SettingsKaraStatus}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path="/settings/kara-date-stop"
+                        component={SettingsKaraDateStop}
+                    />
                     <Redirect exact from="/settings" to="/settings/users"/>
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/logout" component={Logout}/>
                     <Route exact path="/register" component={Register}/>
                     <Route exact path="/reset-password" component={ResetPassword}/>
-                    <Route exact path="/send-reset-password-link" component={SendResetPasswordLink}/>
-                    <Route exact path="/verify-registration" component={VerifyRegistration}/>
+                    <Route
+                        exact
+                        path="/send-reset-password-link"
+                        component={SendResetPasswordLink}
+                    />
+                    <Route
+                        exact
+                        path="/verify-registration"
+                        component={VerifyRegistration}
+                    />
                     <Route exact path="/verify-email" component={VerifyEmail}/>
                     <Redirect exact from="/" to="/library"/>
                     <Route component={NotFound}/>

@@ -26,7 +26,10 @@ class SongList extends Component {
 
         let karaokeRemainingSeconds
         if (karaokeDateStop) {
-            karaokeRemainingSeconds = dayjs(karaokeDateStop).diff(playlistDateEnd, 'seconds')
+            karaokeRemainingSeconds = dayjs(karaokeDateStop).diff(
+                playlistDateEnd,
+                'seconds'
+            )
         }
 
         /**

@@ -42,7 +42,10 @@ class SendResetPasswordLink extends Component {
         )
 
         const emailSentMessage = (
-            <p>An email containing a link to reset your password has been sent successfully, please check your email.</p>
+            <p>
+                An email containing a link to reset your password has been sent
+                successfully, please check your email.
+            </p>
         )
 
         return (
@@ -51,7 +54,11 @@ class SendResetPasswordLink extends Component {
                     <h2>Send reset password link</h2>
                 </div>
                 <div className="content">
-                    { this.state.emailSent ? emailSentMessage : sendResetPasswordLinkForm }
+                    {
+                        this.state.emailSent ?
+                            emailSentMessage :
+                            sendResetPasswordLinkForm
+                    }
                 </div>
             </div>
         )

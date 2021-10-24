@@ -128,7 +128,9 @@ class SettingsUsersList extends Component {
                                 required
                                 validate={(value, values) => {
                                     if (values.password !== value) {
-                                        return ["This field should match password field."]
+                                        return [
+                                            "This field should match password field."
+                                        ]
                                     }
                                 }}
                                 ignore

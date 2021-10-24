@@ -85,7 +85,13 @@ export default class Navigator extends Component {
             counter = (
                 <div className="counter">
                     <span className="figure">{count}</span>
-                    <span className="text">{count === 1 ? names.singular : names.plural}</span>
+                    <span className="text">
+                        {
+                            count === 1 ?
+                                names.singular :
+                                names.plural
+                        }
+                    </span>
                 </div>
             )
         }

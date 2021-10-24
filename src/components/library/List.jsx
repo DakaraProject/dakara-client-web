@@ -34,10 +34,13 @@ class List extends Component {
         // since there is only one `LibraryListWork` component, it is not unmounted
         // when navigating through work types, so we have to watch when the
         // component is updated wether we have jumped to another work type
-        if (this.props.match.params.libraryType !== prevProps.match.params.libraryType ||
+        if (
+            // eslint-disable-next-line max-len
+            this.props.match.params.libraryType !== prevProps.match.params.libraryType ||
             this.props.workTypeState.status !== prevProps.workTypeState.status ||
             queryObj.page !== prevqueryObj.page ||
-            queryObj.query !== prevqueryObj.query) {
+            queryObj.query !== prevqueryObj.query
+        ) {
             this.refreshEntries()
         }
     }
@@ -119,7 +122,10 @@ class List extends Component {
                 break
         }
 
-        const libraryNameInfo = getLibraryNameInfo(libraryType, workTypeState.data.workTypes)
+        const libraryNameInfo = getLibraryNameInfo(
+            libraryType,
+            workTypeState.data.workTypes
+        )
 
         return (
             <Library

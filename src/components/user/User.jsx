@@ -71,7 +71,11 @@ class User extends Component {
                     method="POST"
                     submitText="Change email"
                     alterationName="registerEmail"
-                    successMessage={serverSettings?.email_enabled ? "Validation email sent to you new address!" : "Email successfuly changed!"}
+                    successMessage={
+                        serverSettings?.email_enabled ?
+                            "Validation email sent to you new address!" :
+                            "Email successfuly changed!"
+                    }
                 >
                     <InputField
                         id="email"

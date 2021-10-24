@@ -95,6 +95,7 @@ class SettingsSongTagsList extends Component {
 const mapStateToProps = (state) => ({
     songTagsState: state.settings.songTags,
     responseOfMultipleEdit: state.alterationsResponse.multiple.editSongTag || {},
+    // eslint-disable-next-line max-len
     responseOfMultipleEditColor: state.alterationsResponse.multiple.editSongTagColor || {},
     authenticatedUser: state.authenticatedUser,
 })

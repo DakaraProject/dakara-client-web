@@ -1,4 +1,8 @@
-import { ALTERATION_FAILURE, ALTERATION_REQUEST, ALTERATION_SUCCESS } from 'actions/alterations'
+import {
+    ALTERATION_FAILURE,
+    ALTERATION_REQUEST,
+    ALTERATION_SUCCESS
+} from 'actions/alterations'
 import { FETCH_API } from 'middleware/fetchApi'
 import { params } from 'utils'
 

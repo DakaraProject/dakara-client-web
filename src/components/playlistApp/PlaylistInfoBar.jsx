@@ -39,7 +39,10 @@ class PlaylistInfoBar extends Component {
     }
 
     render() {
-        const { playlistEntries, date_end: dateEnd } = this.props.playlistEntriesState.data
+        const {
+            playlistEntries,
+            date_end: dateEnd
+        } = this.props.playlistEntriesState.data
         const playerStatus = this.props.playlistDigest.data.player_status
         const dateStop = this.props.playlistDigest.data.karaoke.date_stop
 
@@ -52,7 +55,9 @@ class PlaylistInfoBar extends Component {
                 <div className="item">
                     <div className="value">{count}</div>
                     <div className="description">
-                        <div className="line">song{count === 1 ? '' : 's'} in playlist</div>
+                        <div className="line">
+                            song{count === 1 ? '' : 's'} in playlist
+                        </div>
                     </div>
                 </div>
             )

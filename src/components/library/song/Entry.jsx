@@ -16,7 +16,11 @@ import PlayQueueInfo from 'components/song/PlayQueueInfo'
 import Song from 'components/song/Song'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
 import { songPropType } from 'serverPropTypes/library'
-import { playerStatusPropType, playlistEntryPropType, playlistPlayedEntryPropType } from 'serverPropTypes/playlist'
+import {
+    playerStatusPropType,
+    playlistEntryPropType,
+    playlistPlayedEntryPropType
+} from 'serverPropTypes/playlist'
 
 
 class SongEntry extends Component {
@@ -62,7 +66,13 @@ class SongEntry extends Component {
     }
 
     render() {
-        const { location, song, query, playerStatus, karaokeRemainingSeconds } = this.props
+        const {
+            location,
+            song,
+            query,
+            playerStatus,
+            karaokeRemainingSeconds
+        } = this.props
         const { playlistPlayedEntries, playlistEntries } = this.props
         const queryObj = parse(location.search)
         const expanded = +queryObj.expanded === song.id
@@ -72,7 +82,10 @@ class SongEntry extends Component {
          */
 
         let playingInfo
-        if (playerStatus.playlist_entry && playerStatus.playlist_entry.song.id === song.id) {
+        if (
+            playerStatus.playlist_entry &&
+            playerStatus.playlist_entry.song.id === song.id
+        ) {
             // Player is playing this song
             playingInfo = {
                 playlistEntry: playerStatus.playlist_entry
@@ -148,7 +161,11 @@ class SongEntry extends Component {
                             noArtistWork={expanded}
                             noTag={expanded}
                             karaokeRemainingSeconds={karaokeRemainingSeconds}
-                            handleClick={() => expanded ? this.setExpanded(null) : this.setExpanded(song.id)}
+                            handleClick={
+                                () => expanded ?
+                                    this.setExpanded(null) :
+                                    this.setExpanded(song.id)
+                            }
                         />
                         <TransitionGroup
                             className="play-queue-info-wrapper"
@@ -164,7 +181,9 @@ class SongEntry extends Component {
                                     <button
                                         className="control primary"
                                         onClick={() => {
-                                            this.props.addSongToPlaylist(this.props.song.id)
+                                            this.props.addSongToPlaylist(
+                                              this.props.song.id
+                                            )
                                         }}
                                     >
                                         <span className="icon">
@@ -204,6 +223,7 @@ class SongEntry extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
     query: state.library.song.data.query,
+    // eslint-disable-next-line max-len
     responseOfAddSong: state.alterationsResponse.multiple.addSongToPlaylist?.[ownProps.song.id],
     playlistPlayedEntries: state.playlist.playedEntries.data.playlistPlayedEntries,
     playlistEntries: state.playlist.entries.data.playlistEntries,

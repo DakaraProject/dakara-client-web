@@ -17,7 +17,9 @@ class Playlist extends Component {
     static propTypes = {
         playlistEntriesState: playlistEntriesStatePropType.isRequired,
         responseOfMultipleRemoveEntry: PropTypes.objectOf(alterationResponsePropType),
-        responseOfMultipleReorderPlaylistEntry: PropTypes.objectOf(alterationResponsePropType),
+        responseOfMultipleReorderPlaylistEntry: PropTypes.objectOf(
+            alterationResponsePropType
+        ),
         removeEntryFromPlaylist: PropTypes.func.isRequired,
         clearAlteration: PropTypes.func.isRequired,
         reorderPlaylistEntry: PropTypes.func.isRequired
@@ -95,8 +97,11 @@ class Playlist extends Component {
     render() {
         const { playlistEntries } = this.props.playlistEntriesState.data
         const { status } = this.props.playlistEntriesState
-        const { removeEntryFromPlaylist: removeEntry,
-            responseOfMultipleRemoveEntry, responseOfMultipleReorderPlaylistEntry } = this.props
+        const {
+            removeEntryFromPlaylist: removeEntry,
+            responseOfMultipleRemoveEntry,
+            responseOfMultipleReorderPlaylistEntry
+        } = this.props
         const reorderEntryPosition = this.getEntryPosition(this.state.reorderEntryId)
 
         const playlistEntriesComponent = playlistEntries.map((entry, position) => (
@@ -113,7 +118,9 @@ class Playlist extends Component {
                     removeEntry={removeEntry}
                     clearAlteration={this.props.clearAlteration}
                     responseOfRemoveEntry={responseOfMultipleRemoveEntry[entry.id]}
-                    responseOfReorderPlaylistEntry={responseOfMultipleReorderPlaylistEntry[entry.id]}
+                    responseOfReorderPlaylistEntry={
+                        responseOfMultipleReorderPlaylistEntry[entry.id]
+                    }
                     position={position}
                     onReorderButtonClick={this.onReorderButtonClick}
                     reorderEntryPosition={reorderEntryPosition}
@@ -148,7 +155,9 @@ class Playlist extends Component {
 
 const mapStateToProps = (state) => ({
     playlistEntriesState: state.playlist.entries,
+    // eslint-disable-next-line max-len
     responseOfMultipleRemoveEntry: state.alterationsResponse.multiple.removeEntryFromPlaylist || {},
+    // eslint-disable-next-line max-len
     responseOfMultipleReorderPlaylistEntry: state.alterationsResponse.multiple.reorderPlaylistEntry || {},
 })
 

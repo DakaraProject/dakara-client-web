@@ -1,6 +1,10 @@
 import PropTypes from 'prop-types'
 
-import { ALTERATION_FAILURE, ALTERATION_REQUEST, ALTERATION_SUCCESS } from 'actions/alterations'
+import {
+    ALTERATION_FAILURE,
+    ALTERATION_REQUEST,
+    ALTERATION_SUCCESS
+} from 'actions/alterations'
 import { TAG_LIST_FAILURE, TAG_LIST_REQUEST, TAG_LIST_SUCCESS } from 'actions/songTags'
 import { Status } from 'reducers/alterationsResponse'
 import { songTagPropType } from 'serverPropTypes/library'

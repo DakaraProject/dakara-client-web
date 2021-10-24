@@ -120,8 +120,8 @@ class Player extends Component {
                             <ManageButton
                                 responseOfManage={
                                     player_status.paused ?
-                                    responseOfSendPlayerCommandsSafe.play :
-                                    responseOfSendPlayerCommandsSafe.pause
+                                        responseOfSendPlayerCommandsSafe.play :
+                                        responseOfSendPlayerCommandsSafe.pause
                                 }
                                 onClick={() => {
                                     if (!isPlaying) return
@@ -135,8 +135,8 @@ class Player extends Component {
                                 disabled={controlDisabled}
                                 icon={
                                     isPlaying ?
-                                    (player_status.paused ? 'play' : 'pause') :
-                                    'stop'
+                                        (player_status.paused ? 'play' : 'pause') :
+                                        'stop'
                                 }
                             />
                             <ManageButton

@@ -42,7 +42,10 @@ class SearchBox extends Component {
             >
                 <div className="set">
                     <div className="field">
-                        <div className="text-input input fake" id="library-searchbox-fake">
+                        <div
+                            className="text-input input fake"
+                            id="library-searchbox-fake"
+                        >
                             <input
                                 className="faked"
                                 placeholder={this.props.placeholder}

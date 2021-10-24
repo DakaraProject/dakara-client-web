@@ -3,7 +3,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { clearUser, getUser } from 'actions/users'
-import { CheckboxField, FormBlock, InputField, SelectField } from 'components/generics/Form'
+import {
+    CheckboxField,
+    FormBlock,
+    InputField,
+    SelectField
+} from 'components/generics/Form'
 import Forbidden from 'components/navigation/Forbidden'
 import NotFound from 'components/navigation/NotFound'
 import { IsNotSelf, IsUserManager } from 'components/permissions/Users'

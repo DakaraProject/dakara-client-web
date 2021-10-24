@@ -4,7 +4,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
-import { clearAlteration, setAlterationValidationErrors, submitAlteration } from 'actions/alterations'
+import {
+    clearAlteration,
+    setAlterationValidationErrors,
+    submitAlteration
+} from 'actions/alterations'
 import Notification from 'components/generics/Notification'
 import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
 
@@ -87,7 +91,10 @@ class Form extends Component {
         // If there is a success notification
         if (alterationResponse && alterationResponse.status === Status.successful) {
             // and there was no response, or a different notification before
-            if (!prevAlterationResponse || alterationResponse.status !== prevAlterationResponse.status) {
+            if (
+                !prevAlterationResponse ||
+                alterationResponse.status !== prevAlterationResponse.status
+            ) {
                 if (!noClearOnSuccess) this.setDefaultFormValues()
                 if (onSuccess) onSuccess()
             }
@@ -158,7 +165,12 @@ class Form extends Component {
         if (Object.keys(fieldsErrors).length !== 0 || globalErrors) {
             // Validation errors
             // Dispatch action to set errors
-            setAlterationValidationErrors(alterationName, elementId, globalErrors, fieldsErrors)
+            setAlterationValidationErrors(
+                alterationName,
+                elementId,
+                globalErrors,
+                fieldsErrors
+            )
             return false
         }
 
@@ -274,6 +286,7 @@ const mapStateToProps = (state, ownProps) => {
     // form attached to an alteration of type multiper
     if (typeof elementId !== 'undefined') {
         return {
+            // eslint-disable-next-line max-len
             alterationResponse: state.alterationsResponse.multiple[alterationName]?.[elementId]
         }
     }
@@ -476,8 +489,9 @@ export { FormInline }
  *                      Should return an array of validation error message.
  *                      When validation succeed,
  *                      Should return a falsy value or empty array.
- * - disabledBy <str>: Id of another field controlling disabled status of this field.
- *                     When this other field value is falsy, this field will be disabled.
+ * - disabledBy <str>: Id of another field controlling disabled status of this
+ *                     field. When this other field value is falsy, this field
+ *                     will be disabled.
  *
  * Validation modifiers:
  * - required <bool>: When true, field can not be empty.
@@ -619,8 +633,9 @@ class Field extends Component {
  *                      Should return an array of validation error message.
  *                      When validation succeed,
  *                      Should return a falsy value or empty array.
- * - disabledBy <str>: Id of another field controlling disabled status of this field.
- *                     When this other field value is falsy, this field will be disabled.
+ * - disabledBy <str>: Id of another field controlling disabled status of this
+ *                     field. When this other field value is falsy, this field
+ *                     will be disabled.
  *
  * Validation modifiers:
  * - required <bool>: When true, field can not be empty.
@@ -665,8 +680,9 @@ export class InputField extends Field {
  *                      Should return an array of validation error message.
  *                      When validation succeed,
  *                      Should return a falsy value or empty array.
- * - disabledBy <str>: Id of another field controlling disabled status of this field.
- *                     When this other field value is falsy, this field will be disabled.
+ * - disabledBy <str>: Id of another field controlling disabled status of this
+ *                     field. When this other field value is falsy, this field
+ *                     will be disabled.
  *
  * Validation modifiers:
  * - required <bool>: When true, field can not be empty.
@@ -755,8 +771,9 @@ export class SelectField extends Field {
  *                      Should return an array of validation error message.
  *                      When validation succeed,
  *                      Should return a falsy value or empty array.
- * - disabledBy <str>: Id of another field controlling disabled status of this field.
- *                     When this other field value is falsy, this field will be disabled.
+ * - disabledBy <str>: Id of another field controlling disabled status of this
+ *                     field. When this other field value is falsy, this field
+ *                     will be disabled.
  *
  * Validation modifiers:
  * - required <bool>: When true, field can not be empty.
@@ -858,8 +875,9 @@ export class RadioField extends Field {
  *                      Should return an array of validation error message.
  *                      When validation succeed,
  *                      Should return a falsy value or empty array.
- * - disabledBy <str>: Id of another field controlling disabled status of this field.
- *                     When this other field value is falsy, this field will be disabled.
+ * - disabledBy <str>: Id of another field controlling disabled status of this
+ *                     field. When this other field value is falsy, this field
+ *                     will be disabled.
  *
  * Validation modifiers:
  * - required <bool>: When true, field can not be empty.
@@ -930,8 +948,9 @@ export class CheckboxField extends Field {
  *                      Should return an array of validation error message.
  *                      When validation succeed,
  *                      Should return a falsy value or empty array.
- * - disabledBy <str>: Id of another field controlling disabled status of this field.
- *                     When this other field value is falsy, this field will be disabled.
+ * - disabledBy <str>: Id of another field controlling disabled status of this
+ *                     field. When this other field value is falsy, this field
+ *                     will be disabled.
  *
  * Validation modifiers:
  * - required <bool>: When true, field can not be empty.

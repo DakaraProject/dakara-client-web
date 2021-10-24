@@ -1,9 +1,21 @@
 import PropTypes from 'prop-types'
 import { combineReducers } from 'redux'
 
-import { LIBRARY_FAILURE, LIBRARY_REQUEST, LIBRARY_SUCCESS, WORK_TYPES_FAILURE, WORK_TYPES_REQUEST, WORK_TYPES_SUCCESS } from 'actions/library'
+import {
+    LIBRARY_FAILURE,
+    LIBRARY_REQUEST,
+    LIBRARY_SUCCESS,
+    WORK_TYPES_FAILURE,
+    WORK_TYPES_REQUEST,
+    WORK_TYPES_SUCCESS
+} from 'actions/library'
 import { Status } from 'reducers/alterationsResponse'
-import { artistPropType, songPropType, workPropType, workTypePropType } from 'serverPropTypes/library'
+import {
+    artistPropType,
+    songPropType,
+    workPropType,
+    workTypePropType
+} from 'serverPropTypes/library'
 import { updateData } from 'utils'
 
 /**

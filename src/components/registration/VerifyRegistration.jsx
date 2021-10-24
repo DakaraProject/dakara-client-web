@@ -43,7 +43,10 @@ class VerifyRegistration extends Component {
                 content = (
                     <div className="content">
                         <p>Email successfuly validated.</p>
-                        <p>A manager will validate your account, you'll be notified by email.</p>
+                        <p>
+                            A manager will validate your account,
+                            you'll be notified by email.
+                        </p>
                     </div>
                 )
                 break
@@ -74,7 +77,10 @@ class VerifyRegistration extends Component {
         }
 
         return (
-            <div id="verify-registration" className={classNames("box", {danger: error})}>
+            <div
+                id="verify-registration"
+                className={classNames("box", {danger: error})}
+            >
                 <div className="header">
                     <h2>Email verification</h2>
                 </div>
@@ -86,6 +92,7 @@ class VerifyRegistration extends Component {
 
 
 const mapStateToProps = (state) => ({
+    // eslint-disable-next-line max-len
     responseOfVerifyRegistration: state.alterationsResponse.unique.verifyRegistration || {},
 })
 

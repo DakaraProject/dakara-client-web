@@ -15,20 +15,23 @@ export default class SongEntryExpandedWork extends Component {
 
     render() {
         return (
-                <li className="sublisting-entry">
-                    <div className="controls subcontrols">
-                        <button className="control primary" onClick={this.handleSearchWork}>
-                            <span className="icon">
-                                <i className="fa fa-search"></i>
-                            </span>
-                        </button>
-                    </div>
-                    <WorkLink
-                        workLink={this.props.work}
-                        longLinkType
-                        noIcon
-                    />
-                </li>
+            <li className="sublisting-entry">
+                <div className="controls subcontrols">
+                    <button
+                        className="control primary"
+                        onClick={this.handleSearchWork}
+                    >
+                        <span className="icon">
+                            <i className="fa fa-search"></i>
+                        </span>
+                    </button>
+                </div>
+                <WorkLink
+                    workLink={this.props.work}
+                    longLinkType
+                    noIcon
+                />
+            </li>
         )
     }
 }

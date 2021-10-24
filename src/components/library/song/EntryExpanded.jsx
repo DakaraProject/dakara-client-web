@@ -80,7 +80,10 @@ class SongEntryExpanded extends Component {
                                 <i className={`fa fa-${workType.icon_name}`}></i>
                             </span>
                             <span className="name">
-                                {workType.name + (worksForTypeList.length > 1 ? 's' : '')}
+                                {
+                                    workType.name +
+                                    (worksForTypeList.length > 1 ? 's' : '')
+                                }
                             </span>
                         </h4>
                         <ul className="sublisting">{worksForTypeList}</ul>
@@ -110,7 +113,9 @@ class SongEntryExpanded extends Component {
                             <span className="icon">
                                 <i className="fa fa-music"></i>
                             </span>
-                            <span className="name">Artist{song.artists.length > 1 ? 's' : ''}</span>
+                            <span className="name">
+                                Artist{song.artists.length > 1 ? 's' : ''}
+                            </span>
                         </h4>
                         <ul className="sublisting">{artistList}</ul>
                     </div>
@@ -229,22 +234,30 @@ class SongEntryExpanded extends Component {
                                     <button
                                         className="control primary submit"
                                         onClick={() => {
-                                            this.props.addSongToPlaylistWithOptions(this.props.song.id, true)
+                                            this.props.addSongToPlaylistWithOptions(
+                                                this.props.song.id,
+                                                true
+                                            )
                                         }}
                                     >
                                         <span className="icon">
                                             <i className="fa fa-plus"></i>
                                             <span className="sub-icon">
-                                                <i className="fa fa-microphone-slash"></i>
+                                                <i className="fa fa-microphone-slash">
+                                                </i>
                                             </span>
                                         </span>
                                     </button>
                                 </div>
                                 <Notification
-                                    alterationResponse={this.props.responseOfAddSongWithOptions}
+                                    alterationResponse={
+                                        this.props.responseOfAddSongWithOptions
+                                    }
                                     pendingMessage="Adding…"
                                     successfulMessage="Successfuly added!"
-                                    failedMessage="Error attempting to add song to playlist"
+                                    failedMessage={
+                                        "Error attempting to add song to playlist"
+                                    }
                                 />
                             </div>
                         </div>
@@ -274,6 +287,7 @@ class SongEntryExpanded extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
+    // eslint-disable-next-line max-len
     responseOfAddSongWithOptions: state.alterationsResponse.multiple.addSongToPlaylistWithOptions?.[ownProps.song.id],
 })
 SongEntryExpanded = withRouter(connect(

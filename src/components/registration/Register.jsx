@@ -75,7 +75,10 @@ class Register extends Component {
             )
         } else {
             createdMessage = (
-                <p>Your account was successfully created. A manager will validate your account before you can login.</p>
+                <p>
+                    Your account was successfully created.
+                    A manager will validate your account before you can login.
+                </p>
             )
         }
 
