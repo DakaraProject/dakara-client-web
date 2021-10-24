@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
+import dayjs from 'dayjs'
 import PropTypes from 'prop-types'
 import UserWidget from 'components/generics/UserWidget'
-import { formatHourTime } from 'utils'
 import { playlistEntryPropType, playlistPlayedEntryPropType } from 'serverPropTypes/playlist'
 
 /**
@@ -40,7 +40,7 @@ export default class PlayQueueInfo extends Component {
         } else if (queueInfo) {
             content = (
                 <div className="queueing">
-                    {formatHourTime(queueInfo.timeOfPlay)}
+                    {dayjs(queueInfo.timeOfPlay).format("HH:mm")}
                     <span className="icon">
                         <i className="fa fa-fast-forward"></i>
                     </span>
@@ -53,7 +53,7 @@ export default class PlayQueueInfo extends Component {
                     <span className="icon">
                         <i className="fa fa-fast-backward"></i>
                     </span>
-                    {formatHourTime(playedInfo.timeOfPlay)}
+                    {dayjs(playedInfo.timeOfPlay).format("HH:mm")}
                 </div>
             )
             entry = playedInfo.playlistEntry

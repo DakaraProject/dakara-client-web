@@ -79,7 +79,7 @@
         flex-shrink: 0;
         font-size: 0.85em;
         justify-content: center;
-        width: $listing-entry-height;
+        min-width: $listing-entry-height;
     }
 
     // `song-tag-list` subclass: tag songs.

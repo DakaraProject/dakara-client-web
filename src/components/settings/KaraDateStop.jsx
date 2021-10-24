@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import dayjs from 'dayjs'
-import { parseTime } from 'utils'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import SettingsTabList from './TabList'
 import { FormBlock, InputField, CheckboxField } from 'components/generics/Form'
 import { Status } from 'reducers/alterationsResponse'
 import { IsPlaylistManager} from 'components/permissions/Playlist'
+
+dayjs.extend(customParseFormat)
 
 class SettingsKaraDateStop extends Component {
 
@@ -27,7 +29,9 @@ class SettingsKaraDateStop extends Component {
                         date_stop: null
                     }
                 }
-                let date = parseTime(values.time_stop)
+                // the form gives a time only, we parse it and add it to the current day
+                // if the created date is in the past, we add one day to it to be in the future
+                let date = dayjs(values.time_stop, "HH:mm")
                 if (date.isBefore()) {
                     date = date.add(1, 'days')
                 }
