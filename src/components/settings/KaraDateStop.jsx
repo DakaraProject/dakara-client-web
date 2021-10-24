@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
-import SettingsTabList from './TabList'
-import { FormBlock, InputField, CheckboxField } from 'components/generics/Form'
-import { Status } from 'reducers/alterationsResponse'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
+import { CheckboxField, FormBlock, InputField } from 'components/generics/Form'
 import { IsPlaylistManager} from 'components/permissions/Playlist'
+import SettingsTabList from 'components/settings/TabList'
+import { Status } from 'reducers/alterationsResponse'
 
 dayjs.extend(customParseFormat)
 

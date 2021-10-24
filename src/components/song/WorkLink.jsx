@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
-import HighlighterQuery from 'components/generics/HighlighterQuery'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+
+import HighlighterQuery from 'components/generics/HighlighterQuery'
 import { WorkLinkName } from 'reducers/library'
 import { workLinkPropType } from 'serverPropTypes/library'
 

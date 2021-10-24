@@ -1,10 +1,11 @@
+import dayjs from 'dayjs'
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import dayjs from 'dayjs'
-import SongEntry from './Entry'
+
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
+import SongEntry from 'components/library/song/Entry'
 import { songStatePropType } from 'reducers/library'
 
 class SongList extends Component {

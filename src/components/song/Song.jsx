@@ -1,12 +1,13 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { formatDuration } from 'utils'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+
 import HighlighterQuery from 'components/generics/HighlighterQuery'
-import WorkLink from './WorkLink'
-import SongArtistList from './SongArtistList'
-import SongTagList from './SongTagList'
+import SongArtistList from 'components/song/SongArtistList'
+import SongTagList from 'components/song/SongTagList'
+import WorkLink from 'components/song/WorkLink'
 import { songPropType } from 'serverPropTypes/library'
+import { formatDuration } from 'utils'
 
 /**
  * Displays a song info in a compact format.

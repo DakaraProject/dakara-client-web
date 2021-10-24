@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Delayer from './Delayer'
-import Notification from './Notification'
+import React, { Component } from 'react'
+
+import Delayer from 'components/generics/Delayer'
+import Notification from 'components/generics/Notification'
 import { Status } from 'reducers/alterationsResponse'
 
 export default class ListingFetchWrapper extends Component {

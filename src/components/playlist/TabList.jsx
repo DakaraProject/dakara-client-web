@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+
 import Tab from 'components/generics/Tab'
 
 export default class PlaylistTabList extends Component {

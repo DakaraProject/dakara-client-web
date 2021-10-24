@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+
 import HighlighterQuery from 'components/generics/HighlighterQuery'
 import { artistPropType } from 'serverPropTypes/library'
 

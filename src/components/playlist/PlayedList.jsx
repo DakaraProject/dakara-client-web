@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { withRouter } from 'react-router-dom'
-import PlaylistPlayedEntry from './PlayedEntry'
-import PlaylistTabList from './TabList'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+
 import Navigator from 'components/generics/Navigator'
+import PlaylistPlayedEntry from 'components/playlist/PlayedEntry'
+import PlaylistTabList from 'components/playlist/TabList'
 import { playlistPlayedEntriesStatePropType } from 'reducers/playlist'
 
 class PlaylistPlayed extends Component {

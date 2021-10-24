@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
 import classNames from 'classnames'
-import { connect } from 'react-redux'
-import { parse } from 'query-string'
 import PropTypes from 'prop-types'
+import { parse } from 'query-string'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
 import { verifyEmail } from 'actions/users'
 import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
 

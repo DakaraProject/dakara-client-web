@@ -1,7 +1,7 @@
-import { combineReducers } from 'redux'
 import PropTypes from 'prop-types'
-import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE,
-    ALTERATION_RESPONSE_CLEAR, ALTERATION_VALIDATION_ERROR } from 'actions/alterations'
+import { combineReducers } from 'redux'
+
+import { ALTERATION_FAILURE, ALTERATION_REQUEST, ALTERATION_RESPONSE_CLEAR, ALTERATION_SUCCESS, ALTERATION_VALIDATION_ERROR } from 'actions/alterations'
 
 /**
  * Alterations response state

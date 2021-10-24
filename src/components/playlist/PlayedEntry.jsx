@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
 import { stringify } from 'query-string'
+import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import Song from 'components/song/Song'
+
 import PlayQueueInfo from 'components/song/PlayQueueInfo'
+import Song from 'components/song/Song'
 import { playlistPlayedEntryPropType } from 'serverPropTypes/playlist'
 
 class PlaylistPlayedEntry extends Component {

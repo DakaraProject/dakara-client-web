@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+
 import { SERVER_SETTINGS_SUCCESS } from 'actions/internal'
 
 /**

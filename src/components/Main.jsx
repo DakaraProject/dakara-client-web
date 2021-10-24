@@ -1,14 +1,15 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import PropTypes from 'prop-types'
+
 import { loadCurrentUser } from 'actions/authenticatedUser'
 import { loadServerSettings } from 'actions/internal'
-import Header from './Header'
-import Footer from './Footer'
-import PlaylistApp from './playlistApp/PlaylistApp'
-import { IsAuthenticated } from './permissions/Base'
 import { loadWorkTypes } from 'actions/library'
+import Footer from 'components/Footer'
+import Header from 'components/Header'
+import { IsAuthenticated } from 'components/permissions/Base'
+import PlaylistApp from 'components/playlistApp/PlaylistApp'
 
 class Main extends Component {
     playlistAppWrapperRef = React.createRef()

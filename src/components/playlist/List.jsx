@@ -1,16 +1,17 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { withRouter } from 'react-router-dom'
-import { removeEntryFromPlaylist, reorderPlaylistEntry } from 'actions/playlist'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+
 import { clearAlteration } from 'actions/alterations'
-import PlaylistEntry from './Entry'
-import PlaylistTabList from './TabList'
-import Navigator from 'components/generics/Navigator'
+import { removeEntryFromPlaylist, reorderPlaylistEntry } from 'actions/playlist'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
-import { playlistEntriesStatePropType } from 'reducers/playlist'
+import Navigator from 'components/generics/Navigator'
+import PlaylistEntry from 'components/playlist/Entry'
+import PlaylistTabList from 'components/playlist/TabList'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
+import { playlistEntriesStatePropType } from 'reducers/playlist'
 
 class Playlist extends Component {
     static propTypes = {

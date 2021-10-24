@@ -1,11 +1,12 @@
+import classNames from 'classnames'
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
-import classNames from 'classnames'
-import { setAlterationValidationErrors, submitAlteration, clearAlteration } from 'actions/alterations'
-import { Status } from 'reducers/alterationsResponse'
+
+import { clearAlteration, setAlterationValidationErrors, submitAlteration } from 'actions/alterations'
 import Notification from 'components/generics/Notification'
+import { Status } from 'reducers/alterationsResponse'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
 
 class Form extends Component {

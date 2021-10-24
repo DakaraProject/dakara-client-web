@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+
 import WorkLink from 'components/song/WorkLink'
 import { workLinkPropType } from 'serverPropTypes/library'
 

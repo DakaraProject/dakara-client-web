@@ -1,14 +1,15 @@
-import React, { Component } from 'react'
-import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import classNames from 'classnames'
-import { stringify } from 'query-string'
-import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import Song from 'components/song/Song'
-import { IsPlaylistManager, IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
+import { stringify } from 'query-string'
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
+import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
+import { IsPlaylistManager, IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import PlayQueueInfo from 'components/song/PlayQueueInfo'
+import Song from 'components/song/Song'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 
 class PlaylistEntry extends Component {

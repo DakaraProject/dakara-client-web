@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import LibraryTabList from './LibraryTabList'
-import SearchBox from './SearchBox'
+import React, { Component } from 'react'
+
+import LibraryTabList from 'components/library/LibraryTabList'
+import SearchBox from 'components/library/SearchBox'
 import { workTypeStatePropType } from 'reducers/library'
 
 class Library extends Component {

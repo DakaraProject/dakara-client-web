@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
 import dayjs from 'dayjs'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+
 import UserWidget from 'components/generics/UserWidget'
 import { playlistEntryPropType, playlistPlayedEntryPropType } from 'serverPropTypes/playlist'
 

@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { PermissionBase, mapStateToProps } from './Base'
+
+import { mapStateToProps, PermissionBase } from 'components/permissions/Base'
 import { userPropType } from 'serverPropTypes/users'
 
 export const permissionLevels = {

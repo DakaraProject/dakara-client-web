@@ -1,17 +1,18 @@
+import PropTypes from 'prop-types'
+import { parse } from 'query-string'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { parse } from 'query-string'
-import PropTypes from 'prop-types'
-import { deleteUser, getUsers } from 'actions/users'
+
 import { clearAlteration } from 'actions/alterations'
+import { deleteUser, getUsers } from 'actions/users'
 import { FormBlock, InputField } from 'components/generics/Form'
+import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import { IsUserManager } from 'components/permissions/Users'
-import SettingsUserEntry from './Entry'
-import SettingsTabList from '../TabList'
+import SettingsTabList from 'components/settings/TabList'
+import SettingsUserEntry from 'components/settings/users/Entry'
 import { listUsersStatePropType } from 'reducers/users'
-import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 
 class SettingsUsersList extends Component {
     static propTypes = {

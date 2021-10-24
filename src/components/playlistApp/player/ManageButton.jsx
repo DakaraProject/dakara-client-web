@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
-import { Status, alterationResponsePropType } from 'reducers/alterationsResponse'
+import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
 
 /**
  * ManageButton class for a button connected to a player manage command

@@ -1,14 +1,15 @@
-import React, { Component } from 'react'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { connect } from 'react-redux'
-import { withRouter, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { params } from 'utils'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Link, withRouter } from 'react-router-dom'
+
 import { loadPlaylist, loadPlaylistPlayed } from 'actions/playlist'
+import { Status } from 'reducers/alterationsResponse'
 import { playlistEntriesStatePropType } from 'reducers/playlist'
 import { playlistDigestPropType } from 'reducers/playlist'
-import { Status } from 'reducers/alterationsResponse'
+import { params } from 'utils'
 
 dayjs.extend(relativeTime)
 

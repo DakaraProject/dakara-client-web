@@ -37,7 +37,22 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "plugins": ["simple-import-sort"],
+    "rules": {
+      "simple-import-sort/imports": [
+        "error",
+        {
+          "groups": [
+            ["^\\u0000"],
+            ["^@?\\w"],
+            ["^(actions|components|middleware|reducers|serverPropTypes|style|utils)"],
+            ["^"],
+            ["^\\."]
+          ]
+        }
+      ]
+    }
   },
   "browserslist": {
     "production": [
@@ -52,6 +67,7 @@
     ]
   },
   "devDependencies": {
+    "eslint-plugin-simple-import-sort": "^7.0.0",
     "react-app-rewired": "^2.1.8",
     "stylelint": "^13.13.1",
     "stylelint-config-sass-guidelines": "^8.0.0",

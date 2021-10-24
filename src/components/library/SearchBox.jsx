@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import { parse, stringify } from 'query-string'
 import PropTypes from 'prop-types'
+import { parse, stringify } from 'query-string'
+import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
 class SearchBox extends Component {

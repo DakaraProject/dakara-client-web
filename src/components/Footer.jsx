@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { version, projectHomepage, bugs } from '../../package.json'
+
+import { bugs, projectHomepage, version } from '../../package.json'
 
 class Footer extends Component {
     render() {

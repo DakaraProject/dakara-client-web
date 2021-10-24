@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import ArtistEntry from './Entry'
+
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
+import ArtistEntry from 'components/library/artist/Entry'
 import { artistStatePropType } from 'reducers/library'
 
 class ArtistList extends Component {

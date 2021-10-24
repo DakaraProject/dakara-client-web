@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+
 import { songTagPropType } from 'serverPropTypes/library'
 
 export default class SongTagList extends Component {

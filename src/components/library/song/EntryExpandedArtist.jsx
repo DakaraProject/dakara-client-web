@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+
 import { artistPropType } from 'serverPropTypes/library'
 
 export default class SongEntryExpandedArtist extends Component {

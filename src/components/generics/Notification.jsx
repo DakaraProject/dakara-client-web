@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+
 import { Status } from 'reducers/alterationsResponse'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
 
