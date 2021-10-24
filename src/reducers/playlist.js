@@ -2,13 +2,9 @@ import PropTypes from 'prop-types'
 import { combineReducers } from 'redux'
 
 import { ALTERATION_SUCCESS } from 'actions/alterations'
-import { PLAYLIST_DIGEST_FAILURE, PLAYLIST_DIGEST_REQUEST, PLAYLIST_DIGEST_SUCCESS } from 'actions/playlist'
-import { PLAYLIST_FAILURE, PLAYLIST_REQUEST, PLAYLIST_SUCCESS } from 'actions/playlist'
-import { PLAYLIST_PLAYED_FAILURE, PLAYLIST_PLAYED_REQUEST, PLAYLIST_PLAYED_SUCCESS } from 'actions/playlist'
-import { PLAYLIST_PLAYED_ADD } from 'actions/playlist'
+import { PLAYLIST_DIGEST_FAILURE, PLAYLIST_DIGEST_REQUEST, PLAYLIST_DIGEST_SUCCESS, PLAYLIST_FAILURE, PLAYLIST_PLAYED_ADD, PLAYLIST_PLAYED_FAILURE, PLAYLIST_PLAYED_REQUEST, PLAYLIST_PLAYED_SUCCESS, PLAYLIST_REQUEST, PLAYLIST_SUCCESS } from 'actions/playlist'
 import { Status } from 'reducers/alterationsResponse'
-import { karaokePropType, playerErrorPropType, playerStatusPropType } from 'serverPropTypes/playlist'
-import { playlistEntryPropType, playlistPlayedEntryPropType } from 'serverPropTypes/playlist'
+import { karaokePropType, playerErrorPropType, playerStatusPropType, playlistEntryPropType, playlistPlayedEntryPropType } from 'serverPropTypes/playlist'
 import { updateData } from 'utils'
 
 

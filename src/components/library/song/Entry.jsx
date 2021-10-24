@@ -16,8 +16,8 @@ import PlayQueueInfo from 'components/song/PlayQueueInfo'
 import Song from 'components/song/Song'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
 import { songPropType } from 'serverPropTypes/library'
-import { playerStatusPropType } from 'serverPropTypes/playlist'
-import { playlistEntryPropType, playlistPlayedEntryPropType } from 'serverPropTypes/playlist'
+import { playerStatusPropType, playlistEntryPropType, playlistPlayedEntryPropType } from 'serverPropTypes/playlist'
+
 
 class SongEntry extends Component {
     static propTypes = {

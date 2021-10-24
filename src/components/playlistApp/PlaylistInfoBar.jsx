@@ -7,8 +7,7 @@ import { Link, withRouter } from 'react-router-dom'
 
 import { loadPlaylist, loadPlaylistPlayed } from 'actions/playlist'
 import { Status } from 'reducers/alterationsResponse'
-import { playlistEntriesStatePropType } from 'reducers/playlist'
-import { playlistDigestPropType } from 'reducers/playlist'
+import { playlistDigestPropType, playlistEntriesStatePropType } from 'reducers/playlist'
 import { params } from 'utils'
 
 dayjs.extend(relativeTime)

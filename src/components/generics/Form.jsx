@@ -6,8 +6,8 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import { clearAlteration, setAlterationValidationErrors, submitAlteration } from 'actions/alterations'
 import Notification from 'components/generics/Notification'
-import { Status } from 'reducers/alterationsResponse'
-import { alterationResponsePropType } from 'reducers/alterationsResponse'
+import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
+
 
 class Form extends Component {
     static propTypes = {

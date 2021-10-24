@@ -38,7 +38,7 @@
   },
   "eslintConfig": {
     "extends": "react-app",
-    "plugins": ["simple-import-sort"],
+    "plugins": ["simple-import-sort", "import"],
     "rules": {
       "simple-import-sort/imports": [
         "error",
@@ -51,7 +51,10 @@
             ["^\\."]
           ]
         }
-      ]
+      ],
+      "import/first": "error",
+      "import/newline-after-import": "error",
+      "import/no-duplicates": "error"
     }
   },
   "browserslist": {

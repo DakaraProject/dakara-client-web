@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types'
 import { combineReducers } from 'redux'
 
-import { USER_LIST_FAILURE, USER_LIST_REQUEST, USER_LIST_SUCCESS } from 'actions/users'
-import { USER_GET_FAILURE, USER_GET_REQUEST, USER_GET_SUCCESS } from 'actions/users'
-import { USER_CLEAR } from 'actions/users'
+import { USER_CLEAR, USER_GET_FAILURE, USER_GET_REQUEST, USER_GET_SUCCESS, USER_LIST_FAILURE, USER_LIST_REQUEST, USER_LIST_SUCCESS } from 'actions/users'
 import { Status } from 'reducers/alterationsResponse'
 import { userPropType } from 'serverPropTypes/users'
 import { updateData } from 'utils'

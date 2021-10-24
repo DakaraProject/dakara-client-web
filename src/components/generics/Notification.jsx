@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
-import { Status } from 'reducers/alterationsResponse'
-import { alterationResponsePropType } from 'reducers/alterationsResponse'
+import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
+
 
 const notificationTypes = {
     [Status.pending]: 'success',
