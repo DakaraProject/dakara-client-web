@@ -3,6 +3,9 @@ import duration from 'dayjs/plugin/duration'
 
 dayjs.extend(duration)
 
+/**
+ * Front parameters.
+ */
 export const params = {
     baseUrl: "/api",
     pollInterval: 1000

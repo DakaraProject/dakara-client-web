@@ -46,8 +46,6 @@ const store = createStore(
 
 manageStorageEvent(store)
 
-export const defaultPathname = "/library/song"
-
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
