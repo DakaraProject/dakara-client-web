@@ -46,7 +46,7 @@
           "groups": [
             ["^\\u0000"],
             ["^@?\\w"],
-            ["^(actions|components|middleware|reducers|serverPropTypes|style|utils)"],
+            ["^(actions|components|eventManagers|middleware|reducers|serverPropTypes|style|utils)"],
             ["^"],
             ["^\\."]
           ]

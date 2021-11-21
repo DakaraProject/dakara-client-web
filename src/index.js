@@ -8,7 +8,6 @@ import { applyMiddleware, compose, createStore } from 'redux'
 import persistState from 'redux-localstorage'
 import ReduxThunk from 'redux-thunk'
 
-import { logout, setToken } from 'actions/token'
 import { ProtectedRoute } from 'components/generics/Router'
 import LibraryList from 'components/library/List'
 import Main from 'components/Main'
@@ -28,6 +27,7 @@ import SettingsSongTagsList from 'components/settings/songTags/List'
 import SettingsUsersEdit from 'components/settings/users/Edit'
 import SettingsUsersList from 'components/settings/users/List'
 import User from 'components/user/User'
+import manageStorageEvent from 'eventManagers/storage'
 import delayMiddleware from 'middleware/delay'
 import fetchApiMiddleware from 'middleware/fetchApi'
 import reducer from 'reducers'
@@ -43,6 +43,8 @@ const store = createStore(
         persistState('token')
     )
 )
+
+manageStorageEvent(store)
 
 export const defaultPathname = "/library/song"
 
@@ -118,29 +120,3 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('react-mounting-point')
 )
-
-/**
- * Multi tabs events handling
- *
- * Synchronizes the connected state between different tabs
- */
-function handleStorageEvent({ key, oldValue, newValue }) {
-    // check if the storage event is on the requested key
-    if (key !== 'redux') {
-        return
-    }
-
-    // check if there is a token in `oldValue` and not `newValue`
-    const oldValueObj = JSON.parse(oldValue)
-    const newValueObj = JSON.parse(newValue)
-
-    if (oldValueObj.token && !newValueObj.token) {
-        store.dispatch(logout())
-    }
-
-    if (!oldValueObj.token && newValueObj.token) {
-        store.dispatch(setToken(newValueObj.token))
-    }
-}
-
-window.addEventListener('storage', handleStorageEvent, false)
