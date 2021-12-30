@@ -122,6 +122,7 @@ $player-height-smartphone: 3 * $gap-vertical-smartphone + $player-timing-height 
             // shrink the timing class element first when resizing, up to
             // the width of the duration (4 digits plus one colon)
             flex: 1;
+            font-feature-settings: "tnum";
             min-width: 4.5ch;
             overflow: hidden;
             text-align: right;
