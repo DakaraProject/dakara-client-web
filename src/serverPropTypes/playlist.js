@@ -8,7 +8,7 @@ export const playlistEntryPropType = PropTypes.shape({
     song: songPropType.isRequired,
     use_instrumental: PropTypes.bool,
     owner: userPropType.isRequired,
-    date_play: PropTypes.string.isRequired,
+    date_play: PropTypes.string,
 })
 
 export const playlistPlayedEntryPropType = PropTypes.shape({
