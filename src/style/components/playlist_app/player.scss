@@ -6,10 +6,12 @@
 
 
 // player sizes
-$player-controls-height: 7rem;
+$player-controls-height: 6rem;
+$player-timing-height: 6rem;
 $player-progressbar-height: 0.4rem;
-$player-height: 2 * $gap-vertical + $player-controls-height + $player-progressbar-height;
-$player-height-smartphone: 2 * $gap-vertical-smartphone + 2 * $row-height * 0.6 + $gap-vertical-smartphone + $player-progressbar-height;
+// update
+$player-height: 3 * $gap-vertical + $player-timing-height + $player-controls-height + $player-progressbar-height;
+$player-height-smartphone: 3 * $gap-vertical-smartphone + $player-timing-height + $row-height + $player-progressbar-height;
 
 
 // `player` id:
@@ -20,31 +22,17 @@ $player-height-smartphone: 2 * $gap-vertical-smartphone + 2 * $row-height * 0.6 
     background: $brand-primary-darker;
     color: $brand-primary;
 
-    // `first-line` class: the main part of the player displays the current
-    // song, its numerical progression and the controls of the player.
-    .first-line {
+    // `playlist-entry` class: container for the current playlist entry.
+    .playlist-entry {
         @include make-gap(padding, vertical);
 
-        align-items: center;
         display: flex;
+        overflow: hidden;
 
-        .display-area {
-            @include make-gap(margin, left);
+        // `entry-info` sublcass: show info about the playlist entry (song + playing request)
+        .entry-info {
+            @include make-gap(margin, horizontal);
 
-            height: $player-controls-height;
-            overflow: hidden;
-            width: 100%;
-
-            .notified {
-                .animation {
-                    line-height: $player-controls-height;
-                }
-            }
-        }
-
-        // `song-container` class: container for info of the song.
-        .playlist-entry {
-            display: flex;
             overflow: hidden;
 
             // `use-instrumental` subclass: indicate if the playlist entry use the instrumental track.
@@ -56,12 +44,6 @@ $player-height-smartphone: 2 * $gap-vertical-smartphone + 2 * $row-height * 0.6 
 
             // `song` subclass: the song itself.
             .song {
-                @include make-gap(margin, right);
-
-                align-content: flex-start;
-                align-items: initial;
-                flex-direction: column;
-                height: $player-controls-height;
                 overflow: hidden;
 
                 // remove special colors of disabled songs
@@ -77,7 +59,7 @@ $player-height-smartphone: 2 * $gap-vertical-smartphone + 2 * $row-height * 0.6 
 
                 .header {
                     flex-grow: initial;
-                    font-size: 1.45em;
+                    font-size: 1.5em;
                     font-weight: 300;
 
                     // .title {
@@ -104,83 +86,132 @@ $player-height-smartphone: 2 * $gap-vertical-smartphone + 2 * $row-height * 0.6 
                 }
             }
 
-            .extra {
-                @mixin make-extra($ratio-extra, $ratio-timing, $font-weight-current, $font-weight-duration) {
-                    $height-timing: $ratio-extra * $player-controls-height * 0.95;
-                    $height-owner: (1 - $ratio-extra) * $player-controls-height;
-                    font-size: $height-timing * $ratio-timing;
-
-                    .timing {
-                        .current {
-                            font-size: $height-timing * $ratio-timing;
-                            font-weight: $font-weight-current;
-                            line-height: $height-timing * $ratio-timing;
-                        }
-
-                        .duration {
-                            font-size: $height-timing * (1 - $ratio-timing);
-                            font-weight: $font-weight-duration;
-                            line-height: $height-timing * (1 - $ratio-timing);
-                        }
-                    }
-
-                    .owner {
-                        font-size: initial;
-                        line-height: $height-owner;
-                    }
-                }
-
-                @include make-gap(margin, right);
-                @include make-extra(0.8, 0.7, 100, initial);
-
-                // shrink the extra class element first when resizing, up to
-                // the width of the duration (4 digits plus one colon)
-                display: flex;
-                flex: 1;
-                flex-direction: column;
-                min-width: 4.5ch;
+            // `playlist-entry-owner` subclass: owner of the playlist entry.
+            .owner {
                 overflow: hidden;
 
-                @include make-smartphone {
-                    @include make-extra(0.7, 0.6, 100, 300);
+                .user-widget {
+                    @include text-truncate();
+
+                    .icon {
+                        font-size: 1em;
+                    }
+                }
+            }
+        }
+
+        // `timing` subclass: display current timing over expected duration.
+        .timing {
+            @mixin make-timing($ratio-timing) {
+                $height-timing: $player-timing-height;
+
+                .current {
+                    font-size: $height-timing * $ratio-timing;
+                    line-height: $height-timing * $ratio-timing;
                 }
 
-                // `song-timing` class: current progression of the song in numerical
-                // form.
-                .timing {
-                    $ratio-timing: 0.6;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    text-align: right;
+                .duration {
+                    font-size: $height-timing * (1 - $ratio-timing);
+                    line-height: $height-timing * (1 - $ratio-timing);
+                }
+            }
 
-                    // .current {
-                    // }
+            @include make-gap(margin, right);
+            @include make-timing(0.7);
 
-                    .duration {
-                        opacity: 0.85;
+            // shrink the timing class element first when resizing, up to
+            // the width of the duration (4 digits plus one colon)
+            flex: 1;
+            min-width: 4.5ch;
+            overflow: hidden;
+            text-align: right;
+
+            @include make-smartphone {
+                @include make-timing(0.7);
+            }
+
+            .current {
+                font-weight: 100;
+            }
+
+            .duration {
+                opacity: 0.85;
+            }
+        }
+    }
+
+    // `controls` class: buttons to send commands to the player.
+    .controls {
+        @include make-gap(padding, bottom);
+        @include make-controls($player-controls-height, 1.5em);
+
+        align-items: center;
+        display: flex;
+
+        @include make-smartphone {
+            @include make-controls($row-height, 1.1em);
+        }
+
+        .control {
+            overflow: hidden;
+            position: relative;
+
+            &.managed-error .managed.managed-enter {
+                left: -100%;
+            }
+
+            .managed {
+                align-items: center;
+                display: flex;
+                height: 100%;
+                justify-content: center;
+                left: 0;
+                position: absolute;
+                top: 0;
+                width: 100%;
+
+                // appearance transition
+                &.managed-enter {
+                    left: 100%;
+
+                    &.managed-enter-active {
+                        left: 0;
+                        transition: left 150ms ease-out;
                     }
                 }
 
-                // `playlist-entry-owner` class: owner of the playlist entry.
-                .owner {
-                    overflow: hidden;
-                    text-align: right;
+                // appearance transition
+                &.managed-exit {
+                    left: 0;
 
-                    .user-widget {
-                        @include text-truncate();
-
-                        .icon {
-                            font-size: 1em;
-                        }
+                    &.managed-exit-active {
+                        left: -100%;
+                        transition: left 150ms ease-out;
                     }
                 }
             }
         }
     }
 
-    // `progressbar` class: supplementary visual indicator of the song current
-    // progression.
+    // // `first-line` class: the main part of the player displays the current
+    // // song, its numerical progression and the controls of the player.
+    // .first-line {
+    //     @include make-gap(padding, vertical);
+    //
+    //     align-items: center;
+    //     display: flex;
+    //
+    //     .display-area {
+    //         @include make-gap(margin, left);
+    //
+    //         height: $player-controls-height;
+    //         overflow: hidden;
+    //         width: 100%;
+    //
+    //     }
+    // }
+
+    // `progressbar` class: visual indicator of the song progression.
     .progressbar {
         // reset default style
         appearance: none;
@@ -268,88 +299,6 @@ $player-height-smartphone: 2 * $gap-vertical-smartphone + 2 * $row-height * 0.6 
             &::-moz-progress-bar {
                 background: transparent;
             }
-        }
-    }
-
-    // `controls` subclass: buttons of the player.
-    .controls {
-        .control {
-            overflow: hidden;
-            position: relative;
-
-            &.managed-error .managed.managed-enter {
-                left: -100%;
-            }
-
-            .managed {
-                align-items: center;
-                display: flex;
-                height: 100%;
-                justify-content: center;
-                left: 0;
-                position: absolute;
-                top: 0;
-                width: 100%;
-
-                // appearance transition
-                &.managed-enter {
-                    left: 100%;
-
-                    &.managed-enter-active {
-                        left: 0;
-                        transition: left 150ms ease-out;
-                    }
-                }
-
-                // appearance transition
-                &.managed-exit {
-                    left: 0;
-
-                    &.managed-exit-active {
-                        left: -100%;
-                        transition: left 150ms ease-out;
-                    }
-                }
-            }
-        }
-    }
-
-    .controls.main {
-        @include make-controls($player-controls-height, 1.66em);
-
-        @include make-smartphone {
-            @include make-controls($row-height * 0.6, 1.1em);
-
-            flex-direction: column;
-
-            > .control {
-                margin: 0;
-                width: $row-height;
-
-                &:not(:last-child) {
-                    margin-bottom: $gap-vertical-smartphone;
-                }
-            }
-        }
-    }
-
-    // this second line of controls has been deactivated
-    .controls.other {
-        @include make-controls($row-height * 0.6, 1.1em);
-        @include make-gap(padding, bottom);
-
-        overflow: hidden;
-        transition: height 150ms, padding-bottom 150ms;
-
-        &.reduced {
-            height: 0;
-            padding-bottom: 0;
-            transition: height 150ms, padding-bottom 150ms;
-        }
-
-
-        > .control {
-            width: $row-height;
         }
     }
 }

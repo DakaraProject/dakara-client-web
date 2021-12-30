@@ -35,9 +35,28 @@ class Player extends Component {
         const responseOfSendPlayerCommandsSafe = {
             pause: {status: null},
             play: {status: null},
+            restart: {status: null},
             skip: {status: null},
+            back: {status: null},
+            forward: {status: null},
             ...this.props.responseOfSendPlayerCommands,
         }
+
+        /**
+         * Server lost widget
+         */
+        const serverLost = (
+            <CSSTransitionLazy
+                in={fetchError}
+                classNames="notified"
+                timeout={{
+                    enter: 300,
+                    exit: 150
+                }}
+            >
+                <ServerLost/>
+            </CSSTransitionLazy>
+        )
 
         /**
          * Display playlist entry if any song is currently playing
@@ -68,25 +87,25 @@ class Player extends Component {
 
             playlistEntry = (
                 <div className="playlist-entry">
-                    {useInstrumental}
-                    <Song
-                        song={player_status.playlist_entry.song}
-                        noDuration
-                        noTag
-                    />
-                    <div className="extra">
-                        <div className="timing">
-                            <div className="current">
-                                {formatDuration(player_status.timing)}
-                            </div>
-                            <div className="duration">
-                                {formatDuration(duration)}
-                            </div>
-                        </div>
+                    <div className="entry-info">
+                        {useInstrumental}
+                        <Song
+                            song={player_status.playlist_entry.song}
+                            noDuration
+                            noTag
+                        />
                         <div className="owner">
                             <UserWidget
                                 user={player_status.playlist_entry.owner}
                             />
+                        </div>
+                    </div>
+                    <div className="timing">
+                        <div className="current">
+                            {formatDuration(player_status.timing)}
+                        </div>
+                        <div className="duration">
+                            {formatDuration(duration)}
                         </div>
                     </div>
                 </div>
@@ -95,14 +114,12 @@ class Player extends Component {
             progress = 0
             playlistEntry = (
                 <div className="playlist-entry">
-                    <div className="extra">
-                        <div className="timing">
-                            <div className="current">
-                                {formatDuration(0)}
-                            </div>
-                            <div className="duration">
-                                {formatDuration(0)}
-                            </div>
+                    <div className="timing">
+                        <div className="current">
+                            {formatDuration(0)}
+                        </div>
+                        <div className="duration">
+                            {formatDuration(0)}
                         </div>
                     </div>
                 </div>
@@ -110,62 +127,68 @@ class Player extends Component {
         }
 
         return (
-            <div id="player">
-                <div className="first-line">
-                    <div className="controls main">
-                        <IsPlaylistManagerOrOwner
-                            object={player_status.playlist_entry}
-                            disable
-                        >
-                            <ManageButton
-                                responseOfManage={
-                                    player_status.paused ?
-                                        responseOfSendPlayerCommandsSafe.play :
-                                        responseOfSendPlayerCommandsSafe.pause
-                                }
-                                onClick={() => {
-                                    if (!isPlaying) return
-
-                                    if (player_status.paused) {
-                                        this.props.sendPlayerCommand('play')
-                                    } else {
-                                        this.props.sendPlayerCommand('pause')
-                                    }
-                                }}
-                                disabled={controlDisabled}
-                                icon={
-                                    isPlaying ?
-                                        (player_status.paused ? 'play' : 'pause') :
-                                        'stop'
-                                }
-                            />
-                            <ManageButton
-                                responseOfManage={responseOfSendPlayerCommandsSafe.skip}
-                                onClick={() =>
-                                        this.props.sendPlayerCommand('skip', true)
-                                }
-                                disabled={controlDisabled}
-                                icon="step-forward"
-                            />
-                        </IsPlaylistManagerOrOwner>
-                    </div>
-                    <div className="display-area notifiable">
-                        {playlistEntry}
-                        <CSSTransitionLazy
-                            in={fetchError}
-                            classNames="notified"
-                            timeout={{
-                                enter: 300,
-                                exit: 150
-                            }}
-                        >
-                            <ServerLost/>
-                        </CSSTransitionLazy>
-                        <PlayerNotification
-                            alterationsResponse={responseOfSendPlayerCommandsSafe}
-                            playerErrors={player_errors}
+            <div id="player" className="notifiable">
+                {playlistEntry}
+                <div className="controls">
+                    <IsPlaylistManagerOrOwner
+                        object={player_status.playlist_entry}
+                        disable
+                    >
+                        <ManageButton
+                            responseOfManage={responseOfSendPlayerCommandsSafe.restart}
+                            onClick={() =>
+                                    this.props.sendPlayerCommand('restart')
+                            }
+                            disabled={controlDisabled}
+                            icon="step-backward"
                         />
-                    </div>
+                        <ManageButton
+                            responseOfManage={responseOfSendPlayerCommandsSafe.back}
+                            onClick={() =>
+                                    this.props.sendPlayerCommand('back')
+                            }
+                            disabled={controlDisabled}
+                            icon="backward"
+                        />
+                        <ManageButton
+                            responseOfManage={
+                                player_status.paused ?
+                                    responseOfSendPlayerCommandsSafe.play :
+                                    responseOfSendPlayerCommandsSafe.pause
+                            }
+                            onClick={() => {
+                                if (!isPlaying) return
+
+                                if (player_status.paused) {
+                                    this.props.sendPlayerCommand('play')
+                                } else {
+                                    this.props.sendPlayerCommand('pause')
+                                }
+                            }}
+                            disabled={controlDisabled}
+                            icon={
+                                isPlaying ?
+                                    (player_status.paused ? 'play' : 'pause') :
+                                    'stop'
+                            }
+                        />
+                        <ManageButton
+                            responseOfManage={responseOfSendPlayerCommandsSafe.forward}
+                            onClick={() =>
+                                    this.props.sendPlayerCommand('forward')
+                            }
+                            disabled={controlDisabled}
+                            icon="forward"
+                        />
+                        <ManageButton
+                            responseOfManage={responseOfSendPlayerCommandsSafe.skip}
+                            onClick={() =>
+                                    this.props.sendPlayerCommand('skip', true)
+                            }
+                            disabled={controlDisabled}
+                            icon="step-forward"
+                        />
+                    </IsPlaylistManagerOrOwner>
                 </div>
                 <progress
                     className="progressbar"
@@ -176,6 +199,11 @@ class Player extends Component {
                         <div className="value" style={{width: `${progress}%`}}></div>
                     </div>
                 </progress>
+                {serverLost}
+                <PlayerNotification
+                    alterationsResponse={responseOfSendPlayerCommandsSafe}
+                    playerErrors={player_errors}
+                />
             </div>
         )
     }
