@@ -1,22 +1,25 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { withRouter } from 'react-router-dom'
-import { removeEntryFromPlaylist, reorderPlaylistEntry } from 'actions/playlist'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+
 import { clearAlteration } from 'actions/alterations'
-import PlaylistEntry from './Entry'
-import PlaylistTabList from './TabList'
-import Navigator from 'components/generics/Navigator'
+import { removeEntryFromPlaylist, reorderPlaylistEntry } from 'actions/playlist'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
-import { playlistEntriesStatePropType } from 'reducers/playlist'
+import Navigator from 'components/generics/Navigator'
+import PlaylistEntry from 'components/playlist/Entry'
+import PlaylistTabList from 'components/playlist/TabList'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
+import { playlistEntriesStatePropType } from 'reducers/playlist'
 
 class Playlist extends Component {
     static propTypes = {
         playlistEntriesState: playlistEntriesStatePropType.isRequired,
         responseOfMultipleRemoveEntry: PropTypes.objectOf(alterationResponsePropType),
-        responseOfMultipleReorderPlaylistEntry: PropTypes.objectOf(alterationResponsePropType),
+        responseOfMultipleReorderPlaylistEntry: PropTypes.objectOf(
+            alterationResponsePropType
+        ),
         removeEntryFromPlaylist: PropTypes.func.isRequired,
         clearAlteration: PropTypes.func.isRequired,
         reorderPlaylistEntry: PropTypes.func.isRequired
@@ -94,8 +97,11 @@ class Playlist extends Component {
     render() {
         const { playlistEntries } = this.props.playlistEntriesState.data
         const { status } = this.props.playlistEntriesState
-        const { removeEntryFromPlaylist: removeEntry,
-            responseOfMultipleRemoveEntry, responseOfMultipleReorderPlaylistEntry } = this.props
+        const {
+            removeEntryFromPlaylist: removeEntry,
+            responseOfMultipleRemoveEntry,
+            responseOfMultipleReorderPlaylistEntry
+        } = this.props
         const reorderEntryPosition = this.getEntryPosition(this.state.reorderEntryId)
 
         const playlistEntriesComponent = playlistEntries.map((entry, position) => (
@@ -112,7 +118,9 @@ class Playlist extends Component {
                     removeEntry={removeEntry}
                     clearAlteration={this.props.clearAlteration}
                     responseOfRemoveEntry={responseOfMultipleRemoveEntry[entry.id]}
-                    responseOfReorderPlaylistEntry={responseOfMultipleReorderPlaylistEntry[entry.id]}
+                    responseOfReorderPlaylistEntry={
+                        responseOfMultipleReorderPlaylistEntry[entry.id]
+                    }
                     position={position}
                     onReorderButtonClick={this.onReorderButtonClick}
                     reorderEntryPosition={reorderEntryPosition}
@@ -147,7 +155,9 @@ class Playlist extends Component {
 
 const mapStateToProps = (state) => ({
     playlistEntriesState: state.playlist.entries,
+    // eslint-disable-next-line max-len
     responseOfMultipleRemoveEntry: state.alterationsResponse.multiple.removeEntryFromPlaylist || {},
+    // eslint-disable-next-line max-len
     responseOfMultipleReorderPlaylistEntry: state.alterationsResponse.multiple.reorderPlaylistEntry || {},
 })
 

@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
 import { stringify } from 'query-string'
+import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import Song from 'components/song/Song'
+
 import PlayQueueInfo from 'components/song/PlayQueueInfo'
+import Song from 'components/song/Song'
 import { playlistPlayedEntryPropType } from 'serverPropTypes/playlist'
 
 class PlaylistPlayedEntry extends Component {
@@ -27,13 +28,20 @@ class PlaylistPlayedEntry extends Component {
         const datePlayed = Date.parse(entry.date_played)
 
         return (
-            <li className="listing-entry playlist-entry library-entry library-entry-song hoverizable">
+            <li
+            className={
+                "listing-entry playlist-entry library-entry library-entry-song " +
+                "hoverizable"
+            }
+            >
                 <div className="library-entry-song-compact">
                     <Song
                         song={entry.song}
                         handleClick={this.handleSearch}
                     />
-                    <PlayQueueInfo playedInfo={{timeOfPlay: datePlayed, playlistEntry: entry}}/>
+                    <PlayQueueInfo
+                        playedInfo={{timeOfPlay: datePlayed, playlistEntry: entry}}
+                    />
                 </div>
             </li>
         )

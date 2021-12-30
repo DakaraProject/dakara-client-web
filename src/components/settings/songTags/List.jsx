@@ -1,16 +1,17 @@
+import PropTypes from 'prop-types'
+import { parse } from 'query-string'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { parse } from 'query-string'
-import PropTypes from 'prop-types'
-import { getSongTagList, editSongTag } from 'actions/songTags'
+
 import { clearAlteration } from 'actions/alterations'
-import Navigator from 'components/generics/Navigator'
-import SettingsSongTagsEntry from './Entry'
-import SettingsTabList from '../TabList'
+import { editSongTag, getSongTagList } from 'actions/songTags'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
-import { songTagsStatePropType } from 'reducers/songTags'
+import Navigator from 'components/generics/Navigator'
+import SettingsSongTagsEntry from 'components/settings/songTags/Entry'
+import SettingsTabList from 'components/settings/TabList'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
+import { songTagsStatePropType } from 'reducers/songTags'
 import { userPropType } from 'serverPropTypes/users'
 
 class SettingsSongTagsList extends Component {
@@ -94,6 +95,7 @@ class SettingsSongTagsList extends Component {
 const mapStateToProps = (state) => ({
     songTagsState: state.settings.songTags,
     responseOfMultipleEdit: state.alterationsResponse.multiple.editSongTag || {},
+    // eslint-disable-next-line max-len
     responseOfMultipleEditColor: state.alterationsResponse.multiple.editSongTagColor || {},
     authenticatedUser: state.authenticatedUser,
 })

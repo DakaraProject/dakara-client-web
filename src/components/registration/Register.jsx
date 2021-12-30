@@ -1,7 +1,8 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import PropTypes from 'prop-types'
+
 import { FormBlock, InputField } from 'components/generics/Form'
 
 class Register extends Component {
@@ -74,7 +75,10 @@ class Register extends Component {
             )
         } else {
             createdMessage = (
-                <p>Your account was successfully created. A manager will validate your account before you can login.</p>
+                <p>
+                    Your account was successfully created.
+                    A manager will validate your account before you can login.
+                </p>
             )
         }
 

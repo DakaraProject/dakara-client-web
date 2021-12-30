@@ -1,10 +1,15 @@
-import React, { Component } from 'react'
-import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import PropTypes from 'prop-types'
-import { permissionLevels, IsUserManager, IsNotSelf } from 'components/permissions/Users'
-import ControlLink from 'components/generics/ControlLink'
+import React, { Component } from 'react'
+
 import ConfirmationBar from 'components/generics/ConfirmationBar'
+import ControlLink from 'components/generics/ControlLink'
 import Notification, { NotifiableForTable } from 'components/generics/Notification'
+import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
+import {
+    IsNotSelf,
+    IsUserManager,
+    permissionLevels
+} from 'components/permissions/Users'
 import { userPropType } from 'serverPropTypes/users'
 
 export default class SettingsUsersEntry extends Component {

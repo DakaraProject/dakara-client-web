@@ -1,7 +1,8 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import PropTypes from 'prop-types'
+
 import { FormBlock, InputField } from 'components/generics/Form'
 
 class SendResetPasswordLink extends Component {
@@ -41,7 +42,10 @@ class SendResetPasswordLink extends Component {
         )
 
         const emailSentMessage = (
-            <p>An email containing a link to reset your password has been sent successfully, please check your email.</p>
+            <p>
+                An email containing a link to reset your password has been sent
+                successfully, please check your email.
+            </p>
         )
 
         return (
@@ -50,7 +54,11 @@ class SendResetPasswordLink extends Component {
                     <h2>Send reset password link</h2>
                 </div>
                 <div className="content">
-                    { this.state.emailSent ? emailSentMessage : sendResetPasswordLinkForm }
+                    {
+                        this.state.emailSent ?
+                            emailSentMessage :
+                            sendResetPasswordLinkForm
+                    }
                 </div>
             </div>
         )

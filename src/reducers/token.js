@@ -1,6 +1,6 @@
 import { ALTERATION_SUCCESS } from 'actions/alterations'
-import { LOGOUT } from 'actions/token'
-import { SET_TOKEN } from 'actions/token'
+import { LOGOUT, SET_TOKEN } from 'actions/token'
+
 
 /**
  * Authentication token with the Dakara server

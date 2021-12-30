@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
-import HighlighterQuery from 'components/generics/HighlighterQuery'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+
+import HighlighterQuery from 'components/generics/HighlighterQuery'
 import { WorkLinkName } from 'reducers/library'
 import { workLinkPropType } from 'serverPropTypes/library'
 
@@ -37,7 +38,11 @@ export default class WorkLink extends Component {
         // Link type
         const linkType = (
                 <span className="link-type">
-                    {longLinkType ? WorkLinkName[workLink.link_type] : workLink.link_type}
+                    {
+                        longLinkType ?
+                            WorkLinkName[workLink.link_type] :
+                            workLink.link_type
+                    }
                 </span>
         )
 
@@ -84,10 +89,14 @@ export default class WorkLink extends Component {
                             className="title"
                             searchWords={(q) => {
                                 let searchWords = q.work.contains.concat(q.remaining)
-                                const workTypeQuery = q.work_type[workLink.work.work_type.query_name]
+                                const workTypeQuery = q.work_type[
+                                    workLink.work.work_type.query_name
+                                ]
                                 if (workTypeQuery) {
                                     // Add keyword for specific worktype if it exists
-                                    searchWords = searchWords.concat(workTypeQuery.contains)
+                                    searchWords = searchWords.concat(
+                                        workTypeQuery.contains
+                                    )
                                 }
 
                                 return searchWords

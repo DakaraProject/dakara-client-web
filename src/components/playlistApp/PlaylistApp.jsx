@@ -1,14 +1,15 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import Player from './player/Player'
-import PlaylistInfoBar from './PlaylistInfoBar'
-import KaraStatusNotification from './KaraStatusNotification'
-import { IsPlaylistManager } from 'components/permissions/Playlist'
+
 import { loadPlaylistAppDigest } from 'actions/playlist'
+import { IsPlaylistManager } from 'components/permissions/Playlist'
+import KaraStatusNotification from 'components/playlistApp/KaraStatusNotification'
+import Player from 'components/playlistApp/player/Player'
+import PlaylistInfoBar from 'components/playlistApp/PlaylistInfoBar'
+import { Status } from 'reducers/alterationsResponse'
 import { playlistDigestPropType } from 'reducers/playlist'
 import { params } from 'utils'
-import { Status } from 'reducers/alterationsResponse'
 
 class PlaylistApp extends Component {
     static propTypes = {

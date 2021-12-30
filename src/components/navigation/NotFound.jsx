@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 
 export default class NotFound extends Component {
     static propTypes = {

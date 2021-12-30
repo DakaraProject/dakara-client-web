@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { NavLink, withRouter } from 'react-router-dom'
+
 import Tab from 'components/generics/Tab'
 import { userPropType } from 'serverPropTypes/users'
 

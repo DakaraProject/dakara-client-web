@@ -1,6 +1,7 @@
+import classNames from 'classnames'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import classNames from 'classnames'
+
 import { userPropType } from 'serverPropTypes/users'
 
 class UserWidget extends Component {

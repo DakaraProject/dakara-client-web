@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
-import { parse } from 'query-string'
 import PropTypes from 'prop-types'
-import ControlLink from './ControlLink'
+import { parse } from 'query-string'
+import React, { Component } from 'react'
+
+import ControlLink from 'components/generics/ControlLink'
 
 export default class Navigator extends Component {
     static propTypes = {
@@ -84,7 +85,13 @@ export default class Navigator extends Component {
             counter = (
                 <div className="counter">
                     <span className="figure">{count}</span>
-                    <span className="text">{count === 1 ? names.singular : names.plural}</span>
+                    <span className="text">
+                        {
+                            count === 1 ?
+                                names.singular :
+                                names.plural
+                        }
+                    </span>
                 </div>
             )
         }

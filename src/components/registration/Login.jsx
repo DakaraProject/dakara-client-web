@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types'
+import { parse } from 'query-string'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Redirect, NavLink } from 'react-router-dom'
-import { parse } from 'query-string'
-import PropTypes from 'prop-types'
+import { NavLink, Redirect } from 'react-router-dom'
+
 import { FormBlock, InputField } from 'components/generics/Form'
 
 class Login extends Component {

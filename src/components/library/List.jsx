@@ -1,15 +1,16 @@
+import PropTypes from 'prop-types'
+import { parse } from 'query-string'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { parse } from 'query-string'
-import PropTypes from 'prop-types'
-import Library from './Library'
-import NotFound from 'components/navigation/NotFound'
-import SongList, { getSongLibraryNameInfo } from './song/List'
-import ArtistList, { getArtistLibraryNameInfo } from './artist/List'
-import WorkList, { getWorkLibraryNameInfo } from './work/List'
+
 import { loadLibraryEntries } from 'actions/library'
-import { workTypeStatePropType } from 'reducers/library'
+import ArtistList, { getArtistLibraryNameInfo } from 'components/library/artist/List'
+import Library from 'components/library/Library'
+import SongList, { getSongLibraryNameInfo } from 'components/library/song/List'
+import WorkList, { getWorkLibraryNameInfo } from 'components/library/work/List'
+import NotFound from 'components/navigation/NotFound'
 import { Status } from 'reducers/alterationsResponse'
+import { workTypeStatePropType } from 'reducers/library'
 
 class List extends Component {
     static propTypes = {
@@ -33,10 +34,13 @@ class List extends Component {
         // since there is only one `LibraryListWork` component, it is not unmounted
         // when navigating through work types, so we have to watch when the
         // component is updated wether we have jumped to another work type
-        if (this.props.match.params.libraryType !== prevProps.match.params.libraryType ||
+        if (
+            // eslint-disable-next-line max-len
+            this.props.match.params.libraryType !== prevProps.match.params.libraryType ||
             this.props.workTypeState.status !== prevProps.workTypeState.status ||
             queryObj.page !== prevqueryObj.page ||
-            queryObj.query !== prevqueryObj.query) {
+            queryObj.query !== prevqueryObj.query
+        ) {
             this.refreshEntries()
         }
     }
@@ -118,7 +122,10 @@ class List extends Component {
                 break
         }
 
-        const libraryNameInfo = getLibraryNameInfo(libraryType, workTypeState.data.workTypes)
+        const libraryNameInfo = getLibraryNameInfo(
+            libraryType,
+            workTypeState.data.workTypes
+        )
 
         return (
             <Library

@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import { parse, stringify } from 'query-string'
 import PropTypes from 'prop-types'
+import { parse, stringify } from 'query-string'
+import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
 class SearchBox extends Component {
@@ -42,7 +42,10 @@ class SearchBox extends Component {
             >
                 <div className="set">
                     <div className="field">
-                        <div className="text-input input fake" id="library-searchbox-fake">
+                        <div
+                            className="text-input input fake"
+                            id="library-searchbox-fake"
+                        >
                             <input
                                 className="faked"
                                 placeholder={this.props.placeholder}

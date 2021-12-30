@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
-import { stringify } from 'query-string'
 import PropTypes from 'prop-types'
+import { stringify } from 'query-string'
+import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+
 import HighlighterQuery from 'components/generics/HighlighterQuery'
 import { artistPropType } from 'serverPropTypes/library'
 
@@ -21,28 +22,30 @@ class ArtistEntry extends Component {
 
     render() {
         return (
-                <li className="library-entry listing-entry library-entry-artist hoverizable">
-                    <div className="library-entry-work-artist-display">
-                        <div className="header">
-                            <HighlighterQuery
-                                className="name"
-                                query={this.props.query}
-                                searchWords={(q) => (q.remaining)}
-                                textToHighlight={this.props.artist.name}
-                            />
-                        </div>
-                        <div className="songs-amount">
-                            {this.props.artist.song_count}
-                        </div>
+            <li
+                className="library-entry listing-entry library-entry-artist hoverizable"
+            >
+                <div className="library-entry-work-artist-display">
+                    <div className="header">
+                        <HighlighterQuery
+                            className="name"
+                            query={this.props.query}
+                            searchWords={(q) => (q.remaining)}
+                            textToHighlight={this.props.artist.name}
+                        />
                     </div>
-                    <div className="controls">
-                        <button className="control primary" onClick={this.handleSearch}>
-                            <span className="icon">
-                                <i className="fa fa-search"></i>
-                            </span>
-                        </button>
+                    <div className="songs-amount">
+                        {this.props.artist.song_count}
                     </div>
-                </li>
+                </div>
+                <div className="controls">
+                    <button className="control primary" onClick={this.handleSearch}>
+                        <span className="icon">
+                            <i className="fa fa-search"></i>
+                        </span>
+                    </button>
+                </div>
+            </li>
         )
     }
 }

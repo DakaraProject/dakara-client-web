@@ -1,14 +1,18 @@
-import React, { Component } from 'react'
-import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import classNames from 'classnames'
-import { stringify } from 'query-string'
-import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import Song from 'components/song/Song'
-import { IsPlaylistManager, IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
+import { stringify } from 'query-string'
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
+import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
+import {
+    IsPlaylistManager,
+    IsPlaylistManagerOrOwner
+} from 'components/permissions/Playlist'
 import PlayQueueInfo from 'components/song/PlayQueueInfo'
+import Song from 'components/song/Song'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 
 class PlaylistEntry extends Component {
@@ -53,7 +57,12 @@ class PlaylistEntry extends Component {
     }
 
     render() {
-        const { entry, onReorderButtonClick, position, reorderEntryPosition } = this.props
+        const {
+            entry,
+            onReorderButtonClick,
+            position,
+            reorderEntryPosition
+        } = this.props
         const datePlay = Date.parse(entry.date_play)
 
         /**
@@ -89,12 +98,16 @@ class PlaylistEntry extends Component {
                         song={entry.song}
                         handleClick={this.handleSearch}
                     />
-                    <PlayQueueInfo queueInfo={{timeOfPlay: datePlay, playlistEntry: entry}}/>
+                    <PlayQueueInfo
+                        queueInfo={{timeOfPlay: datePlay, playlistEntry: entry}}
+                    />
                     <div className="controls">
                         <IsPlaylistManager>
                             <button
                                 className="control primary"
-                                onClick={() => {onReorderButtonClick(entry.id, position)}}
+                                onClick={() => {
+                                    onReorderButtonClick(entry.id, position)}
+                                }
                             >
                                 <span className="icon">
                                     <i className={`fa fa-${reorderIconName}`}></i>

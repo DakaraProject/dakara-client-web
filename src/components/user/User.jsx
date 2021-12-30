@@ -1,7 +1,8 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import PropTypes from 'prop-types'
+
 import { FormBlock, InputField } from 'components/generics/Form'
 import { permissionLevels } from 'components/permissions/Users'
 import { userPropType } from 'serverPropTypes/users'
@@ -70,7 +71,11 @@ class User extends Component {
                     method="POST"
                     submitText="Change email"
                     alterationName="registerEmail"
-                    successMessage={serverSettings?.email_enabled ? "Validation email sent to you new address!" : "Email successfuly changed!"}
+                    successMessage={
+                        serverSettings?.email_enabled ?
+                            "Validation email sent to you new address!" :
+                            "Email successfuly changed!"
+                    }
                 >
                     <InputField
                         id="email"

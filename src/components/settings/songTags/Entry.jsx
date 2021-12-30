@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import classNames from 'classnames'
-import { FormInline, CheckboxField, HueField } from 'components/generics/Form'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+
+import { CheckboxField, FormInline, HueField } from 'components/generics/Form'
 import Notification, { NotifiableForTable } from 'components/generics/Notification'
+import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import { IsLibraryManager } from 'components/permissions/Library'
-import { Status, alterationResponsePropType } from 'reducers/alterationsResponse'
+import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
 import { songTagPropType } from 'serverPropTypes/library'
 import { userPropType } from 'serverPropTypes/users'
 

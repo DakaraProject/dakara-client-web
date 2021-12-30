@@ -1,5 +1,9 @@
+import {
+    ALTERATION_FAILURE,
+    ALTERATION_REQUEST,
+    ALTERATION_SUCCESS
+} from 'actions/alterations'
 import { FETCH_API } from 'middleware/fetchApi'
-import { ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE } from './alterations'
 import { params } from 'utils'
 
 const { baseUrl } = params
@@ -99,7 +103,11 @@ export const loadPlaylistPlayed = () => ({
     [FETCH_API]: {
             endpoint: `${baseUrl}/playlist/played-entries/`,
             method: 'GET',
-            types: [PLAYLIST_PLAYED_REQUEST, PLAYLIST_PLAYED_SUCCESS, PLAYLIST_PLAYED_FAILURE],
+            types: [
+                PLAYLIST_PLAYED_REQUEST,
+                PLAYLIST_PLAYED_SUCCESS,
+                PLAYLIST_PLAYED_FAILURE
+            ],
         }
 })
 
@@ -199,7 +207,8 @@ export const addSongToPlaylistWithOptions = (songId, useInstrumental=false) => (
  * @param afterId Move current entry after this entry
  */
 export const reorderPlaylistEntry = ({playlistEntryId, beforeId, afterId} = {}) => {
-    // alteration element id is target entry id, since Notification is displayed on target
+    // alteration element id is target entry id, since Notification is
+    // displayed on target
     let targetId
 
     // either beforeId or afterId is given

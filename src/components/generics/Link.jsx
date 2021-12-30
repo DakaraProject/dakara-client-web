@@ -1,7 +1,7 @@
+import PropTypes from 'prop-types'
+import { stringify } from 'query-string'
 import React, { Component } from 'react'
 import { Link as OldLink } from 'react-router-dom'
-import { stringify } from 'query-string'
-import PropTypes from 'prop-types'
 
 export default class Link extends Component {
     static propTypes = {

@@ -1,18 +1,19 @@
+import classNames from 'classnames'
+import PropTypes from 'prop-types'
+import { stringify } from 'query-string'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { stringify } from 'query-string'
 import { withRouter } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import classNames from 'classnames'
-import SongTagList from 'components/song/SongTagList'
-import SongEntryExpandedWork from './EntryExpandedWork'
-import SongEntryExpandedArtist from './EntryExpandedArtist'
-import HighlighterQuery from 'components/generics/HighlighterQuery'
-import { songPropType } from 'serverPropTypes/library'
-import { addSongToPlaylistWithOptions } from 'actions/playlist'
+
 import { clearAlteration } from 'actions/alterations'
-import { IsPlaylistUser, CanAddToPlaylist} from 'components/permissions/Playlist'
+import { addSongToPlaylistWithOptions } from 'actions/playlist'
+import HighlighterQuery from 'components/generics/HighlighterQuery'
 import Notification from 'components/generics/Notification'
+import SongEntryExpandedArtist from 'components/library/song/EntryExpandedArtist'
+import SongEntryExpandedWork from 'components/library/song/EntryExpandedWork'
+import { CanAddToPlaylist, IsPlaylistUser} from 'components/permissions/Playlist'
+import SongTagList from 'components/song/SongTagList'
+import { songPropType } from 'serverPropTypes/library'
 
 class SongEntryExpanded extends Component {
     static propTypes = {
@@ -79,7 +80,10 @@ class SongEntryExpanded extends Component {
                                 <i className={`fa fa-${workType.icon_name}`}></i>
                             </span>
                             <span className="name">
-                                {workType.name + (worksForTypeList.length > 1 ? 's' : '')}
+                                {
+                                    workType.name +
+                                    (worksForTypeList.length > 1 ? 's' : '')
+                                }
                             </span>
                         </h4>
                         <ul className="sublisting">{worksForTypeList}</ul>
@@ -109,7 +113,9 @@ class SongEntryExpanded extends Component {
                             <span className="icon">
                                 <i className="fa fa-music"></i>
                             </span>
-                            <span className="name">Artist{song.artists.length > 1 ? 's' : ''}</span>
+                            <span className="name">
+                                Artist{song.artists.length > 1 ? 's' : ''}
+                            </span>
                         </h4>
                         <ul className="sublisting">{artistList}</ul>
                     </div>
@@ -228,22 +234,30 @@ class SongEntryExpanded extends Component {
                                     <button
                                         className="control primary submit"
                                         onClick={() => {
-                                            this.props.addSongToPlaylistWithOptions(this.props.song.id, true)
+                                            this.props.addSongToPlaylistWithOptions(
+                                                this.props.song.id,
+                                                true
+                                            )
                                         }}
                                     >
                                         <span className="icon">
                                             <i className="fa fa-plus"></i>
                                             <span className="sub-icon">
-                                                <i className="fa fa-microphone-slash"></i>
+                                                <i className="fa fa-microphone-slash">
+                                                </i>
                                             </span>
                                         </span>
                                     </button>
                                 </div>
                                 <Notification
-                                    alterationResponse={this.props.responseOfAddSongWithOptions}
+                                    alterationResponse={
+                                        this.props.responseOfAddSongWithOptions
+                                    }
                                     pendingMessage="Adding…"
                                     successfulMessage="Successfuly added!"
-                                    failedMessage="Error attempting to add song to playlist"
+                                    failedMessage={
+                                        "Error attempting to add song to playlist"
+                                    }
                                 />
                             </div>
                         </div>
@@ -273,6 +287,7 @@ class SongEntryExpanded extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
+    // eslint-disable-next-line max-len
     responseOfAddSongWithOptions: state.alterationsResponse.multiple.addSongToPlaylistWithOptions?.[ownProps.song.id],
 })
 SongEntryExpanded = withRouter(connect(

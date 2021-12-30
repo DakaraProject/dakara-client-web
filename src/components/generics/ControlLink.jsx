@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import Link from './Link'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+
+import Link from 'components/generics/Link'
 
 export default class ControlLink extends Component {
     static propTypes = {

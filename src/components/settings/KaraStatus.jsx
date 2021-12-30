@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import SettingsTabList from './TabList'
-import { FormBlock, CheckboxField} from 'components/generics/Form'
-import { Status } from 'reducers/alterationsResponse'
+
+import { CheckboxField, FormBlock} from 'components/generics/Form'
 import { IsPlaylistManager} from 'components/permissions/Playlist'
+import SettingsTabList from 'components/settings/TabList'
+import { Status } from 'reducers/alterationsResponse'
 
 class SettingsKaraStatus extends Component {
 

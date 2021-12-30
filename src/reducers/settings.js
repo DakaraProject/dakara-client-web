@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
-import songTags from './songTags'
-import users from './users'
+
+import songTags from 'reducers/songTags'
+import users from 'reducers/users'
 
 export default combineReducers({
     users,
