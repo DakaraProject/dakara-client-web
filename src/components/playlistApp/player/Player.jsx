@@ -129,11 +129,10 @@ class Player extends Component {
         return (
             <div id="player" className="notifiable">
                 {playlistEntry}
-                <div className="controls">
-                    <IsPlaylistManagerOrOwner
-                        object={player_status.playlist_entry}
-                        disable
-                    >
+                <IsPlaylistManagerOrOwner
+                    object={player_status.playlist_entry}
+                >
+                    <div className="controls">
                         <ManageButton
                             responseOfManage={responseOfSendPlayerCommandsSafe.restart}
                             onClick={() =>
@@ -188,8 +187,8 @@ class Player extends Component {
                             disabled={controlDisabled}
                             icon="step-forward"
                         />
-                    </IsPlaylistManagerOrOwner>
-                </div>
+                    </div>
+                </IsPlaylistManagerOrOwner>
                 <progress
                     className="progressbar"
                     max="100"
