@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 
-import { bugs, projectHomepage, version } from '../../package.json'
+const {
+    npm_package_version: version,
+    npm_package_projectHomepage: projectHomepage,
+    npm_package_bugs: bugs
+} = process.env
 
 class Footer extends Component {
     render() {
