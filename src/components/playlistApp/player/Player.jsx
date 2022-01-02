@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -19,11 +20,40 @@ class Player extends Component {
         playlistDigest: playlistDigestPropType.isRequired,
         responseOfSendPlayerCommands: PropTypes.objectOf(alterationResponsePropType),
         sendPlayerCommand: PropTypes.func.isRequired,
+        setWithControls: PropTypes.func.isRequired,
+    }
+
+    state = {
+        withControls: false
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { user: prevUser } = prevProps
+        const { user } = this.props
+        const { player_status: playerStatus } = this.props.playlistDigest.data
+        const { player_status: prevPlayerStatus } = prevProps.playlistDigest.data
+
+        if (user === prevUser && playerStatus === prevPlayerStatus) {
+            return
+        }
+
+        const { withControls: prevWithControls } = this.state
+        const withControls = IsPlaylistManagerOrOwner.hasPermission(
+            user,
+            playerStatus.playlist_entry
+        )
+
+        if (withControls === prevWithControls) {
+            return
+        }
+
+        this.setState({withControls})
+        this.props.setWithControls(withControls)
     }
 
     render() {
+        const { withControls } = this.state
         const { player_status, player_errors } = this.props.playlistDigest.data
-        const { user } = this.props
         const fetchError = this.props.playlistDigest.status === Status.failed
         const isPlaying = !!player_status.playlist_entry
         const controlDisabled = !isPlaying || fetchError
@@ -128,15 +158,20 @@ class Player extends Component {
         }
 
         return (
-            <div id="player" className="notifiable">
-                {playlistEntry}
+            <div
+                id="player"
+                className={classNames({"with-controls": withControls})}
+            >
+                <div className="player-sticky notifiable">
+                    {playlistEntry}
+                    <PlayerNotification
+                        alterationsResponse={responseOfSendPlayerCommandsSafe}
+                        playerErrors={player_errors}
+                    />
+                    {serverLost}
+                </div>
                 <CSSTransitionLazy
-                    in={
-                        IsPlaylistManagerOrOwner.hasPermission(
-                            user,
-                            player_status.playlist_entry
-                        )
-                    }
+                    in={withControls}
                     classNames="expand"
                     timeout={{
                         enter: 300,
@@ -206,14 +241,13 @@ class Player extends Component {
                     value={progress}
                 >
                     <div className="bar">
-                        <div className="value" style={{width: `${progress}%`}}></div>
+                        <div
+                            className="value"
+                            style={{width: `${progress}%`}}
+                        >
+                        </div>
                     </div>
                 </progress>
-                {serverLost}
-                <PlayerNotification
-                    alterationsResponse={responseOfSendPlayerCommandsSafe}
-                    playerErrors={player_errors}
-                />
             </div>
         )
     }

@@ -5,6 +5,10 @@
 //
 
 
+$playlist-info-bar-height: 4rem;
+$playlist-info-bar-height-smartphone: 3.5rem;
+
+
 // `playlist-info-bar` id:
 //
 // The playlist info bar gives some pieces of information on the status of the
@@ -20,14 +24,14 @@
     color: $body-background;
     cursor: pointer;
     display: flex;
-    height: 4rem;
+    height: $playlist-info-bar-height;
     justify-content: space-between;
     overflow: hidden;
     text-decoration: none;
 
     @include make-smartphone {
         font-size: 0.85em;
-        height: 3.5rem;
+        height: $playlist-info-bar-height-smartphone;
     }
 
     &:hover,
@@ -41,8 +45,8 @@
         overflow: hidden;
         white-space: nowrap;
 
-        &:not(:first-child) {
-            @include make-gap(padding, left);
+        &:not(:last-child) {
+            @include make-gap(padding, right);
         }
 
         .emphasis {
@@ -74,13 +78,18 @@
                     margin-top: -0.25em;
                 }
             }
+        }
 
-            // specific rules
-            .playlist-entry-minimal {
-                .title,
-                .user-widget {
-                    @include text-truncate();
-                }
+        // specific rules
+        &.next-entry {
+            // do not show next entry on smartphone
+            @include make-smartphone {
+                display: none;
+            }
+
+            .title,
+            .user-widget {
+                @include text-truncate();
             }
         }
     }

@@ -7,11 +7,9 @@
 
 // player sizes
 $player-controls-height: 6rem;
+$player-controls-height-smartphone: $row-height;
 $player-timing-height: 6rem;
 $player-progressbar-height: 0.4rem;
-// update
-$player-height: 3 * $gap-vertical + $player-timing-height + $player-controls-height + $player-progressbar-height;
-$player-height-smartphone: 3 * $gap-vertical-smartphone + $player-timing-height + $row-height + $player-progressbar-height;
 
 
 // `player` id:
@@ -21,11 +19,34 @@ $player-height-smartphone: 3 * $gap-vertical-smartphone + $player-timing-height 
 #player {
     background: $brand-primary-darker;
     color: $brand-primary;
+    position: sticky;
+    top: 0;
+
+    @include make-smartphone {
+        top: 0;
+    }
+
+    // if the player has controls activated, the player-sticky item will hide
+    // the controls item on scroll
+    &.with-controls {
+        top: -$player-controls-height - $gap-vertical;
+
+        @include make-smartphone {
+            top: -$player-controls-height-smartphone - $gap-vertical-smartphone;
+        }
+    }
+
+    .player-sticky {
+        @include make-gap(padding, vertical);
+
+        background: $brand-primary-darker;
+        position: sticky;
+        top: 0;
+        z-index: 1100;
+    }
 
     // `playlist-entry` class: container for the current playlist entry.
     .playlist-entry {
-        @include make-gap(padding, vertical);
-
         display: flex;
         overflow: hidden;
 
@@ -150,7 +171,7 @@ $player-height-smartphone: 3 * $gap-vertical-smartphone + $player-timing-height 
         display: flex;
 
         @include make-smartphone {
-            @include make-controls($row-height, 1.1em);
+            @include make-controls($player-controls-height-smartphone, 1.1em);
         }
 
         &.expand-enter {
