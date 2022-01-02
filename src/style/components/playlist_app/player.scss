@@ -123,7 +123,7 @@ $player-height-smartphone: 3 * $gap-vertical-smartphone + $player-timing-height 
             // the width of the duration (4 digits plus one colon)
             flex: 1;
             font-feature-settings: "tnum";
-            min-width: 4.5ch;
+            min-width: max-content;
             overflow: hidden;
             text-align: right;
 
