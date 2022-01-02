@@ -23,6 +23,7 @@ class Player extends Component {
 
     render() {
         const { player_status, player_errors } = this.props.playlistDigest.data
+        const { user } = this.props
         const fetchError = this.props.playlistDigest.status === Status.failed
         const isPlaying = !!player_status.playlist_entry
         const controlDisabled = !isPlaying || fetchError
@@ -129,8 +130,18 @@ class Player extends Component {
         return (
             <div id="player" className="notifiable">
                 {playlistEntry}
-                <IsPlaylistManagerOrOwner
-                    object={player_status.playlist_entry}
+                <CSSTransitionLazy
+                    in={
+                        IsPlaylistManagerOrOwner.hasPermission(
+                            user,
+                            player_status.playlist_entry
+                        )
+                    }
+                    classNames="expand"
+                    timeout={{
+                        enter: 300,
+                        exit: 150
+                    }}
                 >
                     <div className="controls">
                         <ManageButton
@@ -188,7 +199,7 @@ class Player extends Component {
                             icon="step-forward"
                         />
                     </div>
-                </IsPlaylistManagerOrOwner>
+                </CSSTransitionLazy>
                 <progress
                     className="progressbar"
                     max="100"
@@ -224,6 +235,7 @@ const ServerLost = () => (
 )
 
 const mapStateToProps = (state) => ({
+    user: state.authenticatedUser,
     playlistDigest: state.playlist.digest,
     responseOfSendPlayerCommands: state.alterationsResponse.multiple.sendPlayerCommands,
 })
