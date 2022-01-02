@@ -13,6 +13,8 @@
 //
 // Info don't have specific classes.
 #playlist-info-bar {
+    @include make-gap(padding, horizontal);
+
     align-items: center;
     background: $brand-primary;
     color: $body-background;
@@ -21,13 +23,11 @@
     height: 4rem;
     justify-content: space-between;
     overflow: hidden;
-    padding: 0 $gap-horizontal;
     text-decoration: none;
 
     @include make-smartphone {
         font-size: 0.85em;
         height: 3.5rem;
-        padding: 0 $gap-horizontal-smartphone;
     }
 
     &:hover,
@@ -45,31 +45,42 @@
             @include make-gap(padding, left);
         }
 
-        .value {
+        .emphasis {
             font-size: 2.5em;
             font-weight: 200;
+
+            // if the text comes after the emphasis
+            + .text {
+                margin-left: 0.5em;
+                margin-right: 0;
+                text-align: left;
+            }
         }
 
-        .description {
+        .text {
             font-size: 1em;
-            margin-left: 0.5em;
+            margin-right: 0.5em;
             overflow: hidden;
+            text-align: right;
 
             .line {
                 @include text-truncate();
 
                 &.detail {
-                    opacity: 0.65;
+                    opacity: 0.75;
+                }
+
+                + .line {
+                    margin-top: -0.25em;
                 }
             }
-        }
 
-        &.reverse {
-            text-align: right;
-
-            .description {
-                margin-left: 0;
-                margin-right: 0.5em;
+            // specific rules
+            .playlist-entry-minimal {
+                .title,
+                .user-widget {
+                    @include text-truncate();
+                }
             }
         }
     }

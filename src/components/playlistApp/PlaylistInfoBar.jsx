@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 
 import { loadPlaylist, loadPlaylistPlayed } from 'actions/playlist'
+import PlaylistEntryMinimal from 'components/generics/PlaylistEntryMinimal'
 import { Status } from 'reducers/alterationsResponse'
 import { playlistDigestPropType, playlistEntriesStatePropType } from 'reducers/playlist'
 import { params } from 'utils'
@@ -47,14 +48,31 @@ class PlaylistInfoBar extends Component {
         const dateStop = this.props.playlistDigest.data.karaoke.date_stop
 
         /**
+         * Next element in playlist
+         */
+
+        const nextPlaylistEntry = playlistEntries[0]
+        let nextEntryWidget
+        if (nextPlaylistEntry) {
+            nextEntryWidget = (
+                <div className="item">
+                    <div className="emphasis">Next</div>
+                    <div className="text">
+                        <PlaylistEntryMinimal playlistEntry={nextPlaylistEntry}/>
+                    </div>
+                </div>
+            )
+        }
+
+        /**
          * Playlist size
          */
 
         const count = playlistEntries.length
-        const amount = (
+        const amountWidget = (
                 <div className="item">
-                    <div className="value">{count}</div>
-                    <div className="description">
+                    <div className="emphasis">{count}</div>
+                    <div className="text">
                         <div className="line">
                             song{count === 1 ? '' : 's'} in playlist
                         </div>
@@ -77,25 +95,25 @@ class PlaylistInfoBar extends Component {
         // only playlist date end
         if (playlistEndDate && !karaokeEndDate) {
             dateEndWidget = (
-                <div className="item reverse">
-                    <div className="description">
+                <div className="item">
+                    <div className="text">
                         <div className="line">playlist end</div>
                     </div>
-                    <div className="value">{playlistEndDate.format('HH:mm')}</div>
+                    <div className="emphasis">{playlistEndDate.format('HH:mm')}</div>
                 </div>
             )
         // only karaoke date end
         } else if (!playlistEndDate && karaokeEndDate) {
             if (karaokeEndDate.isAfter()) {
                 dateEndWidget = (
-                    <div className="item reverse">
-                        <div className="description">
+                    <div className="item">
+                        <div className="text">
                             <div className="line">karaoke end</div>
                             <div className="line detail">
                                 {dayjs().to(karaokeEndDate, true)} remaining
                             </div>
                         </div>
-                        <div className="value">{karaokeEndDate.format('HH:mm')}</div>
+                        <div className="emphasis">{karaokeEndDate.format('HH:mm')}</div>
                     </div>
                 )
             }
@@ -104,27 +122,29 @@ class PlaylistInfoBar extends Component {
             // karaoke date end is after playlist date end
             if (karaokeEndDate.isAfter(playlistEndDate)) {
                 dateEndWidget = (
-                    <div className="item reverse">
-                        <div className="description">
+                    <div className="item">
+                        <div className="text">
                             <div className="line">karaoke end</div>
                             <div className="line detail">
                                 {playlistEndDate.to(karaokeEndDate, true)} remaining
                             </div>
                         </div>
-                        <div className="value">{karaokeEndDate.format('HH:mm')}</div>
+                        <div className="emphasis">{karaokeEndDate.format('HH:mm')}</div>
                     </div>
                 )
             // playlist date end is after karaoke date end
             } else {
                 dateEndWidget = (
-                    <div className="item reverse">
-                        <div className="description">
+                    <div className="item">
+                        <div className="text">
                             <div className="line">playlist end</div>
                             <div className="line detail">
                                 playlist exceeds karaoke end time
                             </div>
                         </div>
-                        <div className="value">{playlistEndDate.format('HH:mm')}</div>
+                        <div className="emphasis">
+                            {playlistEndDate.format('HH:mm')}
+                        </div>
                     </div>
                 )
             }
@@ -135,12 +155,14 @@ class PlaylistInfoBar extends Component {
                 id="playlist-info-bar"
                 to="/playlist"
             >
-                {amount}
+                {nextEntryWidget}
+                {amountWidget}
                 {dateEndWidget}
             </Link>
         )
     }
 }
+
 
 const mapStateToProps = (state) => ({
     playlistDigest: state.playlist.digest,
