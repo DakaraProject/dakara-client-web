@@ -162,13 +162,15 @@ class Player extends Component {
                 id="player"
                 className={classNames({"with-controls": withControls})}
             >
-                <div className="player-sticky notifiable">
-                    {playlistEntry}
-                    <PlayerNotification
-                        alterationsResponse={responseOfSendPlayerCommandsSafe}
-                        playerErrors={player_errors}
-                    />
-                    {serverLost}
+                <div className="player-sticky">
+                    <div className="notifiable">
+                        {playlistEntry}
+                        <PlayerNotification
+                            alterationsResponse={responseOfSendPlayerCommandsSafe}
+                            playerErrors={player_errors}
+                        />
+                        {serverLost}
+                    </div>
                 </div>
                 <CSSTransitionLazy
                     in={withControls}
