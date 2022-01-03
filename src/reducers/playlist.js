@@ -99,7 +99,7 @@ function digest(state = defaultPlaylistAppDigest, action) {
                             }
                         }
                     }
-                } else if (action.elementId === 'play') {
+                } else if (action.elementId === 'resume') {
                     return {
                         ...state,
                         data: {
