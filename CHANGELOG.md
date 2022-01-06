@@ -30,6 +30,8 @@
 
 ## Unreleased
 
+- Songs can be restarted, rewound, and fast forwarded during playback.
+
 ## 1.7.0 - 2021-06-20
 
 ### Added

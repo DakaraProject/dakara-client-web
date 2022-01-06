@@ -68,7 +68,7 @@ class Player extends Component {
             resume: {status: null},
             restart: {status: null},
             skip: {status: null},
-            back: {status: null},
+            rewind: {status: null},
             forward: {status: null},
             ...this.props.responseOfSendPlayerCommands,
         }
@@ -190,9 +190,9 @@ class Player extends Component {
                             icon="step-backward"
                         />
                         <ManageButton
-                            responseOfManage={responseOfSendPlayerCommandsSafe.back}
+                            responseOfManage={responseOfSendPlayerCommandsSafe.rewind}
                             onClick={() =>
-                                    this.props.sendPlayerCommand('back')
+                                    this.props.sendPlayerCommand('rewind')
                             }
                             disabled={controlDisabled}
                             icon="backward"
