@@ -22,8 +22,9 @@ import {
     karaokePropType,
     playerErrorPropType,
     playerStatusPropType,
+    playerTokenPropType,
     playlistEntryPropType,
-    playlistPlayedEntryPropType
+    playlistPlayedEntryPropType,
 } from 'serverPropTypes/playlist'
 import { updateData } from 'utils'
 
@@ -254,17 +255,16 @@ function playedEntries(state = defaultPlayedEntries, action) {
  * Player token
  */
 
-export const playerTokenPropType = PropTypes.shape({
+export const playerTokenStatePropType = PropTypes.shape({
     status: PropTypes.symbol,
-    data: PropTypes.shape({
-        token: PropTypes.string.isRequired
-    }).isRequired,
+    data: playerTokenPropType.isRequired,
 })
 
 const defaultPlayerToken = {
     status: null,
     data: {
-        token: null,
+        karaoke_id: null,
+        key: null,
     },
 }
 

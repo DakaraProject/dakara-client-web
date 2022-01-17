@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
@@ -7,12 +8,23 @@ import Notification from 'components/generics/Notification'
 import TokenWidget from 'components/generics/TokenWidget'
 import { IsLibraryManager } from 'components/permissions/Library'
 import { IsPlaylistManager } from 'components/permissions/Playlist'
+import SettingsTabList from 'components/settings/TabList'
 import { Status } from 'reducers/alterationsResponse'
-
-import SettingsTabList from './TabList'
+import { playerTokenStatePropType } from 'reducers/playlist'
+import { karaokePropType } from 'serverPropTypes/playlist'
 
 
 class PlayerTokenBox extends Component {
+    static propTypes = {
+        createPlayerToken: PropTypes.func.isRequired,
+        karaoke: karaokePropType.isRequired,
+        loadPlayerToken: PropTypes.func.isRequired,
+        playerTokenState: playerTokenStatePropType.isRequired,
+        responseOfCreatePlayerToken: PropTypes.object,
+        responseOfRevokeToken: PropTypes.object,
+        revokePlayerToken: PropTypes.func.isRequired,
+    }
+
     componentDidUpdate() {
         const { karaoke, loadPlayerToken, playerTokenState } = this.props
 
@@ -31,7 +43,7 @@ class PlayerTokenBox extends Component {
             responseOfRevokePlayerToken,
             revokePlayerToken,
         } = this.props
-        const { token: playerToken } = playerTokenState.data
+        const { key: playerToken } = playerTokenState.data
         const { status: playerTokenStatus } = playerTokenState
 
         let playerTokenBox
@@ -118,6 +130,12 @@ PlayerTokenBox = connect(
 
 
 class Tokens extends Component {
+    static propTypes = {
+        userToken: PropTypes.string.isRequired,
+        responseOfRevokeToken: PropTypes.object,
+        revokeToken: PropTypes.func.isRequired,
+    }
+
     render() {
         const {
             userToken,

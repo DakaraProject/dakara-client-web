@@ -39,3 +39,8 @@ export const karaokePropType = PropTypes.shape({
     player_play_next_song: PropTypes.bool,
     date_stop: PropTypes.string
 })
+
+export const playerTokenPropType = PropTypes.shape({
+    karaoke_id: PropTypes.any,
+    key: PropTypes.string,
+})
