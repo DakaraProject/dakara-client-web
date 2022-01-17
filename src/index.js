@@ -1,36 +1,37 @@
+import 'style/main.scss'
+
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware, compose } from 'redux'
-import ReduxThunk from 'redux-thunk'
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
+import { applyMiddleware, compose, createStore } from 'redux'
 import persistState from 'redux-localstorage'
-import Main from 'components/Main'
+import ReduxThunk from 'redux-thunk'
+
 import { ProtectedRoute } from 'components/generics/Router'
-import Login from 'components/registration/Login'
-import Register from 'components/registration/Register'
-import VerifyRegistration from 'components/registration/VerifyRegistration'
-import VerifyEmail from 'components/registration/VerifyEmail'
-import ResetPassword from 'components/registration/ResetPassword'
-import SendResetPasswordLink from 'components/registration/SendResetPasswordLink'
-import Logout from 'components/registration/Logout'
-import User from 'components/user/User'
-import SettingsUsersEdit from 'components/settings/users/Edit'
-import SettingsUsersList from 'components/settings/users/List'
-import SettingsSongTagsList from 'components/settings/song_tags/List'
-import SettingsKaraStatus from 'components/settings/KaraStatus'
-import SettingsKaraDateStop from 'components/settings/KaraDateStop'
-import SettingsTokens from 'components/settings/Tokens'
 import LibraryList from 'components/library/List'
+import Main from 'components/Main'
+import NotFound from 'components/navigation/NotFound'
 import Playlist from 'components/playlist/List'
 import PlaylistPlayed from 'components/playlist/PlayedList'
-import NotFound from 'components/navigation/NotFound'
-import reducer from  'reducers'
-import fetchApiMiddleware from 'middleware/fetchApi'
+import Login from 'components/registration/Login'
+import Logout from 'components/registration/Logout'
+import Register from 'components/registration/Register'
+import ResetPassword from 'components/registration/ResetPassword'
+import SendResetPasswordLink from 'components/registration/SendResetPasswordLink'
+import VerifyEmail from 'components/registration/VerifyEmail'
+import VerifyRegistration from 'components/registration/VerifyRegistration'
+import SettingsKaraDateStop from 'components/settings/KaraDateStop'
+import SettingsKaraStatus from 'components/settings/KaraStatus'
+import SettingsSongTagsList from 'components/settings/songTags/List'
+import SettingsTokens from 'components/settings/Tokens'
+import SettingsUsersEdit from 'components/settings/users/Edit'
+import SettingsUsersList from 'components/settings/users/List'
+import User from 'components/user/User'
+import manageStorageEvent from 'eventManagers/storage'
 import delayMiddleware from 'middleware/delay'
-import { logout, setToken } from 'actions/token'
-
-import './style/main.scss'
+import fetchApiMiddleware from 'middleware/fetchApi'
+import reducer from 'reducers'
 
 const store = createStore(
     reducer,
@@ -44,32 +45,76 @@ const store = createStore(
     )
 )
 
-export const defaultPathname = "/library/song"
+manageStorageEvent(store)
 
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
             <Main>
                 <Switch>
-                    <ProtectedRoute exact path="/library/:libraryType" component={LibraryList}/>
+                    <ProtectedRoute
+                        exact
+                        path="/library/:libraryType"
+                        component={LibraryList}
+                    />
                     <Redirect exact from="/library" to="/library/song"/>
-                    <ProtectedRoute exact path="/playlist/queueing" component={Playlist}/>
-                    <ProtectedRoute exact path="/playlist/played" component={PlaylistPlayed}/>
+                    <ProtectedRoute
+                        exact
+                        path="/playlist/queueing"
+                        component={Playlist}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path="/playlist/played"
+                        component={PlaylistPlayed}
+                    />
                     <Redirect exact from="/playlist" to="/playlist/queueing"/>
                     <ProtectedRoute exact path="/user" component={User}/>
-                    <ProtectedRoute exact path="/settings/users/:userId" component={SettingsUsersEdit}/>
-                    <ProtectedRoute exact path="/settings/users" component={SettingsUsersList}/>
-                    <ProtectedRoute exact path="/settings/song-tags" component={SettingsSongTagsList}/>
-                    <ProtectedRoute exact path="/settings/kara-status" component={SettingsKaraStatus}/>
-                    <ProtectedRoute exact path="/settings/kara-date-stop" component={SettingsKaraDateStop}/>
-                    <ProtectedRoute exact path="/settings/tokens" component={SettingsTokens}/>
+                    <ProtectedRoute
+                        exact
+                        path="/settings/users/:userId"
+                        component={SettingsUsersEdit}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path="/settings/users"
+                        component={SettingsUsersList}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path="/settings/song-tags"
+                        component={SettingsSongTagsList}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path="/settings/kara-status"
+                        component={SettingsKaraStatus}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path="/settings/kara-date-stop"
+                        component={SettingsKaraDateStop}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path="/settings/tokens"
+                        component={SettingsTokens}
+                    />
                     <Redirect exact from="/settings" to="/settings/users"/>
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/logout" component={Logout}/>
                     <Route exact path="/register" component={Register}/>
                     <Route exact path="/reset-password" component={ResetPassword}/>
-                    <Route exact path="/send-reset-password-link" component={SendResetPasswordLink}/>
-                    <Route exact path="/verify-registration" component={VerifyRegistration}/>
+                    <Route
+                        exact
+                        path="/send-reset-password-link"
+                        component={SendResetPasswordLink}
+                    />
+                    <Route
+                        exact
+                        path="/verify-registration"
+                        component={VerifyRegistration}
+                    />
                     <Route exact path="/verify-email" component={VerifyEmail}/>
                     <Redirect exact from="/" to="/library"/>
                     <Route component={NotFound}/>
@@ -79,29 +124,3 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('react-mounting-point')
 )
-
-/**
- * Multi tabs events handling
- *
- * Synchronizes the connected state between different tabs
- */
-function handleStorageEvent({ key, oldValue, newValue }) {
-    // check if the storage event is on the requested key
-    if (key !== 'redux') {
-        return
-    }
-
-    // check if there is a token in `oldValue` and not `newValue`
-    const oldValueObj = JSON.parse(oldValue)
-    const newValueObj = JSON.parse(newValue)
-
-    if (oldValueObj.token && !newValueObj.token) {
-        store.dispatch(logout())
-    }
-
-    if (!oldValueObj.token && newValueObj.token) {
-        store.dispatch(setToken(newValueObj.token))
-    }
-}
-
-window.addEventListener('storage', handleStorageEvent, false)

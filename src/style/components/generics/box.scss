@@ -105,15 +105,21 @@ $ribbon-control-height: $row-height;
     &:not(.primary):not(.success):not(.warning):not(.danger):not(.info) {
         background: darken($black-80, 5%);
 
-        > .header, > .footer {
+        > .header,
+        > .footer {
             @include make-gap(padding, vertical);
+
             background: $brand-primary-darker;
             color: $brand-primary-light;
         }
     }
 
     // if subclassed
-    &.primary, &.success, &.warning, &.danger, &.info {
+    &.primary,
+    &.success,
+    &.warning,
+    &.danger,
+    &.info {
         > .header {
             @include make-gap(padding, top);
         }
@@ -138,8 +144,9 @@ $ribbon-control-height: $row-height;
         // contain a button that will be aligned on the right.
         .ribbon {
             @include make-gap(padding, vertical, 0.5);
-            display: flex;
+
             align-items: center;
+            display: flex;
 
             .message {
                 flex: 1;
@@ -152,8 +159,8 @@ $ribbon-control-height: $row-height;
         }
     }
 
-    > .footer {
-    }
+    // > .footer {
+    // }
 
     p {
         @include make-gap(margin, horizontal);

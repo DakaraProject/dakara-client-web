@@ -13,21 +13,21 @@
 //
 // Info don't have specific classes.
 #playlist-info-bar {
-    cursor: pointer;
-    padding: 0 $gap-horizontal;
+    align-items: center;
     background: $brand-primary;
     color: $body-background;
-    text-decoration: none;
+    cursor: pointer;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
     height: 4rem;
+    justify-content: space-between;
     overflow: hidden;
+    padding: 0 $gap-horizontal;
+    text-decoration: none;
 
     @include make-smartphone {
+        font-size: 0.85em;
         height: 3.5rem;
         padding: 0 $gap-horizontal-smartphone;
-        font-size: 0.85em;
     }
 
     &:hover,
@@ -36,8 +36,8 @@
     }
 
     .item {
-        display: flex;
         align-items: center;
+        display: flex;
         overflow: hidden;
         white-space: nowrap;
 
@@ -46,13 +46,13 @@
         }
 
         .value {
-            font-weight: 200;
             font-size: 2.5em;
+            font-weight: 200;
         }
 
         .description {
-            margin-left: 0.5em;
             font-size: 1em;
+            margin-left: 0.5em;
             overflow: hidden;
 
             .line {
@@ -68,8 +68,8 @@
             text-align: right;
 
             .description {
-                margin-right: 0.5em;
                 margin-left: 0;
+                margin-right: 0.5em;
             }
         }
     }

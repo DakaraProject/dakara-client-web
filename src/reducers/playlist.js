@@ -1,14 +1,30 @@
-import { combineReducers } from 'redux'
 import PropTypes from 'prop-types'
-import { PLAYLIST_DIGEST_REQUEST, PLAYLIST_DIGEST_SUCCESS, PLAYLIST_DIGEST_FAILURE } from 'actions/playlist'
-import { PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE } from 'actions/playlist'
-import { PLAYLIST_PLAYED_REQUEST, PLAYLIST_PLAYED_SUCCESS, PLAYLIST_PLAYED_FAILURE } from 'actions/playlist'
-import { PLAYLIST_PLAYED_ADD } from 'actions/playlist'
-import { PLAYER_TOKEN_REQUEST, PLAYER_TOKEN_SUCCESS, PLAYER_TOKEN_FAILURE } from 'actions/playlist'
+import { combineReducers } from 'redux'
+
 import { ALTERATION_SUCCESS } from 'actions/alterations'
-import { Status } from './alterationsResponse'
-import { playerStatusPropType, playerErrorPropType, karaokePropType } from 'serverPropTypes/playlist'
-import { playlistEntryPropType, playlistPlayedEntryPropType } from 'serverPropTypes/playlist'
+import {
+    PLAYER_TOKEN_FAILURE,
+    PLAYER_TOKEN_REQUEST,
+    PLAYER_TOKEN_SUCCESS,
+    PLAYLIST_DIGEST_FAILURE,
+    PLAYLIST_DIGEST_REQUEST,
+    PLAYLIST_DIGEST_SUCCESS,
+    PLAYLIST_FAILURE,
+    PLAYLIST_PLAYED_ADD,
+    PLAYLIST_PLAYED_FAILURE,
+    PLAYLIST_PLAYED_REQUEST,
+    PLAYLIST_PLAYED_SUCCESS,
+    PLAYLIST_REQUEST,
+    PLAYLIST_SUCCESS
+} from 'actions/playlist'
+import { Status } from 'reducers/alterationsResponse'
+import {
+    karaokePropType,
+    playerErrorPropType,
+    playerStatusPropType,
+    playlistEntryPropType,
+    playlistPlayedEntryPropType
+} from 'serverPropTypes/playlist'
 import { updateData } from 'utils'
 
 
@@ -293,6 +309,8 @@ function playerToken(state = defaultPlayerToken, action) {
                     }
                 }
             }
+
+            return state
 
         default:
             return state

@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import SettingsTabList from './TabList'
+
+import { createPlayerToken, loadPlayerToken, revokePlayerToken } from 'actions/playlist'
 import { revokeToken } from 'actions/token'
-import TokenWidget from 'components/generics/TokenWidget'
 import Notification from 'components/generics/Notification'
-import { IsPlaylistManager } from 'components/permissions/Playlist'
+import TokenWidget from 'components/generics/TokenWidget'
 import { IsLibraryManager } from 'components/permissions/Library'
-import { loadPlayerToken, createPlayerToken, revokePlayerToken } from 'actions/playlist'
+import { IsPlaylistManager } from 'components/permissions/Playlist'
 import { Status } from 'reducers/alterationsResponse'
+
+import SettingsTabList from './TabList'
 
 
 class PlayerTokenBox extends Component {
@@ -140,7 +142,8 @@ class Tokens extends Component {
                         <div className="ribbon warning revoke notifiable">
                             <p className="message">
                                 Click this button to revoke your token.
-                                This will automatically disconnect you from all your devices.
+                                This will automatically disconnect you 
+                                from all your devices.
                             </p>
                             <div className="controls">
                                 <button

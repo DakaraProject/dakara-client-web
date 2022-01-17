@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { connect } from 'react-redux'
-import { withRouter, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { params } from 'utils'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Link, withRouter } from 'react-router-dom'
+
 import { loadPlaylist, loadPlaylistPlayed } from 'actions/playlist'
-import { playlistEntriesStatePropType } from 'reducers/playlist'
-import { playlistDigestPropType } from 'reducers/playlist'
 import { Status } from 'reducers/alterationsResponse'
+import { playlistDigestPropType, playlistEntriesStatePropType } from 'reducers/playlist'
+import { params } from 'utils'
 
 dayjs.extend(relativeTime)
 
@@ -39,7 +39,10 @@ class PlaylistInfoBar extends Component {
     }
 
     render() {
-        const { playlistEntries, date_end: dateEnd } = this.props.playlistEntriesState.data
+        const {
+            playlistEntries,
+            date_end: dateEnd
+        } = this.props.playlistEntriesState.data
         const playerStatus = this.props.playlistDigest.data.player_status
         const dateStop = this.props.playlistDigest.data.karaoke.date_stop
 
@@ -52,7 +55,9 @@ class PlaylistInfoBar extends Component {
                 <div className="item">
                     <div className="value">{count}</div>
                     <div className="description">
-                        <div className="line">song{count === 1 ? '' : 's'} in playlist</div>
+                        <div className="line">
+                            song{count === 1 ? '' : 's'} in playlist
+                        </div>
                     </div>
                 </div>
             )

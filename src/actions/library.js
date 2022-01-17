@@ -1,4 +1,5 @@
 import { stringify } from 'query-string'
+
 import { FETCH_API } from 'middleware/fetchApi'
 import { params } from 'utils'
 
@@ -27,7 +28,8 @@ const fetchLibraryEntries = (url, libraryType, workType) => ({
  * @param libraryType precise type of library entries
  * @param params contains query and page number
  */
-export const loadLibraryEntries = (libraryType = "song", { query, pageNumber = 1 } = {}) => {
+export const loadLibraryEntries = (libraryType = "song",
+                                   { query, pageNumber = 1 } = {}) => {
     let serverLibraryName
     let workType
     switch (libraryType) {

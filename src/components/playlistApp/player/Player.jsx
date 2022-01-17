@@ -1,17 +1,18 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
-import { formatDuration, formatTime } from 'utils'
-import Song from 'components/song/Song'
-import UserWidget from 'components/generics/UserWidget'
-import ManageButton from './ManageButton'
-import PlayerNotification from './Notification'
-import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
+
 import { sendPlayerCommand } from 'actions/playlist'
-import { playlistDigestPropType } from 'reducers/playlist'
+import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
+import UserWidget from 'components/generics/UserWidget'
+import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
+import ManageButton from 'components/playlistApp/player/ManageButton'
+import PlayerNotification from 'components/playlistApp/player/Notification'
+import Song from 'components/song/Song'
 import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
+import { playlistDigestPropType } from 'reducers/playlist'
+import { formatDuration } from 'utils'
 
 class Player extends Component {
     static propTypes = {
@@ -76,7 +77,7 @@ class Player extends Component {
                     <div className="extra">
                         <div className="timing">
                             <div className="current">
-                                {formatTime(player_status.timing)}
+                                {formatDuration(player_status.timing)}
                             </div>
                             <div className="duration">
                                 {formatDuration(duration)}
@@ -97,7 +98,7 @@ class Player extends Component {
                     <div className="extra">
                         <div className="timing">
                             <div className="current">
-                                {formatTime(0)}
+                                {formatDuration(0)}
                             </div>
                             <div className="duration">
                                 {formatDuration(0)}
@@ -119,8 +120,8 @@ class Player extends Component {
                             <ManageButton
                                 responseOfManage={
                                     player_status.paused ?
-                                    responseOfSendPlayerCommandsSafe.play :
-                                    responseOfSendPlayerCommandsSafe.pause
+                                        responseOfSendPlayerCommandsSafe.play :
+                                        responseOfSendPlayerCommandsSafe.pause
                                 }
                                 onClick={() => {
                                     if (!isPlaying) return
@@ -134,8 +135,8 @@ class Player extends Component {
                                 disabled={controlDisabled}
                                 icon={
                                     isPlaying ?
-                                    (player_status.paused ? 'play' : 'pause') :
-                                    'stop'
+                                        (player_status.paused ? 'play' : 'pause') :
+                                        'stop'
                                 }
                             />
                             <ManageButton

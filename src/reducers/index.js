@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux'
-import library from './library'
-import token from './token'
-import playlist from './playlist'
-import authenticatedUser from './authenticatedUser'
-import alterationsResponse from './alterationsResponse'
-import internal from './internal'
-import settings from './settings'
+
+import alterationsResponse from 'reducers/alterationsResponse'
+import authenticatedUser from 'reducers/authenticatedUser'
+import internal from 'reducers/internal'
+import library from 'reducers/library'
+import playlist from 'reducers/playlist'
+import settings from 'reducers/settings'
+import token from 'reducers/token'
 
 /**
  * Root reducer

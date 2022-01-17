@@ -1,22 +1,27 @@
+import classNames from 'classnames'
+import PropTypes from 'prop-types'
+import { parse, stringify } from 'query-string'
 import React, { Component } from 'react'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
-import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import classNames from 'classnames'
-import { parse, stringify } from 'query-string'
-import PropTypes from 'prop-types'
-import { addSongToPlaylist } from 'actions/playlist'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+
 import { clearAlteration } from 'actions/alterations'
-import Song from 'components/song/Song'
-import SongEntryExpanded from './EntryExpanded'
-import { IsPlaylistUser, CanAddToPlaylist} from 'components/permissions/Playlist'
+import { addSongToPlaylist } from 'actions/playlist'
 import Notification from 'components/generics/Notification'
+import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
+import SongEntryExpanded from 'components/library/song/EntryExpanded'
+import { CanAddToPlaylist, IsPlaylistUser} from 'components/permissions/Playlist'
 import PlayQueueInfo from 'components/song/PlayQueueInfo'
-import { songPropType } from 'serverPropTypes/library'
-import { playerStatusPropType } from 'serverPropTypes/playlist'
-import { playlistPlayedEntryPropType, playlistEntryPropType } from 'serverPropTypes/playlist'
+import Song from 'components/song/Song'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
+import { songPropType } from 'serverPropTypes/library'
+import {
+    playerStatusPropType,
+    playlistEntryPropType,
+    playlistPlayedEntryPropType
+} from 'serverPropTypes/playlist'
+
 
 class SongEntry extends Component {
     static propTypes = {
@@ -61,7 +66,13 @@ class SongEntry extends Component {
     }
 
     render() {
-        const { location, song, query, playerStatus, karaokeRemainingSeconds } = this.props
+        const {
+            location,
+            song,
+            query,
+            playerStatus,
+            karaokeRemainingSeconds
+        } = this.props
         const { playlistPlayedEntries, playlistEntries } = this.props
         const queryObj = parse(location.search)
         const expanded = +queryObj.expanded === song.id
@@ -71,7 +82,10 @@ class SongEntry extends Component {
          */
 
         let playingInfo
-        if (playerStatus.playlist_entry && playerStatus.playlist_entry.song.id === song.id) {
+        if (
+            playerStatus.playlist_entry &&
+            playerStatus.playlist_entry.song.id === song.id
+        ) {
             // Player is playing this song
             playingInfo = {
                 playlistEntry: playerStatus.playlist_entry
@@ -147,7 +161,11 @@ class SongEntry extends Component {
                             noArtistWork={expanded}
                             noTag={expanded}
                             karaokeRemainingSeconds={karaokeRemainingSeconds}
-                            handleClick={() => expanded ? this.setExpanded(null) : this.setExpanded(song.id)}
+                            handleClick={
+                                () => expanded ?
+                                    this.setExpanded(null) :
+                                    this.setExpanded(song.id)
+                            }
                         />
                         <TransitionGroup
                             className="play-queue-info-wrapper"
@@ -163,7 +181,9 @@ class SongEntry extends Component {
                                     <button
                                         className="control primary"
                                         onClick={() => {
-                                            this.props.addSongToPlaylist(this.props.song.id)
+                                            this.props.addSongToPlaylist(
+                                              this.props.song.id
+                                            )
                                         }}
                                     >
                                         <span className="icon">
@@ -203,6 +223,7 @@ class SongEntry extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
     query: state.library.song.data.query,
+    // eslint-disable-next-line max-len
     responseOfAddSong: state.alterationsResponse.multiple.addSongToPlaylist?.[ownProps.song.id],
     playlistPlayedEntries: state.playlist.playedEntries.data.playlistPlayedEntries,
     playlistEntries: state.playlist.entries.data.playlistEntries,

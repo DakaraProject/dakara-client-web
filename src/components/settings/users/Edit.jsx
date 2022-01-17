@@ -1,15 +1,21 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { getUser, clearUser } from 'actions/users'
-import { FormBlock, InputField, SelectField, CheckboxField } from 'components/generics/Form'
-import { IsUserManager, IsNotSelf } from 'components/permissions/Users'
-import NotFound from 'components/navigation/NotFound'
+
+import { clearUser, getUser } from 'actions/users'
+import {
+    CheckboxField,
+    FormBlock,
+    InputField,
+    SelectField
+} from 'components/generics/Form'
 import Forbidden from 'components/navigation/Forbidden'
-import SettingsTabList from '../TabList'
-import { userPropType } from 'serverPropTypes/users'
-import { editUsersStatePropType } from 'reducers/users'
+import NotFound from 'components/navigation/NotFound'
+import { IsNotSelf, IsUserManager } from 'components/permissions/Users'
+import SettingsTabList from 'components/settings/TabList'
 import { Status } from 'reducers/alterationsResponse'
+import { editUsersStatePropType } from 'reducers/users'
+import { userPropType } from 'serverPropTypes/users'
 
 class SettingsUsersEdit extends Component {
     static propTypes = {

@@ -75,42 +75,49 @@ $form-control-icon-size: $row-icon-font-size;
 
         // `set` class: the set contains the fields of the form.
         .set {
-            display: table;
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 $gap-vertical;
-
-            @include make-smartphone {
-                border-spacing: 0 $gap-vertical-smartphone;
-            }
-
             // this rule removes the space at the top of the set due to
             // `border-spacing`, but the rule is cancelled if there is a header
             // just before
             @include make-gap(margin, top, -1);
+
+            border-collapse: separate;
+            border-spacing: 0 $gap-vertical;
+            display: table;
+            width: 100%;
+
+            @include make-smartphone {
+                border-spacing: 0 $gap-vertical-smartphone;
+            }
 
             // The field contains a label and an input.
             .field {
                 display: table-row;
 
                 .label {
-                    // this allows to shrink the label 'column' as small as possible
-                    display: table-cell;
-
                     @include make-smartphone {
-                        display: block;
+                        display: block !important;
                     }
 
-                    // this allows the shrink to be exactly the length of the label,
-                    // but since the label is now un-breakable, it *must* be kept
-                    // short
-                    white-space: nowrap;
+                    & {
+                        // this allows to shrink the label 'column' as small as
+                        // possible
+                        display: table-cell;
+                    }
 
-                    // this allows to align in the middle if the field is one line
-                    // height (typical `input`) and align on the top for several
-                    // lines (typical `textarea`)
-                    vertical-align: top;
-                    line-height: $field-height;
+                    & {
+                        // this allows to align in the middle if the field is
+                        // one line height (typical `input`) and align on the
+                        // top for several lines (typical `textarea`)
+                        line-height: $field-height;
+                        vertical-align: top;
+                    }
+
+                    & {
+                        // this allows the shrink to be exactly the length of
+                        // the label, but since the label is now un-breakable,
+                        // it *must* be kept short
+                        white-space: nowrap;
+                    }
 
                     // if label is empty, do not add padding
                     &:not(:empty) {
@@ -174,10 +181,11 @@ $form-control-icon-size: $row-icon-font-size;
             justify-content: flex-end;
 
             .control {
+                @include make-gap(padding, horizontal);
+
+                font-size: $control-font-size;
                 height: $field-height;
                 line-height: $field-height;
-                font-size: $control-font-size;
-                @include make-gap(padding, horizontal);
 
                 .icon {
                     font-size: $control-icon-size / $control-font-size;
@@ -213,9 +221,10 @@ $form-control-icon-size: $row-icon-font-size;
 
         // `set` class: the set contains the inputs of the form.
         .set {
-            flex: 1;
-            display: flex;
             @include make-gap(padding, right);
+
+            display: flex;
+            flex: 1;
 
             .input {
                 flex: initial;
@@ -242,24 +251,29 @@ $form-control-icon-size: $row-icon-font-size;
         // general tags and classes:
         //
         // Visual aspect of the inputs and faked inputs of any kind.
-        input, textarea, select, .fake {
+        input,
+        textarea,
+        select,
+        .fake {
             // reset style
+            border-style: none;
             box-sizing: border-box;
-            border: none;
             outline: none;
 
             &:required {
-                border: none;
-                outline: none;
+                border-style: none;
                 box-shadow: none;
+                outline: none;
             }
 
             // give an appareance
             &:not(.faked) {
                 @include make-gap(padding, horizontal);
+
                 background: $neutral-soft;
 
-                &:focus, &.focus,
+                &:focus,
+                &.focus,
                 &[type="checkbox"]:focus + .marker {
                     background: $neutral-clear !important;
                 }
@@ -269,33 +283,42 @@ $form-control-icon-size: $row-icon-font-size;
             &:not([type="checkbox"]) {
                 width: 100%;
 
-                // remove the limitation if Firefox
-                min-width: 0;
+                & {
+                    // remove the limitation for Firefox
+                    min-width: 0;
+                }
             }
         }
 
         &.disabled {
-            input, textarea, select, .fake {
+            input,
+            textarea,
+            select,
+            .fake {
                 &:not(.faked) {
                     background: darken($neutral-soft, 8%);
                 }
             }
         }
 
-        input, .fake {
-            height: $field-height;
+        input,
+        .fake {
             display: block;
+            height: $field-height;
         }
 
         // faked input
         input.faked {
-            padding: 0;
             background: none;
+            padding: 0;
         }
 
         // field hover
         &:not(.disabled) {
-            input, textarea, select, .fake {
+            input,
+            textarea,
+            select,
+            .fake {
                 &:hover:not(:focus):not(.focus) {
                     background: $neutral-soft-lighter;
                 }
@@ -311,32 +334,35 @@ $form-control-icon-size: $row-icon-font-size;
         //
         // Text/number input and textarea.
         .text-input {
-            input, textarea {
+            input,
+            textarea {
                 color: $text-dark;
 
                 &::placeholder {
                     color: $black-80;
+
+                    & {
+                        // override the way Firefox adds opacity
+                        // TODO see if this can be removed
+                        opacity: 1;
+                    }
                 }
 
-                // override the way Firefox adds opacity
-                // TODO see if this can be removed
-                &::-moz-placeholder {
-                    opacity: 1;
-                }
+                & {
+                    // Some browsers (Firefox) try to use system fonts
+                    @include make-font();
 
-                // Some browsers (Firefox) try to use system fonts
-                font-size: medium;
-                @include make-font();
+                    font-size: medium;
+                }
             }
 
             textarea {
-                resize: vertical;
-                min-height: 3 * $field-height;
-
                 // this simulates the correct space of single line `input`, but
                 // is pretty approximative
-                padding-top: calc(0.5 * #{$field-height} - 0.65em);
+                min-height: 3 * $field-height;
                 padding-bottom: calc(0.5 * #{$field-height} - 0.65em);
+                padding-top: calc(0.5 * #{$field-height} - 0.65em);
+                resize: vertical;
             }
         }
 
@@ -348,6 +374,8 @@ $form-control-icon-size: $row-icon-font-size;
 
             select {
                 // fix font properties
+                // remove the marker
+                appearance: none;
                 color: $text-dark;
                 font-size: medium;
 
@@ -361,13 +389,12 @@ $form-control-icon-size: $row-icon-font-size;
                     min-height: $field-height;
                 }
 
-                // remove the marker
-                appearance: none;
-
-                // Firefox adds an ugly triangle that can't be stylized
-                // here is a hack: https://gist.github.com/joaocunha/6273016/
-                text-indent: 0.01px;
-                text-overflow: '';
+                & {
+                    // Firefox adds an ugly triangle that can't be stylized
+                    // here is a hack: https://gist.github.com/joaocunha/6273016/
+                    text-indent: 0.01px;
+                    text-overflow: "";
+                }
 
                 // add space for marker
                 &:not([multiple]) {
@@ -382,22 +409,20 @@ $form-control-icon-size: $row-icon-font-size;
 
             // create the marker
             &:not(.multiple)::after {
-                // attached to the top right
-                position: absolute;
-                top: 0;
-                right: 0;
-
                 // square shape
                 @include square($field-height);
-                line-height: $field-height;
-                text-align: center;
 
-                content: '▼';
-                font-size: 1.5em;
+                // attached to the top right
+                // no pointer effect
                 color: $text-dark;
-
-                // remove effect of pointer
+                content: "▼";
+                font-size: 1.5em;
+                line-height: $field-height;
                 pointer-events: none;
+                position: absolute;
+                right: 0;
+                text-align: center;
+                top: 0;
             }
         }
 
@@ -412,44 +437,40 @@ $form-control-icon-size: $row-icon-font-size;
         // A set of radio buttons.
         .radio-input {
             input[type="radio"] {
-                // reset initial height
-                height: initial;
-            }
-
-            input[type="radio"] {
                 // delete initial marker
+                // reset initial height
                 appearance: none;
-
+                height: initial;
                 width: 0;
 
-                // hack for old browsers (Firefox 52), for which deactivating
-                // appareance is not enough
-                // TODO make it conditionnal?
-                opacity: 0;
-                position: absolute;
+                & {
+                    // hack for old browsers (Firefox 52), for which deactivating
+                    // appareance is not enough
+                    // TODO make it conditionnal?
+                    opacity: 0;
+                    position: absolute;
+                }
             }
 
             // add style to adjacent marker box
             input + label.marker {
                 @include square($field-height * 0.5);
-                margin-top: $field-height * 0.25;
 
                 // remove padding
+                margin-top: $field-height * 0.25;
                 padding: 0;
-
                 position: relative;
             }
 
             // add style to marker when checked
             input:checked + label.marker::after {
-                position: absolute;
                 @include square($field-height * 0.25);
-                top: $field-height * 0.125;
-                left: $field-height * 0.125;
 
-                // content marker
-                content: "";
                 background: $text-dark;
+                content: "";
+                left: $field-height * 0.125;
+                position: absolute;
+                top: $field-height * 0.125;
             }
 
             .radio-option {
@@ -457,13 +478,15 @@ $form-control-icon-size: $row-icon-font-size;
                 line-height: $field-height;
 
                 .description {
-                    flex: 1;
                     @include make-gap(padding, horizontal);
 
+                    flex: 1;
+
                     &.long {
-                        padding: calc(#{$field-height * 0.5} - 0.7em) $gap-horizontal;
+                        @include make-long-text();
+
                         line-height: normal;
-                        @include make-long-text()
+                        padding: calc(#{$field-height * 0.5} - 0.7em) $gap-horizontal;
 
                         @include make-smartphone {
                             padding: calc(#{$field-height * 0.5} - 0.7em) $gap-horizontal-smartphone;
@@ -476,22 +499,25 @@ $form-control-icon-size: $row-icon-font-size;
         &:not(.disabled) {
             // handle cursor
             .radio-input {
-                label.marker, label.description {
-                    cursor: pointer;
+                label {
+                    &.marker,
+                    &.description {
+                        cursor: pointer;
+                    }
                 }
             }
 
             // handle hover
-            .label:hover + .input .radio-input label.marker,
-            .radio-input:hover label.marker {
-                background: $neutral-soft-light;
+            .label:hover + .input .radio-input,
+            .radio-input:hover {
+                label.marker {
+                    background: $neutral-soft-light;
+                }
             }
 
-            // handle over in options
-            .radio-option:hover {
-                label.marker {
-                    background: $neutral-soft-lighter;
-                }
+            // handle hover in options
+            .radio-option:hover label.marker {
+                background: $neutral-soft-lighter;
             }
 
             // handle focus
@@ -504,23 +530,22 @@ $form-control-icon-size: $row-icon-font-size;
         //
         // Rules for the same input of type `checkbox`, but with two different
         // styles.
-        .checkbox-input, .toggle-input {
-            input[type="checkbox"] {
-                // reset initial height
-                height: initial;
-            }
-
+        .checkbox-input,
+        .toggle-input {
             input[type="checkbox"] {
                 // delete initial marker
+                // reset initial height
                 appearance: none;
-
+                height: initial;
                 width: 0;
 
-                // hack for old browsers (Firefox 52), for which deactivating
-                // appareance is not enough
-                // TODO make it conditionnal?
-                opacity: 0;
-                position: absolute;
+                & {
+                    // hack for old browsers (Firefox 52), for which
+                    // deactivating appareance is not enough
+                    // TODO make it conditionnal?
+                    opacity: 0;
+                    position: absolute;
+                }
             }
         }
 
@@ -529,28 +554,24 @@ $form-control-icon-size: $row-icon-font-size;
             // add style to adjacent marker box
             input + label.marker {
                 @include square($field-height * 0.5);
-                margin-top: $field-height * 0.25;
 
                 // remove padding
+                margin-top: $field-height * 0.25;
                 padding: 0;
-
                 position: relative;
             }
 
             // add style to marker when checked
             input:checked + label.marker::after {
-                position: absolute;
                 @include square($field-height * 0.5);
 
-                // content align
-                line-height: $field-height * 0.5;
-                text-align: center;
-
-                // content check mark
-                font-family: FontAwesome;
-                content: "\f00c";
-                font-size: 1.3em;
                 color: $text-dark;
+                content: "\f00c";
+                font-family: FontAwesome;
+                font-size: 1.3em;
+                line-height: $field-height * 0.5;
+                position: absolute;
+                text-align: center;
             }
         }
 
@@ -558,25 +579,24 @@ $form-control-icon-size: $row-icon-font-size;
         .toggle-input {
             // add style to adjacent marker box
             input + label.marker {
-                width: $field-height;
+                // remove padding
                 height: $field-height * 0.5;
                 margin-top: $field-height * 0.25;
-
-                // remove padding
-                padding: 0;
-
-                position: relative;
                 overflow: hidden;
+                padding: 0;
+                position: relative;
+                width: $field-height;
             }
 
             // add marker
             input + label.marker::after {
-                position: absolute;
-                top: $field-height * 0.1;
-                left: $field-height * 0.1;
                 @include square($field-height * 0.3);
+
                 background: $text-dark;
                 content: "";
+                left: $field-height * 0.1;
+                position: absolute;
+                top: $field-height * 0.1;
             }
 
             // add style to marker when not checked
@@ -594,12 +614,12 @@ $form-control-icon-size: $row-icon-font-size;
 
             // add second marker
             input + label.marker::before {
-                position: absolute;
-                content: "";
                 background: $brand-info;
-                width: $field-height;
+                content: "";
                 height: $field-height * 0.5;
+                position: absolute;
                 right: $field-height;
+                width: $field-height;
             }
 
             // add style to second marker when not checked
@@ -618,22 +638,27 @@ $form-control-icon-size: $row-icon-font-size;
 
         &:not(.disabled) {
             // handle cursor
-            .checkbox-input, .toggle-input {
+            .checkbox-input,
+            .toggle-input {
                 label.marker {
                     cursor: pointer;
                 }
             }
 
             // handle hover
-            .label:hover + .input .toggle-input label.marker,
-            .label:hover + .input .checkbox-input label.marker {
-                background: $neutral-soft-lighter;
+            .label:hover + .input .toggle-input,
+            .label:hover + .input .checkbox-input {
+                label.marker {
+                    background: $neutral-soft-lighter;
+                }
             }
 
             // handle hover
-            .label:hover + .input .toggle-input input:not(:focus) + label.marker::before,
-            .toggle-input input:hover:not(:focus) + label.marker::before {
-                background: $brand-info-light;
+            .label:hover + .input .toggle-input input,
+            .toggle-input input:hover, {
+                &:not(:focus) + label.marker::before {
+                    background: $brand-info-light;
+                }
             }
 
             // handle focus
@@ -645,38 +670,39 @@ $form-control-icon-size: $row-icon-font-size;
         // `hue-input` class:
         //
         // The hue field is a specific kind of the range field.
-        $hue-input-saturation: $custom-color-saturation;
-        $hue-input-luminosity: $custom-color-luminosity;
-        @mixin rainbow-gradient($saturation-in, $luminosity-is) {
-            // make the color a bit darker because the result is different
-            // compared to the colors given by `hue-rotate`
-            $saturation: $saturation-in * 0.8;
-            $luminosity: $luminosity-is * 0.8;
-
-            background: linear-gradient(
-                to right,
-                hsl(0, $saturation, $luminosity),
-                hsl(60, $saturation, $luminosity),
-                hsl(120, $saturation, $luminosity),
-                hsl(180, $saturation, $luminosity),
-                hsl(240, $saturation, $luminosity),
-                hsl(300, $saturation, $luminosity),
-                hsl(360, $saturation, $luminosity)
-            );
-        }
-
         .hue-input {
+            $hue-input-saturation: $custom-color-saturation;
+            $hue-input-luminosity: $custom-color-luminosity;
+
+            @mixin rainbow-gradient($saturation-in, $luminosity-is) {
+                // make the color a bit darker because the result is different
+                // compared to the colors given by `hue-rotate`
+                $saturation: $saturation-in * 0.8;
+                $luminosity: $luminosity-is * 0.8;
+
+                background: linear-gradient(
+                    to right,
+                    hsl(0, $saturation, $luminosity),
+                    hsl(60, $saturation, $luminosity),
+                    hsl(120, $saturation, $luminosity),
+                    hsl(180, $saturation, $luminosity),
+                    hsl(240, $saturation, $luminosity),
+                    hsl(300, $saturation, $luminosity),
+                    hsl(360, $saturation, $luminosity)
+                );
+            }
+
             display: flex;
 
             .preview {
-                width: $form-field-height;
-                line-height: $form-field-height;
-                text-align: center;
                 background: hsl(0, $hue-input-saturation, $hue-input-luminosity);
                 color: change-color($text-dark, $alpha: 0.5);
-                font-weight: 700;
-                font-size: medium;
                 flex-shrink: 0;
+                font-size: medium;
+                font-weight: 700;
+                line-height: $form-field-height;
+                text-align: center;
+                width: $form-field-height;
 
                 &::selection {
                     // the real color of the background will change due to the
@@ -688,66 +714,76 @@ $form-control-icon-size: $row-icon-font-size;
             .input {
                 $track-height: 0.5rem;
 
-                margin: 0 !important;
-
                 @mixin track() {
                     @include rainbow-gradient($hue-input-saturation, $hue-input-luminosity);
                     height: $track-height;
                 }
 
+                margin: 0 !important;
+
                 input[type=range] {
-                    -webkit-appearance: none;
-                    height: 100%;
+                    appearance: none;
                     background: transparent;
-                }
+                    height: 100%;
 
-                input[type=range]::-webkit-slider-runnable-track {
-                    @include track();
-                }
+                    &::-webkit-slider-runnable-track {
+                        @include track();
+                    }
 
-                input[type=range]::-moz-range-track {
-                    @include track();
+                    &::-moz-range-track {
+                        @include track();
+                    }
                 }
 
                 @mixin thumb() {
                     @include square($track-height);
+
                     background: $text-dark;
                     border: $track-height solid $text-dark;
                     box-sizing: content-box;
                 }
 
-                input[type=range]::-webkit-slider-thumb {
-                    -webkit-appearance: none;
-                    // Hack to center for chrome
-                    // (thumb size - track size) * -0.5
-                    margin-top: -$track-height;
-                    @include thumb();
-                }
+                input[type=range] {
+                    &::-webkit-slider-thumb {
+                        @include thumb();
 
-                input[type=range]::-moz-range-thumb {
-                    @include thumb();
-                    border-radius: 0;
+                        appearance: none;
+
+                        & {
+                            // Hack to center for chrome
+                            // (thumb size - track size) * -0.5
+                            margin-top: -$track-height;
+                        }
+                    }
+
+                    &::-moz-range-thumb {
+                        @include thumb();
+
+                        border-radius: 0;
+                    }
                 }
             }
         }
 
         &:not(.disabled) {
             .hue-input {
-                // handle cursor
-                input[type="range"] {
-                    cursor: pointer;
-                }
-
                 @mixin thumb() {
                     background: transparent;
                 }
 
-                input[type=range]:focus::-webkit-slider-thumb {
-                    @include thumb();
-                }
+                // handle cursor
+                input[type="range"] {
+                    cursor: pointer;
 
-                input[type=range]:focus::-moz-range-thumb {
-                    @include thumb();
+                    &:focus {
+                        &::-webkit-slider-thumb {
+                            @include thumb();
+                        }
+
+                        &::-moz-range-thumb {
+                            @include thumb();
+                        }
+                    }
                 }
             }
         }

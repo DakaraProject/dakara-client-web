@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+
 import { songTagPropType } from 'serverPropTypes/library'
 
 export default class SongTagList extends Component {
@@ -35,7 +36,11 @@ export default class SongTagList extends Component {
                     clickable: !!setQuery,
                     disabled:
                         // grey out tag when searching a tag other than this
-                        (query && query.tag.length && query.tag.indexOf(tag.name) === -1) ||
+                        (
+                            query &&
+                            query.tag.length &&
+                            query.tag.indexOf(tag.name) === -1
+                        ) ||
                         // or when explicitely disabled
                         tag.disabled,
                 }

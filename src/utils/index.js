@@ -1,29 +1,22 @@
-import { sprintf } from 'sprintf-js'
 import dayjs from 'dayjs'
+import duration from 'dayjs/plugin/duration'
 
-export function formatHourTime(timestamp) {
-    return dayjs(timestamp).format('HH:mm')
-}
+dayjs.extend(duration)
 
-export function formatTime(seconds) {
-    let hours = Math.floor(seconds / 3600)
-    let remaining = seconds % 3600
-    let minsec = sprintf("%02d:%02d", Math.floor(remaining / 60), remaining % 60)
-    return (hours === 0 ? '' : (hours + ":")) + minsec
-}
-
-export function formatDuration(seconds) {
-    let hours = Math.floor(seconds / 3600)
-    let remaining = seconds % 3600
-    let minsec = sprintf("%01d:%02d", Math.floor(remaining / 60), remaining % 60)
-    return (hours === 0 ? '' : (hours + ":")) + minsec
-}
-
+/**
+ * Front parameters.
+ */
 export const params = {
     baseUrl: "/api",
     pollInterval: 1000
 }
 
+/**
+ * Rename the "result" key of an object.
+ * @param newData Input object.
+ * @param resultsKey Name to remplace the "result" key with.
+ * @returns Object with replaced key.
+ */
 export function updateData(newData, resultsKey) {
     const { results, ...remaining } = newData
     return {
@@ -32,15 +25,27 @@ export function updateData(newData, resultsKey) {
     }
 }
 
-export function parseTime(timeString) {
-    if (!/^\d{1,2}:\d{1,2}$/.test(timeString)) {
-        throw new Error("Invalid time format")
+/**
+ * Smart formating for a duration.
+ * Will format a duration less than one hour as m:ss, and more than one hour as
+ * h:mm:ss.
+ * @param seconds Duration in seconds.
+ * @returns Formatted duration.
+ */
+export function formatDuration(seconds) {
+    const duration = dayjs.duration(seconds, "seconds")
+
+    // for very long durations exceeding one day, express it in hours
+    if (duration.days() > 0) {
+        const hours = duration.asHours().toFixed()
+        return duration.format(`${hours}:mm:ss`)
     }
 
-    let date = dayjs()
-    const time = timeString.split(":")
-    date = date.set('hours', time[0])
-    date = date.set('minutes', time[1])
-    date = date.set('seconds', 0)
-    return date
+    // display hours only if needed
+    if (duration.hours() > 0) {
+        return duration.format("H:mm:ss")
+    }
+
+    // default to minutes and seconds
+    return duration.format("m:ss")
 }

@@ -7,14 +7,15 @@
 
 #user {
     .header {
+        align-items: center;
         display: flex;
         flex-wrap: wrap;
-        align-items: center;
 
         .user-name-block {
             @include make-gap(padding, horizontal);
-            overflow-wrap: break-word;
+
             overflow: hidden;
+            overflow-wrap: break-word;
 
             h1 {
                 font-size: 3em;
@@ -26,13 +27,13 @@
         }
 
         .permissions {
-            text-align: right;
             flex: 1 0 auto;
+            text-align: right;
         }
 
     }
 
     .change-email-disabled {
-        @include make-gap(margin, top)
+        @include make-gap(margin, top);
     }
 }

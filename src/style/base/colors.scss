@@ -5,6 +5,8 @@
 //
 
 
+// stylelint-disable
+
 // brand colors
 $brand-primary: hsl(289, 80%, 35%);
 $brand-success: hsl(159, 50%, 55%);
@@ -80,6 +82,8 @@ $text-dark:  $black-90;
 $custom-color-saturation: 55%;
 $custom-color-luminosity: 55%;
 
+// stylelint-enable
+
 // create colors
 @mixin make-color($background, $color, $background-selection) {
     background: $background;
@@ -98,7 +102,7 @@ $custom-color-luminosity: 55%;
     @include make-color($brand-success-darker, $brand-success-light, $brand-success);
 }
 
-.warning{
+.warning {
     @include make-color($brand-warning-darker, $brand-warning-light, $brand-warning);
 }
 
@@ -106,6 +110,6 @@ $custom-color-luminosity: 55%;
     @include make-color($brand-danger-darker, $brand-danger-light, $brand-danger);
 }
 
-.info{
+.info {
     @include make-color($brand-info-darker, $brand-info-light, $brand-info);
 }

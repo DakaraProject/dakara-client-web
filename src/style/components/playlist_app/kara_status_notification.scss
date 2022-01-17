@@ -18,14 +18,16 @@ $kara-status-notification-font-size: $form-control-font-size;
     }
 
     .ribbon {
-        display: flex;
-        align-items: center;
         @include make-gap(padding, vertical);
+
+        align-items: center;
+        display: flex;
 
         .control {
             @include make-gap(padding, horizontal);
-            line-height: $kara-status-notification-height;
+
             font-size: $kara-status-notification-font-size;
+            line-height: $kara-status-notification-height;
         }
     }
 }

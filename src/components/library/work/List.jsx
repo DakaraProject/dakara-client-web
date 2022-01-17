@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import WorkEntry from './Entry'
+
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
+import WorkEntry from 'components/library/work/Entry'
 import { workStatePropType, workTypeStatePropType } from 'reducers/library'
 
 class WorkList extends Component {

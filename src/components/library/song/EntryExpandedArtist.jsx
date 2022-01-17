@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+
 import { artistPropType } from 'serverPropTypes/library'
 
 export default class SongEntryExpandedArtist extends Component {
@@ -15,7 +16,10 @@ export default class SongEntryExpandedArtist extends Component {
         return (
                 <li className="sublisting-entry">
                     <div className="controls subcontrols">
-                        <button className="control primary" onClick={this.handleSearchArtist}>
+                        <button
+                            className="control primary"
+                            onClick={this.handleSearchArtist}
+                        >
                             <span className="icon">
                                 <i className="fa fa-search"></i>
                             </span>

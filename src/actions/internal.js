@@ -18,6 +18,10 @@ export const loadServerSettings = () => ({
     [FETCH_API]: {
             endpoint: `${baseUrl}/settings/`,
             method: 'GET',
-            types: [SERVER_SETTINGS_REQUEST, SERVER_SETTINGS_SUCCESS, SERVER_SETTINGS_FAILURE],
+            types: [
+                SERVER_SETTINGS_REQUEST,
+                SERVER_SETTINGS_SUCCESS,
+                SERVER_SETTINGS_FAILURE
+            ],
         }
 })

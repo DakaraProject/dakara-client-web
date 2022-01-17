@@ -8,16 +8,17 @@
 $token-widget-height: $row-height;
 
 .token-widget {
-    height: $token-widget-height;
-    display: flex;
     background: $neutral-clear;
     color: $text-dark;
+    display: flex;
+    height: $token-widget-height;
 
     .token {
         @include make-gap(padding, horizontal);
+        @include text-truncate();
+
         flex: 1;
         line-height: $token-widget-height;
-        @include text-truncate();
     }
 
     .controls {

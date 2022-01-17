@@ -13,23 +13,25 @@
 // Its size is determined in the `listing-entry-song` class, whether the song is
 // displayed in compact or in expanded view.
 .tag {
-    @include make-font();
     $color: hsl(0, $custom-color-saturation, $custom-color-luminosity);
-    border: none;
-    outline: none;
-    display: inline-block;
-    color: change-color($text-dark, $alpha: 0.5);
-    font-weight: 700;
-    font-size: medium;
-    background-color: $color;
+
+    @include make-font();
     @include make-gap(padding, horizontal);
+
+    background-color: $color;
+    border-style: none;
+    color: change-color($text-dark, $alpha: 0.5);
+    display: inline-block;
+    font-size: medium;
+    font-weight: 700;
+    outline: none;
 
     &.clickable {
         cursor: pointer;
 
         .icon {
-            margin-right: 0.5em;
             font-size: 1.2em;
+            margin-right: 0.5em;
         }
 
         &:hover,
@@ -39,8 +41,8 @@
     }
 
     &.disabled {
-        opacity: 0.5;
         background-color: desaturate($color, 33%);
+        opacity: 0.5;
     }
 
     &::selection {

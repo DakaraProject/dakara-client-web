@@ -10,7 +10,10 @@
             @include make-gap(padding, horizontal);
         }
 
-        .token-widget, .copy-help, .create, .revoke {
+        .token-widget,
+        .copy-help,
+        .create,
+        .revoke {
             @include make-gap(margin, top, 0.5);
         }
 

@@ -1,10 +1,8 @@
+import PropTypes from 'prop-types'
+import { stringify } from 'query-string'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import { Route, Redirect } from 'react-router-dom'
-import { stringify } from 'query-string'
-import { defaultPathname } from 'index'
+import { Redirect, Route, withRouter } from 'react-router-dom'
 
 class ProtectedRoute extends Component {
     static propTypes = {
@@ -22,13 +20,9 @@ class ProtectedRoute extends Component {
         const renderFunction = (props) => {
             if (!isLoggedIn) {
                 const { pathname, search } = this.props.location
-                let queryObj
-                if (search || pathname !== defaultPathname ) {
-                    queryObj = {
-                        from: pathname + search
-                    }
+                const queryObj = {
+                    from: pathname + search
                 }
-
 
                 return (
                     <Redirect to={{

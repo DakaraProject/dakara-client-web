@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
-import { Status } from 'reducers/alterationsResponse'
-import Notification from 'components/generics/Notification'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+
+import Notification from 'components/generics/Notification'
+import { Status } from 'reducers/alterationsResponse'
 
 export default class TokenWidget extends Component {
     static propTypes = {

@@ -6,13 +6,15 @@
 
 
 #footer {
-    background: darken($neutral-mid, 3%);
-    text-align: right;
-    margin: 0;
     @include make-gap(padding, vertical);
+
+    background: darken($neutral-mid, 3%);
+    margin: 0;
+    text-align: right;
 
     h2 {
         @include make-gap(padding, horizontal);
+
         font-size: x-large;
 
         .version {
@@ -23,11 +25,12 @@
 
     .contact {
         @include make-gap(padding, top);
+
         font-size: small;
 
         p {
-            margin-top: 0;
             margin-bottom: 0;
+            margin-top: 0;
         }
     }
 }

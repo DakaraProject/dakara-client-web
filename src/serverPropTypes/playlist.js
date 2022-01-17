@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types'
-import { songPropType } from './library'
-import { userPropType } from './users'
+
+import { songPropType } from 'serverPropTypes/library'
+import { userPropType } from 'serverPropTypes/users'
 
 export const playlistEntryPropType = PropTypes.shape({
     id: PropTypes.any.isRequired,
     song: songPropType.isRequired,
     use_instrumental: PropTypes.bool,
     owner: userPropType.isRequired,
-    date_play: PropTypes.string.isRequired,
+    date_play: PropTypes.string,
 })
 
 export const playlistPlayedEntryPropType = PropTypes.shape({
