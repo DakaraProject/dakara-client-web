@@ -169,7 +169,6 @@ class SettingsUsersEdit extends Component {
                                 {value: null, name: 'None'},
                                 {value: 'u', name: 'User'},
                                 {value: 'm', name: 'Manager'},
-                                {value: 'p', name: 'Player'}
                             ]}
                         />
                     </FormBlock>
