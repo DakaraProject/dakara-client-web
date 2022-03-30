@@ -1,0 +1,27 @@
+//
+// Dakara Project
+//
+// Token widget style file
+//
+
+// token widget sizes
+$token-widget-height: $row-height;
+
+.token-widget {
+    background: $neutral-clear;
+    color: $text-dark;
+    display: flex;
+    height: $token-widget-height;
+
+    .token {
+        @include make-gap(padding, horizontal);
+        @include text-truncate();
+
+        flex: 1;
+        line-height: $token-widget-height;
+    }
+
+    .controls {
+        @include make-controls($token-widget-height);
+    }
+}

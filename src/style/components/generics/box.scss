@@ -4,6 +4,8 @@
 // Box style file
 //
 
+// box sizes
+$ribbon-control-height: $row-height;
 
 // `box` class:
 //
@@ -136,8 +138,24 @@
     > .content {
         @include make-gap(padding, vertical);
 
-        > .ribbon {
+        // `ribbon` class:
+        //
+        // The ribbon is a colored sub-content used for emphasis. It can
+        // contain a button that will be aligned on the right.
+        .ribbon {
             @include make-gap(padding, vertical, 0.5);
+
+            align-items: center;
+            display: flex;
+
+            .message {
+                flex: 1;
+            }
+
+            // subclass the controls with `free` to freely control their style
+            .controls:not(.free) {
+                @include make-controls($ribbon-control-height);
+            }
         }
     }
 

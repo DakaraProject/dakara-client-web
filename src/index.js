@@ -24,6 +24,7 @@ import VerifyRegistration from 'components/registration/VerifyRegistration'
 import SettingsKaraDateStop from 'components/settings/KaraDateStop'
 import SettingsKaraStatus from 'components/settings/KaraStatus'
 import SettingsSongTagsList from 'components/settings/songTags/List'
+import SettingsTokens from 'components/settings/Tokens'
 import SettingsUsersEdit from 'components/settings/users/Edit'
 import SettingsUsersList from 'components/settings/users/List'
 import User from 'components/user/User'
@@ -93,6 +94,11 @@ ReactDOM.render(
                         exact
                         path="/settings/kara-date-stop"
                         component={SettingsKaraDateStop}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path="/settings/tokens"
+                        component={SettingsTokens}
                     />
                     <Redirect exact from="/settings" to="/settings/users"/>
                     <Route exact path="/login" component={Login}/>
