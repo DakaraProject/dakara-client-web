@@ -100,10 +100,11 @@ export default class Notification extends Component {
             let message
 
             // if there is a message in the state, keep it
-            // otherwise, use the message passed to the compenent
+            // if there is a field in the state, consider there was an error with fields
+            // otherwise, use the messages passed to the compenent
             if (messageInState) {
                 message = messageInState
-            } else if (Object.keys(fieldsInState).length > 0) {
+            } else if (fieldsInState && Object.keys(fieldsInState).length > 0) {
                 message = "There are field errors."
             } else {
                 const messages = {

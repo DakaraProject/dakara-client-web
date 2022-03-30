@@ -91,6 +91,12 @@
             padding: ($gap-horizontal-smartphone / 3) $gap-horizontal-smartphone;
         }
     }
+
+    // force the appareance of controls (when used as confirmation bar)
+    .control {
+        font-size: 2.5rem !important;
+        margin: 0 !important;
+    }
 }
 
 // `notifiable` class:

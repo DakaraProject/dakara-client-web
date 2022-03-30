@@ -3,6 +3,9 @@ import { combineReducers } from 'redux'
 
 import { ALTERATION_SUCCESS } from 'actions/alterations'
 import {
+    PLAYER_TOKEN_FAILURE,
+    PLAYER_TOKEN_REQUEST,
+    PLAYER_TOKEN_SUCCESS,
     PLAYLIST_DIGEST_FAILURE,
     PLAYLIST_DIGEST_REQUEST,
     PLAYLIST_DIGEST_SUCCESS,
@@ -19,8 +22,9 @@ import {
     karaokePropType,
     playerErrorPropType,
     playerStatusPropType,
+    playerTokenPropType,
     playlistEntryPropType,
-    playlistPlayedEntryPropType
+    playlistPlayedEntryPropType,
 } from 'serverPropTypes/playlist'
 import { updateData } from 'utils'
 
@@ -56,6 +60,7 @@ const defaultPlaylistAppDigest = {
         },
         player_errors: [],
         karaoke: {
+            id: null,
             ongoing: false,
             can_add_to_playlist: false,
             player_play_next_song: false,
@@ -247,6 +252,73 @@ function playedEntries(state = defaultPlayedEntries, action) {
 }
 
 /**
+ * Player token
+ */
+
+export const playerTokenStatePropType = PropTypes.shape({
+    status: PropTypes.symbol,
+    data: playerTokenPropType.isRequired,
+})
+
+const defaultPlayerToken = {
+    status: null,
+    data: {
+        karaoke_id: null,
+        key: null,
+    },
+}
+
+function playerToken(state = defaultPlayerToken, action) {
+    switch (action.type) {
+        case PLAYER_TOKEN_REQUEST:
+            return {
+                ...state,
+                status: state.status || Status.pending,
+            }
+
+        case PLAYER_TOKEN_SUCCESS:
+            return {
+                status: Status.successful,
+                data: action.response,
+            }
+
+        case PLAYER_TOKEN_FAILURE:
+            // if the player token doesn't exist
+            // TODO change to low level check
+            if (action.error.detail === "Not found.") {
+                return {
+                    status: Status.successful,
+                    data: {
+                        token: null,
+                    }
+                }
+            }
+
+            return {
+                ...state,
+                status: Status.failed,
+            }
+
+        case ALTERATION_SUCCESS:
+            // if the player token has been revoked
+            if (action.alterationName === "revokePlayerToken") {
+                return {
+                    status: Status.successful,
+                    data: {
+                        token: null,
+                    }
+                }
+            }
+
+            return state
+
+        default:
+            return state
+    }
+}
+
+
+/**
  * Playlist
  */
 
@@ -254,6 +326,7 @@ const playlist = combineReducers({
     digest,
     entries,
     playedEntries,
+    playerToken,
 })
 
 export default playlist
