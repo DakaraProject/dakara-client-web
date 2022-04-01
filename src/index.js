@@ -1,7 +1,7 @@
 import 'style/main.scss'
 
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import { applyMiddleware, compose, createStore } from 'redux'
@@ -47,7 +47,8 @@ const store = createStore(
 
 manageStorageEvent(store)
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('react-mounting-point'))
+root.render(
     <Provider store={store}>
         <BrowserRouter>
             <Main>
@@ -121,6 +122,5 @@ ReactDOM.render(
                 </Switch>
             </Main>
         </BrowserRouter>
-    </Provider>,
-    document.getElementById('react-mounting-point')
+    </Provider>
 )

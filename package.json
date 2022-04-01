@@ -17,18 +17,20 @@
   "dependencies": {
     "classnames": "^2.3.1",
     "dayjs": "^1.11.0",
-    "node-sass": "^7.0.1",
     "normalize.css": "^8.0.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "postcss": "^8.4.12",
+    "query-string": "^7.1.1",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "react-highlight-words": "^0.17.0",
-    "react-redux": "^7.2.4",
+    "react-redux": "^7.2.7",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^4.0.3",
+    "react-scripts": "^5.0.0",
     "react-transition-group": "^4.4.2",
-    "redux": "^4.1.0",
+    "redux": "^4.1.2",
     "redux-localstorage": "^0.4.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.4.1",
+    "sass": "^1.49.10"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -89,10 +91,11 @@
     ]
   },
   "devDependencies": {
+    "customize-cra": "^1.0.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
-    "react-app-rewired": "^2.1.8",
-    "stylelint": "^13.13.1",
-    "stylelint-config-sass-guidelines": "^8.0.0",
-    "stylelint-webpack-plugin": "^3.0.1"
+    "react-app-rewired": "^2.2.1",
+    "stylelint": "^14.6.1",
+    "stylelint-config-sass-guidelines": "^9.0.1",
+    "stylelint-webpack-plugin": "^3.2.0"
   }
 }
