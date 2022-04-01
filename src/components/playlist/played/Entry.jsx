@@ -1,12 +1,11 @@
 import { stringify } from 'query-string'
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
 
 import PlayQueueInfo from 'components/song/PlayQueueInfo'
 import Song from 'components/song/Song'
 import { playlistPlayedEntryPropType } from 'serverPropTypes/playlist'
 
-class PlaylistPlayedEntry extends Component {
+class Entry extends Component {
     static propTypes = {
         entry: playlistPlayedEntryPropType.isRequired,
     }
@@ -48,6 +47,4 @@ class PlaylistPlayedEntry extends Component {
     }
 }
 
-PlaylistPlayedEntry = withRouter(PlaylistPlayedEntry)
-
-export default PlaylistPlayedEntry
+export default Entry

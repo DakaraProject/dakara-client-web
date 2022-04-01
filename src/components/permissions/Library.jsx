@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 
 import { mapStateToProps, PermissionBase } from 'components/permissions/Base'
 
@@ -7,7 +6,7 @@ import { mapStateToProps, PermissionBase } from 'components/permissions/Base'
  * Library manager
  */
 
-export const IsLibraryManager = withRouter(connect(
+export const IsLibraryManager = connect(
     mapStateToProps
 )(
     class extends PermissionBase {
@@ -19,4 +18,4 @@ export const IsLibraryManager = withRouter(connect(
             return user.library_permission_level === 'm'
         }
     }
-))
+)

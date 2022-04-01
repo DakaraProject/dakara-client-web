@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
 
 import HighlighterQuery from 'components/generics/HighlighterQuery'
 import { workPropType } from 'serverPropTypes/library'
@@ -54,7 +53,5 @@ class WorkEntry extends Component {
         )
     }
 }
-
-WorkEntry = withRouter(WorkEntry)
 
 export default WorkEntry

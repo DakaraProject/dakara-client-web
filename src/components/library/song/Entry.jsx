@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 import { parse, stringify } from 'query-string'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import { clearAlteration } from 'actions/alterations'
 import { addSongToPlaylist } from 'actions/playlist'
 import Notification from 'components/generics/Notification'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
+import { withSearchParams } from "components/generics/Router"
 import SongEntryExpanded from 'components/library/song/EntryExpanded'
 import { CanAddToPlaylist, IsPlaylistUser} from 'components/permissions/Playlist'
 import PlayQueueInfo from 'components/song/PlayQueueInfo'
@@ -26,7 +26,6 @@ import {
 class SongEntry extends Component {
     static propTypes = {
         song: songPropType.isRequired,
-        location: PropTypes.object.isRequired,
         query: PropTypes.object,
         playlistPlayedEntries: PropTypes.arrayOf(
             playlistPlayedEntryPropType
@@ -39,43 +38,37 @@ class SongEntry extends Component {
         addSongToPlaylist: PropTypes.func.isRequired,
         clearAlteration: PropTypes.func.isRequired,
         karaokeRemainingSeconds: PropTypes.number,
+        searchParams: PropTypes.object.isRequired,
+        setSearchParams: PropTypes.func.isRequired,
     }
 
     componentWillUnmount() {
         this.props.clearAlteration("addSongToPlaylist", this.props.song.id)
+        this.setExpanded()
     }
 
     /**
      * Toggle expanded view of song
      */
     setExpanded = (expanded) => {
-        const { location } = this.props
-        const queryObj = parse(location.search)
-
         if (expanded) {
-            queryObj.expanded = expanded
+            this.props.searchParams.append("expanded", expanded)
         } else {
-            // Remove param from url
-            delete queryObj.expanded
+            this.props.searchParams.delete("expanded")
         }
 
-        this.props.history.push({
-            pathname: location.pathname,
-            search: stringify(queryObj)
-        })
+        this.props.setSearchParams(this.props.searchParams)
     }
 
     render() {
         const {
-            location,
             song,
             query,
             playerStatus,
             karaokeRemainingSeconds
         } = this.props
         const { playlistPlayedEntries, playlistEntries } = this.props
-        const queryObj = parse(location.search)
-        const expanded = +queryObj.expanded === song.id
+        const expanded = +this.props.searchParams.get("expanded") === song.id
 
         /**
          * Song is playing info
@@ -163,7 +156,7 @@ class SongEntry extends Component {
                             karaokeRemainingSeconds={karaokeRemainingSeconds}
                             handleClick={
                                 () => expanded ?
-                                    this.setExpanded(null) :
+                                    this.setExpanded() :
                                     this.setExpanded(song.id)
                             }
                         />
@@ -211,7 +204,6 @@ class SongEntry extends Component {
                         <div className='library-entry-song-expanded-wrapper'>
                             <SongEntryExpanded
                                 song={this.props.song}
-                                location={location}
                                 query={this.props.query}
                             />
                         </div>
@@ -230,7 +222,7 @@ const mapStateToProps = (state, ownProps) => ({
     playerStatus: state.playlist.digest.data.player_status,
 })
 
-SongEntry = withRouter(connect(
+SongEntry = withSearchParams(connect(
     mapStateToProps,
     {
         addSongToPlaylist,

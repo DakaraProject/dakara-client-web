@@ -93,7 +93,7 @@ export default class SettingsUsersEntry extends Component {
                                 disable
                             >
                                 <ControlLink
-                                    to={`users/${user.id}`}
+                                    to={`${user.id}`}
                                     className="control info"
                                 >
                                     <i className="fa fa-pencil"></i>

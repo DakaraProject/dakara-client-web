@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 
 import { FormBlock, InputField } from 'components/generics/Form'
 import { permissionLevels } from 'components/permissions/Users'
@@ -154,8 +153,8 @@ const mapStateToProps = (state) => ({
     serverSettings: state.internal.serverSettings
 })
 
-User = withRouter(connect(
+User = connect(
     mapStateToProps,
-)(User))
+)(User)
 
 export default User

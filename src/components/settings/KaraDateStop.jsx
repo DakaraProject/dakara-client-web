@@ -5,12 +5,11 @@ import { connect } from 'react-redux'
 
 import { CheckboxField, FormBlock, InputField } from 'components/generics/Form'
 import { IsPlaylistManager} from 'components/permissions/Playlist'
-import SettingsTabList from 'components/settings/TabList'
 import { Status } from 'reducers/alterationsResponse'
 
 dayjs.extend(customParseFormat)
 
-class SettingsKaraDateStop extends Component {
+class KaraDateStop extends Component {
 
     render() {
         // render nothing if the karaoke is being fetched
@@ -91,11 +90,8 @@ class SettingsKaraDateStop extends Component {
         }
 
         return (
-            <div id="kara-date-stop" className="box">
-                <SettingsTabList/>
-                <div className="content">
-                    {karaDateStopWidget}
-                </div>
+            <div id="kara-date-stop" className="content">
+                {karaDateStopWidget}
             </div>
         )
     }
@@ -107,9 +103,9 @@ const mapStateToProps = (state) => ({
     authenticatedUser: state.authenticatedUser,
 })
 
-SettingsKaraDateStop = connect(
+KaraDateStop = connect(
     mapStateToProps,
     {}
-)(SettingsKaraDateStop)
+)(KaraDateStop)
 
-export default SettingsKaraDateStop
+export default KaraDateStop

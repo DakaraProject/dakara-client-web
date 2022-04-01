@@ -9,23 +9,21 @@ import {
     InputField,
     SelectField
 } from 'components/generics/Form'
+import { withLocation, withParams } from "components/generics/Router"
 import Forbidden from 'components/navigation/Forbidden'
 import NotFound from 'components/navigation/NotFound'
 import { IsNotSelf, IsUserManager } from 'components/permissions/Users'
-import SettingsTabList from 'components/settings/TabList'
 import { Status } from 'reducers/alterationsResponse'
 import { editUsersStatePropType } from 'reducers/users'
 import { userPropType } from 'serverPropTypes/users'
 
-class SettingsUsersEdit extends Component {
+class UsersEdit extends Component {
     static propTypes = {
         editUsersState: editUsersStatePropType.isRequired,
         authenticatedUser: userPropType.isRequired,
         location: PropTypes.object.isRequired,
-        match: PropTypes.shape({
-            params: PropTypes.shape({
-                userId: PropTypes.any.isRequired,
-            }).isRequired,
+        params: PropTypes.shape({
+            userId: PropTypes.any.isRequired,
         }).isRequired,
         getUser: PropTypes.func.isRequired,
         clearUser: PropTypes.func.isRequired,
@@ -33,7 +31,7 @@ class SettingsUsersEdit extends Component {
     }
 
     componentDidMount() {
-        const userId = this.props.match.params.userId
+        const userId = this.props.params.userId
         this.props.getUser(userId)
     }
 
@@ -51,7 +49,7 @@ class SettingsUsersEdit extends Component {
         }
 
         // render an error page if the current user has no right to display the page
-        const userId = this.props.match.params.userId
+        const userId = this.props.params.userId
         const fakeUser = {id: userId}
         if (!(IsUserManager.hasPermission(authenticatedUser, fakeUser) &&
                 IsNotSelf.hasPermission(authenticatedUser, fakeUser))) {
@@ -95,8 +93,7 @@ class SettingsUsersEdit extends Component {
         }
 
         return (
-                <div className="box" id="users-edit">
-                    <SettingsTabList/>
+                <div id="users-edit">
                     <FormBlock
                         title={`Edit user “${user.username}”`}
                         action={`users/${user.id}/`}
@@ -183,12 +180,12 @@ const mapStateToProps = (state) => ({
     serverSettings: state.internal.serverSettings
 })
 
-SettingsUsersEdit = connect(
+UsersEdit = withLocation(withParams(connect(
     mapStateToProps,
     {
         getUser,
         clearUser,
     }
-)(SettingsUsersEdit)
+)(UsersEdit)))
 
-export default SettingsUsersEdit
+export default UsersEdit

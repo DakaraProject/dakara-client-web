@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 
 import { mapStateToProps, PermissionBase } from 'components/permissions/Base'
 import { userPropType } from 'serverPropTypes/users'
@@ -10,7 +9,7 @@ import { userPropType } from 'serverPropTypes/users'
  * Playlist manager or Owner of the object
  */
 
-export const IsPlaylistManagerOrOwner = withRouter(connect(
+export const IsPlaylistManagerOrOwner = connect(
     mapStateToProps
 )(
     class extends PermissionBase {
@@ -33,13 +32,13 @@ export const IsPlaylistManagerOrOwner = withRouter(connect(
             return user.id === object.owner.id
         }
     }
-))
+)
 
 /**
  * Playlist manager
  */
 
-export const IsPlaylistManager = withRouter(connect(
+export const IsPlaylistManager = connect(
     mapStateToProps
 )(
     class extends PermissionBase {
@@ -51,13 +50,13 @@ export const IsPlaylistManager = withRouter(connect(
             return user.playlist_permission_level === 'm'
         }
     }
-))
+)
 
 /**
  * Playlist user or Playlist manager
  */
 
-export const IsPlaylistUser = withRouter(connect(
+export const IsPlaylistUser = connect(
     mapStateToProps
 )(
     class extends PermissionBase {
@@ -66,7 +65,7 @@ export const IsPlaylistUser = withRouter(connect(
                 user.playlist_permission_level === 'm')
         }
     }
-))
+)
 
 
 /**

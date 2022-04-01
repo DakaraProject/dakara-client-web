@@ -15,12 +15,6 @@ import { workTypeStatePropType } from 'reducers/library'
 class List extends Component {
     static propTypes = {
         workTypeState: workTypeStatePropType,
-        location: PropTypes.object.isRequired,
-        match: PropTypes.shape({
-            params: PropTypes.shape({
-                libraryType: PropTypes.string.isRequired,
-            }).isRequired,
-        }).isRequired,
         loadLibraryEntries: PropTypes.func.isRequired,
     }
 

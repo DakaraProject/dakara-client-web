@@ -1,35 +1,74 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Outlet } from "react-router-dom"
 
-import LibraryTabList from 'components/library/LibraryTabList'
-import SearchBox from 'components/library/SearchBox'
+import { loadWorkTypes } from 'actions/library'
+import Tab from 'components/generics/Tab'
+import { Status } from 'reducers/alterationsResponse'
 import { workTypeStatePropType } from 'reducers/library'
 
 class Library extends Component {
     static propTypes = {
-        location: PropTypes.object.isRequired,
         workTypeState: workTypeStatePropType.isRequired,
-        nameInfo: PropTypes.shape({
-            placeholder: PropTypes.string.isRequired,
-        }).isRequired
+        loadWorkTypes: PropTypes.func.isRequired,
+    }
+
+    componentDidMount() {
+        this.props.loadWorkTypes()
     }
 
     render() {
-        const { location, workTypeState, nameInfo } = this.props
+        const { workTypeState } = this.props
+
+        /**
+         * Work Types links
+         */
+
+        let workTypesTabs
+        if (workTypeState.status === Status.successful) {
+            workTypesTabs = this.props.workTypeState.data.workTypes.map(
+                (workType) => (
+                    <Tab
+                        key={workType.query_name}
+                        to={`/library/${workType.query_name}`}
+                        iconName={workType.icon_name}
+                        name={workType.name_plural}
+                    />
+                )
+            )
+        }
 
         return (
             <div id="library" className="box">
-                    <LibraryTabList
-                        workTypeState={workTypeState}
+                <nav className="tab-bar">
+                    <Tab
+                        to="/library/song"
+                        iconName="bars"
+                        extraClassName="home"
                     />
-                    <SearchBox
-                        placeholder={nameInfo.placeholder}
-                        location={location}
+                    <Tab
+                        to="/library/artist"
+                        iconName="music"
+                        name="Artists"
                     />
-                {this.props.children}
+                    {workTypesTabs}
+                </nav>
+                <Outlet />
             </div>
         )
     }
 }
+
+const mapStateToProps = (state) => ({
+    workTypeState: state.library.workType,
+})
+
+Library = connect(
+    mapStateToProps,
+    {
+        loadWorkTypes,
+    }
+)(Library)
 
 export default Library

@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import Navigator from 'components/generics/Navigator'
-import PlaylistPlayedEntry from 'components/playlist/PlayedEntry'
-import PlaylistTabList from 'components/playlist/TabList'
+import PlayedEntry from 'components/playlist/played/Entry'
 import { playlistPlayedEntriesStatePropType } from 'reducers/playlist'
 
-class PlaylistPlayed extends Component {
+class Played extends Component {
     static propTypes = {
         playlistPlayedEntriesState: playlistPlayedEntriesStatePropType.isRequired,
     }
@@ -25,13 +23,12 @@ class PlaylistPlayed extends Component {
                 }}
                 key={entry.id}
             >
-                <PlaylistPlayedEntry entry={entry} />
+                <PlayedEntry entry={entry} />
             </CSSTransition>
         ))
 
         return (
-            <div id="playlist-played" className="box">
-                <PlaylistTabList/>
+            <div id="played">
                 <TransitionGroup
                     component="ul"
                     className="listing"
@@ -54,9 +51,9 @@ const mapStateToProps = (state) => ({
     playlistPlayedEntriesState: state.playlist.playedEntries,
 })
 
-PlaylistPlayed = withRouter(connect(
+Played = connect(
     mapStateToProps,
     {}
-)(PlaylistPlayed))
+)(Played)
 
-export default PlaylistPlayed
+export default Played

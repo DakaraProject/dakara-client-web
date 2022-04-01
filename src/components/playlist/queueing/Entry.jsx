@@ -2,7 +2,6 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
 
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
@@ -15,7 +14,7 @@ import PlayQueueInfo from 'components/song/PlayQueueInfo'
 import Song from 'components/song/Song'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 
-class PlaylistEntry extends Component {
+class Entry extends Component {
     static propTypes = {
         entry: playlistEntryPropType.isRequired,
         responseOfRemoveEntry: PropTypes.object,
@@ -157,6 +156,4 @@ class PlaylistEntry extends Component {
     }
 }
 
-PlaylistEntry = withRouter(PlaylistEntry)
-
-export default PlaylistEntry
+export default Entry

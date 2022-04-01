@@ -3,10 +3,11 @@ import { parse } from 'query-string'
 import React, { Component } from 'react'
 
 import ControlLink from 'components/generics/ControlLink'
+import { withLocation } from "components/generics/Router"
 
-export default class Navigator extends Component {
+class Navigator extends Component {
     static propTypes = {
-        location: PropTypes.object,
+        location: PropTypes.object.isRequired,
         names: PropTypes.shape({
             singular: PropTypes.string.isRequired,
             plural: PropTypes.string.isRequired,
@@ -104,3 +105,5 @@ export default class Navigator extends Component {
         )
     }
 }
+
+export default withLocation(Navigator)

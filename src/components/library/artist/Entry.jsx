@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
 
 import HighlighterQuery from 'components/generics/HighlighterQuery'
 import { artistPropType } from 'serverPropTypes/library'
@@ -49,7 +48,5 @@ class ArtistEntry extends Component {
         )
     }
 }
-
-ArtistEntry = withRouter(ArtistEntry)
 
 export default ArtistEntry

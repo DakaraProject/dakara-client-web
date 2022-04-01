@@ -3,7 +3,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link, withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { loadPlaylist, loadPlaylistPlayed } from 'actions/playlist'
 import { Status } from 'reducers/alterationsResponse'
@@ -147,12 +147,12 @@ const mapStateToProps = (state) => ({
     playlistEntriesState: state.playlist.entries,
 })
 
-PlaylistInfoBar = withRouter(connect(
+PlaylistInfoBar = connect(
     mapStateToProps,
     {
         loadPlaylist,
         loadPlaylistPlayed,
     }
-)(PlaylistInfoBar))
+)(PlaylistInfoBar)
 
 export default PlaylistInfoBar

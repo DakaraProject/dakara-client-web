@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 
 import { mapStateToProps, PermissionBase } from 'components/permissions/Base'
 import { userPropType } from 'serverPropTypes/users'
@@ -14,7 +13,7 @@ export const permissionLevels = {
  * Users manager
  */
 
-export const IsUserManager = withRouter(connect(
+export const IsUserManager = connect(
     mapStateToProps
 )(
     class extends PermissionBase {
@@ -22,13 +21,13 @@ export const IsUserManager = withRouter(connect(
             return (user.users_permission_level === 'm')
         }
     }
-))
+)
 
 /**
  * Not self
  */
 
-export const IsNotSelf = withRouter(connect(
+export const IsNotSelf = connect(
     mapStateToProps
 )(
     class extends PermissionBase {
@@ -41,4 +40,4 @@ export const IsNotSelf = withRouter(connect(
             return (user.id !== object.id)
         }
     }
-))
+)
