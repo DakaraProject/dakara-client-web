@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { verifyRegistration } from 'actions/users'
-import { withLocation } from 'components/generics/Router'
+import { withLocation } from 'components/adapted/ReactRouterDom'
 import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
 
 class VerifyRegistration extends Component {

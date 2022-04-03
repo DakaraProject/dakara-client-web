@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
 import React, { Component } from 'react'
 
+import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
-import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import {
     IsPlaylistManager,
     IsPlaylistManagerOrOwner

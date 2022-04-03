@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { sendPlayerCommand } from 'actions/playlist'
-import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
+import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
 import UserWidget from 'components/generics/UserWidget'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import ManageButton from 'components/playlistApp/player/ManageButton'

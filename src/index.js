@@ -8,7 +8,7 @@ import { applyMiddleware, compose, createStore } from 'redux'
 import persistState from 'redux-localstorage'
 import ReduxThunk from 'redux-thunk'
 
-import { ProtectedRoute } from 'components/generics/Router'
+import ProtectedRoute from 'components/generics/Router'
 import LibraryArtist from 'components/library/artist/List'
 import Library from 'components/library/Library'
 import LibrarySong from 'components/library/song/List'

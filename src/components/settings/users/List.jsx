@@ -5,10 +5,10 @@ import { connect } from 'react-redux'
 
 import { clearAlteration } from 'actions/alterations'
 import { deleteUser, getUsers } from 'actions/users'
+import { withLocation } from 'components/adapted/ReactRouterDom'
 import { FormBlock, InputField } from 'components/generics/Form'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
-import { withLocation } from 'components/generics/Router'
 import { IsUserManager } from 'components/permissions/Users'
 import SettingsUserEntry from 'components/settings/users/Entry'
 import { listUsersStatePropType } from 'reducers/users'
@@ -89,7 +89,7 @@ class UsersList extends Component {
                     location={location}
                 />
                 <IsUserManager>
-                    <div className="content">
+                    <div className="create-user">
                         <FormBlock
                             title="Create user"
                             submitText="Create"

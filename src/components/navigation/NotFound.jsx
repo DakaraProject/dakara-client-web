@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
-import { withLocation } from 'components/generics/Router'
+import { withLocation } from 'components/adapted/ReactRouterDom'
 
 class NotFound extends Component {
     static propTypes = {
