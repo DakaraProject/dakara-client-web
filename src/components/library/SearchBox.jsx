@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { storeSearchBox } from 'actions/library'
-import { withLocation,withSearchParams } from 'components/generics/Router'
+import { withLocation, withSearchParams } from 'components/adapted/ReactRouterDom'
 
 class SearchBox extends Component {
     static propTypes = {

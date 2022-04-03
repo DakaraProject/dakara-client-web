@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
-import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
+import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
 import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
 
 /**

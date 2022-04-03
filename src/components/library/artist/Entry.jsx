@@ -2,8 +2,8 @@ import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
 import React, { Component } from 'react'
 
+import { withNavigate } from 'components/adapted/ReactRouterDom'
 import HighlighterQuery from 'components/generics/HighlighterQuery'
-import { withNavigate } from 'components/generics/Router'
 import { artistPropType } from 'serverPropTypes/library'
 
 class ArtistEntry extends Component {

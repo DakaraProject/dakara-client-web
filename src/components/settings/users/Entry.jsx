@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
+import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import ControlLink from 'components/generics/ControlLink'
 import Notification, { NotifiableForTable } from 'components/generics/Notification'
-import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import {
     IsNotSelf,
     IsUserManager,
