@@ -5,8 +5,8 @@ import { connect } from 'react-redux'
 import { loadLibraryEntries } from 'actions/library'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
-import { withParams, withSearchParams } from "components/generics/Router"
-import SearchBox from "components/library/SearchBox"
+import { withParams, withSearchParams } from 'components/generics/Router'
+import SearchBox from 'components/library/SearchBox'
 import WorkEntry from 'components/library/work/Entry'
 import NotFound from 'components/navigation/NotFound'
 import { Status } from 'reducers/alterationsResponse'
@@ -25,9 +25,9 @@ class WorkList extends Component {
      * Fetch songs from server
      */
     refreshEntries = () => {
-        this.props.loadLibraryEntries("works", {
-            page: this.props.searchParams.get("page"),
-            query: this.props.searchParams.get("query"),
+        this.props.loadLibraryEntries('works', {
+            page: this.props.searchParams.get('page'),
+            query: this.props.searchParams.get('query'),
             type: this.props.params.workType,
         })
     }
@@ -139,9 +139,9 @@ export const getWorkLibraryNameInfo = (workTypeQueryName, workTypes) => {
     if (!workType) {
         // Fall back if work not found
         return {
-            singular: "work",
-            plural: "works",
-            placeholder: "What are you looking for?",
+            singular: 'work',
+            plural: 'works',
+            placeholder: 'What are you looking for?',
         }
     }
 

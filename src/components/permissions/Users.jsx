@@ -4,9 +4,9 @@ import { mapStateToProps, PermissionBase } from 'components/permissions/Base'
 import { userPropType } from 'serverPropTypes/users'
 
 export const permissionLevels = {
-    u: "user",
-    m: "manager",
-    p: "player"
+    u: 'user',
+    m: 'manager',
+    p: 'player'
 }
 
 /**

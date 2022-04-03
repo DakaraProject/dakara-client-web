@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { Navigate,NavLink } from 'react-router-dom'
 
 import { FormBlock, InputField } from 'components/generics/Form'
-import { withLocation } from "components/generics/Router"
+import { withLocation } from 'components/generics/Router'
 
 class ResetPassword extends Component {
     static propTypes = {
@@ -56,7 +56,7 @@ class ResetPassword extends Component {
                     required
                     validate={(value, values) => {
                         if (values.password !== value) {
-                            return ["This field should match password field."]
+                            return ['This field should match password field.']
                         }
                     }}
                 />

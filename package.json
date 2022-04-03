@@ -75,7 +75,8 @@
         {
           "code": 88
         }
-      ]
+      ],
+      "quotes": [1, "single"]
     }
   },
   "browserslist": {

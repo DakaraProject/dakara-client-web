@@ -72,8 +72,8 @@ class User extends Component {
                     alterationName="registerEmail"
                     successMessage={
                         serverSettings?.email_enabled ?
-                            "Validation email sent to you new address!" :
-                            "Email successfuly changed!"
+                            'Validation email sent to you new address!' :
+                            'Email successfuly changed!'
                     }
                 >
                     <InputField
@@ -82,7 +82,7 @@ class User extends Component {
                         required
                         validate={(value) => {
                             if(!/\S+@\S+\.\S+/.test(value.toLowerCase())) {
-                                return ["This should be a valid email address."]
+                                return ['This should be a valid email address.']
                             }
                         }}
                     />
@@ -136,7 +136,7 @@ class User extends Component {
                             required
                             validate={(value, values) => {
                                 if (values.password !== value) {
-                                    return ["This field should match password field."]
+                                    return ['This field should match password field.']
                                 }
                             }}
                         />

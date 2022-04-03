@@ -8,7 +8,7 @@ import { deleteUser, getUsers } from 'actions/users'
 import { FormBlock, InputField } from 'components/generics/Form'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
-import { withLocation } from "components/generics/Router"
+import { withLocation } from 'components/generics/Router'
 import { IsUserManager } from 'components/permissions/Users'
 import SettingsUserEntry from 'components/settings/users/Entry'
 import { listUsersStatePropType } from 'reducers/users'
@@ -109,7 +109,7 @@ class UsersList extends Component {
                                 required
                                 validate={(value) => {
                                     if(!/\S+@\S+\.\S+/.test(value.toLowerCase())) {
-                                        return ["This should be a valid email address."]
+                                        return ['This should be a valid email address.']
                                     }
                                 }}
                             />
@@ -127,7 +127,7 @@ class UsersList extends Component {
                                 validate={(value, values) => {
                                     if (values.password !== value) {
                                         return [
-                                            "This field should match password field."
+                                            'This field should match password field.'
                                         ]
                                     }
                                 }}

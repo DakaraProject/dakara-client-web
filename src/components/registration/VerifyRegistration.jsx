@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { verifyRegistration } from 'actions/users'
-import { withLocation } from "components/generics/Router"
+import { withLocation } from 'components/generics/Router'
 import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
 
 class VerifyRegistration extends Component {
@@ -80,7 +80,7 @@ class VerifyRegistration extends Component {
         return (
             <div
                 id="verify-registration"
-                className={classNames("box", {danger: error})}
+                className={classNames('box', {danger: error})}
             >
                 <div className="header">
                     <h2>Email verification</h2>

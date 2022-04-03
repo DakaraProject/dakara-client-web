@@ -7,7 +7,7 @@ import { clearAlteration } from 'actions/alterations'
 import { editSongTag, getSongTagList } from 'actions/songTags'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
-import { withLocation } from "components/generics/Router"
+import { withLocation } from 'components/generics/Router'
 import SettingsSongTagsEntry from 'components/settings/songTags/Entry'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
 import { songTagsStatePropType } from 'reducers/songTags'

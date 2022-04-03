@@ -44,7 +44,7 @@ class Register extends Component {
                     required
                     validate={(value) => {
                         if(!/\S+@\S+\.\S+/.test(value.toLowerCase())) {
-                            return ["This should be a valid email address."]
+                            return ['This should be a valid email address.']
                         }
                     }}
                 />
@@ -61,7 +61,7 @@ class Register extends Component {
                     required
                     validate={(value, values) => {
                         if (values.password !== value) {
-                            return ["This field should match password field."]
+                            return ['This field should match password field.']
                         }
                     }}
                 />

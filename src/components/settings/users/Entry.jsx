@@ -24,7 +24,7 @@ export default class SettingsUsersEntry extends Component {
     }
 
     componentWillUnmount() {
-        this.props.clearAlteration("deleteUser", this.props.user.id)
+        this.props.clearAlteration('deleteUser', this.props.user.id)
     }
 
     displayConfirm = () => {

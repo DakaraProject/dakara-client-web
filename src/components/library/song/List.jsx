@@ -6,8 +6,8 @@ import { connect } from 'react-redux'
 import { loadLibraryEntries } from 'actions/library'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
-import { withSearchParams } from "components/generics/Router"
-import SearchBox from "components/library/SearchBox"
+import { withSearchParams } from 'components/generics/Router'
+import SearchBox from 'components/library/SearchBox'
 import SongEntry from 'components/library/song/Entry'
 import { Status } from 'reducers/alterationsResponse'
 import { songStatePropType } from 'reducers/library'
@@ -25,9 +25,9 @@ class SongList extends Component {
      * Fetch songs from server
      */
     refreshEntries = () => {
-        this.props.loadLibraryEntries("songs", {
-            page: this.props.searchParams.get("page"),
-            query: this.props.searchParams.get("query"),
+        this.props.loadLibraryEntries('songs', {
+            page: this.props.searchParams.get('page'),
+            query: this.props.searchParams.get('query'),
         })
     }
 
@@ -120,5 +120,5 @@ export default SongList
  * - placeholder: library search placeholder
  */
 export const getSongLibraryNameInfo = () => ({
-    placeholder: "What will you sing?",
+    placeholder: 'What will you sing?',
 })

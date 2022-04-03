@@ -87,7 +87,7 @@ export class Reduceable extends Component {
         const { children, classNameOnThresold, addComponent } = this.props
 
         if (React.Children.count(children) > 1) {
-            throw new Error("Reduceable can contain one child only")
+            throw new Error('Reduceable can contain one child only')
         }
 
         if (!isReduced) return children

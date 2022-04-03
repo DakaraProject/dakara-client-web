@@ -8,7 +8,7 @@ import { clearAlteration } from 'actions/alterations'
 import { addSongToPlaylist } from 'actions/playlist'
 import Notification from 'components/generics/Notification'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
-import { withSearchParams } from "components/generics/Router"
+import { withSearchParams } from 'components/generics/Router'
 import SongEntryExpanded from 'components/library/song/EntryExpanded'
 import { CanAddToPlaylist, IsPlaylistUser} from 'components/permissions/Playlist'
 import PlayQueueInfo from 'components/song/PlayQueueInfo'
@@ -42,7 +42,7 @@ class SongEntry extends Component {
     }
 
     componentWillUnmount() {
-        this.props.clearAlteration("addSongToPlaylist", this.props.song.id)
+        this.props.clearAlteration('addSongToPlaylist', this.props.song.id)
     }
 
     /**
@@ -50,10 +50,10 @@ class SongEntry extends Component {
      */
     setExpanded = (expanded) => {
         if (expanded) {
-            this.props.searchParams.delete("expanded")
-            this.props.searchParams.append("expanded", expanded)
+            this.props.searchParams.delete('expanded')
+            this.props.searchParams.append('expanded', expanded)
         } else {
-            this.props.searchParams.delete("expanded")
+            this.props.searchParams.delete('expanded')
         }
 
         this.props.setSearchParams(this.props.searchParams)
@@ -67,7 +67,7 @@ class SongEntry extends Component {
             karaokeRemainingSeconds
         } = this.props
         const { playlistPlayedEntries, playlistEntries } = this.props
-        const expanded = +this.props.searchParams.get("expanded") === song.id
+        const expanded = +this.props.searchParams.get('expanded') === song.id
 
         /**
          * Song is playing info
@@ -142,7 +142,7 @@ class SongEntry extends Component {
         return (
                 <li
                     className={classNames(
-                        "library-entry listing-entry library-entry-song",
+                        'library-entry listing-entry library-entry-song',
                         {expanded}
                     )}
                 >

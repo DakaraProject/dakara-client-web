@@ -128,10 +128,10 @@ export default class Song extends Component {
         return (
             <div
                 className={classNames(
-                    "song",
+                    'song',
                     {
                         disabled: song.tags.some((tag) => (tag.disabled)),
-                        "with-artist-and-work": withArtistAndWork
+                        'with-artist-and-work': withArtistAndWork
                     }
                 )}
                 onClick={this.props.handleClick}

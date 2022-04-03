@@ -116,7 +116,7 @@ function alteration(state, action) {
             // DRF global form error or validation error
             let globalMessage
             if (non_field_errors) {
-                globalMessage = non_field_errors.join(" ")
+                globalMessage = non_field_errors.join(' ')
             }
 
             // DRF field error or field validation errors

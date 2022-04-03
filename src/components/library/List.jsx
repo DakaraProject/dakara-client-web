@@ -100,12 +100,12 @@ class List extends Component {
         let ListComponent
         let getLibraryNameInfo
         switch (libraryType) {
-            case "song":
+            case 'song':
                 ListComponent = SongList
                 getLibraryNameInfo = getSongLibraryNameInfo
                 break
 
-            case "artist":
+            case 'artist':
                 ListComponent = ArtistList
                 getLibraryNameInfo = getArtistLibraryNameInfo
                 break

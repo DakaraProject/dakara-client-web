@@ -31,8 +31,8 @@ class Entry extends Component {
     }
 
     componentWillUnmount() {
-        this.props.clearAlteration("removeEntryFromPlaylist", this.props.entry.id)
-        this.props.clearAlteration("reorderPlaylistEntry", this.props.entry.id)
+        this.props.clearAlteration('removeEntryFromPlaylist', this.props.entry.id)
+        this.props.clearAlteration('reorderPlaylistEntry', this.props.entry.id)
     }
 
     displayConfirm = () => {
@@ -47,7 +47,7 @@ class Entry extends Component {
         const song = this.props.entry.song
         const query = `title:""${song.title}""`
         this.props.history.push({
-            pathname: "/library/song",
+            pathname: '/library/song',
             search: stringify({
                 query,
                 expanded: song.id
@@ -72,15 +72,15 @@ class Entry extends Component {
             // if in reorder mode, display icon depending on the relative
             // position of the current entry and the entry to reorder
             if (reorderEntryPosition > position) {
-                reorderIconName = "arrow-up"
+                reorderIconName = 'arrow-up'
             } else if (reorderEntryPosition < position) {
-                reorderIconName = "arrow-down"
+                reorderIconName = 'arrow-down'
             } else {
-                reorderIconName = "ban"
+                reorderIconName = 'ban'
             }
         } else {
             // if not in reorder mode, display reorder icon
-            reorderIconName = "random"
+            reorderIconName = 'random'
         }
 
         return (

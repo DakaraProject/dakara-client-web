@@ -3,7 +3,7 @@ import { parse } from 'query-string'
 import React, { Component } from 'react'
 
 import ControlLink from 'components/generics/ControlLink'
-import { withLocation } from "components/generics/Router"
+import { withLocation } from 'components/generics/Router'
 
 class Navigator extends Component {
     static propTypes = {

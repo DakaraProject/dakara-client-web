@@ -14,7 +14,7 @@ class Entry extends Component {
         const song = this.props.entry.song
         const query = `title:""${song.title}""`
         this.props.history.push({
-            pathname: "/library/song",
+            pathname: '/library/song',
             search: stringify({
                 query,
                 expanded: song.id
@@ -29,8 +29,8 @@ class Entry extends Component {
         return (
             <li
             className={
-                "listing-entry playlist-entry library-entry library-entry-song " +
-                "hoverizable"
+                'listing-entry playlist-entry library-entry library-entry-song ' +
+                'hoverizable'
             }
             >
                 <div className="library-entry-song-compact">

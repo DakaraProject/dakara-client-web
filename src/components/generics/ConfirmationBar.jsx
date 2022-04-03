@@ -9,7 +9,7 @@ export default class ConfirmationBar extends Component {
     }
 
     static defaultProps = {
-        message: "Are you sure?",
+        message: 'Are you sure?',
     }
 
     render() {

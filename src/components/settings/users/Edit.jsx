@@ -9,7 +9,7 @@ import {
     InputField,
     SelectField
 } from 'components/generics/Form'
-import { withLocation, withParams } from "components/generics/Router"
+import { withLocation, withParams } from 'components/generics/Router'
 import Forbidden from 'components/navigation/Forbidden'
 import NotFound from 'components/navigation/NotFound'
 import { IsNotSelf, IsUserManager } from 'components/permissions/Users'
@@ -84,7 +84,7 @@ class UsersEdit extends Component {
                     label="Confirm password"
                     validate={(value, values) => {
                         if (values.password !== value) {
-                            return ["This field should match password field."]
+                            return ['This field should match password field.']
                         }
                     }}
                     ignore

@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { verifyEmail } from 'actions/users'
-import { withLocation } from "components/generics/Router"
+import { withLocation } from 'components/generics/Router'
 import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
 
 class VerifyEmail extends Component {
@@ -76,7 +76,7 @@ class VerifyEmail extends Component {
         }
 
         return (
-            <div id="verify-email" className={classNames("box", {danger: error})}>
+            <div id="verify-email" className={classNames('box', {danger: error})}>
                 <div className="header">
                     <h2>Email verification</h2>
                 </div>

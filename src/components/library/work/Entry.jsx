@@ -3,7 +3,7 @@ import { stringify } from 'query-string'
 import React, { Component } from 'react'
 
 import HighlighterQuery from 'components/generics/HighlighterQuery'
-import { withNavigate } from "components/generics/Router"
+import { withNavigate } from 'components/generics/Router'
 import { workPropType } from 'serverPropTypes/library'
 
 class WorkEntry extends Component {
@@ -20,7 +20,7 @@ class WorkEntry extends Component {
     handleSearch = () => {
         const query = `${this.props.workType}:""${this.props.work.title}""`
         this.props.navigate({
-            pathname: "/library/song",
+            pathname: '/library/song',
             search: stringify({query})
         })
     }

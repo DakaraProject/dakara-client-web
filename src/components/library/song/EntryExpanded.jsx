@@ -7,7 +7,7 @@ import { clearAlteration } from 'actions/alterations'
 import { addSongToPlaylistWithOptions } from 'actions/playlist'
 import HighlighterQuery from 'components/generics/HighlighterQuery'
 import Notification from 'components/generics/Notification'
-import { withSearchParams } from "components/generics/Router"
+import { withSearchParams } from 'components/generics/Router'
 import SongEntryExpandedArtist from 'components/library/song/EntryExpandedArtist'
 import SongEntryExpandedWork from 'components/library/song/EntryExpandedWork'
 import { CanAddToPlaylist, IsPlaylistUser} from 'components/permissions/Playlist'
@@ -23,7 +23,7 @@ class SongEntryExpanded extends Component {
     }
 
     componentWillUnmount() {
-        this.props.clearAlteration("addSongToPlaylistWithOptions", this.props.song.id)
+        this.props.clearAlteration('addSongToPlaylistWithOptions', this.props.song.id)
     }
 
     /**
@@ -170,7 +170,7 @@ class SongEntryExpanded extends Component {
 
         let lyrics
         if (song.lyrics_preview) {
-            const text = song.lyrics_preview.text.split("\n").map((line, index) => (
+            const text = song.lyrics_preview.text.split('\n').map((line, index) => (
                 <div className="line" key={index}>{line}</div>
             ))
 
@@ -184,7 +184,7 @@ class SongEntryExpanded extends Component {
                     </h4>
                     <div
                         className={classNames(
-                            "paragraph",
+                            'paragraph',
                             {truncated: song.lyrics_preview.truncated}
                         )}
                     >
@@ -252,7 +252,7 @@ class SongEntryExpanded extends Component {
                                     pendingMessage="Adding…"
                                     successfulMessage="Successfuly added!"
                                     failedMessage={
-                                        "Error attempting to add song to playlist"
+                                        'Error attempting to add song to playlist'
                                     }
                                 />
                             </div>

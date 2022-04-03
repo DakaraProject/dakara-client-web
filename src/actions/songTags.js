@@ -12,9 +12,9 @@ const { baseUrl } = params
  * Get tag list
  */
 
-export const TAG_LIST_REQUEST = "TAG_LIST_REQUEST"
-export const TAG_LIST_SUCCESS = "TAG_LIST_SUCCESS"
-export const TAG_LIST_FAILURE = "TAG_LIST_FAILURE"
+export const TAG_LIST_REQUEST = 'TAG_LIST_REQUEST'
+export const TAG_LIST_SUCCESS = 'TAG_LIST_SUCCESS'
+export const TAG_LIST_FAILURE = 'TAG_LIST_FAILURE'
 
 /**
  * Request to retrieve song tag list
@@ -43,6 +43,6 @@ export const editSongTag = (tagId, disabled) => ({
         json: {disabled},
         types: [ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE],
     },
-    alterationName: "editSongTag",
+    alterationName: 'editSongTag',
     elementId: tagId,
 })

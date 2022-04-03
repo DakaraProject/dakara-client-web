@@ -17,9 +17,9 @@ const delay = (action, delay) => ({
  * Get user list
  */
 
-export const USER_LIST_REQUEST = "USER_LIST_REQUEST"
-export const USER_LIST_SUCCESS = "USER_LIST_SUCCESS"
-export const USER_LIST_FAILURE = "USER_LIST_FAILURE"
+export const USER_LIST_REQUEST = 'USER_LIST_REQUEST'
+export const USER_LIST_SUCCESS = 'USER_LIST_SUCCESS'
+export const USER_LIST_FAILURE = 'USER_LIST_FAILURE'
 
 /**
  * Action creator to refresh users in the current page
@@ -62,7 +62,7 @@ export const deleteUser = (userId) => ({
                 refreshUsersDelayed,
             ],
         },
-    alterationName: "deleteUser",
+    alterationName: 'deleteUser',
     elementId: userId
 })
 
@@ -70,10 +70,10 @@ export const deleteUser = (userId) => ({
  * Get one user
  */
 
-export const USER_GET_REQUEST = "USER_GET_REQUEST"
-export const USER_GET_SUCCESS = "USER_GET_SUCCESS"
-export const USER_GET_FAILURE = "USER_GET_FAILURE"
-export const USER_CLEAR = "USER_CLEAR"
+export const USER_GET_REQUEST = 'USER_GET_REQUEST'
+export const USER_GET_SUCCESS = 'USER_GET_SUCCESS'
+export const USER_GET_FAILURE = 'USER_GET_FAILURE'
+export const USER_CLEAR = 'USER_CLEAR'
 
 
 /**
@@ -114,7 +114,7 @@ export const verifyRegistration = (userId, timestamp, signature) => ({
                 ALTERATION_FAILURE,
             ],
         },
-    alterationName: "verifyRegistration",
+    alterationName: 'verifyRegistration',
 })
 
 
@@ -141,5 +141,5 @@ export const verifyEmail = (userId, email, timestamp, signature) => ({
                 ALTERATION_FAILURE,
             ],
         },
-    alterationName: "verifyEmail",
+    alterationName: 'verifyEmail',
 })

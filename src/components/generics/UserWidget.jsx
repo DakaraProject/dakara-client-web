@@ -14,7 +14,7 @@ class UserWidget extends Component {
         const { user, currentUser, className } = this.props
         const isCurrentUser = currentUser && currentUser.id === user.id
 
-        const iconClass = isCurrentUser ? "fa fa-user" : "fa fa-user-o"
+        const iconClass = isCurrentUser ? 'fa fa-user' : 'fa fa-user-o'
         const userWidgetClass = classNames(
             'user-widget',
             className

@@ -3,7 +3,7 @@ import { stringify } from 'query-string'
 import React, { Component } from 'react'
 
 import HighlighterQuery from 'components/generics/HighlighterQuery'
-import { withNavigate } from "components/generics/Router"
+import { withNavigate } from 'components/generics/Router'
 import { artistPropType } from 'serverPropTypes/library'
 
 class ArtistEntry extends Component {
@@ -19,7 +19,7 @@ class ArtistEntry extends Component {
     handleSearch = () => {
         const newQuery = `artist:""${this.props.artist.name}""`
         this.props.navigate({
-            pathname: "/library/song",
+            pathname: '/library/song',
             search: stringify({query: newQuery})
         })
     }

@@ -25,7 +25,7 @@ export default class SettingsSongTagsEntry extends Component {
     }
 
     componentWillUnmount() {
-        this.props.clearAlteration("editSongTag", this.props.tag.id)
+        this.props.clearAlteration('editSongTag', this.props.tag.id)
     }
 
     displayColorForm = () => {
@@ -171,7 +171,7 @@ export default class SettingsSongTagsEntry extends Component {
                 </td>
                 <td className="name">{tag.name}</td>
                 <td className={classNames(
-                    "enableness",
+                    'enableness',
                     {'controls-col': isManager}
                 )}
                 >

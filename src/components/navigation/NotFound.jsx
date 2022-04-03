@@ -1,8 +1,8 @@
-import classNames from "classnames"
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
-import { withLocation } from "components/generics/Router"
+import { withLocation } from 'components/generics/Router'
 
 class NotFound extends Component {
     static propTypes = {
@@ -14,7 +14,7 @@ class NotFound extends Component {
         const url = this.props.location.pathname
         const { embedded } = this.props
         return (
-            <div id="error-page" className={classNames("box danger", {embedded})}>
+            <div id="error-page" className={classNames('box danger', {embedded})}>
                 <div className="header">
                     <h2>Not found</h2>
                 </div>

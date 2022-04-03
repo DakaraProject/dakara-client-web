@@ -33,7 +33,7 @@ class KaraDateStop extends Component {
                 // current day
                 // if the created date is in the past, we add one day to it to
                 // be in the future
-                let date = dayjs(values.time_stop, "HH:mm")
+                let date = dayjs(values.time_stop, 'HH:mm')
                 if (date.isBefore()) {
                     date = date.add(1, 'days')
                 }
@@ -48,7 +48,7 @@ class KaraDateStop extends Component {
                     return []
                 }
 
-                return ["Invalid time, should be HH:mm."]
+                return ['Invalid time, should be HH:mm.']
             }
 
             karaDateStopWidget = (
@@ -69,7 +69,7 @@ class KaraDateStop extends Component {
                     />
                     <InputField
                         id="time_stop"
-                        defaultValue={date_stop? dayjs(date_stop).format("HH:mm") : ""}
+                        defaultValue={date_stop? dayjs(date_stop).format('HH:mm') : ''}
                         validate={validateTime}
                         type="time"
                         label="Set stop time"
@@ -80,7 +80,7 @@ class KaraDateStop extends Component {
         } else {
             if (date_stop) {
                 karaDateStopWidget = (
-                    <p>Karaoke stop time: {dayjs(date_stop).format("HH:mm")}</p>
+                    <p>Karaoke stop time: {dayjs(date_stop).format('HH:mm')}</p>
                 )
             } else {
                 karaDateStopWidget = (

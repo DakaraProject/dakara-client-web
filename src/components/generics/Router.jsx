@@ -57,8 +57,8 @@ class ProtectedRoute extends Component {
         const { pathname, search } = this.props.location
 
         // if pathname is the root page, ignore it
-        let actualPathname = ""
-        if (pathname !== "/") {
+        let actualPathname = ''
+        if (pathname !== '/') {
             actualPathname = pathname
         }
 

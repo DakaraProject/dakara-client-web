@@ -39,9 +39,9 @@ class Form extends Component {
     }
 
     static defaultProps = {
-        method: "POST",
-        submitClass: "primary",
-        submitText: "Submit",
+        method: 'POST',
+        submitClass: 'primary',
+        submitText: 'Submit',
     }
 
     state = {
@@ -146,7 +146,7 @@ class Form extends Component {
             // for each failure, add error message to table
             let errors = []
             if (!value && required) {
-                errors.push("This field is required.")
+                errors.push('This field is required.')
             }
 
             if (validate) {
@@ -355,7 +355,7 @@ class FormBlock extends Form {
         // get failed message if unconsistent case
         let failedMessage
         if (alterationResponse && Object.keys(alterationResponse.fields).length === 0) {
-            failedMessage = "Unknown error!"
+            failedMessage = 'Unknown error!'
         } else {
             failedMessage = null
         }
@@ -524,7 +524,7 @@ class Field extends Component {
     }
 
     static getEmptyValue() {
-        return ""
+        return ''
     }
 
     subRender = (args) => (null)
@@ -836,7 +836,7 @@ export class RadioField extends Field {
                     <label
                         htmlFor={optionId}
                         className={classNames(
-                            "description",
+                            'description',
                             {long}
                         )}
                     >
@@ -908,7 +908,7 @@ export class CheckboxField extends Field {
         // remove onChange from remaining args
         const { onChange, ...remaining } = remainingArgs
 
-        const className = toggle ? "toggle-input" : "checkbox-input"
+        const className = toggle ? 'toggle-input' : 'checkbox-input'
 
         return (
             <div className={className}>

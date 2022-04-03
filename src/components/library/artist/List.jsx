@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 import { loadLibraryEntries } from 'actions/library'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
-import { withSearchParams } from "components/generics/Router"
+import { withSearchParams } from 'components/generics/Router'
 import ArtistEntry from 'components/library/artist/Entry'
-import SearchBox from "components/library/SearchBox"
+import SearchBox from 'components/library/SearchBox'
 import { artistStatePropType } from 'reducers/library'
 
 class ArtistList extends Component {
@@ -18,9 +18,9 @@ class ArtistList extends Component {
      * Fetch artists from server
      */
     refreshEntries = () => {
-        this.props.loadLibraryEntries("artists", {
-            page: this.props.searchParams.get("page"),
-            query: this.props.searchParams.get("query"),
+        this.props.loadLibraryEntries('artists', {
+            page: this.props.searchParams.get('page'),
+            query: this.props.searchParams.get('query'),
         })
     }
 
@@ -90,5 +90,5 @@ export default ArtistList
  * - placeholder: library search placeholder
  */
 export const getArtistLibraryNameInfo = () => ({
-    placeholder: "Who are you looking for?",
+    placeholder: 'Who are you looking for?',
 })

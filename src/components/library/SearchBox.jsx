@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { parse } from 'query-string'
 import React, { Component } from 'react'
 
-import { withLocation,withSearchParams } from "components/generics/Router"
+import { withLocation,withSearchParams } from 'components/generics/Router'
 
 class SearchBox extends Component {
     static propTypes = {
@@ -13,7 +13,7 @@ class SearchBox extends Component {
     }
 
     state = {
-        query: ""
+        query: ''
     }
 
     componentDidMount() {
@@ -69,7 +69,7 @@ class SearchBox extends Component {
                             />
                             <div className="controls">
                                 <div className="control" onClick={e => {
-                                        this.setState({query: ""})
+                                        this.setState({query: ''})
                                         // clear query string
                                         this.props.setSearchParams({})
                                     }

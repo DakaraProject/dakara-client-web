@@ -105,7 +105,7 @@ export default class Notification extends Component {
             if (messageInState) {
                 message = messageInState
             } else if (fieldsInState && Object.keys(fieldsInState).length > 0) {
-                message = "There are field errors."
+                message = 'There are field errors.'
             } else {
                 const messages = {
                     [Status.pending]: this.props.pendingMessage,
@@ -179,7 +179,7 @@ export class NotifiableForTable extends Component {
         return (
             <div className="notifiable-for-table" ref={this.elementRef}>
                 <div
-                    className={classNames("notifiable", className)}
+                    className={classNames('notifiable', className)}
                     style={{width}}
                 >
                     {children}
