@@ -107,7 +107,7 @@ class SongEntryExpanded extends Component {
                     <div className="artists expanded-item">
                         <h4 className="header">
                             <span className="icon">
-                                <i className="las la-music"></i>
+                                <i className="las la-microphone-alt"></i>
                             </span>
                             <span className="name">
                                 Artist{song.artists.length > 1 ? 's' : ''}
