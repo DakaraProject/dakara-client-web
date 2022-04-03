@@ -89,7 +89,7 @@ class UsersList extends Component {
                     location={location}
                 />
                 <IsUserManager>
-                    <div className="content">
+                    <div className="create-user">
                         <FormBlock
                             title="Create user"
                             submitText="Create"
