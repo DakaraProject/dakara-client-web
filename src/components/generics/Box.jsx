@@ -11,7 +11,7 @@ import React, { Component } from 'react'
  */
 export class Reduceable extends Component {
     static propTypes = {
-        classNameOnThresold: PropTypes.string;
+        classNameOnThresold: PropTypes.string,
         thresold: PropTypes.oneOfType([
             PropTypes.number.isRequired,
             PropTypes.shape({
