@@ -9,7 +9,6 @@ import Navigator from 'components/generics/Navigator'
 import { withSearchParams } from 'components/generics/Router'
 import SearchBox from 'components/library/SearchBox'
 import SongEntry from 'components/library/song/Entry'
-import { Status } from 'reducers/alterationsResponse'
 import { songStatePropType } from 'reducers/library'
 
 class SongList extends Component {
@@ -42,14 +41,6 @@ class SongList extends Component {
     }
 
     render() {
-        /**
-         * Do not render anything if songs are not fetched
-         */
-
-        if (this.props.songState.status !== Status.successful) {
-            return null
-        }
-
         const { songs, count, pagination } = this.props.songState.data
         const { playlistDateEnd, karaokeDateStop } = this.props
 
