@@ -115,7 +115,7 @@ class PlayerTokenBox extends Component {
                     <div className="create">
                         <div className="ribbon primary notifiable">
                             <p className="message">
-                                Create a token that can be used to authenticate 
+                                Create a token that can be used to authenticate
                                 the player.
                             </p>
                             <div className="controls">
@@ -209,7 +209,7 @@ class Tokens extends Component {
                         <IsLibraryManager>
                             <div className="ribbon info copy-help">
                                 <p className="message">
-                                    You can use this token to authenticate 
+                                    You can use this token to authenticate
                                     the feeder.
                                 </p>
                             </div>

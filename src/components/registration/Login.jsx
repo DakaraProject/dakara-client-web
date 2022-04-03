@@ -29,11 +29,12 @@ class Login extends Component {
         if (serverSettings?.email_enabled) {
             forgottenPasswordLink = (
                 <span>
-                    {' Or '}
+                    {' '}
+                    Or {' '}
                     <NavLink to="/send-reset-password-link">
                         reset your password
                     </NavLink>
-                    {' if you have forgotten it.'}
+                    {' '} if you have forgotten it.
                 </span>
             )
         }
@@ -78,11 +79,12 @@ class Login extends Component {
                 </div>
                 <div id="login-links" className="box">
                     <p className="content">
-                        {'New here? Create a '}
+                        New here?
+                        Create a {' '}
                         <NavLink to="/register">
                             new account
                         </NavLink>
-                        {'.'}
+                        .
                         {forgottenPasswordLink}
                     </p>
                 </div>

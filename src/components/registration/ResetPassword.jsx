@@ -65,7 +65,7 @@ class ResetPassword extends Component {
 
         const emailSentMessage = (
             <p>
-                Password reset successful, you can now
+                Password reset successful, you can now {' '}
                 <NavLink to="/login">login</NavLink>.
             </p>
         )
