@@ -24,6 +24,7 @@ export default class Song extends Component {
         noArtistWork: PropTypes.bool,
         noDuration: PropTypes.bool,
         noTag: PropTypes.bool,
+        handleClick: PropTypes.func,
         query: PropTypes.object, // should be isRequired
         song: songPropType.isRequired,
     }

@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types'
+import { stringify } from 'query-string'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { sendPlayerCommand } from 'actions/playlist'
+import { withNavigate } from 'components/adapted/ReactRouterDom'
 import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
 import UserWidget from 'components/generics/UserWidget'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
@@ -18,6 +20,17 @@ class Player extends Component {
         playlistDigest: playlistDigestPropType.isRequired,
         responseOfSendPlayerCommands: PropTypes.objectOf(alterationResponsePropType),
         sendPlayerCommand: PropTypes.func.isRequired,
+    }
+
+    handleSearch = (song) => {
+        const query = `title:""${song.title}""`
+        this.props.navigate({
+            pathname: '/library/song',
+            search: stringify({
+                query,
+                expanded: song.id
+            })
+        })
     }
 
     render() {
@@ -72,6 +85,9 @@ class Player extends Component {
                         song={player_status.playlist_entry.song}
                         noDuration
                         noTag
+                        handleClick={() => {
+                            this.handleSearch(player_status.playlist_entry.song)
+                        }}
                     />
                     <div className="extra">
                         <div className="timing">
@@ -200,11 +216,11 @@ const mapStateToProps = (state) => ({
     responseOfSendPlayerCommands: state.alterationsResponse.multiple.sendPlayerCommands,
 })
 
-Player = connect(
+Player = withNavigate(connect(
     mapStateToProps,
     {
         sendPlayerCommand,
     }
-)(Player)
+)(Player))
 
 export default Player
