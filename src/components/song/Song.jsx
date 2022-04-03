@@ -97,7 +97,7 @@ export default class Song extends Component {
             if (karaokeRemainingSeconds < song.duration) {
                 warningIcon = (
                     <span className="icon">
-                        <i className="fa fa-exclamation-triangle"></i>
+                        <i className="las la-exclamation-triangle"></i>
                     </span>
                 )
             }

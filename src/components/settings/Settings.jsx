@@ -21,12 +21,12 @@ export default class Settings extends Component {
                     />
                     <Tab
                         to="/settings/kara-status"
-                        iconName="check-square-o"
+                        iconName="play"
                         name="Kara status"
                     />
                     <Tab
                         to="/settings/kara-date-stop"
-                        iconName="stop-circle-o"
+                        iconName="clock"
                         name="Kara stop time"
                     />
                     <Tab

@@ -179,7 +179,7 @@ class SongEntry extends Component {
                                         }}
                                     >
                                         <span className="icon">
-                                            <i className="fa fa-plus"></i>
+                                            <i className="las la-plus"></i>
                                         </span>
                                     </button>
                                 </IsPlaylistUser>

@@ -75,7 +75,7 @@ class SearchBox extends Component {
                                     }
                                 }>
                                     <span className="icon">
-                                        <i className="fa fa-times"></i>
+                                        <i className="las la-times"></i>
                                     </span>
                                 </div>
                             </div>
@@ -85,7 +85,7 @@ class SearchBox extends Component {
                 <div className="controls">
                     <button type="submit" className="control primary">
                         <span className="icon">
-                            <i className="fa fa-search"></i>
+                            <i className="las la-search"></i>
                         </span>
                     </button>
                 </div>

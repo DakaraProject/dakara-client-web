@@ -66,7 +66,9 @@ export default class WorkLink extends Component {
         if (!noIcon && workLink.work.work_type) {
             icon = (
                     <span className="work-link-item icon">
-                        <i className={`fa fa-${workLink.work.work_type.icon_name}`}></i>
+                        <i className={
+                            `las la-${workLink.work.work_type.icon_name}`
+                        }></i>
                     </span>
             )
         }

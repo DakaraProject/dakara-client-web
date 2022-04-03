@@ -36,7 +36,7 @@ export default class PlayQueueInfo extends Component {
             content = (
                 <div className="playing">
                     <span className="icon">
-                        <i className="fa fa-play"></i>
+                        <i className="las la-play"></i>
                     </span>
                 </div>
             )
@@ -46,7 +46,7 @@ export default class PlayQueueInfo extends Component {
                 <div className="queueing">
                     {dayjs(queueInfo.timeOfPlay).format('HH:mm')}
                     <span className="icon">
-                        <i className="fa fa-fast-forward"></i>
+                        <i className="las la-fast-forward"></i>
                     </span>
                 </div>
             )
@@ -55,7 +55,7 @@ export default class PlayQueueInfo extends Component {
             content = (
                 <div className="played">
                     <span className="icon">
-                        <i className="fa fa-fast-backward"></i>
+                        <i className="las la-fast-backward"></i>
                     </span>
                     {dayjs(playedInfo.timeOfPlay).format('HH:mm')}
                 </div>
@@ -72,7 +72,7 @@ export default class PlayQueueInfo extends Component {
             instrumentalIcon = (
                 <div className="instrumental">
                     <span className="icon">
-                        <i className="fa fa-microphone-slash"></i>
+                        <i className="las la-microphone-slash"></i>
                     </span>
                 </div>
             )

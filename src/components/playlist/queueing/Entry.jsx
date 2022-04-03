@@ -109,7 +109,7 @@ class Entry extends Component {
                                 }
                             >
                                 <span className="icon">
-                                    <i className={`fa fa-${reorderIconName}`}></i>
+                                    <i className={`las la-${reorderIconName}`}></i>
                                 </span>
                             </button>
                         </IsPlaylistManager>
@@ -119,7 +119,7 @@ class Entry extends Component {
                                 onClick={this.displayConfirm}
                             >
                                 <span className="icon">
-                                    <i className="fa fa-times"></i>
+                                    <i className="las la-times"></i>
                                 </span>
                             </button>
                         </IsPlaylistManagerOrOwner>

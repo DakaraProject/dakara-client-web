@@ -37,7 +37,7 @@ export default class Tab extends Component {
                     className={linkClass}
                 >
                     <span className="icon">
-                        <i className={`fa fa-${iconName}`}></i>
+                        <i className={`las la-${iconName}`}></i>
                     </span>
                     {tabName}
                 </NavLink>

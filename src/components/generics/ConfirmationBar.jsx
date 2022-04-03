@@ -27,7 +27,7 @@ export default class ConfirmationBar extends Component {
                             className="control success"
                         >
                             <span className="icon">
-                                <i className="fa fa-check"></i>
+                                <i className="las la-check"></i>
                             </span>
                         </button>
                         <button
@@ -35,7 +35,7 @@ export default class ConfirmationBar extends Component {
                             className="control danger"
                         >
                             <span className="icon">
-                                <i className="fa fa-times"></i>
+                                <i className="las la-times"></i>
                             </span>
                         </button>
                     </div>

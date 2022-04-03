@@ -24,7 +24,7 @@ export default class SongTagList extends Component {
             // Set clickable and add search icon
             searchIcon = (
                 <span className="icon">
-                    <i className="fa fa-search"></i>
+                    <i className="las la-search"></i>
                 </span>
             )
         }

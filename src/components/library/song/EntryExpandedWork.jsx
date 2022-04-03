@@ -22,7 +22,7 @@ export default class SongEntryExpandedWork extends Component {
                         onClick={this.handleSearchWork}
                     >
                         <span className="icon">
-                            <i className="fa fa-search"></i>
+                            <i className="las la-search"></i>
                         </span>
                     </button>
                 </div>

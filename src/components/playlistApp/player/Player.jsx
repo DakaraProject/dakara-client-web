@@ -54,7 +54,7 @@ class Player extends Component {
             if (player_status.playlist_entry.use_instrumental) {
                 useInstrumental = (
                     <div className="use-instrumental">
-                        <i className="fa fa-microphone-slash"></i>
+                        <i className="las la-microphone-slash"></i>
                     </div>
                 )
             }
