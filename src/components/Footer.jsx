@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 
-// import { bugs, projectHomepage, version } from '../../package.json'
-
-
-class Footer extends Component {
+export default class Footer extends Component {
     render() {
         const version = process.env.DAKARA_VERSION
         const bugtracker = process.env.DAKARA_BUGTRACKER
@@ -26,5 +23,3 @@ class Footer extends Component {
         )
     }
 }
-
-export default Footer
