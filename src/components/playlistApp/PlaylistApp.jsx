@@ -71,8 +71,7 @@ class PlaylistApp extends Component {
                 id="playlist-app"
                 className={classNames(
                     'box',
-                    {'player-with-controls': playerWithControls
-                    }
+                    {'player-with-controls': playerWithControls}
                 )}
             >
                 <Player setWithControls={this.setPlayerWithControls}/>

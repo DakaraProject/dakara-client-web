@@ -55,7 +55,7 @@ class PlaylistInfoBar extends Component {
         let nextEntryWidget
         if (nextPlaylistEntry) {
             nextEntryWidget = (
-                <div className="item">
+                <div className="item next-entry">
                     <div className="emphasis">Next</div>
                     <div className="text">
                         <PlaylistEntryMinimal playlistEntry={nextPlaylistEntry}/>
@@ -70,7 +70,7 @@ class PlaylistInfoBar extends Component {
 
         const count = playlistEntries.length
         const amountWidget = (
-                <div className="item">
+                <div className="item amount">
                     <div className="emphasis">{count}</div>
                     <div className="text">
                         <div className="line">
@@ -95,7 +95,7 @@ class PlaylistInfoBar extends Component {
         // only playlist date end
         if (playlistEndDate && !karaokeEndDate) {
             dateEndWidget = (
-                <div className="item">
+                <div className="item date-end">
                     <div className="text">
                         <div className="line">playlist end</div>
                     </div>
