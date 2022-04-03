@@ -46,7 +46,7 @@ export default class PlayQueueInfo extends Component {
                 <div className="queueing">
                     {dayjs(queueInfo.timeOfPlay).format('HH:mm')}
                     <span className="icon">
-                        <i className="las la-fast-forward"></i>
+                        <i className="las la-chevron-right"></i>
                     </span>
                 </div>
             )
@@ -55,7 +55,7 @@ export default class PlayQueueInfo extends Component {
             content = (
                 <div className="played">
                     <span className="icon">
-                        <i className="las la-fast-backward"></i>
+                        <i className="las la-chevron-left"></i>
                     </span>
                     {dayjs(playedInfo.timeOfPlay).format('HH:mm')}
                 </div>
