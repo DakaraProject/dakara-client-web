@@ -20,12 +20,12 @@ import { formatDuration } from 'utils'
  */
 export default class Song extends Component {
     static propTypes = {
-        song: songPropType.isRequired,
-        query: PropTypes.object, // should be isRequired
+        karaokeRemainingSeconds: PropTypes.number,
         noArtistWork: PropTypes.bool,
         noDuration: PropTypes.bool,
         noTag: PropTypes.bool,
-        karaokeRemainingSeconds: PropTypes.number,
+        query: PropTypes.object, // should be isRequired
+        song: songPropType.isRequired,
     }
 
     render() {

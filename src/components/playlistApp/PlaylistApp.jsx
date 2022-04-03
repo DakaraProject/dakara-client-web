@@ -13,8 +13,8 @@ import { params } from 'utils'
 
 class PlaylistApp extends Component {
     static propTypes = {
-        playlistDigest: playlistDigestPropType.isRequired,
         loadPlaylistAppDigest: PropTypes.func.isRequired,
+        playlistDigest: playlistDigestPropType.isRequired,
     }
 
     pollPlaylistAppDigest = () => {

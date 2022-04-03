@@ -5,9 +5,9 @@ import { NavLink } from 'react-router-dom'
 
 export default class Tab extends Component {
     static propTypes = {
-        name: PropTypes.string,
         extraClassName: PropTypes.string,
         iconName: PropTypes.string,
+        name: PropTypes.string,
         to: PropTypes.string.isRequired,
     }
 

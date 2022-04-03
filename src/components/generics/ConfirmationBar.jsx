@@ -4,8 +4,8 @@ import React, { Component } from 'react'
 export default class ConfirmationBar extends Component {
     static propTypes = {
         message: PropTypes.string,
-        onConfirm: PropTypes.func.isRequired,
         onCancel: PropTypes.func.isRequired,
+        onConfirm: PropTypes.func.isRequired,
     }
 
     static defaultProps = {

@@ -9,8 +9,8 @@ import { withLocation } from 'components/generics/Router'
 
 class ResetPassword extends Component {
     static propTypes = {
-        location: PropTypes.object.isRequired,
         isLoggedIn: PropTypes.bool.isRequired,
+        location: PropTypes.object.isRequired,
     }
 
     state = {

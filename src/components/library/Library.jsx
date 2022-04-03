@@ -10,8 +10,8 @@ import { workTypeStatePropType } from 'reducers/library'
 
 class Library extends Component {
     static propTypes = {
-        workTypeState: workTypeStatePropType.isRequired,
         loadWorkTypes: PropTypes.func.isRequired,
+        workTypeState: workTypeStatePropType.isRequired,
     }
 
     componentDidMount() {

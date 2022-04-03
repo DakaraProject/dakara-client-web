@@ -6,9 +6,9 @@ import { userPropType } from 'serverPropTypes/users'
 
 export class PermissionBase extends Component {
     static propTypes = {
-        user: userPropType, // TODO should be isRequired
-        object: PropTypes.object,
         disable: PropTypes.bool,
+        object: PropTypes.object,
+        user: userPropType,
     }
 
     instanceHasPermission = () => {

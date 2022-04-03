@@ -13,14 +13,14 @@ import { playlistEntriesStatePropType } from 'reducers/playlist'
 
 class Queueing extends Component {
     static propTypes = {
+        clearAlteration: PropTypes.func.isRequired,
         playlistEntriesState: playlistEntriesStatePropType.isRequired,
+        removeEntryFromPlaylist: PropTypes.func.isRequired,
+        reorderPlaylistEntry: PropTypes.func.isRequired,
         responseOfMultipleRemoveEntry: PropTypes.objectOf(alterationResponsePropType),
         responseOfMultipleReorderPlaylistEntry: PropTypes.objectOf(
             alterationResponsePropType
         ),
-        removeEntryFromPlaylist: PropTypes.func.isRequired,
-        clearAlteration: PropTypes.func.isRequired,
-        reorderPlaylistEntry: PropTypes.func.isRequired
     }
 
     state = {

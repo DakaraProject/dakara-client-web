@@ -16,10 +16,10 @@ import { songPropType } from 'serverPropTypes/library'
 
 class SongEntryExpanded extends Component {
     static propTypes = {
-        song: songPropType.isRequired,
         query: PropTypes.object,
         searchParams: PropTypes.object.isRequired,
         setSearchParams: PropTypes.func.isRequired,
+        song: songPropType.isRequired,
     }
 
     componentWillUnmount() {

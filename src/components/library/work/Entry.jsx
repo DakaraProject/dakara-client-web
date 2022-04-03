@@ -8,10 +8,10 @@ import { workPropType } from 'serverPropTypes/library'
 
 class WorkEntry extends Component {
     static propTypes = {
-        workType: PropTypes.string.isRequired,
-        work: workPropType.isRequired,
-        query: PropTypes.object,
         navigate: PropTypes.func.isRequired,
+        query: PropTypes.object,
+        work: workPropType.isRequired,
+        workType: PropTypes.string.isRequired,
     }
 
     /**

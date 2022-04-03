@@ -16,14 +16,14 @@ import { playlistEntryPropType } from 'serverPropTypes/playlist'
 
 class Entry extends Component {
     static propTypes = {
-        entry: playlistEntryPropType.isRequired,
-        responseOfRemoveEntry: PropTypes.object,
-        responseOfMultipleReorderPlaylistEntry: PropTypes.object,
-        position: PropTypes.number.isRequired,
-        reorderEntryPosition: PropTypes.number,
-        onReorderButtonClick: PropTypes.func.isRequired,
-        removeEntry: PropTypes.func.isRequired,
         clearAlteration: PropTypes.func.isRequired,
+        entry: playlistEntryPropType.isRequired,
+        onReorderButtonClick: PropTypes.func.isRequired,
+        position: PropTypes.number.isRequired,
+        removeEntry: PropTypes.func.isRequired,
+        reorderEntryPosition: PropTypes.number,
+        responseOfMultipleReorderPlaylistEntry: PropTypes.object,
+        responseOfRemoveEntry: PropTypes.object,
     }
 
     state = {

@@ -24,21 +24,21 @@ import {
 
 class SongEntry extends Component {
     static propTypes = {
-        song: songPropType.isRequired,
-        query: PropTypes.object,
-        playlistPlayedEntries: PropTypes.arrayOf(
-            playlistPlayedEntryPropType
-        ).isRequired,
-        playlistEntries: PropTypes.arrayOf(
-            playlistEntryPropType
-        ).isRequired,
-        playerStatus: playerStatusPropType,
-        responseOfAddSong: alterationResponsePropType,
         addSongToPlaylist: PropTypes.func.isRequired,
         clearAlteration: PropTypes.func.isRequired,
         karaokeRemainingSeconds: PropTypes.number,
+        playerStatus: playerStatusPropType,
+        playlistEntries: PropTypes.arrayOf(
+            playlistEntryPropType
+        ).isRequired,
+        playlistPlayedEntries: PropTypes.arrayOf(
+            playlistPlayedEntryPropType
+        ).isRequired,
+        query: PropTypes.object,
+        responseOfAddSong: alterationResponsePropType,
         searchParams: PropTypes.object.isRequired,
         setSearchParams: PropTypes.func.isRequired,
+        song: songPropType.isRequired,
     }
 
     componentWillUnmount() {

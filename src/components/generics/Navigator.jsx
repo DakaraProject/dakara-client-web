@@ -7,16 +7,16 @@ import { withLocation } from 'components/generics/Router'
 
 class Navigator extends Component {
     static propTypes = {
+        count: PropTypes.number,
         location: PropTypes.object.isRequired,
         names: PropTypes.shape({
-            singular: PropTypes.string.isRequired,
             plural: PropTypes.string.isRequired,
+            singular: PropTypes.string.isRequired,
         }),
         pagination: PropTypes.shape({
             current: PropTypes.number.isRequired,
             last: PropTypes.number.isRequired,
         }),
-        count: PropTypes.number,
     }
 
     render() {

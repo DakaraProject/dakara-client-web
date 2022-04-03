@@ -15,14 +15,14 @@ import { userPropType } from 'serverPropTypes/users'
 
 class SongTagsList extends Component {
     static propTypes = {
-        location: PropTypes.object.isRequired,
-        songTagsState: songTagsStatePropType.isRequired,
-        responseOfMultipleEdit: PropTypes.objectOf(alterationResponsePropType),
-        responseOfMultipleEditColor: PropTypes.objectOf(alterationResponsePropType),
+        authenticatedUser: userPropType.isRequired,
+        clearAlteration: PropTypes.func.isRequired,
         editSongTag: PropTypes.func.isRequired,
         getSongTagList: PropTypes.func.isRequired,
-        clearAlteration: PropTypes.func.isRequired,
-        authenticatedUser: userPropType.isRequired,
+        location: PropTypes.object.isRequired,
+        responseOfMultipleEdit: PropTypes.objectOf(alterationResponsePropType),
+        responseOfMultipleEditColor: PropTypes.objectOf(alterationResponsePropType),
+        songTagsState: songTagsStatePropType.isRequired,
     }
 
     componentDidMount() {

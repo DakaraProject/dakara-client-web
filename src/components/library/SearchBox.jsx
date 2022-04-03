@@ -7,9 +7,9 @@ import { withLocation,withSearchParams } from 'components/generics/Router'
 class SearchBox extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
+        placeholder: PropTypes.string.isRequired,
         searchParams: PropTypes.object.isRequired,
         setSearchParams: PropTypes.func.isRequired,
-        placeholder: PropTypes.string.isRequired,
     }
 
     state = {

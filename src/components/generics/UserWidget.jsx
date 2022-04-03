@@ -6,8 +6,8 @@ import { userPropType } from 'serverPropTypes/users'
 
 class UserWidget extends Component {
     static propTypes = {
-        user: userPropType.isRequired,
         currentUser: userPropType.isRequired,
+        user: userPropType.isRequired,
     }
 
     render() {

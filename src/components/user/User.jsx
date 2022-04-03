@@ -8,8 +8,8 @@ import { userPropType } from 'serverPropTypes/users'
 
 class User extends Component {
     static propTypes = {
+        serverSettings: PropTypes.object,
         user: userPropType.isRequired,
-        serverSettings: PropTypes.object
     }
 
     render() {

@@ -11,14 +11,14 @@ import React, { Component } from 'react'
  */
 export class Reduceable extends Component {
     static propTypes = {
+        classNameOnThresold: PropTypes.string;
         thresold: PropTypes.oneOfType([
             PropTypes.number.isRequired,
             PropTypes.shape({
+                down: PropTypes.number.isRequired,
                 up: PropTypes.number.isRequired,
-                down: PropTypes.number.isRequired
-            })
+            }),
         ]),
-        classNameOnThresold: PropTypes.string
     }
 
     state = {

@@ -176,9 +176,9 @@ PlayerTokenBox = connect(
 
 class Tokens extends Component {
     static propTypes = {
-        userToken: PropTypes.string.isRequired,
         responseOfRevokeToken: PropTypes.object,
         revokeToken: PropTypes.func.isRequired,
+        userToken: PropTypes.string.isRequired,
     }
 
     state = {

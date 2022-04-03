@@ -9,8 +9,8 @@ import { artistPropType } from 'serverPropTypes/library'
 class ArtistEntry extends Component {
     static propTypes = {
         artist: artistPropType.isRequired,
-        query: PropTypes.object,
         navigate: PropTypes.func.isRequired,
+        query: PropTypes.object,
     }
 
     /**

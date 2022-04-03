@@ -13,11 +13,11 @@ import { songStatePropType } from 'reducers/library'
 
 class SongList extends Component {
     static propTypes = {
-        songState: songStatePropType.isRequired,
-        playlistDateEnd: PropTypes.string.isRequired,
         karaokeDateStop: PropTypes.string,
+        playlistDateEnd: PropTypes.string.isRequired,
         searchParams: PropTypes.object.isRequired,
         setSearchParams: PropTypes.func.isRequired,
+        songState: songStatePropType.isRequired,
     }
 
     /**

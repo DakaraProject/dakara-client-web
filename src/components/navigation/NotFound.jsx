@@ -6,8 +6,8 @@ import { withLocation } from 'components/generics/Router'
 
 class NotFound extends Component {
     static propTypes = {
-        location: PropTypes.object.isRequired,
         embedded: PropTypes.bool,
+        location: PropTypes.object.isRequired,
     }
 
     render() {

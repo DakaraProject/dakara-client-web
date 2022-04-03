@@ -14,10 +14,10 @@ dayjs.extend(relativeTime)
 
 class PlaylistInfoBar extends Component {
     static propTypes = {
-        playlistEntriesState: playlistEntriesStatePropType.isRequired,
-        playlistDigest: playlistDigestPropType.isRequired,
         loadPlaylist: PropTypes.func.isRequired,
         loadPlaylistPlayed: PropTypes.func.isRequired,
+        playlistDigest: playlistDigestPropType.isRequired,
+        playlistEntriesState: playlistEntriesStatePropType.isRequired,
     }
 
     pollPlaylist = () => {

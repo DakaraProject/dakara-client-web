@@ -28,13 +28,13 @@ import { alterationResponsePropType, Status } from 'reducers/alterationsResponse
  */
 export default class ManageButton extends Component {
     static propTypes = {
-        responseOfManage: alterationResponsePropType.isRequired,
-        disabled: PropTypes.bool,
         className: PropTypes.string,
-        timeout: PropTypes.number,
-        onClick: PropTypes.func.isRequired,
+        disabled: PropTypes.bool,
         icon: PropTypes.string.isRequired,
         iconDisabled: PropTypes.string,
+        onClick: PropTypes.func.isRequired,
+        responseOfManage: alterationResponsePropType.isRequired,
+        timeout: PropTypes.number,
     }
 
     static defaultProps = {

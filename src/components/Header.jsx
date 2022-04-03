@@ -8,8 +8,8 @@ import { userPropType } from 'serverPropTypes/users'
 
 class Header extends Component {
     static propTypes = {
-        user: userPropType,
         isLoggedIn: PropTypes.bool.isRequired,
+        user: userPropType,
     }
 
     render() {

@@ -15,12 +15,12 @@ import { listUsersStatePropType } from 'reducers/users'
 
 class UsersList extends Component {
     static propTypes = {
-        location: PropTypes.object.isRequired,
-        listUsersState: listUsersStatePropType.isRequired,
-        responseOfMultipleDeleteUser: PropTypes.object,
-        deleteUser: PropTypes.func.isRequired,
         clearAlteration: PropTypes.func.isRequired,
+        deleteUser: PropTypes.func.isRequired,
         getUsers: PropTypes.func.isRequired,
+        listUsersState: listUsersStatePropType.isRequired,
+        location: PropTypes.object.isRequired,
+        responseOfMultipleDeleteUser: PropTypes.object,
     }
 
     componentDidMount() {

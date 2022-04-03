@@ -17,22 +17,22 @@ const notificationTypes = {
  */
 export default class Notification extends Component {
     static propTypes = {
-        pendingMessage: PropTypes.oneOfType([
-            PropTypes.bool,
-            PropTypes.string,
-        ]),
-        successfulMessage: PropTypes.oneOfType([
-            PropTypes.bool,
-            PropTypes.string,
-        ]),
+        alterationResponse: alterationResponsePropType,
+        failedDuration: PropTypes.number,
         failedMessage: PropTypes.oneOfType([
             PropTypes.bool,
             PropTypes.string,
         ]),
         pendingDuration: PropTypes.number,
+        pendingMessage: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.string,
+        ]),
         successfulDuration: PropTypes.number,
-        failedDuration: PropTypes.number,
-        alterationResponse: alterationResponsePropType,
+        successfulMessage: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.string,
+        ]),
     }
 
     static defaultProps = {

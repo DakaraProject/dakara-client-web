@@ -14,11 +14,11 @@ import { workStatePropType, workTypeStatePropType } from 'reducers/library'
 
 class WorkList extends Component {
     static propTypes = {
-        workState: workStatePropType,
-        workTypeState: workTypeStatePropType.isRequired,
         params: PropTypes.object.isRequired,
         searchParams: PropTypes.object.isRequired,
         setSearchParams: PropTypes.func.isRequired,
+        workState: workStatePropType,
+        workTypeState: workTypeStatePropType.isRequired,
     }
 
     /**

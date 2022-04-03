@@ -45,8 +45,8 @@ export const withSearchParams = (Component) => (props) => {
 
 class ProtectedRoute extends Component {
     static propTypes = {
-        isLoggedIn: PropTypes.bool,
         hasUserInfo: PropTypes.bool,
+        isLoggedIn: PropTypes.bool,
         location: PropTypes.object.isRequired,
     }
 

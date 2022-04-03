@@ -14,17 +14,17 @@ import {
 */
 export default class PlayQueueInfo extends Component {
     static propTypes = {
-        playingInfo: PropTypes.shape({
-            playlistEntry: playlistEntryPropType
-        }),
         playedInfo: PropTypes.shape({
+            playlistEntry: playlistPlayedEntryPropType,
             timeOfPlay: PropTypes.number.isRequired,
-            playlistEntry: playlistPlayedEntryPropType
+        }),
+        playingInfo: PropTypes.shape({
+            playlistEntry: playlistEntryPropType,
         }),
         queueInfo: PropTypes.shape({
+            playlistEntry: playlistEntryPropType,
             timeOfPlay: PropTypes.number.isRequired,
-            playlistEntry: playlistEntryPropType
-        })
+        }),
     }
 
     render() {

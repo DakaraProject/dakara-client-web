@@ -14,9 +14,9 @@ import { userPropType } from 'serverPropTypes/users'
 
 export default class SettingsUsersEntry extends Component {
     static propTypes = {
-        user: userPropType.isRequired,
         clearAlteration: PropTypes.func.isRequired,
         deleteUser: PropTypes.func.isRequired,
+        user: userPropType.isRequired,
     }
 
     state = {

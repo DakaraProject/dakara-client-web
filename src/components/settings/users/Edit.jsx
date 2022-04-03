@@ -19,15 +19,15 @@ import { userPropType } from 'serverPropTypes/users'
 
 class UsersEdit extends Component {
     static propTypes = {
-        editUsersState: editUsersStatePropType.isRequired,
         authenticatedUser: userPropType.isRequired,
+        clearUser: PropTypes.func.isRequired,
+        editUsersState: editUsersStatePropType.isRequired,
+        getUser: PropTypes.func.isRequired,
         location: PropTypes.object.isRequired,
         params: PropTypes.shape({
             userId: PropTypes.any.isRequired,
         }).isRequired,
-        getUser: PropTypes.func.isRequired,
-        clearUser: PropTypes.func.isRequired,
-        serverSettings: PropTypes.object
+        serverSettings: PropTypes.object,
     }
 
     componentDidMount() {
