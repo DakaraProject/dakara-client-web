@@ -3,13 +3,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { clearUser, getUser } from 'actions/users'
+import { withLocation, withParams } from 'components/adapted/ReactRouterDom'
 import {
     CheckboxField,
     FormBlock,
     InputField,
     SelectField
 } from 'components/generics/Form'
-import { withLocation, withParams } from 'components/generics/Router'
 import Forbidden from 'components/navigation/Forbidden'
 import NotFound from 'components/navigation/NotFound'
 import { IsNotSelf, IsUserManager } from 'components/permissions/Users'

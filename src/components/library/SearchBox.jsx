@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types'
 import { parse } from 'query-string'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import { withLocation,withSearchParams } from 'components/generics/Router'
+import { storeSearchBox } from 'actions/library'
+import { withLocation, withSearchParams } from 'components/adapted/ReactRouterDom'
 
 class SearchBox extends Component {
     static propTypes = {
@@ -17,19 +19,38 @@ class SearchBox extends Component {
     }
 
     componentDidMount() {
+        this.updateQueryFromStore()
         this.updateQueryFromLocation()
     }
 
     componentDidUpdate(prevProps) {
-        const newQuery = parse(this.props.location.search).query
-        if (newQuery !== parse(prevProps.location.search).query && newQuery) {
+        const newQueryStore = this.props.searchBox.query
+        if (newQueryStore !== prevProps.searchBox.query) {
+            this.updateQueryFromStore()
+        }
+
+        const newQueryLocation = parse(this.props.location.search).query
+        if (newQueryLocation !== parse(prevProps.location.search).query) {
             this.updateQueryFromLocation()
         }
     }
 
+    componentWillUnmount() {
+        this.props.storeSearchBox(this.state)
+    }
+
     updateQueryFromLocation = () => {
-        const query = parse(this.props.location.search).query || ''
-        this.setState({query})
+        const query = parse(this.props.location.search).query
+        if (query && query.length > 0) {
+            this.setState({query})
+        }
+    }
+
+    updateQueryFromStore = () => {
+        const query = this.props.searchBox.query
+        if (query && query.length > 0) {
+            this.setState({query})
+        }
     }
 
     render() {
@@ -94,4 +115,13 @@ class SearchBox extends Component {
     }
 }
 
-export default withSearchParams(withLocation(SearchBox))
+const mapStateToProps = (state) => ({
+    searchBox: state.library.searchBox
+})
+
+SearchBox = withSearchParams(withLocation(connect(
+    mapStateToProps,
+    { storeSearchBox }
+)(SearchBox)))
+
+export default SearchBox
