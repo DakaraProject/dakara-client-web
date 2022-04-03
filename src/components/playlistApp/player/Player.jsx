@@ -68,7 +68,7 @@ class Player extends Component {
             restart: {status: null},
             skip: {status: null},
             rewind: {status: null},
-            forward: {status: null},
+            fast_forward: {status: null},
             ...this.props.responseOfSendPlayerCommands,
         }
 
@@ -159,7 +159,7 @@ class Player extends Component {
         return (
             <div
                 id="player"
-                className={classNames({"with-controls": withControls})}
+                className={classNames({'with-controls': withControls})}
             >
                 <div className="player-sticky">
                     <div className="notifiable">
@@ -219,9 +219,11 @@ class Player extends Component {
                             }
                         />
                         <ManageButton
-                            responseOfManage={responseOfSendPlayerCommandsSafe.forward}
+                            responseOfManage={
+                                responseOfSendPlayerCommandsSafe.fast_forward
+                            }
                             onClick={() =>
-                                    this.props.sendPlayerCommand('forward')
+                                    this.props.sendPlayerCommand('fast_forward')
                             }
                             disabled={controlDisabled}
                             icon="forward"

@@ -70,8 +70,8 @@ class PlaylistApp extends Component {
             <div
                 id="playlist-app"
                 className={classNames(
-                    "box",
-                    {"player-with-controls": playerWithControls
+                    'box',
+                    {'player-with-controls': playerWithControls
                     }
                 )}
             >
