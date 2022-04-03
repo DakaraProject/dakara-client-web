@@ -224,7 +224,7 @@ class Tokens extends Component {
                                 }}
                             >
                                 <ConfirmationBar
-                                    message="This will disconnect you from 
+                                    message="This will disconnect you from
                                     all your device. Are you sure?"
                                     onConfirm={revokeToken}
                                     onCancel={this.clearConfirm}
