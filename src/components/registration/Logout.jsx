@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
-import { Component } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 import { logout } from 'actions/token'
 
@@ -12,17 +12,18 @@ class Logout extends Component {
 
     componentDidMount() {
         this.props.logout()
-        this.props.history.push('/login')
     }
 
     render() {
-        return null
+        return (
+            <Navigate to="/login" />
+        )
     }
 }
 
-Logout = withRouter(connect(
+Logout = connect(
     () => ({}),
     { logout }
-)(Logout))
+)(Logout)
 
 export default Logout

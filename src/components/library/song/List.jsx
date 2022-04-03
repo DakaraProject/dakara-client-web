@@ -6,9 +6,10 @@ import { connect } from 'react-redux'
 import { loadLibraryEntries } from 'actions/library'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
-import { withLocation, withSearchParams } from "components/generics/Router"
+import { withSearchParams } from "components/generics/Router"
 import SearchBox from "components/library/SearchBox"
 import SongEntry from 'components/library/song/Entry'
+import { Status } from 'reducers/alterationsResponse'
 import { songStatePropType } from 'reducers/library'
 
 class SongList extends Component {
@@ -16,11 +17,13 @@ class SongList extends Component {
         songState: songStatePropType.isRequired,
         playlistDateEnd: PropTypes.string.isRequired,
         karaokeDateStop: PropTypes.string,
-        location: PropTypes.object.isRequired,
         searchParams: PropTypes.object.isRequired,
         setSearchParams: PropTypes.func.isRequired,
     }
 
+    /**
+     * Fetch songs from server
+     */
     refreshEntries = () => {
         this.props.loadLibraryEntries("songs", {
             page: this.props.searchParams.get("page"),
@@ -39,8 +42,16 @@ class SongList extends Component {
     }
 
     render() {
+        /**
+         * Do not render anything if songs are not fetched
+         */
+
+        if (this.props.songState.status !== Status.successful) {
+            return null
+        }
+
         const { songs, count, pagination } = this.props.songState.data
-        const { playlistDateEnd, karaokeDateStop, location } = this.props
+        const { playlistDateEnd, karaokeDateStop } = this.props
 
         /**
          * Compute remaining karoke time
@@ -97,10 +108,10 @@ const mapStateToProps = (state) => ({
     karaokeDateStop: state.playlist.digest.data.karaoke.date_stop,
 })
 
-SongList = withSearchParams(withLocation(connect(
+SongList = withSearchParams(connect(
     mapStateToProps,
     { loadLibraryEntries }
-)(SongList)))
+)(SongList))
 
 export default SongList
 

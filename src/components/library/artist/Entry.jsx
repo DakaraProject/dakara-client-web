@@ -3,17 +3,22 @@ import { stringify } from 'query-string'
 import React, { Component } from 'react'
 
 import HighlighterQuery from 'components/generics/HighlighterQuery'
+import { withNavigate } from "components/generics/Router"
 import { artistPropType } from 'serverPropTypes/library'
 
 class ArtistEntry extends Component {
     static propTypes = {
         artist: artistPropType.isRequired,
         query: PropTypes.object,
+        navigate: PropTypes.func.isRequired,
     }
 
+    /**
+     * Search songs associated with the artist
+     */
     handleSearch = () => {
         const newQuery = `artist:""${this.props.artist.name}""`
-        this.props.history.push({
+        this.props.navigate({
             pathname: "/library/song",
             search: stringify({query: newQuery})
         })
@@ -49,4 +54,4 @@ class ArtistEntry extends Component {
     }
 }
 
-export default ArtistEntry
+export default withNavigate(ArtistEntry)

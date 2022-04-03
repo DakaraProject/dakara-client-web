@@ -3,6 +3,7 @@ import { stringify } from 'query-string'
 import React, { Component } from 'react'
 
 import HighlighterQuery from 'components/generics/HighlighterQuery'
+import { withNavigate } from "components/generics/Router"
 import { workPropType } from 'serverPropTypes/library'
 
 class WorkEntry extends Component {
@@ -10,11 +11,15 @@ class WorkEntry extends Component {
         workType: PropTypes.string.isRequired,
         work: workPropType.isRequired,
         query: PropTypes.object,
+        navigate: PropTypes.func.isRequired,
     }
 
+    /**
+     * Search songs associated with the work
+     */
     handleSearch = () => {
         const query = `${this.props.workType}:""${this.props.work.title}""`
-        this.props.history.push({
+        this.props.navigate({
             pathname: "/library/song",
             search: stringify({query})
         })
@@ -54,4 +59,4 @@ class WorkEntry extends Component {
     }
 }
 
-export default WorkEntry
+export default withNavigate(WorkEntry)

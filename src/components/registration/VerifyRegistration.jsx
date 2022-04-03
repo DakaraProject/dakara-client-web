@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { verifyRegistration } from 'actions/users'
+import { withLocation } from "components/generics/Router"
 import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
 
 class VerifyRegistration extends Component {
@@ -96,10 +97,11 @@ const mapStateToProps = (state) => ({
     responseOfVerifyRegistration: state.alterationsResponse.unique.verifyRegistration || {},
 })
 
-VerifyRegistration = connect(
+VerifyRegistration = withLocation(connect(
     mapStateToProps,
     {
         verifyRegistration
     }
-)(VerifyRegistration)
+)(VerifyRegistration))
+
 export default VerifyRegistration

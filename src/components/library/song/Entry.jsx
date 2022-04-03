@@ -1,6 +1,5 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { parse, stringify } from 'query-string'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
@@ -44,7 +43,6 @@ class SongEntry extends Component {
 
     componentWillUnmount() {
         this.props.clearAlteration("addSongToPlaylist", this.props.song.id)
-        this.setExpanded()
     }
 
     /**
@@ -52,6 +50,7 @@ class SongEntry extends Component {
      */
     setExpanded = (expanded) => {
         if (expanded) {
+            this.props.searchParams.delete("expanded")
             this.props.searchParams.append("expanded", expanded)
         } else {
             this.props.searchParams.delete("expanded")

@@ -11,54 +11,6 @@ import {
     useSearchParams
 } from 'react-router-dom'
 
-class ProtectedRoute extends Component {
-    static propTypes = {
-        isLoggedIn: PropTypes.bool,
-        hasUserInfo: PropTypes.bool,
-    }
-
-    render() {
-        const { children, isLoggedIn, hasUserInfo } = this.props
-
-        if (!isLoggedIn) {
-            // if not logged, redirect to login page
-            // and add desired page to query string
-            const { pathname, search } = this.props.location
-            const queryObj = {
-                from: pathname + search
-            }
-
-            return (
-                <Navigate
-                    to={{
-                        pathname: '/login',
-                        search: stringify(queryObj)
-                    }}
-                    replace
-                />
-            )
-        }
-
-        if (!hasUserInfo) {
-            // if no logging info can be obtained, render nothing
-            return null
-        }
-
-        return children ? children : (<Outlet/>)
-    }
-}
-
-const mapStateToProps = (state) => ({
-    isLoggedIn: !!state.token,
-    hasUserInfo: !!state.authenticatedUser
-})
-
-ProtectedRoute = connect(
-    mapStateToProps,
-)(ProtectedRoute)
-
-export {ProtectedRoute}
-
 export const withLocation = (Component) => (props) => (
     <Component
         location={useLocation()}
@@ -90,3 +42,69 @@ export const withSearchParams = (Component) => (props) => {
         />
     )
 }
+
+class ProtectedRoute extends Component {
+    static propTypes = {
+        isLoggedIn: PropTypes.bool,
+        hasUserInfo: PropTypes.bool,
+        location: PropTypes.object.isRequired,
+    }
+
+    /**
+     * Add desired page to query string
+     */
+    createQueryFrom = () => {
+        const { pathname, search } = this.props.location
+
+        // if pathname is the root page, ignore it
+        let actualPathname = ""
+        if (pathname !== "/") {
+            actualPathname = pathname
+        }
+
+        // if desired page is the root page, ignore it
+        const query = actualPathname + search
+        if (query.length === 0) {
+            return {}
+        }
+
+        return {
+            from: actualPathname + search
+        }
+    }
+
+    render() {
+        const { children, isLoggedIn, hasUserInfo } = this.props
+
+        if (!isLoggedIn) {
+            // if not logged, redirect to login page
+            return (
+                <Navigate
+                    to={{
+                        pathname: '/login',
+                        search: stringify(this.createQueryFrom())
+                    }}
+                    replace
+                />
+            )
+        }
+
+        if (!hasUserInfo) {
+            // if no logging info can be obtained, render nothing
+            return null
+        }
+
+        return children ? children : (<Outlet/>)
+    }
+}
+
+const mapStateToProps = (state) => ({
+    isLoggedIn: !!state.token,
+    hasUserInfo: !!state.authenticatedUser
+})
+
+ProtectedRoute = withLocation(connect(
+    mapStateToProps,
+)(ProtectedRoute))
+
+export {ProtectedRoute}

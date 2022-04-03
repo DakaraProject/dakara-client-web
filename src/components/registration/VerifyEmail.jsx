@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { verifyEmail } from 'actions/users'
+import { withLocation } from "components/generics/Router"
 import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
 
 class VerifyEmail extends Component {
@@ -90,10 +91,11 @@ const mapStateToProps = (state) => ({
     responseOfVerifyEmail: state.alterationsResponse.unique.verifyEmail || {},
 })
 
-VerifyEmail = connect(
+VerifyEmail = withLocation(connect(
     mapStateToProps,
     {
         verifyEmail
     }
-)(VerifyEmail)
+)(VerifyEmail))
+
 export default VerifyEmail
