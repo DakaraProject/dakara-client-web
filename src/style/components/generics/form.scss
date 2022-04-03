@@ -339,7 +339,7 @@ $form-control-icon-size: $row-icon-font-size;
                 color: $text-dark;
 
                 &::placeholder {
-                    color: $black-80;
+                    color: darken($black-80, 3%);
 
                     & {
                         // override the way Firefox adds opacity
