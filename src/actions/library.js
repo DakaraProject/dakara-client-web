@@ -53,7 +53,7 @@ export const WORK_TYPES_SUCCESS = 'WORK_TYPES_SUCCESS'
 export const WORK_TYPES_FAILURE = 'WORK_TYPES_FAILURE'
 
 /**
- * Load work types from the server 
+ * Load work types from the server
  */
 export const loadWorkTypes = () => ({
     [FETCH_API]: {
@@ -61,4 +61,18 @@ export const loadWorkTypes = () => ({
             method: 'GET',
             types: [WORK_TYPES_REQUEST, WORK_TYPES_SUCCESS, WORK_TYPES_FAILURE]
         }
+})
+
+/**
+ * Search box query
+ */
+
+export const STORE_SEARCH_BOX = 'STORE_SEARCH_BOX'
+
+/**
+ * Store search box query
+ */
+export const storeSearchBox= (query) => ({
+    type: STORE_SEARCH_BOX,
+    query
 })
