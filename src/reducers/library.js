@@ -224,7 +224,7 @@ function searchBox(state = {query: ''}, action) {
     switch (action.type) {
         case STORE_SEARCH_BOX:
             return {
-                query: action.query
+                ...action.searchBox
             }
 
         default:

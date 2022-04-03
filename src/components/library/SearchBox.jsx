@@ -36,7 +36,7 @@ class SearchBox extends Component {
     }
 
     componentWillUnmount() {
-        this.props.storeSearchBox(this.state.query)
+        this.props.storeSearchBox(this.state)
     }
 
     updateQueryFromLocation = () => {

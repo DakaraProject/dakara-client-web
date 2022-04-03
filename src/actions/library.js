@@ -72,7 +72,7 @@ export const STORE_SEARCH_BOX = 'STORE_SEARCH_BOX'
 /**
  * Store search box query
  */
-export const storeSearchBox= (query) => ({
+export const storeSearchBox = (searchBox) => ({
     type: STORE_SEARCH_BOX,
-    query
+    searchBox
 })
