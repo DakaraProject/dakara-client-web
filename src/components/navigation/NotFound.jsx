@@ -1,15 +1,20 @@
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
-export default class NotFound extends Component {
+import { withLocation } from 'components/generics/Router'
+
+class NotFound extends Component {
     static propTypes = {
+        embedded: PropTypes.bool,
         location: PropTypes.object.isRequired,
     }
 
     render() {
         const url = this.props.location.pathname
+        const { embedded } = this.props
         return (
-            <div id="error-page" className="box danger">
+            <div id="error-page" className={classNames('box danger', {embedded})}>
                 <div className="header">
                     <h2>Not found</h2>
                 </div>
@@ -21,3 +26,5 @@ export default class NotFound extends Component {
         )
     }
 }
+
+export default withLocation(NotFound)

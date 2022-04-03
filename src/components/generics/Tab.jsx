@@ -5,9 +5,9 @@ import { NavLink } from 'react-router-dom'
 
 export default class Tab extends Component {
     static propTypes = {
-        name: PropTypes.string,
         extraClassName: PropTypes.string,
         iconName: PropTypes.string,
+        name: PropTypes.string,
         to: PropTypes.string.isRequired,
     }
 
@@ -35,7 +35,6 @@ export default class Tab extends Component {
                 <NavLink
                     to={to}
                     className={linkClass}
-                    activeClassName="active"
                 >
                     <span className="icon">
                         <i className={`fa fa-${iconName}`}></i>

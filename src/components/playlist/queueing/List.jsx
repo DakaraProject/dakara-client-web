@@ -1,28 +1,26 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import { clearAlteration } from 'actions/alterations'
 import { removeEntryFromPlaylist, reorderPlaylistEntry } from 'actions/playlist'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
-import PlaylistEntry from 'components/playlist/Entry'
-import PlaylistTabList from 'components/playlist/TabList'
+import PlaylistEntry from 'components/playlist/queueing/Entry'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
 import { playlistEntriesStatePropType } from 'reducers/playlist'
 
-class Playlist extends Component {
+class Queueing extends Component {
     static propTypes = {
+        clearAlteration: PropTypes.func.isRequired,
         playlistEntriesState: playlistEntriesStatePropType.isRequired,
+        removeEntryFromPlaylist: PropTypes.func.isRequired,
+        reorderPlaylistEntry: PropTypes.func.isRequired,
         responseOfMultipleRemoveEntry: PropTypes.objectOf(alterationResponsePropType),
         responseOfMultipleReorderPlaylistEntry: PropTypes.objectOf(
             alterationResponsePropType
         ),
-        removeEntryFromPlaylist: PropTypes.func.isRequired,
-        clearAlteration: PropTypes.func.isRequired,
-        reorderPlaylistEntry: PropTypes.func.isRequired
     }
 
     state = {
@@ -129,11 +127,10 @@ class Playlist extends Component {
         ))
 
         return (
-            <div id="playlist" className="box">
+            <div id="queuing">
                 <ListingFetchWrapper
                     status={status}
                 >
-                    <PlaylistTabList/>
                     <TransitionGroup
                         component="ul"
                         className="listing"
@@ -161,13 +158,13 @@ const mapStateToProps = (state) => ({
     responseOfMultipleReorderPlaylistEntry: state.alterationsResponse.multiple.reorderPlaylistEntry || {},
 })
 
-Playlist = withRouter(connect(
+Queueing = connect(
     mapStateToProps,
     {
         removeEntryFromPlaylist,
         clearAlteration,
         reorderPlaylistEntry
     }
-)(Playlist))
+)(Queueing)
 
-export default Playlist
+export default Queueing

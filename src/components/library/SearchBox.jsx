@@ -1,16 +1,19 @@
 import PropTypes from 'prop-types'
-import { parse, stringify } from 'query-string'
+import { parse } from 'query-string'
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+
+import { withLocation,withSearchParams } from 'components/generics/Router'
 
 class SearchBox extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
         placeholder: PropTypes.string.isRequired,
+        searchParams: PropTypes.object.isRequired,
+        setSearchParams: PropTypes.func.isRequired,
     }
 
     state = {
-        query: ""
+        query: ''
     }
 
     componentDidMount() {
@@ -35,9 +38,7 @@ class SearchBox extends Component {
                 className="form inline library-searchbox"
                 onSubmit={e => {
                     e.preventDefault()
-                    this.props.history.push({
-                        search: stringify({query: this.state.query})
-                    })
+                    this.props.setSearchParams({query: this.state.query})
                 }}
             >
                 <div className="set">
@@ -68,9 +69,9 @@ class SearchBox extends Component {
                             />
                             <div className="controls">
                                 <div className="control" onClick={e => {
-                                        this.setState({query: ""})
+                                        this.setState({query: ''})
                                         // clear query string
-                                        this.props.history.push({})
+                                        this.props.setSearchParams({})
                                     }
                                 }>
                                     <span className="icon">
@@ -93,6 +94,4 @@ class SearchBox extends Component {
     }
 }
 
-SearchBox = withRouter(SearchBox)
-
-export default SearchBox
+export default withSearchParams(withLocation(SearchBox))

@@ -11,7 +11,6 @@ import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
 import TokenWidget from 'components/generics/TokenWidget'
 import { IsLibraryManager } from 'components/permissions/Library'
 import { IsPlaylistManager } from 'components/permissions/Playlist'
-import SettingsTabList from 'components/settings/TabList'
 import { Status } from 'reducers/alterationsResponse'
 import { playerTokenStatePropType } from 'reducers/playlist'
 import { karaokePropType } from 'serverPropTypes/playlist'
@@ -116,7 +115,7 @@ class PlayerTokenBox extends Component {
                     <div className="create">
                         <div className="ribbon primary notifiable">
                             <p className="message">
-                                Create a token that can be used to authenticate 
+                                Create a token that can be used to authenticate
                                 the player.
                             </p>
                             <div className="controls">
@@ -177,9 +176,9 @@ PlayerTokenBox = connect(
 
 class Tokens extends Component {
     static propTypes = {
-        userToken: PropTypes.string.isRequired,
         responseOfRevokeToken: PropTypes.object,
         revokeToken: PropTypes.func.isRequired,
+        userToken: PropTypes.string.isRequired,
     }
 
     state = {
@@ -202,56 +201,53 @@ class Tokens extends Component {
         } = this.props
 
         return (
-            <div id="tokens" className="box">
-                <SettingsTabList/>
-                <div className="content">
-                    <div className="token-box user">
-                        <h3>User token</h3>
-                        <div className="created">
-                            <TokenWidget token={userToken} />
-                            <IsLibraryManager>
-                                <div className="ribbon info copy-help">
-                                    <p className="message">
-                                        You can use this token to authenticate 
-                                        the feeder.
-                                    </p>
-                                </div>
-                            </IsLibraryManager>
-                            <div className="revoke controls notifiable">
-                                <CSSTransitionLazy
-                                    in={this.state.confirmDisplayed}
-                                    classNames="notified"
-                                    timeout={{
-                                        enter: 300,
-                                        exit: 150
-                                    }}
-                                >
-                                    <ConfirmationBar
-                                        message="This will disconnect you from 
-                                        all your device. Are you sure?"
-                                        onConfirm={revokeToken}
-                                        onCancel={this.clearConfirm}
-                                    />
-                                </CSSTransitionLazy>
-                                <button
-                                    className="control primary"
-                                    onClick={this.displayConfirm}
-                                >
-                                    Revoke token
-                                </button>
+            <div id="tokens" className="content">
+                <div className="token-box user">
+                    <h3>User token</h3>
+                    <div className="created">
+                        <TokenWidget token={userToken} />
+                        <IsLibraryManager>
+                            <div className="ribbon info copy-help">
+                                <p className="message">
+                                    You can use this token to authenticate
+                                    the feeder.
+                                </p>
                             </div>
-                            <Notification
-                                alterationResponse={responseOfRevokeToken}
-                                pendingMessage={null}
-                                successfulMessage={null}
-                                failedMessage="Unable to revoke token"
-                            />
+                        </IsLibraryManager>
+                        <div className="revoke controls notifiable">
+                            <CSSTransitionLazy
+                                in={this.state.confirmDisplayed}
+                                classNames="notified"
+                                timeout={{
+                                    enter: 300,
+                                    exit: 150
+                                }}
+                            >
+                                <ConfirmationBar
+                                    message="This will disconnect you from
+                                    all your device. Are you sure?"
+                                    onConfirm={revokeToken}
+                                    onCancel={this.clearConfirm}
+                                />
+                            </CSSTransitionLazy>
+                            <button
+                                className="control primary"
+                                onClick={this.displayConfirm}
+                            >
+                                Revoke token
+                            </button>
                         </div>
+                        <Notification
+                            alterationResponse={responseOfRevokeToken}
+                            pendingMessage={null}
+                            successfulMessage={null}
+                            failedMessage="Unable to revoke token"
+                        />
                     </div>
-                    <IsPlaylistManager>
-                        <PlayerTokenBox />
-                    </IsPlaylistManager>
                 </div>
+                <IsPlaylistManager>
+                    <PlayerTokenBox />
+                </IsPlaylistManager>
             </div>
         )
     }

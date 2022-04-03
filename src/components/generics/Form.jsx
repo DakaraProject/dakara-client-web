@@ -15,33 +15,33 @@ import { alterationResponsePropType, Status } from 'reducers/alterationsResponse
 
 class Form extends Component {
     static propTypes = {
+        action: PropTypes.string.isRequired,
+        alterationName: PropTypes.string.isRequired,
+        alterationResponse: alterationResponsePropType,
+        clearAlteration: PropTypes.func.isRequired,
+        elementId: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]),
+        formatValues: PropTypes.func,
         method: PropTypes.string,
+        noClearOnSuccess: PropTypes.bool,
+        onSuccess: PropTypes.func,
+        setAlterationValidationErrors: PropTypes.func.isRequired,
+        submitAlteration: PropTypes.func.isRequired,
         submitClass: PropTypes.string,
         submitText: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.element,
         ]).isRequired,
-        alterationResponse: alterationResponsePropType,
-        noClearOnSuccess: PropTypes.bool,
-        onSuccess: PropTypes.func,
-        setAlterationValidationErrors: PropTypes.func.isRequired,
-        submitAlteration: PropTypes.func.isRequired,
-        clearAlteration: PropTypes.func.isRequired,
-        alterationName: PropTypes.string.isRequired,
-        elementId: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number,
-        ]),
-        validate: PropTypes.func,
-        action: PropTypes.string.isRequired,
         title: PropTypes.string,
-        formatValues: PropTypes.func,
+        validate: PropTypes.func,
     }
 
     static defaultProps = {
-        method: "POST",
-        submitClass: "primary",
-        submitText: "Submit",
+        method: 'POST',
+        submitClass: 'primary',
+        submitText: 'Submit',
     }
 
     state = {
@@ -146,7 +146,7 @@ class Form extends Component {
             // for each failure, add error message to table
             let errors = []
             if (!value && required) {
-                errors.push("This field is required.")
+                errors.push('This field is required.')
             }
 
             if (validate) {
@@ -355,7 +355,7 @@ class FormBlock extends Form {
         // get failed message if unconsistent case
         let failedMessage
         if (alterationResponse && Object.keys(alterationResponse.fields).length === 0) {
-            failedMessage = "Unknown error!"
+            failedMessage = 'Unknown error!'
         } else {
             failedMessage = null
         }
@@ -505,26 +505,26 @@ export { FormInline }
  */
 class Field extends Component {
     static propTypes = {
+        defaultValue: PropTypes.any,
+        disabled: PropTypes.bool,
+        disabledBy: PropTypes.string,
+        fieldErrors: PropTypes.array,
         id: PropTypes.string.isRequired,
+        ignore: PropTypes.bool,
+        ignoreIfEmpty: PropTypes.bool,
+        inline: PropTypes.bool,
         label: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.element,
         ]),
-        defaultValue: PropTypes.any,
-        validate: PropTypes.func,
         required: PropTypes.bool,
-        ignore: PropTypes.bool,
-        ignoreIfEmpty: PropTypes.bool,
         setValue: PropTypes.func,
+        validate: PropTypes.func,
         value: PropTypes.any,
-        fieldErrors: PropTypes.array,
-        disabled: PropTypes.bool,
-        disabledBy: PropTypes.string,
-        inline: PropTypes.bool
     }
 
     static getEmptyValue() {
-        return ""
+        return ''
     }
 
     subRender = (args) => (null)
@@ -788,12 +788,12 @@ export class SelectField extends Field {
 export class RadioField extends Field {
     static propTypes = {
         ...Field.propTypes,
+        defaultValue: PropTypes.string,
+        long: PropTypes.bool,
         options: PropTypes.arrayOf(PropTypes.shape({
             name: PropTypes.string.isRequired,
             value: PropTypes.any,
         }).isRequired).isRequired,
-        defaultValue: PropTypes.string,
-        long: PropTypes.bool
     }
 
     static getEmptyValue() {
@@ -836,7 +836,7 @@ export class RadioField extends Field {
                     <label
                         htmlFor={optionId}
                         className={classNames(
-                            "description",
+                            'description',
                             {long}
                         )}
                     >
@@ -893,8 +893,8 @@ export class CheckboxField extends Field {
     static propTypes = {
         ...Field.propTypes,
         defaultValue: PropTypes.bool,
-        value: PropTypes.bool,
         toggle: PropTypes.bool,
+        value: PropTypes.bool,
     }
 
     static getEmptyValue() {
@@ -908,7 +908,7 @@ export class CheckboxField extends Field {
         // remove onChange from remaining args
         const { onChange, ...remaining } = remainingArgs
 
-        const className = toggle ? "toggle-input" : "checkbox-input"
+        const className = toggle ? 'toggle-input' : 'checkbox-input'
 
         return (
             <div className={className}>

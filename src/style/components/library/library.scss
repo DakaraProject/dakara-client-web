@@ -60,27 +60,4 @@
     // The current class gathers all the common elements needed by the different pages
     // .library-list {
     // }
-
-    // Navigator for choosing which library to display
-    // The different libraries are Songs (which is the home library), Artists and all the
-    // different Works (animes, games...)
-    .library-chooser {
-        // This is a common library tab, it has to be of neutral color
-        .tab {
-            // spread the width of the tabs to fill all the space
-            flex: 1;
-
-            @include make-smartphone {
-                &:not(.active) {
-                    flex: 0 0 auto;
-                }
-            }
-        }
-
-        // This is the home library tab, it has to stand out even when not
-        // selected, but not too much
-        .home {
-            flex: initial;
-        }
-    }
 }

@@ -3,22 +3,46 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import { loadLibraryEntries } from 'actions/library'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
+import { withSearchParams } from 'components/generics/Router'
+import SearchBox from 'components/library/SearchBox'
 import SongEntry from 'components/library/song/Entry'
 import { songStatePropType } from 'reducers/library'
 
 class SongList extends Component {
     static propTypes = {
-        songState: songStatePropType.isRequired,
-        playlistDateEnd: PropTypes.string.isRequired,
         karaokeDateStop: PropTypes.string,
-        location: PropTypes.object.isRequired,
+        playlistDateEnd: PropTypes.string.isRequired,
+        searchParams: PropTypes.object.isRequired,
+        setSearchParams: PropTypes.func.isRequired,
+        songState: songStatePropType.isRequired,
+    }
+
+    /**
+     * Fetch songs from server
+     */
+    refreshEntries = () => {
+        this.props.loadLibraryEntries('songs', {
+            page: this.props.searchParams.get('page'),
+            query: this.props.searchParams.get('query'),
+        })
+    }
+
+    componentDidMount() {
+        this.refreshEntries()
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.searchParams !== prevProps.searchParams) {
+            this.refreshEntries()
+        }
     }
 
     render() {
         const { songs, count, pagination } = this.props.songState.data
-        const { playlistDateEnd, karaokeDateStop, location } = this.props
+        const { playlistDateEnd, karaokeDateStop } = this.props
 
         /**
          * Compute remaining karoke time
@@ -36,33 +60,34 @@ class SongList extends Component {
          * Create SongEntry for each song
          */
 
-         const libraryEntrySongList = songs.map(song => (
-                <SongEntry
-                        key={song.id}
-                        song={song}
-                        karaokeRemainingSeconds={karaokeRemainingSeconds}
-                        location={location}
-                    />
-            ))
+        const libraryEntrySongList = songs.map(song => (
+             <SongEntry
+                key={song.id}
+                song={song}
+                karaokeRemainingSeconds={karaokeRemainingSeconds}
+             />
+        ))
 
         return (
-            <div className="song-list">
-                <ListingFetchWrapper
-                    status={this.props.songState.status}
-                >
-                    <ul className="library-list listing">
-                        {libraryEntrySongList}
-                    </ul>
-                </ListingFetchWrapper>
-                <Navigator
-                    count={count}
-                    pagination={pagination}
-                    names={{
-                        singular: 'song found',
-                        plural: 'songs found'
-                    }}
-                    location={location}
-                />
+            <div id="song-library">
+                <SearchBox placeholder="What will you sing?" />
+                <div className="song-list">
+                    <ListingFetchWrapper
+                        status={this.props.songState.status}
+                    >
+                        <ul className="library-list listing">
+                            {libraryEntrySongList}
+                        </ul>
+                    </ListingFetchWrapper>
+                    <Navigator
+                        count={count}
+                        pagination={pagination}
+                        names={{
+                            singular: 'song found',
+                            plural: 'songs found'
+                        }}
+                    />
+                </div>
             </div>
         )
     }
@@ -74,9 +99,10 @@ const mapStateToProps = (state) => ({
     karaokeDateStop: state.playlist.digest.data.karaoke.date_stop,
 })
 
-SongList = connect(
+SongList = withSearchParams(connect(
     mapStateToProps,
-)(SongList)
+    { loadLibraryEntries }
+)(SongList))
 
 export default SongList
 
@@ -85,5 +111,5 @@ export default SongList
  * - placeholder: library search placeholder
  */
 export const getSongLibraryNameInfo = () => ({
-    placeholder: "What will you sing?",
+    placeholder: 'What will you sing?',
 })

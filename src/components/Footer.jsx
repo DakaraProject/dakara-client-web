@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 
-import { bugs, projectHomepage, version } from '../../package.json'
-
-class Footer extends Component {
+export default class Footer extends Component {
     render() {
+        const version = process.env.DAKARA_VERSION
+        const bugtracker = process.env.DAKARA_BUGTRACKER
+        const projectHomepage = process.env.DAKARA_PROJECT_HOMEPAGE
+
         return (
             <footer id="footer" className="box">
                 <h2>
@@ -14,12 +16,10 @@ class Footer extends Component {
                         Visit the <a href={projectHomepage}>project page</a>
                     </p>
                     <p className="bug">
-                        Report a <a href={bugs.url}>bug</a>
+                        Report a <a href={bugtracker}>bug</a>
                     </p>
                 </div>
             </footer>
         )
     }
 }
-
-export default Footer

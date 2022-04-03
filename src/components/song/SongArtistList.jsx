@@ -13,8 +13,8 @@ import { artistPropType } from 'serverPropTypes/library'
  */
 export default class SongArtistList extends Component {
     static propTypes = {
-        query: PropTypes.object,
         artists: PropTypes.arrayOf(artistPropType).isRequired,
+        query: PropTypes.object,
     }
 
     render() {

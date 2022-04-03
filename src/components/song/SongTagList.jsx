@@ -6,9 +6,9 @@ import { songTagPropType } from 'serverPropTypes/library'
 
 export default class SongTagList extends Component {
     static propTypes = {
-        tags: PropTypes.arrayOf(songTagPropType).isRequired,
-        setQuery: PropTypes.func,
         query: PropTypes.object,
+        setQuery: PropTypes.func,
+        tags: PropTypes.arrayOf(songTagPropType).isRequired,
         unclickable: PropTypes.bool,
     }
 

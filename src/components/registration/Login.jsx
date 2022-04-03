@@ -2,9 +2,10 @@ import PropTypes from 'prop-types'
 import { parse } from 'query-string'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { NavLink, Redirect } from 'react-router-dom'
+import { Navigate, NavLink } from 'react-router-dom'
 
 import { FormBlock, InputField } from 'components/generics/Form'
+import { withLocation } from 'components/generics/Router'
 
 class Login extends Component {
     static propTypes = {
@@ -20,7 +21,7 @@ class Login extends Component {
             const queryObj = parse(this.props.location.search)
             const from = queryObj.from || '/'
             return (
-                    <Redirect to={from}/>
+                    <Navigate to={from} replace />
             )
         }
 
@@ -28,17 +29,18 @@ class Login extends Component {
         if (serverSettings?.email_enabled) {
             forgottenPasswordLink = (
                 <span>
-                    {" Or "}
+                    {' '}
+                    Or {' '}
                     <NavLink to="/send-reset-password-link">
                         reset your password
                     </NavLink>
-                    {" if you have forgotten it."}
+                    {' '} if you have forgotten it.
                 </span>
             )
         }
 
         return (
-            <div>
+            <div id="login">
                 <div id="login-form" className="box primary">
                     <div className="header">
                         <h2>Login</h2>
@@ -77,11 +79,12 @@ class Login extends Component {
                 </div>
                 <div id="login-links" className="box">
                     <p className="content">
-                        {"New here? Create a "}
+                        New here?
+                        Create a {' '}
                         <NavLink to="/register">
                             new account
                         </NavLink>
-                        {"."}
+                        .
                         {forgottenPasswordLink}
                     </p>
                 </div>
@@ -95,8 +98,8 @@ const mapStateToProps = (state) => ({
     serverSettings: state.internal.serverSettings
 })
 
-Login = connect(
+Login = withLocation(connect(
     mapStateToProps,
-)(Login)
+)(Login))
 
 export default Login

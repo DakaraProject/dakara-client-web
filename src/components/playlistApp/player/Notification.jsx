@@ -33,7 +33,7 @@ export default class PlayerNotification extends Component {
 
         // if the alterationsResponse prop has changed in length, throw an error
         if (alterationsResponse.length !== prevAlterationsResponse.length) {
-            throw new Error("Property alterationsResponse has changed")
+            throw new Error('Property alterationsResponse has changed')
         }
 
         // handle alterationsResponse changes

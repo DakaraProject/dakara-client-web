@@ -12,12 +12,12 @@ import { userPropType } from 'serverPropTypes/users'
 
 export default class SettingsSongTagsEntry extends Component {
     static propTypes = {
-        tag: songTagPropType.isRequired,
+        authenticatedUser: userPropType.isRequired,
+        clearAlteration: PropTypes.func.isRequired,
+        editSongTag: PropTypes.func.isRequired,
         responseOfEdit: alterationResponsePropType,
         responseOfEditColor: alterationResponsePropType,
-        editSongTag: PropTypes.func.isRequired,
-        clearAlteration: PropTypes.func.isRequired,
-        authenticatedUser: userPropType.isRequired,
+        tag: songTagPropType.isRequired,
     }
 
     state = {
@@ -25,7 +25,7 @@ export default class SettingsSongTagsEntry extends Component {
     }
 
     componentWillUnmount() {
-        this.props.clearAlteration("editSongTag", this.props.tag.id)
+        this.props.clearAlteration('editSongTag', this.props.tag.id)
     }
 
     displayColorForm = () => {
@@ -171,7 +171,7 @@ export default class SettingsSongTagsEntry extends Component {
                 </td>
                 <td className="name">{tag.name}</td>
                 <td className={classNames(
-                    "enableness",
+                    'enableness',
                     {'controls-col': isManager}
                 )}
                 >

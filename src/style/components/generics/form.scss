@@ -188,7 +188,7 @@ $form-control-icon-size: $row-icon-font-size;
                 line-height: $field-height;
 
                 .icon {
-                    font-size: $control-icon-size / $control-font-size;
+                    font-size: calc($control-icon-size / $control-font-size);
                 }
             }
         }

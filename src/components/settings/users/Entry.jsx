@@ -14,9 +14,9 @@ import { userPropType } from 'serverPropTypes/users'
 
 export default class SettingsUsersEntry extends Component {
     static propTypes = {
-        user: userPropType.isRequired,
         clearAlteration: PropTypes.func.isRequired,
         deleteUser: PropTypes.func.isRequired,
+        user: userPropType.isRequired,
     }
 
     state = {
@@ -24,7 +24,7 @@ export default class SettingsUsersEntry extends Component {
     }
 
     componentWillUnmount() {
-        this.props.clearAlteration("deleteUser", this.props.user.id)
+        this.props.clearAlteration('deleteUser', this.props.user.id)
     }
 
     displayConfirm = () => {
@@ -93,7 +93,7 @@ export default class SettingsUsersEntry extends Component {
                                 disable
                             >
                                 <ControlLink
-                                    to={`users/${user.id}`}
+                                    to={`${user.id}`}
                                     className="control info"
                                 >
                                     <i className="fa fa-pencil"></i>

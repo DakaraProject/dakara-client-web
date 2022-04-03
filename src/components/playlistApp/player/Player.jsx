@@ -2,7 +2,6 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 
 import { sendPlayerCommand } from 'actions/playlist'
 import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
@@ -276,11 +275,11 @@ const mapStateToProps = (state) => ({
     responseOfSendPlayerCommands: state.alterationsResponse.multiple.sendPlayerCommands,
 })
 
-Player = withRouter(connect(
+Player = connect(
     mapStateToProps,
     {
         sendPlayerCommand,
     }
-)(Player))
+)(Player)
 
 export default Player

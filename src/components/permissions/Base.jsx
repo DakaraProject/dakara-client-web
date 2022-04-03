@@ -1,15 +1,14 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 
 import { userPropType } from 'serverPropTypes/users'
 
 export class PermissionBase extends Component {
     static propTypes = {
-        user: userPropType, // TODO should be isRequired
-        object: PropTypes.object,
         disable: PropTypes.bool,
+        object: PropTypes.object,
+        user: userPropType,
     }
 
     instanceHasPermission = () => {
@@ -69,7 +68,7 @@ export const mapStateToProps = (state) => ({
  * Is authenticated
  */
 
-export const IsAuthenticated = withRouter(connect(
+export const IsAuthenticated = connect(
     mapStateToProps
 )(
     class extends PermissionBase {
@@ -77,4 +76,4 @@ export const IsAuthenticated = withRouter(connect(
             return true
         }
     }
-))
+)

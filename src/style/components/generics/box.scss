@@ -94,11 +94,14 @@ $ribbon-control-height: $row-height;
 // |                   | < gap
 // +-------------------+
 .box {
-    box-shadow: 0 0 2rem change-color(black, $alpha: 0.5);
-
     // separation margin on desktop only
     @include make-desktop {
         margin-bottom: $gap-vertical;
+    }
+
+    // if not embedded
+    &:not(.embedded) {
+        box-shadow: 0 0 2rem change-color(black, $alpha: 0.5);
     }
 
     // if not subclassed

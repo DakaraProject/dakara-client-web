@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { NavLink, withRouter } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import Tab from 'components/generics/Tab'
 import { userPropType } from 'serverPropTypes/users'
 
 class Header extends Component {
     static propTypes = {
-        user: userPropType,
         isLoggedIn: PropTypes.bool.isRequired,
+        user: userPropType,
     }
 
     render() {
@@ -68,8 +68,8 @@ const mapStateToProps = (state) => ({
     user: state.authenticatedUser
 })
 
-Header = withRouter(connect(
+Header = connect(
     mapStateToProps
-)(Header))
+)(Header)
 
 export default Header
