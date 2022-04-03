@@ -55,7 +55,7 @@
             text-align: right;
 
             @include make-smartphone {
-                text-align: left;
+                display: none;
             }
 
             .artists {
@@ -85,15 +85,15 @@
     // `song-tag-list` subclass: tag songs.
     // The subclass only specifes the location of the tags.
     .song-tag-list {
-        bottom: 0;
         font-size: 0.65em;
         left: 0;
         line-height: 1em;
         position: absolute;
+        top: 0;
 
         @include make-smartphone {
-            font-size: 0.5em;
-            line-height: 0.9em;
+            // font-size: 0.9em;
+            // line-height: 0.8em;
 
             .tag {
                 color: change-color($text-dark, $alpha: 0.65);

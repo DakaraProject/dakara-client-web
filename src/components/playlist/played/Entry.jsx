@@ -41,9 +41,11 @@ class Entry extends Component {
                         song={entry.song}
                         handleClick={this.handleSearch}
                     />
-                    <PlayQueueInfo
-                        playedInfo={{timeOfPlay: datePlayed, playlistEntry: entry}}
-                    />
+                    <div className="extra">
+                        <PlayQueueInfo
+                            playedInfo={{timeOfPlay: datePlayed, playlistEntry: entry}}
+                        />
+                    </div>
                 </div>
             </li>
         )

@@ -159,38 +159,40 @@ class SongEntry extends Component {
                                     this.setExpanded(song.id)
                             }
                         />
-                        <TransitionGroup
-                            className="play-queue-info-wrapper"
-                        >
-                            {playQueueInfo}
-                        </TransitionGroup>
-                        <div
-                            className="controls"
-                            id={`song-${this.props.song.id}`}
-                        >
-                            <CanAddToPlaylist>
-                                <IsPlaylistUser>
-                                    <button
-                                        className="control primary"
-                                        onClick={() => {
-                                            this.props.addSongToPlaylist(
-                                              this.props.song.id
-                                            )
-                                        }}
-                                    >
-                                        <span className="icon">
-                                            <i className="fa fa-plus"></i>
-                                        </span>
-                                    </button>
-                                </IsPlaylistUser>
-                            </CanAddToPlaylist>
+                        <div className="extra">
+                            <TransitionGroup
+                                className="play-queue-info-wrapper"
+                            >
+                                {playQueueInfo}
+                            </TransitionGroup>
+                            <div
+                                className="controls"
+                                id={`song-${this.props.song.id}`}
+                            >
+                                <CanAddToPlaylist>
+                                    <IsPlaylistUser>
+                                        <button
+                                            className="control primary"
+                                            onClick={() => {
+                                                this.props.addSongToPlaylist(
+                                                  this.props.song.id
+                                                )
+                                            }}
+                                        >
+                                            <span className="icon">
+                                                <i className="fa fa-plus"></i>
+                                            </span>
+                                        </button>
+                                    </IsPlaylistUser>
+                                </CanAddToPlaylist>
+                            </div>
+                            <Notification
+                                alterationResponse={this.props.responseOfAddSong}
+                                pendingMessage="Adding…"
+                                successfulMessage="Successfuly added!"
+                                failedMessage="Error attempting to add song to playlist"
+                            />
                         </div>
-                        <Notification
-                            alterationResponse={this.props.responseOfAddSong}
-                            pendingMessage="Adding…"
-                            successfulMessage="Successfuly added!"
-                            failedMessage="Error attempting to add song to playlist"
-                        />
                     </div>
                     <CSSTransitionLazy
                         in={expanded}
