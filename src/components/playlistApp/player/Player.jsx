@@ -117,8 +117,8 @@ class Player extends Component {
 
             playlistEntry = (
                 <div className="playlist-entry">
+                    {useInstrumental}
                     <div className="entry-info">
-                        {useInstrumental}
                         <Song
                             song={player_status.playlist_entry.song}
                             noDuration

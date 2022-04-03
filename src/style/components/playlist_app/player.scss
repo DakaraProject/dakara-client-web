@@ -50,18 +50,19 @@ $player-progressbar-height: 0.4rem;
         display: flex;
         overflow: hidden;
 
+        // `use-instrumental` subclass: indicate if the playlist entry use the instrumental track.
+        .use-instrumental {
+            @include make-gap(padding, left);
+
+            font-size: 1.45em;
+            line-height: 1.5;
+        }
+
         // `entry-info` sublcass: show info about the playlist entry (song + playing request)
         .entry-info {
             @include make-gap(margin, horizontal);
 
             overflow: hidden;
-
-            // `use-instrumental` subclass: indicate if the playlist entry use the instrumental track.
-            .use-instrumental {
-                font-size: 1.45em;
-                line-height: 1.5;
-                margin-right: 0.5em;
-            }
 
             // `song` subclass: the song itself.
             .song {
