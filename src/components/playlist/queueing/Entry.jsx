@@ -97,32 +97,34 @@ class Entry extends Component {
                         song={entry.song}
                         handleClick={this.handleSearch}
                     />
-                    <PlayQueueInfo
-                        queueInfo={{timeOfPlay: datePlay, playlistEntry: entry}}
-                    />
-                    <div className="controls">
-                        <IsPlaylistManager>
-                            <button
-                                className="control primary"
-                                onClick={() => {
-                                    onReorderButtonClick(entry.id, position)}
-                                }
-                            >
-                                <span className="icon">
-                                    <i className={`fa fa-${reorderIconName}`}></i>
-                                </span>
-                            </button>
-                        </IsPlaylistManager>
-                        <IsPlaylistManagerOrOwner object={entry} disable>
-                            <button
-                                className="control warning"
-                                onClick={this.displayConfirm}
-                            >
-                                <span className="icon">
-                                    <i className="fa fa-times"></i>
-                                </span>
-                            </button>
-                        </IsPlaylistManagerOrOwner>
+                    <div className="extra">
+                        <PlayQueueInfo
+                            queueInfo={{timeOfPlay: datePlay, playlistEntry: entry}}
+                        />
+                        <div className="controls">
+                            <IsPlaylistManager>
+                                <button
+                                    className="control primary"
+                                    onClick={() => {
+                                        onReorderButtonClick(entry.id, position)}
+                                    }
+                                >
+                                    <span className="icon">
+                                        <i className={`fa fa-${reorderIconName}`}></i>
+                                    </span>
+                                </button>
+                            </IsPlaylistManager>
+                            <IsPlaylistManagerOrOwner object={entry} disable>
+                                <button
+                                    className="control warning"
+                                    onClick={this.displayConfirm}
+                                >
+                                    <span className="icon">
+                                        <i className="fa fa-times"></i>
+                                    </span>
+                                </button>
+                            </IsPlaylistManagerOrOwner>
+                        </div>
                     </div>
                     <CSSTransitionLazy
                         in={this.state.confirmDisplayed}
