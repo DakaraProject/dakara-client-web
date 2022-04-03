@@ -14,17 +14,17 @@ import {
 */
 export default class PlayQueueInfo extends Component {
     static propTypes = {
-        playingInfo: PropTypes.shape({
-            playlistEntry: playlistEntryPropType
-        }),
         playedInfo: PropTypes.shape({
+            playlistEntry: playlistPlayedEntryPropType,
             timeOfPlay: PropTypes.number.isRequired,
-            playlistEntry: playlistPlayedEntryPropType
+        }),
+        playingInfo: PropTypes.shape({
+            playlistEntry: playlistEntryPropType,
         }),
         queueInfo: PropTypes.shape({
+            playlistEntry: playlistEntryPropType,
             timeOfPlay: PropTypes.number.isRequired,
-            playlistEntry: playlistEntryPropType
-        })
+        }),
     }
 
     render() {
@@ -44,7 +44,7 @@ export default class PlayQueueInfo extends Component {
         } else if (queueInfo) {
             content = (
                 <div className="queueing">
-                    {dayjs(queueInfo.timeOfPlay).format("HH:mm")}
+                    {dayjs(queueInfo.timeOfPlay).format('HH:mm')}
                     <span className="icon">
                         <i className="fa fa-fast-forward"></i>
                     </span>
@@ -57,7 +57,7 @@ export default class PlayQueueInfo extends Component {
                     <span className="icon">
                         <i className="fa fa-fast-backward"></i>
                     </span>
-                    {dayjs(playedInfo.timeOfPlay).format("HH:mm")}
+                    {dayjs(playedInfo.timeOfPlay).format('HH:mm')}
                 </div>
             )
             entry = playedInfo.playlistEntry

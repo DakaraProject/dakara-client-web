@@ -2,26 +2,25 @@ import PropTypes from 'prop-types'
 import { parse } from 'query-string'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 
 import { clearAlteration } from 'actions/alterations'
 import { deleteUser, getUsers } from 'actions/users'
 import { FormBlock, InputField } from 'components/generics/Form'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
+import { withLocation } from 'components/generics/Router'
 import { IsUserManager } from 'components/permissions/Users'
-import SettingsTabList from 'components/settings/TabList'
 import SettingsUserEntry from 'components/settings/users/Entry'
 import { listUsersStatePropType } from 'reducers/users'
 
-class SettingsUsersList extends Component {
+class UsersList extends Component {
     static propTypes = {
-        location: PropTypes.object.isRequired,
-        listUsersState: listUsersStatePropType.isRequired,
-        responseOfMultipleDeleteUser: PropTypes.object,
-        deleteUser: PropTypes.func.isRequired,
         clearAlteration: PropTypes.func.isRequired,
+        deleteUser: PropTypes.func.isRequired,
         getUsers: PropTypes.func.isRequired,
+        listUsersState: listUsersStatePropType.isRequired,
+        location: PropTypes.object.isRequired,
+        responseOfMultipleDeleteUser: PropTypes.object,
     }
 
     componentDidMount() {
@@ -58,8 +57,7 @@ class SettingsUsersList extends Component {
         ))
 
         return (
-            <div className="box" id="users-list">
-                <SettingsTabList/>
+            <div id="users-list">
                 <ListingFetchWrapper
                     status={this.props.listUsersState.status}
                 >
@@ -111,7 +109,7 @@ class SettingsUsersList extends Component {
                                 required
                                 validate={(value) => {
                                     if(!/\S+@\S+\.\S+/.test(value.toLowerCase())) {
-                                        return ["This should be a valid email address."]
+                                        return ['This should be a valid email address.']
                                     }
                                 }}
                             />
@@ -129,7 +127,7 @@ class SettingsUsersList extends Component {
                                 validate={(value, values) => {
                                     if (values.password !== value) {
                                         return [
-                                            "This field should match password field."
+                                            'This field should match password field.'
                                         ]
                                     }
                                 }}
@@ -148,13 +146,13 @@ const mapStateToProps = (state) => ({
     responseOfMultipleDeleteUser: state.alterationsResponse.multiple.deleteUser || {}
 })
 
-SettingsUsersList = withRouter(connect(
+UsersList = withLocation(connect(
     mapStateToProps,
     {
         deleteUser,
         getUsers,
         clearAlteration
     }
-)(SettingsUsersList))
+)(UsersList))
 
-export default SettingsUsersList
+export default UsersList

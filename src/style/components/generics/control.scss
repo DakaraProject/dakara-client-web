@@ -22,7 +22,7 @@
         font-size: $font-size;
 
         .icon {
-            $size: $icon-size / $font-size * 1em;
+            $size: calc($icon-size / $font-size * 1em);
             font-size: $size;
         }
     }

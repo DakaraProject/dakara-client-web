@@ -11,14 +11,14 @@ import React, { Component } from 'react'
  */
 export class Reduceable extends Component {
     static propTypes = {
+        classNameOnThresold: PropTypes.string;
         thresold: PropTypes.oneOfType([
             PropTypes.number.isRequired,
             PropTypes.shape({
+                down: PropTypes.number.isRequired,
                 up: PropTypes.number.isRequired,
-                down: PropTypes.number.isRequired
-            })
+            }),
         ]),
-        classNameOnThresold: PropTypes.string
     }
 
     state = {
@@ -87,7 +87,7 @@ export class Reduceable extends Component {
         const { children, classNameOnThresold, addComponent } = this.props
 
         if (React.Children.count(children) > 1) {
-            throw new Error("Reduceable can contain one child only")
+            throw new Error('Reduceable can contain one child only')
         }
 
         if (!isReduced) return children

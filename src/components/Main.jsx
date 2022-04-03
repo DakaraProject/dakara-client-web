@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 
 import { loadCurrentUser } from 'actions/authenticatedUser'
 import { loadServerSettings } from 'actions/internal'
-import { loadWorkTypes } from 'actions/library'
 import Footer from 'components/Footer'
 import Header from 'components/Header'
 import { IsAuthenticated } from 'components/permissions/Base'
@@ -17,7 +15,6 @@ class Main extends Component {
     static propTypes = {
         isLoggedIn: PropTypes.bool.isRequired,
         loadCurrentUser: PropTypes.func.isRequired,
-        loadWorkTypes: PropTypes.func.isRequired,
         loadServerSettings: PropTypes.func.isRequired,
     }
 
@@ -26,14 +23,12 @@ class Main extends Component {
 
         if (this.props.isLoggedIn) {
             this.props.loadCurrentUser()
-            this.props.loadWorkTypes()
         }
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.isLoggedIn && !prevProps.isLoggedIn) {
             this.props.loadCurrentUser()
-            this.props.loadWorkTypes()
         }
     }
 
@@ -57,13 +52,12 @@ const mapStateToProps = (state) => ({
     isLoggedIn: !!state.token,
 })
 
-Main = withRouter(connect(
+Main = connect(
     mapStateToProps,
     {
         loadCurrentUser,
-        loadWorkTypes,
         loadServerSettings
     }
-)(Main))
+)(Main)
 
 export default Main

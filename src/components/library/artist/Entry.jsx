@@ -1,21 +1,25 @@
 import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
 
 import HighlighterQuery from 'components/generics/HighlighterQuery'
+import { withNavigate } from 'components/generics/Router'
 import { artistPropType } from 'serverPropTypes/library'
 
 class ArtistEntry extends Component {
     static propTypes = {
         artist: artistPropType.isRequired,
+        navigate: PropTypes.func.isRequired,
         query: PropTypes.object,
     }
 
+    /**
+     * Search songs associated with the artist
+     */
     handleSearch = () => {
         const newQuery = `artist:""${this.props.artist.name}""`
-        this.props.history.push({
-            pathname: "/library/song",
+        this.props.navigate({
+            pathname: '/library/song',
             search: stringify({query: newQuery})
         })
     }
@@ -50,6 +54,4 @@ class ArtistEntry extends Component {
     }
 }
 
-ArtistEntry = withRouter(ArtistEntry)
-
-export default ArtistEntry
+export default withNavigate(ArtistEntry)

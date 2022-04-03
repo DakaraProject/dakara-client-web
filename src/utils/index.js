@@ -7,7 +7,7 @@ dayjs.extend(duration)
  * Front parameters.
  */
 export const params = {
-    baseUrl: "/api",
+    baseUrl: '/api',
     pollInterval: 1000
 }
 
@@ -33,7 +33,7 @@ export function updateData(newData, resultsKey) {
  * @returns Formatted duration.
  */
 export function formatDuration(seconds) {
-    const duration = dayjs.duration(seconds, "seconds")
+    const duration = dayjs.duration(seconds, 'seconds')
 
     // for very long durations exceeding one day, express it in hours
     if (duration.days() > 0) {
@@ -43,9 +43,9 @@ export function formatDuration(seconds) {
 
     // display hours only if needed
     if (duration.hours() > 0) {
-        return duration.format("H:mm:ss")
+        return duration.format('H:mm:ss')
     }
 
     // default to minutes and seconds
-    return duration.format("m:ss")
+    return duration.format('m:ss')
 }

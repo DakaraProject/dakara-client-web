@@ -3,10 +3,9 @@ import { connect } from 'react-redux'
 
 import { CheckboxField, FormBlock} from 'components/generics/Form'
 import { IsPlaylistManager} from 'components/permissions/Playlist'
-import SettingsTabList from 'components/settings/TabList'
 import { Status } from 'reducers/alterationsResponse'
 
-class SettingsKaraStatus extends Component {
+class KaraStatus extends Component {
 
     render() {
         // render nothing if the kara status is being fetched
@@ -90,11 +89,8 @@ class SettingsKaraStatus extends Component {
         }
 
         return (
-            <div id="kara-status" className="box">
-                <SettingsTabList/>
-                <div className="content">
-                    {karaStatusWidget}
-                </div>
+            <div id="kara-status" className="content">
+                {karaStatusWidget}
             </div>
         )
     }
@@ -106,9 +102,9 @@ const mapStateToProps = (state) => ({
     authenticatedUser: state.authenticatedUser,
 })
 
-SettingsKaraStatus = connect(
+KaraStatus = connect(
     mapStateToProps,
     {}
-)(SettingsKaraStatus)
+)(KaraStatus)
 
-export default SettingsKaraStatus
+export default KaraStatus

@@ -6,12 +6,12 @@ import Link from 'components/generics/Link'
 
 export default class ControlLink extends Component {
     static propTypes = {
+        className: PropTypes.string,
+        disabled: PropTypes.bool,
         to: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.object
         ]).isRequired,
-        disabled: PropTypes.bool,
-        className: PropTypes.string,
     }
 
     render () {

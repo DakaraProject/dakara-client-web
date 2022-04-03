@@ -2,48 +2,99 @@ import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Redirect, Route, withRouter } from 'react-router-dom'
+import {
+    Navigate,
+    Outlet,
+    useLocation,
+    useNavigate,
+    useParams,
+    useSearchParams
+} from 'react-router-dom'
+
+export const withLocation = (Component) => (props) => (
+    <Component
+        location={useLocation()}
+        {...props}
+    />
+)
+
+export const withParams = (Component) => (props) => (
+    <Component
+        params={useParams()}
+        {...props}
+    />
+)
+
+export const withNavigate = (Component) => (props) => (
+    <Component
+        navigate={useNavigate()}
+        {...props}
+    />
+)
+
+export const withSearchParams = (Component) => (props) => {
+    const [searchParams, setSearchParams] = useSearchParams()
+    return (
+        <Component
+            searchParams={searchParams}
+            setSearchParams={setSearchParams}
+            {...props}
+        />
+    )
+}
 
 class ProtectedRoute extends Component {
     static propTypes = {
-        component: PropTypes.oneOfType([
-            PropTypes.element,
-            PropTypes.func,
-            PropTypes.object,
-        ]).isRequired,
-        isLoggedIn: PropTypes.bool,
         hasUserInfo: PropTypes.bool,
+        isLoggedIn: PropTypes.bool,
+        location: PropTypes.object.isRequired,
+    }
+
+    /**
+     * Add desired page to query string
+     */
+    createQueryFrom = () => {
+        const { pathname, search } = this.props.location
+
+        // if pathname is the root page, ignore it
+        let actualPathname = ''
+        if (pathname !== '/') {
+            actualPathname = pathname
+        }
+
+        // if desired page is the root page, ignore it
+        const query = actualPathname + search
+        if (query.length === 0) {
+            return {}
+        }
+
+        return {
+            from: actualPathname + search
+        }
     }
 
     render() {
-        const { component: Component, isLoggedIn, hasUserInfo, ...rest } = this.props
-        const renderFunction = (props) => {
-            if (!isLoggedIn) {
-                const { pathname, search } = this.props.location
-                const queryObj = {
-                    from: pathname + search
-                }
+        const { children, isLoggedIn, hasUserInfo } = this.props
 
-                return (
-                    <Redirect to={{
-                        pathname: '/login',
-                        search: stringify(queryObj)
-                    }}/>
-                )
-            }
-
-            if (!hasUserInfo) {
-                return null
-            }
-
+        if (!isLoggedIn) {
+            // if not logged, redirect to login page
             return (
-                <Component {...props}/>
+                <Navigate
+                    to={{
+                        pathname: '/login',
+                        search: stringify(this.createQueryFrom())
+                    }}
+                    replace
+                />
             )
         }
 
-        return (
-            <Route {...rest} render={renderFunction}/>
-        )
+        if (!hasUserInfo) {
+            // if no logging info can be obtained, render nothing
+            return null
+        }
+
+        return children ? children : (<Outlet/>)
     }
 }
 
@@ -52,7 +103,7 @@ const mapStateToProps = (state) => ({
     hasUserInfo: !!state.authenticatedUser
 })
 
-ProtectedRoute = withRouter(connect(
+ProtectedRoute = withLocation(connect(
     mapStateToProps,
 )(ProtectedRoute))
 

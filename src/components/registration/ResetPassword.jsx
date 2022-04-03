@@ -2,14 +2,15 @@ import PropTypes from 'prop-types'
 import { parse } from 'query-string'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { NavLink, Redirect } from 'react-router-dom'
+import { Navigate,NavLink } from 'react-router-dom'
 
 import { FormBlock, InputField } from 'components/generics/Form'
+import { withLocation } from 'components/generics/Router'
 
 class ResetPassword extends Component {
     static propTypes = {
-        location: PropTypes.object.isRequired,
         isLoggedIn: PropTypes.bool.isRequired,
+        location: PropTypes.object.isRequired,
     }
 
     state = {
@@ -28,7 +29,7 @@ class ResetPassword extends Component {
 
         if (isLoggedIn) {
             return (
-                    <Redirect to="/"/>
+                    <Navigate to="/" replace />
             )
         }
 
@@ -55,7 +56,7 @@ class ResetPassword extends Component {
                     required
                     validate={(value, values) => {
                         if (values.password !== value) {
-                            return ["This field should match password field."]
+                            return ['This field should match password field.']
                         }
                     }}
                 />
@@ -64,7 +65,7 @@ class ResetPassword extends Component {
 
         const emailSentMessage = (
             <p>
-                Password reset successful, you can now
+                Password reset successful, you can now {' '}
                 <NavLink to="/login">login</NavLink>.
             </p>
         )
@@ -79,7 +80,6 @@ class ResetPassword extends Component {
                 </div>
             </div>
         )
-
     }
 }
 
@@ -87,8 +87,8 @@ const mapStateToProps = (state) => ({
     isLoggedIn: !!state.token,
 })
 
-ResetPassword = connect(
+ResetPassword = withLocation(connect(
     mapStateToProps,
-)(ResetPassword)
+)(ResetPassword))
 
 export default ResetPassword

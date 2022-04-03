@@ -54,5 +54,5 @@ export const revokeToken = () => ({
             onSuccess: logout(),
 
     },
-    alterationName: "revokeToken"
+    alterationName: 'revokeToken'
 })

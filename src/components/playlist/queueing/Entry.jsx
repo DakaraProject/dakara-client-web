@@ -2,7 +2,6 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
 
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
@@ -15,16 +14,16 @@ import PlayQueueInfo from 'components/song/PlayQueueInfo'
 import Song from 'components/song/Song'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 
-class PlaylistEntry extends Component {
+class Entry extends Component {
     static propTypes = {
-        entry: playlistEntryPropType.isRequired,
-        responseOfRemoveEntry: PropTypes.object,
-        responseOfMultipleReorderPlaylistEntry: PropTypes.object,
-        position: PropTypes.number.isRequired,
-        reorderEntryPosition: PropTypes.number,
-        onReorderButtonClick: PropTypes.func.isRequired,
-        removeEntry: PropTypes.func.isRequired,
         clearAlteration: PropTypes.func.isRequired,
+        entry: playlistEntryPropType.isRequired,
+        onReorderButtonClick: PropTypes.func.isRequired,
+        position: PropTypes.number.isRequired,
+        removeEntry: PropTypes.func.isRequired,
+        reorderEntryPosition: PropTypes.number,
+        responseOfMultipleReorderPlaylistEntry: PropTypes.object,
+        responseOfRemoveEntry: PropTypes.object,
     }
 
     state = {
@@ -32,8 +31,8 @@ class PlaylistEntry extends Component {
     }
 
     componentWillUnmount() {
-        this.props.clearAlteration("removeEntryFromPlaylist", this.props.entry.id)
-        this.props.clearAlteration("reorderPlaylistEntry", this.props.entry.id)
+        this.props.clearAlteration('removeEntryFromPlaylist', this.props.entry.id)
+        this.props.clearAlteration('reorderPlaylistEntry', this.props.entry.id)
     }
 
     displayConfirm = () => {
@@ -48,7 +47,7 @@ class PlaylistEntry extends Component {
         const song = this.props.entry.song
         const query = `title:""${song.title}""`
         this.props.history.push({
-            pathname: "/library/song",
+            pathname: '/library/song',
             search: stringify({
                 query,
                 expanded: song.id
@@ -73,15 +72,15 @@ class PlaylistEntry extends Component {
             // if in reorder mode, display icon depending on the relative
             // position of the current entry and the entry to reorder
             if (reorderEntryPosition > position) {
-                reorderIconName = "arrow-up"
+                reorderIconName = 'arrow-up'
             } else if (reorderEntryPosition < position) {
-                reorderIconName = "arrow-down"
+                reorderIconName = 'arrow-down'
             } else {
-                reorderIconName = "ban"
+                reorderIconName = 'ban'
             }
         } else {
             // if not in reorder mode, display reorder icon
-            reorderIconName = "random"
+            reorderIconName = 'random'
         }
 
         return (
@@ -157,6 +156,4 @@ class PlaylistEntry extends Component {
     }
 }
 
-PlaylistEntry = withRouter(PlaylistEntry)
-
-export default PlaylistEntry
+export default Entry

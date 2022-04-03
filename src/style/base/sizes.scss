@@ -99,12 +99,12 @@ body {
 // @param $extra when set to horizontal, apply a normal horizontal gap too
 // @param $factor extra scale to apply to the vertical padding (number)
 @mixin make-vertical-row-padding($extra: none, $factor: 1) {
-    padding-bottom: ($gap-horizontal / 4) * $factor;
-    padding-top: ($gap-horizontal / 4) * $factor;
+    padding-bottom: calc(($gap-horizontal / 4) * $factor);
+    padding-top: calc(($gap-horizontal / 4) * $factor);
 
     @include make-smartphone {
-        padding-bottom: ($gap-horizontal-smartphone / 3) * $factor;
-        padding-top: ($gap-horizontal-smartphone / 3) * $factor;
+        padding-bottom: calc(($gap-horizontal-smartphone / 3) * $factor);
+        padding-top: calc(($gap-horizontal-smartphone / 3) * $factor);
     }
 
     // apply extra horizontal gap if necessary

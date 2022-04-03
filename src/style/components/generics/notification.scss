@@ -85,10 +85,10 @@
     }
 
     .message {
-        padding: ($gap-horizontal / 4) $gap-horizontal;
+        padding: calc($gap-horizontal / 4) $gap-horizontal;
 
         @include make-smartphone {
-            padding: ($gap-horizontal-smartphone / 3) $gap-horizontal-smartphone;
+            padding: calc($gap-horizontal-smartphone / 3) $gap-horizontal-smartphone;
         }
     }
 

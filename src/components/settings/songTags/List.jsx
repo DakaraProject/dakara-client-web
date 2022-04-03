@@ -2,28 +2,27 @@ import PropTypes from 'prop-types'
 import { parse } from 'query-string'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 
 import { clearAlteration } from 'actions/alterations'
 import { editSongTag, getSongTagList } from 'actions/songTags'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
+import { withLocation } from 'components/generics/Router'
 import SettingsSongTagsEntry from 'components/settings/songTags/Entry'
-import SettingsTabList from 'components/settings/TabList'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
 import { songTagsStatePropType } from 'reducers/songTags'
 import { userPropType } from 'serverPropTypes/users'
 
-class SettingsSongTagsList extends Component {
+class SongTagsList extends Component {
     static propTypes = {
-        location: PropTypes.object.isRequired,
-        songTagsState: songTagsStatePropType.isRequired,
-        responseOfMultipleEdit: PropTypes.objectOf(alterationResponsePropType),
-        responseOfMultipleEditColor: PropTypes.objectOf(alterationResponsePropType),
+        authenticatedUser: userPropType.isRequired,
+        clearAlteration: PropTypes.func.isRequired,
         editSongTag: PropTypes.func.isRequired,
         getSongTagList: PropTypes.func.isRequired,
-        clearAlteration: PropTypes.func.isRequired,
-        authenticatedUser: userPropType.isRequired,
+        location: PropTypes.object.isRequired,
+        responseOfMultipleEdit: PropTypes.objectOf(alterationResponsePropType),
+        responseOfMultipleEditColor: PropTypes.objectOf(alterationResponsePropType),
+        songTagsState: songTagsStatePropType.isRequired,
     }
 
     componentDidMount() {
@@ -62,8 +61,7 @@ class SettingsSongTagsList extends Component {
         ))
 
         return (
-            <div className="box" id="song-tag-list">
-                <SettingsTabList/>
+            <div id="song-tag-list">
                 <ListingFetchWrapper
                     status={this.props.songTagsState.status}
                 >
@@ -100,13 +98,13 @@ const mapStateToProps = (state) => ({
     authenticatedUser: state.authenticatedUser,
 })
 
-SettingsSongTagsList = withRouter(connect(
+SongTagsList = withLocation(connect(
     mapStateToProps,
     {
         getSongTagList,
         editSongTag,
         clearAlteration
     }
-)(SettingsSongTagsList))
+)(SongTagsList))
 
-export default SettingsSongTagsList
+export default SongTagsList

@@ -1,14 +1,13 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { stringify } from 'query-string'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 
 import { clearAlteration } from 'actions/alterations'
 import { addSongToPlaylistWithOptions } from 'actions/playlist'
 import HighlighterQuery from 'components/generics/HighlighterQuery'
 import Notification from 'components/generics/Notification'
+import { withSearchParams } from 'components/generics/Router'
 import SongEntryExpandedArtist from 'components/library/song/EntryExpandedArtist'
 import SongEntryExpandedWork from 'components/library/song/EntryExpandedWork'
 import { CanAddToPlaylist, IsPlaylistUser} from 'components/permissions/Playlist'
@@ -17,13 +16,14 @@ import { songPropType } from 'serverPropTypes/library'
 
 class SongEntryExpanded extends Component {
     static propTypes = {
-        location: PropTypes.object.isRequired,
+        query: PropTypes.object,
+        searchParams: PropTypes.object.isRequired,
+        setSearchParams: PropTypes.func.isRequired,
         song: songPropType.isRequired,
-        query: PropTypes.object
     }
 
     componentWillUnmount() {
-        this.props.clearAlteration("addSongToPlaylistWithOptions", this.props.song.id)
+        this.props.clearAlteration('addSongToPlaylistWithOptions', this.props.song.id)
     }
 
     /**
@@ -31,11 +31,7 @@ class SongEntryExpanded extends Component {
      * to set new search criteria
      */
     setQuery = (query) => {
-        const { location } = this.props
-        this.props.history.push({
-            pathname: location.pathname,
-            search: stringify({query})
-        })
+        this.props.setSearchParams({query, page: 1})
     }
 
     render() {
@@ -174,7 +170,7 @@ class SongEntryExpanded extends Component {
 
         let lyrics
         if (song.lyrics_preview) {
-            const text = song.lyrics_preview.text.split("\n").map((line, index) => (
+            const text = song.lyrics_preview.text.split('\n').map((line, index) => (
                 <div className="line" key={index}>{line}</div>
             ))
 
@@ -188,7 +184,7 @@ class SongEntryExpanded extends Component {
                     </h4>
                     <div
                         className={classNames(
-                            "paragraph",
+                            'paragraph',
                             {truncated: song.lyrics_preview.truncated}
                         )}
                     >
@@ -256,7 +252,7 @@ class SongEntryExpanded extends Component {
                                     pendingMessage="Adding…"
                                     successfulMessage="Successfuly added!"
                                     failedMessage={
-                                        "Error attempting to add song to playlist"
+                                        'Error attempting to add song to playlist'
                                     }
                                 />
                             </div>
@@ -290,7 +286,7 @@ const mapStateToProps = (state, ownProps) => ({
     // eslint-disable-next-line max-len
     responseOfAddSongWithOptions: state.alterationsResponse.multiple.addSongToPlaylistWithOptions?.[ownProps.song.id],
 })
-SongEntryExpanded = withRouter(connect(
+SongEntryExpanded = withSearchParams(connect(
     mapStateToProps,
     {
         addSongToPlaylistWithOptions,

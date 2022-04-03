@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 
 import { FormBlock, InputField } from 'components/generics/Form'
 import { permissionLevels } from 'components/permissions/Users'
@@ -9,8 +8,8 @@ import { userPropType } from 'serverPropTypes/users'
 
 class User extends Component {
     static propTypes = {
+        serverSettings: PropTypes.object,
         user: userPropType.isRequired,
-        serverSettings: PropTypes.object
     }
 
     render() {
@@ -73,8 +72,8 @@ class User extends Component {
                     alterationName="registerEmail"
                     successMessage={
                         serverSettings?.email_enabled ?
-                            "Validation email sent to you new address!" :
-                            "Email successfuly changed!"
+                            'Validation email sent to you new address!' :
+                            'Email successfuly changed!'
                     }
                 >
                     <InputField
@@ -83,7 +82,7 @@ class User extends Component {
                         required
                         validate={(value) => {
                             if(!/\S+@\S+\.\S+/.test(value.toLowerCase())) {
-                                return ["This should be a valid email address."]
+                                return ['This should be a valid email address.']
                             }
                         }}
                     />
@@ -137,7 +136,7 @@ class User extends Component {
                             required
                             validate={(value, values) => {
                                 if (values.password !== value) {
-                                    return ["This field should match password field."]
+                                    return ['This field should match password field.']
                                 }
                             }}
                         />
@@ -154,8 +153,8 @@ const mapStateToProps = (state) => ({
     serverSettings: state.internal.serverSettings
 })
 
-User = withRouter(connect(
+User = connect(
     mapStateToProps,
-)(User))
+)(User)
 
 export default User

@@ -16,11 +16,11 @@ import { workLinkPropType } from 'serverPropTypes/library'
  */
 export default class WorkLink extends Component {
     static propTypes = {
-        workLink: workLinkPropType.isRequired,
-        query: PropTypes.object,
         longLinkType: PropTypes.bool,
-        noIcon: PropTypes.bool,
         noEpisodes: PropTypes.bool,
+        noIcon: PropTypes.bool,
+        query: PropTypes.object,
+        workLink: workLinkPropType.isRequired,
     }
 
     render() {

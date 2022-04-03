@@ -1,19 +1,23 @@
 import 'style/main.scss'
 
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { applyMiddleware, compose, createStore } from 'redux'
 import persistState from 'redux-localstorage'
 import ReduxThunk from 'redux-thunk'
 
 import { ProtectedRoute } from 'components/generics/Router'
-import LibraryList from 'components/library/List'
+import LibraryArtist from 'components/library/artist/List'
+import Library from 'components/library/Library'
+import LibrarySong from 'components/library/song/List'
+import LibraryWork from 'components/library/work/List'
 import Main from 'components/Main'
 import NotFound from 'components/navigation/NotFound'
-import Playlist from 'components/playlist/List'
-import PlaylistPlayed from 'components/playlist/PlayedList'
+import PlaylistPlayed from 'components/playlist/played/List'
+import Playlist from 'components/playlist/Playlist'
+import PlaylistQueueing from 'components/playlist/queueing/List'
 import Login from 'components/registration/Login'
 import Logout from 'components/registration/Logout'
 import Register from 'components/registration/Register'
@@ -23,6 +27,7 @@ import VerifyEmail from 'components/registration/VerifyEmail'
 import VerifyRegistration from 'components/registration/VerifyRegistration'
 import SettingsKaraDateStop from 'components/settings/KaraDateStop'
 import SettingsKaraStatus from 'components/settings/KaraStatus'
+import Settings from 'components/settings/Settings'
 import SettingsSongTagsList from 'components/settings/songTags/List'
 import SettingsTokens from 'components/settings/Tokens'
 import SettingsUsersEdit from 'components/settings/users/Edit'
@@ -47,80 +52,108 @@ const store = createStore(
 
 manageStorageEvent(store)
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('react-mounting-point'))
+root.render(
     <Provider store={store}>
         <BrowserRouter>
             <Main>
-                <Switch>
-                    <ProtectedRoute
-                        exact
-                        path="/library/:libraryType"
-                        component={LibraryList}
-                    />
-                    <Redirect exact from="/library" to="/library/song"/>
-                    <ProtectedRoute
-                        exact
-                        path="/playlist/queueing"
-                        component={Playlist}
-                    />
-                    <ProtectedRoute
-                        exact
-                        path="/playlist/played"
-                        component={PlaylistPlayed}
-                    />
-                    <Redirect exact from="/playlist" to="/playlist/queueing"/>
-                    <ProtectedRoute exact path="/user" component={User}/>
-                    <ProtectedRoute
-                        exact
-                        path="/settings/users/:userId"
-                        component={SettingsUsersEdit}
-                    />
-                    <ProtectedRoute
-                        exact
-                        path="/settings/users"
-                        component={SettingsUsersList}
-                    />
-                    <ProtectedRoute
-                        exact
-                        path="/settings/song-tags"
-                        component={SettingsSongTagsList}
-                    />
-                    <ProtectedRoute
-                        exact
-                        path="/settings/kara-status"
-                        component={SettingsKaraStatus}
-                    />
-                    <ProtectedRoute
-                        exact
-                        path="/settings/kara-date-stop"
-                        component={SettingsKaraDateStop}
-                    />
-                    <ProtectedRoute
-                        exact
-                        path="/settings/tokens"
-                        component={SettingsTokens}
-                    />
-                    <Redirect exact from="/settings" to="/settings/users"/>
-                    <Route exact path="/login" component={Login}/>
-                    <Route exact path="/logout" component={Logout}/>
-                    <Route exact path="/register" component={Register}/>
-                    <Route exact path="/reset-password" component={ResetPassword}/>
+                <Routes>
                     <Route
-                        exact
-                        path="/send-reset-password-link"
-                        component={SendResetPasswordLink}
+                        path="login"
+                        element={(<Login />)}
                     />
                     <Route
-                        exact
-                        path="/verify-registration"
-                        component={VerifyRegistration}
+                        path="logout"
+                        element={(<Logout />)}
                     />
-                    <Route exact path="/verify-email" component={VerifyEmail}/>
-                    <Redirect exact from="/" to="/library"/>
-                    <Route component={NotFound}/>
-                </Switch>
+                    <Route
+                        path="register"
+                        element={(<Register />)}
+                    />
+                    <Route
+                        path="verify-registration"
+                        element={(<VerifyRegistration />)}
+                    />
+                    <Route
+                        path="verify-email"
+                        element={(<VerifyEmail />)}
+                    />
+                    <Route
+                        path="send-reset-password-link"
+                        element={(<SendResetPasswordLink />)}
+                    />
+                    <Route
+                        path="reset-password"
+                        element={(<ResetPassword />)}
+                    />
+                    <Route element={(<ProtectedRoute />)}>
+                        <Route index element={(
+                            <Navigate to="library" replace />
+                        )}/>
+                        <Route path="user" element={(<User />)} />
+                        <Route path="library" element={(<Library />)}>
+                            <Route index element={(
+                                <Navigate to="song" replace />
+                            )}/>
+                            <Route
+                                path="song"
+                                element={(<LibrarySong />)}
+                            />
+                            <Route
+                                path="artist"
+                                element={(<LibraryArtist />)}
+                            />
+                            <Route
+                                path=":workType"
+                                element={(<LibraryWork />)}
+                            />
+                        </Route>
+                        <Route path="playlist" element={(<Playlist />)}>
+                            <Route index element={(
+                                <Navigate to="queueing" replace />
+                            )}/>
+                            <Route
+                                path="queueing"
+                                element={(<PlaylistQueueing />)}
+                            />
+                            <Route
+                                path="played"
+                                element={(<PlaylistPlayed />)}
+                            />
+                        </Route>
+                        <Route path="settings" element={(<Settings />)}>
+                            <Route index element={(
+                                <Navigate to="users" replace />
+                            )}/>
+                            <Route path="users" element={(<SettingsUsersList />)} />
+                            <Route
+                                path="users/:userId"
+                                element={(<SettingsUsersEdit />)}
+                            />
+                            <Route
+                                path="song-tags"
+                                element={(<SettingsSongTagsList />)}
+                            />
+                            <Route
+                                path="kara-status"
+                                element={(<SettingsKaraStatus />)}
+                            />
+                            <Route
+                                path="kara-date-stop"
+                                element={(<SettingsKaraDateStop />)}
+                            />
+                            <Route
+                                path="tokens"
+                                element={(<SettingsTokens />)}
+                            />
+                        </Route>
+                    </Route>
+                    <Route
+                        path="*"
+                        element={(<NotFound />)}
+                    />
+                </Routes>
             </Main>
         </BrowserRouter>
-    </Provider>,
-    document.getElementById('react-mounting-point')
+    </Provider>
 )

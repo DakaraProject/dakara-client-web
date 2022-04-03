@@ -21,8 +21,8 @@ import Highlighter from 'react-highlight-words'
  */
 export default class HighlighterQuery extends Component {
     static propTypes = {
-        query: PropTypes.object,
         className: PropTypes.string,
+        query: PropTypes.object,
         searchWords: PropTypes.oneOfType([
             PropTypes.func,
             PropTypes.array,

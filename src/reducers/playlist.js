@@ -142,7 +142,7 @@ export const playlistEntriesStatePropType = PropTypes.shape({
 const defaultEntries = {
     status: null,
     data: {
-        date_end: "",
+        date_end: '',
         playlistEntries: []
     },
 }
@@ -285,7 +285,7 @@ function playerToken(state = defaultPlayerToken, action) {
         case PLAYER_TOKEN_FAILURE:
             // if the player token doesn't exist
             // TODO change to low level check
-            if (action.error.detail === "Not found.") {
+            if (action.error.detail === 'Not found.') {
                 return {
                     status: Status.successful,
                     data: {
@@ -301,7 +301,7 @@ function playerToken(state = defaultPlayerToken, action) {
 
         case ALTERATION_SUCCESS:
             // if the player token has been revoked
-            if (action.alterationName === "revokePlayerToken") {
+            if (action.alterationName === 'revokePlayerToken') {
                 return {
                     status: Status.successful,
                     data: {

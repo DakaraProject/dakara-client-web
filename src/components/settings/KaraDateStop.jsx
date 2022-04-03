@@ -5,12 +5,11 @@ import { connect } from 'react-redux'
 
 import { CheckboxField, FormBlock, InputField } from 'components/generics/Form'
 import { IsPlaylistManager} from 'components/permissions/Playlist'
-import SettingsTabList from 'components/settings/TabList'
 import { Status } from 'reducers/alterationsResponse'
 
 dayjs.extend(customParseFormat)
 
-class SettingsKaraDateStop extends Component {
+class KaraDateStop extends Component {
 
     render() {
         // render nothing if the karaoke is being fetched
@@ -34,7 +33,7 @@ class SettingsKaraDateStop extends Component {
                 // current day
                 // if the created date is in the past, we add one day to it to
                 // be in the future
-                let date = dayjs(values.time_stop, "HH:mm")
+                let date = dayjs(values.time_stop, 'HH:mm')
                 if (date.isBefore()) {
                     date = date.add(1, 'days')
                 }
@@ -49,7 +48,7 @@ class SettingsKaraDateStop extends Component {
                     return []
                 }
 
-                return ["Invalid time, should be HH:mm."]
+                return ['Invalid time, should be HH:mm.']
             }
 
             karaDateStopWidget = (
@@ -70,7 +69,7 @@ class SettingsKaraDateStop extends Component {
                     />
                     <InputField
                         id="time_stop"
-                        defaultValue={date_stop? dayjs(date_stop).format("HH:mm") : ""}
+                        defaultValue={date_stop? dayjs(date_stop).format('HH:mm') : ''}
                         validate={validateTime}
                         type="time"
                         label="Set stop time"
@@ -81,7 +80,7 @@ class SettingsKaraDateStop extends Component {
         } else {
             if (date_stop) {
                 karaDateStopWidget = (
-                    <p>Karaoke stop time: {dayjs(date_stop).format("HH:mm")}</p>
+                    <p>Karaoke stop time: {dayjs(date_stop).format('HH:mm')}</p>
                 )
             } else {
                 karaDateStopWidget = (
@@ -91,11 +90,8 @@ class SettingsKaraDateStop extends Component {
         }
 
         return (
-            <div id="kara-date-stop" className="box">
-                <SettingsTabList/>
-                <div className="content">
-                    {karaDateStopWidget}
-                </div>
+            <div id="kara-date-stop" className="content">
+                {karaDateStopWidget}
             </div>
         )
     }
@@ -107,9 +103,9 @@ const mapStateToProps = (state) => ({
     authenticatedUser: state.authenticatedUser,
 })
 
-SettingsKaraDateStop = connect(
+KaraDateStop = connect(
     mapStateToProps,
     {}
-)(SettingsKaraDateStop)
+)(KaraDateStop)
 
-export default SettingsKaraDateStop
+export default KaraDateStop

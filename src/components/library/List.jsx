@@ -14,14 +14,8 @@ import { workTypeStatePropType } from 'reducers/library'
 
 class List extends Component {
     static propTypes = {
-        workTypeState: workTypeStatePropType,
-        location: PropTypes.object.isRequired,
-        match: PropTypes.shape({
-            params: PropTypes.shape({
-                libraryType: PropTypes.string.isRequired,
-            }).isRequired,
-        }).isRequired,
         loadLibraryEntries: PropTypes.func.isRequired,
+        workTypeState: workTypeStatePropType,
     }
 
     componentDidMount() {
@@ -106,12 +100,12 @@ class List extends Component {
         let ListComponent
         let getLibraryNameInfo
         switch (libraryType) {
-            case "song":
+            case 'song':
                 ListComponent = SongList
                 getLibraryNameInfo = getSongLibraryNameInfo
                 break
 
-            case "artist":
+            case 'artist':
                 ListComponent = ArtistList
                 getLibraryNameInfo = getArtistLibraryNameInfo
                 break

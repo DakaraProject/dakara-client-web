@@ -64,7 +64,7 @@ export const removeEntryFromPlaylist = (entryId) => ({
                 loadPlaylist(),
             ],
         },
-    alterationName: "removeEntryFromPlaylist",
+    alterationName: 'removeEntryFromPlaylist',
     elementId: entryId,
 })
 
@@ -165,7 +165,7 @@ export const addSongToPlaylist = (songId) => ({
                 loadPlaylist()
             ],
         },
-    alterationName: "addSongToPlaylist",
+    alterationName: 'addSongToPlaylist',
     elementId: songId,
 })
 
@@ -191,7 +191,7 @@ export const addSongToPlaylistWithOptions = (songId, useInstrumental=false) => (
                 loadPlaylist()
             ],
         },
-    alterationName: "addSongToPlaylistWithOptions",
+    alterationName: 'addSongToPlaylistWithOptions',
     elementId: songId,
 })
 
@@ -221,7 +221,7 @@ export const reorderPlaylistEntry = ({playlistEntryId, beforeId, afterId} = {}) 
         json.after_id = afterId
         targetId = afterId
     } else {
-        throw Error("Either `beforeId` or `afterId` must be provided")
+        throw Error('Either `beforeId` or `afterId` must be provided')
     }
 
     return {
@@ -238,7 +238,7 @@ export const reorderPlaylistEntry = ({playlistEntryId, beforeId, afterId} = {}) 
                     loadPlaylist()
                 ],
             },
-        alterationName: "reorderPlaylistEntry",
+        alterationName: 'reorderPlaylistEntry',
         elementId: targetId,
     }
 }
@@ -264,7 +264,7 @@ export const sendPlayerCommand = (command) => ({
             ],
             onSuccess: loadPlaylistAppDigest(),
     },
-    alterationName: "sendPlayerCommands",
+    alterationName: 'sendPlayerCommands',
     elementId: command,
 })
 
@@ -272,9 +272,9 @@ export const sendPlayerCommand = (command) => ({
  * Player token
  */
 
-export const PLAYER_TOKEN_REQUEST = "PLAYER_TOKEN_REQUEST"
-export const PLAYER_TOKEN_SUCCESS = "PLAYER_TOKEN_SUCCESS"
-export const PLAYER_TOKEN_FAILURE = "PLAYER_TOKEN_FAILURE"
+export const PLAYER_TOKEN_REQUEST = 'PLAYER_TOKEN_REQUEST'
+export const PLAYER_TOKEN_SUCCESS = 'PLAYER_TOKEN_SUCCESS'
+export const PLAYER_TOKEN_FAILURE = 'PLAYER_TOKEN_FAILURE'
 
 /**
  * Load player token
@@ -308,7 +308,7 @@ export const createPlayerToken = (karaokeId) => ({
             ],
             onSuccess: loadPlayerToken(karaokeId),
     },
-    alterationName: "createPlayerToken",
+    alterationName: 'createPlayerToken',
 })
 
 /**
@@ -326,5 +326,5 @@ export const revokePlayerToken = (karaokeId) => ({
             ],
 
     },
-    alterationName: "revokePlayerToken"
+    alterationName: 'revokePlayerToken'
 })

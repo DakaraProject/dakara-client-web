@@ -27,10 +27,10 @@ import { updateData } from 'utils'
  */
 
 export const WorkLinkName = Object.freeze({
-    OP: "Opening",
-    ED: "Ending",
-    IN: "Insert song",
-    IS: "Image song",
+    OP: 'Opening',
+    ED: 'Ending',
+    IN: 'Insert song',
+    IS: 'Image song',
 })
 
 /**
@@ -102,22 +102,22 @@ const generateLibraryReducer = libraryType => {
  * Song library
  */
 
-export const songStatePropType = generateLibraryPropType(songPropType, "songs")
-const song = generateLibraryReducer("songs")
+export const songStatePropType = generateLibraryPropType(songPropType, 'songs')
+const song = generateLibraryReducer('songs')
 
 /**
  * Artist library
  */
 
-export const artistStatePropType = generateLibraryPropType(artistPropType, "artists")
-const artist = generateLibraryReducer("artists")
+export const artistStatePropType = generateLibraryPropType(artistPropType, 'artists')
+const artist = generateLibraryReducer('artists')
 
 /**
  * Work library
  */
 
-export const workStatePropType = generateLibraryPropType(workPropType, "works")
-const defaultWork = generateDefaultLibrary("works")
+export const workStatePropType = generateLibraryPropType(workPropType, 'works')
+const defaultWork = generateDefaultLibrary('works')
 
 function works(state = {}, action) {
     // create works when work types have been successfuly fetched
@@ -133,7 +133,7 @@ function works(state = {}, action) {
         return newState
     }
 
-    if (action.libraryType !== "works") {
+    if (action.libraryType !== 'works') {
         return state
     }
 
@@ -154,7 +154,7 @@ function works(state = {}, action) {
                 ...state,
                 [workType]: {
                     status: Status.successful,
-                    data: updateData(action.response, "works"),
+                    data: updateData(action.response, 'works'),
                 }
             }
 
@@ -201,7 +201,7 @@ function workType(state = defaultWorkType, action) {
         case WORK_TYPES_SUCCESS:
             return {
                 status: Status.successful,
-                data: updateData(action.response, "workTypes")
+                data: updateData(action.response, 'workTypes')
             }
 
         case WORK_TYPES_FAILURE:

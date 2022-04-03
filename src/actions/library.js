@@ -28,33 +28,19 @@ const fetchLibraryEntries = (url, libraryType, workType) => ({
  * @param libraryType precise type of library entries
  * @param params contains query and page number
  */
-export const loadLibraryEntries = (libraryType = "song",
-                                   { query, pageNumber = 1 } = {}) => {
-    let serverLibraryName
-    let workType
-    switch (libraryType) {
-        case 'song':
-            serverLibraryName = 'songs'
-            break
-
-        case 'artist':
-            serverLibraryName = 'artists'
-            break
-
-        default:
-            serverLibraryName = 'works'
-            workType = libraryType
-    }
-
+export const loadLibraryEntries = (
+    library,
+    { query, page = 1, type } = {}
+) => {
     const queryString = stringify({
-        page: pageNumber,
-        type: workType,
-        query
+        ...(page) && {page},
+        ...(query) && {query},
+        ...(type) && {type},
     })
 
-    const url = `${baseUrl}/library/${serverLibraryName}/?${queryString}`
+    const url = `${baseUrl}/library/${library}/?${queryString}`
 
-    return fetchLibraryEntries(url, serverLibraryName, workType)
+    return fetchLibraryEntries(url, library, type)
 }
 
 
