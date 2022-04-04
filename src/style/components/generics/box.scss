@@ -165,11 +165,13 @@ $ribbon-control-height: $row-height;
     // > .footer {
     // }
 
-    p {
+    p,
+    ul {
         @include make-gap(margin, horizontal);
 
         // paragraphs have margin between them
-        + p {
+        + p,
+        + ul {
             margin-top: 0.5em;
         }
     }

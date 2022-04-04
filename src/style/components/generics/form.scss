@@ -326,8 +326,15 @@ $form-control-icon-size: $row-icon-font-size;
         }
 
         // controls inside inputs
-        .input .controls .icon {
-            font-size: 1.1em;
+        .input .controls {
+            // no margin when stacking controls
+            .control {
+                margin-right: 0;
+            }
+
+            .icon {
+                font-size: 1.1em;
+            }
         }
 
         // `text-input` class:

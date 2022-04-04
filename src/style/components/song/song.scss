@@ -91,15 +91,6 @@
         position: absolute;
         top: 0;
 
-        @include make-smartphone {
-            // font-size: 0.9em;
-            // line-height: 0.8em;
-
-            .tag {
-                color: change-color($text-dark, $alpha: 0.65);
-            }
-        }
-
         .tag {
             font-size: inherit;
         }

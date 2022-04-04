@@ -63,6 +63,7 @@
 
         // `extra` subclass: any other information
         .extra {
+            background: darken($neutral-mid, 0.65%);
             display: flex;
 
             @include make-smartphone {
@@ -74,6 +75,14 @@
                 display: flex;
             }
         }
+
+        &:hover .extra {
+            background: darken($neutral-mid-lighter, 1%);
+        }
+    }
+
+    &:nth-child(even) .extra {
+        background: darken($neutral-mid-light, 1%);
     }
 
     // if the song si expanded, disable truncature of text in song header

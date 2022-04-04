@@ -66,6 +66,13 @@ $player-progressbar-height: 0.4rem;
 
             // `song` subclass: the song itself.
             .song {
+                @include make-gap(margin, right);
+
+                align-content: flex-start;
+                align-items: initial;
+                cursor: pointer;
+                flex-direction: column;
+                height: $player-controls-height;
                 overflow: hidden;
 
                 // remove special colors of disabled songs

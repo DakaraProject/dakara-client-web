@@ -221,7 +221,7 @@ export const reorderPlaylistEntry = ({playlistEntryId, beforeId, afterId} = {}) 
         json.after_id = afterId
         targetId = afterId
     } else {
-        throw Error('Either `beforeId` or `afterId` must be provided')
+        throw new Error('Either `beforeId` or `afterId` must be provided')
     }
 
     return {
