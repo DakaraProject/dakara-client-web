@@ -12,19 +12,20 @@
 
 #playlist-app {
     position: sticky;
-    top: 0;
+    top: -$playlist-info-bar-height;
     z-index: 1000;
 
-    // If the viewport is not hight enough, let the component where it is
-    // supposed to be. This avoids to hide the search box of the library when
-    // the visual keyboard is on, on a smartphone.
-    @media (max-height: 2 * $player-height) {
-        position: relative;
+    @include make-smartphone {
+        top: -$playlist-info-bar-height-smartphone;
     }
 
-    @include make-smartphone {
-        @media (max-height: 2 * $player-height-smartphone) {
-            position: relative;
+    // if the player has controls activated, the player item will hide the
+    // playlist-info-bar item on scroll
+    &.player-with-controls {
+        top: -$playlist-info-bar-height - $player-controls-height - $gap-vertical;
+
+        @include make-smartphone {
+            top: -$playlist-info-bar-height-smartphone - $player-controls-height-smartphone - $gap-vertical-smartphone;
         }
     }
 }

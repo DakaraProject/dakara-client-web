@@ -44,6 +44,10 @@
                     flex-direction: column;
 
                     .artist-work {
+                        @include make-smartphone {
+                            display: none;
+                        }
+
                         .work-link {
                             @include make-reverse();
                         }
@@ -288,6 +292,14 @@
                 max-height: 0;
                 transition: max-height 300ms ease-out;
             }
+        }
+    }
+
+    // fix appareance and disappearance transitions for moblie
+    &.add-remove-enter.add-remove-enter-active,
+    &.add-remove-exit {
+        @include make-smartphone {
+            height: (2 * $listing-entry-height);
         }
     }
 }

@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
 import React, { Component } from 'react'
@@ -20,6 +21,35 @@ class Player extends Component {
         playlistDigest: playlistDigestPropType.isRequired,
         responseOfSendPlayerCommands: PropTypes.objectOf(alterationResponsePropType),
         sendPlayerCommand: PropTypes.func.isRequired,
+        setWithControls: PropTypes.func.isRequired,
+    }
+
+    state = {
+        withControls: false
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { user: prevUser } = prevProps
+        const { user } = this.props
+        const { player_status: playerStatus } = this.props.playlistDigest.data
+        const { player_status: prevPlayerStatus } = prevProps.playlistDigest.data
+
+        if (user === prevUser && playerStatus === prevPlayerStatus) {
+            return
+        }
+
+        const { withControls: prevWithControls } = this.state
+        const withControls = IsPlaylistManagerOrOwner.hasPermission(
+            user,
+            playerStatus.playlist_entry
+        )
+
+        if (withControls === prevWithControls) {
+            return
+        }
+
+        this.setState({withControls})
+        this.props.setWithControls(withControls)
     }
 
     handleSearch = (song) => {
@@ -34,6 +64,7 @@ class Player extends Component {
     }
 
     render() {
+        const { withControls } = this.state
         const { player_status, player_errors } = this.props.playlistDigest.data
         const fetchError = this.props.playlistDigest.status === Status.failed
         const isPlaying = !!player_status.playlist_entry
@@ -46,10 +77,29 @@ class Player extends Component {
 
         const responseOfSendPlayerCommandsSafe = {
             pause: {status: null},
-            play: {status: null},
+            resume: {status: null},
+            restart: {status: null},
             skip: {status: null},
+            rewind: {status: null},
+            fast_forward: {status: null},
             ...this.props.responseOfSendPlayerCommands,
         }
+
+        /**
+         * Server lost widget
+         */
+        const serverLost = (
+            <CSSTransitionLazy
+                in={fetchError}
+                classNames="notified"
+                timeout={{
+                    enter: 300,
+                    exit: 150
+                }}
+            >
+                <ServerLost/>
+            </CSSTransitionLazy>
+        )
 
         /**
          * Display playlist entry if any song is currently playing
@@ -81,27 +131,27 @@ class Player extends Component {
             playlistEntry = (
                 <div className="playlist-entry">
                     {useInstrumental}
-                    <Song
-                        song={player_status.playlist_entry.song}
-                        noDuration
-                        noTag
-                        handleClick={() => {
-                            this.handleSearch(player_status.playlist_entry.song)
-                        }}
-                    />
-                    <div className="extra">
-                        <div className="timing">
-                            <div className="current">
-                                {formatDuration(player_status.timing)}
-                            </div>
-                            <div className="duration">
-                                {formatDuration(duration)}
-                            </div>
-                        </div>
+                    <div className="entry-info">
+                        <Song
+                            song={player_status.playlist_entry.song}
+                            noDuration
+                            noTag
+                            handleClick={() => {
+                                this.handleSearch(player_status.playlist_entry.song)
+                            }}
+                        />
                         <div className="owner">
                             <UserWidget
                                 user={player_status.playlist_entry.owner}
                             />
+                        </div>
+                    </div>
+                    <div className="timing">
+                        <div className="current">
+                            {formatDuration(player_status.timing)}
+                        </div>
+                        <div className="duration">
+                            {formatDuration(duration)}
                         </div>
                     </div>
                 </div>
@@ -110,14 +160,12 @@ class Player extends Component {
             progress = 0
             playlistEntry = (
                 <div className="playlist-entry">
-                    <div className="extra">
-                        <div className="timing">
-                            <div className="current">
-                                {formatDuration(0)}
-                            </div>
-                            <div className="duration">
-                                {formatDuration(0)}
-                            </div>
+                    <div className="timing">
+                        <div className="current">
+                            {formatDuration(0)}
+                        </div>
+                        <div className="duration">
+                            {formatDuration(0)}
                         </div>
                     </div>
                 </div>
@@ -125,70 +173,98 @@ class Player extends Component {
         }
 
         return (
-            <div id="player">
-                <div className="first-line">
-                    <div className="controls main">
-                        <IsPlaylistManagerOrOwner
-                            object={player_status.playlist_entry}
-                            disable
-                        >
-                            <ManageButton
-                                responseOfManage={
-                                    player_status.paused ?
-                                        responseOfSendPlayerCommandsSafe.play :
-                                        responseOfSendPlayerCommandsSafe.pause
-                                }
-                                onClick={() => {
-                                    if (!isPlaying) return
-
-                                    if (player_status.paused) {
-                                        this.props.sendPlayerCommand('play')
-                                    } else {
-                                        this.props.sendPlayerCommand('pause')
-                                    }
-                                }}
-                                disabled={controlDisabled}
-                                icon={
-                                    isPlaying ?
-                                        (player_status.paused ? 'play' : 'pause') :
-                                        'stop'
-                                }
-                            />
-                            <ManageButton
-                                responseOfManage={responseOfSendPlayerCommandsSafe.skip}
-                                onClick={() =>
-                                        this.props.sendPlayerCommand('skip', true)
-                                }
-                                disabled={controlDisabled}
-                                icon="step-forward"
-                            />
-                        </IsPlaylistManagerOrOwner>
-                    </div>
-                    <div className="display-area notifiable">
+            <div
+                id="player"
+                className={classNames({'with-controls': withControls})}
+            >
+                <div className="player-sticky">
+                    <div className="notifiable">
                         {playlistEntry}
-                        <CSSTransitionLazy
-                            in={fetchError}
-                            classNames="notified"
-                            timeout={{
-                                enter: 300,
-                                exit: 150
-                            }}
-                        >
-                            <ServerLost/>
-                        </CSSTransitionLazy>
                         <PlayerNotification
                             alterationsResponse={responseOfSendPlayerCommandsSafe}
                             playerErrors={player_errors}
                         />
+                        {serverLost}
                     </div>
                 </div>
+                <CSSTransitionLazy
+                    in={withControls}
+                    classNames="expand"
+                    timeout={{
+                        enter: 300,
+                        exit: 150
+                    }}
+                >
+                    <div className="controls">
+                        <ManageButton
+                            responseOfManage={responseOfSendPlayerCommandsSafe.restart}
+                            onClick={() =>
+                                    this.props.sendPlayerCommand('restart')
+                            }
+                            disabled={controlDisabled}
+                            icon="step-backward"
+                        />
+                        <ManageButton
+                            responseOfManage={responseOfSendPlayerCommandsSafe.rewind}
+                            onClick={() =>
+                                    this.props.sendPlayerCommand('rewind')
+                            }
+                            disabled={controlDisabled}
+                            icon="backward"
+                        />
+                        <ManageButton
+                            responseOfManage={
+                                player_status.paused ?
+                                    responseOfSendPlayerCommandsSafe.resume :
+                                    responseOfSendPlayerCommandsSafe.pause
+                            }
+                            onClick={() => {
+                                if (!isPlaying) return
+
+                                if (player_status.paused) {
+                                    this.props.sendPlayerCommand('resume')
+                                } else {
+                                    this.props.sendPlayerCommand('pause')
+                                }
+                            }}
+                            disabled={controlDisabled}
+                            icon={
+                                isPlaying ?
+                                    (player_status.paused ? 'play' : 'pause') :
+                                    'stop'
+                            }
+                        />
+                        <ManageButton
+                            responseOfManage={
+                                responseOfSendPlayerCommandsSafe.fast_forward
+                            }
+                            onClick={() =>
+                                    this.props.sendPlayerCommand('fast_forward')
+                            }
+                            disabled={controlDisabled}
+                            icon="forward"
+                        />
+                        <ManageButton
+                            responseOfManage={responseOfSendPlayerCommandsSafe.skip}
+                            onClick={() =>
+                                    this.props.sendPlayerCommand('skip', true)
+                            }
+                            disabled={controlDisabled}
+                            icon="step-forward"
+                        />
+                    </div>
+                </CSSTransitionLazy>
                 <progress
                     className="progressbar"
                     max="100"
                     value={progress}
                 >
                     <div className="bar">
-                        <div className="value" style={{width: `${progress}%`}}></div>
+                        <div
+                            className="value"
+                            style={{width: `${progress}%`}}
+                        >
+                        </div>
                     </div>
                 </progress>
             </div>
@@ -212,6 +288,7 @@ const ServerLost = () => (
 )
 
 const mapStateToProps = (state) => ({
+    user: state.authenticatedUser,
     playlistDigest: state.playlist.digest,
     responseOfSendPlayerCommands: state.alterationsResponse.multiple.sendPlayerCommands,
 })
