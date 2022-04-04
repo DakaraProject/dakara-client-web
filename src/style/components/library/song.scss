@@ -294,4 +294,12 @@
             }
         }
     }
+
+    // fix appareance and disappearance transitions for moblie
+    &.add-remove-enter.add-remove-enter-active,
+    &.add-remove-exit {
+        @include make-smartphone {
+            height: (2 * $listing-entry-height);
+        }
+    }
 }
