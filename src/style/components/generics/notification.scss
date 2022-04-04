@@ -153,6 +153,7 @@
                 &.pending {
                     @include make-gap(margin, right);
 
+                    align-self: center;
                     font-size: 3em;
 
                     .point {

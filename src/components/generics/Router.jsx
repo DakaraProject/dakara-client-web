@@ -5,43 +5,9 @@ import { connect } from 'react-redux'
 import {
     Navigate,
     Outlet,
-    useLocation,
-    useNavigate,
-    useParams,
-    useSearchParams
 } from 'react-router-dom'
 
-export const withLocation = (Component) => (props) => (
-    <Component
-        location={useLocation()}
-        {...props}
-    />
-)
-
-export const withParams = (Component) => (props) => (
-    <Component
-        params={useParams()}
-        {...props}
-    />
-)
-
-export const withNavigate = (Component) => (props) => (
-    <Component
-        navigate={useNavigate()}
-        {...props}
-    />
-)
-
-export const withSearchParams = (Component) => (props) => {
-    const [searchParams, setSearchParams] = useSearchParams()
-    return (
-        <Component
-            searchParams={searchParams}
-            setSearchParams={setSearchParams}
-            {...props}
-        />
-    )
-}
+import { withLocation } from 'components/adapted/ReactRouterDom'
 
 class ProtectedRoute extends Component {
     static propTypes = {
@@ -107,4 +73,4 @@ ProtectedRoute = withLocation(connect(
     mapStateToProps,
 )(ProtectedRoute))
 
-export {ProtectedRoute}
+export default ProtectedRoute

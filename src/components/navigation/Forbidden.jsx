@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
-import { withLocation } from 'components/generics/Router'
+import { withLocation } from 'components/adapted/ReactRouterDom'
 
 class Forbidden extends Component {
     static propTypes = {

@@ -16,7 +16,6 @@
     $color: hsl(0, $custom-color-saturation, $custom-color-luminosity);
 
     @include make-font();
-    @include make-gap(padding, horizontal);
 
     background-color: $color;
     border-style: none;
@@ -25,6 +24,7 @@
     font-size: medium;
     font-weight: 700;
     outline: none;
+    padding: 0 $gap-horizontal;
 
     &.clickable {
         cursor: pointer;

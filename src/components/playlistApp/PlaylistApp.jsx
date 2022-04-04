@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -17,11 +18,26 @@ class PlaylistApp extends Component {
         playlistDigest: playlistDigestPropType.isRequired,
     }
 
+    state = {
+        playerWithControls: false
+    }
+
+    /**
+     * Get evolution of the playlist periodically
+     */
     pollPlaylistAppDigest = () => {
         if (this.props.playlistDigest.status !== Status.pending) {
             this.props.loadPlaylistAppDigest()
         }
         this.timeout = setTimeout(this.pollPlaylistAppDigest, params.pollInterval)
+    }
+
+    /**
+     * Allow to tell if the player has controls activated
+     * This is used for the styles
+     */
+    setPlayerWithControls = (playerWithControls) => {
+        this.setState({playerWithControls})
     }
 
     componentDidMount() {
@@ -36,6 +52,7 @@ class PlaylistApp extends Component {
 
     render() {
         const { karaoke } = this.props.playlistDigest.data
+        const { playerWithControls } = this.state
 
         if (!karaoke.ongoing === null) return null
 
@@ -50,8 +67,14 @@ class PlaylistApp extends Component {
         }
 
         return (
-            <div className="box" id="playlist-app">
-                <Player/>
+            <div
+                id="playlist-app"
+                className={classNames(
+                    'box',
+                    {'player-with-controls': playerWithControls}
+                )}
+            >
+                <Player setWithControls={this.setPlayerWithControls}/>
                 <PlaylistInfoBar/>
             </div>
         )

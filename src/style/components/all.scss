@@ -51,6 +51,10 @@ p {
     @include make-long-text();
 }
 
+ul {
+    list-style-type: square;
+}
+
 // remove border radius from button in some browsers
 button {
     border-radius: 0;

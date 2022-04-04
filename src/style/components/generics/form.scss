@@ -326,8 +326,15 @@ $form-control-icon-size: $row-icon-font-size;
         }
 
         // controls inside inputs
-        .input .controls .icon {
-            font-size: 1.1em;
+        .input .controls {
+            // no margin when stacking controls
+            .control {
+                margin-right: 0;
+            }
+
+            .icon {
+                font-size: 1.1em;
+            }
         }
 
         // `text-input` class:
@@ -339,7 +346,7 @@ $form-control-icon-size: $row-icon-font-size;
                 color: $text-dark;
 
                 &::placeholder {
-                    color: $black-80;
+                    color: darken($black-80, 3%);
 
                     & {
                         // override the way Firefox adds opacity

@@ -6,9 +6,9 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import { clearAlteration } from 'actions/alterations'
 import { addSongToPlaylist } from 'actions/playlist'
+import { withSearchParams } from 'components/adapted/ReactRouterDom'
+import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
 import Notification from 'components/generics/Notification'
-import { CSSTransitionLazy } from 'components/generics/ReactTransitionGroup'
-import { withSearchParams } from 'components/generics/Router'
 import SongEntryExpanded from 'components/library/song/EntryExpanded'
 import { CanAddToPlaylist, IsPlaylistUser} from 'components/permissions/Playlist'
 import PlayQueueInfo from 'components/song/PlayQueueInfo'
@@ -159,38 +159,40 @@ class SongEntry extends Component {
                                     this.setExpanded(song.id)
                             }
                         />
-                        <TransitionGroup
-                            className="play-queue-info-wrapper"
-                        >
-                            {playQueueInfo}
-                        </TransitionGroup>
-                        <div
-                            className="controls"
-                            id={`song-${this.props.song.id}`}
-                        >
-                            <CanAddToPlaylist>
-                                <IsPlaylistUser>
-                                    <button
-                                        className="control primary"
-                                        onClick={() => {
-                                            this.props.addSongToPlaylist(
-                                              this.props.song.id
-                                            )
-                                        }}
-                                    >
-                                        <span className="icon">
-                                            <i className="las la-plus"></i>
-                                        </span>
-                                    </button>
-                                </IsPlaylistUser>
-                            </CanAddToPlaylist>
+                        <div className="extra">
+                            <TransitionGroup
+                                className="play-queue-info-wrapper"
+                            >
+                                {playQueueInfo}
+                            </TransitionGroup>
+                            <div
+                                className="controls"
+                                id={`song-${this.props.song.id}`}
+                            >
+                                <CanAddToPlaylist>
+                                    <IsPlaylistUser>
+                                        <button
+                                            className="control primary"
+                                            onClick={() => {
+                                                this.props.addSongToPlaylist(
+                                                  this.props.song.id
+                                                )
+                                            }}
+                                        >
+                                            <span className="icon">
+                                                <i className="las la-plus"></i>
+                                            </span>
+                                        </button>
+                                    </IsPlaylistUser>
+                                </CanAddToPlaylist>
+                            </div>
+                            <Notification
+                                alterationResponse={this.props.responseOfAddSong}
+                                pendingMessage="Adding…"
+                                successfulMessage="Successfuly added!"
+                                failedMessage="Error attempting to add song to playlist"
+                            />
                         </div>
-                        <Notification
-                            alterationResponse={this.props.responseOfAddSong}
-                            pendingMessage="Adding…"
-                            successfulMessage="Successfuly added!"
-                            failedMessage="Error attempting to add song to playlist"
-                        />
                     </div>
                     <CSSTransitionLazy
                         in={expanded}

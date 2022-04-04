@@ -4,9 +4,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { loadLibraryEntries } from 'actions/library'
+import { withSearchParams } from 'components/adapted/ReactRouterDom'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
-import { withSearchParams } from 'components/generics/Router'
 import SearchBox from 'components/library/SearchBox'
 import SongEntry from 'components/library/song/Entry'
 import { songStatePropType } from 'reducers/library'
@@ -70,7 +70,39 @@ class SongList extends Component {
 
         return (
             <div id="song-library">
-                <SearchBox placeholder="What will you sing?" />
+                <SearchBox
+                    placeholder="What will you sing?"
+                    help={(
+                        <>
+                            <p>
+                                You can obtain better results with the query search
+                                mini-language:
+                            </p>
+                            <ul>
+                                <li>
+                                    Quotes to group words: {' '}
+                                    <span className="example">"my artist"</span>
+                            </li>
+                                <li>
+                                    Prefix and quotes to search in a specific
+                                    field: {' '}
+                                    <span className="example">artist:"my artist"</span>
+                                </li>
+                                <li>
+                                    Prefix and doubled quotes to search a specific
+                                    field exactly: {' '}
+                                    <span className="example">
+                                        artist:""my artist name""
+                                    </span>
+                                </li>
+                                <li>
+                                    Hash tag to target tags: {' '}
+                                    <span className="example">#tag</span>
+                                </li>
+                            </ul>
+                        </>
+                    )}
+                />
                 <div className="song-list">
                     <ListingFetchWrapper
                         status={this.props.songState.status}

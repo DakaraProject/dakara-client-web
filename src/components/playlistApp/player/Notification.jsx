@@ -25,14 +25,16 @@ export default class PlayerNotification extends Component {
 
     componentDidUpdate(prevProps) {
         /**
-         * Handle arterationStatus
+         * Handle alterationStatus
          */
 
         const alterationsResponse = this.props.alterationsResponse
         const prevAlterationsResponse = prevProps.alterationsResponse
 
         // if the alterationsResponse prop has changed in length, throw an error
-        if (alterationsResponse.length !== prevAlterationsResponse.length) {
+        if (
+            Object.keys(alterationsResponse).length !==
+            Object.keys(prevAlterationsResponse).length) {
             throw new Error('Property alterationsResponse has changed')
         }
 

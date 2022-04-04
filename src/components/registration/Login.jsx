@@ -4,8 +4,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Navigate, NavLink } from 'react-router-dom'
 
+import { withLocation } from 'components/adapted/ReactRouterDom'
 import { FormBlock, InputField } from 'components/generics/Form'
-import { withLocation } from 'components/generics/Router'
 
 class Login extends Component {
     static propTypes = {
