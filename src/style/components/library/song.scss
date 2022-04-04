@@ -44,6 +44,10 @@
                     flex-direction: column;
 
                     .artist-work {
+                        @include make-smartphone {
+                            display: none;
+                        }
+
                         .work-link {
                             @include make-reverse();
                         }

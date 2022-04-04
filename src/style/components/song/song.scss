@@ -54,10 +54,6 @@
             overflow: hidden;
             text-align: right;
 
-            @include make-smartphone {
-                display: none;
-            }
-
             .artists {
                 @include text-truncate();
 
