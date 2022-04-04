@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
 import React, { Component } from 'react'
 
+import { withNavigate } from 'components/adapted/ReactRouterDom'
 import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
@@ -18,6 +19,7 @@ class Entry extends Component {
     static propTypes = {
         clearAlteration: PropTypes.func.isRequired,
         entry: playlistEntryPropType.isRequired,
+        navigate: PropTypes.func.isRequired,
         onReorderButtonClick: PropTypes.func.isRequired,
         position: PropTypes.number.isRequired,
         removeEntry: PropTypes.func.isRequired,
@@ -46,7 +48,7 @@ class Entry extends Component {
     handleSearch = () => {
         const song = this.props.entry.song
         const query = `title:""${song.title}""`
-        this.props.history.push({
+        this.props.navigate({
             pathname: '/library/song',
             search: stringify({
                 query,
@@ -97,32 +99,34 @@ class Entry extends Component {
                         song={entry.song}
                         handleClick={this.handleSearch}
                     />
-                    <PlayQueueInfo
-                        queueInfo={{timeOfPlay: datePlay, playlistEntry: entry}}
-                    />
-                    <div className="controls">
-                        <IsPlaylistManager>
-                            <button
-                                className="control primary"
-                                onClick={() => {
-                                    onReorderButtonClick(entry.id, position)}
-                                }
-                            >
-                                <span className="icon">
-                                    <i className={`fa fa-${reorderIconName}`}></i>
-                                </span>
-                            </button>
-                        </IsPlaylistManager>
-                        <IsPlaylistManagerOrOwner object={entry} disable>
-                            <button
-                                className="control warning"
-                                onClick={this.displayConfirm}
-                            >
-                                <span className="icon">
-                                    <i className="fa fa-times"></i>
-                                </span>
-                            </button>
-                        </IsPlaylistManagerOrOwner>
+                    <div className="extra">
+                        <PlayQueueInfo
+                            queueInfo={{timeOfPlay: datePlay, playlistEntry: entry}}
+                        />
+                        <div className="controls">
+                            <IsPlaylistManager>
+                                <button
+                                    className="control primary"
+                                    onClick={() => {
+                                        onReorderButtonClick(entry.id, position)}
+                                    }
+                                >
+                                    <span className="icon">
+                                        <i className={`fa fa-${reorderIconName}`}></i>
+                                    </span>
+                                </button>
+                            </IsPlaylistManager>
+                            <IsPlaylistManagerOrOwner object={entry} disable>
+                                <button
+                                    className="control warning"
+                                    onClick={this.displayConfirm}
+                                >
+                                    <span className="icon">
+                                        <i className="fa fa-times"></i>
+                                    </span>
+                                </button>
+                            </IsPlaylistManagerOrOwner>
+                        </div>
                     </div>
                     <CSSTransitionLazy
                         in={this.state.confirmDisplayed}
@@ -156,4 +160,4 @@ class Entry extends Component {
     }
 }
 
-export default Entry
+export default withNavigate(Entry)

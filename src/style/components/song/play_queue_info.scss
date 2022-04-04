@@ -19,17 +19,6 @@
     text-align: center;
     width: 2 * $listing-entry-height;
 
-    @include make-smartphone {
-        font-size: 0.85em;
-        width: $listing-entry-height;
-
-        .played,
-        .queueing,
-        .owner {
-            font-size: 0.6em !important;
-        }
-    }
-
     .owner {
         @include text-truncate();
 

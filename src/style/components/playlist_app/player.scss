@@ -60,6 +60,7 @@ $player-height-smartphone: 2 * $gap-vertical-smartphone + 2 * $row-height * 0.6 
 
                 align-content: flex-start;
                 align-items: initial;
+                cursor: pointer;
                 flex-direction: column;
                 height: $player-controls-height;
                 overflow: hidden;
