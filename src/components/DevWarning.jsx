@@ -3,7 +3,7 @@ import semver from 'semver'
 
 export default class DevWarning extends Component {
     componentDidMount() {
-        console.log("You are running a dev version, use it at your own risks!")
+        console.log('You are running a dev version, use it at your own risks!')
     }
 
     render() {

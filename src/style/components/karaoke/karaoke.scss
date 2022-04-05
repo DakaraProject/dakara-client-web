@@ -1,7 +1,7 @@
 //
 // Dakara Project
 //
-// Playlist app style file
+// Karaoke style file
 //
 
 
@@ -10,7 +10,7 @@
 @import "kara_status_notification";
 
 
-#playlist-app {
+#karaoke {
     position: sticky;
     top: -$playlist-info-bar-height;
     z-index: 1000;

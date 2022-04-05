@@ -7,12 +7,10 @@ import { loadServerSettings } from 'actions/internal'
 import DevWarning from 'components/DevWarning'
 import Footer from 'components/Footer'
 import Header from 'components/Header'
+import Karaoke from 'components/karaoke/Karaoke'
 import { IsAuthenticated } from 'components/permissions/Base'
-import PlaylistApp from 'components/playlistApp/PlaylistApp'
 
 class Main extends Component {
-    playlistAppWrapperRef = React.createRef()
-
     static propTypes = {
         isLoggedIn: PropTypes.bool.isRequired,
         loadCurrentUser: PropTypes.func.isRequired,
@@ -40,7 +38,7 @@ class Main extends Component {
                 <div className="column">
                     <Header/>
                     <IsAuthenticated>
-                        <PlaylistApp/>
+                        <Karaoke/>
                     </IsAuthenticated>
                     <div className="content">
                         {this.props.children}

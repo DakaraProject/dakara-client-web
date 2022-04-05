@@ -25,7 +25,7 @@ export const PLAYLIST_DIGEST_FAILURE = 'PLAYLIST_DIGEST_FAILURE'
 /**
  * Request information digest
  */
-export const loadPlaylistAppDigest = () => ({
+export const loadPlaylistDigest = () => ({
     [FETCH_API]: {
         endpoint: `${baseUrl}/playlist/digest/`,
         method: 'GET',
@@ -262,7 +262,7 @@ export const sendPlayerCommand = (command) => ({
                 ALTERATION_SUCCESS,
                 ALTERATION_FAILURE
             ],
-            onSuccess: loadPlaylistAppDigest(),
+            onSuccess: loadPlaylistDigest(),
     },
     alterationName: 'sendPlayerCommands',
     elementId: command,

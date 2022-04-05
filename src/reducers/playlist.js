@@ -48,7 +48,7 @@ export const playlistDigestPropType = PropTypes.shape({
     }).isRequired,
 })
 
-const defaultPlaylistAppDigest = {
+const defaultPlaylistDigest = {
     status: null,
     data: {
         player_status: {
@@ -69,7 +69,7 @@ const defaultPlaylistAppDigest = {
     },
 }
 
-function digest(state = defaultPlaylistAppDigest, action) {
+function digest(state = defaultPlaylistDigest, action) {
     switch (action.type) {
         case PLAYLIST_DIGEST_REQUEST:
             return {
