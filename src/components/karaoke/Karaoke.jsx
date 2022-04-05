@@ -3,18 +3,18 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { loadPlaylistAppDigest } from 'actions/playlist'
+import { loadPlaylistDigest } from 'actions/playlist'
+import KaraStatusNotification from 'components/karaoke/KaraStatusNotification'
+import Player from 'components/karaoke/player/Player'
+import PlaylistInfoBar from 'components/karaoke/PlaylistInfoBar'
 import { IsPlaylistManager } from 'components/permissions/Playlist'
-import KaraStatusNotification from 'components/playlistApp/KaraStatusNotification'
-import Player from 'components/playlistApp/player/Player'
-import PlaylistInfoBar from 'components/playlistApp/PlaylistInfoBar'
 import { Status } from 'reducers/alterationsResponse'
 import { playlistDigestPropType } from 'reducers/playlist'
 import { params } from 'utils'
 
-class PlaylistApp extends Component {
+class Karaoke extends Component {
     static propTypes = {
-        loadPlaylistAppDigest: PropTypes.func.isRequired,
+        loadPlaylistDigest: PropTypes.func.isRequired,
         playlistDigest: playlistDigestPropType.isRequired,
     }
 
@@ -25,11 +25,11 @@ class PlaylistApp extends Component {
     /**
      * Get evolution of the playlist periodically
      */
-    pollPlaylistAppDigest = () => {
+    pollPlaylistDigest = () => {
         if (this.props.playlistDigest.status !== Status.pending) {
-            this.props.loadPlaylistAppDigest()
+            this.props.loadPlaylistDigest()
         }
-        this.timeout = setTimeout(this.pollPlaylistAppDigest, params.pollInterval)
+        this.timeout = setTimeout(this.pollPlaylistDigest, params.pollInterval)
     }
 
     /**
@@ -42,7 +42,7 @@ class PlaylistApp extends Component {
 
     componentDidMount() {
         // start polling server
-        this.pollPlaylistAppDigest()
+        this.pollPlaylistDigest()
     }
 
     componentWillUnmount() {
@@ -68,7 +68,7 @@ class PlaylistApp extends Component {
 
         return (
             <div
-                id="playlist-app"
+                id="karaoke"
                 className={classNames(
                     'box',
                     {'player-with-controls': playerWithControls}
@@ -86,11 +86,11 @@ const mapStateToProps = (state) => ({
     user: state.authenticatedUser,
 })
 
-PlaylistApp = connect(
+Karaoke = connect(
     mapStateToProps,
     {
-        loadPlaylistAppDigest,
+        loadPlaylistDigest,
     }
-)(PlaylistApp)
+)(Karaoke)
 
-export default PlaylistApp
+export default Karaoke
