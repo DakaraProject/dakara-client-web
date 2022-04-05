@@ -54,8 +54,6 @@ class Karaoke extends Component {
         const { karaoke } = this.props.playlistDigest.data
         const { playerWithControls } = this.state
 
-        if (!karaoke.ongoing === null) return null
-
         if (!karaoke.ongoing) {
             if (IsPlaylistManager.hasPermission(this.props.user)) {
                 return (
