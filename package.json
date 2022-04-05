@@ -30,7 +30,8 @@
     "redux": "^4.1.2",
     "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.4.1",
-    "sass": "^1.49.10"
+    "sass": "^1.49.10",
+    "semver": "^7.3.5"
   },
   "scripts": {
     "start": "react-app-rewired start",
