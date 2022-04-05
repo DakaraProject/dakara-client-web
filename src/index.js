@@ -52,7 +52,7 @@ const store = createStore(
 
 manageStorageEvent(store)
 
-const root = createRoot(document.getElementById('react-mounting-point'))
+const root = createRoot(document.getElementById('root'))
 root.render(
     <Provider store={store}>
         <BrowserRouter>
