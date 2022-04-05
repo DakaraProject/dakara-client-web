@@ -251,24 +251,6 @@ $player-progressbar-height: 0.4rem;
         }
     }
 
-    // // `first-line` class: the main part of the player displays the current
-    // // song, its numerical progression and the controls of the player.
-    // .first-line {
-    //     @include make-gap(padding, vertical);
-    //
-    //     align-items: center;
-    //     display: flex;
-    //
-    //     .display-area {
-    //         @include make-gap(margin, left);
-    //
-    //         height: $player-controls-height;
-    //         overflow: hidden;
-    //         width: 100%;
-    //
-    //     }
-    // }
-
     // `progressbar` class: visual indicator of the song progression.
     .progressbar {
         // reset default style
