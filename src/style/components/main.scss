@@ -6,22 +6,20 @@
 
 
 #main {
-    // disable grid for now
-    // display: grid;
-    // grid-template-rows: auto auto 1fr auto;
+    > .column {
+        // use flex instead
+        display: flex;
+        flex-direction: column;
+        min-height: calc(100vh - $dev-warning-height);
 
-    // use flex instead
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+        @include make-desktop {
+            @include center-block();
 
-    @include make-desktop {
-        @include center-block();
+            max-width: $page-width-max;
+        }
 
-        max-width: $page-width-max;
+        > .content {
+            flex-grow: 1;
+        }
     }
-}
-
-#content {
-    flex-grow: 1;
 }

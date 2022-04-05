@@ -35,19 +35,19 @@ class Main extends Component {
 
     render() {
         return (
-            <>
+            <div id="main">
                 <DevWarning/>
-                <div id="main">
+                <div className="column">
                     <Header/>
                     <IsAuthenticated>
                         <PlaylistApp/>
                     </IsAuthenticated>
-                    <div id="content">
+                    <div className="content">
                         {this.props.children}
                     </div>
                     <Footer/>
                 </div>
-            </>
+            </div>
         )
     }
 }
