@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import { loadCurrentUser } from 'actions/authenticatedUser'
 import { loadServerSettings } from 'actions/internal'
+import DevWarning from 'components/DevWarning'
 import Footer from 'components/Footer'
 import Header from 'components/Header'
 import { IsAuthenticated } from 'components/permissions/Base'
@@ -34,16 +35,19 @@ class Main extends Component {
 
     render() {
         return (
-            <div id="main">
-                <Header/>
-                <IsAuthenticated>
-                    <PlaylistApp/>
-                </IsAuthenticated>
-                <div id="content">
-                    {this.props.children}
+            <>
+                <DevWarning/>
+                <div id="main">
+                    <Header/>
+                    <IsAuthenticated>
+                        <PlaylistApp/>
+                    </IsAuthenticated>
+                    <div id="content">
+                        {this.props.children}
+                    </div>
+                    <Footer/>
                 </div>
-                <Footer/>
-            </div>
+            </>
         )
     }
 }
