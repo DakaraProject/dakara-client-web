@@ -6,11 +6,13 @@
 
 
 #main {
+    display: flex;
+    min-height: 100vh;
+
     > .column {
-        // use flex instead
         display: flex;
         flex-direction: column;
-        min-height: calc(100vh - $dev-warning-height);
+        flex-grow: 1;
 
         @include make-desktop {
             @include center-block();
