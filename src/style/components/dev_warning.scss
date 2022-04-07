@@ -20,7 +20,6 @@ $dev-warning-height: 2rem;
     height: $dev-warning-height;
     line-height: $dev-warning-height;
     position: relative;
-    text-align: center;
     z-index: 1400;
 
     &::selection {
