@@ -7,6 +7,7 @@
 
 #main {
     display: flex;
+    flex-direction: column;
     min-height: 100vh;
 
     > .column {
@@ -17,7 +18,7 @@
         @include make-desktop {
             @include center-block();
 
-            max-width: $page-width-max;
+            width: $page-width-max;
         }
 
         > .content {
