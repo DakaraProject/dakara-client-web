@@ -1,0 +1,28 @@
+//
+// Dakara Project
+//
+// Dev warning message style file
+//
+
+// dev warning sizes
+$dev-warning-height: 2rem;
+
+
+#dev-warning {
+    background: repeating-linear-gradient(
+        -45deg,
+        $brand-warning-dark,
+        $brand-warning-dark 2rem,
+        $brand-warning-darker 2rem,
+        $brand-warning-darker 4rem
+    );
+    color: $text-dark;
+    height: $dev-warning-height;
+    line-height: $dev-warning-height;
+    position: relative;
+    z-index: 1400;
+
+    &::selection {
+        background: $brand-warning-darker;
+    }
+}

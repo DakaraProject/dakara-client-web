@@ -12,6 +12,7 @@
 
 
 @import "all";
+@import "dev_warning";
 @import "generics/generics";
 @import "body";
 @import "main";
@@ -19,7 +20,7 @@
 @import "footer";
 @import "library/library";
 @import "song/song";
-@import "playlist_app/playlist_app";
+@import "karaoke/karaoke";
 @import "navigation/navigation";
 @import "settings/settings";
 @import "user/user";

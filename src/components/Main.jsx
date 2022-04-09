@@ -4,14 +4,13 @@ import { connect } from 'react-redux'
 
 import { loadCurrentUser } from 'actions/authenticatedUser'
 import { loadServerSettings } from 'actions/internal'
+import DevWarning from 'components/DevWarning'
 import Footer from 'components/Footer'
 import Header from 'components/Header'
+import Karaoke from 'components/karaoke/Karaoke'
 import { IsAuthenticated } from 'components/permissions/Base'
-import PlaylistApp from 'components/playlistApp/PlaylistApp'
 
 class Main extends Component {
-    playlistAppWrapperRef = React.createRef()
-
     static propTypes = {
         isLoggedIn: PropTypes.bool.isRequired,
         loadCurrentUser: PropTypes.func.isRequired,
@@ -35,14 +34,17 @@ class Main extends Component {
     render() {
         return (
             <div id="main">
-                <Header/>
-                <IsAuthenticated>
-                    <PlaylistApp/>
-                </IsAuthenticated>
-                <div id="content">
-                    {this.props.children}
+                <DevWarning/>
+                <div className="column">
+                    <Header/>
+                    <IsAuthenticated>
+                        <Karaoke/>
+                    </IsAuthenticated>
+                    <div className="content">
+                        {this.props.children}
+                    </div>
+                    <Footer/>
                 </div>
-                <Footer/>
             </div>
         )
     }
