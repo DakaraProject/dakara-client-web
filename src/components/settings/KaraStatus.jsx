@@ -4,15 +4,22 @@ import { connect } from 'react-redux'
 import { CheckboxField, FormBlock} from 'components/generics/Form'
 import { IsPlaylistManager} from 'components/permissions/Playlist'
 import { Status } from 'reducers/alterationsResponse'
+import { karaokeStatePropType } from 'reducers/playlist'
+import { userPropType } from 'serverPropTypes/users'
 
 class KaraStatus extends Component {
+    static propTypes = {
+        authenticatedUser: userPropType,
+        karaokeState: karaokeStatePropType.isRequired,
+    }
 
     render() {
         // render nothing if the kara status is being fetched
-        if (this.props.playlistDigestStatus === Status.pending ||
-            this.props.playlistDigestStatus === null) return null
+        if (this.props.karaokeState.status === Status.pending ||
+            this.props.karaokeState.Status === null) return null
 
-        const { authenticatedUser, karaoke } = this.props
+        const { authenticatedUser } = this.props
+        const { data: karaoke } = this.props.karaokeState
         const isManager = IsPlaylistManager.hasPermission(authenticatedUser)
 
         let karaStatusWidget
@@ -97,8 +104,7 @@ class KaraStatus extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playlistDigestStatus: state.playlist.digest.status,
-    karaoke: state.playlist.digest.data.karaoke,
+    karaokeState: state.playlist.karaoke,
     authenticatedUser: state.authenticatedUser,
 })
 

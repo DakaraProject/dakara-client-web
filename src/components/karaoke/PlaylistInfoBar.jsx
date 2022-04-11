@@ -8,7 +8,11 @@ import { Link } from 'react-router-dom'
 import { loadPlaylist, loadPlaylistPlayed } from 'actions/playlist'
 import PlaylistEntryMinimal from 'components/generics/PlaylistEntryMinimal'
 import { Status } from 'reducers/alterationsResponse'
-import { playlistDigestPropType, playlistEntriesStatePropType } from 'reducers/playlist'
+import {
+    karaokeStatePropType,
+    playerStatusStatePropType,
+    playlistEntriesStatePropType
+} from 'reducers/playlist'
 import { params } from 'utils'
 
 dayjs.extend(relativeTime)
@@ -17,7 +21,8 @@ class PlaylistInfoBar extends Component {
     static propTypes = {
         loadPlaylist: PropTypes.func.isRequired,
         loadPlaylistPlayed: PropTypes.func.isRequired,
-        playlistDigest: playlistDigestPropType.isRequired,
+        karaokeState: karaokeStatePropType.isRequired,
+        playerStatusState: playerStatusStatePropType.isRequired,
         playlistEntriesState: playlistEntriesStatePropType.isRequired,
     }
 
@@ -44,8 +49,9 @@ class PlaylistInfoBar extends Component {
             playlistEntries,
             date_end: dateEnd
         } = this.props.playlistEntriesState.data
-        const playerStatus = this.props.playlistDigest.data.player_status
-        const dateStop = this.props.playlistDigest.data.karaoke.date_stop
+        const { data: playerStatus } = this.props.playerStatusState
+        const { data: karaoke } = this.props.karaokeState
+        const { date_stop: dateStop } = karaoke
 
         /**
          * Next element in playlist
@@ -165,7 +171,8 @@ class PlaylistInfoBar extends Component {
 
 
 const mapStateToProps = (state) => ({
-    playlistDigest: state.playlist.digest,
+    karaokeState: state.playlist.karaoke,
+    playerStatusState: state.playlist.playerStatus,
     playlistEntriesState: state.playlist.entries,
 })
 

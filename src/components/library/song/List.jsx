@@ -10,10 +10,11 @@ import Navigator from 'components/generics/Navigator'
 import SearchBox from 'components/library/SearchBox'
 import SongEntry from 'components/library/song/Entry'
 import { songStatePropType } from 'reducers/library'
+import { karaokeStatePropType } from 'reducers/playlist'
 
 class SongList extends Component {
     static propTypes = {
-        karaokeDateStop: PropTypes.string,
+        karaokeState: karaokeStatePropType.isRequired,
         playlistDateEnd: PropTypes.string.isRequired,
         searchParams: PropTypes.object.isRequired,
         setSearchParams: PropTypes.func.isRequired,
@@ -42,7 +43,8 @@ class SongList extends Component {
 
     render() {
         const { songs, count, pagination } = this.props.songState.data
-        const { playlistDateEnd, karaokeDateStop } = this.props
+        const { date_stop: karaokeDateStop } = this.props.karaokeState.data
+        const { playlistDateEnd } = this.props
 
         /**
          * Compute remaining karoke time
@@ -128,7 +130,7 @@ class SongList extends Component {
 const mapStateToProps = (state) => ({
     songState: state.library.song,
     playlistDateEnd: state.playlist.entries.data.date_end,
-    karaokeDateStop: state.playlist.digest.data.karaoke.date_stop,
+    karaokeState: state.playlist.karaoke,
 })
 
 SongList = withSearchParams(connect(

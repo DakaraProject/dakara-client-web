@@ -13,12 +13,13 @@ import PlayerNotification from 'components/karaoke/player/Notification'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import Song from 'components/song/Song'
 import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
-import { playlistDigestPropType } from 'reducers/playlist'
+import { playerErrorsStatePropType,playerStatusStatePropType } from 'reducers/playlist'
 import { formatDuration } from 'utils'
 
 class Player extends Component {
     static propTypes = {
-        playlistDigest: playlistDigestPropType.isRequired,
+        playerErrorsState: playerErrorsStatePropType.isRequired,
+        playerStatusState: playerStatusStatePropType.isRequired,
         responseOfSendPlayerCommands: PropTypes.objectOf(alterationResponsePropType),
         sendPlayerCommand: PropTypes.func.isRequired,
         setWithControls: PropTypes.func.isRequired,
@@ -31,8 +32,8 @@ class Player extends Component {
     componentDidUpdate(prevProps, prevState) {
         const { user: prevUser } = prevProps
         const { user } = this.props
-        const { player_status: playerStatus } = this.props.playlistDigest.data
-        const { player_status: prevPlayerStatus } = prevProps.playlistDigest.data
+        const { data: playerStatus } = this.props.playerStatusState
+        const { data: prevPlayerStatus } = prevProps.playerStatusState
 
         if (user === prevUser && playerStatus === prevPlayerStatus) {
             return
@@ -65,9 +66,10 @@ class Player extends Component {
 
     render() {
         const { withControls } = this.state
-        const { player_status, player_errors } = this.props.playlistDigest.data
-        const fetchError = this.props.playlistDigest.status === Status.failed
-        const isPlaying = !!player_status.playlist_entry
+        const { data: playerStatus } = this.props.playerStatusState
+        const { data: playerErrors } = this.props.playerErrorsState
+        const fetchError = this.props.playerStatusState.status === Status.failed
+        const isPlaying = !!playerStatus.playlist_entry
         const controlDisabled = !isPlaying || fetchError
 
         /**
@@ -108,13 +110,13 @@ class Player extends Component {
         let progress
         let playlistEntry
         if (isPlaying) {
-            const duration = player_status.playlist_entry.song.duration
+            const duration = playerStatus.playlist_entry.song.duration
 
             /**
              * Manage instrumental playlist entry
              */
             let useInstrumental
-            if (player_status.playlist_entry.use_instrumental) {
+            if (playerStatus.playlist_entry.use_instrumental) {
                 useInstrumental = (
                     <div className="use-instrumental">
                         <i className="fa fa-microphone-slash"></i>
@@ -124,8 +126,8 @@ class Player extends Component {
 
             // the progress is displayed only when the song has really started
             // and only if the song has a known duration
-            if (!player_status.in_transition && duration > 0) {
-                progress = Math.min(player_status.timing * 100 / duration, 100)
+            if (!playerStatus.in_transition && duration > 0) {
+                progress = Math.min(playerStatus.timing * 100 / duration, 100)
             }
 
             playlistEntry = (
@@ -133,22 +135,22 @@ class Player extends Component {
                     {useInstrumental}
                     <div className="entry-info">
                         <Song
-                            song={player_status.playlist_entry.song}
+                            song={playerStatus.playlist_entry.song}
                             noDuration
                             noTag
                             handleClick={() => {
-                                this.handleSearch(player_status.playlist_entry.song)
+                                this.handleSearch(playerStatus.playlist_entry.song)
                             }}
                         />
                         <div className="owner">
                             <UserWidget
-                                user={player_status.playlist_entry.owner}
+                                user={playerStatus.playlist_entry.owner}
                             />
                         </div>
                     </div>
                     <div className="timing">
                         <div className="current">
-                            {formatDuration(player_status.timing)}
+                            {formatDuration(playerStatus.timing)}
                         </div>
                         <div className="duration">
                             {formatDuration(duration)}
@@ -182,7 +184,7 @@ class Player extends Component {
                         {playlistEntry}
                         <PlayerNotification
                             alterationsResponse={responseOfSendPlayerCommandsSafe}
-                            playerErrors={player_errors}
+                            playerErrors={playerErrors}
                         />
                         {serverLost}
                     </div>
@@ -214,14 +216,14 @@ class Player extends Component {
                         />
                         <ManageButton
                             responseOfManage={
-                                player_status.paused ?
+                                playerStatus.paused ?
                                     responseOfSendPlayerCommandsSafe.resume :
                                     responseOfSendPlayerCommandsSafe.pause
                             }
                             onClick={() => {
                                 if (!isPlaying) return
 
-                                if (player_status.paused) {
+                                if (playerStatus.paused) {
                                     this.props.sendPlayerCommand('resume')
                                 } else {
                                     this.props.sendPlayerCommand('pause')
@@ -230,7 +232,7 @@ class Player extends Component {
                             disabled={controlDisabled}
                             icon={
                                 isPlaying ?
-                                    (player_status.paused ? 'play' : 'pause') :
+                                    (playerStatus.paused ? 'play' : 'pause') :
                                     'stop'
                             }
                         />
@@ -289,7 +291,8 @@ const ServerLost = () => (
 
 const mapStateToProps = (state) => ({
     user: state.authenticatedUser,
-    playlistDigest: state.playlist.digest,
+    playerStatusState: state.playlist.playerStatus,
+    playerErrorsState: state.playlist.playerErrors,
     responseOfSendPlayerCommands: state.alterationsResponse.multiple.sendPlayerCommands,
 })
 

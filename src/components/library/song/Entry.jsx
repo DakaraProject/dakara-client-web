@@ -14,9 +14,9 @@ import { CanAddToPlaylist, IsPlaylistUser} from 'components/permissions/Playlist
 import PlayQueueInfo from 'components/song/PlayQueueInfo'
 import Song from 'components/song/Song'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
+import { playerStatusStatePropType } from 'reducers/playlist'
 import { songPropType } from 'serverPropTypes/library'
 import {
-    playerStatusPropType,
     playlistEntryPropType,
     playlistPlayedEntryPropType
 } from 'serverPropTypes/playlist'
@@ -27,7 +27,7 @@ class SongEntry extends Component {
         addSongToPlaylist: PropTypes.func.isRequired,
         clearAlteration: PropTypes.func.isRequired,
         karaokeRemainingSeconds: PropTypes.number,
-        playerStatus: playerStatusPropType,
+        playerStatusState: playerStatusStatePropType,
         playlistEntries: PropTypes.arrayOf(
             playlistEntryPropType
         ).isRequired,
@@ -63,9 +63,9 @@ class SongEntry extends Component {
         const {
             song,
             query,
-            playerStatus,
             karaokeRemainingSeconds
         } = this.props
+        const { data: playerStatus } = this.props.playerStatusState
         const { playlistPlayedEntries, playlistEntries } = this.props
         const expanded = +this.props.searchParams.get('expanded') === song.id
 
@@ -220,7 +220,7 @@ const mapStateToProps = (state, ownProps) => ({
     responseOfAddSong: state.alterationsResponse.multiple.addSongToPlaylist?.[ownProps.song.id],
     playlistPlayedEntries: state.playlist.playedEntries.data.playlistPlayedEntries,
     playlistEntries: state.playlist.entries.data.playlistEntries,
-    playerStatus: state.playlist.digest.data.player_status,
+    playerStatusState: state.playlist.playerStatus,
 })
 
 SongEntry = withSearchParams(connect(
