@@ -16,10 +16,7 @@ import Song from 'components/song/Song'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
 import { playerStatusStatePropType } from 'reducers/playlist'
 import { songPropType } from 'serverPropTypes/library'
-import {
-    playlistEntryPropType,
-    playlistPlayedEntryPropType
-} from 'serverPropTypes/playlist'
+import { playlistEntryPropType } from 'serverPropTypes/playlist'
 
 
 class SongEntry extends Component {
@@ -32,7 +29,7 @@ class SongEntry extends Component {
             playlistEntryPropType
         ).isRequired,
         playlistPlayedEntries: PropTypes.arrayOf(
-            playlistPlayedEntryPropType
+            playlistEntryPropType
         ).isRequired,
         query: PropTypes.object,
         responseOfAddSong: alterationResponsePropType,
@@ -95,7 +92,7 @@ class SongEntry extends Component {
         let playedInfo
         if (playlistPlayedEntry) {
             playedInfo = {
-                timeOfPlay: Date.parse(playlistPlayedEntry.date_played),
+                timeOfPlay: Date.parse(playlistPlayedEntry.date_play),
                 playlistEntry: playlistPlayedEntry,
             }
         }

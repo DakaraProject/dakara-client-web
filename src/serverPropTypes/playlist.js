@@ -11,16 +11,8 @@ export const playlistEntryPropType = PropTypes.shape({
     date_play: PropTypes.string,
 })
 
-export const playlistPlayedEntryPropType = PropTypes.shape({
-    id: PropTypes.any.isRequired,
-    song: songPropType.isRequired,
-    use_instrumental: PropTypes.bool,
-    owner: userPropType.isRequired,
-    date_played: PropTypes.string.isRequired,
-})
-
 export const playerStatusPropType = PropTypes.shape({
-    playlist_entry: playlistPlayedEntryPropType,
+    playlist_entry: playlistEntryPropType,
     timing: PropTypes.number.isRequired,
     paused: PropTypes.bool.isRequired,
     in_transition: PropTypes.bool.isRequired,
@@ -28,8 +20,9 @@ export const playerStatusPropType = PropTypes.shape({
 })
 
 export const playerErrorPropType = PropTypes.shape({
-    playlist_entry: playlistPlayedEntryPropType.isRequired,
+    playlist_entry: playlistEntryPropType.isRequired,
     error_message: PropTypes.string.isRequired,
+    date_created: PropTypes.string.isRequired,
 })
 
 export const karaokePropType = PropTypes.shape({

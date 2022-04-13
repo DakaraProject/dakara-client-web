@@ -3,10 +3,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
 import UserWidget from 'components/generics/UserWidget'
-import {
-    playlistEntryPropType,
-    playlistPlayedEntryPropType
-} from 'serverPropTypes/playlist'
+import { playlistEntryPropType } from 'serverPropTypes/playlist'
 
 /**
 * Playing or queuing info
@@ -15,7 +12,7 @@ import {
 export default class PlayQueueInfo extends Component {
     static propTypes = {
         playedInfo: PropTypes.shape({
-            playlistEntry: playlistPlayedEntryPropType,
+            playlistEntry: playlistEntryPropType,
             timeOfPlay: PropTypes.number.isRequired,
         }),
         playingInfo: PropTypes.shape({
