@@ -5,10 +5,18 @@ import { userPropType } from 'serverPropTypes/users'
 
 export const playlistEntryPropType = PropTypes.shape({
     id: PropTypes.any.isRequired,
-    song: songPropType.isRequired,
+    song: PropTypes.oneOfType([
+        songPropType,
+        PropTypes.shape({
+            id: PropTypes.any.isRequired,
+            title: PropTypes.string.isRequired,
+            duration: PropTypes.number.isRequired,
+        })
+    ]).isRequired,
     use_instrumental: PropTypes.bool,
     owner: userPropType.isRequired,
     date_play: PropTypes.string,
+    was_played: PropTypes.bool,
 })
 
 export const playerStatusPropType = PropTypes.shape({

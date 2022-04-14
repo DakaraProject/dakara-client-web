@@ -11,10 +11,9 @@ import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
 import Notification from 'components/generics/Notification'
 import SongEntryExpanded from 'components/library/song/EntryExpanded'
 import { CanAddToPlaylist, IsPlaylistUser} from 'components/permissions/Playlist'
-import PlayQueueInfo from 'components/song/PlayQueueInfo'
+import PlaylistPositionInfo from 'components/song/PlaylistPositionInfo'
 import Song from 'components/song/Song'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
-import { playerStatusStatePropType } from 'reducers/playlist'
 import { songPropType } from 'serverPropTypes/library'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 
@@ -24,7 +23,6 @@ class SongEntry extends Component {
         addSongToPlaylist: PropTypes.func.isRequired,
         clearAlteration: PropTypes.func.isRequired,
         karaokeRemainingSeconds: PropTypes.number,
-        playerStatusState: playerStatusStatePropType,
         playlistEntries: PropTypes.arrayOf(
             playlistEntryPropType
         ).isRequired,
@@ -62,64 +60,17 @@ class SongEntry extends Component {
             query,
             karaokeRemainingSeconds
         } = this.props
-        const { data: playerStatus } = this.props.playerStatusState
-        const { playlistPlayedEntries, playlistEntries } = this.props
+        const { playlistEntries } = this.props
         const expanded = +this.props.searchParams.get('expanded') === song.id
-
-        /**
-         * Song is playing info
-         */
-
-        let playingInfo
-        if (
-            playerStatus.playlist_entry &&
-            playerStatus.playlist_entry.song.id === song.id
-        ) {
-            // Player is playing this song
-            playingInfo = {
-                playlistEntry: playerStatus.playlist_entry
-            }
-        }
-
-        /**
-         * Song previously played info
-         */
-
-        const playlistPlayedEntry = playlistPlayedEntries.slice().reverse().find(
-                e => (e.song.id === song.id)
-                )
-
-        let playedInfo
-        if (playlistPlayedEntry) {
-            playedInfo = {
-                timeOfPlay: Date.parse(playlistPlayedEntry.date_play),
-                playlistEntry: playlistPlayedEntry,
-            }
-        }
-
-        /**
-         * Song queue info
-         */
-
-        const playlistEntry = playlistEntries.find(
-                e => (e.song.id === song.id)
-                )
-
-        let queueInfo
-        if (playlistEntry) {
-            queueInfo = {
-                timeOfPlay: Date.parse(playlistEntry.date_play),
-                playlistEntry,
-            }
-        }
 
         /**
          * Play queue info
          */
 
-        let playQueueInfo
-        if (playingInfo || playedInfo || queueInfo) {
-            playQueueInfo = (
+        let playlistPositionInfo
+        const entries = playlistEntries.filter(e => e.song.id === song.id)
+        if (entries.length > 0) {
+            playlistPositionInfo = (
                 <CSSTransition
                     classNames="playlist-info"
                     timeout={{
@@ -127,11 +78,7 @@ class SongEntry extends Component {
                         exit: 150
                     }}
                 >
-                    <PlayQueueInfo
-                        playingInfo={playingInfo}
-                        playedInfo={playedInfo}
-                        queueInfo={queueInfo}
-                    />
+                    <PlaylistPositionInfo entries={entries} />
                 </CSSTransition>
             )
         }
@@ -160,7 +107,7 @@ class SongEntry extends Component {
                             <TransitionGroup
                                 className="play-queue-info-wrapper"
                             >
-                                {playQueueInfo}
+                                {playlistPositionInfo}
                             </TransitionGroup>
                             <div
                                 className="controls"
@@ -217,7 +164,6 @@ const mapStateToProps = (state, ownProps) => ({
     responseOfAddSong: state.alterationsResponse.multiple.addSongToPlaylist?.[ownProps.song.id],
     playlistPlayedEntries: state.playlist.playedEntries.data.playlistPlayedEntries,
     playlistEntries: state.playlist.entries.data.playlistEntries,
-    playerStatusState: state.playlist.playerStatus,
 })
 
 SongEntry = withSearchParams(connect(

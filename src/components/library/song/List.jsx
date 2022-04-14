@@ -129,7 +129,7 @@ class SongList extends Component {
 
 const mapStateToProps = (state) => ({
     songState: state.library.song,
-    playlistDateEnd: state.playlist.entries.data.date_end,
+    playlistDateEnd: state.playlist.entries.data.dateEnd,
     karaokeState: state.playlist.karaoke,
 })
 

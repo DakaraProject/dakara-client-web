@@ -11,7 +11,7 @@ import {
     IsPlaylistManager,
     IsPlaylistManagerOrOwner
 } from 'components/permissions/Playlist'
-import PlayQueueInfo from 'components/song/PlayQueueInfo'
+import PlaylistPositionInfo from 'components/song/PlaylistPositionInfo'
 import Song from 'components/song/Song'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 
@@ -100,8 +100,8 @@ class Entry extends Component {
                         handleClick={this.handleSearch}
                     />
                     <div className="extra">
-                        <PlayQueueInfo
-                            queueInfo={{timeOfPlay: datePlay, playlistEntry: entry}}
+                        <PlaylistPositionInfo
+                            entry={entry}
                         />
                         <div className="controls">
                             <IsPlaylistManager>

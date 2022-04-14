@@ -60,9 +60,6 @@ export const removeEntryFromPlaylist = (entryId) => ({
                 ALTERATION_SUCCESS,
                 ALTERATION_FAILURE,
             ],
-            onSuccess: [
-                loadPlaylist(),
-            ],
         },
     alterationName: 'removeEntryFromPlaylist',
     elementId: entryId,
@@ -162,7 +159,7 @@ export const addSongToPlaylist = (songId) => ({
                 ALTERATION_FAILURE
             ],
             onSuccess: [
-                loadPlaylist()
+                loadPlaylistDigest()
             ],
         },
     alterationName: 'addSongToPlaylist',
@@ -188,7 +185,7 @@ export const addSongToPlaylistWithOptions = (songId, useInstrumental=false) => (
                 ALTERATION_FAILURE
             ],
             onSuccess: [
-                loadPlaylist()
+                loadPlaylistDigest()
             ],
         },
     alterationName: 'addSongToPlaylistWithOptions',
@@ -235,7 +232,7 @@ export const reorderPlaylistEntry = ({playlistEntryId, beforeId, afterId} = {}) 
                     ALTERATION_FAILURE
                 ],
                 onSuccess: [
-                    loadPlaylist()
+                    loadPlaylistDigest()
                 ],
             },
         alterationName: 'reorderPlaylistEntry',

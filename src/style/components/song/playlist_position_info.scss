@@ -1,14 +1,14 @@
 //
 // Dakara Project
 //
-// Song playing or queuing info
+// Playlist position info style file
 //
 
 
-// `play-queue-info` class:
+// `playlist-position-info` class:
 //
 // Data relative to the status of the song in the playlist.
-.play-queue-info {
+.playlist-position-info {
     background: $brand-info;
     box-sizing: border-box;
     color: $text-dark;
@@ -57,22 +57,22 @@
     }
 
     // appearance transition of the playlist info class
-    &.play-queue-info-enter {
+    &.playlist-position-info-enter {
         max-width: 0;
         overflow: hidden;
 
-        &.play-queue-info-enter-active {
+        &.playlist-position-info-enter-active {
             max-width: (2 * $listing-entry-height);
             transition: max-width 300ms ease-out;
         }
     }
 
     // disappearance transition of the playlist info class
-    &.play-queue-info-exit {
+    &.playlist-position-info-exit {
         max-width: (2 * $listing-entry-height);
         overflow: hidden;
 
-        &.play-queue-info-exit-active {
+        &.playlist-position-info-exit-active {
             max-width: 0;
             transition: max-width 150ms ease-out;
         }
@@ -82,14 +82,14 @@
 // alteration of colors when used in a listing
 .listing-entry {
     &:nth-child(2n) {
-        .play-queue-info {
+        .playlist-position-info {
             background: $brand-info-light;
         }
     }
 
     .hoverizable:hover,
     &.hoverizable:hover {
-        .play-queue-info {
+        .playlist-position-info {
             background: $brand-info-lighter;
         }
     }
