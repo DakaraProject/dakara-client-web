@@ -1,45 +1,84 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
+import {
+    loadPlaylistEntries,
+} from 'actions/playlist'
+import { withSearchParams } from 'components/adapted/ReactRouterDom'
+import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import PlayedEntry from 'components/playlist/played/Entry'
-import { playlistPlayedEntriesStatePropType } from 'reducers/playlist'
+import { playedStatePropType, playlistEntriesStatePropType } from 'reducers/playlist'
 
 class Played extends Component {
     static propTypes = {
-        playlistPlayedEntriesState: playlistPlayedEntriesStatePropType.isRequired,
+        playlistEntriesState: playlistEntriesStatePropType.isRequired,
+        playlistPlayedState: playedStatePropType.isRequired,
+        loadPlaylistEntries: PropTypes.func.isRequired,
+    }
+
+    componentDidMount() {
+        this.refreshEntries()
+    }
+
+    componentDidUpdate(prevProps) {
+        // refresh if moved to a different page
+        if (this.props.searchParams !== prevProps.searchParams) {
+            this.refreshEntries()
+        }
+
+        // refresh if the playlist changed
+        if (this.props.playlistEntriesState !== prevProps.playlistEntriesState) {
+            const played = this.props.playlistEntriesState.data.playlistEntries.filter(
+                e => e.was_played
+            )
+            const prevPlayed = prevProps
+                .playlistEntriesState.data.playlistEntries.filter(
+                    e => e.was_played
+                )
+            if (played.length !== prevPlayed.length) {
+                this.refreshEntries()
+            }
+        }
+    }
+
+    /**
+     * Fetch played playlist entries from server
+     */
+    refreshEntries = () => {
+        this.props.loadPlaylistEntries('played', {
+            page: this.props.searchParams.get('page'),
+        })
     }
 
     render() {
-        const { playlistPlayedEntries } = this.props.playlistPlayedEntriesState.data
+        const {
+            played: playlistEntries,
+            count,
+            pagination
+        } = this.props.playlistPlayedState.data
+        const { status } = this.props.playlistPlayedState
 
-        const playlistPlayedEntriesComponent = playlistPlayedEntries.map( entry => (
-            <CSSTransition
-                classNames='add-remove'
-                timeout={{
-                    enter: 300,
-                    exit: 650
-                }}
-                key={entry.id}
-            >
-                <PlayedEntry entry={entry} />
-            </CSSTransition>
+        const playlistEntriesComponent = playlistEntries.map(entry => (
+            <PlayedEntry key={entry.id} entry={entry} />
         ))
 
         return (
             <div id="played">
-                <TransitionGroup
-                    component="ul"
-                    className="listing"
+                <ListingFetchWrapper
+                    status={status}
                 >
-                    {playlistPlayedEntriesComponent}
-                </TransitionGroup>
+                    <ul className="listing">
+                        {playlistEntriesComponent}
+                    </ul>
+                </ListingFetchWrapper>
                 <Navigator
-                    count={playlistPlayedEntries.length}
+                    count={count}
+                    pagination={pagination}
                     names={{
-                        singular: 'song',
-                        plural: 'songs'
+                        singular: 'entry',
+                        plural: 'entries'
                     }}
                 />
             </div>
@@ -48,12 +87,15 @@ class Played extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playlistPlayedEntriesState: state.playlist.playedEntries,
+    playlistEntriesState: state.playlist.entries,
+    playlistPlayedState: state.playlist.played,
 })
 
-Played = connect(
+Played = withSearchParams(connect(
     mapStateToProps,
-    {}
-)(Played)
+    {
+        loadPlaylistEntries,
+    }
+)(Played))
 
 export default Played

@@ -26,9 +26,6 @@ class SongEntry extends Component {
         playlistEntries: PropTypes.arrayOf(
             playlistEntryPropType
         ).isRequired,
-        playlistPlayedEntries: PropTypes.arrayOf(
-            playlistEntryPropType
-        ).isRequired,
         query: PropTypes.object,
         responseOfAddSong: alterationResponsePropType,
         searchParams: PropTypes.object.isRequired,
@@ -58,9 +55,9 @@ class SongEntry extends Component {
         const {
             song,
             query,
-            karaokeRemainingSeconds
+            karaokeRemainingSeconds,
+            playlistEntries,
         } = this.props
-        const { playlistEntries } = this.props
         const expanded = +this.props.searchParams.get('expanded') === song.id
 
         /**
@@ -72,7 +69,7 @@ class SongEntry extends Component {
         if (entries.length > 0) {
             playlistPositionInfo = (
                 <CSSTransition
-                    classNames="playlist-info"
+                    classNames="playlist-position-info"
                     timeout={{
                         enter: 300,
                         exit: 150
@@ -162,7 +159,6 @@ const mapStateToProps = (state, ownProps) => ({
     query: state.library.song.data.query,
     // eslint-disable-next-line max-len
     responseOfAddSong: state.alterationsResponse.multiple.addSongToPlaylist?.[ownProps.song.id],
-    playlistPlayedEntries: state.playlist.playedEntries.data.playlistPlayedEntries,
     playlistEntries: state.playlist.entries.data.playlistEntries,
 })
 

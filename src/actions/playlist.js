@@ -1,3 +1,5 @@
+import { stringify } from 'query-string'
+
 import {
     ALTERATION_FAILURE,
     ALTERATION_REQUEST,
@@ -10,7 +12,7 @@ const { baseUrl } = params
 
 
 /**
- * Playlist app actions
+ * Karaoke actions
  */
 
 
@@ -43,6 +45,7 @@ export const loadPlaylistDigest = () => ({
  * Playlist actions
  */
 
+
 /**
  * Remove song from playlist
  */
@@ -53,7 +56,7 @@ export const loadPlaylistDigest = () => ({
  */
 export const removeEntryFromPlaylist = (entryId) => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}/playlist/entries/${entryId}/`,
+            endpoint: `${baseUrl}/playlist/queuing/${entryId}/`,
             method: 'DELETE',
             types: [
                 ALTERATION_REQUEST,
@@ -65,25 +68,36 @@ export const removeEntryFromPlaylist = (entryId) => ({
     elementId: entryId,
 })
 
-
 /**
  * Get playlist entries
  */
 
-export const PLAYLIST_REQUEST = 'PLAYLIST_REQUEST'
-export const PLAYLIST_SUCCESS = 'PLAYLIST_SUCCESS'
-export const PLAYLIST_FAILURE = 'PLAYLIST_FAILURE'
+export const PLAYLIST_ENTRIES_REQUEST = 'PLAYLIST_ENTRIES_REQUEST'
+export const PLAYLIST_ENTRIES_SUCCESS = 'PLAYLIST_ENTRIES_SUCCESS'
+export const PLAYLIST_ENTRIES_FAILURE = 'PLAYLIST_ENTRIES_FAILURE'
 
 /**
  * Request playlist entries
+ * @param type Type of the playlist requested.
  */
-export const loadPlaylist = () => ({
-    [FETCH_API]: {
-            endpoint: `${baseUrl}/playlist/entries/`,
-            method: 'GET',
-            types: [PLAYLIST_REQUEST, PLAYLIST_SUCCESS, PLAYLIST_FAILURE],
-        }
-})
+export const loadPlaylistEntries = (playlistEntriesType, { page = 1 } = {}) => {
+    const queryString = stringify({
+        ...(page) && {page},
+    })
+
+    return {
+        [FETCH_API]: {
+                endpoint: `${baseUrl}/playlist/${playlistEntriesType}/?${queryString}`,
+                method: 'GET',
+                types: [
+                    PLAYLIST_ENTRIES_REQUEST,
+                    PLAYLIST_ENTRIES_SUCCESS,
+                    PLAYLIST_ENTRIES_FAILURE
+                ],
+            },
+        playlistEntriesType,
+    }
+}
 
 /**
  * Get playlist played entries
@@ -98,7 +112,7 @@ export const PLAYLIST_PLAYED_FAILURE = 'PLAYLIST_PLAYED_FAILURE'
  */
 export const loadPlaylistPlayed = () => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}/playlist/played-entries/`,
+            endpoint: `${baseUrl}/playlist/played/`,
             method: 'GET',
             types: [
                 PLAYLIST_PLAYED_REQUEST,
@@ -107,7 +121,6 @@ export const loadPlaylistPlayed = () => ({
             ],
         }
 })
-
 
 /**
  * Add entry to playlist played entries list
@@ -150,7 +163,7 @@ const addSongWhenFinished = (dispatch, getState, newAction) => {
  */
 export const addSongToPlaylist = (songId) => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}/playlist/entries/`,
+            endpoint: `${baseUrl}/playlist/queuing/`,
             method: 'POST',
             json: {song_id: songId},
             types: [
@@ -173,7 +186,7 @@ export const addSongToPlaylist = (songId) => ({
  */
 export const addSongToPlaylistWithOptions = (songId, useInstrumental=false) => ({
     [FETCH_API]: {
-            endpoint: `${baseUrl}/playlist/entries/`,
+            endpoint: `${baseUrl}/playlist/queuing/`,
             method: 'POST',
             json: {
               song_id: songId,
@@ -191,7 +204,6 @@ export const addSongToPlaylistWithOptions = (songId, useInstrumental=false) => (
     alterationName: 'addSongToPlaylistWithOptions',
     elementId: songId,
 })
-
 
 /**
  * Reorder playlist entry
@@ -223,7 +235,7 @@ export const reorderPlaylistEntry = ({playlistEntryId, beforeId, afterId} = {}) 
 
     return {
         [FETCH_API]: {
-                endpoint: `${baseUrl}/playlist/entries/${playlistEntryId}/`,
+                endpoint: `${baseUrl}/playlist/queuing/${playlistEntryId}/`,
                 method: 'PUT',
                 json,
                 types: [
@@ -232,13 +244,14 @@ export const reorderPlaylistEntry = ({playlistEntryId, beforeId, afterId} = {}) 
                     ALTERATION_FAILURE
                 ],
                 onSuccess: [
-                    loadPlaylistDigest()
+                    loadPlaylistDigest(),
                 ],
             },
         alterationName: 'reorderPlaylistEntry',
         elementId: targetId,
     }
 }
+
 
 /**
  * Player actions

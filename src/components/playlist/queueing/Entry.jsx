@@ -2,8 +2,9 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import { withNavigate } from 'components/adapted/ReactRouterDom'
+import { withNavigate,withSearchParams } from 'components/adapted/ReactRouterDom'
 import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
@@ -21,7 +22,16 @@ class Entry extends Component {
         entry: playlistEntryPropType.isRequired,
         navigate: PropTypes.func.isRequired,
         onReorderButtonClick: PropTypes.func.isRequired,
-        position: PropTypes.number.isRequired,
+        playlistEntries: PropTypes.arrayOf(
+            playlistEntryPropType
+        ).isRequired,
+        positions: PropTypes.shape({
+            position: PropTypes.number.isRequired,
+            firstId: PropTypes.number,
+            lastId: PropTypes.number,
+            isFirstPage: PropTypes.bool,
+            isLastPage: PropTypes.bool,
+        }).isRequired,
         removeEntry: PropTypes.func.isRequired,
         reorderEntryPosition: PropTypes.number,
         responseOfMultipleReorderPlaylistEntry: PropTypes.object,
@@ -61,24 +71,60 @@ class Entry extends Component {
         const {
             entry,
             onReorderButtonClick,
-            position,
-            reorderEntryPosition
+            positions,
+            reorderEntryPosition,
+            playlistEntries,
         } = this.props
-        const datePlay = Date.parse(entry.date_play)
 
         /**
-         * Reorder button
+         * Reorder buttons
          */
         let reorderIconName
+        let reorderFirstButton
+        let reorderLastButton
         if (reorderEntryPosition !== null) {
             // if in reorder mode, display icon depending on the relative
             // position of the current entry and the entry to reorder
-            if (reorderEntryPosition > position) {
+            if (reorderEntryPosition > positions.position) {
                 reorderIconName = 'arrow-up'
-            } else if (reorderEntryPosition < position) {
+            } else if (reorderEntryPosition < positions.position) {
                 reorderIconName = 'arrow-down'
             } else {
                 reorderIconName = 'ban'
+
+                // display reorder first button if not on first page
+                if (!positions.isFirstPage) {
+                    reorderFirstButton = (
+                        <button
+                            className="control primary"
+                            onClick={() => {
+                                onReorderButtonClick(positions.firstId)}
+                            }
+                        >
+                            <span className="icon double">
+                                <i className={'fa fa-arrow-up'}></i>
+                                <i className={'fa fa-arrow-up'}></i>
+                            </span>
+                        </button>
+                    )
+                }
+
+                // display reorder last button if not on last page
+                if (!positions.isLastPage) {
+                    reorderLastButton = (
+                        <button
+                            className="control primary"
+                            onClick={() => {
+                                onReorderButtonClick(positions.lastId)}
+                            }
+                        >
+                            <span className="icon double">
+                                <i className={'fa fa-arrow-down'}></i>
+                                <i className={'fa fa-arrow-down'}></i>
+                            </span>
+                        </button>
+                    )
+                }
             }
         } else {
             // if not in reorder mode, display reorder icon
@@ -101,15 +147,17 @@ class Entry extends Component {
                     />
                     <div className="extra">
                         <PlaylistPositionInfo
-                            entry={entry}
+                            entryQueuing={playlistEntries.find(e => e.id === entry.id)}
                         />
                         <div className="controls">
                             <IsPlaylistManager>
+                                {reorderFirstButton}
+                                {reorderLastButton}
                                 <button
                                     className="control primary"
                                     onClick={() => {
-                                        onReorderButtonClick(entry.id, position)}
-                                    }
+                                        onReorderButtonClick(entry.id)
+                                    }}
                                 >
                                     <span className="icon">
                                         <i className={`fa fa-${reorderIconName}`}></i>
@@ -160,4 +208,13 @@ class Entry extends Component {
     }
 }
 
-export default withNavigate(Entry)
+const mapStateToProps = (state, ownProps) => ({
+    playlistEntries: state.playlist.entries.data.playlistEntries,
+})
+
+Entry = withSearchParams(withNavigate(connect(
+    mapStateToProps,
+    {}
+)(Entry)))
+
+export default Entry

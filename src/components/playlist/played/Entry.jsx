@@ -27,7 +27,6 @@ class Entry extends Component {
 
     render() {
         const { entry } = this.props
-        const datePlayed = Date.parse(entry.date_play)
 
         return (
             <li
@@ -43,7 +42,7 @@ class Entry extends Component {
                     />
                     <div className="extra">
                         <PlaylistPositionInfo
-                            entry={entry}
+                            entryPlayed={entry}
                         />
                     </div>
                 </div>

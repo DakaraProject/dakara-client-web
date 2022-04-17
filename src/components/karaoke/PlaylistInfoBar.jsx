@@ -1,53 +1,29 @@
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { loadPlaylist, loadPlaylistPlayed } from 'actions/playlist'
 import PlaylistEntryMinimal from 'components/generics/PlaylistEntryMinimal'
-import { Status } from 'reducers/alterationsResponse'
 import {
     karaokeStatePropType,
     playerStatusStatePropType,
     playlistEntriesStatePropType
 } from 'reducers/playlist'
-import { params } from 'utils'
 
 dayjs.extend(relativeTime)
 
 class PlaylistInfoBar extends Component {
     static propTypes = {
-        loadPlaylist: PropTypes.func.isRequired,
-        loadPlaylistPlayed: PropTypes.func.isRequired,
         karaokeState: karaokeStatePropType.isRequired,
         playerStatusState: playerStatusStatePropType.isRequired,
         playlistEntriesState: playlistEntriesStatePropType.isRequired,
     }
 
-    pollPlaylist = () => {
-        if (this.props.playlistEntriesState.status !== Status.pending) {
-            this.props.loadPlaylist()
-        }
-        this.timeout = setTimeout(this.pollPlaylist, params.pollInterval)
-    }
-
-    componentDidMount() {
-        // start polling server
-        // this.pollPlaylist()
-        this.props.loadPlaylistPlayed()
-    }
-
-    componentWillUnmount() {
-        // Stop polling server
-        clearTimeout(this.timeout)
-    }
-
     render() {
         const {
             playlistEntries,
-            date_end: dateEnd
+            dateEnd
         } = this.props.playlistEntriesState.data
         const { data: playerStatus } = this.props.playerStatusState
         const { data: karaoke } = this.props.karaokeState
@@ -57,7 +33,7 @@ class PlaylistInfoBar extends Component {
          * Next element in playlist
          */
 
-        const nextPlaylistEntry = playlistEntries[0]
+        const nextPlaylistEntry = playlistEntries.find(e => e.will_play)
         let nextEntryWidget
         if (nextPlaylistEntry) {
             nextEntryWidget = (
@@ -74,7 +50,7 @@ class PlaylistInfoBar extends Component {
          * Playlist size
          */
 
-        const count = playlistEntries.length
+        const count = playlistEntries.filter(e => e.will_play).length
         const amountWidget = (
                 <div className="item amount">
                     <div className="emphasis">{count}</div>
@@ -178,10 +154,7 @@ const mapStateToProps = (state) => ({
 
 PlaylistInfoBar = connect(
     mapStateToProps,
-    {
-        loadPlaylist,
-        loadPlaylistPlayed,
-    }
+    {}
 )(PlaylistInfoBar)
 
 export default PlaylistInfoBar
