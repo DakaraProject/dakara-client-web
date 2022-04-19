@@ -26,7 +26,23 @@ class Player extends Component {
     }
 
     state = {
-        withControls: false
+        withControls: false,
+        animationsEnabled: false
+    }
+
+    componentDidMount() {
+        const { user } = this.props
+        const { data: playerStatus } = this.props.playerStatusState
+        const withControls = IsPlaylistManagerOrOwner.hasPermission(
+            user,
+            playerStatus.playlist_entry
+        )
+
+        if (withControls) {
+            // console.log("mounting with controls")
+            this.setState({withControls})
+            this.props.setWithControls(withControls)
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -35,22 +51,20 @@ class Player extends Component {
         const { data: playerStatus } = this.props.playerStatusState
         const { data: prevPlayerStatus } = prevProps.playerStatusState
 
-        if (user === prevUser && playerStatus === prevPlayerStatus) {
-            return
+        // display controls or not
+        if (user !== prevUser || playerStatus !== prevPlayerStatus) {
+            const { withControls: prevWithControls } = this.state
+            const withControls = IsPlaylistManagerOrOwner.hasPermission(
+                user,
+                playerStatus.playlist_entry
+            )
+
+            if (withControls !== prevWithControls) {
+                // console.log("updating with controls")
+                this.setState({withControls, animationsEnabled: true})
+                this.props.setWithControls(withControls)
+            }
         }
-
-        const { withControls: prevWithControls } = this.state
-        const withControls = IsPlaylistManagerOrOwner.hasPermission(
-            user,
-            playerStatus.playlist_entry
-        )
-
-        if (withControls === prevWithControls) {
-            return
-        }
-
-        this.setState({withControls})
-        this.props.setWithControls(withControls)
     }
 
     handleSearch = (song) => {
@@ -65,7 +79,7 @@ class Player extends Component {
     }
 
     render() {
-        const { withControls } = this.state
+        const { withControls, animationsEnabled } = this.state
         const { data: playerStatus } = this.props.playerStatusState
         const { data: playerErrors } = this.props.playerErrorsState
         const fetchError = this.props.playerStatusState.status === Status.failed
@@ -86,6 +100,9 @@ class Player extends Component {
             fast_forward: {status: null},
             ...this.props.responseOfSendPlayerCommands,
         }
+
+        // console.log("with controls", withControls)
+        // console.log("animations enabled", animationsEnabled)
 
         /**
          * Server lost widget
@@ -196,6 +213,8 @@ class Player extends Component {
                         enter: 300,
                         exit: 150
                     }}
+                    enter={animationsEnabled}
+                    exit={animationsEnabled}
                 >
                     <div className="controls">
                         <ManageButton
