@@ -139,11 +139,3 @@ SongList = withSearchParams(connect(
 )(SongList))
 
 export default SongList
-
-/**
- * Get a dict with the following:
- * - placeholder: library search placeholder
- */
-export const getSongLibraryNameInfo = () => ({
-    placeholder: 'What will you sing?',
-})
