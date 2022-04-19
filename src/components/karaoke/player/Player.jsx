@@ -25,7 +25,22 @@ class Player extends Component {
     }
 
     state = {
-        withControls: false
+        withControls: false,
+        animationsEnabled: false
+    }
+
+    componentDidMount() {
+        const { user } = this.props
+        const { player_status: playerStatus } = this.props.playlistDigest.data
+        const withControls = IsPlaylistManagerOrOwner.hasPermission(
+            user,
+            playerStatus.playlist_entry
+        )
+
+        if (withControls) {
+            this.setState({withControls})
+            this.props.setWithControls(withControls)
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -34,22 +49,19 @@ class Player extends Component {
         const { player_status: playerStatus } = this.props.playlistDigest.data
         const { player_status: prevPlayerStatus } = prevProps.playlistDigest.data
 
-        if (user === prevUser && playerStatus === prevPlayerStatus) {
-            return
+        // display controls or not
+        if (user !== prevUser || playerStatus !== prevPlayerStatus) {
+            const { withControls: prevWithControls } = this.state
+            const withControls = IsPlaylistManagerOrOwner.hasPermission(
+                user,
+                playerStatus.playlist_entry
+            )
+
+            if (withControls !== prevWithControls) {
+                this.setState({withControls, animationsEnabled: true})
+                this.props.setWithControls(withControls)
+            }
         }
-
-        const { withControls: prevWithControls } = this.state
-        const withControls = IsPlaylistManagerOrOwner.hasPermission(
-            user,
-            playerStatus.playlist_entry
-        )
-
-        if (withControls === prevWithControls) {
-            return
-        }
-
-        this.setState({withControls})
-        this.props.setWithControls(withControls)
     }
 
     handleSearch = (song) => {
@@ -64,7 +76,7 @@ class Player extends Component {
     }
 
     render() {
-        const { withControls } = this.state
+        const { withControls, animationsEnabled } = this.state
         const { player_status, player_errors } = this.props.playlistDigest.data
         const fetchError = this.props.playlistDigest.status === Status.failed
         const isPlaying = !!player_status.playlist_entry
@@ -194,6 +206,8 @@ class Player extends Component {
                         enter: 300,
                         exit: 150
                     }}
+                    enter={animationsEnabled}
+                    exit={animationsEnabled}
                 >
                     <div className="controls">
                         <ManageButton
