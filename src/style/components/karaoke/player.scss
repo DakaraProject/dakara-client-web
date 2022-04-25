@@ -46,87 +46,110 @@ $player-progressbar-height: 0.4rem;
     }
 
     // `playlist-entry` class: container for the current playlist entry.
-    .playlist-entry {
+    .player-info {
         display: flex;
         overflow: hidden;
 
-        // `use-instrumental` subclass: indicate if the playlist entry use the instrumental track.
-        .use-instrumental {
-            @include make-gap(padding, left);
-
-            font-size: 1.45em;
-            line-height: 1.5;
-        }
-
-        // `entry-info` sublcass: show info about the playlist entry (song + playing request)
-        .entry-info {
-            @include make-gap(margin, horizontal);
-
+        .playlist-entry {
             overflow: hidden;
 
-            // `song` subclass: the song itself.
-            .song {
-                @include make-gap(margin, right);
+            // `use-instrumental` subclass: indicate if the playlist entry use the instrumental track.
+            .use-instrumental {
+                @include make-gap(padding, left);
 
-                align-content: flex-start;
-                align-items: initial;
+                font-size: 1.45em;
+                line-height: 1.5;
+            }
+
+            // `entry-info` sublcass: show info about the playlist entry (song + playing request)
+            .entry-info {
+                @include make-gap(margin, horizontal);
+
                 cursor: pointer;
-                flex-direction: column;
-                height: $player-controls-height;
+                min-height: $player-controls-height;
                 overflow: hidden;
 
-                // remove special colors of disabled songs
-                &.disabled {
-                    background-color: unset;
-                    color: inherit;
-                }
-
-                .general {
-                    align-items: initial;
-                    flex-direction: column;
-                }
-
-                .header {
-                    flex-grow: initial;
+                .song-title {
                     font-size: 1.5em;
                     font-weight: 300;
-
-                    // .title {
-                    // }
-
-                    // .version {
-                    // }
                 }
 
-                .artist-work {
-                    line-height: 1;
-                    margin: 0;
+                .song-artists,
+                .song-works {
+                    overflow: hidden;
+                }
 
-                    .artists {
-                        text-align: left;
+                .song-works {
+                    .link {
+                        border-color: change-color($brand-primary, $alpha: 0.75);
+                    }
+                }
+
+
+                /*
+                // `song` subclass: the song itself.
+                .song {
+                    @include make-gap(margin, right);
+
+                    align-content: flex-start;
+                    align-items: initial;
+                    flex-direction: column;
+                    overflow: hidden;
+
+                    // remove special colors of disabled songs
+                    &.disabled {
+                        background-color: unset;
+                        color: inherit;
                     }
 
-                    .work-link {
-                        @include make-reverse();
+                    .general {
+                        align-items: initial;
+                        flex-direction: column;
+                    }
 
-                        .link {
-                            border-color: change-color($brand-primary, $alpha: 0.75);
+                    .header {
+                        flex-grow: initial;
+                        font-size: 1.5em;
+                        font-weight: 300;
+
+                        // .title {
+                        // }
+
+                        // .version {
+                        // }
+                    }
+
+                    .artist-work {
+                        line-height: 1;
+                        margin: 0;
+
+                        .artists {
+                            text-align: left;
+                        }
+
+                        .work-link {
+                            @include make-reverse();
+
+                            .link {
+                                border-color: change-color($brand-primary, $alpha: 0.75);
+                            }
                         }
                     }
                 }
-            }
 
-            // `playlist-entry-owner` subclass: owner of the playlist entry.
-            .owner {
-                overflow: hidden;
+                // `playlist-entry-owner` subclass: owner of the playlist entry.
+                .owner {
+                    overflow: hidden;
 
-                .user-widget {
-                    @include text-truncate();
+                    .user-widget {
+                        @include text-truncate();
 
-                    .icon {
-                        font-size: 1em;
+                        .icon {
+                            font-size: 1em;
+                        }
                     }
                 }
+                */
             }
         }
 

@@ -11,7 +11,9 @@ import UserWidget from 'components/generics/UserWidget'
 import ManageButton from 'components/karaoke/player/ManageButton'
 import PlayerNotification from 'components/karaoke/player/Notification'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
+import ArtistWidget from 'components/song/ArtistWidget'
 import Song from 'components/song/Song'
+import WorkLinkWidget from 'components/song/WorkLinkWidget'
 import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
 import { playlistDigestPropType } from 'reducers/playlist'
 import { formatDuration } from 'utils'
@@ -118,15 +120,15 @@ class Player extends Component {
          */
 
         let progress
-        let playlistEntry
+        let info
         if (isPlaying) {
-            const duration = player_status.playlist_entry.song.duration
+            const { song, owner, use_instrumental } = player_status.playlist_entry
 
             /**
              * Manage instrumental playlist entry
              */
             let useInstrumental
-            if (player_status.playlist_entry.use_instrumental) {
+            if (use_instrumental) {
                 useInstrumental = (
                     <div className="use-instrumental">
                         <i className="las la-microphone-slash"></i>
@@ -136,26 +138,38 @@ class Player extends Component {
 
             // the progress is displayed only when the song has really started
             // and only if the song has a known duration
-            if (!player_status.in_transition && duration > 0) {
-                progress = Math.min(player_status.timing * 100 / duration, 100)
+            if (!player_status.in_transition && song.duration > 0) {
+                progress = Math.min(player_status.timing * 100 / song.duration, 100)
             }
 
-            playlistEntry = (
-                <div className="playlist-entry">
-                    {useInstrumental}
-                    <div className="entry-info">
-                        <Song
-                            song={player_status.playlist_entry.song}
-                            noDuration
-                            noTag
-                            handleClick={() => {
-                                this.handleSearch(player_status.playlist_entry.song)
+            info = (
+                <div className="player-info">
+                    <div className="playlist-entry">
+                        {useInstrumental}
+                        <div
+                            className="entry-info"
+                            onClick={() => {
+                                this.handleSearch(song)
                             }}
-                        />
-                        <div className="owner">
-                            <UserWidget
-                                user={player_status.playlist_entry.owner}
-                            />
+                        >
+                            <div className="song-title">
+                                {song.title}
+                            </div>
+                            <div className="song-artists">
+                                {song.artists.map(a => (
+                                    <ArtistWidget artist={a} key={a.id} />
+                                ))}
+                            </div>
+                            <div className="song-works">
+                                {song.works.map(w => (
+                                    <WorkLinkWidget
+                                        workLink={w}
+                                        key={w.id}
+                                        noEpisodes
+                                    />
+                                ))}
+                            </div>
+                            <UserWidget user={owner} noResize />
                         </div>
                     </div>
                     <div className="timing">
@@ -163,15 +177,17 @@ class Player extends Component {
                             {formatDuration(player_status.timing)}
                         </div>
                         <div className="duration">
-                            {formatDuration(duration)}
+                            {formatDuration(song.duration)}
                         </div>
                     </div>
                 </div>
             )
         } else {
             progress = 0
-            playlistEntry = (
-                <div className="playlist-entry">
+            info = (
+                <div className="player-info">
+                    <div className="playlist-entry">
+                    </div>
                     <div className="timing">
                         <div className="current">
                             {formatDuration(0)}
@@ -191,7 +207,7 @@ class Player extends Component {
             >
                 <div className="player-sticky">
                     <div className="notifiable">
-                        {playlistEntry}
+                        {info}
                         <PlayerNotification
                             alterationsResponse={responseOfSendPlayerCommandsSafe}
                             playerErrors={player_errors}

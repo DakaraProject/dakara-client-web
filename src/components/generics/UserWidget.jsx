@@ -1,4 +1,5 @@
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
@@ -7,17 +8,21 @@ import { userPropType } from 'serverPropTypes/users'
 class UserWidget extends Component {
     static propTypes = {
         currentUser: userPropType.isRequired,
+        noResize: PropTypes.bool,
         user: userPropType.isRequired,
     }
 
     render() {
-        const { user, currentUser, className } = this.props
+        const { user, currentUser, className, noResize } = this.props
         const isCurrentUser = currentUser && currentUser.id === user.id
 
         const iconClass = isCurrentUser ? 'las la-user' : 'las la-user-friends'
         const userWidgetClass = classNames(
             'user-widget',
-            className
+            className,
+            {
+                'no-resize': noResize
+            }
         )
 
         return (

@@ -5,7 +5,8 @@
 //
 
 
-@import "work_link";
+@import "artist_widget";
+@import "work_link_widget";
 @import "play_queue_info";
 
 
@@ -54,13 +55,13 @@
             overflow: hidden;
             text-align: right;
 
-            .artists {
-                @include text-truncate();
-
-                .artist:not(:last-child)::after {
-                    content: ", ";
-                }
-            }
+            // .artists {
+            //     @include text-truncate();
+            //
+            //     .artist:not(:last-child)::after {
+            //         content: ", ";
+            //     }
+            // }
         }
     }
 

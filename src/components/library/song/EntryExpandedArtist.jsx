@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+import ArtistWidget from 'components/song/ArtistWidget'
 import { artistPropType } from 'serverPropTypes/library'
 
 export default class SongEntryExpandedArtist extends Component {
@@ -25,11 +26,7 @@ export default class SongEntryExpandedArtist extends Component {
                             </span>
                         </button>
                     </div>
-                    <div className="artist">
-                        <div className="name">
-                            {artist.name}
-                        </div>
-                    </div>
+                    <ArtistWidget artist={artist} noIcon/>
                 </li>
         )
     }

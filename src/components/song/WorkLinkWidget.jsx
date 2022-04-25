@@ -14,7 +14,7 @@ import { workLinkPropType } from 'serverPropTypes/library'
  * - noIcon: don'tdisplay work type icon
  * - noEpisodes: don't display episodes
  */
-export default class WorkLink extends Component {
+export default class WorkLinkWidget extends Component {
     static propTypes = {
         longLinkType: PropTypes.bool,
         noEpisodes: PropTypes.bool,
@@ -29,9 +29,11 @@ export default class WorkLink extends Component {
         // Subtitle if any
         let subtitle
         if (workLink.work.subtitle) {
-            subtitle = (<span className="subtitle">
-                {workLink.work.subtitle}
-                </span>)
+            subtitle = (
+                <span className="subtitle">
+                    {workLink.work.subtitle}
+                </span>
+            )
         }
 
 
@@ -49,7 +51,11 @@ export default class WorkLink extends Component {
         // Link number if any
         let linkNb
         if (workLink.link_type_number) {
-            linkNb = (<span className="link-nb">{workLink.link_type_number}</span>)
+            linkNb = (
+                <span className="link-nb">
+                    {workLink.link_type_number}
+                </span>
+            )
         }
 
         const link = (
@@ -84,33 +90,33 @@ export default class WorkLink extends Component {
         }
 
         return (
-                <div className="work-link">
-                    <span className="title-group work-link-item">
-                        <HighlighterQuery
-                            query={query}
-                            className="title"
-                            searchWords={(q) => {
-                                let searchWords = q.work.contains.concat(q.remaining)
-                                const workTypeQuery = q.work_type[
-                                    workLink.work.work_type.query_name
-                                ]
-                                if (workTypeQuery) {
-                                    // Add keyword for specific worktype if it exists
-                                    searchWords = searchWords.concat(
-                                        workTypeQuery.contains
-                                    )
-                                }
+            <div className="work-link-widget">
+                {icon}
+                <span className="title-group">
+                    <HighlighterQuery
+                        query={query}
+                        className="title"
+                        searchWords={(q) => {
+                            let searchWords = q.work.contains.concat(q.remaining)
+                            const workTypeQuery = q.work_type[
+                                workLink.work.work_type.query_name
+                            ]
+                            if (workTypeQuery) {
+                                // Add keyword for specific worktype if it exists
+                                searchWords = searchWords.concat(
+                                    workTypeQuery.contains
+                                )
+                            }
 
-                                return searchWords
-                            }}
-                            textToHighlight={workLink.work.title}
-                        />
-                        {subtitle}
-                    </span>
-                    {link}
-                    {episodes}
-                    {icon}
-                </div>
-            )
+                            return searchWords
+                        }}
+                        textToHighlight={workLink.work.title}
+                    />
+                    {subtitle}
+                </span>
+                {link}
+                {episodes}
+            </div>
+        )
     }
 }

@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
 import HighlighterQuery from 'components/generics/HighlighterQuery'
+import ArtistWidget from 'components/song/ArtistWidget'
 import SongArtistList from 'components/song/SongArtistList'
 import SongTagList from 'components/song/SongTagList'
-import WorkLink from 'components/song/WorkLink'
+import WorkLinkWidget from 'components/song/WorkLinkWidget'
 import { songPropType } from 'serverPropTypes/library'
 import { formatDuration } from 'utils'
 
@@ -60,7 +61,7 @@ export default class Song extends Component {
             if (song.works.length > 0) {
                 // display the first work only for this display
                 firstWorkLink = (
-                        <WorkLink
+                        <WorkLinkWidget
                             workLink={song.works[0]}
                             query={query}
                             noEpisodes
@@ -72,17 +73,16 @@ export default class Song extends Component {
             }
 
             // Display artists
-            const artists = (
-                        <SongArtistList
-                            artists={song.artists}
-                            query={query}
-                        />
-                )
+            const artists = song.artists.map(a => (
+                <ArtistWidget artist={a} query={query} key={a.id}/>
+            ))
 
             artistWork = (
                 <div className="artist-work">
                     {firstWorkLink}
-                    {artists}
+                    <div className="artists">
+                        {artists}
+                    </div>
                 </div>
             )
         }

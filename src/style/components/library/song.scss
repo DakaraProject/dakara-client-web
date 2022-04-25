@@ -172,8 +172,8 @@
 
                 .text,
                 .paragraph,
-                .artist,
-                .work-link {
+                .artist-widget,
+                .work-link-widget {
                     @include make-vertical-row-padding(horizontal, 2);
 
                     // allow words to break
