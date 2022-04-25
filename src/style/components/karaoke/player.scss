@@ -99,6 +99,7 @@ $player-progressbar-height: 0.4rem;
                 }
 
                 .artist-work {
+                    line-height: 1;
                     margin: 0;
 
                     .artists {
@@ -109,7 +110,7 @@ $player-progressbar-height: 0.4rem;
                         @include make-reverse();
 
                         .link {
-                            border-color: shade($brand-primary, 25%);
+                            border-color: change-color($brand-primary, $alpha: 0.75);
                         }
                     }
                 }
