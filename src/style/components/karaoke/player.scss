@@ -45,21 +45,21 @@ $player-progressbar-height: 0.4rem;
         z-index: 1100;
     }
 
-    // `playlist-entry` class: container for the current playlist entry.
     .player-info {
         display: flex;
         overflow: hidden;
 
+        // `playlist-entry` class: container for the current playlist entry.
         .playlist-entry {
+            display: flex;
             max-height: $player-timing-height * 2;
             overflow: hidden;
 
             // `use-instrumental` subclass: indicate if the playlist entry use the instrumental track.
             .use-instrumental {
-                @include make-gap(padding, left);
+                @include make-gap(margin, left);
 
                 font-size: 1.45em;
-                line-height: 1.5;
             }
 
             // `entry-info` sublcass: show info about the playlist entry (song + playing request)
