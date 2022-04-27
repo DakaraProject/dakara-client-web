@@ -16,8 +16,8 @@
             // }
 
             .subtitle {
+                color: change-color($text-light, $alpha: 0.7);
                 margin-left: 0.5em;
-                opacity: 0.65;
             }
         }
     }

@@ -71,11 +71,8 @@ $neutral-clear-lighter:  lighten($neutral-clear, 7%);
 $neutral-soft-lighter:   lighten($neutral-soft,  7%);
 $neutral-mid-lighter:    lighten($neutral-mid,   7%);
 
-// body colors
-$body-background: $black-90;
-
 // text colors
-$text-light: $neutral-clear;
+$text-light: $black-60;
 $text-dark:  $black-90;
 
 // custom colors saturation and luminosity

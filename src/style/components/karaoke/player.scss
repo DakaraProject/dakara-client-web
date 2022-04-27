@@ -140,7 +140,7 @@ $player-progressbar-height: 0.4rem;
             }
 
             .duration {
-                opacity: 0.85;
+                color: change-color($brand-primary, $alpha: 0.85);
             }
         }
     }
