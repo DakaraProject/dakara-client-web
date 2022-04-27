@@ -16,13 +16,17 @@
     overflow: hidden;
     white-space: nowrap;
 
+    &.truncatable {
+        .title-group {
+            @include text-truncate();
+        }
+    }
+
     .icon {
         margin-right: 0.5em;
     }
 
     .title-group {
-        @include text-truncate();
-
         // .title {
         // }
 

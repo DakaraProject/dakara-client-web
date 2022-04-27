@@ -47,19 +47,6 @@
                         @include make-smartphone {
                             display: none;
                         }
-
-                        .work-link {
-                            @include make-reverse();
-                        }
-
-                        .artists {
-                            text-align: left;
-                        }
-
-                        // for small devices, hide the artist if there is one work
-                        .work-link + .artists {
-                            display: none;
-                        }
                     }
                 }
             }
@@ -197,7 +184,7 @@
 
                 &.works {
                     .sublisting-entry {
-                        .work-link {
+                        .work-link-widget {
                             display: block;
                             flex: 1;
                             white-space: unset;
@@ -213,7 +200,7 @@
                     }
                 }
 
-                &.artists {
+                &.artists-widget {
                     .artist {
                         flex: 1;
                     }

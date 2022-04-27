@@ -12,7 +12,6 @@ import ManageButton from 'components/karaoke/player/ManageButton'
 import PlayerNotification from 'components/karaoke/player/Notification'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import ArtistWidget from 'components/song/ArtistWidget'
-import Song from 'components/song/Song'
 import WorkLinkWidget from 'components/song/WorkLinkWidget'
 import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
 import { playlistDigestPropType } from 'reducers/playlist'
@@ -157,7 +156,7 @@ class Player extends Component {
                             </div>
                             <div className="song-artists">
                                 {song.artists.map(a => (
-                                    <ArtistWidget artist={a} key={a.id} />
+                                    <ArtistWidget artist={a} key={a.id} truncatable />
                                 ))}
                             </div>
                             <div className="song-works">
@@ -166,6 +165,7 @@ class Player extends Component {
                                         workLink={w}
                                         key={w.id}
                                         noEpisodes
+                                        truncatable
                                     />
                                 ))}
                             </div>

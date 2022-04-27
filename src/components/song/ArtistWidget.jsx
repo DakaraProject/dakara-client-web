@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
@@ -9,13 +10,14 @@ export default class ArtistWidget extends Component {
         artist: artistPropType.isRequired,
         noIcon: PropTypes.bool,
         query: PropTypes.object,
+        truncatable: PropTypes.bool,
     }
 
     render() {
-        const { artist, query, noIcon } = this.props
+        const { artist, query, noIcon, truncatable } = this.props
 
         return (
-            <div className="artist-widget">
+            <div className={classNames('artist-widget', {truncatable})}>
                 {
                     noIcon ? null : (
                         <span className="icon">

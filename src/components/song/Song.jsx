@@ -4,7 +4,6 @@ import React, { Component } from 'react'
 
 import HighlighterQuery from 'components/generics/HighlighterQuery'
 import ArtistWidget from 'components/song/ArtistWidget'
-import SongArtistList from 'components/song/SongArtistList'
 import SongTagList from 'components/song/SongTagList'
 import WorkLinkWidget from 'components/song/WorkLinkWidget'
 import { songPropType } from 'serverPropTypes/library'
@@ -65,6 +64,7 @@ export default class Song extends Component {
                             workLink={song.works[0]}
                             query={query}
                             noEpisodes
+                            truncatable
                         />
                 )
 
@@ -74,7 +74,7 @@ export default class Song extends Component {
 
             // Display artists
             const artists = song.artists.map(a => (
-                <ArtistWidget artist={a} query={query} key={a.id}/>
+                <ArtistWidget artist={a} query={query} key={a.id} truncatable />
             ))
 
             artistWork = (

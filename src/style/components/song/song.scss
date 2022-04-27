@@ -36,6 +36,7 @@
             @include text-truncate();
 
             flex-grow: 1;
+            flex-shrink: 0;
 
             .title {
                 font-size: 1.05em;
@@ -52,15 +53,15 @@
             display: flex;
             flex-direction: column;
             font-size: 0.9em;
+            margin-left: 0.5em;
             overflow: hidden;
-            text-align: right;
 
             .artists {
                 @include text-truncate();
 
                 // display artists in one line
                 .artist-widget {
-                    display: inline-block;
+                    display: inline;
 
                     &:not(:last-child) {
                         margin-right: 0.5em;

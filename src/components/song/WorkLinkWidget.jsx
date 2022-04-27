@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
@@ -20,11 +21,19 @@ export default class WorkLinkWidget extends Component {
         noEpisodes: PropTypes.bool,
         noIcon: PropTypes.bool,
         query: PropTypes.object,
+        truncatable: PropTypes.bool,
         workLink: workLinkPropType.isRequired,
     }
 
     render() {
-        const { workLink, query, longLinkType, noIcon, noEpisodes } = this.props
+        const {
+            longLinkType,
+            noEpisodes,
+            noIcon,
+            query,
+            truncatable,
+            workLink,
+        } = this.props
 
         // Subtitle if any
         let subtitle
@@ -35,7 +44,6 @@ export default class WorkLinkWidget extends Component {
                 </span>
             )
         }
-
 
         // Link type
         const linkType = (
@@ -90,7 +98,7 @@ export default class WorkLinkWidget extends Component {
         }
 
         return (
-            <div className="work-link-widget">
+            <div className={classNames('work-link-widget', {truncatable})}>
                 {icon}
                 <span className="title-group">
                     <HighlighterQuery
