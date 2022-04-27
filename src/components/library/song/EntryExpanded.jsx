@@ -16,6 +16,7 @@ import { songPropType } from 'serverPropTypes/library'
 
 class SongEntryExpanded extends Component {
     static propTypes = {
+        canAdd: PropTypes.bool,
         query: PropTypes.object,
         searchParams: PropTypes.object.isRequired,
         setSearchParams: PropTypes.func.isRequired,
@@ -35,7 +36,7 @@ class SongEntryExpanded extends Component {
     }
 
     render() {
-        const {song, query} = this.props
+        const { song, query, canAdd } = this.props
 
         /**
          * Works
@@ -212,10 +213,11 @@ class SongEntryExpanded extends Component {
                     </div>
                 )
         }
-      
+
         /**
          * Instrumental
          */
+
         let instrumental
         if (song.has_instrumental) {
             instrumental = (
@@ -228,6 +230,7 @@ class SongEntryExpanded extends Component {
                                         Request instrumental track
                                     </span>
                                     <button
+                                        disabled={!canAdd}
                                         className="control primary submit"
                                         onClick={() => {
                                             this.props.addSongToPlaylistWithOptions(

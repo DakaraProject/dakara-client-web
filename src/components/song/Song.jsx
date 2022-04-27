@@ -20,11 +20,11 @@ import { formatDuration } from 'utils'
  */
 export default class Song extends Component {
     static propTypes = {
+        handleClick: PropTypes.func,
         karaokeRemainingSeconds: PropTypes.number,
         noArtistWork: PropTypes.bool,
         noDuration: PropTypes.bool,
         noTag: PropTypes.bool,
-        handleClick: PropTypes.func,
         query: PropTypes.object, // should be isRequired
         song: songPropType.isRequired,
     }
@@ -95,7 +95,7 @@ export default class Song extends Component {
         let duration
         if (!this.props.noDuration) {
             let warningIcon
-            if (karaokeRemainingSeconds < song.duration) {
+            if (karaokeRemainingSeconds && karaokeRemainingSeconds < song.duration) {
                 warningIcon = (
                     <span className="icon">
                         <i className="las la-exclamation-triangle"></i>
