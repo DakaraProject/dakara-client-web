@@ -13,7 +13,7 @@
   },
   "projectHomepage": "https://github.com/DakaraProject/dakara-client-web",
   "private": true,
-  "proxy": "http://localhost:8000",
+  "proxy": "http://127.0.0.1:8000",
   "dependencies": {
     "classnames": "^2.3.1",
     "dayjs": "^1.11.0",
