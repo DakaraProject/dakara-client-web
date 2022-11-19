@@ -31,10 +31,14 @@ $tokens-control-font-size: 1.25em;
                 display: flex;
                 justify-content: flex-end;
 
-                .control {
+                > .control {
                     @include make-gap(padding, horizontal);
 
                     width: unset;
+                }
+
+                .notification .controls {
+                    @include make-controls($tokens-control-size, $tokens-control-font-size);
                 }
             }
         }
