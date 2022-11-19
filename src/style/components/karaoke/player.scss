@@ -8,7 +8,7 @@
 // player sizes
 $player-controls-height: 6rem;
 $player-controls-height-smartphone: $row-height;
-$player-timing-height: 6rem;
+$player-timing-height: 6.5rem;
 $player-progressbar-height: 0.4rem;
 
 
@@ -45,85 +45,66 @@ $player-progressbar-height: 0.4rem;
         z-index: 1100;
     }
 
-    // `playlist-entry` class: container for the current playlist entry.
-    .playlist-entry {
+    .player-info {
         display: flex;
         overflow: hidden;
 
-        // `use-instrumental` subclass: indicate if the playlist entry use the instrumental track.
-        .use-instrumental {
-            @include make-gap(padding, left);
-
-            font-size: 1.45em;
-            line-height: 1.5;
-        }
-
-        // `entry-info` sublcass: show info about the playlist entry (song + playing request)
-        .entry-info {
-            @include make-gap(margin, horizontal);
-
+        // `playlist-entry` class: container for the current playlist entry.
+        .playlist-entry {
+            display: flex;
+            max-height: $player-timing-height * 2;
             overflow: hidden;
 
-            // `song` subclass: the song itself.
-            .song {
-                @include make-gap(margin, right);
+            // `use-instrumental` subclass: indicate if the playlist entry use the instrumental track.
+            .use-instrumental {
+                @include make-gap(margin, left);
 
-                align-content: flex-start;
-                align-items: initial;
+                font-size: 1.45em;
+            }
+
+            // `entry-info` sublcass: show info about the playlist entry (song + playing request)
+            .entry-info {
+                @include make-gap(margin, horizontal);
+
                 cursor: pointer;
-                flex-direction: column;
-                height: $player-controls-height;
+                min-height: $player-controls-height;
                 overflow: hidden;
+                transition: all 0.3s ease-out;
 
-                // remove special colors of disabled songs
-                &.disabled {
-                    background-color: unset;
-                    color: inherit;
-                }
+                .song-title {
+                    @include text-truncate();
 
-                .general {
-                    align-items: initial;
-                    flex-direction: column;
-                }
-
-                .header {
-                    flex-grow: initial;
                     font-size: 1.5em;
                     font-weight: 300;
-
-                    // .title {
-                    // }
-
-                    // .version {
-                    // }
                 }
 
-                .artist-work {
-                    margin: 0;
+                .song-artists,
+                .song-works {
+                    overflow: hidden;
+                }
 
-                    .artists {
-                        text-align: left;
-                    }
+                .song-artists {
+                    @include text-truncate();
 
-                    .work-link {
-                        @include make-reverse();
+                    // display artists in one line
+                    .artist-widget {
+                        display: inline;
 
-                        .link {
-                            border-color: shade($brand-primary, 25%);
+                        &:not(:last-child) {
+                            margin-right: 0.5em;
                         }
                     }
                 }
-            }
 
-            // `playlist-entry-owner` subclass: owner of the playlist entry.
-            .owner {
-                overflow: hidden;
+                .song-works {
+                    .title-group {
+                        .subtitle {
+                            color: change-color($brand-primary, $alpha: 0.75);
+                        }
+                    }
 
-                .user-widget {
-                    @include text-truncate();
-
-                    .icon {
-                        font-size: 1em;
+                    .link {
+                        border-color: change-color($brand-primary, $alpha: 0.75);
                     }
                 }
             }
@@ -165,7 +146,7 @@ $player-progressbar-height: 0.4rem;
             }
 
             .duration {
-                opacity: 0.85;
+                color: change-color($brand-primary, $alpha: 0.85);
             }
         }
     }

@@ -5,7 +5,8 @@
 //
 
 
-@import "work_link";
+@import "artist_widget";
+@import "work_link_widget";
 @import "play_queue_info";
 
 
@@ -25,40 +26,49 @@
     }
 
     .general {
-        align-items: baseline;
+        align-items: center;
         display: flex;
         flex-grow: 1;
         overflow: hidden;
 
         // `header` class: song's main info.
+        // will be the last to shrink
         .header {
             @include text-truncate();
 
-            flex-grow: 1;
+            flex: 1 1 auto;
 
             .title {
                 font-size: 1.05em;
             }
 
             .version {
+                color: change-color($text-light, $alpha: 0.7);
                 margin-left: 0.5em;
-                opacity: 0.65;
             }
         }
 
         // `artist-work` class: collapsed info for the song artists and works.
+        // will be the first to shrink
         .artist-work {
             display: flex;
+            flex: 0 100000 auto;  // make it very easily shrinkable
             flex-direction: column;
             font-size: 0.9em;
+            margin-left: 0.5em;
             overflow: hidden;
             text-align: right;
 
             .artists {
                 @include text-truncate();
 
-                .artist:not(:last-child)::after {
-                    content: ", ";
+                // display artists in one line
+                .artist-widget {
+                    display: inline;
+
+                    &:not(:last-child) {
+                        margin-right: 0.5em;
+                    }
                 }
             }
         }

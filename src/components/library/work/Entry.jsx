@@ -50,7 +50,7 @@ class WorkEntry extends Component {
                 <div className="controls"> 
                     <button className="control primary" onClick={this.handleSearch}>
                         <span className="icon">
-                            <i className="fa fa-search"></i>
+                            <i className="las la-search"></i>
                         </span>
                     </button>
                 </div>

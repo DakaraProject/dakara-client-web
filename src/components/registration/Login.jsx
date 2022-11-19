@@ -57,7 +57,7 @@ class Login extends Component {
                                 id="login"
                                 label={(
                                     <span className="icon">
-                                        <i className="fa fa-user"></i>
+                                        <i className="las la-user"></i>
                                     </span>
                                 )}
                                 placeholder="Username or email..."
@@ -67,7 +67,7 @@ class Login extends Component {
                                 id="password"
                                 label={(
                                     <span className="icon">
-                                        <i className="fa fa-lock"></i>
+                                        <i className="las la-lock"></i>
                                     </span>
                                 )}
                                 placeholder="Password..."

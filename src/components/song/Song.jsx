@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
 import HighlighterQuery from 'components/generics/HighlighterQuery'
-import SongArtistList from 'components/song/SongArtistList'
+import ArtistWidget from 'components/song/ArtistWidget'
 import SongTagList from 'components/song/SongTagList'
-import WorkLink from 'components/song/WorkLink'
+import WorkLinkWidget from 'components/song/WorkLinkWidget'
 import { songPropType } from 'serverPropTypes/library'
 import { formatDuration } from 'utils'
 
@@ -20,11 +20,11 @@ import { formatDuration } from 'utils'
  */
 export default class Song extends Component {
     static propTypes = {
+        handleClick: PropTypes.func,
         karaokeRemainingSeconds: PropTypes.number,
         noArtistWork: PropTypes.bool,
         noDuration: PropTypes.bool,
         noTag: PropTypes.bool,
-        handleClick: PropTypes.func,
         query: PropTypes.object, // should be isRequired
         song: songPropType.isRequired,
     }
@@ -60,10 +60,11 @@ export default class Song extends Component {
             if (song.works.length > 0) {
                 // display the first work only for this display
                 firstWorkLink = (
-                        <WorkLink
+                        <WorkLinkWidget
                             workLink={song.works[0]}
                             query={query}
                             noEpisodes
+                            truncatable
                         />
                 )
 
@@ -72,17 +73,16 @@ export default class Song extends Component {
             }
 
             // Display artists
-            const artists = (
-                        <SongArtistList
-                            artists={song.artists}
-                            query={query}
-                        />
-                )
+            const artists = song.artists.map(a => (
+                <ArtistWidget artist={a} query={query} key={a.id} truncatable />
+            ))
 
             artistWork = (
                 <div className="artist-work">
                     {firstWorkLink}
-                    {artists}
+                    <div className="artists">
+                        {artists}
+                    </div>
                 </div>
             )
         }
@@ -95,10 +95,10 @@ export default class Song extends Component {
         let duration
         if (!this.props.noDuration) {
             let warningIcon
-            if (karaokeRemainingSeconds < song.duration) {
+            if (karaokeRemainingSeconds && karaokeRemainingSeconds < song.duration) {
                 warningIcon = (
                     <span className="icon">
-                        <i className="fa fa-exclamation-triangle"></i>
+                        <i className="las la-exclamation-triangle"></i>
                     </span>
                 )
             }

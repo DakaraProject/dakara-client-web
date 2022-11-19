@@ -44,12 +44,12 @@ class Library extends Component {
                 <nav className="tab-bar">
                     <Tab
                         to="/library/song"
-                        iconName="bars"
+                        iconName="music"
                         extraClassName="home"
                     />
                     <Tab
                         to="/library/artist"
-                        iconName="music"
+                        iconName="microphone-alt"
                         name="Artists"
                     />
                     {workTypesTabs}

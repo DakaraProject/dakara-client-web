@@ -21,7 +21,7 @@ $playlist-info-bar-height-smartphone: 7rem;
 
     align-items: center;
     background: $brand-primary;
-    color: $body-background;
+    color: $text-dark;
     cursor: pointer;
     display: flex;
     height: $playlist-info-bar-height;
@@ -94,7 +94,8 @@ $playlist-info-bar-height-smartphone: 7rem;
                 @include text-truncate();
 
                 &.detail {
-                    opacity: 0.75;
+                    // using opacity creates weird effects with the sticky player
+                    color: change-color($text-dark, $alpha: 0.7);
                 }
 
                 + .line {

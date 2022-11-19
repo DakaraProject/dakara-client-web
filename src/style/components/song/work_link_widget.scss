@@ -1,36 +1,38 @@
 //
 // Dakara Project
 //
-// Work link style file
+// Work link widget style file
 //
 
 
-// `work-display` class:
+// `work-link-widget` class:
 //
 // This module is used to style a work link, ie. a work and its link to the
 // song.
-.work-link {
+.work-link-widget {
     align-items: baseline;
     display: flex;
     flex-shrink: 2;
-    justify-content: flex-end;
     overflow: hidden;
     white-space: nowrap;
 
-    .work-link-item:not(:last-child) {
+    &.truncatable {
+        .title-group {
+            @include text-truncate();
+        }
+    }
+
+    .icon {
         margin-right: 0.5em;
     }
 
-    // `title-groud` class: title and subtitle of the work.
     .title-group {
-        @include text-truncate();
-
         // .title {
         // }
 
         .subtitle {
+            color: change-color($text-light, $alpha: 0.7);
             margin-left: 0.5em;
-            opacity: 0.65;
         }
     }
 
@@ -41,6 +43,7 @@
         border-width: 1px;
         display: inline-block;
         font-size: 0.9em;
+        margin-left: 0.5em;
         padding: 0.1em 0.2em;
         text-transform: uppercase;
 
@@ -52,10 +55,7 @@
     }
 
     // `episodes` class: episodes concerned by this work link.
-    // .episodes {
-    // }
-
-    // `icon` class: the icon of the work.
-    // .icon {
-    // }
+    .episodes {
+        margin-left: 0.5em;
+    }
 }

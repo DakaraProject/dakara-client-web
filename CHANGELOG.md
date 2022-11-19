@@ -30,7 +30,17 @@
 
 ## Unreleased
 
+### Added
+
 - Songs can be restarted, rewound, and fast forwarded during playback.
+
+### Changed
+
+- A beter icon font is used (especially with a singer-style microphone).
+
+### Fixed
+
+- Various minor interface bugs were fixed.
 
 ## 1.7.0 - 2021-06-20
 

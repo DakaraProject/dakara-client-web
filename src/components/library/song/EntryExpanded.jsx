@@ -16,6 +16,7 @@ import { songPropType } from 'serverPropTypes/library'
 
 class SongEntryExpanded extends Component {
     static propTypes = {
+        canAdd: PropTypes.bool,
         query: PropTypes.object,
         searchParams: PropTypes.object.isRequired,
         setSearchParams: PropTypes.func.isRequired,
@@ -35,7 +36,7 @@ class SongEntryExpanded extends Component {
     }
 
     render() {
-        const {song, query} = this.props
+        const { song, query, canAdd } = this.props
 
         /**
          * Works
@@ -73,7 +74,7 @@ class SongEntryExpanded extends Component {
                     <div key={workType.query_name} className="works expanded-item">
                         <h4 className="header">
                             <span className="icon">
-                                <i className={`fa fa-${workType.icon_name}`}></i>
+                                <i className={`las la-${workType.icon_name}`}></i>
                             </span>
                             <span className="name">
                                 {
@@ -107,7 +108,7 @@ class SongEntryExpanded extends Component {
                     <div className="artists expanded-item">
                         <h4 className="header">
                             <span className="icon">
-                                <i className="fa fa-music"></i>
+                                <i className="las la-microphone-alt"></i>
                             </span>
                             <span className="name">
                                 Artist{song.artists.length > 1 ? 's' : ''}
@@ -128,7 +129,7 @@ class SongEntryExpanded extends Component {
                     <div className="detail-song expanded-item">
                         <h4 className="header">
                             <span className="icon">
-                                <i className="fa fa-file-text"></i>
+                                <i className="las la-file-text"></i>
                             </span>
                             <span className="name">Music details</span>
                         </h4>
@@ -149,7 +150,7 @@ class SongEntryExpanded extends Component {
                     <div className="detail_video expanded-item">
                         <h4 className="header">
                             <span className="icon">
-                                <i className="fa fa-file-text"></i>
+                                <i className="las la-file-text"></i>
                             </span>
                             <span className="name">Video details</span>
                         </h4>
@@ -178,7 +179,7 @@ class SongEntryExpanded extends Component {
                 <div className="lyrics expanded-item">
                     <h4 className="header">
                         <span className="icon">
-                            <i className="fa fa-align-left"></i>
+                            <i className="las la-align-left"></i>
                         </span>
                         <span className="name">Lyrics</span>
                     </h4>
@@ -204,7 +205,7 @@ class SongEntryExpanded extends Component {
                     <div className="tags expanded-item">
                         <h4 className="header">
                             <span className="icon">
-                                <i className="fa fa-tags"></i>
+                                <i className="las la-tags"></i>
                             </span>
                             <span className="name">Tags</span>
                         </h4>
@@ -212,10 +213,11 @@ class SongEntryExpanded extends Component {
                     </div>
                 )
         }
-      
+
         /**
          * Instrumental
          */
+
         let instrumental
         if (song.has_instrumental) {
             instrumental = (
@@ -228,6 +230,7 @@ class SongEntryExpanded extends Component {
                                         Request instrumental track
                                     </span>
                                     <button
+                                        disabled={!canAdd}
                                         className="control primary submit"
                                         onClick={() => {
                                             this.props.addSongToPlaylistWithOptions(
@@ -237,9 +240,9 @@ class SongEntryExpanded extends Component {
                                         }}
                                     >
                                         <span className="icon">
-                                            <i className="fa fa-plus"></i>
+                                            <i className="las la-plus"></i>
                                             <span className="sub-icon">
-                                                <i className="fa fa-microphone-slash">
+                                                <i className="las la-microphone-slash">
                                                 </i>
                                             </span>
                                         </span>

@@ -11,12 +11,12 @@ export default class Playlist extends Component {
                 <nav className="tab-bar">
                     <Tab
                         to="/playlist/played"
-                        iconName="fast-backward"
+                        iconName="chevron-left"
                         name="Played"
                     />
                     <Tab
                         to="/playlist/queueing"
-                        iconName="fast-forward"
+                        iconName="chevron-right"
                         name="Queuing"
                     />
                 </nav>

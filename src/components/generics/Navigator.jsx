@@ -43,7 +43,7 @@ class Navigator extends Component {
                         className="primary"
                     >
                         <span className="icon">
-                            <i className="fa fa-angle-double-left"></i>
+                            <i className="las la-angle-double-left"></i>
                         </span>
                     </ControlLink>
                     <ControlLink
@@ -52,7 +52,7 @@ class Navigator extends Component {
                         className="primary"
                     >
                         <span className="icon">
-                            <i className="fa fa-angle-left"></i>
+                            <i className="las la-angle-left"></i>
                         </span>
                     </ControlLink>
                     <ControlLink
@@ -61,7 +61,7 @@ class Navigator extends Component {
                         className="primary"
                     >
                         <span className="icon">
-                            <i className="fa fa-angle-right"></i>
+                            <i className="las la-angle-right"></i>
                         </span>
                     </ControlLink>
                     <ControlLink
@@ -70,7 +70,7 @@ class Navigator extends Component {
                         className="primary"
                     >
                         <span className="icon">
-                            <i className="fa fa-angle-double-right"></i>
+                            <i className="las la-angle-double-right"></i>
                         </span>
                     </ControlLink>
                 </nav>

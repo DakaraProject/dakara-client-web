@@ -96,13 +96,13 @@ export default class SettingsUsersEntry extends Component {
                                     to={`${user.id}`}
                                     className="control info"
                                 >
-                                    <i className="fa fa-pencil"></i>
+                                    <i className="las la-pen"></i>
                                 </ControlLink>
                                 <button
                                     className="control danger"
                                     onClick={this.displayConfirm}
                                 >
-                                    <i className="fa fa-trash"></i>
+                                    <i className="las la-trash"></i>
                                 </button>
                             </IsNotSelf>
                         </div>
@@ -138,7 +138,7 @@ const Marked = ({marked}) => {
     }
 
     return (
-        <i className="fa fa-check"></i>
+        <i className="las la-check"></i>
     )
 }
 

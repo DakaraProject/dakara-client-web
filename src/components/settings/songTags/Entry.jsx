@@ -69,7 +69,7 @@ export default class SettingsSongTagsEntry extends Component {
             )
         } else {
             enablenessWidget = (
-                <i className="fa fa-check"></i>
+                <i className="las la-check"></i>
             )
         }
 
@@ -86,7 +86,7 @@ export default class SettingsSongTagsEntry extends Component {
                         onClick={this.displayColorForm}
                         style={{filter: `hue-rotate(${tag.color_hue}deg)`}}
                     >
-                        <i className="fa fa-paint-brush"></i>
+                        <i className="las la-paint-brush"></i>
                     </button>
                 </div>
             )
@@ -107,7 +107,7 @@ export default class SettingsSongTagsEntry extends Component {
 
         const submitText = (
             <span className="icon">
-                <i className="fa fa-check"></i>
+                <i className="las la-check"></i>
             </span>
         )
 
@@ -134,7 +134,7 @@ export default class SettingsSongTagsEntry extends Component {
                         className="control danger"
                     >
                         <span className="icon">
-                            <i className="fa fa-times"></i>
+                            <i className="las la-times"></i>
                         </span>
                     </button>
                 </div>

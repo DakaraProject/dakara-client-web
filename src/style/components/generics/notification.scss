@@ -15,7 +15,7 @@
 // The class provides also alterations when used with the class `listing-entry`.
 .notification {
     box-sizing: border-box;
-    color: $body-background;
+    color: $text-dark;
 
     @mixin make-notification($background, $selection, $background-light, $selection-light) {
         background: $background;

@@ -44,7 +44,7 @@ class Header extends Component {
                     {userTab}
                     <Tab
                         to="/logout"
-                        iconName="sign-out"
+                        iconName="sign-out-alt"
                     />
                 </nav>
             )

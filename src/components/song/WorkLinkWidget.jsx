@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
@@ -14,26 +15,35 @@ import { workLinkPropType } from 'serverPropTypes/library'
  * - noIcon: don'tdisplay work type icon
  * - noEpisodes: don't display episodes
  */
-export default class WorkLink extends Component {
+export default class WorkLinkWidget extends Component {
     static propTypes = {
         longLinkType: PropTypes.bool,
         noEpisodes: PropTypes.bool,
         noIcon: PropTypes.bool,
         query: PropTypes.object,
+        truncatable: PropTypes.bool,
         workLink: workLinkPropType.isRequired,
     }
 
     render() {
-        const { workLink, query, longLinkType, noIcon, noEpisodes } = this.props
+        const {
+            longLinkType,
+            noEpisodes,
+            noIcon,
+            query,
+            truncatable,
+            workLink,
+        } = this.props
 
         // Subtitle if any
         let subtitle
         if (workLink.work.subtitle) {
-            subtitle = (<span className="subtitle">
-                {workLink.work.subtitle}
-                </span>)
+            subtitle = (
+                <span className="subtitle">
+                    {workLink.work.subtitle}
+                </span>
+            )
         }
-
 
         // Link type
         const linkType = (
@@ -49,7 +59,11 @@ export default class WorkLink extends Component {
         // Link number if any
         let linkNb
         if (workLink.link_type_number) {
-            linkNb = (<span className="link-nb">{workLink.link_type_number}</span>)
+            linkNb = (
+                <span className="link-nb">
+                    {workLink.link_type_number}
+                </span>
+            )
         }
 
         const link = (
@@ -65,9 +79,11 @@ export default class WorkLink extends Component {
         let icon
         if (!noIcon && workLink.work.work_type) {
             icon = (
-                    <span className="work-link-item icon">
-                        <i className={`fa fa-${workLink.work.work_type.icon_name}`}></i>
-                    </span>
+                <span className="work-link-item icon">
+                    <i className={
+                        `las la-${workLink.work.work_type.icon_name}`
+                    }></i>
+                </span>
             )
         }
 
@@ -82,33 +98,33 @@ export default class WorkLink extends Component {
         }
 
         return (
-                <div className="work-link">
-                    <span className="title-group work-link-item">
-                        <HighlighterQuery
-                            query={query}
-                            className="title"
-                            searchWords={(q) => {
-                                let searchWords = q.work.contains.concat(q.remaining)
-                                const workTypeQuery = q.work_type[
-                                    workLink.work.work_type.query_name
-                                ]
-                                if (workTypeQuery) {
-                                    // Add keyword for specific worktype if it exists
-                                    searchWords = searchWords.concat(
-                                        workTypeQuery.contains
-                                    )
-                                }
+            <div className={classNames('work-link-widget', {truncatable})}>
+                {icon}
+                <span className="title-group">
+                    <HighlighterQuery
+                        query={query}
+                        className="title"
+                        searchWords={(q) => {
+                            let searchWords = q.work.contains.concat(q.remaining)
+                            const workTypeQuery = q.work_type[
+                                workLink.work.work_type.query_name
+                            ]
+                            if (workTypeQuery) {
+                                // Add keyword for specific worktype if it exists
+                                searchWords = searchWords.concat(
+                                    workTypeQuery.contains
+                                )
+                            }
 
-                                return searchWords
-                            }}
-                            textToHighlight={workLink.work.title}
-                        />
-                        {subtitle}
-                    </span>
-                    {link}
-                    {episodes}
-                    {icon}
-                </div>
-            )
+                            return searchWords
+                        }}
+                        textToHighlight={workLink.work.title}
+                    />
+                    {subtitle}
+                </span>
+                {link}
+                {episodes}
+            </div>
+        )
     }
 }

@@ -11,7 +11,8 @@ import UserWidget from 'components/generics/UserWidget'
 import ManageButton from 'components/karaoke/player/ManageButton'
 import PlayerNotification from 'components/karaoke/player/Notification'
 import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
-import Song from 'components/song/Song'
+import ArtistWidget from 'components/song/ArtistWidget'
+import WorkLinkWidget from 'components/song/WorkLinkWidget'
 import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
 import { playlistDigestPropType } from 'reducers/playlist'
 import { formatDuration } from 'utils'
@@ -25,7 +26,22 @@ class Player extends Component {
     }
 
     state = {
-        withControls: false
+        withControls: false,
+        animationsEnabled: false
+    }
+
+    componentDidMount() {
+        const { user } = this.props
+        const { player_status: playerStatus } = this.props.playlistDigest.data
+        const withControls = IsPlaylistManagerOrOwner.hasPermission(
+            user,
+            playerStatus.playlist_entry
+        )
+
+        if (withControls) {
+            this.setState({withControls})
+            this.props.setWithControls(withControls)
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -34,22 +50,19 @@ class Player extends Component {
         const { player_status: playerStatus } = this.props.playlistDigest.data
         const { player_status: prevPlayerStatus } = prevProps.playlistDigest.data
 
-        if (user === prevUser && playerStatus === prevPlayerStatus) {
-            return
+        // display controls or not
+        if (user !== prevUser || playerStatus !== prevPlayerStatus) {
+            const { withControls: prevWithControls } = this.state
+            const withControls = IsPlaylistManagerOrOwner.hasPermission(
+                user,
+                playerStatus.playlist_entry
+            )
+
+            if (withControls !== prevWithControls) {
+                this.setState({withControls, animationsEnabled: true})
+                this.props.setWithControls(withControls)
+            }
         }
-
-        const { withControls: prevWithControls } = this.state
-        const withControls = IsPlaylistManagerOrOwner.hasPermission(
-            user,
-            playerStatus.playlist_entry
-        )
-
-        if (withControls === prevWithControls) {
-            return
-        }
-
-        this.setState({withControls})
-        this.props.setWithControls(withControls)
     }
 
     handleSearch = (song) => {
@@ -64,7 +77,7 @@ class Player extends Component {
     }
 
     render() {
-        const { withControls } = this.state
+        const { withControls, animationsEnabled } = this.state
         const { player_status, player_errors } = this.props.playlistDigest.data
         const fetchError = this.props.playlistDigest.status === Status.failed
         const isPlaying = !!player_status.playlist_entry
@@ -106,44 +119,57 @@ class Player extends Component {
          */
 
         let progress
-        let playlistEntry
+        let info
         if (isPlaying) {
-            const duration = player_status.playlist_entry.song.duration
+            const { song, owner, use_instrumental } = player_status.playlist_entry
 
             /**
              * Manage instrumental playlist entry
              */
             let useInstrumental
-            if (player_status.playlist_entry.use_instrumental) {
+            if (use_instrumental) {
                 useInstrumental = (
                     <div className="use-instrumental">
-                        <i className="fa fa-microphone-slash"></i>
+                        <i className="las la-microphone-slash"></i>
                     </div>
                 )
             }
 
             // the progress is displayed only when the song has really started
             // and only if the song has a known duration
-            if (!player_status.in_transition && duration > 0) {
-                progress = Math.min(player_status.timing * 100 / duration, 100)
+            if (!player_status.in_transition && song.duration > 0) {
+                progress = Math.min(player_status.timing * 100 / song.duration, 100)
             }
 
-            playlistEntry = (
-                <div className="playlist-entry">
-                    {useInstrumental}
-                    <div className="entry-info">
-                        <Song
-                            song={player_status.playlist_entry.song}
-                            noDuration
-                            noTag
-                            handleClick={() => {
-                                this.handleSearch(player_status.playlist_entry.song)
+            info = (
+                <div className="player-info">
+                    <div className="playlist-entry">
+                        {useInstrumental}
+                        <div
+                            className="entry-info"
+                            onClick={() => {
+                                this.handleSearch(song)
                             }}
-                        />
-                        <div className="owner">
-                            <UserWidget
-                                user={player_status.playlist_entry.owner}
-                            />
+                        >
+                            <div className="song-title">
+                                {song.title}
+                            </div>
+                            <div className="song-artists">
+                                {song.artists.map(a => (
+                                    <ArtistWidget artist={a} key={a.id} truncatable />
+                                ))}
+                            </div>
+                            <div className="song-works">
+                                {song.works.map(w => (
+                                    <WorkLinkWidget
+                                        workLink={w}
+                                        key={w.id}
+                                        noEpisodes
+                                        truncatable
+                                    />
+                                ))}
+                            </div>
+                            <UserWidget user={owner} noResize />
                         </div>
                     </div>
                     <div className="timing">
@@ -151,15 +177,17 @@ class Player extends Component {
                             {formatDuration(player_status.timing)}
                         </div>
                         <div className="duration">
-                            {formatDuration(duration)}
+                            {formatDuration(song.duration)}
                         </div>
                     </div>
                 </div>
             )
         } else {
             progress = 0
-            playlistEntry = (
-                <div className="playlist-entry">
+            info = (
+                <div className="player-info">
+                    <div className="playlist-entry">
+                    </div>
                     <div className="timing">
                         <div className="current">
                             {formatDuration(0)}
@@ -179,7 +207,7 @@ class Player extends Component {
             >
                 <div className="player-sticky">
                     <div className="notifiable">
-                        {playlistEntry}
+                        {info}
                         <PlayerNotification
                             alterationsResponse={responseOfSendPlayerCommandsSafe}
                             playerErrors={player_errors}
@@ -194,6 +222,8 @@ class Player extends Component {
                         enter: 300,
                         exit: 150
                     }}
+                    enter={animationsEnabled}
+                    exit={animationsEnabled}
                 >
                     <div className="controls">
                         <ManageButton

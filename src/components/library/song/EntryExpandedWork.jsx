@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import WorkLink from 'components/song/WorkLink'
+import WorkLinkWidget from 'components/song/WorkLinkWidget'
 import { workLinkPropType } from 'serverPropTypes/library'
 
 export default class SongEntryExpandedWork extends Component {
@@ -22,11 +22,11 @@ export default class SongEntryExpandedWork extends Component {
                         onClick={this.handleSearchWork}
                     >
                         <span className="icon">
-                            <i className="fa fa-search"></i>
+                            <i className="las la-search"></i>
                         </span>
                     </button>
                 </div>
-                <WorkLink
+                <WorkLinkWidget
                     workLink={this.props.work}
                     longLinkType
                     noIcon

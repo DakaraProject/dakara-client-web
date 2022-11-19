@@ -10,7 +10,11 @@ import { withSearchParams } from 'components/adapted/ReactRouterDom'
 import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
 import Notification from 'components/generics/Notification'
 import SongEntryExpanded from 'components/library/song/EntryExpanded'
-import { CanAddToPlaylist, IsPlaylistUser} from 'components/permissions/Playlist'
+import {
+    CanAddToPlaylist,
+    IsPlaylistManager,
+    IsPlaylistUser
+} from 'components/permissions/Playlist'
 import PlayQueueInfo from 'components/song/PlayQueueInfo'
 import Song from 'components/song/Song'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
@@ -61,13 +65,17 @@ class SongEntry extends Component {
 
     render() {
         const {
-            song,
-            query,
+            karaokeRemainingSeconds,
             playerStatus,
-            karaokeRemainingSeconds
+            query,
+            song,
+            user,
         } = this.props
         const { playlistPlayedEntries, playlistEntries } = this.props
         const expanded = +this.props.searchParams.get('expanded') === song.id
+        const exceeding = karaokeRemainingSeconds &&
+            karaokeRemainingSeconds < song.duration
+        const canAdd = !exceeding || IsPlaylistManager.hasPermission(user)
 
         /**
          * Song is playing info
@@ -172,6 +180,7 @@ class SongEntry extends Component {
                                 <CanAddToPlaylist>
                                     <IsPlaylistUser>
                                         <button
+                                            disabled={!canAdd}
                                             className="control primary"
                                             onClick={() => {
                                                 this.props.addSongToPlaylist(
@@ -180,7 +189,7 @@ class SongEntry extends Component {
                                             }}
                                         >
                                             <span className="icon">
-                                                <i className="fa fa-plus"></i>
+                                                <i className="las la-plus"></i>
                                             </span>
                                         </button>
                                     </IsPlaylistUser>
@@ -206,6 +215,7 @@ class SongEntry extends Component {
                             <SongEntryExpanded
                                 song={this.props.song}
                                 query={this.props.query}
+                                canAdd={canAdd}
                             />
                         </div>
                     </CSSTransitionLazy>
@@ -221,6 +231,7 @@ const mapStateToProps = (state, ownProps) => ({
     playlistPlayedEntries: state.playlist.playedEntries.data.playlistPlayedEntries,
     playlistEntries: state.playlist.entries.data.playlistEntries,
     playerStatus: state.playlist.digest.data.player_status,
+    user: state.authenticatedUser,
 })
 
 SongEntry = withSearchParams(connect(

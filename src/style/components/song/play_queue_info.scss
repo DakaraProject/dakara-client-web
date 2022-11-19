@@ -24,14 +24,6 @@
 
         font-size: 0.85em;
         margin-bottom: 0.25em;
-
-        .icon {
-            // Hack for bolder icon
-            // font awesome overrides font weight
-            .fa {
-                font-weight: bold;
-            }
-        }
     }
 
     .played {
