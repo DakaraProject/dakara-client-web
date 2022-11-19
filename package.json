@@ -18,7 +18,7 @@
     "classnames": "^2.3.1",
     "dayjs": "^1.11.0",
     "normalize.css": "^8.0.1",
-    "postcss": "^8.4.12",
+    "postcss": "^8.4.19",
     "query-string": "^7.1.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -30,7 +30,7 @@
     "redux": "^4.1.2",
     "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.4.1",
-    "sass": "^1.49.10",
+    "sass": "^1.56.1",
     "semver": "^7.3.5"
   },
   "scripts": {
@@ -99,7 +99,7 @@
     "customize-cra": "^1.0.0",
     "eslint-plugin-simple-import-sort": "^8.0.0",
     "react-app-rewired": "^2.2.1",
-    "stylelint": "^14.6.1",
+    "stylelint": "^14.15.0",
     "stylelint-config-sass-guidelines": "^9.0.1",
     "stylelint-webpack-plugin": "^3.2.0"
   }
