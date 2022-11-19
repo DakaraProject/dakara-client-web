@@ -16,15 +16,19 @@ export default class ArtistWidget extends Component {
     render() {
         const { artist, query, noIcon, truncatable } = this.props
 
+        // artist microphone icon
+        let icon
+        if (!noIcon) {
+            icon = (
+                <span className="icon">
+                    <i className="las la-microphone-alt"></i>
+                </span>
+            )
+        }
+
         return (
             <div className={classNames('artist-widget', {truncatable})}>
-                {
-                    noIcon ? null : (
-                        <span className="icon">
-                            <i className="las la-microphone-alt"></i>
-                        </span>
-                    )
-                }
+                {icon}
                 <HighlighterQuery
                     className="artist"
                     query={query}

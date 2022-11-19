@@ -79,11 +79,11 @@ export default class WorkLinkWidget extends Component {
         let icon
         if (!noIcon && workLink.work.work_type) {
             icon = (
-                    <span className="work-link-item icon">
-                        <i className={
-                            `las la-${workLink.work.work_type.icon_name}`
-                        }></i>
-                    </span>
+                <span className="work-link-item icon">
+                    <i className={
+                        `las la-${workLink.work.work_type.icon_name}`
+                    }></i>
+                </span>
             )
         }
 

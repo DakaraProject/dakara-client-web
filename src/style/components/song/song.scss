@@ -52,7 +52,7 @@
         // will be the first to shrink
         .artist-work {
             display: flex;
-            flex: 0 100000 auto;
+            flex: 0 100000 auto;  // make it very easily shrinkable
             flex-direction: column;
             font-size: 0.9em;
             margin-left: 0.5em;
