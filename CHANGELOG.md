@@ -30,6 +30,8 @@
 
 ## Unreleased
 
+## 1.8.0 - 2022-11-23
+
 ### Added
 
 - Songs can be restarted, rewound, and fast forwarded during playback.
