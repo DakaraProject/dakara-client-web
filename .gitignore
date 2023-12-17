@@ -30,3 +30,5 @@ yarn-error.log*
 # Backups
 *~
 
+# Builds
+/dakara*.zip
