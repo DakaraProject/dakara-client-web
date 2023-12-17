@@ -30,6 +30,10 @@
 
 ## Unreleased
 
+### Fixed
+
+- Fixed incorrect build parameters.
+
 ## 1.8.0 - 2022-11-23
 
 ### Added
