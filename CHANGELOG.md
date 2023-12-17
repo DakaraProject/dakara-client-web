@@ -30,6 +30,8 @@
 
 ## Unreleased
 
+## 1.8.1 - 2023-12-17
+
 ### Fixed
 
 - Fixed incorrect build parameters.
