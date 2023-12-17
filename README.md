@@ -7,8 +7,9 @@ Web client for the Dakara project.
 To install Dakara completely, you have to get all the parts of the project.
 Installation guidelines are provided over here:
 
-* [Dakara server](https://github.com/Nadeflore/dakara-server/);
-* [Dakara player VLC](https://github.com/Nadeflore/dakara-player-vlc/).
+* [Dakara server](https://github.com/DakaraProject/dakara-server/);
+* [Dakara feeder](https://github.com/DakaraProject/dakara-feeder/);
+* [Dakara player](https://github.com/DakaraProject/dakara-player/).
 
 #### System requirements
 
@@ -25,13 +26,14 @@ Install dependencies, at root level of the repo:
 npm install
 ```
 
-### Running developement server 
+### Running developement server
 
 ```shell
 npm start
 ```
 
 This runs the app in the development mode.
+Please note that an instance of the server should be already running.
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.
@@ -43,5 +45,9 @@ You will also see any lint errors in the console.
 npm run build
 ```
 
-This builds the app for production to the `build` folder.<br />
+This builds the app for production to the `build` folder.
 It correctly bundles React in production mode and optimizes the build for the best performance.
+
+## Development
+
+Please read the [developers documentation](CONTRIBUTING.md).
