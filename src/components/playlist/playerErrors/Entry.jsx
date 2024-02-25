@@ -123,4 +123,6 @@ class PlayerErrorsEntry extends Component {
     }
 }
 
-export default withNavigate(withSearchParams(PlayerErrorsEntry))
+PlayerErrorsEntry = withNavigate(withSearchParams(PlayerErrorsEntry))
+
+export default PlayerErrorsEntry

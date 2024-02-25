@@ -51,4 +51,6 @@ class Entry extends Component {
     }
 }
 
-export default withNavigate(Entry)
+Entry = withNavigate(Entry)
+
+export default Entry
