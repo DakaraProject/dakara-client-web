@@ -177,7 +177,8 @@ class Queueing extends Component {
         const lastId = findLast(playlistEntries, e => e.will_play)?.id
         const isFirstPage = !this.props.searchParams.get('page') ||
             +this.props.searchParams.get('page') === 1
-        const isLastPage = +this.props.searchParams.get('page') === pagination.last
+        const isLastPage = !this.props.searchParams.get('page') ||
+            +this.props.searchParams.get('page') === pagination.last
 
         const queuingComponents = queuing.map((entry, position) => (
             <CSSTransition
