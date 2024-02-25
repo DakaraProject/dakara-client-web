@@ -19,6 +19,7 @@ class WorkList extends Component {
         setSearchParams: PropTypes.func.isRequired,
         workState: workStatePropType,
         workTypeState: workTypeStatePropType.isRequired,
+        loadLibraryEntries: PropTypes.func.isRequired,
     }
 
     /**

@@ -10,6 +10,7 @@ class UserWidget extends Component {
         currentUser: userPropType.isRequired,
         noResize: PropTypes.bool,
         user: userPropType.isRequired,
+        className: PropTypes.string,
     }
 
     render() {

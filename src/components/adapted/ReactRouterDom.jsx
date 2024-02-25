@@ -66,6 +66,7 @@ export default class Link extends Component {
             PropTypes.object,
             PropTypes.string,
         ]).isRequired,
+        children: PropTypes.node,
     }
 
     render () {

@@ -13,6 +13,7 @@ class PlayerErrorsList extends Component {
     static propTypes = {
         playerErrorsState: playerErrorsStatePropType.isRequired,
         loadPlayerErrors: PropTypes.func.isRequired,
+        searchParams: PropTypes.object.isRequired,
     }
 
     componentDidMount() {

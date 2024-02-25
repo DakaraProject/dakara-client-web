@@ -28,6 +28,7 @@ export default class HighlighterQuery extends Component {
             PropTypes.array,
         ]).isRequired,
         textToHighlight: PropTypes.string.isRequired,
+        children: PropTypes.node,
     }
 
     render() {

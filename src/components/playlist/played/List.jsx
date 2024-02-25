@@ -19,6 +19,7 @@ class Played extends Component {
         playlistEntriesState: playlistEntriesStatePropType.isRequired,
         playlistPlayedState: playedStatePropType.isRequired,
         loadPlaylistEntries: PropTypes.func.isRequired,
+        searchParams: PropTypes.object.isRequired,
     }
 
     componentDidMount() {

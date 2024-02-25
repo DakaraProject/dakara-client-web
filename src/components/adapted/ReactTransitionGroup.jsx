@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { CSSTransition } from 'react-transition-group'
 
 /**
@@ -25,3 +26,6 @@ export const CSSTransitionLazy = ({children, ...props}) => (
         {children}
     </CSSTransition>
 )
+CSSTransitionLazy.propTypes = {
+    children: PropTypes.node,
+}

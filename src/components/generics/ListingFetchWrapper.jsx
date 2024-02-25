@@ -8,6 +8,7 @@ import { Status } from 'reducers/alterationsResponse'
 export default class ListingFetchWrapper extends Component {
     static propTypes = {
         status: PropTypes.symbol,
+        children: PropTypes.node,
     }
 
     render() {

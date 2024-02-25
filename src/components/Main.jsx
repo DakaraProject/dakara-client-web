@@ -15,6 +15,7 @@ class Main extends Component {
         isLoggedIn: PropTypes.bool.isRequired,
         loadCurrentUser: PropTypes.func.isRequired,
         loadServerSettings: PropTypes.func.isRequired,
+        children: PropTypes.node,
     }
 
     componentDidMount() {

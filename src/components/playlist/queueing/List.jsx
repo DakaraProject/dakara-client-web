@@ -32,6 +32,8 @@ class Queueing extends Component {
         responseOfMultipleReorderPlaylistEntry: PropTypes.objectOf(
             alterationResponsePropType
         ),
+        searchParams: PropTypes.object.isRequired,
+        setSearchParams: PropTypes.func.isRequired,
     }
 
     state = {

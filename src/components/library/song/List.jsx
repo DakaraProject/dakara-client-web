@@ -19,6 +19,7 @@ class SongList extends Component {
         searchParams: PropTypes.object.isRequired,
         setSearchParams: PropTypes.func.isRequired,
         songState: songStatePropType.isRequired,
+        loadLibraryEntries: PropTypes.func.isRequired,
     }
 
     /**

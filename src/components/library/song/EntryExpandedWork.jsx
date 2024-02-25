@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { Component } from 'react'
 
 import WorkLinkWidget from 'components/song/WorkLinkWidget'
@@ -6,6 +7,7 @@ import { workLinkPropType } from 'serverPropTypes/library'
 export default class SongEntryExpandedWork extends Component {
     static propTypes = {
         work: workLinkPropType.isRequired,
+        setQuery: PropTypes.func.isRequired,
     }
 
     handleSearchWork = () => {
