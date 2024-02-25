@@ -49,3 +49,17 @@ export function formatDuration(seconds) {
     // default to minutes and seconds
     return duration.format('m:ss')
 }
+
+/**
+ * Find an element in an array starting from the bottom.
+ * See: https://stackoverflow.com/a/64445124/4584444
+ * @param array Array of elements.
+ * @param fn Function to evaluate on array elements.
+ * @returns Element of the array where `fn` returns true.
+ */
+export function findLast(array, fn) {
+    for(let i = array.length - 1; i >= 0; i--) {
+        if(fn(array[i], i, array)) return array[i];
+    }
+    return null
+}

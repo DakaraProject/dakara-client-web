@@ -35,7 +35,7 @@ class PlaylistInfoBar extends Component {
 
     componentDidMount() {
         // start polling server
-        this.pollPlaylist()
+        // this.pollPlaylist()
         this.props.loadPlaylistPlayed()
     }
 
