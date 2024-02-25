@@ -12,6 +12,7 @@ export default class ControlLink extends Component {
             PropTypes.string,
             PropTypes.object
         ]).isRequired,
+        children: PropTypes.node,
     }
 
     render () {

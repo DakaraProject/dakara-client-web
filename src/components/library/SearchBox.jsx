@@ -14,6 +14,8 @@ class SearchBox extends Component {
         placeholder: PropTypes.string.isRequired,
         searchParams: PropTypes.object.isRequired,
         setSearchParams: PropTypes.func.isRequired,
+        searchBox: PropTypes.object.isRequired,
+        storeSearchBox: PropTypes.func.isRequired,
     }
 
     state = {

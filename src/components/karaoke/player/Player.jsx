@@ -18,6 +18,7 @@ import { playerStatusStatePropType } from 'reducers/playlist'
 import {
     playerErrorsDigestStatePropType
 } from 'reducers/playlistDigest'
+import { userPropType } from 'serverPropTypes/users'
 import { formatDuration } from 'utils'
 
 class Player extends Component {
@@ -27,6 +28,8 @@ class Player extends Component {
         responseOfSendPlayerCommands: PropTypes.objectOf(alterationResponsePropType),
         sendPlayerCommand: PropTypes.func.isRequired,
         setWithControls: PropTypes.func.isRequired,
+        user: userPropType.isRequired,
+        navigate: PropTypes.func.isRequired,
     }
 
     state = {

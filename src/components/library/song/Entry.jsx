@@ -20,6 +20,7 @@ import Song from 'components/song/Song'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
 import { songPropType } from 'serverPropTypes/library'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
+import { userPropType } from 'serverPropTypes/users'
 
 
 class SongEntry extends Component {
@@ -35,6 +36,7 @@ class SongEntry extends Component {
         searchParams: PropTypes.object.isRequired,
         setSearchParams: PropTypes.func.isRequired,
         song: songPropType.isRequired,
+        user: userPropType.isRequired,
     }
 
     componentWillUnmount() {

@@ -10,6 +10,7 @@ export class PermissionBase extends Component {
         disable: PropTypes.bool,
         object: PropTypes.object,
         user: userPropType,
+        children: PropTypes.node,
     }
 
     instanceHasPermission = () => {

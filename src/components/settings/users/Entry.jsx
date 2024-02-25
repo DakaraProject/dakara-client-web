@@ -6,6 +6,7 @@ import ConfirmationBar from 'components/generics/ConfirmationBar'
 import ControlLink from 'components/generics/ControlLink'
 import Notification, { NotifiableForTable } from 'components/generics/Notification'
 import { IsNotSelf, IsUserManager } from 'components/permissions/Users'
+import { alterationResponsePropType } from 'reducers/alterationsResponse'
 import { userPropType } from 'serverPropTypes/users'
 
 import Marked from './Marked'
@@ -16,6 +17,7 @@ export default class SettingsUsersEntry extends Component {
         clearAlteration: PropTypes.func.isRequired,
         deleteUser: PropTypes.func.isRequired,
         user: userPropType.isRequired,
+        responseOfDelete: alterationResponsePropType,
     }
 
     state = {

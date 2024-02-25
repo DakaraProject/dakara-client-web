@@ -12,6 +12,7 @@ import SongEntryExpandedArtist from 'components/library/song/EntryExpandedArtist
 import SongEntryExpandedWork from 'components/library/song/EntryExpandedWork'
 import { CanAddToPlaylist, IsPlaylistUser} from 'components/permissions/Playlist'
 import SongTagList from 'components/song/SongTagList'
+import { alterationResponsePropType } from 'reducers/alterationsResponse'
 import { songPropType } from 'serverPropTypes/library'
 
 class SongEntryExpanded extends Component {
@@ -21,6 +22,9 @@ class SongEntryExpanded extends Component {
         searchParams: PropTypes.object.isRequired,
         setSearchParams: PropTypes.func.isRequired,
         song: songPropType.isRequired,
+        clearAlteration: PropTypes.func.isRequired,
+        addSongToPlaylistWithOptions: PropTypes.func.isRequired,
+        responseOfAddSongWithOptions: alterationResponsePropType,
     }
 
     componentWillUnmount() {

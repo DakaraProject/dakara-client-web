@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 import { permissionLevels } from 'utils/permissions';
 
 export default function PermissionText({ level }) {
@@ -15,4 +17,7 @@ export default function PermissionText({ level }) {
             </span>
         </span>
     )
+}
+PermissionText.propTypes = {
+    level: PropTypes.string
 }

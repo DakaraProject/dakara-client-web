@@ -4,6 +4,7 @@ import { Component } from 'react'
 export default class Delayer extends Component {
     static propTypes = {
         delay: PropTypes.number.isRequired,
+        children: PropTypes.node,
     }
 
     state = {display: false}

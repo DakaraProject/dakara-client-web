@@ -20,6 +20,7 @@ class PlayerErrorsList extends Component {
         playerErrorsDigestState: playerErrorsDigestStatePropType.isRequired,
         playerErrorsState: playerErrorsStatePropType.isRequired,
         loadPlayerErrors: PropTypes.func.isRequired,
+        searchParams: PropTypes.object.isRequired,
     }
 
     componentDidMount() {

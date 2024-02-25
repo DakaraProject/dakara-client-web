@@ -14,6 +14,7 @@ class ProtectedRoute extends Component {
         hasUserInfo: PropTypes.bool,
         isLoggedIn: PropTypes.bool,
         location: PropTypes.object.isRequired,
+        children: PropTypes.node,
     }
 
     /**

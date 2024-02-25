@@ -16,6 +16,8 @@ class PlayerErrorsEntry extends Component {
     static propTypes = {
         playerError: playerErrorPropType.isRequired,
         navigate: PropTypes.func.isRequired,
+        searchParams: PropTypes.object.isRequired,
+        setSearchParams: PropTypes.func.isRequired,
     }
 
     /**
