@@ -20,7 +20,7 @@ class NotFound extends Component {
                 </div>
                 <div className="content">
                     <div className="url">{url}</div>
-                    <p>We're sorry, your request did not match any route…</p>
+                    <p>We&apos;re sorry, your request did not match any route…</p>
                 </div>
             </div>
         )
