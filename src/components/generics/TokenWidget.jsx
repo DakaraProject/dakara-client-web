@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 import Notification from 'components/generics/Notification'
 import { Status } from 'reducers/alterationsResponse'

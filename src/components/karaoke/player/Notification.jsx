@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 import ArtistWidget from 'components/song/ArtistWidget'
 import { artistPropType } from 'serverPropTypes/library'

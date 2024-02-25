@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 import { withNavigate } from 'components/adapted/ReactRouterDom'
 import HighlighterQuery from 'components/generics/HighlighterQuery'
@@ -47,7 +47,7 @@ class WorkEntry extends Component {
                         {song_count}
                     </div>
                 </div>
-                <div className="controls"> 
+                <div className="controls">
                     <button className="control primary" onClick={this.handleSearch}>
                         <span className="icon">
                             <i className="las la-search"></i>

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
@@ -141,4 +141,3 @@ const Marked = ({marked}) => {
         <i className="las la-check"></i>
     )
 }
-
