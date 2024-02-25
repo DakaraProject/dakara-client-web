@@ -24,7 +24,6 @@ import {
     playerStatusPropType,
     playerTokenPropType,
     playlistEntryPropType,
-    playlistPlayedEntryPropType,
 } from 'serverPropTypes/playlist'
 import { updateData } from 'utils'
 
@@ -264,7 +263,7 @@ export const playlistPlayedEntriesStatePropType = PropTypes.shape({
     data: PropTypes.shape({
         count: PropTypes.number.isRequired,
         playlistPlayedEntries: PropTypes.arrayOf(
-            playlistPlayedEntryPropType
+            playlistEntryPropType
         ).isRequired,
     }).isRequired,
 })
