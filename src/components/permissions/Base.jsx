@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { userPropType } from 'serverPropTypes/users'
+import { mapStateToProps } from 'utils/permissions'
 
 export class PermissionBase extends Component {
     static propTypes = {
@@ -59,10 +60,6 @@ export class PermissionBase extends Component {
 
     }
 }
-
-export const mapStateToProps = (state) => ({
-    user: state.authenticatedUser
-})
 
 /**
  * Is authenticated

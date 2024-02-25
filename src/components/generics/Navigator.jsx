@@ -106,4 +106,6 @@ class Navigator extends Component {
     }
 }
 
-export default withLocation(Navigator)
+Navigator = withLocation(Navigator)
+
+export default Navigator

@@ -3,8 +3,8 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { FormBlock, InputField } from 'components/generics/Form'
-import { permissionLevels } from 'components/permissions/Users'
 import { userPropType } from 'serverPropTypes/users'
+import { permissionLevels } from 'utils/permissions';
 
 class User extends Component {
     static propTypes = {

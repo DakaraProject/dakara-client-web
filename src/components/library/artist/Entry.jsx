@@ -54,4 +54,6 @@ class ArtistEntry extends Component {
     }
 }
 
-export default withNavigate(ArtistEntry)
+ArtistEntry = withNavigate(ArtistEntry)
+
+export default ArtistEntry

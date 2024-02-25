@@ -27,4 +27,6 @@ class NotFound extends Component {
     }
 }
 
-export default withLocation(NotFound)
+NotFound = withLocation(NotFound)
+
+export default NotFound
