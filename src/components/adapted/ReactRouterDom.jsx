@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
-import React, { Component } from 'react'
+import { Component } from 'react'
 import {
     Link as OldLink,
     useLocation,

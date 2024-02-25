@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 import WorkLinkWidget from 'components/song/WorkLinkWidget'
 import { workLinkPropType } from 'serverPropTypes/library'

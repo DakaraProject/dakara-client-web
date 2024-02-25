@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 import HighlighterQuery from 'components/generics/HighlighterQuery'
 import { WorkLinkName } from 'reducers/library'
