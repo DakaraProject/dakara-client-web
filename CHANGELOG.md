@@ -30,6 +30,10 @@
 
 ## Unreleased
 
+### Changed
+
+- Played and queuing playlist entries can be accessed in a library fashion: they use pagination now, and queuing entries can be send to the first or the last place.
+
 ## 1.8.1 - 2023-12-17
 
 ### Fixed
