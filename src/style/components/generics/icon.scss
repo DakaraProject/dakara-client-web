@@ -1,0 +1,15 @@
+//
+// Dakara Project
+//
+// Icons style file
+//
+
+.icon {
+    .underbar::before {
+        text-decoration: underline;
+    }
+
+    .overbar::before {
+        text-decoration: overline;
+    }
+}

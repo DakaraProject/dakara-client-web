@@ -101,9 +101,8 @@ class Entry extends Component {
                                 onReorderButtonClick(positions.firstId)}
                             }
                         >
-                            <span className="icon double">
-                                <i className={'las la-arrow-up'}></i>
-                                <i className={'las la-arrow-up'}></i>
+                            <span className="icon">
+                                <i className={'las la-arrow-up overbar'}></i>
                             </span>
                         </button>
                     )
@@ -118,9 +117,8 @@ class Entry extends Component {
                                 onReorderButtonClick(positions.lastId)}
                             }
                         >
-                            <span className="icon double">
-                                <i className={'las la-arrow-down'}></i>
-                                <i className={'las la-arrow-down'}></i>
+                            <span className="icon">
+                                <i className={'las la-arrow-down underbar'}></i>
                             </span>
                         </button>
                     )
@@ -128,7 +126,7 @@ class Entry extends Component {
             }
         } else {
             // if not in reorder mode, display reorder icon
-            reorderIconName = 'random'
+            reorderIconName = 'arrows-alt-v'
         }
 
         return (

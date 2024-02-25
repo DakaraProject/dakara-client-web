@@ -3,16 +3,3 @@
 //
 // Playlist style file
 //
-
-#playlist {
-    .playlist-entry {
-        .controls {
-            // make double icons close to each other to look like one icon
-            .icon.double {
-                i + i {
-                    margin-left: -0.6em;
-                }
-            }
-        }
-    }
-}
