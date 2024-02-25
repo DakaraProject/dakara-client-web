@@ -16,6 +16,8 @@ class PlaylistPositionInfo extends Component {
     static propTypes = {
         entries: PropTypes.arrayOf(playlistEntryPropType),
         entry: playlistEntryPropType,
+        entryQueuing: playlistEntryPropType,
+        entryPlayed: playlistEntryPropType,
         playerStatus: playerStatusPropType.isRequired,
     }
 
@@ -27,30 +29,67 @@ class PlaylistPositionInfo extends Component {
 
         if (!playerStatus.playlist_entry) return null
 
-        return entries.find(e => e.id === playerStatus.playlist_entry.id)
+        return entries.find(e => (e.id === playerStatus.playlist_entry.id))
     }
 
     /**
      * Return the first queuing entry
      */
     getQueuing = (entries) => {
-        return entries.find(e => !e.was_played)
+        return entries.find(e => (e.will_play))
     }
 
     /**
      * Return the last played entry
      */
     getPlayed = (entries) => {
-        return findLast(entries, e => e.was_played)
+        return findLast(entries, e => (e.was_played))
+    }
+
+    getQueuingContent = (entry) => (
+        <div className="queueing">
+            {dayjs(entry.date_play).format('HH:mm')}
+            <span className="icon">
+                <i className="las la-chevron-right"></i>
+            </span>
+        </div>
+    )
+
+    getPlayedContent = (entry) => {
+        const date = dayjs().diff(entry.date_play, 'day', true) > 1 ?
+            'long ago' :
+            dayjs(entry.date_play).format('HH:mm')
+
+        return (
+            <div className="played">
+                <span className="icon">
+                    <i className="las la-chevron-left"></i>
+                </span>
+                {date}
+            </div>
+        )
     }
 
     render() {
-        const { playerStatus } = this.props
-        const entries = this.props.entries || [this.props.entry]
+        const { playerStatus, entryQueuing, entryPlayed } = this.props
+        let entries
+        if (this.props.entries) {
+            entries = this.props.entries
+        } else if (this.props.entry) {
+            entries = [this.props.entry]
+        } else {
+            entries = []
+        }
 
         let content
         let entry
-        if ((entry = this.getPlaying(entries))) {
+        if ((entry = entryQueuing)) {
+            // a queuing entry is given
+            content = this.getQueuingContent(entry)
+        } else if ((entry = entryPlayed)) {
+            // a played entry is given
+            content = this.getPlayedContent(entry)
+        } else if ((entry = this.getPlaying(entries))) {
             // the entry is playing
             const icon = playerStatus.paused ? 'la-pause' : 'la-play'
             content = (
@@ -62,28 +101,10 @@ class PlaylistPositionInfo extends Component {
             )
         } else if ((entry = this.getQueuing(entries))) {
             // the entry is queuing
-            content = (
-                <div className="queueing">
-                    {dayjs(entry.date_play).format('HH:mm')}
-                    <span className="icon">
-                        <i className="las la-chevron-right"></i>
-                    </span>
-                </div>
-            )
+            content = this.getQueuingContent(entry)
         } else if ((entry = this.getPlayed(entries))) {
             // the entry is played
-            const date = dayjs().diff(entry.date_play, 'day', true) > 1 ?
-                'long ago' :
-                dayjs(entry.date_play).format('HH:mm')
-
-            content = (
-                <div className="played">
-                    <span className="icon">
-                        <i className="las la-chevron-left"></i>
-                    </span>
-                    {date}
-                </div>
-            )
+            content = this.getPlayedContent(entry)
         } else {
             // nothing to display
             return null
