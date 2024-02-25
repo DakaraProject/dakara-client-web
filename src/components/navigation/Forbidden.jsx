@@ -17,7 +17,7 @@ class Forbidden extends Component {
                 </div>
                 <div className="content">
                     <div className="url">{url}</div>
-                    <p>We're sorry, you do not have the privilege to access {' '}
+                    <p>We&apos;re sorry, you do not have the privilege to access {' '}
                     this ressource.</p>
                 </div>
             </div>

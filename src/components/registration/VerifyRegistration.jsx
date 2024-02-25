@@ -46,7 +46,7 @@ class VerifyRegistration extends Component {
                         <p>Email successfuly validated.</p>
                         <p>
                             A manager will validate your account,
-                            you'll be notified by email.
+                            you&apos;ll be notified by email.
                         </p>
                     </div>
                 )

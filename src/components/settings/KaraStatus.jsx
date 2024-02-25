@@ -59,7 +59,7 @@ class KaraStatus extends Component {
                     <p>
                         Karaoke is not ongoing.
                         The player is stopped, the playlist is
-                        empty and you can't add songs to it.
+                        empty and you can&apos;t add songs to it.
                     </p>
                 )
             } else {
@@ -88,7 +88,7 @@ class KaraStatus extends Component {
                 } else {
                     karaStatusWidget.push(
                         <p>
-                            Songs can't be added to the playlist.
+                            Songs can&apos;t be added to the playlist.
                         </p>
                     )
                 }
