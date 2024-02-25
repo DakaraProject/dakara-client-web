@@ -50,7 +50,7 @@ class VerifyEmail extends Component {
                 )
                 break
 
-            case Status.failed:
+            case Status.failed: {
                 let message
                 if (responseOfVerifyEmail.message) {
                     message = (
@@ -66,6 +66,7 @@ class VerifyEmail extends Component {
                 )
                 error = true
                 break
+            }
 
             default:
                 content = (

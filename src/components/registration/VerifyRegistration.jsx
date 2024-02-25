@@ -52,7 +52,7 @@ class VerifyRegistration extends Component {
                 )
                 break
 
-            case Status.failed:
+            case Status.failed: {
                 let message
                 if (responseOfVerifyRegistration.message) {
                     message = (
@@ -68,6 +68,7 @@ class VerifyRegistration extends Component {
                 )
                 error = true
                 break
+            }
 
             default:
                 content = (
