@@ -46,7 +46,7 @@ function entries(state = defaultEntries, action) {
                 status: state.status || Status.pending,
             }
 
-        case PLAYLIST_DIGEST_SUCCESS:
+        case PLAYLIST_DIGEST_SUCCESS: {
             // if the kara status is set to stop, reset entries
             if (!action.response.karaoke.ongoing) {
                 return defaultEntries
@@ -82,6 +82,7 @@ function entries(state = defaultEntries, action) {
                     playlistEntries: entries,
                 }
             }
+        }
 
         case PLAYLIST_DIGEST_FAILURE:
             return {
