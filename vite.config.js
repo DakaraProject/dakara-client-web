@@ -1,5 +1,6 @@
 import react from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vite';
+import jsconfigPaths from 'vite-jsconfig-paths';
 import checker from 'vite-plugin-checker';
 
 import packageJson from './package.json';
@@ -8,6 +9,7 @@ import packageJson from './package.json';
 export default defineConfig({
   plugins: [
     react(),
+    jsconfigPaths(),
     checker({
       enableBuild: false,
       eslint: {
@@ -26,18 +28,6 @@ export default defineConfig({
         target: 'http://127.0.0.1:8000',
         ws: true,
       },
-    },
-  },
-  resolve: {
-    alias: {
-      actions: '/src/actions',
-      components: '/src/components',
-      eventManagers: '/src/eventManagers',
-      middleware: '/src/middleware',
-      reducers: '/src/reducers',
-      serverPropTypes: '/src/serverPropTypes',
-      style: '/src/style',
-      utils: '/src/utils',
     },
   },
   define: {
