@@ -14,7 +14,10 @@ import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import PlaylistEntry from 'components/playlist/queueing/Entry'
 import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
-import { playlistEntriesStatePropType, queuingStatePropType } from 'reducers/playlist'
+import { queuingStatePropType } from 'reducers/playlist'
+import {
+    playlistEntriesStatePropType
+} from 'reducers/playlistLive'
 import { findLast } from 'utils'
 
 class Queueing extends Component {
@@ -238,7 +241,7 @@ class Queueing extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playlistEntriesState: state.playlist.entries,
+    playlistEntriesState: state.playlist.live.entries,
     playlistQueuingState: state.playlist.queuing,
     // eslint-disable-next-line max-len
     responseOfMultipleRemoveEntry: state.alterationsResponse.multiple.removeEntryFromPlaylist || {},

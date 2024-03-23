@@ -8,8 +8,10 @@ import PlaylistEntryMinimal from 'components/generics/PlaylistEntryMinimal'
 import {
     karaokeStatePropType,
     playerStatusStatePropType,
-    playlistEntriesStatePropType
 } from 'reducers/playlist'
+import {
+    playlistEntriesStatePropType
+} from 'reducers/playlistLive'
 
 dayjs.extend(relativeTime)
 
@@ -149,7 +151,7 @@ class PlaylistInfoBar extends Component {
 const mapStateToProps = (state) => ({
     karaokeState: state.playlist.karaoke,
     playerStatusState: state.playlist.playerStatus,
-    playlistEntriesState: state.playlist.entries,
+    playlistEntriesState: state.playlist.live.entries,
 })
 
 PlaylistInfoBar = connect(

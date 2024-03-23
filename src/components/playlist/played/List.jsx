@@ -9,7 +9,10 @@ import { withSearchParams } from 'components/adapted/ReactRouterDom'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import PlayedEntry from 'components/playlist/played/Entry'
-import { playedStatePropType, playlistEntriesStatePropType } from 'reducers/playlist'
+import { playedStatePropType } from 'reducers/playlist'
+import {
+    playlistEntriesStatePropType
+} from 'reducers/playlistLive'
 
 class Played extends Component {
     static propTypes = {
@@ -87,7 +90,7 @@ class Played extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playlistEntriesState: state.playlist.entries,
+    playlistEntriesState: state.playlist.live.entries,
     playlistPlayedState: state.playlist.played,
 })
 
