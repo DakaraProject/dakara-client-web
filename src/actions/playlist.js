@@ -338,3 +338,27 @@ export const revokePlayerToken = (karaokeId) => ({
     },
     alterationName: 'revokePlayerToken'
 })
+
+/**
+ * Player errors
+ */
+
+export const PLAYER_ERRORS_REQUEST = 'PLAYER_ERRORS_REQUEST'
+export const PLAYER_ERRORS_SUCCESS = 'PLAYER_ERRORS_SUCCESS'
+export const PLAYER_ERRORS_FAILURE = 'PLAYER_ERRORS_FAILURE'
+
+/**
+ * Load player token
+ * @param karaokeId ID of the karaoke object
+ */
+export const loadPlayerErrors = ({ page = 1 } = {}) => ({
+    [FETCH_API]: {
+            endpoint: `${baseUrl}/playlist/player/errors/?page=${page}`,
+            method: 'GET',
+            types: [
+                PLAYER_ERRORS_REQUEST,
+                PLAYER_ERRORS_SUCCESS,
+                PLAYER_ERRORS_FAILURE
+            ],
+    }
+})

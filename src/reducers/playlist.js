@@ -3,6 +3,9 @@ import { combineReducers } from 'redux'
 
 import { ALTERATION_SUCCESS } from 'actions/alterations'
 import {
+    PLAYER_ERRORS_FAILURE,
+    PLAYER_ERRORS_REQUEST,
+    PLAYER_ERRORS_SUCCESS,
     PLAYER_TOKEN_FAILURE,
     PLAYER_TOKEN_REQUEST,
     PLAYER_TOKEN_SUCCESS,
@@ -17,6 +20,7 @@ import { Status } from 'reducers/alterationsResponse'
 import live from 'reducers/playlistLive'
 import {
     karaokePropType,
+    playerErrorPropType,
     playerStatusPropType,
     playerTokenPropType,
     playlistEntryPropType,
@@ -190,6 +194,58 @@ function playerStatus(state = defaultPlayerStatus, action) {
     }
 }
 
+/**
+ * Player errors reported from device
+ */
+
+export const playerErrorsStatePropType = PropTypes.shape({
+    status: PropTypes.symbol,
+    data: PropTypes.shape({
+        pagination: PropTypes.shape({
+            current: PropTypes.number.isRequired,
+            last: PropTypes.number.isRequired,
+        }).isRequired,
+        count: PropTypes.number.isRequired,
+        playerErrors: PropTypes.arrayOf(playerErrorPropType).isRequired,
+    }),
+})
+
+const defaultPlayerErrors = {
+    status: null,
+    data: {
+        pagination: {
+            current: 1,
+            last: 1,
+        },
+        count: 0,
+        playerErrors: []
+    }
+}
+
+function playerErrors(state = defaultPlayerErrors, action) {
+    switch (action.type) {
+        case PLAYER_ERRORS_REQUEST:
+            return {
+                ...state,
+                status: Status.pending
+            }
+
+        case PLAYER_ERRORS_SUCCESS:
+            return {
+                status: Status.successful,
+                data: updateData(action.response, 'playerErrors'),
+            }
+
+        case PLAYER_ERRORS_FAILURE:
+            return {
+                ...state,
+                status: Status.failed,
+            }
+
+        default:
+            return state
+    }
+}
 
 /**
  * Karaoke information
@@ -310,6 +366,7 @@ const playlist = combineReducers({
     queuing,
     played,
     playerStatus,
+    playerErrors,
     karaoke,
     playerToken,
     live,

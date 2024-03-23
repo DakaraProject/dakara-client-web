@@ -214,7 +214,9 @@ class Player extends Component {
                     <div className="notifiable">
                         {info}
                         <PlayerNotification
-                            alterationsResponse={responseOfSendPlayerCommandsSafe}
+                            alterationsResponse={
+                                responseOfSendPlayerCommandsSafe
+                            }
                             playerErrors={playerErrors}
                         />
                         {serverLost}
