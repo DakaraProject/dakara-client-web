@@ -17,7 +17,6 @@ import { Status } from 'reducers/alterationsResponse'
 import live from 'reducers/playlistLive'
 import {
     karaokePropType,
-    playerErrorPropType,
     playerStatusPropType,
     playerTokenPropType,
     playlistEntryPropType,
@@ -191,44 +190,6 @@ function playerStatus(state = defaultPlayerStatus, action) {
     }
 }
 
-/**
- * Player errors reported from device
- */
-
-export const playerErrorsStatePropType = PropTypes.shape({
-    status: PropTypes.symbol,
-    data: PropTypes.arrayOf(playerErrorPropType).isRequired,
-})
-
-const defaultPlayerErrors = {
-    status: null,
-    data: []
-}
-
-function playerErrors(state = defaultPlayerErrors, action) {
-    switch (action.type) {
-        case PLAYLIST_DIGEST_REQUEST:
-            return {
-                ...state,
-                status: state.status || Status.pending
-            }
-
-        case PLAYLIST_DIGEST_SUCCESS:
-            return {
-                status: Status.successful,
-                data: action.response.player_errors,
-            }
-
-        case PLAYLIST_DIGEST_FAILURE:
-            return {
-                ...state,
-                status: Status.failed,
-            }
-
-        default:
-            return state
-    }
-}
 
 /**
  * Karaoke information
@@ -349,7 +310,6 @@ const playlist = combineReducers({
     queuing,
     played,
     playerStatus,
-    playerErrors,
     karaoke,
     playerToken,
     live,

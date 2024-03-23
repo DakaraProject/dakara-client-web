@@ -14,7 +14,10 @@ import { IsPlaylistManagerOrOwner } from 'components/permissions/Playlist'
 import ArtistWidget from 'components/song/ArtistWidget'
 import WorkLinkWidget from 'components/song/WorkLinkWidget'
 import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
-import { playerErrorsStatePropType,playerStatusStatePropType } from 'reducers/playlist'
+import { playerStatusStatePropType } from 'reducers/playlist'
+import {
+playerErrorsStatePropType
+} from 'reducers/playlistLive'
 import { formatDuration } from 'utils'
 
 class Player extends Component {
@@ -322,7 +325,7 @@ const ServerLost = () => (
 const mapStateToProps = (state) => ({
     user: state.authenticatedUser,
     playerStatusState: state.playlist.playerStatus,
-    playerErrorsState: state.playlist.playerErrors,
+    playerErrorsState: state.playlist.live.playerErrors,
     responseOfSendPlayerCommands: state.alterationsResponse.multiple.sendPlayerCommands,
 })
 

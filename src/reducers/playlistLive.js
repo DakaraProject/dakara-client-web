@@ -9,6 +9,7 @@ import {
 } from 'actions/playlist'
 import { Status } from 'reducers/alterationsResponse'
 import {
+    playerErrorPropType,
     playlistEntryPropType,
 } from 'serverPropTypes/playlist'
 
@@ -107,8 +108,49 @@ function entries(state = defaultEntries, action) {
     }
 }
 
+
+/**
+ * Player errors reported from device
+ */
+
+export const playerErrorsStatePropType = PropTypes.shape({
+    status: PropTypes.symbol,
+    data: PropTypes.arrayOf(playerErrorPropType).isRequired,
+})
+
+const defaultPlayerErrors = {
+    status: null,
+    data: []
+}
+
+function playerErrors(state = defaultPlayerErrors, action) {
+    switch (action.type) {
+        case PLAYLIST_DIGEST_REQUEST:
+            return {
+                ...state,
+                status: state.status || Status.pending
+            }
+
+        case PLAYLIST_DIGEST_SUCCESS:
+            return {
+                status: Status.successful,
+                data: action.response.player_errors,
+            }
+
+        case PLAYLIST_DIGEST_FAILURE:
+            return {
+                ...state,
+                status: Status.failed,
+            }
+
+        default:
+            return state
+    }
+}
+
 const live = combineReducers({
     entries,
+    playerErrors,
 })
 
 export default live
