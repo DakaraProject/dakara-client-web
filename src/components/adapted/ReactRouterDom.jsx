@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
-import React, { Component } from 'react'
+import { Component } from 'react'
 import {
     Link as OldLink,
     useLocation,
@@ -12,6 +12,7 @@ import {
 /**
  * Add the location prop to a component
  */
+// eslint-disable-next-line react/display-name
 export const withLocation = (Component) => (props) => (
     <Component
         location={useLocation()}
@@ -22,6 +23,7 @@ export const withLocation = (Component) => (props) => (
 /**
  * Add the params prop to a component
  */
+// eslint-disable-next-line react/display-name
 export const withParams = (Component) => (props) => (
     <Component
         params={useParams()}
@@ -32,6 +34,7 @@ export const withParams = (Component) => (props) => (
 /**
  * Add the navigate prop to a component
  */
+// eslint-disable-next-line react/display-name
 export const withNavigate = (Component) => (props) => (
     <Component
         navigate={useNavigate()}
@@ -42,6 +45,7 @@ export const withNavigate = (Component) => (props) => (
 /**
  * Add the searchParams and setSearchParams props to a component
  */
+// eslint-disable-next-line react/display-name
 export const withSearchParams = (Component) => (props) => {
     const [searchParams, setSearchParams] = useSearchParams()
     return (
@@ -62,6 +66,7 @@ export default class Link extends Component {
             PropTypes.object,
             PropTypes.string,
         ]).isRequired,
+        children: PropTypes.node,
     }
 
     render () {

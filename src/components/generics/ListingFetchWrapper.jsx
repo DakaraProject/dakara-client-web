@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 import Delayer from 'components/generics/Delayer'
 import Notification from 'components/generics/Notification'
@@ -8,6 +8,7 @@ import { Status } from 'reducers/alterationsResponse'
 export default class ListingFetchWrapper extends Component {
     static propTypes = {
         status: PropTypes.symbol,
+        children: PropTypes.node,
     }
 
     render() {

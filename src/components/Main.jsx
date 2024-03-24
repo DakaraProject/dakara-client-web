@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { loadCurrentUser } from 'actions/authenticatedUser'
@@ -15,6 +15,7 @@ class Main extends Component {
         isLoggedIn: PropTypes.bool.isRequired,
         loadCurrentUser: PropTypes.func.isRequired,
         loadServerSettings: PropTypes.func.isRequired,
+        children: PropTypes.node,
     }
 
     componentDidMount() {

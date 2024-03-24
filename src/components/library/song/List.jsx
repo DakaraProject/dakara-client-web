@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { loadLibraryEntries } from 'actions/library'
@@ -10,14 +10,16 @@ import Navigator from 'components/generics/Navigator'
 import SearchBox from 'components/library/SearchBox'
 import SongEntry from 'components/library/song/Entry'
 import { songStatePropType } from 'reducers/library'
+import { karaokeStatePropType } from 'reducers/playlist'
 
 class SongList extends Component {
     static propTypes = {
-        karaokeDateStop: PropTypes.string,
+        karaokeState: karaokeStatePropType.isRequired,
         playlistDateEnd: PropTypes.string.isRequired,
         searchParams: PropTypes.object.isRequired,
         setSearchParams: PropTypes.func.isRequired,
         songState: songStatePropType.isRequired,
+        loadLibraryEntries: PropTypes.func.isRequired,
     }
 
     /**
@@ -42,7 +44,8 @@ class SongList extends Component {
 
     render() {
         const { songs, count, pagination } = this.props.songState.data
-        const { playlistDateEnd, karaokeDateStop } = this.props
+        const { date_stop: karaokeDateStop } = this.props.karaokeState.data
+        const { playlistDateEnd } = this.props
 
         /**
          * Compute remaining karoke time
@@ -81,18 +84,22 @@ class SongList extends Component {
                             <ul>
                                 <li>
                                     Quotes to group words: {' '}
-                                    <span className="example">"my artist"</span>
+                                    <span className="example">
+                                        &quot;my artist&quot;
+                                    </span>
                             </li>
                                 <li>
                                     Prefix and quotes to search in a specific
                                     field: {' '}
-                                    <span className="example">artist:"my artist"</span>
+                                    <span className="example">
+                                        artist:&quot;my artist&quot;
+                                    </span>
                                 </li>
                                 <li>
                                     Prefix and doubled quotes to search a specific
                                     field exactly: {' '}
                                     <span className="example">
-                                        artist:""my artist name""
+                                        artist:&quot;&quot;my artist name&quot;&quot;
                                     </span>
                                 </li>
                                 <li>
@@ -127,8 +134,8 @@ class SongList extends Component {
 
 const mapStateToProps = (state) => ({
     songState: state.library.song,
-    playlistDateEnd: state.playlist.entries.data.date_end,
-    karaokeDateStop: state.playlist.digest.data.karaoke.date_stop,
+    playlistDateEnd: state.playlist.live.entries.data.dateEnd,
+    karaokeState: state.playlist.karaoke,
 })
 
 SongList = withSearchParams(connect(
@@ -137,11 +144,3 @@ SongList = withSearchParams(connect(
 )(SongList))
 
 export default SongList
-
-/**
- * Get a dict with the following:
- * - placeholder: library search placeholder
- */
-export const getSongLibraryNameInfo = () => ({
-    placeholder: 'What will you sing?',
-})

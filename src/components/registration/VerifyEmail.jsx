@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { parse } from 'query-string'
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { verifyEmail } from 'actions/users'
@@ -50,7 +50,7 @@ class VerifyEmail extends Component {
                 )
                 break
 
-            case Status.failed:
+            case Status.failed: {
                 let message
                 if (responseOfVerifyEmail.message) {
                     message = (
@@ -66,6 +66,7 @@ class VerifyEmail extends Component {
                 )
                 error = true
                 break
+            }
 
             default:
                 content = (

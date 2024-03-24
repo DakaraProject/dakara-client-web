@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { loadLibraryEntries } from 'actions/library'
@@ -19,6 +19,7 @@ class WorkList extends Component {
         setSearchParams: PropTypes.func.isRequired,
         workState: workStatePropType,
         workTypeState: workTypeStatePropType.isRequired,
+        loadLibraryEntries: PropTypes.func.isRequired,
     }
 
     /**
@@ -123,31 +124,3 @@ WorkList = withSearchParams(withParams(connect(
 )(WorkList)))
 
 export default WorkList
-
-/**
- * Get a dict with the following:
- * - singular: library singular name
- * - plural: library plural name
- * - placeholder: library search placeholder
- */
-export const getWorkLibraryNameInfo = (workTypeQueryName, workTypes) => {
-    // Find work type matching the query name
-    const workType = workTypes.find(
-        (workType) => workType.query_name === workTypeQueryName
-    )
-
-    if (!workType) {
-        // Fall back if work not found
-        return {
-            singular: 'work',
-            plural: 'works',
-            placeholder: 'What are you looking for?',
-        }
-    }
-
-    return {
-        singular: workType.name.toLowerCase(),
-        plural: workType.name_plural.toLowerCase(),
-        placeholder: `What ${workType.name.toLowerCase()} do you want?`,
-    }
-}

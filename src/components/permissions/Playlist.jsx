@@ -2,8 +2,10 @@ import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { mapStateToProps, PermissionBase } from 'components/permissions/Base'
+import { PermissionBase } from 'components/permissions/Base'
+import { karaokeStatePropType } from 'reducers/playlist'
 import { userPropType } from 'serverPropTypes/users'
+import { mapStateToProps } from 'utils/permissions'
 
 /**
  * Playlist manager or Owner of the object
@@ -73,8 +75,15 @@ export const IsPlaylistUser = connect(
  */
 
 class CanAddToPlaylist extends Component {
+    static propTypes = {
+        user: userPropType.isRequired,
+        karaokeState: karaokeStatePropType.isRequired,
+        children: PropTypes.node,
+    }
+
     render() {
-        const { karaoke, user } = this.props
+        const { user } = this.props
+        const { data: karaoke } = this.props.karaokeState
         if (!karaoke.ongoing) {
             return null
         }
@@ -92,7 +101,7 @@ class CanAddToPlaylist extends Component {
 }
 
 const mapStateToPropsKaraoke = (state) => ({
-    karaoke: state.playlist.digest.data.karaoke,
+    karaokeState: state.playlist.karaoke,
     user: state.authenticatedUser
 })
 

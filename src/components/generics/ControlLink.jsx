@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 import Link from 'components/adapted/ReactRouterDom'
 
@@ -12,6 +12,7 @@ export default class ControlLink extends Component {
             PropTypes.string,
             PropTypes.object
         ]).isRequired,
+        children: PropTypes.node,
     }
 
     render () {

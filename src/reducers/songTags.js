@@ -105,12 +105,13 @@ export default function songTags(state = defaultSongTagsSettings, action) {
             // Update disableness of updated tag
             return updateTagInState(elementId, state, {disabled})
 
-        case ALTERATION_SUCCESS:
+        case ALTERATION_SUCCESS: {
             if (alterationName !== 'editSongTagColor') return state
 
             // Update new color of updated tag
             const { color_hue } = json
             return updateTagInState(elementId, state, {color_hue})
+        }
 
         default:
             return state

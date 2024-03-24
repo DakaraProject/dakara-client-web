@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { parse } from 'query-string'
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { clearAlteration } from 'actions/alterations'
@@ -29,8 +29,8 @@ class UsersList extends Component {
 
     componentDidUpdate(prevProps) {
         const queryObj = parse(this.props.location.search)
-        const prevqueryObj = parse(prevProps.location.search)
-        if (queryObj.page !== prevqueryObj.page) {
+        const prevQueryObj = parse(prevProps.location.search)
+        if (queryObj.page !== prevQueryObj.page) {
             this.refreshEntries()
         }
     }

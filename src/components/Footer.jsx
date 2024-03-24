@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 export default class Footer extends Component {
     render() {
-        const version = process.env.DAKARA_VERSION
-        const bugtracker = process.env.DAKARA_BUGTRACKER
-        const projectHomepage = process.env.DAKARA_PROJECT_HOMEPAGE
+        const version = import.meta.env.DAKARA_VERSION
+        const bugtracker = import.meta.env.DAKARA_BUGTRACKER
+        const projectHomepage = import.meta.env.DAKARA_PROJECT_HOMEPAGE
 
         return (
             <footer id="footer" className="box">

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { parse } from 'query-string'
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 import { withLocation } from 'components/adapted/ReactRouterDom'
 import ControlLink from 'components/generics/ControlLink'
@@ -106,4 +106,6 @@ class Navigator extends Component {
     }
 }
 
-export default withLocation(Navigator)
+Navigator = withLocation(Navigator)
+
+export default Navigator

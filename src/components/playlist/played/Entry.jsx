@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 import { withNavigate } from 'components/adapted/ReactRouterDom'
-import PlayQueueInfo from 'components/song/PlayQueueInfo'
+import PlaylistPositionInfo from 'components/song/PlaylistPositionInfo'
 import Song from 'components/song/Song'
-import { playlistPlayedEntryPropType } from 'serverPropTypes/playlist'
+import { playlistEntryPropType } from 'serverPropTypes/playlist'
 
 class Entry extends Component {
     static propTypes = {
-        entry: playlistPlayedEntryPropType.isRequired,
+        entry: playlistEntryPropType.isRequired,
         navigate: PropTypes.func.isRequired,
     }
 
@@ -27,7 +27,6 @@ class Entry extends Component {
 
     render() {
         const { entry } = this.props
-        const datePlayed = Date.parse(entry.date_played)
 
         return (
             <li
@@ -42,8 +41,8 @@ class Entry extends Component {
                         handleClick={this.handleSearch}
                     />
                     <div className="extra">
-                        <PlayQueueInfo
-                            playedInfo={{timeOfPlay: datePlayed, playlistEntry: entry}}
+                        <PlaylistPositionInfo
+                            entryPlayed={entry}
                         />
                     </div>
                 </div>
@@ -52,4 +51,6 @@ class Entry extends Component {
     }
 }
 
-export default withNavigate(Entry)
+Entry = withNavigate(Entry)
+
+export default Entry

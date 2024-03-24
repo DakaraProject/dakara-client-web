@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { Component } from 'react'
 import Highlighter from 'react-highlight-words'
 
 /**
@@ -28,6 +28,7 @@ export default class HighlighterQuery extends Component {
             PropTypes.array,
         ]).isRequired,
         textToHighlight: PropTypes.string.isRequired,
+        children: PropTypes.node,
     }
 
     render() {

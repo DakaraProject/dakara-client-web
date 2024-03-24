@@ -90,7 +90,7 @@ function alteration(state, action) {
             }
 
         case ALTERATION_FAILURE:
-        case ALTERATION_VALIDATION_ERROR:
+        case ALTERATION_VALIDATION_ERROR: {
             const { message, non_field_errors, detail } = action.error
 
             // fetch API error
@@ -138,6 +138,7 @@ function alteration(state, action) {
                 fields,
                 date: alterationDate,
             }
+        }
 
         case ALTERATION_RESPONSE_CLEAR:
             return undefined
