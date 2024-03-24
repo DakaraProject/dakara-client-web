@@ -84,11 +84,3 @@ ArtistList = withSearchParams(connect(
 )(ArtistList))
 
 export default ArtistList
-
-/**
- * Get a dict with the following:
- * - placeholder: library search placeholder
- */
-export const getArtistLibraryNameInfo = () => ({
-    placeholder: 'Who are you looking for?',
-})

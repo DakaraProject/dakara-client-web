@@ -150,7 +150,7 @@ class SongEntryExpanded extends Component {
                     <div className="detail_video expanded-item">
                         <h4 className="header">
                             <span className="icon">
-                                <i className="las la-file-text"></i>
+                                <i className="las la-file-alt"></i>
                             </span>
                             <span className="name">Video details</span>
                         </h4>
