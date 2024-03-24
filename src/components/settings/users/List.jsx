@@ -29,8 +29,8 @@ class UsersList extends Component {
 
     componentDidUpdate(prevProps) {
         const queryObj = parse(this.props.location.search)
-        const prevqueryObj = parse(prevProps.location.search)
-        if (queryObj.page !== prevqueryObj.page) {
+        const prevQueryObj = parse(prevProps.location.search)
+        if (queryObj.page !== prevQueryObj.page) {
             this.refreshEntries()
         }
     }

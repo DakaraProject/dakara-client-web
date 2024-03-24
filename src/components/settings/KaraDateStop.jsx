@@ -6,18 +6,24 @@ import { connect } from 'react-redux'
 import { CheckboxField, FormBlock, InputField } from 'components/generics/Form'
 import { IsPlaylistManager} from 'components/permissions/Playlist'
 import { Status } from 'reducers/alterationsResponse'
+import { karaokeStatePropType } from 'reducers/playlist'
+import { userPropType } from 'serverPropTypes/users'
 
 dayjs.extend(customParseFormat)
 
 class KaraDateStop extends Component {
+    static propTypes = {
+        authenticatedUser: userPropType,
+        karaokeState: karaokeStatePropType.isRequired,
+    }
 
     render() {
         // render nothing if the karaoke is being fetched
-        if (this.props.playlistDigestStatus === Status.pending ||
-            this.props.playlistDigestStatus === null) return null
+        if (this.props.karaokeState.status === Status.pending ||
+            this.props.karaokeState.status === null) return null
 
-        const { authenticatedUser, karaoke } = this.props
-        const { date_stop } = karaoke
+        const { authenticatedUser } = this.props
+        const { karaokeDateStop } = this.props.karaokeState.data
         const isManager = IsPlaylistManager.hasPermission(authenticatedUser)
 
 
@@ -26,7 +32,7 @@ class KaraDateStop extends Component {
             const formatDateTime = values => {
                 if (!values.enable_stop) {
                     return {
-                        date_stop: null
+                        karaokeDateStop: null
                     }
                 }
                 // the form gives a time only, we parse it and add it to the
@@ -39,7 +45,7 @@ class KaraDateStop extends Component {
                 }
 
                 return {
-                    date_stop: date.format()
+                    karaokeDateStop: date.format()
                 }
             }
 
@@ -64,12 +70,16 @@ class KaraDateStop extends Component {
                 >
                     <CheckboxField
                         id="enable_stop"
-                        defaultValue={!!date_stop}
+                        defaultValue={!!karaokeDateStop}
                         label="Enable stop time"
                     />
                     <InputField
                         id="time_stop"
-                        defaultValue={date_stop? dayjs(date_stop).format('HH:mm') : ''}
+                        defaultValue={
+                            karaokeDateStop ?
+                                dayjs(karaokeDateStop).format('HH:mm') :
+                                ''
+                        }
                         validate={validateTime}
                         type="time"
                         label="Set stop time"
@@ -78,9 +88,11 @@ class KaraDateStop extends Component {
                 </FormBlock>
             )
         } else {
-            if (date_stop) {
+            if (karaokeDateStop) {
                 karaDateStopWidget = (
-                    <p>Karaoke stop time: {dayjs(date_stop).format('HH:mm')}</p>
+                    <p>Karaoke stop time: {
+                        dayjs(karaokeDateStop).format('HH:mm')
+                    }</p>
                 )
             } else {
                 karaDateStopWidget = (
@@ -98,8 +110,7 @@ class KaraDateStop extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playlistDigestStatus: state.playlist.digest.status,
-    karaoke: state.playlist.digest.data.karaoke,
+    karaokeState: state.playlist.karaoke,
     authenticatedUser: state.authenticatedUser,
 })
 

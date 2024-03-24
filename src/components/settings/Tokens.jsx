@@ -12,14 +12,13 @@ import TokenWidget from 'components/generics/TokenWidget'
 import { IsLibraryManager } from 'components/permissions/Library'
 import { IsPlaylistManager } from 'components/permissions/Playlist'
 import { Status } from 'reducers/alterationsResponse'
-import { playerTokenStatePropType } from 'reducers/playlist'
-import { karaokePropType } from 'serverPropTypes/playlist'
+import { karaokeStatePropType,playerTokenStatePropType  } from 'reducers/playlist'
 
 
 class PlayerTokenBox extends Component {
     static propTypes = {
         createPlayerToken: PropTypes.func.isRequired,
-        karaoke: karaokePropType.isRequired,
+        karaokeState: karaokeStatePropType.isRequired,
         loadPlayerToken: PropTypes.func.isRequired,
         playerTokenState: playerTokenStatePropType.isRequired,
         responseOfCreatePlayerToken: PropTypes.object,
@@ -40,13 +39,15 @@ class PlayerTokenBox extends Component {
     }
 
     doConfirm = () => {
-        const { karaoke, revokePlayerToken } = this.props
+        const { revokePlayerToken } = this.props
+        const { data: karaoke } = this.props.karaokeState
         this.clearConfirm()
         revokePlayerToken(karaoke.id)
     }
 
     componentDidUpdate() {
-        const { karaoke, loadPlayerToken, playerTokenState } = this.props
+        const { loadPlayerToken, playerTokenState } = this.props
+        const { data: karaoke } = this.props.karaokeState
 
         // load player token as soon as the karaoke ID has been fetched
         if (!playerTokenState.status && karaoke.id) {
@@ -57,14 +58,13 @@ class PlayerTokenBox extends Component {
     render() {
         const {
             createPlayerToken,
-            karaoke,
-            playerTokenState,
             responseOfCreatePlayerToken,
             responseOfRevokePlayerToken,
         } = this.props
-        const { key: playerToken } = playerTokenState.data
-        const { status: playerTokenStatus } = playerTokenState
-        const created = !!playerToken
+        const { data: karaoke } = this.props.karaokeState
+        const { data: playerToken } = this.props.playerTokenState
+        const { status: playerTokenStatus } = this.props.playerTokenState
+        const created = !!playerToken.key
 
         // display something only if the player token has been fetched
         let playerTokenBox
@@ -74,7 +74,7 @@ class PlayerTokenBox extends Component {
                 // display token
                 playerTokenBoxContent = (
                     <div className="created">
-                        <TokenWidget token={playerToken} />
+                        <TokenWidget token={playerToken.key} />
                         <div className="ribbon info copy-help">
                             <p className="message">
                                 You can use this token to authenticate the player.
@@ -164,7 +164,7 @@ const mapStateToPropsPlayerTokenBox = (state) => ({
     playerTokenState: state.playlist.playerToken,
     responseOfCreatePlayerToken: state.alterationsResponse.unique.createPlayerToken,
     responseOfRevokePlayerToken: state.alterationsResponse.unique.revokePlayerToken,
-    karaoke: state.playlist.digest.data.karaoke,
+    karaokeState: state.playlist.karaoke,
 
 })
 
