@@ -146,8 +146,8 @@
 
 
 // lighten control when line hovered on a list
-.hoverizable:hover .controls,
-.hoverizable:focus .controls {
+.hoverizable:hover .controls:not(:hover),
+.hoverizable:focus .controls:not(:focus) {
     .control {
         @mixin make-control-line-hover($color-normal, $color-disabled) {
             &:not(.disabled):not([disabled]) {
