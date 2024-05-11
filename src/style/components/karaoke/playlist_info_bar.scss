@@ -34,8 +34,7 @@ $playlist-info-bar-height-smartphone: 7rem;
         height: $playlist-info-bar-height-smartphone;
     }
 
-    &:hover,
-    &:focus, {
+    &:hover {
         background: $brand-primary-lighter;
     }
 
