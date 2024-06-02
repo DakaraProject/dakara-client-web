@@ -61,10 +61,15 @@ class PlayerErrorsEntry extends Component {
                 className={
                     'listing-entry ' +
                     'library-entry library-entry-song ' +
-                    'player-error-entry hoverizable'
+                    'player-error-entry'
                 }
             >
-                <div className="library-entry-song-compact player-errors-entry-song">
+                <div
+                    className={
+                        'library-entry-song-compact player-errors-entry-song ' +
+                        'hoverizable'
+                    }
+                >
                     <Song
                         song={entry.song}
                         handleClick={
@@ -91,27 +96,31 @@ class PlayerErrorsEntry extends Component {
                 >
                     <div className='library-entry-song-expanded-wrapper'>
                         <div className="library-entry-song-expanded-subcontainer">
-                            <div className="library-entry-song-expanded">
-                                <div className="date expanded-item">
+                            <div className="listing-details">
+                                <div className="date entry">
                                     <h4 className="header">
                                         <span className="icon">
                                             <i className="las la-clock"></i>
                                         </span>
                                         <span className="name">Date</span>
                                     </h4>
-                                    <div className="text">
-                                        {dayjs(date).format('L LTS')}
+                                    <div className="content">
+                                        <div className="text">
+                                            {dayjs(date).format('L LTS')}
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="date expanded-item">
+                                <div className="date entry">
                                     <h4 className="header">
                                         <span className="icon">
                                             <i className="las la-file-alt"></i>
                                         </span>
                                         <span className="name">Error message</span>
                                     </h4>
-                                    <div className="text">
-                                        {message}
+                                    <div className="content">
+                                        <div className="text">
+                                            {message}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
