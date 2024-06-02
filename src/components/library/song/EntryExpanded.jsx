@@ -71,7 +71,7 @@ class SongEntryExpanded extends Component {
 
             // Display the list of works, preceded by the work type
             return (
-                    <div key={workType.query_name} className="works expanded-item">
+                    <div key={workType.query_name} className="works entry">
                         <h4 className="header">
                             <span className="icon">
                                 <i className={`las la-${workType.icon_name}`}></i>
@@ -83,7 +83,9 @@ class SongEntryExpanded extends Component {
                                 }
                             </span>
                         </h4>
-                        <ul className="sublisting">{worksForTypeList}</ul>
+                        <div className="content">
+                            <ul className="sublisting">{worksForTypeList}</ul>
+                        </div>
                     </div>
                 )
         })
@@ -105,7 +107,7 @@ class SongEntryExpanded extends Component {
         let artists
         if (song.artists.length > 0) {
             artists = (
-                    <div className="artists expanded-item">
+                    <div className="artists entry">
                         <h4 className="header">
                             <span className="icon">
                                 <i className="las la-microphone-alt"></i>
@@ -114,7 +116,9 @@ class SongEntryExpanded extends Component {
                                 Artist{song.artists.length > 1 ? 's' : ''}
                             </span>
                         </h4>
-                        <ul className="sublisting">{artistList}</ul>
+                        <div className="content">
+                            <ul className="sublisting">{artistList}</ul>
+                        </div>
                     </div>
                 )
         }
@@ -126,19 +130,21 @@ class SongEntryExpanded extends Component {
         let detailSong
         if (song.detail) {
             detailSong = (
-                    <div className="detail-song expanded-item">
+                    <div className="detail-song entry">
                         <h4 className="header">
                             <span className="icon">
                                 <i className="las la-file-text"></i>
                             </span>
                             <span className="name">Music details</span>
                         </h4>
-                        <div className="text">
-                            <HighlighterQuery
-                                query={query}
-                                searchWords={(q) => (q.remaining)}
-                                textToHighlight={song.detail}
-                            />
+                        <div className="content">
+                            <div className="text">
+                                <HighlighterQuery
+                                    query={query}
+                                    searchWords={(q) => (q.remaining)}
+                                    textToHighlight={song.detail}
+                                />
+                            </div>
                         </div>
                     </div>
                 )
@@ -147,19 +153,21 @@ class SongEntryExpanded extends Component {
         let detailVideo
         if (song.detail_video) {
             detailVideo = (
-                    <div className="detail_video expanded-item">
+                    <div className="detail_video entry">
                         <h4 className="header">
                             <span className="icon">
                                 <i className="las la-file-alt"></i>
                             </span>
                             <span className="name">Video details</span>
                         </h4>
-                        <div className="text">
-                            <HighlighterQuery
-                                query={query}
-                                searchWords={(q) => (q.remaining)}
-                                textToHighlight={song.detail_video}
-                            />
+                        <div className="content">
+                            <div className="text">
+                                <HighlighterQuery
+                                    query={query}
+                                    searchWords={(q) => (q.remaining)}
+                                    textToHighlight={song.detail_video}
+                                />
+                            </div>
                         </div>
                     </div>
                 )
@@ -176,20 +184,22 @@ class SongEntryExpanded extends Component {
             ))
 
             lyrics = (
-                <div className="lyrics expanded-item">
+                <div className="lyrics entry">
                     <h4 className="header">
                         <span className="icon">
                             <i className="las la-align-left"></i>
                         </span>
                         <span className="name">Lyrics</span>
                     </h4>
-                    <div
-                        className={classNames(
-                            'paragraph',
-                            {truncated: song.lyrics_preview.truncated}
-                        )}
-                    >
-                        {text}
+                    <div className="content">
+                        <div
+                            className={classNames(
+                                'paragraph',
+                                {truncated: song.lyrics_preview.truncated}
+                            )}
+                        >
+                            {text}
+                        </div>
                     </div>
                 </div>
             )
@@ -202,14 +212,16 @@ class SongEntryExpanded extends Component {
         let tags
         if (song.tags.length > 0) {
             tags = (
-                    <div className="tags expanded-item">
+                    <div className="tags entry">
                         <h4 className="header">
                             <span className="icon">
                                 <i className="las la-tags"></i>
                             </span>
                             <span className="name">Tags</span>
                         </h4>
-                        <SongTagList tags={song.tags} setQuery={this.setQuery}/>
+                        <div className="content">
+                            <SongTagList tags={song.tags} setQuery={this.setQuery}/>
+                        </div>
                     </div>
                 )
         }
@@ -270,7 +282,7 @@ class SongEntryExpanded extends Component {
         return (
                 <div className="library-entry-song-expanded-subcontainer">
                     <div className="library-entry-song-expanded">
-                        <div className="listing-expanded">
+                        <div className="listing-details">
                             {artists}
                             {worksRenderList}
                             {detailSong}
