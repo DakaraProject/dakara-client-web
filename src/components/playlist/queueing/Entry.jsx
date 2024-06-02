@@ -79,54 +79,40 @@ class Entry extends Component {
         /**
          * Reorder buttons
          */
-        let reorderIconName
-        let reorderFirstButton
-        let reorderLastButton
+        const createReorderButton = (id, iconName, extraClassName = '') => (
+            <button
+                className="control primary"
+                onClick={() => {
+                    onReorderButtonClick(id)}
+                }
+            >
+                <span className="icon">
+                    <i className={`las la-${iconName} ${extraClassName}`}></i>
+                </span>
+            </button>
+        )
+        let reorderButton
+        let reorderExtraButtons
         if (reorderEntryPosition !== null) {
             // if in reorder mode, display icon depending on the relative
             // position of the current entry and the entry to reorder
             if (reorderEntryPosition > positions.position) {
-                reorderIconName = 'arrow-up'
+                reorderButton = createReorderButton(entry.id, 'arrow-up')
             } else if (reorderEntryPosition < positions.position) {
-                reorderIconName = 'arrow-down'
+                reorderButton = createReorderButton(entry.id, 'arrow-down')
             } else {
-                reorderIconName = 'ban'
-
-                // display reorder first button if not on first page
-                if (!positions.isFirstPage) {
-                    reorderFirstButton = (
-                        <button
-                            className="control primary"
-                            onClick={() => {
-                                onReorderButtonClick(positions.firstId)}
-                            }
-                        >
-                            <span className="icon">
-                                <i className={'las la-arrow-up overbar'}></i>
-                            </span>
-                        </button>
-                    )
-                }
-
-                // display reorder last button if not on last page
-                if (!positions.isLastPage) {
-                    reorderLastButton = (
-                        <button
-                            className="control primary"
-                            onClick={() => {
-                                onReorderButtonClick(positions.lastId)}
-                            }
-                        >
-                            <span className="icon">
-                                <i className={'las la-arrow-down underbar'}></i>
-                            </span>
-                        </button>
-                    )
-                }
+                reorderButton = createReorderButton(entry.id, 'ban')
+                reorderExtraButtons = (
+                    <>
+                        {createReorderButton(positions.firstId, 'arrow-up', 'overbar')}
+                        {createReorderButton(
+                            positions.lastId, 'arrow-down', 'underbar')}
+                    </>
+                )
             }
         } else {
             // if not in reorder mode, display reorder icon
-            reorderIconName = 'arrows-alt-v'
+            reorderButton = createReorderButton(entry.id, 'arrows-alt-v')
         }
 
         return (
@@ -147,20 +133,21 @@ class Entry extends Component {
                         <PlaylistPositionInfo
                             entryQueuing={playlistEntries.find(e => e.id === entry.id)}
                         />
-                        <div className="controls">
+                        <div className="controls main">
                             <IsPlaylistManager>
-                                {reorderFirstButton}
-                                {reorderLastButton}
-                                <button
-                                    className="control primary"
-                                    onClick={() => {
-                                        onReorderButtonClick(entry.id)
+                                <CSSTransitionLazy
+                                    in={!!reorderExtraButtons}
+                                    classNames="displayed"
+                                    timeout={{
+                                        enter: 3000,
+                                        exit: 1500
                                     }}
                                 >
-                                    <span className="icon">
-                                        <i className={`las la-${reorderIconName}`}></i>
-                                    </span>
-                                </button>
+                                    <div className="subcontrols">
+                                        {reorderExtraButtons}
+                                    </div>
+                                </CSSTransitionLazy>
+                                {reorderButton}
                             </IsPlaylistManager>
                             <IsPlaylistManagerOrOwner object={entry} disable>
                                 <button

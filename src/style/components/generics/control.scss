@@ -16,10 +16,12 @@
 //      $icon-size: relative size of the icon of the control. This value is made
 //          independant of $font-size.
 @mixin make-controls($height, $font-size: 1em, $icon-size: $font-size) {
-    > .control {
+    > .control,
+    .subcontrols > .control {
         @include square($height);
 
         font-size: $font-size;
+        min-width: $height;
 
         .icon {
             $size: calc($icon-size / $font-size * 1em);
@@ -41,6 +43,10 @@
 // properties. Extra subclasses are available for the color of the control.
 .controls {
     display: flex;
+
+    > .subcontrols {
+        display: flex;
+    }
 
     // subclass for a control button
     .control {
