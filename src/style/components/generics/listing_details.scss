@@ -55,6 +55,10 @@
             display: table-cell;
             width: 100%;
 
+            @include make-smartphone {
+                display: block;
+            }
+
             .sublisting-entry {
                 // allow words to break
                 overflow: hidden;
@@ -89,7 +93,11 @@
             .text {
                 align-items: center;
                 display: flex;
-                min-height: $height;
+                min-height: calc($height - $gap-horizontal / 4 * 2 * 2);
+
+                @include make-smartphone {
+                    min-height: calc($height - $gap-horizontal-smartphone / 3 * 2 * 2);
+                }
             }
 
             .song-tag-list {
