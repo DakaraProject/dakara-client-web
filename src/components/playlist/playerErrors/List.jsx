@@ -7,10 +7,17 @@ import { withSearchParams } from 'components/adapted/ReactRouterDom'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import PlayerErrorsEntry from 'components/playlist/playerErrors/Entry'
-import { playerErrorsStatePropType } from 'reducers/playlist'
+import { Status } from 'reducers/alterationsResponse'
+import {
+    playerErrorsStatePropType
+} from 'reducers/playlist'
+import {
+    playerErrorsDigestStatePropType
+} from 'reducers/playlistLive'
 
 class PlayerErrorsList extends Component {
     static propTypes = {
+        playerErrorsDigestState: playerErrorsDigestStatePropType.isRequired,
         playerErrorsState: playerErrorsStatePropType.isRequired,
         loadPlayerErrors: PropTypes.func.isRequired,
     }
@@ -23,6 +30,21 @@ class PlayerErrorsList extends Component {
         // refresh if moved to a different page
         if (this.props.searchParams !== prevProps.searchParams) {
             this.refreshEntries()
+        }
+
+        // refresh if the digest player errors changed
+        const { playerErrorsState } = this.props
+        const { playerErrorsDigestState } = this.props
+        const { playerErrorsDigestState: prevPlayerErrorsDigestState } = prevProps
+        if (
+            playerErrorsDigestState !== prevPlayerErrorsDigestState &&
+            playerErrorsState.status !== Status.pending
+        ) {
+            const errorIds = playerErrorsDigestState.data.map(e => e.id)
+            const prevErrorIds = prevPlayerErrorsDigestState.data.map(e => e.id)
+            if (errorIds.length !== prevErrorIds.length) {
+                this.refreshEntries()
+            }
         }
     }
 
@@ -69,6 +91,7 @@ class PlayerErrorsList extends Component {
 }
 
 const mapStateToProps = (state) => ({
+    playerErrorsDigestState: state.playlist.live.playerErrors,
     playerErrorsState: state.playlist.playerErrors,
 })
 

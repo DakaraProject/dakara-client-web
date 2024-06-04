@@ -16,13 +16,13 @@ import WorkLinkWidget from 'components/song/WorkLinkWidget'
 import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
 import { playerStatusStatePropType } from 'reducers/playlist'
 import {
-playerErrorsStatePropType
+    playerErrorsDigestStatePropType
 } from 'reducers/playlistLive'
 import { formatDuration } from 'utils'
 
 class Player extends Component {
     static propTypes = {
-        playerErrorsState: playerErrorsStatePropType.isRequired,
+        playerErrorsState: playerErrorsDigestStatePropType.isRequired,
         playerStatusState: playerStatusStatePropType.isRequired,
         responseOfSendPlayerCommands: PropTypes.objectOf(alterationResponsePropType),
         sendPlayerCommand: PropTypes.func.isRequired,

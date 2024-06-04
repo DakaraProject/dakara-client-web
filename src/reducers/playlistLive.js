@@ -113,7 +113,7 @@ function entries(state = defaultEntries, action) {
  * Player errors reported from device
  */
 
-export const playerErrorsStatePropType = PropTypes.shape({
+export const playerErrorsDigestStatePropType = PropTypes.shape({
     status: PropTypes.symbol,
     data: PropTypes.arrayOf(playerErrorPropType).isRequired,
 })
