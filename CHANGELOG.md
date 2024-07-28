@@ -32,13 +32,13 @@
 
 ### Added
 
-- Player errors are now displayed in a library fashion.
+- Player errors are now displayed in a library fashion (using pagination).
 - Theme marked as dark.
 
 ### Changed
 
-- Played and queuing playlist entries can be accessed in a library fashion: they use pagination now, and queuing entries can be send to the first or the last place.
-- Allow to reorder a playlist entry at the top or at the bottom of the playlist.
+- Played and queuing playlist entries can be accessed in a library fashion (using pagination).
+- Allow to reorder a queing playlist entry to the top or to the bottom of the playlist.
 - Do not highlight rows on focus (only on hover).
 
 ## 1.8.1 - 2023-12-17
