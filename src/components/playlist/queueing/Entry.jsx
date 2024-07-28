@@ -2,8 +2,9 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import { withNavigate } from 'components/adapted/ReactRouterDom'
+import { withNavigate,withSearchParams } from 'components/adapted/ReactRouterDom'
 import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
@@ -11,7 +12,7 @@ import {
     IsPlaylistManager,
     IsPlaylistManagerOrOwner
 } from 'components/permissions/Playlist'
-import PlayQueueInfo from 'components/song/PlayQueueInfo'
+import PlaylistPositionInfo from 'components/song/PlaylistPositionInfo'
 import Song from 'components/song/Song'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 
@@ -21,7 +22,16 @@ class Entry extends Component {
         entry: playlistEntryPropType.isRequired,
         navigate: PropTypes.func.isRequired,
         onReorderButtonClick: PropTypes.func.isRequired,
-        position: PropTypes.number.isRequired,
+        playlistEntries: PropTypes.arrayOf(
+            playlistEntryPropType
+        ).isRequired,
+        positions: PropTypes.shape({
+            position: PropTypes.number.isRequired,
+            firstId: PropTypes.number,
+            lastId: PropTypes.number,
+            isFirstPage: PropTypes.bool,
+            isLastPage: PropTypes.bool,
+        }).isRequired,
         removeEntry: PropTypes.func.isRequired,
         reorderEntryPosition: PropTypes.number,
         responseOfMultipleReorderPlaylistEntry: PropTypes.object,
@@ -61,28 +71,48 @@ class Entry extends Component {
         const {
             entry,
             onReorderButtonClick,
-            position,
-            reorderEntryPosition
+            positions,
+            reorderEntryPosition,
+            playlistEntries,
         } = this.props
-        const datePlay = Date.parse(entry.date_play)
 
         /**
-         * Reorder button
+         * Reorder buttons
          */
-        let reorderIconName
+        const createReorderButton = (id, iconName, extraClassName = '') => (
+            <button
+                className="control primary"
+                onClick={() => {
+                    onReorderButtonClick(id)}
+                }
+            >
+                <span className="icon">
+                    <i className={`las la-${iconName} ${extraClassName}`}></i>
+                </span>
+            </button>
+        )
+        let reorderButton
+        let reorderExtraButtons
         if (reorderEntryPosition !== null) {
             // if in reorder mode, display icon depending on the relative
             // position of the current entry and the entry to reorder
-            if (reorderEntryPosition > position) {
-                reorderIconName = 'arrow-up'
-            } else if (reorderEntryPosition < position) {
-                reorderIconName = 'arrow-down'
+            if (reorderEntryPosition > positions.position) {
+                reorderButton = createReorderButton(entry.id, 'arrow-up')
+            } else if (reorderEntryPosition < positions.position) {
+                reorderButton = createReorderButton(entry.id, 'arrow-down')
             } else {
-                reorderIconName = 'ban'
+                reorderButton = createReorderButton(entry.id, 'ban')
+                reorderExtraButtons = (
+                    <>
+                        {createReorderButton(positions.firstId, 'arrow-up', 'overbar')}
+                        {createReorderButton(
+                            positions.lastId, 'arrow-down', 'underbar')}
+                    </>
+                )
             }
         } else {
             // if not in reorder mode, display reorder icon
-            reorderIconName = 'random'
+            reorderButton = createReorderButton(entry.id, 'arrows-alt-v')
         }
 
         return (
@@ -100,21 +130,24 @@ class Entry extends Component {
                         handleClick={this.handleSearch}
                     />
                     <div className="extra">
-                        <PlayQueueInfo
-                            queueInfo={{timeOfPlay: datePlay, playlistEntry: entry}}
+                        <PlaylistPositionInfo
+                            entryQueuing={playlistEntries.find(e => e.id === entry.id)}
                         />
-                        <div className="controls">
+                        <div className="controls main">
                             <IsPlaylistManager>
-                                <button
-                                    className="control primary"
-                                    onClick={() => {
-                                        onReorderButtonClick(entry.id, position)}
-                                    }
+                                <CSSTransitionLazy
+                                    in={!!reorderExtraButtons}
+                                    classNames="displayed"
+                                    timeout={{
+                                        enter: 3000,
+                                        exit: 1500
+                                    }}
                                 >
-                                    <span className="icon">
-                                        <i className={`las la-${reorderIconName}`}></i>
-                                    </span>
-                                </button>
+                                    <div className="subcontrols">
+                                        {reorderExtraButtons}
+                                    </div>
+                                </CSSTransitionLazy>
+                                {reorderButton}
                             </IsPlaylistManager>
                             <IsPlaylistManagerOrOwner object={entry} disable>
                                 <button
@@ -160,4 +193,13 @@ class Entry extends Component {
     }
 }
 
-export default withNavigate(Entry)
+const mapStateToProps = (state, ownProps) => ({
+    playlistEntries: state.playlist.digest.entries.data.playlistEntries,
+})
+
+Entry = withSearchParams(withNavigate(connect(
+    mapStateToProps,
+    {}
+)(Entry)))
+
+export default Entry

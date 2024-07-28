@@ -1,57 +1,41 @@
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { loadPlaylist, loadPlaylistPlayed } from 'actions/playlist'
 import PlaylistEntryMinimal from 'components/generics/PlaylistEntryMinimal'
-import { Status } from 'reducers/alterationsResponse'
-import { playlistDigestPropType, playlistEntriesStatePropType } from 'reducers/playlist'
-import { params } from 'utils'
+import {
+    karaokeStatePropType,
+    playerStatusStatePropType,
+} from 'reducers/playlist'
+import {
+    playlistEntriesStatePropType
+} from 'reducers/playlistDigest'
 
 dayjs.extend(relativeTime)
 
 class PlaylistInfoBar extends Component {
     static propTypes = {
-        loadPlaylist: PropTypes.func.isRequired,
-        loadPlaylistPlayed: PropTypes.func.isRequired,
-        playlistDigest: playlistDigestPropType.isRequired,
+        karaokeState: karaokeStatePropType.isRequired,
+        playerStatusState: playerStatusStatePropType.isRequired,
         playlistEntriesState: playlistEntriesStatePropType.isRequired,
-    }
-
-    pollPlaylist = () => {
-        if (this.props.playlistEntriesState.status !== Status.pending) {
-            this.props.loadPlaylist()
-        }
-        this.timeout = setTimeout(this.pollPlaylist, params.pollInterval)
-    }
-
-    componentDidMount() {
-        // start polling server
-        this.pollPlaylist()
-        this.props.loadPlaylistPlayed()
-    }
-
-    componentWillUnmount() {
-        // Stop polling server
-        clearTimeout(this.timeout)
     }
 
     render() {
         const {
             playlistEntries,
-            date_end: dateEnd
+            dateEnd
         } = this.props.playlistEntriesState.data
-        const playerStatus = this.props.playlistDigest.data.player_status
-        const dateStop = this.props.playlistDigest.data.karaoke.date_stop
+        const { data: playerStatus } = this.props.playerStatusState
+        const { data: karaoke } = this.props.karaokeState
+        const { date_stop: dateStop } = karaoke
 
         /**
          * Next element in playlist
          */
 
-        const nextPlaylistEntry = playlistEntries[0]
+        const nextPlaylistEntry = playlistEntries.find(e => e.will_play)
         let nextEntryWidget
         if (nextPlaylistEntry) {
             nextEntryWidget = (
@@ -68,7 +52,7 @@ class PlaylistInfoBar extends Component {
          * Playlist size
          */
 
-        const count = playlistEntries.length
+        const count = playlistEntries.filter(e => e.will_play).length
         const amountWidget = (
                 <div className="item amount">
                     <div className="emphasis">{count}</div>
@@ -165,16 +149,14 @@ class PlaylistInfoBar extends Component {
 
 
 const mapStateToProps = (state) => ({
-    playlistDigest: state.playlist.digest,
-    playlistEntriesState: state.playlist.entries,
+    karaokeState: state.playlist.karaoke,
+    playerStatusState: state.playlist.playerStatus,
+    playlistEntriesState: state.playlist.digest.entries,
 })
 
 PlaylistInfoBar = connect(
     mapStateToProps,
-    {
-        loadPlaylist,
-        loadPlaylistPlayed,
-    }
+    {}
 )(PlaylistInfoBar)
 
 export default PlaylistInfoBar

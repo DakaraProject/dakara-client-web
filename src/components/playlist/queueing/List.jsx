@@ -4,17 +4,28 @@ import { connect } from 'react-redux'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import { clearAlteration } from 'actions/alterations'
-import { removeEntryFromPlaylist, reorderPlaylistEntry } from 'actions/playlist'
+import {
+    loadPlaylistEntries,
+    removeEntryFromPlaylist,
+    reorderPlaylistEntry
+} from 'actions/playlist'
+import { withSearchParams } from 'components/adapted/ReactRouterDom'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import PlaylistEntry from 'components/playlist/queueing/Entry'
-import { alterationResponsePropType } from 'reducers/alterationsResponse'
-import { playlistEntriesStatePropType } from 'reducers/playlist'
+import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
+import { queuingStatePropType } from 'reducers/playlist'
+import {
+    playlistEntriesStatePropType
+} from 'reducers/playlistDigest'
+import { findLast } from 'utils'
 
 class Queueing extends Component {
     static propTypes = {
         clearAlteration: PropTypes.func.isRequired,
+        loadPlaylistEntries: PropTypes.func.isRequired,
         playlistEntriesState: playlistEntriesStatePropType.isRequired,
+        playlistQueuingState: queuingStatePropType.isRequired,
         removeEntryFromPlaylist: PropTypes.func.isRequired,
         reorderPlaylistEntry: PropTypes.func.isRequired,
         responseOfMultipleRemoveEntry: PropTypes.objectOf(alterationResponsePropType),
@@ -25,17 +36,66 @@ class Queueing extends Component {
 
     state = {
         reorderEntryId: null,
+        transitionsEnabled: false,
     }
 
-    componentDidUpdate() {
-        const { reorderEntryId } = this.state
+    componentDidMount() {
+        this.refreshEntries()
+    }
 
-        // when in reorder mode, if the entry to reorder has been removed, quit
-        // reorder mode
-        if (reorderEntryId !== null) {
-            if (this.getEntryPosition(reorderEntryId) === -1) {
-                this.setState({reorderEntryId: null})
+    componentDidUpdate(prevProps, prevState) {
+        // reset reorder entry ID
+        if (this.state.reorderEntryId !== prevState.reorderEntryId) {
+            const { reorderEntryId } = this.state
+
+            // when in reorder mode, if the entry to reorder has been removed, quit
+            // reorder mode
+            if (reorderEntryId !== null) {
+                if (this.getEntryPosition(reorderEntryId) === -1) {
+                    this.setState({reorderEntryId: null})
+                }
             }
+        }
+
+        // refresh if moved to a different page
+        if (this.props.searchParams !== prevProps.searchParams) {
+            this.setState({transitionsEnabled: false})
+            this.setState({reorderEntryId: null})
+            this.refreshEntries()
+        }
+
+        // refresh if the playlist changed
+        if (
+            this.props.playlistEntriesState !== prevProps.playlistEntriesState &&
+            this.props.playlistQueuingState.status !== Status.pending
+        ) {
+            const queuingId = this.props
+                .playlistEntriesState.data.playlistEntries.filter(
+                    e => !e.was_played
+                ).map(e => e.id)
+            const prevQueuingId = prevProps
+                .playlistEntriesState.data.playlistEntries.filter(
+                    e => !e.was_played
+                ).map(e => e.id)
+            if (
+                queuingId.length !== prevQueuingId.length ||
+                !queuingId.every((e, i) => e === prevQueuingId[i])
+            ) {
+                this.setState({transitionsEnabled: true})
+                this.refreshEntries()
+            }
+        }
+
+        // if the page of entries could not be obtained, request the previous
+        // page
+        if (
+            this.props.playlistQueuingState.status === Status.failed &&
+            this.props.searchParams.get('page') > 1
+        ) {
+            const page = this.props.searchParams.get('page')
+            this.props.searchParams.delete('page')
+            this.props.searchParams.append('page', page - 1)
+            this.props.setSearchParams(this.props.searchParams)
         }
     }
 
@@ -50,9 +110,18 @@ class Queueing extends Component {
             return null
         }
 
-        return this.props.playlistEntriesState.data.playlistEntries.findIndex(
+        return this.props.playlistQueuingState.data.queuing.findIndex(
             e => e.id === entryId
         )
+    }
+
+    /**
+     * Fetch queuing playlist entries from server
+     */
+    refreshEntries = () => {
+        this.props.loadPlaylistEntries('queuing', {
+            page: this.props.searchParams.get('page'),
+        })
     }
 
     /**
@@ -93,8 +162,14 @@ class Queueing extends Component {
     }
 
     render() {
+        const { transitionsEnabled } = this.state
+        const {
+            queuing,
+            count,
+            pagination
+        } = this.props.playlistQueuingState.data
+        const { status } = this.props.playlistQueuingState
         const { playlistEntries } = this.props.playlistEntriesState.data
-        const { status } = this.props.playlistEntriesState
         const {
             removeEntryFromPlaylist: removeEntry,
             responseOfMultipleRemoveEntry,
@@ -102,7 +177,13 @@ class Queueing extends Component {
         } = this.props
         const reorderEntryPosition = this.getEntryPosition(this.state.reorderEntryId)
 
-        const playlistEntriesComponent = playlistEntries.map((entry, position) => (
+        const firstId = playlistEntries.find(e => e.will_play)?.id
+        const lastId = findLast(playlistEntries, e => e.will_play)?.id
+        const isFirstPage = !this.props.searchParams.get('page') ||
+            +this.props.searchParams.get('page') === 1
+        const isLastPage = +this.props.searchParams.get('page') === pagination.last
+
+        const queuingComponents = queuing.map((entry, position) => (
             <CSSTransition
                 classNames='add-remove'
                 timeout={{
@@ -119,7 +200,13 @@ class Queueing extends Component {
                     responseOfReorderPlaylistEntry={
                         responseOfMultipleReorderPlaylistEntry[entry.id]
                     }
-                    position={position}
+                    positions={{
+                        position,
+                        firstId,
+                        lastId,
+                        isFirstPage,
+                        isLastPage,
+                    }}
                     onReorderButtonClick={this.onReorderButtonClick}
                     reorderEntryPosition={reorderEntryPosition}
                 />
@@ -132,17 +219,20 @@ class Queueing extends Component {
                     status={status}
                 >
                     <TransitionGroup
-                        component="ul"
                         className="listing"
+                        component="ul"
+                        enter={transitionsEnabled}
+                        exit={transitionsEnabled}
                     >
-                        {playlistEntriesComponent}
+                        {queuingComponents}
                     </TransitionGroup>
                 </ListingFetchWrapper>
                 <Navigator
-                    count={playlistEntries.length}
+                    count={count}
+                    pagination={pagination}
                     names={{
-                        singular: 'song',
-                        plural: 'songs'
+                        singular: 'entry',
+                        plural: 'entries'
                     }}
                 />
             </div>
@@ -151,20 +241,22 @@ class Queueing extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playlistEntriesState: state.playlist.entries,
+    playlistEntriesState: state.playlist.digest.entries,
+    playlistQueuingState: state.playlist.queuing,
     // eslint-disable-next-line max-len
     responseOfMultipleRemoveEntry: state.alterationsResponse.multiple.removeEntryFromPlaylist || {},
     // eslint-disable-next-line max-len
     responseOfMultipleReorderPlaylistEntry: state.alterationsResponse.multiple.reorderPlaylistEntry || {},
 })
 
-Queueing = connect(
+Queueing = withSearchParams(connect(
     mapStateToProps,
     {
-        removeEntryFromPlaylist,
         clearAlteration,
-        reorderPlaylistEntry
+        loadPlaylistEntries,
+        removeEntryFromPlaylist,
+        reorderPlaylistEntry,
     }
-)(Queueing)
+)(Queueing))
 
 export default Queueing

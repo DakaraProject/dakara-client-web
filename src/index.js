@@ -16,6 +16,7 @@ import LibraryWork from 'components/library/work/List'
 import Main from 'components/Main'
 import NotFound from 'components/navigation/NotFound'
 import PlaylistPlayed from 'components/playlist/played/List'
+import PlayerErrors from 'components/playlist/playerErrors/List'
 import Playlist from 'components/playlist/Playlist'
 import PlaylistQueueing from 'components/playlist/queueing/List'
 import Login from 'components/registration/Login'
@@ -119,6 +120,10 @@ root.render(
                             <Route
                                 path="played"
                                 element={(<PlaylistPlayed />)}
+                            />
+                            <Route
+                                path="player-errors"
+                                element={(<PlayerErrors/>)}
                             />
                         </Route>
                         <Route path="settings" element={(<Settings />)}>

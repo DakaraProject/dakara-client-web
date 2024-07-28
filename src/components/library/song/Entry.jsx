@@ -15,15 +15,11 @@ import {
     IsPlaylistManager,
     IsPlaylistUser
 } from 'components/permissions/Playlist'
-import PlayQueueInfo from 'components/song/PlayQueueInfo'
+import PlaylistPositionInfo from 'components/song/PlaylistPositionInfo'
 import Song from 'components/song/Song'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
 import { songPropType } from 'serverPropTypes/library'
-import {
-    playerStatusPropType,
-    playlistEntryPropType,
-    playlistPlayedEntryPropType
-} from 'serverPropTypes/playlist'
+import { playlistEntryPropType } from 'serverPropTypes/playlist'
 
 
 class SongEntry extends Component {
@@ -31,12 +27,8 @@ class SongEntry extends Component {
         addSongToPlaylist: PropTypes.func.isRequired,
         clearAlteration: PropTypes.func.isRequired,
         karaokeRemainingSeconds: PropTypes.number,
-        playerStatus: playerStatusPropType,
         playlistEntries: PropTypes.arrayOf(
             playlistEntryPropType
-        ).isRequired,
-        playlistPlayedEntries: PropTypes.arrayOf(
-            playlistPlayedEntryPropType
         ).isRequired,
         query: PropTypes.object,
         responseOfAddSong: alterationResponsePropType,
@@ -66,83 +58,32 @@ class SongEntry extends Component {
     render() {
         const {
             karaokeRemainingSeconds,
-            playerStatus,
             query,
             song,
             user,
+            playlistEntries,
         } = this.props
-        const { playlistPlayedEntries, playlistEntries } = this.props
         const expanded = +this.props.searchParams.get('expanded') === song.id
         const exceeding = karaokeRemainingSeconds &&
             karaokeRemainingSeconds < song.duration
         const canAdd = !exceeding || IsPlaylistManager.hasPermission(user)
 
         /**
-         * Song is playing info
-         */
-
-        let playingInfo
-        if (
-            playerStatus.playlist_entry &&
-            playerStatus.playlist_entry.song.id === song.id
-        ) {
-            // Player is playing this song
-            playingInfo = {
-                playlistEntry: playerStatus.playlist_entry
-            }
-        }
-
-        /**
-         * Song previously played info
-         */
-
-        const playlistPlayedEntry = playlistPlayedEntries.slice().reverse().find(
-                e => (e.song.id === song.id)
-                )
-
-        let playedInfo
-        if (playlistPlayedEntry) {
-            playedInfo = {
-                timeOfPlay: Date.parse(playlistPlayedEntry.date_played),
-                playlistEntry: playlistPlayedEntry,
-            }
-        }
-
-        /**
-         * Song queue info
-         */
-
-        const playlistEntry = playlistEntries.find(
-                e => (e.song.id === song.id)
-                )
-
-        let queueInfo
-        if (playlistEntry) {
-            queueInfo = {
-                timeOfPlay: Date.parse(playlistEntry.date_play),
-                playlistEntry,
-            }
-        }
-
-        /**
          * Play queue info
          */
 
-        let playQueueInfo
-        if (playingInfo || playedInfo || queueInfo) {
-            playQueueInfo = (
+        let playlistPositionInfo
+        const entries = playlistEntries.filter(e => e.song.id === song.id)
+        if (entries.length > 0) {
+            playlistPositionInfo = (
                 <CSSTransition
-                    classNames="playlist-info"
+                    classNames="playlist-position-info"
                     timeout={{
                         enter: 300,
                         exit: 150
                     }}
                 >
-                    <PlayQueueInfo
-                        playingInfo={playingInfo}
-                        playedInfo={playedInfo}
-                        queueInfo={queueInfo}
-                    />
+                    <PlaylistPositionInfo entries={entries} />
                 </CSSTransition>
             )
         }
@@ -171,7 +112,7 @@ class SongEntry extends Component {
                             <TransitionGroup
                                 className="play-queue-info-wrapper"
                             >
-                                {playQueueInfo}
+                                {playlistPositionInfo}
                             </TransitionGroup>
                             <div
                                 className="controls"
@@ -228,9 +169,7 @@ const mapStateToProps = (state, ownProps) => ({
     query: state.library.song.data.query,
     // eslint-disable-next-line max-len
     responseOfAddSong: state.alterationsResponse.multiple.addSongToPlaylist?.[ownProps.song.id],
-    playlistPlayedEntries: state.playlist.playedEntries.data.playlistPlayedEntries,
-    playlistEntries: state.playlist.entries.data.playlistEntries,
-    playerStatus: state.playlist.digest.data.player_status,
+    playlistEntries: state.playlist.digest.entries.data.playlistEntries,
     user: state.authenticatedUser,
 })
 

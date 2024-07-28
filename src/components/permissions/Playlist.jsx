@@ -74,7 +74,8 @@ export const IsPlaylistUser = connect(
 
 class CanAddToPlaylist extends Component {
     render() {
-        const { karaoke, user } = this.props
+        const { user } = this.props
+        const { data: karaoke } = this.props.karaokeState
         if (!karaoke.ongoing) {
             return null
         }
@@ -92,7 +93,7 @@ class CanAddToPlaylist extends Component {
 }
 
 const mapStateToPropsKaraoke = (state) => ({
-    karaoke: state.playlist.digest.data.karaoke,
+    karaokeState: state.playlist.karaoke,
     user: state.authenticatedUser
 })
 

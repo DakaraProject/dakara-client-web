@@ -15,14 +15,10 @@ $sublisting-entry-control-font-size: $subrow-icon-font-size;
 // This module is a submodule for `listing` and aim to style inner lists of a
 // list entry.
 .sublisting {
-    display: table-cell;
     list-style-type: none;
+    margin: 0 !important;  // FIXME Remove box p and ul rules
     padding: 0;
     width: 100%;
-
-    @include make-smartphone {
-        display: block;
-    }
 
     .sublisting-entry {
         $height: $sublisting-entry-height;

@@ -3,28 +3,29 @@ import { combineReducers } from 'redux'
 
 import { ALTERATION_SUCCESS } from 'actions/alterations'
 import {
+    PLAYER_ERRORS_FAILURE,
+    PLAYER_ERRORS_REQUEST,
+    PLAYER_ERRORS_SUCCESS,
     PLAYER_TOKEN_FAILURE,
     PLAYER_TOKEN_REQUEST,
     PLAYER_TOKEN_SUCCESS,
+    PLAYLIST_ENTRIES_FAILURE,
+    PLAYLIST_ENTRIES_REQUEST,
+    PLAYLIST_ENTRIES_SUCCESS,
+} from 'actions/playlist'
+import {
     PLAYLIST_DIGEST_FAILURE,
     PLAYLIST_DIGEST_REQUEST,
     PLAYLIST_DIGEST_SUCCESS,
-    PLAYLIST_FAILURE,
-    PLAYLIST_PLAYED_ADD,
-    PLAYLIST_PLAYED_FAILURE,
-    PLAYLIST_PLAYED_REQUEST,
-    PLAYLIST_PLAYED_SUCCESS,
-    PLAYLIST_REQUEST,
-    PLAYLIST_SUCCESS
-} from 'actions/playlist'
+} from 'actions/playlistDigest'
 import { Status } from 'reducers/alterationsResponse'
+import digest from 'reducers/playlistDigest'
 import {
     karaokePropType,
     playerErrorPropType,
     playerStatusPropType,
     playerTokenPropType,
     playlistEntryPropType,
-    playlistPlayedEntryPropType,
 } from 'serverPropTypes/playlist'
 import { updateData } from 'utils'
 
@@ -35,41 +36,112 @@ import { updateData } from 'utils'
 
 
 /**
- * Player information digest from server
+ * Generators for playlist entries
  */
 
+const generatePlaylistEntriesPropType = (
+    playlistEntriesPropType,
+    playlistEntriesKey
+) => (
+    PropTypes.shape({
+        status: PropTypes.symbol,
+        data: PropTypes.shape({
+            pagination: PropTypes.shape({
+                current: PropTypes.number.isRequired,
+                last: PropTypes.number.isRequired,
+            }).isRequired,
+            count: PropTypes.number.isRequired,
+            [playlistEntriesKey]: PropTypes.arrayOf(playlistEntriesPropType).isRequired,
+        }),
+    })
+)
 
-export const playlistDigestPropType = PropTypes.shape({
-    status: PropTypes.symbol,
-    data: PropTypes.shape({
-        player_status: playerStatusPropType.isRequired,
-        player_errors: PropTypes.arrayOf(playerErrorPropType).isRequired,
-        karaoke: karaokePropType.isRequired,
-    }).isRequired,
-})
-
-const defaultPlaylistDigest = {
+const generateDefaultPlaylistEntries = (playlistEntriesKey) => ({
     status: null,
     data: {
-        player_status: {
-            playlist_entry: null,
-            timing: 0,
-            paused: false,
-            in_transition: false,
-            date: new Date().toString(),
+        pagination: {
+            current: 1,
+            last: 1,
         },
-        player_errors: [],
-        karaoke: {
-            id: null,
-            ongoing: false,
-            can_add_to_playlist: false,
-            player_play_next_song: false,
-            date_stop: null
-        },
+        count: 0,
+        [playlistEntriesKey]: []
     },
+})
+
+const generatePlaylistEntriesReducer = playlistEntriesType => {
+    const defaultPlaylistEntries = generateDefaultPlaylistEntries(playlistEntriesType)
+
+    return (state = defaultPlaylistEntries, action) => {
+        if (action.playlistEntriesType !== playlistEntriesType) {
+            return state
+        }
+
+        switch (action.type) {
+            case PLAYLIST_ENTRIES_REQUEST:
+                return {
+                    ...state,
+                    status: Status.pending,
+                }
+
+            case PLAYLIST_ENTRIES_SUCCESS:
+                return {
+                    status: Status.successful,
+                    data: updateData(action.response, playlistEntriesType),
+                }
+
+            case PLAYLIST_ENTRIES_FAILURE:
+                return {
+                    status: Status.failed,
+                    data: defaultPlaylistEntries.data,
+                }
+
+            default:
+                return state
+        }
+    }
 }
 
-function digest(state = defaultPlaylistDigest, action) {
+/**
+ * Playlist of queuing entries
+ */
+
+export const queuingStatePropType = generatePlaylistEntriesPropType(
+    playlistEntryPropType,
+    'queuing'
+)
+const queuing = generatePlaylistEntriesReducer('queuing')
+
+/**
+ * playlist of played entries
+ */
+
+export const playedStatePropType = generatePlaylistEntriesPropType(
+    playlistEntryPropType,
+    'played'
+)
+const played = generatePlaylistEntriesReducer('played')
+
+/**
+ * Player information from server
+ */
+
+export const playerStatusStatePropType = PropTypes.shape({
+    status: PropTypes.symbol,
+    data: playerStatusPropType.isRequired,
+})
+
+const defaultPlayerStatus = {
+    status: null,
+    data: {
+        playlist_entry: null,
+        timing: 0,
+        paused: false,
+        in_transition: false,
+        date: new Date().toString(),
+    }
+}
+
+function playerStatus(state = defaultPlayerStatus, action) {
     switch (action.type) {
         case PLAYLIST_DIGEST_REQUEST:
             return {
@@ -80,7 +152,7 @@ function digest(state = defaultPlaylistDigest, action) {
         case PLAYLIST_DIGEST_SUCCESS:
             return {
                 status: Status.successful,
-                data: action.response,
+                data: action.response.player_status,
             }
 
         case PLAYLIST_DIGEST_FAILURE:
@@ -93,28 +165,27 @@ function digest(state = defaultPlaylistDigest, action) {
         // adapt the state now
         case ALTERATION_SUCCESS:
             if (action.alterationName === 'sendPlayerCommand') {
-                if (action.elementId === 'pause') {
-                    return {
-                        ...state,
-                        data: {
-                            ...state.data,
-                            player_status: {
-                                ...state.data.player_status,
+                switch (action.elementId) {
+                    case 'pause':
+                        return {
+                            ...state,
+                            data: {
+                                ...state.data,
                                 paused: true,
                             }
                         }
-                    }
-                } else if (action.elementId === 'resume') {
-                    return {
-                        ...state,
-                        data: {
-                            ...state.data,
-                            player_status: {
-                                ...state.data.player_status,
+
+                    case 'resume':
+                        return {
+                            ...state,
+                            data: {
+                                ...state.data,
                                 paused: false,
                             }
                         }
-                    }
+
+                    default:
+                        return state
                 }
             }
 
@@ -125,126 +196,98 @@ function digest(state = defaultPlaylistDigest, action) {
     }
 }
 
-
 /**
- * Playlist of entries from server
+ * Player errors reported from device
  */
 
-
-export const playlistEntriesStatePropType = PropTypes.shape({
+export const playerErrorsStatePropType = PropTypes.shape({
     status: PropTypes.symbol,
     data: PropTypes.shape({
-        date_end: PropTypes.string.isRequired,
-        playlistEntries: PropTypes.arrayOf(playlistEntryPropType).isRequired,
-    }).isRequired,
-})
-
-const defaultEntries = {
-    status: null,
-    data: {
-        date_end: '',
-        playlistEntries: []
-    },
-}
-
-function entries(state = defaultEntries, action) {
-    switch (action.type) {
-        case PLAYLIST_REQUEST:
-            return {
-                ...state,
-                status: state.status || Status.pending,
-            }
-
-        case PLAYLIST_SUCCESS:
-            return {
-                status: Status.successful,
-                data: updateData(action.response, 'playlistEntries'),
-            }
-
-        case PLAYLIST_FAILURE:
-            return {
-                ...state,
-                status: Status.failed,
-            }
-
-        // when the kara status is set to stop, reset entries
-        case PLAYLIST_DIGEST_SUCCESS:
-            if (!action.response.karaoke.ongoing) {
-                return defaultEntries
-            }
-
-            return state
-
-        default:
-            return state
-    }
-}
-
-
-/**
- * Playlist of played entries from server
- */
-
-
-export const playlistPlayedEntriesStatePropType = PropTypes.shape({
-    status: PropTypes.symbol,
-    data: PropTypes.shape({
+        pagination: PropTypes.shape({
+            current: PropTypes.number.isRequired,
+            last: PropTypes.number.isRequired,
+        }).isRequired,
         count: PropTypes.number.isRequired,
-        playlistPlayedEntries: PropTypes.arrayOf(
-            playlistPlayedEntryPropType
-        ).isRequired,
-    }).isRequired,
+        playerErrors: PropTypes.arrayOf(playerErrorPropType).isRequired,
+    }),
 })
 
-const defaultPlayedEntries = {
+const defaultPlayerErrors = {
     status: null,
     data: {
+        pagination: {
+            current: 1,
+            last: 1,
+        },
         count: 0,
-        playlistPlayedEntries: []
-    },
+        playerErrors: []
+    }
 }
 
-function playedEntries(state = defaultPlayedEntries, action) {
+function playerErrors(state = defaultPlayerErrors, action) {
     switch (action.type) {
-        case PLAYLIST_PLAYED_REQUEST:
+        case PLAYER_ERRORS_REQUEST:
             return {
                 ...state,
-                status: Status.pending,
+                status: Status.pending
             }
 
-        case PLAYLIST_PLAYED_SUCCESS:
+        case PLAYER_ERRORS_SUCCESS:
             return {
-                data: updateData(action.response, 'playlistPlayedEntries'),
                 status: Status.successful,
+                data: updateData(action.response, 'playerErrors'),
             }
 
-        case PLAYLIST_PLAYED_FAILURE:
+        case PLAYER_ERRORS_FAILURE:
             return {
                 ...state,
                 status: Status.failed,
             }
 
-        // when the player has finished to play an entry, add it to the played
-        // entries
-        case PLAYLIST_PLAYED_ADD:
+        default:
+            return state
+    }
+}
+
+/**
+ * Karaoke information
+ */
+
+export const karaokeStatePropType = PropTypes.shape({
+    status: PropTypes.symbol,
+    data: karaokePropType.isRequired,
+})
+
+const defaultKaraoke = {
+    status: null,
+    data: {
+        id: null,
+        ongoing: false,
+        can_add_to_playlist: false,
+        player_play_next_song: false,
+        date_stop: null
+    }
+}
+
+function karaoke(state = defaultKaraoke, action) {
+    switch (action.type) {
+        case PLAYLIST_DIGEST_REQUEST:
             return {
                 ...state,
-                data: {
-                    ...state.data,
-                    playlistPlayedEntries: [
-                        ...state.data.playlistPlayedEntries,
-                        action.entry
-                    ]
-                }
+                status: state.status || Status.pending
             }
 
-        // when the kara status is set to stop, reset the played entries
         case PLAYLIST_DIGEST_SUCCESS:
-            if (!action.response.karaoke.ongoing) {
-                return defaultPlayedEntries
+            return {
+                status: Status.successful,
+                data: action.response.karaoke,
             }
 
-            return state
+        case PLAYLIST_DIGEST_FAILURE:
+            return {
+                ...state,
+                status: Status.failed,
+            }
 
         default:
             return state
@@ -317,16 +360,18 @@ function playerToken(state = defaultPlayerToken, action) {
     }
 }
 
-
 /**
  * Playlist
  */
 
 const playlist = combineReducers({
-    digest,
-    entries,
-    playedEntries,
+    queuing,
+    played,
+    playerStatus,
+    playerErrors,
+    karaoke,
     playerToken,
+    digest,
 })
 
 export default playlist

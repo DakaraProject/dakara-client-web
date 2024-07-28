@@ -16,10 +16,12 @@
 //      $icon-size: relative size of the icon of the control. This value is made
 //          independant of $font-size.
 @mixin make-controls($height, $font-size: 1em, $icon-size: $font-size) {
-    > .control {
+    > .control,
+    .subcontrols > .control {
         @include square($height);
 
         font-size: $font-size;
+        min-width: $height;
 
         .icon {
             $size: calc($icon-size / $font-size * 1em);
@@ -41,6 +43,10 @@
 // properties. Extra subclasses are available for the color of the control.
 .controls {
     display: flex;
+
+    > .subcontrols {
+        display: flex;
+    }
 
     // subclass for a control button
     .control {
@@ -75,8 +81,7 @@
 
             // this rule is weaker than the rule for even lines, so it
             // has to be enforced manually
-            &:not(.disabled):not([disabled]):hover,
-            &:not(.disabled):not([disabled]):focus {
+            &:not(.disabled):not([disabled]):hover {
                 background: $color-activated !important;
             }
         }
@@ -146,8 +151,7 @@
 
 
 // lighten control when line hovered on a list
-.hoverizable:hover .controls,
-.hoverizable:focus .controls {
+.hoverizable:hover .controls:not(:hover) {
     .control {
         @mixin make-control-line-hover($color-normal, $color-disabled) {
             &:not(.disabled):not([disabled]) {

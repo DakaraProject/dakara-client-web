@@ -3,19 +3,19 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { loadPlaylistDigest } from 'actions/playlist'
+import { loadPlaylistDigest } from 'actions/playlistDigest'
 import KaraStatusNotification from 'components/karaoke/KaraStatusNotification'
 import Player from 'components/karaoke/player/Player'
 import PlaylistInfoBar from 'components/karaoke/PlaylistInfoBar'
 import { IsPlaylistManager } from 'components/permissions/Playlist'
 import { Status } from 'reducers/alterationsResponse'
-import { playlistDigestPropType } from 'reducers/playlist'
+import { karaokeStatePropType } from 'reducers/playlist'
 import { params } from 'utils'
 
 class Karaoke extends Component {
     static propTypes = {
         loadPlaylistDigest: PropTypes.func.isRequired,
-        playlistDigest: playlistDigestPropType.isRequired,
+        karaokeState: karaokeStatePropType.isRequired,
     }
 
     state = {
@@ -26,7 +26,7 @@ class Karaoke extends Component {
      * Get evolution of the playlist periodically
      */
     pollPlaylistDigest = () => {
-        if (this.props.playlistDigest.status !== Status.pending) {
+        if (this.props.karaokeState.status !== Status.pending) {
             this.props.loadPlaylistDigest()
         }
         this.timeout = setTimeout(this.pollPlaylistDigest, params.pollInterval)
@@ -51,7 +51,7 @@ class Karaoke extends Component {
     }
 
     render() {
-        const { karaoke } = this.props.playlistDigest.data
+        const { data: karaoke } = this.props.karaokeState
         const { playerWithControls } = this.state
 
         if (!karaoke.ongoing) {
@@ -80,7 +80,7 @@ class Karaoke extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playlistDigest: state.playlist.digest,
+    karaokeState: state.playlist.karaoke,
     user: state.authenticatedUser,
 })
 
