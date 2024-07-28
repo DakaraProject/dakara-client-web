@@ -169,7 +169,7 @@ const mapStateToProps = (state, ownProps) => ({
     query: state.library.song.data.query,
     // eslint-disable-next-line max-len
     responseOfAddSong: state.alterationsResponse.multiple.addSongToPlaylist?.[ownProps.song.id],
-    playlistEntries: state.playlist.live.entries.data.playlistEntries,
+    playlistEntries: state.playlist.digest.entries.data.playlistEntries,
     user: state.authenticatedUser,
 })
 

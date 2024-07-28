@@ -6,7 +6,7 @@ import {
     PLAYLIST_DIGEST_FAILURE,
     PLAYLIST_DIGEST_REQUEST,
     PLAYLIST_DIGEST_SUCCESS,
-} from 'actions/playlist'
+} from 'actions/playlistDigest'
 import { Status } from 'reducers/alterationsResponse'
 import {
     playerErrorPropType,
@@ -14,7 +14,7 @@ import {
 } from 'serverPropTypes/playlist'
 
 /**
- * This reducer contains playlist live data related state
+ * This reducer contains playlist digest data related state
  */
 
 /**
@@ -148,9 +148,9 @@ function playerErrors(state = defaultPlayerErrors, action) {
     }
 }
 
-const live = combineReducers({
+const digest = combineReducers({
     entries,
     playerErrors,
 })
 
-export default live
+export default digest

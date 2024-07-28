@@ -13,7 +13,7 @@ import {
 } from 'reducers/playlist'
 import {
     playerErrorsDigestStatePropType
-} from 'reducers/playlistLive'
+} from 'reducers/playlistDigest'
 
 class PlayerErrorsList extends Component {
     static propTypes = {
@@ -91,7 +91,7 @@ class PlayerErrorsList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playerErrorsDigestState: state.playlist.live.playerErrors,
+    playerErrorsDigestState: state.playlist.digest.playerErrors,
     playerErrorsState: state.playlist.playerErrors,
 })
 

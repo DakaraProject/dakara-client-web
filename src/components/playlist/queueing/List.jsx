@@ -17,7 +17,7 @@ import { alterationResponsePropType, Status } from 'reducers/alterationsResponse
 import { queuingStatePropType } from 'reducers/playlist'
 import {
     playlistEntriesStatePropType
-} from 'reducers/playlistLive'
+} from 'reducers/playlistDigest'
 import { findLast } from 'utils'
 
 class Queueing extends Component {
@@ -241,7 +241,7 @@ class Queueing extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playlistEntriesState: state.playlist.live.entries,
+    playlistEntriesState: state.playlist.digest.entries,
     playlistQueuingState: state.playlist.queuing,
     // eslint-disable-next-line max-len
     responseOfMultipleRemoveEntry: state.alterationsResponse.multiple.removeEntryFromPlaylist || {},

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { loadPlaylistDigest } from 'actions/playlist'
+import { loadPlaylistDigest } from 'actions/playlistDigest'
 import KaraStatusNotification from 'components/karaoke/KaraStatusNotification'
 import Player from 'components/karaoke/player/Player'
 import PlaylistInfoBar from 'components/karaoke/PlaylistInfoBar'

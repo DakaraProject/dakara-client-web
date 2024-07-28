@@ -9,15 +9,17 @@ import {
     PLAYER_TOKEN_FAILURE,
     PLAYER_TOKEN_REQUEST,
     PLAYER_TOKEN_SUCCESS,
-    PLAYLIST_DIGEST_FAILURE,
-    PLAYLIST_DIGEST_REQUEST,
-    PLAYLIST_DIGEST_SUCCESS,
     PLAYLIST_ENTRIES_FAILURE,
     PLAYLIST_ENTRIES_REQUEST,
     PLAYLIST_ENTRIES_SUCCESS,
 } from 'actions/playlist'
+import {
+    PLAYLIST_DIGEST_FAILURE,
+    PLAYLIST_DIGEST_REQUEST,
+    PLAYLIST_DIGEST_SUCCESS,
+} from 'actions/playlistDigest'
 import { Status } from 'reducers/alterationsResponse'
-import live from 'reducers/playlistLive'
+import digest from 'reducers/playlistDigest'
 import {
     karaokePropType,
     playerErrorPropType,
@@ -369,7 +371,7 @@ const playlist = combineReducers({
     playerErrors,
     karaoke,
     playerToken,
-    live,
+    digest,
 })
 
 export default playlist

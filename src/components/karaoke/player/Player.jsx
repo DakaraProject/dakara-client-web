@@ -17,7 +17,7 @@ import { alterationResponsePropType, Status } from 'reducers/alterationsResponse
 import { playerStatusStatePropType } from 'reducers/playlist'
 import {
     playerErrorsDigestStatePropType
-} from 'reducers/playlistLive'
+} from 'reducers/playlistDigest'
 import { formatDuration } from 'utils'
 
 class Player extends Component {
@@ -327,7 +327,7 @@ const ServerLost = () => (
 const mapStateToProps = (state) => ({
     user: state.authenticatedUser,
     playerStatusState: state.playlist.playerStatus,
-    playerErrorsState: state.playlist.live.playerErrors,
+    playerErrorsState: state.playlist.digest.playerErrors,
     responseOfSendPlayerCommands: state.alterationsResponse.multiple.sendPlayerCommands,
 })
 

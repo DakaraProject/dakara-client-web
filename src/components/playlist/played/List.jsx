@@ -12,7 +12,7 @@ import PlayedEntry from 'components/playlist/played/Entry'
 import { playedStatePropType } from 'reducers/playlist'
 import {
     playlistEntriesStatePropType
-} from 'reducers/playlistLive'
+} from 'reducers/playlistDigest'
 
 class Played extends Component {
     static propTypes = {
@@ -90,7 +90,7 @@ class Played extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    playlistEntriesState: state.playlist.live.entries,
+    playlistEntriesState: state.playlist.digest.entries,
     playlistPlayedState: state.playlist.played,
 })
 

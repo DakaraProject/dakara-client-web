@@ -194,7 +194,7 @@ class Entry extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    playlistEntries: state.playlist.live.entries.data.playlistEntries,
+    playlistEntries: state.playlist.digest.entries.data.playlistEntries,
 })
 
 Entry = withSearchParams(withNavigate(connect(
