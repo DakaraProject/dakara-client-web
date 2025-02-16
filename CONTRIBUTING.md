@@ -33,9 +33,8 @@
    ```
 6. Call the script to create the archive:
    ```sh
-   ./create_archive.sh 0.0.0
+   ./create_archive.sh
    ```
-   with the according version number.
 7. On GitHub, draft a new release, set the version number with the created tag ("Existing tag" should read).
    Set the release title with "Version 0.0.0" (with number, you get it?).
    Copy-paste corresponding section of the changelog file in the release description.
