@@ -14,7 +14,7 @@ npm run build
 # Go to build directory
 cd build
 
-# Move index.html and robots.txt to static dir
+# Copy index.html and robots.txt to static dir
 cp index.html robots.txt static
 
 # archive the static folder
