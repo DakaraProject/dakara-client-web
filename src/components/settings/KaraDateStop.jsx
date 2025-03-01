@@ -23,7 +23,7 @@ class KaraDateStop extends Component {
             this.props.karaokeState.status === null) return null
 
         const { authenticatedUser } = this.props
-        const { karaokeDateStop } = this.props.karaokeState.data
+        const { date_stop: karaokeDateStop } = this.props.karaokeState.data
         const isManager = IsPlaylistManager.hasPermission(authenticatedUser)
 
 
@@ -45,7 +45,7 @@ class KaraDateStop extends Component {
                 }
 
                 return {
-                    karaokeDateStop: date.format()
+                    date_stop: date.format()
                 }
             }
 

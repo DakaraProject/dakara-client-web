@@ -4,14 +4,8 @@
 set -e
 
 # version
-if [[ -z $1 ]]
-then
-    >&2 echo 'Error: no version specified'
-    exit 1
-fi
-
-version_number=$1
-archive_name=dakara-client-web_$version_number.zip
+version="$(npm pkg get version | sed 's/"//g')"
+archive_name="dakara-client-web_$version.zip"
 
 # make production build
 echo "Creating build, please wait..."
