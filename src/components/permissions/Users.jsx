@@ -1,13 +1,8 @@
 import { connect } from 'react-redux'
 
-import { mapStateToProps, PermissionBase } from 'components/permissions/Base'
+import { PermissionBase } from 'components/permissions/Base'
 import { userPropType } from 'serverPropTypes/users'
-
-export const permissionLevels = {
-    u: 'user',
-    m: 'manager',
-    p: 'player'
-}
+import { mapStateToProps } from 'utils/permissions'
 
 /**
  * Users manager

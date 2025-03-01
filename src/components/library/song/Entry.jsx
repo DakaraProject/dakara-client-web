@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { connect } from 'react-redux'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
@@ -20,6 +20,7 @@ import Song from 'components/song/Song'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
 import { songPropType } from 'serverPropTypes/library'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
+import { userPropType } from 'serverPropTypes/users'
 
 
 class SongEntry extends Component {
@@ -35,6 +36,7 @@ class SongEntry extends Component {
         searchParams: PropTypes.object.isRequired,
         setSearchParams: PropTypes.func.isRequired,
         song: songPropType.isRequired,
+        user: userPropType.isRequired,
     }
 
     componentWillUnmount() {

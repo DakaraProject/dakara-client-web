@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 import { withNavigate } from 'components/adapted/ReactRouterDom'
 import PlaylistPositionInfo from 'components/song/PlaylistPositionInfo'
@@ -51,4 +51,6 @@ class Entry extends Component {
     }
 }
 
-export default withNavigate(Entry)
+Entry = withNavigate(Entry)
+
+export default Entry

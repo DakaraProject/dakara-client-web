@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { withNavigate,withSearchParams } from 'components/adapted/ReactRouterDom'
@@ -14,6 +14,7 @@ import {
 } from 'components/permissions/Playlist'
 import PlaylistPositionInfo from 'components/song/PlaylistPositionInfo'
 import Song from 'components/song/Song'
+import { alterationResponsePropType } from 'reducers/alterationsResponse'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 
 class Entry extends Component {
@@ -35,7 +36,8 @@ class Entry extends Component {
         removeEntry: PropTypes.func.isRequired,
         reorderEntryPosition: PropTypes.number,
         responseOfMultipleReorderPlaylistEntry: PropTypes.object,
-        responseOfRemoveEntry: PropTypes.object,
+        responseOfRemoveEntry: alterationResponsePropType,
+        responseOfReorderPlaylistEntry: alterationResponsePropType,
     }
 
     state = {

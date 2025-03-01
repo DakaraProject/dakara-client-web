@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 import { withLocation } from 'components/adapted/ReactRouterDom'
 
@@ -20,11 +20,13 @@ class NotFound extends Component {
                 </div>
                 <div className="content">
                     <div className="url">{url}</div>
-                    <p>We're sorry, your request did not match any route…</p>
+                    <p>We&apos;re sorry, your request did not match any route…</p>
                 </div>
             </div>
         )
     }
 }
 
-export default withLocation(NotFound)
+NotFound = withLocation(NotFound)
+
+export default NotFound

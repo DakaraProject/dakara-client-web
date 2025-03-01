@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import {
@@ -19,6 +19,7 @@ class Played extends Component {
         playlistEntriesState: playlistEntriesStatePropType.isRequired,
         playlistPlayedState: playedStatePropType.isRequired,
         loadPlaylistEntries: PropTypes.func.isRequired,
+        searchParams: PropTypes.object.isRequired,
     }
 
     componentDidMount() {

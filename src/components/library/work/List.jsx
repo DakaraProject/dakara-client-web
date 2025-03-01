@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { loadLibraryEntries } from 'actions/library'
@@ -19,6 +19,7 @@ class WorkList extends Component {
         setSearchParams: PropTypes.func.isRequired,
         workState: workStatePropType,
         workTypeState: workTypeStatePropType.isRequired,
+        loadLibraryEntries: PropTypes.func.isRequired,
     }
 
     /**

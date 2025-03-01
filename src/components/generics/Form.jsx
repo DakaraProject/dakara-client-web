@@ -36,6 +36,7 @@ class Form extends Component {
         ]).isRequired,
         title: PropTypes.string,
         validate: PropTypes.func,
+        children: PropTypes.node,
     }
 
     static defaultProps = {

@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { loadLibraryEntries } from 'actions/library'
@@ -12,6 +13,8 @@ import { artistStatePropType } from 'reducers/library'
 class ArtistList extends Component {
     static propTypes = {
         artistState: artistStatePropType.isRequired,
+        searchParams: PropTypes.object.isRequired,
+        loadLibraryEntries: PropTypes.func.isRequired,
     }
 
     /**

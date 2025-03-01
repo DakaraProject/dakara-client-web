@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { connect } from 'react-redux'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
@@ -32,6 +32,8 @@ class Queueing extends Component {
         responseOfMultipleReorderPlaylistEntry: PropTypes.objectOf(
             alterationResponsePropType
         ),
+        searchParams: PropTypes.object.isRequired,
+        setSearchParams: PropTypes.func.isRequired,
     }
 
     state = {

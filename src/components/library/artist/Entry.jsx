@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 import { withNavigate } from 'components/adapted/ReactRouterDom'
 import HighlighterQuery from 'components/generics/HighlighterQuery'
@@ -54,4 +54,6 @@ class ArtistEntry extends Component {
     }
 }
 
-export default withNavigate(ArtistEntry)
+ArtistEntry = withNavigate(ArtistEntry)
+
+export default ArtistEntry

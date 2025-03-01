@@ -1,22 +1,23 @@
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import ControlLink from 'components/generics/ControlLink'
 import Notification, { NotifiableForTable } from 'components/generics/Notification'
-import {
-    IsNotSelf,
-    IsUserManager,
-    permissionLevels
-} from 'components/permissions/Users'
+import { IsNotSelf, IsUserManager } from 'components/permissions/Users'
+import { alterationResponsePropType } from 'reducers/alterationsResponse'
 import { userPropType } from 'serverPropTypes/users'
+
+import Marked from './Marked'
+import PermissionText from './PermissionText'
 
 export default class SettingsUsersEntry extends Component {
     static propTypes = {
         clearAlteration: PropTypes.func.isRequired,
         deleteUser: PropTypes.func.isRequired,
         user: userPropType.isRequired,
+        responseOfDelete: alterationResponsePropType,
     }
 
     state = {
@@ -112,33 +113,3 @@ export default class SettingsUsersEntry extends Component {
         )
     }
 }
-
-const PermissionText = ({level}) => {
-    if (!level) {
-        return null
-    }
-
-    const permissionText = permissionLevels[level]
-
-    return (
-        <span className="permission-text">
-            {permissionText.substring(0, 1)}
-            <span className="hideable">
-                {permissionText.substring(1)}
-            </span>
-        </span>
-    )
-
-}
-
-
-const Marked = ({marked}) => {
-    if (!marked) {
-        return null
-    }
-
-    return (
-        <i className="las la-check"></i>
-    )
-}
-

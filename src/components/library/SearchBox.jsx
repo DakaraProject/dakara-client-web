@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { parse } from 'query-string'
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { storeSearchBox } from 'actions/library'
@@ -14,6 +14,8 @@ class SearchBox extends Component {
         placeholder: PropTypes.string.isRequired,
         searchParams: PropTypes.object.isRequired,
         setSearchParams: PropTypes.func.isRequired,
+        searchBox: PropTypes.object.isRequired,
+        storeSearchBox: PropTypes.func.isRequired,
     }
 
     state = {

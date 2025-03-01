@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { loadPlaylistDigest } from 'actions/playlistDigest'
@@ -10,12 +10,14 @@ import PlaylistInfoBar from 'components/karaoke/PlaylistInfoBar'
 import { IsPlaylistManager } from 'components/permissions/Playlist'
 import { Status } from 'reducers/alterationsResponse'
 import { karaokeStatePropType } from 'reducers/playlist'
+import { userPropType } from 'serverPropTypes/users'
 import { params } from 'utils'
 
 class Karaoke extends Component {
     static propTypes = {
         loadPlaylistDigest: PropTypes.func.isRequired,
         karaokeState: karaokeStatePropType.isRequired,
+        user: userPropType.isRequired,
     }
 
     state = {

@@ -16,6 +16,8 @@ module.exports = {
       "warn",
       { allowConstantExport: true },
     ],
+    "no-class-assign": "off",
+    "no-unused-vars": "off",
     "simple-import-sort/imports": [
       "error",
       {

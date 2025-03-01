@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 
-import { mapStateToProps, PermissionBase } from 'components/permissions/Base'
+import { PermissionBase } from 'components/permissions/Base'
+import { mapStateToProps } from 'utils/permissions'
 
 /**
  * Library manager

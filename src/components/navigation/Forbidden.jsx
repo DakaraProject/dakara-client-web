@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 import { withLocation } from 'components/adapted/ReactRouterDom'
 
@@ -17,7 +17,7 @@ class Forbidden extends Component {
                 </div>
                 <div className="content">
                     <div className="url">{url}</div>
-                    <p>We're sorry, you do not have the privilege to access {' '}
+                    <p>We&apos;re sorry, you do not have the privilege to access {' '}
                     this ressource.</p>
                 </div>
             </div>
@@ -25,4 +25,6 @@ class Forbidden extends Component {
     }
 }
 
-export default withLocation(Forbidden)
+Forbidden = withLocation(Forbidden)
+
+export default Forbidden

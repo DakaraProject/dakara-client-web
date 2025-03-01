@@ -1,4 +1,5 @@
 import UserWidget from 'components/generics/UserWidget'
+import { playlistEntryPropType } from 'serverPropTypes/playlist'
 
 const PlaylistEntryMinimal = (props) => (
     <div className="playlist-entry-minimal">
@@ -8,5 +9,8 @@ const PlaylistEntryMinimal = (props) => (
         <UserWidget user={props.playlistEntry.owner}/>
     </div>
 )
+PlaylistEntryMinimal.propTypes = {
+    playlistEntry: playlistEntryPropType.isRequired
+}
 
 export default PlaylistEntryMinimal

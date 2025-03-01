@@ -157,6 +157,11 @@ export default class Notification extends Component {
  * Must be used on the cell of the first column.
  */
 export class NotifiableForTable extends Component {
+    static propTypes = {
+        children: PropTypes.node,
+        className: PropTypes.string,
+    }
+
     elementRef = React.createRef()
 
     state = {

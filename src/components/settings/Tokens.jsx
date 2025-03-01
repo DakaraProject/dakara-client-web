@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { connect } from 'react-redux'
 import { CSSTransition } from 'react-transition-group'
 
@@ -11,7 +11,7 @@ import Notification from 'components/generics/Notification'
 import TokenWidget from 'components/generics/TokenWidget'
 import { IsLibraryManager } from 'components/permissions/Library'
 import { IsPlaylistManager } from 'components/permissions/Playlist'
-import { Status } from 'reducers/alterationsResponse'
+import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
 import { karaokeStatePropType,playerTokenStatePropType  } from 'reducers/playlist'
 
 
@@ -24,6 +24,7 @@ class PlayerTokenBox extends Component {
         responseOfCreatePlayerToken: PropTypes.object,
         responseOfRevokeToken: PropTypes.object,
         revokePlayerToken: PropTypes.func.isRequired,
+        responseOfRevokePlayerToken: alterationResponsePropType,
     }
 
     state = {
