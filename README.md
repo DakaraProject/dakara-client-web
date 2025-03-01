@@ -29,7 +29,7 @@ npm install
 ### Running developement server
 
 ```shell
-npm start
+npm run dev
 ```
 
 This runs the app in the development mode.
@@ -45,7 +45,7 @@ You will also see any lint errors in the console.
 npm run build
 ```
 
-This builds the app for production to the `build` folder.
+This builds the app for production to the `dist` folder.
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
 ## Development

@@ -11,14 +11,7 @@ archive_name="dakara-client-web_$version.zip"
 echo "Creating build, please wait..."
 npm run build
 
-# Go to build directory
-cd build
-
-# Copy index.html and robots.txt to static dir
-cp index.html robots.txt static
-
-# archive the static folder
-zip -r "../$archive_name" static
+# archive the dist folder
+zip -r "$archive_name" dist
 
 echo "Archive created in $archive_name"
-
