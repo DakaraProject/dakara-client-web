@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { PermissionBase } from 'components/permissions/Base'
+import { PermissionBase } from 'permissions/Base'
 import { karaokeStatePropType } from 'reducers/playlist'
 import { userPropType } from 'serverPropTypes/users'
 import { mapStateToProps } from 'utils/permissions'

@@ -14,7 +14,7 @@ import {
     CanAddToPlaylist,
     IsPlaylistManager,
     IsPlaylistUser
-} from 'components/permissions/Playlist'
+} from 'permissions/Playlist'
 import PlaylistPositionInfo from 'components/song/PlaylistPositionInfo'
 import Song from 'components/song/Song'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'

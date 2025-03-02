@@ -11,7 +11,7 @@ import Notification from 'components/generics/Notification'
 import {
     IsPlaylistManager,
     IsPlaylistManagerOrOwner
-} from 'components/permissions/Playlist'
+} from 'permissions/Playlist'
 import PlaylistPositionInfo from 'components/song/PlaylistPositionInfo'
 import Song from 'components/song/Song'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'

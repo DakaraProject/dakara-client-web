@@ -8,7 +8,7 @@ import DevWarning from 'components/DevWarning'
 import Footer from 'components/Footer'
 import Header from 'components/Header'
 import Karaoke from 'components/karaoke/Karaoke'
-import { IsAuthenticated } from 'components/permissions/Base'
+import { IsAuthenticated } from 'permissions/Base'
 
 class Main extends Component {
     static propTypes = {
