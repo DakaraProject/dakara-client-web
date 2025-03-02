@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 
-import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
+import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import ControlLink from 'components/generics/ControlLink'
 import Notification, { NotifiableForTable } from 'components/generics/Notification'

@@ -7,7 +7,7 @@ import {
     Outlet,
 } from 'react-router-dom'
 
-import { withLocation } from 'components/adapted/ReactRouterDom'
+import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
 
 class ProtectedRoute extends Component {
     static propTypes = {

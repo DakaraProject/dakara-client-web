@@ -4,7 +4,7 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 import { Navigate,NavLink } from 'react-router-dom'
 
-import { withLocation } from 'components/adapted/ReactRouterDom'
+import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
 import { FormBlock, InputField } from 'components/generics/Form'
 
 class ResetPassword extends Component {

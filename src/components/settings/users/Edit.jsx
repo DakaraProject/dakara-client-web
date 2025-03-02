@@ -3,7 +3,7 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { clearUser, getUser } from 'actions/users'
-import { withLocation, withParams } from 'components/adapted/ReactRouterDom'
+import { withLocation, withParams } from 'thirdpartyExtensions/ReactRouterDom'
 import {
     CheckboxField,
     FormBlock,

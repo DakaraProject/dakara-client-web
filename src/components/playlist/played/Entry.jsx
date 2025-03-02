@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
 import { Component } from 'react'
 
-import { withNavigate } from 'components/adapted/ReactRouterDom'
+import { withNavigate } from 'thirdpartyExtensions/ReactRouterDom'
 import PlaylistPositionInfo from 'components/song/PlaylistPositionInfo'
 import Song from 'components/song/Song'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'

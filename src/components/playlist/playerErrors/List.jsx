@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { loadPlayerErrors } from 'actions/playlist'
-import { withSearchParams } from 'components/adapted/ReactRouterDom'
+import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import PlayerErrorsEntry from 'components/playlist/playerErrors/Entry'

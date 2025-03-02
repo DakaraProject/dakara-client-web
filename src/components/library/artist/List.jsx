@@ -3,7 +3,7 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { loadLibraryEntries } from 'actions/library'
-import { withSearchParams } from 'components/adapted/ReactRouterDom'
+import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import ArtistEntry from 'components/library/artist/Entry'

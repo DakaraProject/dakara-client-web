@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 
-import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
+import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 import { CheckboxField, FormInline, HueField } from 'components/generics/Form'
 import Notification, { NotifiableForTable } from 'components/generics/Notification'
 import { IsLibraryManager } from 'components/permissions/Library'

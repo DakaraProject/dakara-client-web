@@ -4,8 +4,8 @@ import { stringify } from 'query-string'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { withNavigate,withSearchParams } from 'components/adapted/ReactRouterDom'
-import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
+import { withNavigate,withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
+import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
 import {

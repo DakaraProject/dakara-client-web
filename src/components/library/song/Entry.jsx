@@ -6,8 +6,8 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import { clearAlteration } from 'actions/alterations'
 import { addSongToPlaylist } from 'actions/playlist'
-import { withSearchParams } from 'components/adapted/ReactRouterDom'
-import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
+import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
+import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 import Notification from 'components/generics/Notification'
 import SongEntryExpanded from 'components/library/song/EntryExpanded'
 import {

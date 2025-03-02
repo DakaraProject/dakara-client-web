@@ -4,8 +4,8 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { storeSearchBox } from 'actions/library'
-import { withLocation, withSearchParams } from 'components/adapted/ReactRouterDom'
-import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
+import { withLocation, withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
+import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
 class SearchBox extends Component {
     static propTypes = {

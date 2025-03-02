@@ -9,7 +9,7 @@ import {
     removeEntryFromPlaylist,
     reorderPlaylistEntry
 } from 'actions/playlist'
-import { withSearchParams } from 'components/adapted/ReactRouterDom'
+import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import PlaylistEntry from 'components/playlist/queueing/Entry'

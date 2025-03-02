@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 import { clearAlteration } from 'actions/alterations'
 import { addSongToPlaylistWithOptions } from 'actions/playlist'
-import { withSearchParams } from 'components/adapted/ReactRouterDom'
+import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 import HighlighterQuery from 'components/generics/HighlighterQuery'
 import Notification from 'components/generics/Notification'
 import SongEntryExpandedArtist from 'components/library/song/EntryExpandedArtist'

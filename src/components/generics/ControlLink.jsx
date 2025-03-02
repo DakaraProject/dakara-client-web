@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 
-import Link from 'components/adapted/ReactRouterDom'
+import Link from 'thirdpartyExtensions/ReactRouterDom'
 
 export default class ControlLink extends Component {
     static propTypes = {

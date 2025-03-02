@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import {
     loadPlaylistEntries,
 } from 'actions/playlist'
-import { withSearchParams } from 'components/adapted/ReactRouterDom'
+import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import PlayedEntry from 'components/playlist/played/Entry'

@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 import { clearAlteration } from 'actions/alterations'
 import { deleteUser, getUsers } from 'actions/users'
-import { withLocation } from 'components/adapted/ReactRouterDom'
+import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
 import { FormBlock, InputField } from 'components/generics/Form'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'

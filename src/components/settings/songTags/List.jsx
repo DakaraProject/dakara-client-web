@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 import { clearAlteration } from 'actions/alterations'
 import { editSongTag, getSongTagList } from 'actions/songTags'
-import { withLocation } from 'components/adapted/ReactRouterDom'
+import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import SettingsSongTagsEntry from 'components/settings/songTags/Entry'

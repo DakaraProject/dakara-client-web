@@ -5,7 +5,7 @@ import { CSSTransition } from 'react-transition-group'
 
 import { createPlayerToken, loadPlayerToken, revokePlayerToken } from 'actions/playlist'
 import { revokeToken } from 'actions/token'
-import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
+import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
 import TokenWidget from 'components/generics/TokenWidget'
