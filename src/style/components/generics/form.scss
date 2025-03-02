@@ -4,11 +4,14 @@
 // Forms style file
 //
 
+@use "style/base/sizes";
+@use "style/base/media_query";
+@use "style/components/generics/control";
 
 // form sizes
-$form-field-height: $row-height;
+$form-field-height: sizes.$row-height;
 $form-control-font-size: 1.25em;
-$form-control-icon-size: $row-icon-font-size;
+$form-control-icon-size: sizes.$row-icon-font-size;
 
 
 // `form` class:
@@ -78,15 +81,15 @@ $form-control-icon-size: $row-icon-font-size;
             // this rule removes the space at the top of the set due to
             // `border-spacing`, but the rule is cancelled if there is a header
             // just before
-            @include make-gap(margin, top, -1);
+            @include sizes.make-gap(margin, top, -1);
 
             border-collapse: separate;
-            border-spacing: 0 $gap-vertical;
+            border-spacing: 0 sizes.$gap-vertical;
             display: table;
             width: 100%;
 
-            @include make-smartphone {
-                border-spacing: 0 $gap-vertical-smartphone;
+            @include media_query.make-smartphone {
+                border-spacing: 0 sizes.$gap-vertical-smartphone;
             }
 
             // The field contains a label and an input.
@@ -94,7 +97,7 @@ $form-control-icon-size: $row-icon-font-size;
                 display: table-row;
 
                 .label {
-                    @include make-smartphone {
+                    @include media_query.make-smartphone {
                         display: block !important;
                     }
 
@@ -121,7 +124,7 @@ $form-control-icon-size: $row-icon-font-size;
 
                     // if label is empty, do not add padding
                     &:not(:empty) {
-                        @include make-gap(padding, horizontal);
+                        @include sizes.make-gap(padding, horizontal);
                     }
 
                     .icon {
@@ -143,13 +146,13 @@ $form-control-icon-size: $row-icon-font-size;
                     display: table-cell;
                     width: 100%;
 
-                    @include make-smartphone {
+                    @include media_query.make-smartphone {
                         display: block;
                     }
 
                     .error-container {
                         .error {
-                            padding: $gap-vertical * 0.25;
+                            padding: sizes.$gap-vertical * 0.25;
                         }
 
                         &.error-container-enter {
@@ -196,7 +199,7 @@ $form-control-icon-size: $row-icon-font-size;
         // `header` class: header of the form.
         > .header {
             h3 {
-                @include make-gap(padding, horizontal);
+                @include sizes.make-gap(padding, horizontal);
             }
         }
 
@@ -221,7 +224,7 @@ $form-control-icon-size: $row-icon-font-size;
 
         // `set` class: the set contains the inputs of the form.
         .set {
-            @include make-gap(padding, right);
+            @include sizes.make-gap(padding, right);
 
             display: flex;
             flex: 1;
@@ -230,14 +233,14 @@ $form-control-icon-size: $row-icon-font-size;
                 flex: initial;
 
                 &:not(:last-child) {
-                    @include make-gap(margin, right);
+                    @include sizes.make-gap(margin, right);
                 }
             }
         }
 
         // `controls` subclass: buttons of the form
         .controls {
-            @include make-controls($field-height, $control-font-size, $control-icon-size);
+            @include control.make-controls($field-height, $control-font-size, $control-icon-size);
         }
     }
 
@@ -268,14 +271,14 @@ $form-control-icon-size: $row-icon-font-size;
 
             // give an appareance
             &:not(.faked) {
-                @include make-gap(padding, horizontal);
+                @include sizes.make-gap(padding, horizontal);
 
-                background: $neutral-soft;
+                background: colors.$neutral-soft;
 
                 &:focus,
                 &.focus,
                 &[type="checkbox"]:focus + .marker {
-                    background: $neutral-clear !important;
+                    background: colors.$neutral-clear !important;
                 }
             }
 
@@ -296,7 +299,7 @@ $form-control-icon-size: $row-icon-font-size;
             select,
             .fake {
                 &:not(.faked) {
-                    background: darken($neutral-soft, 8%);
+                    background: darken(colors.$neutral-soft, 8%);
                 }
             }
         }
@@ -320,7 +323,7 @@ $form-control-icon-size: $row-icon-font-size;
             select,
             .fake {
                 &:hover:not(:focus):not(.focus) {
-                    background: $neutral-soft-lighter;
+                    background: colors.$neutral-soft-lighter;
                 }
             }
         }
@@ -518,18 +521,18 @@ $form-control-icon-size: $row-icon-font-size;
             .label:hover + .input .radio-input,
             .radio-input:hover {
                 label.marker {
-                    background: $neutral-soft-light;
+                    background: colors.$neutral-soft-light;
                 }
             }
 
             // handle hover in options
             .radio-option:hover label.marker {
-                background: $neutral-soft-lighter;
+                background: colors.$neutral-soft-lighter;
             }
 
             // handle focus
             .radio-option input:focus + label.marker {
-                background: $neutral-soft-lighter;
+                background: colors.$neutral-soft-lighter;
             }
         }
 
@@ -570,11 +573,11 @@ $form-control-icon-size: $row-icon-font-size;
 
             // add style to marker when checked
             input:checked + label.marker::after {
-                @include square($field-height * 0.5);
+                @include preboot.square($field-height * 0.5);
+                @include fonts.make-font-icon;
 
                 color: $text-dark;
                 content: "\f00c";
-                font-family: FontAwesome;
                 font-size: 1.3em;
                 line-height: $field-height * 0.5;
                 position: absolute;
@@ -656,7 +659,7 @@ $form-control-icon-size: $row-icon-font-size;
             .label:hover + .input .toggle-input,
             .label:hover + .input .checkbox-input {
                 label.marker {
-                    background: $neutral-soft-lighter;
+                    background: colors.$neutral-soft-lighter;
                 }
             }
 
@@ -703,7 +706,7 @@ $form-control-icon-size: $row-icon-font-size;
 
             .preview {
                 background: hsl(0, $hue-input-saturation, $hue-input-luminosity);
-                color: change-color($text-dark, $alpha: 0.5);
+                color: change-color(colors.$text-dark, $alpha: 0.5);
                 flex-shrink: 0;
                 font-size: medium;
                 font-weight: 700;
@@ -745,8 +748,8 @@ $form-control-icon-size: $row-icon-font-size;
                 @mixin thumb() {
                     @include square($track-height);
 
-                    background: $text-dark;
-                    border: $track-height solid $text-dark;
+                    background: colors.$text-dark;
+                    border: $track-height solid colors.$text-dark;
                     box-sizing: content-box;
                 }
 

@@ -4,8 +4,10 @@
 // Users management user edit page style file
 //
 
+@use "style/base/sizes";
+
 #users-edit {
     .form {
-        @include make-gap(padding, vertical);
+        @include sizes.make-gap(padding, vertical);
     }
 }

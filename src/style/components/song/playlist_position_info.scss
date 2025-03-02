@@ -4,23 +4,26 @@
 // Playlist position info style file
 //
 
+@use "style/thirdparty/preboot";
+@use "style/base/sizes";
+@use "style/base/colors";
 
 // `playlist-position-info` class:
 //
 // Data relative to the status of the song in the playlist.
 .playlist-position-info {
-    background: $brand-info;
+    background: colors.$brand-info;
     box-sizing: border-box;
-    color: $text-dark;
+    color: colors.$text-dark;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 0 0.5em;
     text-align: center;
-    width: 2 * $listing-entry-height;
+    width: 2 * sizes.$row-height;
 
     .owner {
-        @include text-truncate();
+        @include preboot.text-truncate();
 
         font-size: 0.85em;
         margin-bottom: 0.25em;
@@ -54,14 +57,14 @@
         overflow: hidden;
 
         &.playlist-position-info-enter-active {
-            max-width: (2 * $listing-entry-height);
+            max-width: (2 * sizes.$row-height);
             transition: max-width 300ms ease-out;
         }
     }
 
     // disappearance transition of the playlist info class
     &.playlist-position-info-exit {
-        max-width: (2 * $listing-entry-height);
+        max-width: (2 * sizes.$row-height);
         overflow: hidden;
 
         &.playlist-position-info-exit-active {
@@ -75,14 +78,14 @@
 .listing-entry {
     &:nth-child(2n) {
         .playlist-position-info {
-            background: $brand-info-light;
+            background: colors.$brand-info-light;
         }
     }
 
     .hoverizable:hover,
     &.hoverizable:hover {
         .playlist-position-info {
-            background: $brand-info-lighter;
+            background: colors.$brand-info-lighter;
         }
     }
 }

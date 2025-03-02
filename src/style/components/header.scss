@@ -4,12 +4,15 @@
 // Header style file
 //
 
+@use "style/base/sizes";
+@use "style/base/colors";
+@use "style/base/media_query";
 
 // header sizes
-$header-height: $tab-bar-height;
+$header-height: sizes.$row-height;
 
 #header {
-    background: darken($neutral-mid, 3%);
+    background: darken(colors.$neutral-mid, 3%);
     display: flex;
     height: $header-height;
     justify-content: space-between;
@@ -17,12 +20,12 @@ $header-height: $tab-bar-height;
     z-index: 1200;
 
     h1 {
-        @include make-gap(padding, horizontal);
+        @include sizes.make-gap(padding, horizontal);
 
         font-size: xx-large;
-        line-height: $tab-bar-height * 0.9;
+        line-height: $header-height * 0.9;
 
-        @include make-smartphone {
+        @include media_query.make-smartphone {
             font-size: x-large;
         }
 

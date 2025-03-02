@@ -4,6 +4,9 @@
 // Song library entry style file
 //
 
+@use "style/thirdparty/preboot";
+@use "style/base/media_query";
+@use "style/base/sizes";
 
 // `library-entry-song` subclass:
 //
@@ -26,7 +29,7 @@
     .library-entry-song-compact {
         display: flex;
 
-        @include make-smartphone {
+        @include media_query.make-smartphone {
             flex-direction: column;
         }
 
@@ -34,17 +37,17 @@
         .song {
             cursor: pointer;
             flex: 1;
-            min-height: $listing-entry-height;
+            min-height: sizes.$row-height;
 
             .general {
-                @include make-vertical-row-padding(horizontal);
+                @include sizes.make-vertical-row-padding(horizontal);
 
-                @include make-smartphone {
+                @include media_query.make-smartphone {
                     align-items: initial;
                     flex-direction: column;
 
                     .artist-work {
-                        @include make-smartphone {
+                        @include media_query.make-smartphone {
                             display: none;
                         }
                     }
@@ -56,8 +59,8 @@
         .extra {
             display: flex;
 
-            @include make-smartphone {
-                height: $listing-entry-height;
+            @include media_query.make-smartphone {
+                height: sizes.$row-height;
                 justify-content: flex-end;
             }
 
@@ -70,7 +73,7 @@
     // if the song si expanded, disable truncature of text in song header
     &.expanded .library-entry-song-compact .song .general .header {
         // disallow text truncate, thus allow text to spread on several lines
-        @include text-untruncate();
+        @include preboot.text-untruncate();
 
         // allow words to break
         overflow-wrap: break-word;
@@ -82,14 +85,14 @@
         // It should not be used with the `hoverized` subclass, otherwise some
         // hover will be wrong.
         .instrumental {
-            padding-bottom: $gap-vertical;
+            padding-bottom: sizes.$gap-vertical;
 
             .controls {
-                height: $listing-entry-height;
+                height: sizes.$row-height;
                 justify-content: flex-end;
 
                 .text {
-                    line-height: $listing-entry-height;
+                    line-height: sizes.$row-height;
                     padding-right: 0.5em;
                 }
 
@@ -120,14 +123,14 @@
             overflow: hidden;
 
             &.expand-view-enter-active {
-                max-height: 10 * 0.75 * $listing-entry-height;
+                max-height: 10 * 0.75 * sizes.$row-height;
                 transition: max-height 600ms ease-out;
             }
         }
 
         // disappearance transition of the expanded view
         &.expand-view-exit {
-            max-height: 10 * 0.75 * $listing-entry-height;
+            max-height: 10 * 0.75 * sizes.$row-height;
             overflow: hidden;
 
             &.expand-view-exit-active {
@@ -141,7 +144,7 @@
     &.add-remove-enter.add-remove-enter-active,
     &.add-remove-exit {
         @include make-smartphone {
-            height: (2 * $listing-entry-height);
+            height: (2 * sizes.$row-height);
         }
     }
 }

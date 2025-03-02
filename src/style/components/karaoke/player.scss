@@ -4,42 +4,46 @@
 // Player style file
 //
 
+@use "style/thirdparty/preboot";
+@use "style/base/sizes";
+@use "style/base/colors";
+@use "style/base/media_query";
+@use "style/components/generics/control";
 
 // player sizes
 $player-controls-height: 6rem;
-$player-controls-height-smartphone: $row-height;
+$player-controls-height-smartphone: sizes.$row-height;
 $player-timing-height: 6.5rem;
 $player-progressbar-height: 0.4rem;
-
 
 // `player` id:
 //
 // This component stylizes the player, containing controls, song info and a
 // progression bar.
 #player {
-    background: $brand-primary-darker;
-    color: $brand-primary;
+    background: colors.$brand-primary-darker;
+    color: colors.$brand-primary;
     position: sticky;
     top: 0;
 
-    @include make-smartphone {
+    @include media_query.make-smartphone {
         top: 0;
     }
 
     // if the player has controls activated, the player-sticky item will hide
     // the controls item on scroll
     &.with-controls {
-        top: -$player-controls-height - $gap-vertical;
+        top: -$player-controls-height - sizes.$gap-vertical;
 
         @include make-smartphone {
-            top: -$player-controls-height-smartphone - $gap-vertical-smartphone;
+            top: -$player-controls-height-smartphone - sizes.$gap-vertical-smartphone;
         }
     }
 
     .player-sticky {
         @include make-gap(padding, vertical);
 
-        background: $brand-primary-darker;
+        background: colors.$brand-primary-darker;
         position: sticky;
         top: 0;
         z-index: 1100;
@@ -57,14 +61,14 @@ $player-progressbar-height: 0.4rem;
 
             // `use-instrumental` subclass: indicate if the playlist entry use the instrumental track.
             .use-instrumental {
-                @include make-gap(margin, left);
+                @include sizes.make-gap(margin, left);
 
                 font-size: 1.45em;
             }
 
             // `entry-info` sublcass: show info about the playlist entry (song + playing request)
             .entry-info {
-                @include make-gap(margin, horizontal);
+                @include sizes.make-gap(margin, horizontal);
 
                 cursor: pointer;
                 min-height: $player-controls-height;
@@ -72,7 +76,7 @@ $player-progressbar-height: 0.4rem;
                 transition: all 0.3s ease-out;
 
                 .song-title {
-                    @include text-truncate();
+                    @include preboot.text-truncate();
 
                     font-size: 1.5em;
                     font-weight: 300;
@@ -84,7 +88,7 @@ $player-progressbar-height: 0.4rem;
                 }
 
                 .song-artists {
-                    @include text-truncate();
+                    @include preboot.text-truncate();
 
                     // display artists in one line
                     .artist-widget {
@@ -99,12 +103,12 @@ $player-progressbar-height: 0.4rem;
                 .song-works {
                     .title-group {
                         .subtitle {
-                            color: change-color($brand-primary, $alpha: 0.75);
+                            color: change-color(colors.$brand-primary, $alpha: 0.75);
                         }
                     }
 
                     .link {
-                        border-color: change-color($brand-primary, $alpha: 0.75);
+                        border-color: change-color(colors.$brand-primary, $alpha: 0.75);
                     }
                 }
             }
@@ -126,7 +130,7 @@ $player-progressbar-height: 0.4rem;
                 }
             }
 
-            @include make-gap(margin, right);
+            @include sizes.make-gap(margin, right);
             @include make-timing(0.7);
 
             // shrink the timing class element first when resizing, up to
@@ -137,7 +141,7 @@ $player-progressbar-height: 0.4rem;
             overflow: hidden;
             text-align: right;
 
-            @include make-smartphone {
+            @include media_query.make-smartphone {
                 @include make-timing(0.7);
             }
 
@@ -146,21 +150,21 @@ $player-progressbar-height: 0.4rem;
             }
 
             .duration {
-                color: change-color($brand-primary, $alpha: 0.85);
+                color: change-color(colors.$brand-primary, $alpha: 0.85);
             }
         }
     }
 
     // `controls` class: buttons to send commands to the player.
     .controls {
-        @include make-gap(padding, bottom);
-        @include make-controls($player-controls-height, 1.5em);
+        @include sizes.make-gap(padding, bottom);
+        @include control.make-controls($player-controls-height, 1.5em);
 
         align-items: center;
         display: flex;
 
-        @include make-smartphone {
-            @include make-controls($player-controls-height-smartphone, 1.1em);
+        @include media_query.make-smartphone {
+            @include control.make-controls($player-controls-height-smartphone, 1.1em);
         }
 
         &.expand-enter {
@@ -171,7 +175,7 @@ $player-progressbar-height: 0.4rem;
                 max-height: $player-controls-height;
                 transition: max-height 300ms ease-out;
 
-                @include make-smartphone {
+                @include media_query.make-smartphone {
                     max-height: $row-height;
                 }
             }
@@ -181,7 +185,7 @@ $player-progressbar-height: 0.4rem;
             max-height: $player-controls-height;
             overflow-y: hidden;
 
-            @include make-smartphone {
+            @include media_query.make-smartphone {
                 max-height: $row-height;
             }
 
@@ -247,7 +251,7 @@ $player-progressbar-height: 0.4rem;
             }
 
             @mixin make-value() {
-                background: $brand-primary-dark;
+                background: colors.$brand-primary-dark;
             }
 
             & {
@@ -257,7 +261,7 @@ $player-progressbar-height: 0.4rem;
 
             & {
                 // for ie
-                color: $brand-primary-dark;
+                color: colors.$brand-primary-dark;
             }
 
             &::-moz-progress-bar {
@@ -292,10 +296,10 @@ $player-progressbar-height: 0.4rem;
                 animation: sliding-animation 1s linear infinite;
                 background: repeating-linear-gradient(
                     -45deg,
-                    $brand-primary-dark,
-                    $brand-primary-dark 2rem,
-                    $brand-primary-darker 2rem,
-                    $brand-primary-darker 4rem
+                    colors.$brand-primary-dark,
+                    colors.$brand-primary-dark 2rem,
+                    colors.$brand-primary-darker 2rem,
+                    colors.$brand-primary-darker 4rem
                 );
             }
 

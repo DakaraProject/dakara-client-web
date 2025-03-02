@@ -4,10 +4,13 @@
 // Listing style file
 //
 
+@use "style/base/colors";
+@use "style/base/sizes";
+@use "style/components/generics/control";
 
 // listing sizes
-$listing-entry-height: $row-height;
-$listing-entry-control-font-size: $row-icon-font-size;
+$listing-entry-height: sizes.$row-height;
+$listing-entry-control-font-size: sizes.$row-icon-font-size;
 
 
 // `listing` class:
@@ -41,7 +44,7 @@ $listing-entry-control-font-size: $row-icon-font-size;
 .listing {
     // background is darker than actual rows in order to separate them
     // when the listing has a fixed height
-    background: darken($neutral-mid, 3%);
+    background: darken(colors.$neutral-mid, 3%);
     margin: 0;
     overflow-x: hidden;
     padding: 0;
@@ -52,10 +55,10 @@ $listing-entry-control-font-size: $row-icon-font-size;
 
     .listing-entry {
         // normal and alternate row colors
-        background: $neutral-mid;
+        background: colors.$neutral-mid;
 
         &:nth-child(2n) {
-            background: $neutral-mid-light;
+            background: colors.$neutral-mid-light;
         }
 
         // optionnal hoverizable feature
@@ -64,7 +67,7 @@ $listing-entry-control-font-size: $row-icon-font-size;
         &.hoverizable {
             &:hover,
             &:focus {
-                background: $neutral-mid-lighter;
+                background: colors.$neutral-mid-lighter;
             }
         }
 
@@ -98,7 +101,7 @@ $listing-entry-control-font-size: $row-icon-font-size;
 
         // manage controls
         .controls {
-            @include make-controls($listing-entry-height, $listing-entry-control-font-size);
+            @include control.make-controls($listing-entry-height, $listing-entry-control-font-size);
 
             // in listings, controls are close one to other with no space
             // inbetween
@@ -169,12 +172,12 @@ table.listing {
 
         // add padding
         &:not(.controls-col):not(.notification-col) {
-            @include make-vertical-row-padding();
-            @include make-gap(padding, left);
+            @include sizes.make-vertical-row-padding();
+            @include sizes.make-gap(padding, left);
 
             &:last-child,
             &.last {
-                @include make-gap(padding, right);
+                @include sizes.make-gap(padding, right);
             }
         }
     }

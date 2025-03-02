@@ -4,12 +4,14 @@
 // Artist widget style file
 //
 
+@use "style/thirdparty/preboot";
+
 // `artist-widget` class:
 //
 // This module is used to style an artist.
 .artist-widget {
     &.truncatable {
-        @include text-truncate();
+        @include preboot.text-truncate();
     }
 
     .icon {

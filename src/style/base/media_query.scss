@@ -4,7 +4,6 @@
 // Media query definition file
 //
 
-
 // target small devices only
 @mixin make-smartphone {
     @media (max-width: 481px) {@content;};

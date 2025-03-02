@@ -4,12 +4,15 @@
 // Error page style file
 //
 
+@use "style/base/sizes";
+@use "style/base/colors";
+
 #error-page {
     .url {
-        @include make-gap(padding, horizontal);
+        @include sizes.make-gap(padding, horizontal);
 
-        background: $brand-danger;
-        color: $brand-danger-darker;
+        background: colors.$brand-danger;
+        color: colors.$brand-danger-darker;
         display: inline-block;
         font-size: 1.1em;
         line-height: 1.5em;
@@ -18,8 +21,8 @@
         margin-right: 0;
 
         &::selection {
-            background: $brand-danger-darker;
-            color: $brand-danger;
+            background: colors.$brand-danger-darker;
+            color: colors.$brand-danger;
         }
     }
 }

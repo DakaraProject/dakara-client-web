@@ -4,28 +4,28 @@
 // Karaoke style file
 //
 
-
-@import "playlist_info_bar";
-@import "player";
-@import "kara_status_notification";
-
+@use "style/base/media_query";
+@use "style/base/sizes";
+@use "style/components/karaoke/playlist_info_bar";
+@use "style/components/karaoke/player";
+@use "style/components/karaoke/kara_status_notification";
 
 #karaoke {
     position: sticky;
-    top: -$playlist-info-bar-height;
+    top: -playlist_info_bar.$playlist-info-bar-height;
     z-index: 1000;
 
     @include make-smartphone {
-        top: -$playlist-info-bar-height-smartphone;
+        top: -playlist_info_bar.$playlist-info-bar-height-smartphone;
     }
 
     // if the player has controls activated, the player item will hide the
     // playlist-info-bar item on scroll
     &.player-with-controls {
-        top: -$playlist-info-bar-height - $player-controls-height - $gap-vertical;
+        top: -playlist_info_bar.$playlist-info-bar-height - player.$player-controls-height - sizes.$gap-vertical;
 
         @include make-smartphone {
-            top: -$playlist-info-bar-height-smartphone - $player-controls-height-smartphone - $gap-vertical-smartphone;
+            top: -playlist_info_bar.$playlist-info-bar-height-smartphone - player.$player-controls-height-smartphone - sizes.$gap-vertical-smartphone;
         }
     }
 }

@@ -4,9 +4,12 @@
 // Tab bar style file
 //
 
+@use "style/thirdparty/preboot";
+@use "style/base/sizes";
+@use "style/base/colors";
 
 // tab bar sizes
-$tab-bar-height: $row-height;
+$tab-bar-height: sizes.$row-height;
 $tab-bar-icon-font-size: 1.25em;
 
 
@@ -30,10 +33,10 @@ $tab-bar-icon-font-size: 1.25em;
     display: flex;
 
     .tab {
-        @include make-gap(padding, horizontal);
-        @include text-truncate();
+        @include sizes.make-gap(padding, horizontal);
+        @include preboot.text-truncate();
 
-        background: $neutral-mid;
+        background: colors.$neutral-mid;
         color: inherit;
         cursor: pointer;
         height: $tab-bar-height;
@@ -56,12 +59,12 @@ $tab-bar-icon-font-size: 1.25em;
         }
 
         &:nth-child(2n) {
-            background: $neutral-mid-light;
+            background: colors.$neutral-mid-light;
         }
 
         &.active {
-            background: $neutral-clear;
-            color: $neutral-mid;
+            background: colors.$neutral-clear;
+            color: colors.$neutral-mid;
             cursor: default;
         }
 
@@ -77,7 +80,7 @@ $tab-bar-icon-font-size: 1.25em;
 
         &:hover:not(.active),
         &:focus:not(.active) {
-            background: $neutral-mid-lighter;
+            background: colors.$neutral-mid-lighter;
         }
 
         .icon {

@@ -4,6 +4,7 @@
 // Colors style file
 //
 
+@use "~/thirdparty/preboot";
 
 // stylelint-disable
 
@@ -57,9 +58,9 @@ $brand-danger-lighter:   lighten($brand-danger,   7%);
 $brand-info-lighter:     lighten($brand-info,     7%);
 
 // neutral colors
-$neutral-clear: $black-60;
-$neutral-soft:  $black-70;
-$neutral-mid:   $black-80;
+$neutral-clear: preboot.$black-60;
+$neutral-soft:  preboot.$black-70;
+$neutral-mid:   preboot.$black-80;
 
 // light neutral corors
 $neutral-clear-light:    lighten($neutral-clear, 2.5%);
@@ -72,8 +73,8 @@ $neutral-soft-lighter:   lighten($neutral-soft,  7%);
 $neutral-mid-lighter:    lighten($neutral-mid,   7%);
 
 // text colors
-$text-light: $black-60;
-$text-dark:  $black-90;
+$text-light: preboot.$black-60;
+$text-dark:  preboot.$black-90;
 
 // custom colors saturation and luminosity
 $custom-color-saturation: 55%;

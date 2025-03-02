@@ -4,11 +4,12 @@
 // Sublisting style file
 //
 
+@use "style/base/colors";
+@use "style/base/sizes";
 
 // sublisting sizes
-$sublisting-entry-height: $subrow-height;
-$sublisting-entry-control-font-size: $subrow-icon-font-size;
-
+$sublisting-entry-height: sizes.$subrow-height;
+$sublisting-entry-control-font-size: sizes.$subrow-icon-font-size;
 
 // `sublisting` class:
 //
@@ -24,20 +25,20 @@ $sublisting-entry-control-font-size: $subrow-icon-font-size;
         $height: $sublisting-entry-height;
 
         align-items: center;
-        background: darken($neutral-mid, 2%);
+        background: darken(colors.$neutral-mid, 2%);
         display: flex;
         min-height: $height;
 
         &:nth-child(even) {
-            background: darken($neutral-mid, 1%);
+            background: darken(colors.$neutral-mid, 1%);
 
             .listing-entry:nth-child(even) {
-                background: darken($neutral-mid-light, 2%);
+                background: darken(colors.$neutral-mid-light, 2%);
             }
         }
 
         .listing-entry:nth-child(even) {
-            background: darken($neutral-mid-light, 3%);
+            background: darken(colors.$neutral-mid-light, 3%);
         }
 
         .controls {

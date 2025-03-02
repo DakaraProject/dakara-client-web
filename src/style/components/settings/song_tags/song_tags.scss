@@ -4,6 +4,8 @@
 // Tags management page style file
 //
 
+@use "style/base/sizes";
+
 #song-tag-list {
     .song-tag-list-listing {
         .name {
@@ -11,7 +13,7 @@
         }
 
         .listing-header .color {
-            @include make-gap(padding, right);
+            @include sizes.make-gap(padding, right);
 
             text-align: right;
         }
@@ -37,7 +39,7 @@
         .color,
         .enableness {
             .form {
-                height: $listing-entry-height;
+                height: sizes.$row-height;
                 justify-content: center;
             }
         }
@@ -85,7 +87,7 @@
 
                 .display-color {
                     height: 100%;
-                    width: $listing-entry-height;
+                    width: sizes.$row-height;
                 }
             }
         }

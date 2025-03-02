@@ -4,26 +4,26 @@
 // Library style file
 //
 
-
-@import "song";
-@import "work_and_artist";
-@import "artist";
-@import "work";
-
+@use "style/base/colors";
+@use "style/base/sizes";
+@use "style/components/generics/control";
+@use "style/components/library/song";
+@use "style/components/library/work_and_artist";
+@use "style/components/library/artist";
+@use "style/components/library/work";
 
 // `library` id:
 //
 // This component stylises the library, which contains a library chooser, a
 // searchbox, a container of library entries and a navigator.
 #library {
-
     // Query box for searching items depending on the page
     // That is, songs for Songs library, artists for Artists library and works
     // (anime, game...) for Works library
     .library-searchbox {
-        @include make-gap(padding, vertical);
+        @include sizes.make-gap(padding, vertical);
 
-        background: $brand-primary-darker;
+        background: colors.$brand-primary-darker;
 
         .set {
             .field {
@@ -38,7 +38,7 @@
                     }
 
                     .controls {
-                        @include make-controls($form-field-height, 1.25em);
+                        @include control.make-controls($form-field-height, 1.25em);
                     }
                 }
             }
@@ -52,22 +52,22 @@
         }
 
         .help {
-            @include make-gap(padding, top);
+            @include sizes.make-gap(padding, top);
 
-            color: $brand-primary;
+            color: colors.$brand-primary;
 
             &.help-enter {
                 max-height: 0;
                 overflow: hidden;
 
                 &.help-enter-active {
-                    max-height: (3 * $listing-entry-height);
+                    max-height: (3 * sizes.$row-height);
                     transition: max-height 300ms ease-out;
                 }
             }
 
             &.help-exit {
-                max-height: (3 * $listing-entry-height);
+                max-height: (3 * sizes.$row-height);
                 overflow: hidden;
 
                 &.help-exit-active {
@@ -77,7 +77,7 @@
             }
 
             .example {
-                color: $brand-primary-lighter;
+                color: colors.$brand-primary-lighter;
             }
         }
     }

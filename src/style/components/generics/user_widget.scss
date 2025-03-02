@@ -4,12 +4,13 @@
 // User widget style file
 //
 
+@use "style/base/media_query";
 
 .user-widget {
     white-space: nowrap;
 
     &:not(.no-resize) {
-        @include make-smartphone {
+        @include media_query.make-smartphone {
             font-size: 0.85em;
         }
     }

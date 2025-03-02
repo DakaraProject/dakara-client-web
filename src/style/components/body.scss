@@ -4,10 +4,11 @@
 // HTML body style file
 //
 
+@use "style/base/colors";
 
 body {
-    background: $text-dark;
-    color: $text-light;
+    background: colors.$text-dark;
+    color: colors.$text-light;
     margin: 0;
     padding: 0;
 }

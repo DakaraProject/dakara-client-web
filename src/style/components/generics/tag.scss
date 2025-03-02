@@ -4,6 +4,9 @@
 // Tags style file
 //
 
+@use "style/base/colors";
+@use "style/base/sizes";
+@use "style/base/fonts";
 
 // `tag` class:
 //
@@ -15,16 +18,16 @@
 .tag {
     $color: hsl(0, $custom-color-saturation, $custom-color-luminosity);
 
-    @include make-font();
+    @include fonts.make-font();
 
     background-color: $color;
     border-style: none;
-    color: change-color($text-dark, $alpha: 0.5);
+    color: change-color(colors.$text-dark, $alpha: 0.5);
     display: inline-block;
     font-size: medium;
     font-weight: 700;
     outline: none;
-    padding: 0 $gap-horizontal;
+    padding: 0 sizes.$gap-horizontal;
 
     &.clickable {
         cursor: pointer;

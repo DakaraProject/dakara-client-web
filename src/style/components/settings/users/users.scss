@@ -4,9 +4,10 @@
 // Users management page style file
 //
 
+@use "style/base/media_query";
+@use "style/base/sizes";
 
-@import "edit";
-
+@use "style/components/users/edit";
 
 #users-list {
     .users-list {
@@ -19,22 +20,22 @@
                 overflow: hidden;
                 overflow-wrap: break-word;
 
-                @include make-tablet {
+                @include media_query.make-tablet {
                     max-width: calc(
                         100vw /* the width of the window */
-                        - 2 * #{$listing-entry-height} /* the control-col with 2 controls */
-                        - 1.5 * #{$listing-entry-height} /* the superuser col */
-                        - 3 * 1.5 * #{$listing-entry-height} /* 3 permission cols */
-                        - 0.3 * #{$listing-entry-height} /* arbitrary coefficient */
+                        - 2 * #{sizes.$row-height} /* the control-col with 2 controls */
+                        - 1.5 * #{sizes.$row-height} /* the superuser col */
+                        - 3 * 1.5 * #{sizes.$row-height} /* 3 permission cols */
+                        - 0.3 * #{sizes.$row-height} /* arbitrary coefficient */
                     );
                 }
 
-                @include make-smartphone {
+                @include media_query.make-smartphone {
                     max-width: calc(
                         100vw /* the width of the window */
-                        - 2 * #{$listing-entry-height} /* the control-col with 2 controls */
-                        - #{$listing-entry-height} /* the superuser col */
-                        - 3 * #{$listing-entry-height} /* 3 permission cols */
+                        - 2 * #{sizes.$row-height} /* the control-col with 2 controls */
+                        - #{sizes.$row-height} /* the superuser col */
+                        - 3 * #{sizes.$row-height} /* 3 permission cols */
                     );
                 }
             }
@@ -42,7 +43,7 @@
             .permission {
                 text-align: center;
 
-                @include make-smartphone {
+                @include media_query.make-smartphone {
                     .permission-text {
                         text-transform: uppercase;
 
@@ -62,6 +63,6 @@
     }
 
     .create-user {
-        @include make-gap(padding, vertical);
+        @include sizes.make-gap(padding, vertical);
     }
 }

@@ -4,6 +4,8 @@
 // Work and artist library entry style file
 //
 
+@use "style/base/sizes";
+@use "style/base/colors";
 
 // `library-entry-work` subclass,
 // `library-entry-artist` subclass:
@@ -24,7 +26,7 @@
         overflow: hidden;
 
         .header {
-            @include make-vertical-row-padding(horizontal);
+            @include sizes.make-vertical-row-padding(horizontal);
 
             flex: 1;
 
@@ -38,13 +40,13 @@
         .songs-amount {
             align-items: center;
             align-self: stretch;
-            background: $neutral-clear;
-            color: $neutral-mid;
+            background: colos.colors.$neutral-clear;
+            color: colors.$neutral-mid;
             display: flex;
             flex-shrink: 0;
             font-size: 0.85em;
             justify-content: center;
-            width: $listing-entry-height;
+            width: sizes.$row-height;
 
             .icon {
                 padding-right: 0.5em;
@@ -53,10 +55,10 @@
     }
 
     &:nth-child(2n) .songs-amount {
-        background: $neutral-clear-light;
+        background: colors.$neutral-clear-light;
     }
 
     &:hover .songs-amount {
-        background: $neutral-clear-lighter;
+        background: colors.$neutral-clear-lighter;
     }
 }

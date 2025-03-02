@@ -4,6 +4,9 @@
 // Main div style file
 //
 
+@use "style/thirdparty/preboot";
+@use "style/base/sizes";
+@use "style/base/media_query";
 
 #main {
     display: flex;
@@ -15,10 +18,10 @@
         flex-direction: column;
         flex-grow: 1;
 
-        @include make-desktop {
-            @include center-block();
+        @include media_query.make-desktop {
+            @include preboot.center-block();
 
-            width: $page-width-max;
+            width: sizes.$page-width-max;
         }
 
         > .content {

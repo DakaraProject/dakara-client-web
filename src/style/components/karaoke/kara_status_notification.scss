@@ -4,10 +4,11 @@
 // Notification for player status style file
 //
 
+@use "style/base/sizes";
 
 // kara status notification sizes
-$kara-status-notification-height: $form-field-height;
-$kara-status-notification-font-size: $form-control-font-size;
+$kara-status-notification-height: sizes.$row-height;
+$kara-status-notification-font-size: 1.25em;
 
 
 // `kara-status-notification` class: message displayed to the playlist
@@ -18,13 +19,13 @@ $kara-status-notification-font-size: $form-control-font-size;
     }
 
     .ribbon {
-        @include make-gap(padding, vertical);
+        @include sizes.make-gap(padding, vertical);
 
         align-items: center;
         display: flex;
 
         .control {
-            @include make-gap(padding, horizontal);
+            @include sizes.make-gap(padding, horizontal);
 
             font-size: $kara-status-notification-font-size;
             line-height: $kara-status-notification-height;

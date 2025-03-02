@@ -4,6 +4,7 @@
 // Sizes style file
 //
 
+@use "~/base/media_query";
 
 // gap sizes
 $gap-horizontal: 1.5rem;
@@ -88,7 +89,7 @@ body {
 
     // apply the rule
     #{$property}: $value;
-    @include make-smartphone {
+    @include media_query.make-smartphone {
         #{$property}: $value-smartphone;
     }
 }
@@ -102,7 +103,7 @@ body {
     padding-bottom: calc(($gap-horizontal / 4) * $factor);
     padding-top: calc(($gap-horizontal / 4) * $factor);
 
-    @include make-smartphone {
+    @include media_query.make-smartphone {
         padding-bottom: calc(($gap-horizontal-smartphone / 3) * $factor);
         padding-top: calc(($gap-horizontal-smartphone / 3) * $factor);
     }
@@ -125,4 +126,3 @@ body {
         margin-right: 0;
     }
 }
-

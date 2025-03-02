@@ -4,32 +4,9 @@
 // Controls style file
 //
 
-
-// `make-controls` function:
-//
-// The function has to be called wherever a `controls` class is used. It defines
-// the size of the controls.
-//
-// Arguments:
-//      $height: heigth and width of the control box.
-//      $font-size: relative size of the text in the control.
-//      $icon-size: relative size of the icon of the control. This value is made
-//          independant of $font-size.
-@mixin make-controls($height, $font-size: 1em, $icon-size: $font-size) {
-    > .control,
-    .subcontrols > .control {
-        @include square($height);
-
-        font-size: $font-size;
-        min-width: $height;
-
-        .icon {
-            $size: calc($icon-size / $font-size * 1em);
-            font-size: $size;
-        }
-    }
-}
-
+@use "~/base/colors";
+@use "~/base/controls";
+@use "~/base/sizes";
 
 // `controls` class:
 //
@@ -52,7 +29,7 @@
     .control {
         align-items: center;
         border-style: none;
-        color: $text-dark;
+        color: colors.$text-dark;
         cursor: pointer;
         display: flex;
         justify-content: center;
@@ -61,7 +38,7 @@
 
         // spacing between controls
         &:not(:last-child) {
-            @include make-gap(margin, right);
+            @include sizes.make-gap(margin, right);
         }
 
         // if the control contains a picture, it is vertically centered
@@ -87,23 +64,23 @@
         }
 
         &.primary {
-            @include make-control($brand-primary, $brand-primary-dark, $brand-primary-lighter);
+            @include make-control(colors.$brand-primary, colors.$brand-primary-dark, colors.$brand-primary-lighter);
         }
 
         &.success {
-            @include make-control($brand-success, $brand-success-dark, $brand-success-lighter);
+            @include make-control(colors.$brand-success, colors.$brand-success-dark, colors.$brand-success-lighter);
         }
 
         &.warning {
-            @include make-control($brand-warning, $brand-warning-dark, $brand-warning-lighter);
+            @include make-control(colors.$brand-warning, colors.$brand-warning-dark, colors.$brand-warning-lighter);
         }
 
         &.danger {
-            @include make-control($brand-danger, $brand-danger-dark, $brand-danger-lighter);
+            @include make-control(colors.$brand-danger, colors.$brand-danger-dark, colors.$brand-danger-lighter);
         }
 
         &.info {
-            @include make-control($brand-info, $brand-info-dark, $brand-info-lighter);
+            @include make-control(colors.$brand-info, colors.$brand-info-dark, colors.$brand-info-lighter);
         }
     }
 
@@ -128,23 +105,23 @@
         }
 
         &.primary {
-            @include make-control-line-even($brand-primary-light, $brand-primary-darkened);
+            @include make-control-line-even(colors.$brand-primary-light, colors.$brand-primary-darkened);
         }
 
         &.success {
-            @include make-control-line-even($brand-success-light, $brand-success-darkened);
+            @include make-control-line-even(colors.$brand-success-light, colors.$brand-success-darkened);
         }
 
         &.warning {
-            @include make-control-line-even($brand-warning-light, $brand-warning-darkened);
+            @include make-control-line-even(colors.$brand-warning-light, colors.$brand-warning-darkened);
         }
 
         &.danger {
-            @include make-control-line-even($brand-danger-light, $brand-danger-darkened);
+            @include make-control-line-even(colors.$brand-danger-light, colors.$brand-danger-darkened);
         }
 
         &.info {
-            @include make-control-line-even($brand-info-light, $brand-info-darkened);
+            @include make-control-line-even(colors.$brand-info-light, colors.$brand-info-darkened);
         }
     }
 }
@@ -165,23 +142,23 @@
         }
 
         &.primary {
-            @include make-control-line-hover($brand-primary-lighter, $brand-primary-darkish);
+            @include make-control-line-hover(colors.$brand-primary-lighter, colors.$brand-primary-darkish);
         }
 
         &.success {
-            @include make-control-line-hover($brand-success-lighter, $brand-success-darkish);
+            @include make-control-line-hover(colors.$brand-success-lighter, colors.$brand-success-darkish);
         }
 
         &.warning {
-            @include make-control-line-hover($brand-warning-lighter, $brand-warning-darkish);
+            @include make-control-line-hover(colors.$brand-warning-lighter, colors.$brand-warning-darkish);
         }
 
         &.danger {
-            @include make-control-line-hover($brand-danger-lighter, $brand-danger-darkish);
+            @include make-control-line-hover(colors.$brand-danger-lighter, colors.$brand-danger-darkish);
         }
 
         &.info {
-            @include make-control-line-hover($brand-info-lighter, $brand-info-darkish);
+            @include make-control-line-hover(colors.$brand-info-lighter, colors.$brand-info-darkish);
         }
     }
 }

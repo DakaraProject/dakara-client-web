@@ -4,6 +4,7 @@
 // User page style file
 //
 
+@use "style/base/sizes";
 
 #user {
     .header {
@@ -12,7 +13,7 @@
         flex-wrap: wrap;
 
         .user-name-block {
-            @include make-gap(padding, horizontal);
+            @include sizes.make-gap(padding, horizontal);
 
             overflow: hidden;
             overflow-wrap: break-word;
@@ -34,6 +35,6 @@
     }
 
     .change-email-disabled {
-        @include make-gap(margin, top);
+        @include sizes.make-gap(margin, top);
     }
 }
