@@ -12,7 +12,7 @@
 $header-height: sizes.$row-height;
 
 #header {
-    background: darken(colors.$neutral-mid, 3%);
+    background: colors.$neutral-mid-dark;
     display: flex;
     height: $header-height;
     justify-content: space-between;

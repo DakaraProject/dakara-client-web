@@ -10,7 +10,7 @@
 #footer {
     @include sizes.make-gap(padding, vertical);
 
-    background: darken(colors.$neutral-mid, 3%);
+    background: colors.$neutral-mid-dark;
     margin: 0;
     text-align: right;
 

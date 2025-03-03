@@ -303,7 +303,7 @@ $form-control-icon-size: sizes.$row-icon-font-size;
             select,
             .fake {
                 &:not(.faked) {
-                    background: darken(colors.$neutral-soft, 8%);
+                    background: colors.$neutral-soft-dark;
                 }
             }
         }
@@ -353,7 +353,7 @@ $form-control-icon-size: sizes.$row-icon-font-size;
                 color: colors.$text-dark;
 
                 &::placeholder {
-                    color: darken(colors.$neutral-mid, 3%);
+                    color: colors.$neutral-mid-dark;
 
                     & {
                         // override the way Firefox adds opacity

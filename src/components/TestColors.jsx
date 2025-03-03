@@ -138,6 +138,30 @@ export default function TestColors() {
         'neutral-mid',
     ]
 
+    const colorsNeutralDarkish = [
+        'neutral-clear-darkish',
+        'neutral-soft-darkish',
+        'neutral-mid-darkish',
+    ]
+
+    const colorsNeutralDarkened = [
+        'neutral-clear-darkened',
+        'neutral-soft-darkened',
+        'neutral-mid-darkened',
+    ]
+
+    const colorsNeutralDark = [
+        'neutral-clear-dark',
+        'neutral-soft-dark',
+        'neutral-mid-dark',
+    ]
+
+    const colorsNeutralDarker = [
+        'neutral-clear-darker',
+        'neutral-soft-darker',
+        'neutral-mid-darker',
+    ]
+
     const colorsNeutralLight = [
         'neutral-clear-light',
         'neutral-soft-light',
@@ -164,6 +188,9 @@ export default function TestColors() {
                 <h2>Test colors</h2>
             </div>
             <div className="content">
+                <div className="header">
+                    <h3>Brand colors</h3>
+                </div>
                 <Row name="brand lighter" colors={colorsBrandLighter} />
                 <Row name="brand light" colors={colorsBrandLight} />
                 <Row name="brand" colors={colorsBrand} />
@@ -171,9 +198,16 @@ export default function TestColors() {
                 <Row name="brand darkened" colors={colorsBrandDarkened} />
                 <Row name="brand dark" colors={colorsBrandDark} />
                 <Row name="brand darker" colors={colorsBrandDarker} />
+            </div>
+            <div className="content">
+                <h3>Neutral colors</h3>
                 <Row name="neutral lighter" colors={colorsNeutralLighter} />
                 <Row name="neutral light" colors={colorsNeutralLight} />
                 <Row name="neutral" colors={colorsNeutral} />
+                <Row name="neutral darkish" colors={colorsNeutralDarkish} />
+                <Row name="neutral darkened" colors={colorsNeutralDarkened} />
+                <Row name="neutral dark" colors={colorsNeutralDark} />
+                <Row name="neutral darker" colors={colorsNeutralDarker} />
                 <Row name="text light" colors={colorsTextLight} />
                 <Row name="text dark" colors={colorsTextDark} />
             </div>

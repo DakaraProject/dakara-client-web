@@ -80,7 +80,7 @@
             .text,
             .song-tag-list,
             .paragraph {
-                background: darken(colors.$neutral-mid, 2%);
+                background: colors.$neutral-mid-darkened;
             }
 
             .text,

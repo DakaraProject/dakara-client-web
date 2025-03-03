@@ -44,7 +44,7 @@ $listing-entry-control-font-size: sizes.$row-icon-font-size;
 .listing {
     // background is darker than actual rows in order to separate them
     // when the listing has a fixed height
-    background: darken(colors.$neutral-mid, 3%);
+    background: colors.$neutral-mid-dark;
     margin: 0;
     overflow-x: hidden;
     padding: 0;

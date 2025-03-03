@@ -39,7 +39,7 @@ $brand-primary-darker:   darken($brand-primary, 20%);
 $brand-success-darker:   darken($brand-success, 20%);
 $brand-warning-darker:   darken($brand-warning, 25%);
 $brand-danger-darker:    darken($brand-danger,  26%);
-$brand-info-darker:      darken($brand-info,    20%);
+$brand-info-darker:      darken($brand-info,    26%);
 
 // light brand colors
 $brand-primary-light:    lighten($brand-primary, 2.5%);
@@ -59,6 +59,19 @@ $brand-info-lighter:     lighten($brand-info,     7%);
 $neutral-clear: darken(white, 60%);
 $neutral-soft:  darken(white, 70%);
 $neutral-mid:   darken(white, 80%);
+
+// darkish neutral colors
+$neutral-mid-darkish: darken($neutral-mid, 1%);
+
+// darkened neutral colors
+$neutral-mid-darkened: darken($neutral-mid, 2%);
+
+// dark neutral colors
+$neutral-soft-dark: darken($neutral-soft, 8%);
+$neutral-mid-dark: darken($neutral-mid, 3%);
+
+// darker neutral colors
+$neutral-mid-darker: darken($neutral-mid, 5%);
 
 // light neutral corors
 $neutral-clear-light:    lighten($neutral-clear, 2.5%);

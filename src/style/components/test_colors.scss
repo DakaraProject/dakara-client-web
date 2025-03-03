@@ -52,9 +52,15 @@
             @include make-tile("brand-warning-lighter", colors.$brand-warning-lighter);
             @include make-tile("brand-danger-lighter", colors.$brand-danger-lighter);
             @include make-tile("brand-info-lighter", colors.$brand-info-lighter);
+
             @include make-tile("neutral-clear", colors.$neutral-clear);
             @include make-tile("neutral-soft", colors.$neutral-soft);
             @include make-tile("neutral-mid", colors.$neutral-mid);
+            @include make-tile("neutral-mid-darkish", colors.$neutral-mid-darkish);
+            @include make-tile("neutral-mid-darkened", colors.$neutral-mid-darkened);
+            @include make-tile("neutral-soft-dark", colors.$neutral-soft-dark);
+            @include make-tile("neutral-mid-dark", colors.$neutral-mid-dark);
+            @include make-tile("neutral-mid-darker", colors.$neutral-mid-darker);
             @include make-tile("neutral-clear-light", colors.$neutral-clear-light);
             @include make-tile("neutral-soft-light", colors.$neutral-soft-light);
             @include make-tile("neutral-mid-light", colors.$neutral-mid-light);
