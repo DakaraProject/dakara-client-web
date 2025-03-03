@@ -33,6 +33,7 @@ import SettingsSongTagsList from 'components/settings/songTags/List';
 import SettingsTokens from 'components/settings/Tokens';
 import SettingsUsersEdit from 'components/settings/users/Edit';
 import SettingsUsersList from 'components/settings/users/List';
+import TestColors from 'components/TestColors.jsx';
 import User from 'components/user/User';
 import manageStorageEvent from 'eventManagers/storage';
 import delayMiddleware from 'middleware/delay';
@@ -96,6 +97,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <Route path="tokens" element={<SettingsTokens />} />
               </Route>
             </Route>
+            <Route path="test-colors" element={<TestColors />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Main>
