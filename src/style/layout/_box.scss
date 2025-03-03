@@ -111,7 +111,7 @@ $ribbon-control-height: sizes.$row-height;
 
     // if not subclassed
     &:not(.primary):not(.success):not(.warning):not(.danger):not(.info) {
-        background: darken(colors.$neutral-mid, 5%);
+        background: colors.$neutral-mid-darker;
 
         > .header,
         > .footer {
@@ -165,6 +165,14 @@ $ribbon-control-height: sizes.$row-height;
                 @include controls.make-controls($ribbon-control-height);
             }
         }
+
+        h3,
+        h4,
+        h5,
+        h6 {
+            @include sizes.make-gap(padding, horizontal);
+        }
+
     }
 
     // > .footer {

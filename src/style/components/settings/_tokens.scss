@@ -14,10 +14,6 @@ $ribbon-height: sizes.$row-height;
 
 #tokens {
     .token-box {
-        h3 {
-            @include sizes.make-gap(padding, horizontal);
-        }
-
         .create,
         .created {
             @include sizes.make-gap(margin, top, 0.5);
