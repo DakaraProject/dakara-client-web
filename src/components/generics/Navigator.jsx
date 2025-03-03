@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import { parse } from 'query-string'
 import { Component } from 'react'
-
 import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
+
 import ControlLink from 'components/generics/ControlLink'
 
 class Navigator extends Component {

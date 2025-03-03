@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 
 import { clearAlteration } from 'actions/alterations'
 import {
@@ -9,7 +10,6 @@ import {
     removeEntryFromPlaylist,
     reorderPlaylistEntry
 } from 'actions/playlist'
-import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import PlaylistEntry from 'components/playlist/queueing/Entry'

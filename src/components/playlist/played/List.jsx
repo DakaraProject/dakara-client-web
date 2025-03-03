@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
+import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 
 import {
     loadPlaylistEntries,
 } from 'actions/playlist'
-import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import PlayedEntry from 'components/playlist/played/Entry'

@@ -1,11 +1,11 @@
+import { IsNotSelf, IsUserManager } from 'permissions/Users'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
-
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
+
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import ControlLink from 'components/generics/ControlLink'
 import Notification, { NotifiableForTable } from 'components/generics/Notification'
-import { IsNotSelf, IsUserManager } from 'permissions/Users'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
 import { userPropType } from 'serverPropTypes/users'
 

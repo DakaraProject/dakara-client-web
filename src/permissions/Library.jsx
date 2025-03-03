@@ -1,6 +1,6 @@
+import { PermissionBase } from 'permissions/Base'
 import { connect } from 'react-redux'
 
-import { PermissionBase } from 'permissions/Base'
 import { mapStateToProps } from 'utils/permissions'
 
 /**

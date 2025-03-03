@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { parse } from 'query-string'
 import { Component } from 'react'
 import { connect } from 'react-redux'
+import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
 
 import { verifyRegistration } from 'actions/users'
-import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
 import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
 
 class VerifyRegistration extends Component {

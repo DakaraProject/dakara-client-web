@@ -6,7 +6,6 @@ import {
     Navigate,
     Outlet,
 } from 'react-router-dom'
-
 import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
 
 class ProtectedRoute extends Component {

@@ -1,9 +1,10 @@
+import { IsNotSelf, IsUserManager } from 'permissions/Users'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
+import { withLocation, withParams } from 'thirdpartyExtensions/ReactRouterDom'
 
 import { clearUser, getUser } from 'actions/users'
-import { withLocation, withParams } from 'thirdpartyExtensions/ReactRouterDom'
 import {
     CheckboxField,
     FormBlock,
@@ -12,7 +13,6 @@ import {
 } from 'components/generics/Form'
 import Forbidden from 'components/navigation/Forbidden'
 import NotFound from 'components/navigation/NotFound'
-import { IsNotSelf, IsUserManager } from 'permissions/Users'
 import { Status } from 'reducers/alterationsResponse'
 import { editUsersStatePropType } from 'reducers/users'
 import { userPropType } from 'serverPropTypes/users'
