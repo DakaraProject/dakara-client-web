@@ -1,0 +1,158 @@
+//
+// Dakara Project
+//
+// Listing details style file
+//
+
+@use "~/abstracts/colors";
+@use "~/abstracts/sizes";
+@use "~/abstracts/support";
+
+// The class behaves like a table in order to keep a column of labels of the
+// same width. This does not go without consequenses, as a table element is
+// difficult to style.
+.listing-details {
+    $height: sizes.$subrow-height;
+    border-collapse: separate;
+    border-spacing: 0 sizes.$gap-vertical;
+    display: table;
+    width: 100%;
+
+    @include support.make-smartphone {
+        display: block;
+        padding: sizes.$gap-vertical-smartphone 0;
+    }
+
+    > .entry {
+        display: table-row;
+
+        @include support.make-smartphone {
+            display: block;
+        }
+
+        &:not(:last-child) {
+            @include sizes.make-gap(padding, bottom);
+        }
+
+        > .header {
+            @include sizes.make-gap(padding, horizontal);
+
+            display: table-cell;
+            font-weight: normal;
+            vertical-align: top;
+            white-space: nowrap;
+
+            @include support.make-smartphone {
+                display: block;
+            }
+
+            // .icon {
+            // }
+
+            .name {
+                line-height: $height;
+                padding-left: 0.5em;
+            }
+        }
+
+        > .content {
+            display: table-cell;
+            width: 100%;
+
+            @include support.make-smartphone {
+                display: block;
+            }
+
+            .sublisting-entry {
+                // allow words to break
+                overflow: hidden;
+
+                // keep control buttons stretched
+                .controls {
+                    align-self: stretch;
+
+                    .control {
+                        height: unset;
+                    }
+                }
+            }
+
+            .text,
+            .song-tag-list,
+            .paragraph {
+                background: darken(colors.$neutral-mid, 2%);
+            }
+
+            .text,
+            .paragraph,
+            .artist-widget,
+            .work-link-widget {
+                @include sizes.make-vertical-row-padding(horizontal, 2);
+
+                // allow words to break
+                overflow: hidden;
+                overflow-wrap: break-word;
+            }
+
+            .text {
+                align-items: center;
+                display: flex;
+                min-height: calc($height - sizes.$gap-horizontal / 4 * 2 * 2);
+
+                @include support.make-smartphone {
+                    min-height: calc($height - sizes.$gap-horizontal-smartphone / 3 * 2 * 2);
+                }
+            }
+
+            .song-tag-list {
+                line-height: $height;
+
+                .tag {
+                    height: $height;
+                }
+            }
+
+            &.works {
+                .sublisting-entry {
+                    .work-link-widget {
+                        display: block;
+                        flex: 1;
+                        white-space: unset;
+
+                        .title-group {
+                            white-space: unset;
+                        }
+
+                        .link {
+                            font-size: 0.81em;
+                        }
+                    }
+                }
+            }
+
+            &.artists-widget {
+                .artist {
+                    flex: 1;
+                }
+            }
+
+            &.lyrics .paragraph {
+                .line:not(:last-child) {
+                    margin-bottom: 0.25em;
+                }
+
+                &.truncated {
+                    .line:last-child::after {
+                        content: "…";
+                        font-size: 1.5em;
+                        line-height: 0;
+                    }
+                }
+            }
+        }
+    }
+
+    &:empty + .instrumental {
+        padding-top: sizes.$gap-vertical;
+    }
+}

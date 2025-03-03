@@ -1,0 +1,25 @@
+//
+// Dakara Project
+//
+// Work library entry style file
+//
+
+@use "~/abstracts/colors";
+
+// `library-entry-work` subclass:
+//
+// This class is a specialization of the `listing-entry` class defined in the
+// `listing` module. It is aimed to stylize the specific elements of a work.
+.library-entry.library-entry-work {
+    .library-entry-work-artist-display {
+        .header {
+            // .title {
+            // }
+
+            .subtitle {
+                color: change-color(colors.$text-light, $alpha: 0.7);
+                margin-left: 0.5em;
+            }
+        }
+    }
+}

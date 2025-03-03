@@ -1,0 +1,27 @@
+//
+// Dakara project
+//
+// Colors style file
+//
+
+@use "~/abstracts/colors";
+
+.primary {
+    @include colors.make-color(colors.$brand-primary-darker, colors.$brand-primary-light, colors.$brand-primary);
+}
+
+.success {
+    @include colors.make-color(colors.$brand-success-darker, colors.$brand-success-light, colors.$brand-success);
+}
+
+.warning {
+    @include colors.make-color(colors.$brand-warning-darker, colors.$brand-warning-light, colors.$brand-warning);
+}
+
+.danger {
+    @include colors.make-color(colors.$brand-danger-darker, colors.$brand-danger-light, colors.$brand-danger);
+}
+
+.info {
+    @include colors.make-color(colors.$brand-info-darker, colors.$brand-info-light, colors.$brand-info);
+}

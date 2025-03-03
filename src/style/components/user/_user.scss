@@ -1,0 +1,41 @@
+//
+// Dakara Project
+//
+// User page style file
+//
+
+@use "~/abstracts/sizes";
+
+#user {
+    .header {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+
+        .user-name-block {
+            @include sizes.make-gap(padding, horizontal);
+
+            overflow: hidden;
+            overflow-wrap: break-word;
+
+            h1 {
+                font-size: 3em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+        }
+
+        .permissions {
+            flex: 1 0 auto;
+            text-align: right;
+        }
+
+    }
+
+    .change-email-disabled {
+        @include sizes.make-gap(margin, top);
+    }
+}
+

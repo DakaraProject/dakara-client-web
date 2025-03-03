@@ -1,0 +1,64 @@
+//
+// Dakara Project
+//
+// Work and artist library entry style file
+//
+
+@use "~/abstracts/colors";
+@use "~/abstracts/sizes";
+
+// `library-entry-work` subclass,
+// `library-entry-artist` subclass:
+//
+// This class is a specialization of the `listing-entry` class defined in the
+// `listing` module. It is aimed to stylize the common elements of a work and an
+// artist.
+.library-entry.library-entry-work,
+.library-entry.library-entry-artist {
+    display: flex;
+
+    .library-entry-work-artist-display {
+        align-items: center;
+        display: flex;
+        flex: 1;
+
+        // allow words to break (necessary for header)
+        overflow: hidden;
+
+        .header {
+            @include sizes.make-vertical-row-padding(horizontal);
+
+            flex: 1;
+
+            & {
+                // allow words to break
+                overflow: hidden;
+                overflow-wrap: break-word;
+            }
+        }
+
+        .songs-amount {
+            align-items: center;
+            align-self: stretch;
+            background: colors.$neutral-clear;
+            color: colors.$neutral-mid;
+            display: flex;
+            flex-shrink: 0;
+            font-size: 0.85em;
+            justify-content: center;
+            width: sizes.$row-height;
+
+            .icon {
+                padding-right: 0.5em;
+            }
+        }
+    }
+
+    &:nth-child(2n) .songs-amount {
+        background: colors.$neutral-clear-light;
+    }
+
+    &:hover .songs-amount {
+        background: colors.$neutral-clear-lighter;
+    }
+}

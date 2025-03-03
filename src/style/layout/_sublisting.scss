@@ -1,0 +1,51 @@
+//
+// Dakara Project
+//
+// Sublisting style file
+//
+
+@use "~/abstracts/colors";
+@use "~/abstracts/controls";
+@use "~/abstracts/sizes";
+
+// sublisting sizes
+$sublisting-entry-height: sizes.$subrow-height;
+$sublisting-entry-control-font-size: sizes.$subrow-icon-font-size;
+
+// `sublisting` class:
+//
+// This module is a submodule for `listing` and aim to style inner lists of a
+// list entry.
+.sublisting {
+    list-style-type: none;
+    margin: 0 !important;  // FIXME Remove box p and ul rules
+    padding: 0;
+    width: 100%;
+
+    .sublisting-entry {
+        $height: $sublisting-entry-height;
+
+        align-items: center;
+        background: darken(colors.$neutral-mid, 2%);
+        display: flex;
+        min-height: $height;
+
+        &:nth-child(even) {
+            background: darken(colors.$neutral-mid, 1%);
+
+            .listing-entry:nth-child(even) {
+                background: darken(colors.$neutral-mid-light, 2%);
+            }
+        }
+
+        .listing-entry:nth-child(even) {
+            background: darken(colors.$neutral-mid-light, 3%);
+        }
+
+        .controls {
+            @include controls.make-controls($height, $sublisting-entry-control-font-size);
+
+            align-self: flex-start;
+        }
+    }
+}

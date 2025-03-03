@@ -1,0 +1,13 @@
+//
+// Dakara Project
+//
+// Users management user edit page style file
+//
+
+@use "~/abstracts/sizes";
+
+#users-edit {
+    .form {
+        @include sizes.make-gap(padding, vertical);
+    }
+}

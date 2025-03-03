@@ -1,0 +1,95 @@
+//
+// Dakara project
+//
+// Tab bar style file
+//
+
+@use "~/thirdparty/preboot";
+
+@use "~/abstracts/colors";
+@use "~/abstracts/sizes";
+@use "~/abstracts/support";
+
+// tab bar sizes
+$tab-bar-height: sizes.$row-height;
+$tab-bar-icon-font-size: 1.25em;
+
+// `tab-bar` class:
+//
+// The `tab-bar` class is aimed to stylize a tab bar, contiaining several tabs
+// of class `tab`. Each even tab has a lighter background compared to the odd
+// ones. The hovered tab has a lighten background. The active tab (with the
+// `active` class) has a negative background.
+//
+// Each tab can have a `icon` span and/or a `name` span, for its icon and text.
+//
+// By default, each tab has the size of its content and the tab bar has the size
+// of all the tabs. To obtain a tab bar where the tabs are stretched on all the
+// space available, add the `flex: 1;` property to the element with the `tab`
+// class.
+//
+// Usually, the `tab-bar` element is a `nav` and the `tab` a `a` (`Link` for
+// React).
+.tab-bar {
+    display: flex;
+
+    .tab {
+        @include sizes.make-gap(padding, horizontal);
+        @include preboot.text-truncate();
+
+        background: colors.$neutral-mid;
+        color: inherit;
+        cursor: pointer;
+        height: $tab-bar-height;
+        line-height: $tab-bar-height;
+        text-align: center;
+        text-decoration: none;
+        white-space: nowrap;
+
+        @include support.make-smartphone {
+            &:not(.active),
+            &.no-name-mobile {
+                flex: 0 0 auto;
+                padding: 0;
+                width: $tab-bar-height;
+
+                .name {
+                    display: none;
+                }
+            }
+        }
+
+        &:nth-child(2n) {
+            background: colors.$neutral-mid-light;
+        }
+
+        &.active {
+            background: colors.$neutral-clear;
+            color: colors.$neutral-mid;
+            cursor: default;
+        }
+
+        &.squared {
+            flex: 0 0 auto;
+            padding: 0;
+            width: $tab-bar-height;
+
+            .icon {
+                font-size: 1.5em;
+            }
+        }
+
+        &:hover:not(.active),
+        &:focus:not(.active) {
+            background: colors.$neutral-mid-lighter;
+        }
+
+        .icon {
+            font-size: $tab-bar-icon-font-size;
+        }
+
+        .name {
+            margin-left: 0.5em;
+        }
+    }
+}

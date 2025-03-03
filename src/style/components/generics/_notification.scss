@@ -1,0 +1,207 @@
+//
+// Dakara project
+//
+// Notifications style file
+//
+
+@use "~/abstracts/colors";
+@use "~/abstracts/sizes";
+@use "~/abstracts/support";
+
+// `notification` class:
+//
+// The notification class defines the look and feel of notification messages.
+// It does not defines how the notification should appear. For this, use the
+// `notified` class on the element and the `notifiable` class on its parent
+// element. The `notifiable` class has subclasses for colors.
+//
+// The class provides also alterations when used with the class `listing-entry`.
+.notification {
+    box-sizing: border-box;
+    color: colors.$text-dark;
+
+    @mixin make-notification($background, $selection, $background-light, $selection-light) {
+        background: $background;
+
+        ::selection {
+            background: $selection;
+        }
+
+        &:nth-child(2n) {
+            background: $background-light;
+
+            ::selection {
+                background: $selection-light;
+            }
+        }
+    }
+
+    &.primary {
+        @include make-notification(colors.$brand-primary, colors.$brand-primary-dark, colors.$brand-primary-light, colors.$brand-primary-darkened);
+    }
+
+    &.success {
+        @include make-notification(colors.$brand-success, colors.$brand-success-dark, colors.$brand-success-light, colors.$brand-success-darkened);
+    }
+
+    &.warning {
+        @include make-notification(colors.$brand-warning, colors.$brand-warning-dark, colors.$brand-warning-light, colors.$brand-warning-darkened);
+    }
+
+    &.danger {
+        @include make-notification(colors.$brand-danger, colors.$brand-danger-dark, colors.$brand-danger-light, colors.$brand-danger-darkened);
+    }
+
+    &.info {
+        @include make-notification(colors.$brand-info, colors.$brand-info-dark, colors.$brand-info-light, colors.$brand-info-darkened);
+    }
+
+    // lighten notification when on even line of a list
+    .listing-entry:nth-child(2n) & {
+        @mixin make-notification-line-even($background, $selection) {
+            background: $background;
+
+            ::selection {
+                background: $selection;
+            }
+        }
+
+        &.primary {
+            @include make-notification-line-even(colors.$brand-primary-light, colors.$brand-primary-darkened);
+        }
+
+        &.success {
+            @include make-notification-line-even(colors.$brand-success-light, colors.$brand-success-darkened);
+        }
+
+        &.warning {
+            @include make-notification-line-even(colors.$brand-warning-light, colors.$brand-warning-darkened);
+        }
+
+        &.danger {
+            @include make-notification-line-even(colors.$brand-danger-light, colors.$brand-danger-darkened);
+        }
+
+        &.info {
+            @include make-notification-line-even(colors.$brand-info-light, colors.$brand-info-darkened);
+        }
+    }
+
+    .message {
+        padding: calc(sizes.$gap-horizontal / 4) sizes.$gap-horizontal;
+
+        @include support.make-smartphone {
+            padding: calc(sizes.$gap-horizontal-smartphone / 3) sizes.$gap-horizontal-smartphone;
+        }
+    }
+
+    // force the appareance of controls (when used as confirmation bar)
+    .control {
+        font-size: 2.5rem !important;
+        margin: 0 !important;
+    }
+}
+
+// `notifiable` class:
+//
+// The notifiable class provides the way to make the notifiation appear. It also
+// contains rules for animations in the right corner of the notification banner.
+.notifiable {
+    overflow: hidden;
+    position: relative;
+
+    .notified {
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+
+        // notification transition appearance
+        &.notified-appear,
+        &.notified-enter {
+            left: 100%;
+
+            &.notified-appear-active,
+            &.notified-enter-active {
+                left: 0;
+                transition: left 300ms ease-out;
+            }
+        }
+
+        // notification transition disappearance
+        &.notified-exit {
+            left: 0;
+
+            &.notified-exit-active {
+                left: 100%;
+                transition: left 150ms ease-out;
+            }
+        }
+
+        .notification {
+            display: flex;
+            min-height: 100%;
+
+            .message {
+                align-items: center;
+                display: flex;
+                flex: 1;
+            }
+
+            .animation {
+                // The `pending` animation class puts blinking dots (usually,
+                // three).
+                // You have to set its vertical size explicitally.
+                &.pending {
+                    @include sizes.make-gap(margin, right);
+
+                    align-self: center;
+                    font-size: 3em;
+
+                    .point {
+                        animation: ellipsis-animation 1s steps(3, start) infinite;
+
+                        &:nth-child(2) {
+                            animation-delay: 0.1s;
+                        }
+
+                        &:nth-child(3) {
+                            animation-delay: 0.2s;
+                        }
+
+                        @keyframes ellipsis-animation {
+                            to {
+                                visibility: hidden;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// `notifiable-for-table` class:
+//
+// The notifiable class for table provides the equivalent notifiable class
+// rules, adapted for a table.
+//
+// This class must be used in the cell of the first column.
+.notifiable-for-table {
+    height: 100%;
+    position: relative;
+
+    .notifiable {
+        // make the element ensensitive to clicks and restore it right after
+        height: 100%;
+        left: 0;
+        pointer-events: none;
+        position: absolute;
+        top: 0;
+
+        .notified {
+            pointer-events: initial;
+        }
+    }
+}

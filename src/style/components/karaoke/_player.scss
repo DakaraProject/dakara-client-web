@@ -1,0 +1,330 @@
+//
+// Dakara Project
+//
+// Player style file
+//
+
+@use "~/thirdparty/preboot";
+
+@use "~/abstracts/colors";
+@use "~/abstracts/controls";
+@use "~/abstracts/sizes";
+@use "~/abstracts/support";
+
+// player sizes
+$player-controls-height: 6rem;
+$player-controls-height-smartphone: sizes.$row-height;
+$player-timing-height: 6.5rem;
+$player-progressbar-height: 0.4rem;
+
+// `player` id:
+//
+// This component stylizes the player, containing controls, song info and a
+// progression bar.
+#player {
+    background: colors.$brand-primary-darker;
+    color: colors.$brand-primary;
+    position: sticky;
+    top: 0;
+
+    @include support.make-smartphone {
+        top: 0;
+    }
+
+    // if the player has controls activated, the player-sticky item will hide
+    // the controls item on scroll
+    &.with-controls {
+        top: -$player-controls-height - sizes.$gap-vertical;
+
+        @include support.make-smartphone {
+            top: -$player-controls-height-smartphone - sizes.$gap-vertical-smartphone;
+        }
+    }
+
+    .player-sticky {
+        @include sizes.make-gap(padding, vertical);
+
+        background: colors.$brand-primary-darker;
+        position: sticky;
+        top: 0;
+        z-index: 1100;
+    }
+
+    .player-info {
+        display: flex;
+        overflow: hidden;
+
+        // `playlist-entry` class: container for the current playlist entry.
+        .playlist-entry {
+            display: flex;
+            max-height: $player-timing-height * 2;
+            overflow: hidden;
+
+            // `use-instrumental` subclass: indicate if the playlist entry use the instrumental track.
+            .use-instrumental {
+                @include sizes.make-gap(margin, left);
+
+                font-size: 1.45em;
+            }
+
+            // `entry-info` sublcass: show info about the playlist entry (song + playing request)
+            .entry-info {
+                @include sizes.make-gap(margin, horizontal);
+
+                cursor: pointer;
+                min-height: $player-controls-height;
+                overflow: hidden;
+                transition: all 0.3s ease-out;
+
+                .song-title {
+                    @include preboot.text-truncate();
+
+                    font-size: 1.5em;
+                    font-weight: 300;
+                }
+
+                .song-artists,
+                .song-works {
+                    overflow: hidden;
+                }
+
+                .song-artists {
+                    @include preboot.text-truncate();
+
+                    // display artists in one line
+                    .artist-widget {
+                        display: inline;
+
+                        &:not(:last-child) {
+                            margin-right: 0.5em;
+                        }
+                    }
+                }
+
+                .song-works {
+                    .title-group {
+                        .subtitle {
+                            color: change-color(colors.$brand-primary, $alpha: 0.75);
+                        }
+                    }
+
+                    .link {
+                        border-color: change-color(colors.$brand-primary, $alpha: 0.75);
+                    }
+                }
+            }
+        }
+
+        // `timing` subclass: display current timing over expected duration.
+        .timing {
+            @mixin make-timing($ratio-timing) {
+                $height-timing: $player-timing-height;
+
+                .current {
+                    font-size: $height-timing * $ratio-timing;
+                    line-height: $height-timing * $ratio-timing;
+                }
+
+                .duration {
+                    font-size: $height-timing * (1 - $ratio-timing);
+                    line-height: $height-timing * (1 - $ratio-timing);
+                }
+            }
+
+            @include sizes.make-gap(margin, right);
+            @include make-timing(0.7);
+
+            // shrink the timing class element first when resizing, up to
+            // the width of the duration (4 digits plus one colon)
+            flex: 1;
+            font-feature-settings: "tnum";
+            min-width: max-content;
+            overflow: hidden;
+            text-align: right;
+
+            @include support.make-smartphone {
+                @include make-timing(0.7);
+            }
+
+            .current {
+                font-weight: 100;
+            }
+
+            .duration {
+                color: change-color(colors.$brand-primary, $alpha: 0.85);
+            }
+        }
+    }
+
+    // `controls` class: buttons to send commands to the player.
+    .controls {
+        @include sizes.make-gap(padding, bottom);
+        @include controls.make-controls($player-controls-height, 1.5em);
+
+        align-items: center;
+        display: flex;
+
+        @include support.make-smartphone {
+            @include controls.make-controls($player-controls-height-smartphone, 1.1em);
+        }
+
+        &.expand-enter {
+            max-height: 0;
+            overflow-y: hidden;
+
+            &.expand-enter-active {
+                max-height: $player-controls-height;
+                transition: max-height 300ms ease-out;
+
+                @include support.make-smartphone {
+                    max-height: $player-controls-height-smartphone;
+                }
+            }
+        }
+
+        &.expand-exit {
+            max-height: $player-controls-height;
+            overflow-y: hidden;
+
+            @include support.make-smartphone {
+                max-height: $player-controls-height-smartphone;
+            }
+
+            &.expand-exit-active {
+                max-height: 0;
+                transition: max-height 150ms ease-out;
+            }
+        }
+
+        .control {
+            overflow: hidden;
+            position: relative;
+
+            &.managed-error .managed.managed-enter {
+                left: -100%;
+            }
+
+            .managed {
+                align-items: center;
+                display: flex;
+                height: 100%;
+                justify-content: center;
+                left: 0;
+                position: absolute;
+                top: 0;
+                width: 100%;
+
+                // appearance transition
+                &.managed-enter {
+                    left: 100%;
+
+                    &.managed-enter-active {
+                        left: 0;
+                        transition: left 150ms ease-out;
+                    }
+                }
+
+                // appearance transition
+                &.managed-exit {
+                    left: 0;
+
+                    &.managed-exit-active {
+                        left: -100%;
+                        transition: left 150ms ease-out;
+                    }
+                }
+            }
+        }
+    }
+
+    // `progressbar` class: visual indicator of the song progression.
+    .progressbar {
+        // reset default style
+        appearance: none;
+        border-style: none;
+        display: block;
+        height: $player-progressbar-height;
+        width: 100%;
+
+        &[value] {
+            @mixin make-bar() {
+                background: transparent;
+            }
+
+            @mixin make-value() {
+                background: colors.$brand-primary-dark;
+            }
+
+            & {
+                // for firefox and ie
+                @include make-bar();
+            }
+
+            & {
+                // for ie
+                color: colors.$brand-primary-dark;
+            }
+
+            &::-moz-progress-bar {
+                // for firefox
+                @include make-value();
+            }
+
+            &::-webkit-progress-bar {
+                // for webkit
+                @include make-bar();
+            }
+
+            &::-webkit-progress-value {
+                // for webkit
+                @include make-value();
+            }
+
+            // fallback styling
+            .bar {
+                @include make-bar();
+
+                .value {
+                    @include make-value();
+                    height: 100%;
+                }
+            }
+        }
+
+        &:not([value]),
+        &:indeterminate {
+            @mixin make-bar() {
+                animation: sliding-animation 1s linear infinite;
+                background: repeating-linear-gradient(
+                    -45deg,
+                    colors.$brand-primary-dark,
+                    colors.$brand-primary-dark 2rem,
+                    colors.$brand-primary-darker 2rem,
+                    colors.$brand-primary-darker 4rem
+                );
+            }
+
+            & {
+                // for firefox and ie
+                @include make-bar();
+            }
+
+            @keyframes sliding-animation {
+                to {
+                    background-position-x: 1.41421356 * 4rem;
+                }
+            }
+
+            &::-webkit-progress-bar {
+                // for webkit
+                // it does not seem to work for now
+                @include make-bar();
+            }
+
+            // firefox considers that the bar is at 100%
+            &::-moz-progress-bar {
+                background: transparent;
+            }
+        }
+    }
+}
