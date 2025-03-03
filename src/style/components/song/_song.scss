@@ -88,6 +88,17 @@
         min-width: sizes.$row-height;
     }
 
+    // `masked` subclass: marker if one of the tags of the song is disabled.
+    .masked {
+        align-items: center;
+        align-self: stretch;
+        display: flex;
+        flex-shrink: 0;
+        font-size: 1.25em;
+        justify-content: center;
+        min-width: sizes.$row-height;
+    }
+
     // `song-tag-list` subclass: tag songs.
     // The subclass only specifes the location of the tags.
     .song-tag-list {
@@ -101,34 +112,6 @@
             font-size: inherit;
         }
     }
-
-    // `disabled` optionnal class: when the song has been disabled.
-    // The class colors the song in blue and adds a slashed-eye icon.
-    &.disabled {
-        $background: hsl(hue(colors.$brand-info), 10%, lightness(colors.$neutral-mid));
-        $foreground: desaturate(colors.$brand-info-darkish, 25%);
-        background-color: $background;
-        color: $foreground;
-
-        .general {
-            .header {
-                .title {
-                    &::before {
-                        @include fonts.make-icon; // TODO do this on the JS side?
-
-                        content: "\f070"; // slashed-eye icon
-                        font-size: 1.1em;
-                        margin-right: 0.4em;
-                    }
-                }
-            }
-        }
-
-        .duration {
-            background-color: $foreground;
-            color: $background;
-        }
-    }
 }
 
 // alteration of colors when used in a listing
@@ -138,14 +121,6 @@
             .duration {
                 background: colors.$neutral-clear-light;
             }
-
-            &.disabled {
-                background-color: hsl(hue(colors.$brand-info), 10%, lightness(colors.$neutral-mid-light));
-
-                .duration {
-                    background-color: lighten(desaturate(colors.$brand-info-darkish, 25%), 2.5%);
-                }
-            }
         }
     }
 
@@ -154,14 +129,6 @@
         .song {
             .duration {
                 background: colors.$neutral-clear-lighter;
-            }
-
-            &.disabled {
-                background-color: hsl(hue(colors.$brand-info), 10%, lightness(colors.$neutral-mid-lighter));
-
-                .duration {
-                    background-color: lighten(desaturate(colors.$brand-info-darkish, 25%), 7%);
-                }
             }
         }
     }
