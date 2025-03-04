@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 const karaStatusNotification = () => (
     <div className="box" id="kara-status-notification">

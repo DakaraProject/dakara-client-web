@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { parse } from 'query-string'
+import queryString from 'query-string'
 import { Component } from 'react'
 import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
 
@@ -33,7 +33,7 @@ class Navigator extends Component {
             const hasNext = current !== last
             const hasPrevious = current !== 1
             const pathname = location.pathname
-            const queryObj = parse(location.search)
+            const queryObj = queryString.parse(location.search)
 
             paginator = (
                 <nav className="paginator controls">

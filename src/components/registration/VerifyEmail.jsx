@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { parse } from 'query-string'
+import queryString from 'query-string'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
@@ -16,7 +16,7 @@ class VerifyEmail extends Component {
     }
 
     componentDidMount() {
-        const queryObj = parse(this.props.location.search)
+        const queryObj = queryString.parse(this.props.location.search)
 
         const {
             user_id,

@@ -3,10 +3,10 @@ import 'style/main.scss';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
 import { applyMiddleware, compose, createStore } from 'redux';
 import persistState from 'redux-localstorage';
-import ReduxThunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import version from 'version'
 
 import ProtectedRoute from 'components/generics/Router';
@@ -44,7 +44,7 @@ import reducer from 'reducers';
 const store = createStore(
   reducer,
   compose(
-    applyMiddleware(fetchApiMiddleware, ReduxThunk, delayMiddleware),
+    applyMiddleware(fetchApiMiddleware, thunk, delayMiddleware),
     persistState('token')
   )
 );

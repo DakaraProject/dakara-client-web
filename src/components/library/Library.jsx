@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router'
 
 import { loadWorkTypes } from 'actions/library'
 import Tab from 'components/generics/Tab'

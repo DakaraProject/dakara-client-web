@@ -1,4 +1,4 @@
-import { stringify } from 'query-string'
+import queryString from 'query-string'
 
 import {
     ALTERATION_FAILURE,
@@ -52,7 +52,7 @@ export const PLAYLIST_ENTRIES_FAILURE = 'PLAYLIST_ENTRIES_FAILURE'
  * @param type Type of the playlist requested.
  */
 export const loadPlaylistEntries = (playlistEntriesType, { page = 1 } = {}) => {
-    const queryString = stringify({
+    const queryString = queryString.stringify({
         ...(page) && {page},
     })
 

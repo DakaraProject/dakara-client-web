@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router'
 
 import Tab from 'components/generics/Tab'
 

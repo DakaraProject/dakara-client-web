@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 import PlaylistEntryMinimal from 'components/generics/PlaylistEntryMinimal'
 import {

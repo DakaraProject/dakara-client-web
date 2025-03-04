@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router'
 
 import Tab from 'components/generics/Tab'
 import { userPropType } from 'serverPropTypes/users'

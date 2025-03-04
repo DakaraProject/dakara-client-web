@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
-import { stringify } from 'query-string'
+import queryString from 'query-string'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import {
     Navigate,
     Outlet,
-} from 'react-router-dom'
+} from 'react-router'
 import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
 
 class ProtectedRoute extends Component {
@@ -48,7 +48,7 @@ class ProtectedRoute extends Component {
                 <Navigate
                     to={{
                         pathname: '/login',
-                        search: stringify(this.createQueryFrom())
+                        search: queryString.stringify(this.createQueryFrom())
                     }}
                     replace
                 />

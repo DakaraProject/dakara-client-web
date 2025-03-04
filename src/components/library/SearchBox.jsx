@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { parse } from 'query-string'
+import queryString from 'query-string'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import { withLocation, withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
@@ -34,8 +34,8 @@ class SearchBox extends Component {
             this.updateQueryFromStore()
         }
 
-        const newQueryLocation = parse(this.props.location.search).query
-        if (newQueryLocation !== parse(prevProps.location.search).query) {
+        const newQueryLocation = queryString.parse(this.props.location.search).query
+        if (newQueryLocation !== queryString.parse(prevProps.location.search).query) {
             this.updateQueryFromLocation()
         }
     }
@@ -45,7 +45,7 @@ class SearchBox extends Component {
     }
 
     updateQueryFromLocation = () => {
-        const query = parse(this.props.location.search).query
+        const query = queryString.parse(this.props.location.search).query
         if (query && query.length > 0) {
             this.setState({query})
         }

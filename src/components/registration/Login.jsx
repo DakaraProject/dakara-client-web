@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
-import { parse } from 'query-string'
+import queryString from 'query-string'
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { Navigate, NavLink } from 'react-router-dom'
+import { Navigate, NavLink } from 'react-router'
 import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
 
 import { FormBlock, InputField } from 'components/generics/Form'
@@ -18,7 +18,7 @@ class Login extends Component {
         const { isLoggedIn, serverSettings } = this.props
 
         if (isLoggedIn) {
-            const queryObj = parse(this.props.location.search)
+            const queryObj = queryString.parse(this.props.location.search)
             const from = queryObj.from || '/'
             return (
                     <Navigate to={from} replace />

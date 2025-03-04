@@ -4,7 +4,7 @@ import {
     IsPlaylistManagerOrOwner
 } from 'permissions/Playlist'
 import PropTypes from 'prop-types'
-import { stringify } from 'query-string'
+import queryString from 'query-string'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import { withNavigate,withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
@@ -62,7 +62,7 @@ class Entry extends Component {
         const query = `title:""${song.title}""`
         this.props.navigate({
             pathname: '/library/song',
-            search: stringify({
+            search: queryString.stringify({
                 query,
                 expanded: song.id
             })

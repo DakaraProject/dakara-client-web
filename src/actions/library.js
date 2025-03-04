@@ -1,4 +1,4 @@
-import { stringify } from 'query-string'
+import queryString from 'query-string'
 
 import { FETCH_API } from 'middleware/fetchApi'
 import { params } from 'utils'
@@ -32,13 +32,13 @@ export const loadLibraryEntries = (
     library,
     { query, page = 1, type } = {}
 ) => {
-    const queryString = stringify({
+    const string = queryString.stringify({
         ...(page) && {page},
         ...(query) && {query},
         ...(type) && {type},
     })
 
-    const url = `${baseUrl}/library/${library}/?${queryString}`
+    const url = `${baseUrl}/library/${library}/?${string}`
 
     return fetchLibraryEntries(url, library, type)
 }

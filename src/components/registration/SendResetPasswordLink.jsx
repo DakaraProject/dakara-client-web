@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router'
 
 import { FormBlock, InputField } from 'components/generics/Form'
 

@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import PropTypes from 'prop-types'
-import { stringify } from 'query-string'
+import queryString from 'query-string'
 import React, { Component } from 'react'
 import { withNavigate, withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
@@ -28,7 +28,7 @@ class PlayerErrorsEntry extends Component {
         const query = `title:""${song.title}""`
         this.props.navigate({
             pathname: '/library/song',
-            search: stringify({
+            search: queryString.stringify({
                 query,
                 expanded: song.id
             })
