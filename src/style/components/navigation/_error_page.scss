@@ -11,14 +11,16 @@
     .url {
         @include sizes.make-gap(padding, horizontal);
 
-        background: colors.$brand-danger;
-        color: colors.$brand-danger-darker;
-        display: inline-block;
-        font-size: 1.1em;
-        line-height: 1.5em;
-        margin-bottom: 1em;
-        margin-left: 0;
-        margin-right: 0;
+        & {
+            background: colors.$brand-danger;
+            color: colors.$brand-danger-darker;
+            display: inline-block;
+            font-size: 1.1em;
+            line-height: 1.5em;
+            margin-bottom: 1em;
+            margin-left: 0;
+            margin-right: 0;
+        }
 
         &::selection {
             background: colors.$brand-danger-darker;

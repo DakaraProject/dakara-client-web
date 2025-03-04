@@ -4,6 +4,8 @@
 // Player style file
 //
 
+@use "sass:color";
+
 @use "~/thirdparty/preboot";
 
 @use "~/abstracts/colors";
@@ -44,10 +46,12 @@ $player-progressbar-height: 0.4rem;
     .player-sticky {
         @include sizes.make-gap(padding, vertical);
 
-        background: colors.$brand-primary-darker;
-        position: sticky;
-        top: 0;
-        z-index: 1100;
+        & {
+            background: colors.$brand-primary-darker;
+            position: sticky;
+            top: 0;
+            z-index: 1100;
+        }
     }
 
     .player-info {
@@ -64,17 +68,21 @@ $player-progressbar-height: 0.4rem;
             .use-instrumental {
                 @include sizes.make-gap(margin, left);
 
-                font-size: 1.45em;
+                & {
+                    font-size: 1.45em;
+                }
             }
 
             // `entry-info` sublcass: show info about the playlist entry (song + playing request)
             .entry-info {
                 @include sizes.make-gap(margin, horizontal);
 
-                cursor: pointer;
-                min-height: $player-controls-height;
-                overflow: hidden;
-                transition: all 0.3s ease-out;
+                & {
+                    cursor: pointer;
+                    min-height: $player-controls-height;
+                    overflow: hidden;
+                    transition: all 0.3s ease-out;
+                }
 
                 .song-title {
                     @include preboot.text-truncate();
@@ -104,12 +112,12 @@ $player-progressbar-height: 0.4rem;
                 .song-works {
                     .title-group {
                         .subtitle {
-                            color: change-color(colors.$brand-primary, $alpha: 0.75);
+                            color: color.change(colors.$brand-primary, $alpha: 0.75);
                         }
                     }
 
                     .link {
-                        border-color: change-color(colors.$brand-primary, $alpha: 0.75);
+                        border-color: color.change(colors.$brand-primary, $alpha: 0.75);
                     }
                 }
             }
@@ -132,18 +140,20 @@ $player-progressbar-height: 0.4rem;
             }
 
             @include sizes.make-gap(margin, right);
-            @include make-timing(0.7);
-
-            // shrink the timing class element first when resizing, up to
-            // the width of the duration (4 digits plus one colon)
-            flex: 1;
-            font-feature-settings: "tnum";
-            min-width: max-content;
-            overflow: hidden;
-            text-align: right;
-
             @include support.make-smartphone {
                 @include make-timing(0.7);
+            }
+
+            & {
+                @include make-timing(0.7);
+
+                // shrink the timing class element first when resizing, up to
+                // the width of the duration (4 digits plus one colon)
+                flex: 1;
+                font-feature-settings: "tnum";
+                min-width: max-content;
+                overflow: hidden;
+                text-align: right;
             }
 
             .current {
@@ -151,7 +161,7 @@ $player-progressbar-height: 0.4rem;
             }
 
             .duration {
-                color: change-color(colors.$brand-primary, $alpha: 0.85);
+                color: color.change(colors.$brand-primary, $alpha: 0.85);
             }
         }
     }
@@ -160,12 +170,13 @@ $player-progressbar-height: 0.4rem;
     .controls {
         @include sizes.make-gap(padding, bottom);
         @include controls.make-controls($player-controls-height, 1.5em);
-
-        align-items: center;
-        display: flex;
-
         @include support.make-smartphone {
             @include controls.make-controls($player-controls-height-smartphone, 1.1em);
+        }
+
+        & {
+            align-items: center;
+            display: flex;
         }
 
         &.expand-enter {

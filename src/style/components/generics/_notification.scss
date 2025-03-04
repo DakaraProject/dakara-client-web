@@ -156,8 +156,10 @@
                 &.pending {
                     @include sizes.make-gap(margin, right);
 
-                    align-self: center;
-                    font-size: 3em;
+                    & {
+                        align-self: center;
+                        font-size: 3em;
+                    }
 
                     .point {
                         animation: ellipsis-animation 1s steps(3, start) infinite;

@@ -4,6 +4,8 @@
 // Forms style file
 //
 
+@use "sass:color";
+
 @use "~/thirdparty/preboot";
 
 @use "~/abstracts/colors";
@@ -86,14 +88,15 @@ $form-control-icon-size: sizes.$row-icon-font-size;
             // `border-spacing`, but the rule is cancelled if there is a header
             // just before
             @include sizes.make-gap(margin, top, -1);
-
-            border-collapse: separate;
-            border-spacing: 0 sizes.$gap-vertical;
-            display: table;
-            width: 100%;
-
             @include support.make-smartphone {
                 border-spacing: 0 sizes.$gap-vertical-smartphone;
+            }
+
+            & {
+                border-collapse: separate;
+                border-spacing: 0 sizes.$gap-vertical;
+                display: table;
+                width: 100%;
             }
 
             // The field contains a label and an input.
@@ -190,9 +193,11 @@ $form-control-icon-size: sizes.$row-icon-font-size;
             .control {
                 @include sizes.make-gap(padding, horizontal);
 
-                font-size: $control-font-size;
-                height: $field-height;
-                line-height: $field-height;
+                & {
+                    font-size: $control-font-size;
+                    height: $field-height;
+                    line-height: $field-height;
+                }
 
                 .icon {
                     font-size: calc($control-icon-size / $control-font-size);
@@ -230,8 +235,10 @@ $form-control-icon-size: sizes.$row-icon-font-size;
         .set {
             @include sizes.make-gap(padding, right);
 
-            display: flex;
-            flex: 1;
+            & {
+                display: flex;
+                flex: 1;
+            }
 
             .input {
                 flex: initial;
@@ -277,7 +284,9 @@ $form-control-icon-size: sizes.$row-icon-font-size;
             &:not(.faked) {
                 @include sizes.make-gap(padding, horizontal);
 
-                background: colors.$neutral-soft;
+                & {
+                    background: colors.$neutral-soft;
+                }
 
                 &:focus,
                 &.focus,
@@ -494,7 +503,9 @@ $form-control-icon-size: sizes.$row-icon-font-size;
                 .description {
                     @include sizes.make-gap(padding, horizontal);
 
-                    flex: 1;
+                    & {
+                        flex: 1;
+                    }
 
                     &.long {
                         @include fonts.make-long;
@@ -710,7 +721,7 @@ $form-control-icon-size: sizes.$row-icon-font-size;
 
             .preview {
                 background: hsl(0, $hue-input-saturation, $hue-input-luminosity);
-                color: change-color(colors.$text-dark, $alpha: 0.5);
+                color: color.change(colors.$text-dark, $alpha: 0.5);
                 flex-shrink: 0;
                 font-size: medium;
                 font-weight: 700;

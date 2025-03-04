@@ -19,7 +19,9 @@
     .library-searchbox {
         @include sizes.make-gap(padding, vertical);
 
-        background: colors.$brand-primary-darker;
+        & {
+            background: colors.$brand-primary-darker;
+        }
 
         .set {
             .field {
@@ -50,7 +52,9 @@
         .help {
             @include sizes.make-gap(padding, top);
 
-            color: colors.$brand-primary;
+            & {
+                color: colors.$brand-primary;
+            }
 
             &.help-enter {
                 max-height: 0;

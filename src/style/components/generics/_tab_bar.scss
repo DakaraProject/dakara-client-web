@@ -35,17 +35,6 @@ $tab-bar-icon-font-size: 1.25em;
 
     .tab {
         @include sizes.make-gap(padding, horizontal);
-        @include preboot.text-truncate();
-
-        background: colors.$neutral-mid;
-        color: inherit;
-        cursor: pointer;
-        height: $tab-bar-height;
-        line-height: $tab-bar-height;
-        text-align: center;
-        text-decoration: none;
-        white-space: nowrap;
-
         @include support.make-smartphone {
             &:not(.active),
             &.no-name-mobile {
@@ -57,6 +46,19 @@ $tab-bar-icon-font-size: 1.25em;
                     display: none;
                 }
             }
+        }
+
+        & {
+            @include preboot.text-truncate();
+
+            background: colors.$neutral-mid;
+            color: inherit;
+            cursor: pointer;
+            height: $tab-bar-height;
+            line-height: $tab-bar-height;
+            text-align: center;
+            text-decoration: none;
+            white-space: nowrap;
         }
 
         &:nth-child(2n) {

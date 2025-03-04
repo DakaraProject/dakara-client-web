@@ -4,6 +4,8 @@
 // Work link widget style file
 //
 
+@use "sass:color";
+
 @use "~/thirdparty/preboot";
 
 @use "~/abstracts/colors";
@@ -34,14 +36,14 @@
         // }
 
         .subtitle {
-            color: change-color(colors.$text-light, $alpha: 0.7);
+            color: color.change(colors.$text-light, $alpha: 0.7);
             margin-left: 0.5em;
         }
     }
 
     // `link` class: the type of the link (OP, ED) and a number if any.
     .link {
-        border-color: change-color(colors.$text-light, $alpha: 0.65);
+        border-color: color.change(colors.$text-light, $alpha: 0.65);
         border-style: solid;
         border-width: 1px;
         display: inline-block;

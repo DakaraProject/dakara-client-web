@@ -4,6 +4,8 @@
 // Playlist info bar style file
 //
 
+@use "sass:color";
+
 @use "~/thirdparty/preboot";
 
 @use "~/abstracts/colors";
@@ -22,20 +24,21 @@ $playlist-info-bar-height-smartphone: 7rem;
 // Info don't have specific classes.
 #playlist-info-bar {
     @include sizes.make-gap(padding, horizontal);
-
-    align-items: center;
-    background: colors.$brand-primary;
-    color: colors.$text-dark;
-    cursor: pointer;
-    display: flex;
-    height: $playlist-info-bar-height;
-    justify-content: space-between;
-    overflow: hidden;
-    text-decoration: none;
-
     @include support.make-smartphone {
         font-size: 0.85em;
         height: $playlist-info-bar-height-smartphone;
+    }
+
+    & {
+        align-items: center;
+        background: colors.$brand-primary;
+        color: colors.$text-dark;
+        cursor: pointer;
+        display: flex;
+        height: $playlist-info-bar-height;
+        justify-content: space-between;
+        overflow: hidden;
+        text-decoration: none;
     }
 
     &:hover {
@@ -98,7 +101,7 @@ $playlist-info-bar-height-smartphone: 7rem;
 
                 &.detail {
                     // using opacity creates weird effects with the sticky player
-                    color: change-color(colors.$text-dark, $alpha: 0.7);
+                    color: color.change(colors.$text-dark, $alpha: 0.7);
                 }
 
                 + .line {

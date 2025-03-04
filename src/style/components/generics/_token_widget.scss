@@ -21,10 +21,13 @@ $token-widget-height: sizes.$row-height;
 
     .token {
         @include sizes.make-gap(padding, horizontal);
-        @include preboot.text-truncate();
 
-        flex: 1;
-        line-height: $token-widget-height;
+        & {
+            @include preboot.text-truncate();
+
+            flex: 1;
+            line-height: $token-widget-height;
+        }
     }
 
     .controls {

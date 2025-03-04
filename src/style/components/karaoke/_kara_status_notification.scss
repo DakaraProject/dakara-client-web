@@ -20,14 +20,18 @@ $kara-status-notification-font-size: 1.25em;
     .ribbon {
         @include sizes.make-gap(padding, vertical);
 
-        align-items: center;
-        display: flex;
+        & {
+            align-items: center;
+            display: flex;
+        }
 
         .control {
             @include sizes.make-gap(padding, horizontal);
 
-            font-size: $kara-status-notification-font-size;
-            line-height: $kara-status-notification-height;
+            & {
+                font-size: $kara-status-notification-font-size;
+                line-height: $kara-status-notification-height;
+            }
         }
     }
 }

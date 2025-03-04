@@ -34,7 +34,9 @@ $ribbon-height: sizes.$row-height;
                 > .control {
                     @include sizes.make-gap(padding, horizontal);
 
-                    width: unset;
+                    & {
+                        width: unset;
+                    }
                 }
 
                 .notification .controls {

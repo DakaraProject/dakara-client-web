@@ -79,9 +79,12 @@ $subrow-icon-font-size: 0.85 * $row-icon-font-size;
     }
 
     // apply the rule
-    #{$property}: $value;
     @include support.make-smartphone {
-        #{$property}: $value-smartphone;
+        #{$property}: $value-smartphone !important;
+    }
+
+    & {
+        #{$property}: $value;
     }
 }
 

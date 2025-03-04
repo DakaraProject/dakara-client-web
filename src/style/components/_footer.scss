@@ -10,14 +10,18 @@
 #footer {
     @include sizes.make-gap(padding, vertical);
 
-    background: colors.$neutral-mid-dark;
-    margin: 0;
-    text-align: right;
+    & {
+        background: colors.$neutral-mid-dark;
+        margin: 0;
+        text-align: right;
+    }
 
     h2 {
         @include sizes.make-gap(padding, horizontal);
 
-        font-size: x-large;
+        & {
+            font-size: x-large;
+        }
 
         .version {
             font-size: 0.6em;
@@ -28,7 +32,9 @@
     .contact {
         @include sizes.make-gap(padding, top);
 
-        font-size: small;
+        & {
+            font-size: small;
+        }
 
         p {
             margin-bottom: 0;

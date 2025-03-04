@@ -36,14 +36,15 @@
 
         > .header {
             @include sizes.make-gap(padding, horizontal);
-
-            display: table-cell;
-            font-weight: normal;
-            vertical-align: top;
-            white-space: nowrap;
-
             @include support.make-smartphone {
                 display: block;
+            }
+
+            & {
+                display: table-cell;
+                font-weight: normal;
+                vertical-align: top;
+                white-space: nowrap;
             }
 
             // .icon {
@@ -89,9 +90,11 @@
             .work-link-widget {
                 @include sizes.make-vertical-row-padding(horizontal, 2);
 
-                // allow words to break
-                overflow: hidden;
-                overflow-wrap: break-word;
+                & {
+                    // allow words to break
+                    overflow: hidden;
+                    overflow-wrap: break-word;
+                }
             }
 
             .text {

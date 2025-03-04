@@ -15,8 +15,10 @@
         .user-name-block {
             @include sizes.make-gap(padding, horizontal);
 
-            overflow: hidden;
-            overflow-wrap: break-word;
+            & {
+                overflow: hidden;
+                overflow-wrap: break-word;
+            }
 
             h1 {
                 font-size: 3em;

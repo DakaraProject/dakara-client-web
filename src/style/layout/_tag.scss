@@ -22,7 +22,7 @@
 
     background-color: $color;
     border-style: none;
-    color: change-color(colors.$text-dark, $alpha: 0.5);
+    color: color.change(colors.$text-dark, $alpha: 0.5);
     display: inline-block;
     font-size: medium;
     font-weight: 700;
@@ -44,7 +44,7 @@
     }
 
     &.disabled {
-        background-color: desaturate($color, 33%);
+        background-color: color.adjust($color, $saturation: -33%);
         opacity: 0.5;
     }
 

@@ -4,6 +4,8 @@
 // Box style file
 //
 
+@use "sass:color";
+
 @use "~/abstracts/colors";
 @use "~/abstracts/controls";
 @use "~/abstracts/sizes";
@@ -106,7 +108,7 @@ $ribbon-control-height: sizes.$row-height;
 
     // if not embedded
     &:not(.embedded) {
-        box-shadow: 0 0 2rem change-color(black, $alpha: 0.5);
+        box-shadow: 0 0 2rem color.change(black, $alpha: 0.5);
     }
 
     // if not subclassed
@@ -117,8 +119,10 @@ $ribbon-control-height: sizes.$row-height;
         > .footer {
             @include sizes.make-gap(padding, vertical);
 
-            background: colors.$brand-primary-darker;
-            color: colors.$brand-primary-light;
+            & {
+                background: colors.$brand-primary-darker;
+                color: colors.$brand-primary-light;
+            }
         }
     }
 
@@ -153,8 +157,10 @@ $ribbon-control-height: sizes.$row-height;
         .ribbon {
             @include sizes.make-gap(padding, vertical, 0.5);
 
-            align-items: center;
-            display: flex;
+            & {
+                align-items: center;
+                display: flex;
+            }
 
             .message {
                 flex: 1;

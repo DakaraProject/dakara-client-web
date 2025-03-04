@@ -28,10 +28,9 @@
         .header {
             @include sizes.make-vertical-row-padding(horizontal);
 
-            flex: 1;
-
             & {
                 // allow words to break
+                flex: 1;
                 overflow: hidden;
                 overflow-wrap: break-word;
             }
