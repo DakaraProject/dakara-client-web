@@ -173,12 +173,8 @@ table.listing {
         // add padding
         &:not(.controls-col):not(.notification-col) {
             @include sizes.make-vertical-row-padding();
-            @include sizes.make-gap(padding, left);
-
-            &:last-child,
-            &.last {
-                @include sizes.make-gap(padding, right);
-            }
+            @include sizes.make-gap(padding, horizontal);
+            @include sizes.make-gap(padding, right);
         }
     }
 }

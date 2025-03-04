@@ -45,9 +45,9 @@ function Tile({ color, updater }) {
         [updater]
     )
     return (
-        <div className={classNames('tile', color)} ref={ref}>
+        <td className={classNames('tile', color)} ref={ref}>
             {background}
-        </div>
+        </td>
     )
 }
 
@@ -58,16 +58,16 @@ Tile.propTypes = {
 
 function Row({ name, colors, updater }) {
     return (
-        <div className="row">
-            <div className="tile title">
+        <tr className="listing-entry">
+            <td className="tile title">
                 {name}
-            </div>
+            </td>
             {
                 colors.map((color) => (
                     <Tile color={color} key={color} updater={updater} />
                 ))
             }
-        </div>
+        </tr>
     )
 }
 
@@ -205,28 +205,114 @@ export default function TestColors() {
             </div>
             <div className="content">
                 <h3>Brand colors</h3>
-                <div className="table">
-                    <Row name="brand lighter" colors={colorsBrandLighter} updater={updater} />
-                    <Row name="brand light" colors={colorsBrandLight} updater={updater} />
-                    <Row name="brand" colors={colorsBrand} updater={updater} />
-                    <Row name="brand darkish" colors={colorsBrandDarkish} updater={updater} />
-                    <Row name="brand darkened" colors={colorsBrandDarkened} updater={updater} />
-                    <Row name="brand dark" colors={colorsBrandDark} updater={updater} />
-                    <Row name="brand darker" colors={colorsBrandDarker} updater={updater} />
-                </div>
+                <table className="listing mosaic">
+                    <thead>
+                        <tr className="listing-header">
+                            <th>Variation</th>
+                            <th>Primary</th>
+                            <th>Success</th>
+                            <th>Warning</th>
+                            <th>Danger</th>
+                            <th>Info</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <Row
+                            name="brand lighter"
+                            colors={colorsBrandLighter}
+                            updater={updater}
+                        />
+                        <Row
+                            name="brand light"
+                            colors={colorsBrandLight}
+                            updater={updater}
+                        />
+                        <Row
+                            name="brand"
+                            colors={colorsBrand}
+                            updater={updater}
+                        />
+                        <Row
+                            name="brand darkish"
+                            colors={colorsBrandDarkish}
+                            updater={updater}
+                        />
+                        <Row
+                            name="brand darkened"
+                            colors={colorsBrandDarkened}
+                            updater={updater}
+                        />
+                        <Row
+                            name="brand dark"
+                            colors={colorsBrandDark}
+                            updater={updater}
+                        />
+                        <Row
+                            name="brand darker"
+                            colors={colorsBrandDarker}
+                            updater={updater}
+                        />
+                    </tbody>
+                </table>
                 {controls}
                 <h3>Neutral colors</h3>
-                <div className="table">
-                    <Row name="neutral lighter" colors={colorsNeutralLighter} updater={updater} />
-                    <Row name="neutral light" colors={colorsNeutralLight} updater={updater} />
-                    <Row name="neutral" colors={colorsNeutral} updater={updater} />
-                    <Row name="neutral darkish" colors={colorsNeutralDarkish} updater={updater} />
-                    <Row name="neutral darkened" colors={colorsNeutralDarkened} updater={updater} />
-                    <Row name="neutral dark" colors={colorsNeutralDark} updater={updater} />
-                    <Row name="neutral darker" colors={colorsNeutralDarker} updater={updater} />
-                    <Row name="text light" colors={colorsTextLight} updater={updater} />
-                    <Row name="text dark" colors={colorsTextDark} updater={updater} />
-                </div>
+                <table className="listing mosaic">
+                    <thead>
+                        <tr className="listing-header">
+                            <th>Variation</th>
+                            <th>Clear</th>
+                            <th>Soft</th>
+                            <th>Mid</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <Row
+                            name="neutral lighter"
+                            colors={colorsNeutralLighter}
+                            updater={updater}
+                        />
+                        <Row
+                            name="neutral light"
+                            colors={colorsNeutralLight}
+                            updater={updater}
+                        />
+                        <Row
+                            name="neutral"
+                            colors={colorsNeutral}
+                            updater={updater}
+                        />
+                        <Row
+                            name="neutral darkish"
+                            colors={colorsNeutralDarkish}
+                            updater={updater}
+                        />
+                        <Row
+                            name="neutral darkened"
+                            colors={colorsNeutralDarkened}
+                            updater={updater}
+                        />
+                        <Row
+                            name="neutral dark"
+                            colors={colorsNeutralDark}
+                            updater={updater}
+                        />
+                        <Row
+                            name="neutral darker"
+                            colors={colorsNeutralDarker}
+                            updater={updater}
+                        />
+                        <Row
+                            name="text light"
+                            colors={colorsTextLight}
+                            updater={updater}
+                        />
+                        <Row
+                            name="text dark"
+                            colors={colorsTextDark}
+                            updater={updater}
+                        />
+                    </tbody>
+                </table>
                 {controls}
             </div>
         </div>
