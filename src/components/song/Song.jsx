@@ -128,7 +128,7 @@ export default class Song extends Component {
 
         /**
          * Masked marker
-         * Display if on of the tags is disabled
+         * Display if one of the tags is disabled
          */
 
         let masked

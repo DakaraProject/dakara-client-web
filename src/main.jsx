@@ -99,6 +99,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               </Route>
             </Route>
             {
+              // only display in dev mode
               version.prerelease.length > 0 ? (
                 <Route path="test-colors" element={<TestColors />} />
               ) : null
