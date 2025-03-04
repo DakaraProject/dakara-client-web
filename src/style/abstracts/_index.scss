@@ -4,8 +4,8 @@
 // Abstracts main style file
 //
 
-@forward "colors";
-@forward "controls";
-@forward "fonts";
-@forward "sizes";
-@forward "support";
+@use "colors";
+@use "controls";
+@use "fonts";
+@use "sizes";
+@use "support";

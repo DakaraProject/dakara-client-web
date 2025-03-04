@@ -4,7 +4,7 @@
 // Song main style file
 //
 
-@forward "artist_widget";
-@forward "playlist_position_info";
-@forward "song";
-@forward "work_link_widget";
+@use "artist_widget";
+@use "playlist_position_info";
+@use "song";
+@use "work_link_widget";

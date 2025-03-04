@@ -8,8 +8,8 @@
 // through classes. They don't have an aim related to the project, but are
 // rather helpers for things to be done.
 
-@forward "box";
-@forward "listing";
-@forward "listing_details";
-@forward "sublisting";
-@forward "tag";
+@use "box";
+@use "listing";
+@use "listing_details";
+@use "sublisting";
+@use "tag";

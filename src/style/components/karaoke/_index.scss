@@ -4,7 +4,7 @@
 // Karaoke main style file
 //
 
-@forward "kara_status_notification";
-@forward "karaoke";
-@forward "player";
-@forward "playlist_info_bar";
+@use "kara_status_notification";
+@use "karaoke";
+@use "player";
+@use "playlist_info_bar";

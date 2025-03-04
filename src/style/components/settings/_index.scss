@@ -4,6 +4,6 @@
 // Settings main style file
 //
 
-@forward "song_tags";
-@forward "tokens";
-@forward "users";
+@use "song_tags";
+@use "tokens";
+@use "users";

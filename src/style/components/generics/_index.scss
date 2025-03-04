@@ -4,11 +4,11 @@
 // Generic components main style file
 //
 
-@forward "form";
-@forward "listing_fetch_wrapper";
-@forward "navigator";
-@forward "notification";
-@forward "playlist_entry_minimal";
-@forward "tab_bar";
-@forward "token_widget";
-@forward "user_widget";
+@use "form";
+@use "listing_fetch_wrapper";
+@use "navigator";
+@use "notification";
+@use "playlist_entry_minimal";
+@use "tab_bar";
+@use "token_widget";
+@use "user_widget";

@@ -4,5 +4,5 @@
 // Third party style file
 //
 
-@forward "normalize.css/normalize.css";
-@forward "preboot";
+@use "normalize.css/normalize.css";
+@use "preboot";
