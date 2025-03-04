@@ -30,7 +30,7 @@ const rgbToHsl = (r,g,b) => {
   return [hue, saturation, lightness];
 }
 
-function Tile({ color, updater }) {
+function Tile({ color, refresher }) {
     // get the color of the div and convert it to HSL space
     const ref = useRef(null);
     const [background, setBackground] = useState('')
@@ -42,7 +42,7 @@ function Tile({ color, updater }) {
             const [h, s, l] = rgbToHsl(r / 255, g / 255, b / 255)
             setBackground(`${(360 + h) % 360}, ${s.toFixed(2)}, ${l.toFixed(2)}`)
         },
-        [updater]
+        [refresher]
     )
     return (
         <td className={classNames('tile', color)} ref={ref}>
@@ -53,10 +53,10 @@ function Tile({ color, updater }) {
 
 Tile.propTypes = {
     color: PropTypes.string,
-    updater: PropTypes.number,
+    refresher: PropTypes.number,
 }
 
-function Row({ name, colors, updater }) {
+function Row({ name, colors, refresher }) {
     return (
         <tr className="listing-entry">
             <td className="tile title">
@@ -64,7 +64,7 @@ function Row({ name, colors, updater }) {
             </td>
             {
                 colors.map((color) => (
-                    <Tile color={color} key={color} updater={updater} />
+                    <Tile color={color} key={color} refresher={refresher} />
                 ))
             }
         </tr>
@@ -74,14 +74,16 @@ function Row({ name, colors, updater }) {
 Row.propTypes = {
     name: PropTypes.string,
     colors: PropTypes.arrayOf(PropTypes.string),
-    updater: PropTypes.number,
+    refresher: PropTypes.number,
 }
 
 export default function TestColors() {
-    const [updater, setUpdater] = useState(0)
+    // add a manual refresher for the HSL values displayed in the tiles that
+    // won't refresh themselves when the CSS is updated
+    const [refresher, setRefresher] = useState(0)
 
-    const forceUpdate = () => {
-        return () => setUpdater(updater => updater + 1)
+    const forceRefresh = () => {
+        setRefresher(refresher => refresher + 1)
     }
 
     const colorsBrand = [
@@ -192,8 +194,8 @@ export default function TestColors() {
 
     const controls = (
         <div className="controls">
-            <button className="control primary" onClick={forceUpdate()}>
-                Update
+            <button className="control primary" onClick={forceRefresh}>
+                Refresh
             </button>
         </div>
     )
@@ -220,37 +222,37 @@ export default function TestColors() {
                         <Row
                             name="brand lighter"
                             colors={colorsBrandLighter}
-                            updater={updater}
+                            refresher={refresher}
                         />
                         <Row
                             name="brand light"
                             colors={colorsBrandLight}
-                            updater={updater}
+                            refresher={refresher}
                         />
                         <Row
                             name="brand"
                             colors={colorsBrand}
-                            updater={updater}
+                            refresher={refresher}
                         />
                         <Row
                             name="brand darkish"
                             colors={colorsBrandDarkish}
-                            updater={updater}
+                            refresher={refresher}
                         />
                         <Row
                             name="brand darkened"
                             colors={colorsBrandDarkened}
-                            updater={updater}
+                            refresher={refresher}
                         />
                         <Row
                             name="brand dark"
                             colors={colorsBrandDark}
-                            updater={updater}
+                            refresher={refresher}
                         />
                         <Row
                             name="brand darker"
                             colors={colorsBrandDarker}
-                            updater={updater}
+                            refresher={refresher}
                         />
                     </tbody>
                 </table>
@@ -269,47 +271,47 @@ export default function TestColors() {
                         <Row
                             name="neutral lighter"
                             colors={colorsNeutralLighter}
-                            updater={updater}
+                            refresher={refresher}
                         />
                         <Row
                             name="neutral light"
                             colors={colorsNeutralLight}
-                            updater={updater}
+                            refresher={refresher}
                         />
                         <Row
                             name="neutral"
                             colors={colorsNeutral}
-                            updater={updater}
+                            refresher={refresher}
                         />
                         <Row
                             name="neutral darkish"
                             colors={colorsNeutralDarkish}
-                            updater={updater}
+                            refresher={refresher}
                         />
                         <Row
                             name="neutral darkened"
                             colors={colorsNeutralDarkened}
-                            updater={updater}
+                            refresher={refresher}
                         />
                         <Row
                             name="neutral dark"
                             colors={colorsNeutralDark}
-                            updater={updater}
+                            refresher={refresher}
                         />
                         <Row
                             name="neutral darker"
                             colors={colorsNeutralDarker}
-                            updater={updater}
+                            refresher={refresher}
                         />
                         <Row
                             name="text light"
                             colors={colorsTextLight}
-                            updater={updater}
+                            refresher={refresher}
                         />
                         <Row
                             name="text dark"
                             colors={colorsTextDark}
-                            updater={updater}
+                            refresher={refresher}
                         />
                     </tbody>
                 </table>
