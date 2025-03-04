@@ -41,6 +41,10 @@
 - Allow to reorder a queing playlist entry to the top or to the bottom of the playlist.
 - Do not highlight rows on focus (only on hover).
 
+### Removed
+
+- Songs that have a disabled tag (i.e., that are masked) are not colored in blue anymore for a playlist manager.
+
 ## 1.8.1 - 2023-12-17
 
 ### Fixed
