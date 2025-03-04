@@ -11,7 +11,7 @@ import packageJson from './package.json';
 export default defineConfig({
   resolve: {
     alias: {
-      '~': resolve(dirname(fileURLToPath(import.meta.url)), './src/style'),
+      '~': resolve(dirname(fileURLToPath(import.meta.url)), 'src/style'),
     }
   },
   plugins: [
