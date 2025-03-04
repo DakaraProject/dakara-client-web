@@ -1,17 +1,17 @@
 import classNames from 'classnames'
+import {
+    IsPlaylistManager,
+    IsPlaylistManagerOrOwner
+} from 'permissions/Playlist'
 import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
 import { Component } from 'react'
 import { connect } from 'react-redux'
+import { withNavigate,withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
+import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
-import { withNavigate,withSearchParams } from 'components/adapted/ReactRouterDom'
-import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
-import {
-    IsPlaylistManager,
-    IsPlaylistManagerOrOwner
-} from 'components/permissions/Playlist'
 import PlaylistPositionInfo from 'components/song/PlaylistPositionInfo'
 import Song from 'components/song/Song'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'

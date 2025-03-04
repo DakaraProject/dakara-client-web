@@ -1,0 +1,37 @@
+//
+// Dakara Project
+//
+// Playlist style file
+//
+
+@use "~/abstracts/sizes";
+
+.playlist-entry {
+    .subcontrols {
+        // min-width: 100px;
+        overflow: hidden;
+
+        // display transition appearance
+        &.displayed-appear,
+        &.displayed-enter {
+            width: 0;
+
+            &.displayed-appear-active,
+            &.displayed-enter-active {
+                transition: width 300ms ease-out;
+                width: 2 * sizes.$row-height;
+            }
+        }
+
+        // display transition disappearance
+        &.displayed-exit {
+            width: 2 * sizes.$row-height;
+
+            &.displayed-exit-active {
+                transition: width 150ms ease-out;
+                width: 0;
+            }
+        }
+    }
+}
+

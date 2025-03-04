@@ -1,0 +1,11 @@
+//
+// Dakara Project
+//
+// Fonts style file
+//
+
+@use "~/abstracts/fonts";
+
+body {
+    @include fonts.make-text;
+}

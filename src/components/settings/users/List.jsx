@@ -1,15 +1,15 @@
+import { IsUserManager } from 'permissions/Users'
 import PropTypes from 'prop-types'
 import { parse } from 'query-string'
 import { Component } from 'react'
 import { connect } from 'react-redux'
+import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
 
 import { clearAlteration } from 'actions/alterations'
 import { deleteUser, getUsers } from 'actions/users'
-import { withLocation } from 'components/adapted/ReactRouterDom'
 import { FormBlock, InputField } from 'components/generics/Form'
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 import Navigator from 'components/generics/Navigator'
-import { IsUserManager } from 'components/permissions/Users'
 import SettingsUserEntry from 'components/settings/users/Entry'
 import { listUsersStatePropType } from 'reducers/users'
 

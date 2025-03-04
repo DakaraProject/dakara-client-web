@@ -1,8 +1,8 @@
+import { IsPlaylistManager} from 'permissions/Playlist'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { CheckboxField, FormBlock} from 'components/generics/Form'
-import { IsPlaylistManager} from 'components/permissions/Playlist'
 import { Status } from 'reducers/alterationsResponse'
 import { karaokeStatePropType } from 'reducers/playlist'
 import { userPropType } from 'serverPropTypes/users'

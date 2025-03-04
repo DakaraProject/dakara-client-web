@@ -1,0 +1,100 @@
+//
+// Dakara Project
+//
+// Tags management page style file
+//
+
+@use "sass:color";
+
+@use "~/abstracts/colors";
+@use "~/abstracts/sizes";
+
+#song-tag-list {
+    .song-tag-list-listing {
+        .name {
+            text-align: left;
+        }
+
+        .listing-header .color {
+            @include sizes.make-gap(padding, right);
+
+            & {
+                text-align: right;
+            }
+        }
+
+        .color {
+            .notified {
+                z-index: 900;
+
+                &.color-form-notified {
+                    z-index: 800;
+                }
+            }
+
+            .field {
+                flex: 1;
+            }
+        }
+
+        .set {
+            padding: 0;
+        }
+
+        .color,
+        .enableness {
+            .form {
+                height: sizes.$row-height;
+                justify-content: center;
+            }
+        }
+
+        .enableness {
+            font-size: 1.5em;
+            text-align: center;
+        }
+
+        .controls-col {
+            width: initial;
+        }
+
+        .color-form-notified {
+            display: flex;
+
+            .form {
+                flex: 1;
+
+                .hue .input {
+                    flex: 1;
+                }
+            }
+        }
+
+        .listing-entry {
+            $background: hsl(0, colors.$custom-color-saturation, colors.$custom-color-luminosity);
+
+            .display-color {
+                background: $background;
+
+                &:focus {
+                    background: color.adjust($background, $lightness: 5%);
+                }
+            }
+
+            &:hover .display-color {
+                background: color.adjust($background, $lightness: 3.5%);
+            }
+
+            .display-color-container {
+                display: flex;
+                height: 100%;
+                justify-content: flex-end;
+
+                .display-color {
+                    height: 100%;
+                    width: sizes.$row-height;
+                }
+            }
+        }
+    }
+}

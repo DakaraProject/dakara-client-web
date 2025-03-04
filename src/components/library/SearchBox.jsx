@@ -2,10 +2,10 @@ import PropTypes from 'prop-types'
 import { parse } from 'query-string'
 import { Component } from 'react'
 import { connect } from 'react-redux'
+import { withLocation, withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
+import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
 import { storeSearchBox } from 'actions/library'
-import { withLocation, withSearchParams } from 'components/adapted/ReactRouterDom'
-import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
 
 class SearchBox extends Component {
     static propTypes = {

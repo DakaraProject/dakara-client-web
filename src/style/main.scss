@@ -4,15 +4,9 @@
 // Main style file
 //
 
-
-@import "normalize.css/normalize.css";
-@import "thirdparty/preboot";
-
-
-/*!
- * Dakara style rules
- */
-
-
-@import "base/base";
-@import "components/components";
+@forward "thirdparty";
+@forward "thirdparty_extensions";
+@forward "abstracts";
+@forward "base";
+@forward "layout";
+@forward "components";

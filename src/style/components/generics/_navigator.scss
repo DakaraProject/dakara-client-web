@@ -1,0 +1,73 @@
+//
+// Dakara Project
+//
+// Navigator style file
+//
+
+@use "~/thirdparty/preboot";
+
+@use "~/abstracts/colors";
+@use "~/abstracts/controls";
+@use "~/abstracts/sizes";
+@use "~/abstracts/support";
+
+// navigator sizes
+$navigator-height: sizes.$row-height;
+
+// `navigator` class:
+//
+// The paginator supplies the interface to change page and display count.
+.navigator {
+    background: colors.$brand-primary-darker;
+    display: flex;
+    min-height: $navigator-height;
+
+    .paginator {
+        &.controls {
+            @include controls.make-controls($navigator-height, 2em);
+        }
+    }
+
+    .counter {
+        align-items: center;
+        color: colors.$brand-primary;
+        display: flex;
+        flex-grow: 1;
+        justify-content: flex-end;
+        overflow: hidden;
+        padding: 0 sizes.$gap-horizontal;
+        text-align: right;
+
+        @include support.make-smartphone {
+            $ratio: 0.6;
+            $factor: 0.8;
+
+            align-items: initial;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 sizes.$gap-horizontal-smartphone;
+
+            .figure {
+                font-size: 2em;
+                line-height: $ratio * $navigator-height * $factor;
+            }
+
+            .text {
+                font-size: 0.85em;
+                line-height: (1 - $ratio) * $navigator-height * $factor;
+                margin-left: 0;
+            }
+        }
+
+        .figure {
+            font-size: 2.5em;
+            font-weight: 100;
+        }
+
+        .text {
+            @include preboot.text-truncate();
+
+            margin-left: 0.4em;
+        }
+    }
+}

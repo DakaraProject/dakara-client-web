@@ -1,0 +1,106 @@
+//
+// Dakara project
+//
+// Colors style file
+//
+
+@use "sass:color";
+
+// stylelint-disable
+
+// brand colors
+$brand-primary: hsl(289, 80%, 35%);
+$brand-success: hsl(159, 50%, 55%);
+$brand-warning: hsl( 43, 80%, 50%);
+$brand-danger:  hsl( 12, 69%, 47%);
+$brand-info:    hsl(224, 57%, 50%);
+
+// darkish brand colors
+$brand-primary-darkish: color.adjust($brand-primary, $lightness: -7%);
+$brand-success-darkish: color.adjust($brand-success, $lightness: -5%);
+$brand-warning-darkish: color.adjust($brand-warning, $lightness: -12%);
+$brand-danger-darkish:  color.adjust($brand-danger,  $lightness: -11%);
+$brand-info-darkish:    color.adjust($brand-info,    $lightness: -9%);
+
+// darkened brand colors
+$brand-primary-darkened: color.adjust($brand-primary, $lightness: -9.5%);
+$brand-success-darkened: color.adjust($brand-success, $lightness: -7.5%);
+$brand-warning-darkened: color.adjust($brand-warning, $lightness: -15%);
+$brand-danger-darkened:  color.adjust($brand-danger,  $lightness: -15%);
+$brand-info-darkened:    color.adjust($brand-info,    $lightness: -15%);
+
+// dark brand colors
+$brand-primary-dark:     color.adjust($brand-primary, $lightness: -12%);
+$brand-success-dark:     color.adjust($brand-success, $lightness: -10%);
+$brand-warning-dark:     color.adjust($brand-warning, $lightness: -20%);
+$brand-danger-dark:      color.adjust($brand-danger,  $lightness: -20%);
+$brand-info-dark:        color.adjust($brand-info,    $lightness: -20%);
+
+// darker brand colors
+$brand-primary-darker:   color.adjust($brand-primary, $lightness: -20%);
+$brand-success-darker:   color.adjust($brand-success, $lightness: -20%);
+$brand-warning-darker:   color.adjust($brand-warning, $lightness: -25%);
+$brand-danger-darker:    color.adjust($brand-danger,  $lightness: -26%);
+$brand-info-darker:      color.adjust($brand-info,    $lightness: -26%);
+
+// light brand colors
+$brand-primary-light:    color.adjust($brand-primary, $lightness: 2.5%);
+$brand-success-light:    color.adjust($brand-success, $lightness: 5.5%);
+$brand-warning-light:    color.adjust($brand-warning, $lightness: 4.5%);
+$brand-danger-light:     color.adjust($brand-danger,  $lightness: 4.5%);
+$brand-info-light:       color.adjust($brand-info,    $lightness: 3.5%);
+
+// lighter brand colors
+$brand-primary-lighter:  color.adjust($brand-primary, $lightness: 7%);
+$brand-success-lighter:  color.adjust($brand-success, $lightness: 7%);
+$brand-warning-lighter:  color.adjust($brand-warning, $lightness: 10%);
+$brand-danger-lighter:   color.adjust($brand-danger,  $lightness: 7%);
+$brand-info-lighter:     color.adjust($brand-info,    $lightness: 7%);
+
+// neutral colors
+$neutral-clear: color.adjust(white, $lightness: -60%);
+$neutral-soft:  color.adjust(white, $lightness: -70%);
+$neutral-mid:   color.adjust(white, $lightness: -80%);
+
+// darkish neutral colors
+$neutral-mid-darkish: color.adjust($neutral-mid, $lightness: -1%);
+
+// darkened neutral colors
+$neutral-mid-darkened: color.adjust($neutral-mid, $lightness: -2%);
+
+// dark neutral colors
+$neutral-soft-dark: color.adjust($neutral-soft, $lightness: -8%);
+$neutral-mid-dark: color.adjust($neutral-mid,   $lightness: -3%);
+
+// darker neutral colors
+$neutral-mid-darker: color.adjust($neutral-mid, $lightness: -5%);
+
+// light neutral corors
+$neutral-clear-light:    color.adjust($neutral-clear, $lightness: 2.5%);
+$neutral-soft-light:     color.adjust($neutral-soft,  $lightness: 2.5%);
+$neutral-mid-light:      color.adjust($neutral-mid,   $lightness: 2.5%);
+
+// lighter neutral corors
+$neutral-clear-lighter:  color.adjust($neutral-clear, $lightness: 7%);
+$neutral-soft-lighter:   color.adjust($neutral-soft,  $lightness: 7%);
+$neutral-mid-lighter:    color.adjust($neutral-mid,   $lightness: 7%);
+
+// text colors
+$text-light: color.adjust(white, $lightness: -60%);
+$text-dark:  color.adjust(white, $lightness: -90%);
+
+// custom colors saturation and luminosity
+$custom-color-saturation: 55%;
+$custom-color-luminosity: 55%;
+
+// stylelint-enable
+
+// create colors
+@mixin make-color($background, $color, $background-selection) {
+    background: $background;
+    color: $color;
+
+    ::selection {
+        background: $background-selection;
+    }
+}

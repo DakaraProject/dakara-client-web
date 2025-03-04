@@ -1,0 +1,23 @@
+//
+// Dakara Project
+//
+// Components main style file
+//
+
+// Style components are directly related to React components and share the same name,
+// hyphenated for the class/ID name and snake-cased for the file name. Style
+// components can be defined by class or by ID.
+
+@use "dev_warning";
+@use "footer";
+@use "generics";
+@use "header";
+@use "karaoke";
+@use "library";
+@use "main";
+@use "navigation";
+@use "playlist";
+@use "settings";
+@use "song";
+@use "test_colors";
+@use "user";

@@ -126,17 +126,31 @@ export default class Song extends Component {
             )
         }
 
+        /**
+         * Masked marker
+         * Display if one of the tags is disabled
+         */
+
+        let masked
+        if (song.tags.some((tag) => (tag.disabled))) {
+            masked = (
+                <div className="masked">
+                    <i className="las la-eye-slash"></i>
+                </div>
+            )
+        }
+
         return (
             <div
                 className={classNames(
                     'song',
                     {
-                        disabled: song.tags.some((tag) => (tag.disabled)),
                         'with-artist-and-work': withArtistAndWork
                     }
                 )}
                 onClick={this.props.handleClick}
             >
+                    {masked}
                     <div className="general">
                         <div className="header">
                             <HighlighterQuery

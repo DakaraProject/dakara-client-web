@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
 import { Component } from 'react'
+import { withNavigate } from 'thirdpartyExtensions/ReactRouterDom'
 
-import { withNavigate } from 'components/adapted/ReactRouterDom'
 import HighlighterQuery from 'components/generics/HighlighterQuery'
 import { workPropType } from 'serverPropTypes/library'
 

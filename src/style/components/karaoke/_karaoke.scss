@@ -1,0 +1,32 @@
+//
+// Dakara Project
+//
+// Karaoke style file
+//
+
+@use "~/abstracts/sizes";
+@use "~/abstracts/support";
+
+@use "player";
+@use "playlist_info_bar";
+
+#karaoke {
+    position: sticky;
+    top: -(playlist_info_bar.$playlist-info-bar-height);
+    z-index: 1000;
+
+    @include support.make-smartphone {
+        top: -(playlist_info_bar.$playlist-info-bar-height-smartphone);
+    }
+
+    // if the player has controls activated, the player item will hide the
+    // playlist-info-bar item on scroll
+    &.player-with-controls {
+        top: -(playlist_info_bar.$playlist-info-bar-height) - player.$player-controls-height - sizes.$gap-vertical;
+
+        @include support.make-smartphone {
+            top: -(playlist_info_bar.$playlist-info-bar-height-smartphone) - player.$player-controls-height-smartphone - sizes.$gap-vertical-smartphone;
+        }
+    }
+}
+

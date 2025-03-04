@@ -1,20 +1,20 @@
 import classNames from 'classnames'
-import PropTypes from 'prop-types'
-import { Component } from 'react'
-import { connect } from 'react-redux'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
-
-import { clearAlteration } from 'actions/alterations'
-import { addSongToPlaylist } from 'actions/playlist'
-import { withSearchParams } from 'components/adapted/ReactRouterDom'
-import { CSSTransitionLazy } from 'components/adapted/ReactTransitionGroup'
-import Notification from 'components/generics/Notification'
-import SongEntryExpanded from 'components/library/song/EntryExpanded'
 import {
     CanAddToPlaylist,
     IsPlaylistManager,
     IsPlaylistUser
-} from 'components/permissions/Playlist'
+} from 'permissions/Playlist'
+import PropTypes from 'prop-types'
+import { Component } from 'react'
+import { connect } from 'react-redux'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
+import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
+
+import { clearAlteration } from 'actions/alterations'
+import { addSongToPlaylist } from 'actions/playlist'
+import Notification from 'components/generics/Notification'
+import SongEntryExpanded from 'components/library/song/EntryExpanded'
 import PlaylistPositionInfo from 'components/song/PlaylistPositionInfo'
 import Song from 'components/song/Song'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'

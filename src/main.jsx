@@ -7,6 +7,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
 import persistState from 'redux-localstorage';
 import ReduxThunk from 'redux-thunk';
+import version from 'version'
 
 import ProtectedRoute from 'components/generics/Router';
 import LibraryArtist from 'components/library/artist/List';
@@ -33,6 +34,7 @@ import SettingsSongTagsList from 'components/settings/songTags/List';
 import SettingsTokens from 'components/settings/Tokens';
 import SettingsUsersEdit from 'components/settings/users/Edit';
 import SettingsUsersList from 'components/settings/users/List';
+import TestColors from 'components/TestColors.jsx';
 import User from 'components/user/User';
 import manageStorageEvent from 'eventManagers/storage';
 import delayMiddleware from 'middleware/delay';
@@ -96,6 +98,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <Route path="tokens" element={<SettingsTokens />} />
               </Route>
             </Route>
+            {
+              // only display in dev mode
+              version.prerelease.length > 0 ? (
+                <Route path="test-colors" element={<TestColors />} />
+              ) : null
+            }
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Main>

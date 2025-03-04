@@ -1,0 +1,38 @@
+//
+// Dakara Project
+//
+// Header style file
+//
+
+@use "~/abstracts/colors";
+@use "~/abstracts/sizes";
+@use "~/abstracts/support";
+
+// header sizes
+$header-height: sizes.$row-height;
+
+#header {
+    background: colors.$neutral-mid-dark;
+    display: flex;
+    height: $header-height;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1200;
+
+    h1 {
+        @include sizes.make-gap(padding, horizontal);
+        @include support.make-smartphone {
+            font-size: x-large;
+        }
+
+        & {
+            font-size: xx-large;
+            line-height: $header-height * 0.9;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+    }
+}

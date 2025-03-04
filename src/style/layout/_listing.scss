@@ -1,0 +1,187 @@
+//
+// Dakara Project
+//
+// Listing style file
+//
+
+@use "~/abstracts/colors";
+@use "~/abstracts/controls";
+@use "~/abstracts/sizes";
+@use "~/abstracts/support";
+
+// listing sizes
+$listing-entry-height: sizes.$row-height;
+$listing-entry-control-font-size: sizes.$row-icon-font-size;
+
+// `listing` class:
+//
+// The `listing` class is aimed to stylize every basic list of the Dakara
+// Project. It gives a list with no borders where the entries look like rows
+// with alternated colors. Each row can have an appearance/disappearance
+// animation where the line grows or shrinks vertically from the top. Each row
+// can have a notification which consists in an over-layer which slides in and out
+// from the right border.
+//
+// The rows can have a different hover color whith is manually set with the
+// `hoverizable` class. It can be applied to each listing entries or any of its
+// child.
+//
+// The class does not assume anything about its use, wether it will contain
+// flex-box elements or any other funny stuff.
+//
+// The class is specialized for the tag it applies on: `ul` or `table`. The
+// specialization for the list simply removes the marker. For the table, it
+// removes all the quirks of its default display and corrects the behavior of
+// the `controls` class.
+//
+// In the case of notification on table rows, the class notifiable has to be
+// on the table.
+// This is because position relative does not work on table rows.
+// cf: https://www.w3.org/TR/CSS21/visuren.html#propdef-position
+// known limitations:
+//      - Only allows tables up to 10 rows, but can be increased.
+//      - Each row must have a fixed height of `listing-entry-height`.
+.listing {
+    // background is darker than actual rows in order to separate them
+    // when the listing has a fixed height
+    background: colors.$neutral-mid-dark;
+    margin: 0;
+    overflow-x: hidden;
+    padding: 0;
+
+    .listing-header {
+        height: $listing-entry-height;
+    }
+
+    .listing-entry {
+        // normal and alternate row colors
+        background: colors.$neutral-mid;
+
+        &:nth-child(2n) {
+            background: colors.$neutral-mid-light;
+        }
+
+        // optionnal hoverizable feature
+        // can be applied to the listing-entry itself or any of its children
+        .hoverizable,
+        &.hoverizable {
+            &:hover,
+            &:focus {
+                background: colors.$neutral-mid-lighter;
+            }
+        }
+
+        // appearance transition
+        &.add-remove-enter {
+            height: 0;
+            min-height: initial;
+            overflow: hidden;
+
+            &.add-remove-enter-active {
+                height: $listing-entry-height;
+                transition: height 300ms ease-out;
+            }
+        }
+
+        // disappearance transition
+        &.add-remove-exit {
+            height: $listing-entry-height;
+            min-height: initial;
+            overflow: hidden;
+
+            &.add-remove-exit-active {
+                height: 0;
+                transition: height 150ms ease-out;
+
+                &.delayed {
+                    transition-delay: 500ms;
+                }
+            }
+        }
+
+        // manage controls
+        .controls {
+            @include controls.make-controls($listing-entry-height, $listing-entry-control-font-size);
+
+            // in listings, controls are close one to other with no space
+            // inbetween
+            .control {
+                // allow button to stretch vertically
+                height: unset;
+                margin: 0;
+            }
+        }
+    }
+}
+
+// Specialization for lists
+ul.listing {
+    list-style-type: none;
+    margin: 0;
+    min-height: 10 * $listing-entry-height;
+
+    .listing-entry {
+        min-height: $listing-entry-height;
+    }
+}
+
+// Specialization for tables
+table.listing {
+    // set height so as a div in a cell to take 100% height
+    border-collapse: collapse;
+    width: 100%;
+
+    // for Chrome
+    & {
+        height: 100%;
+    }
+
+    // for Firefox
+    tr {
+        height: 100%;
+    }
+
+    // make the controls column as small as possible
+    .controls-col {
+        white-space: nowrap;
+        width: 1px;
+    }
+
+    // make the notification column widthless
+    .notification-col {
+        height: 100%;
+        width: 0;
+    }
+
+    // remove default bold
+    .listing-header > th {
+        font-weight: normal;
+
+        @include support.make-smartphone {
+            font-size: 0.85em;
+        }
+    }
+
+    .listing-entry > td,
+    .listing-header > th {
+        // it is safer to set row height by the cell itself
+        // default padding is 1px, but no idea for the reason why
+        box-sizing: border-box;
+        height: $listing-entry-height;
+        padding: 0;
+
+        // add padding
+        &:not(.controls-col):not(.notification-col) {
+            @include sizes.make-vertical-row-padding(horizontal);
+        }
+    }
+}
+
+// `listing-table-container` class:
+//
+// This container forces the table listing to have the height of 10 rows plus one
+// header.
+.listing-table-container {
+    min-height: 11 * $listing-entry-height;
+    overflow-y: auto;
+}

@@ -1,10 +1,10 @@
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
+import { IsPlaylistManager} from 'permissions/Playlist'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { CheckboxField, FormBlock, InputField } from 'components/generics/Form'
-import { IsPlaylistManager} from 'components/permissions/Playlist'
 import { Status } from 'reducers/alterationsResponse'
 import { karaokeStatePropType } from 'reducers/playlist'
 import { userPropType } from 'serverPropTypes/users'

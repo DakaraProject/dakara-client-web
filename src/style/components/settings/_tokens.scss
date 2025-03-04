@@ -1,0 +1,75 @@
+//
+// Dakara Project
+//
+// Tokens settings style file
+//
+
+@use "~/abstracts/controls";
+@use "~/abstracts/sizes";
+
+// Sizes
+$tokens-control-size: sizes.$row-height;
+$tokens-control-font-size: 1.25em;
+$ribbon-height: sizes.$row-height;
+
+#tokens {
+    .token-box {
+        .create,
+        .created {
+            @include sizes.make-gap(margin, top, 0.5);
+        }
+
+        .copy-help,
+        .revoke {
+            @include sizes.make-gap(margin, top, 0.5);
+        }
+
+        .revoke {
+            &.controls {
+                @include controls.make-controls($tokens-control-size, $tokens-control-font-size);
+
+                display: flex;
+                justify-content: flex-end;
+
+                > .control {
+                    @include sizes.make-gap(padding, horizontal);
+
+                    & {
+                        width: unset;
+                    }
+                }
+
+                .notification .controls {
+                    @include controls.make-controls($tokens-control-size, $tokens-control-font-size);
+                }
+            }
+        }
+
+        & + .token-box {
+            // create margin for following token boxes
+            @include sizes.make-gap(margin, top);
+        }
+
+        .created-enter {
+            // approximate min and max height
+            height: $ribbon-height + 1 * sizes.$gap-vertical;
+            overflow-y: hidden;
+
+            &.created-enter-active {
+                height: 2 * $ribbon-height + $tokens-control-size + 1 * sizes.$gap-vertical;
+                transition: height 300ms ease-out;
+            }
+        }
+
+        .created-exit {
+            // approximate min and max height
+            height: 2 * $ribbon-height + $tokens-control-size + 1 * sizes.$gap-vertical;
+            overflow-y: hidden;
+
+            &.created-exit-active {
+                height: $ribbon-height + 1 * sizes.$gap-vertical;
+                transition: height 150ms ease-out;
+            }
+        }
+    }
+}

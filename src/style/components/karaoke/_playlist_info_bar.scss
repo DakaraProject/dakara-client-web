@@ -1,0 +1,128 @@
+//
+// Dakara Project
+//
+// Playlist info bar style file
+//
+
+@use "sass:color";
+
+@use "~/thirdparty/preboot";
+
+@use "~/abstracts/colors";
+@use "~/abstracts/sizes";
+@use "~/abstracts/support";
+
+$playlist-info-bar-height: 4rem;
+$playlist-info-bar-height-smartphone: 7rem;
+
+// `playlist-info-bar` id:
+//
+// The playlist info bar gives some pieces of information on the status of the
+// playlist, tipycally the amount of songs in queue and when the
+// playlist/karaoke will end.
+//
+// Info don't have specific classes.
+#playlist-info-bar {
+    @include sizes.make-gap(padding, horizontal);
+    @include support.make-smartphone {
+        font-size: 0.85em;
+        height: $playlist-info-bar-height-smartphone;
+    }
+
+    & {
+        align-items: center;
+        background: colors.$brand-primary;
+        color: colors.$text-dark;
+        cursor: pointer;
+        display: flex;
+        height: $playlist-info-bar-height;
+        justify-content: space-between;
+        overflow: hidden;
+        text-decoration: none;
+    }
+
+    &:hover {
+        background: colors.$brand-primary-lighter;
+    }
+
+    .item {
+        align-items: center;
+        display: flex;
+        overflow: hidden;
+        white-space: nowrap;
+
+        @include support.make-smartphone {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        &:not(:last-child) {
+            @include sizes.make-gap(padding, right);
+        }
+
+        &:last-child {
+            @include support.make-smartphone {
+                align-items: flex-end;
+            }
+        }
+
+        .emphasis {
+            font-size: 2.5em;
+            font-weight: 200;
+
+            @include support.make-smartphone {
+                font-size: 2em;
+            }
+
+            // if the text comes after the emphasis
+            + .text {
+                margin-left: 0.5em;
+                margin-right: 0;
+                text-align: left;
+
+                @include support.make-smartphone {
+                    margin-left: 0;
+                }
+            }
+        }
+
+        .text {
+            font-size: 1em;
+            margin-right: 0.5em;
+            overflow: hidden;
+            text-align: right;
+
+            @include support.make-smartphone {
+                margin-right: 0;
+            }
+
+            .line {
+                @include preboot.text-truncate();
+
+                &.detail {
+                    // using opacity creates weird effects with the sticky player
+                    color: color.change(colors.$text-dark, $alpha: 0.7);
+                }
+
+                + .line {
+                    margin-top: -0.25em;
+                }
+            }
+        }
+
+        // specific rules
+        &.next-entry {
+            .title,
+            .user-widget {
+                @include preboot.text-truncate();
+            }
+        }
+
+        &.amount {
+            // do not show next entry on smartphone
+            @include support.make-smartphone {
+                display: none;
+            }
+        }
+    }
+}

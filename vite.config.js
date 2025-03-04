@@ -1,4 +1,6 @@
 import react from '@vitejs/plugin-react-swc';
+import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
 import { defineConfig } from 'vite';
 import jsconfigPaths from 'vite-jsconfig-paths';
 import checker from 'vite-plugin-checker';
@@ -7,6 +9,11 @@ import packageJson from './package.json';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  resolve: {
+    alias: {
+      '~': resolve(dirname(fileURLToPath(import.meta.url)), 'src/style'),
+    }
+  },
   plugins: [
     react(),
     jsconfigPaths(),
