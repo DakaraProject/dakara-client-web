@@ -4,6 +4,8 @@
 // Tags management page style file
 //
 
+@use "sass:color";
+
 @use "~/abstracts/colors";
 @use "~/abstracts/sizes";
 
@@ -73,12 +75,12 @@
                 background: $background;
 
                 &:focus {
-                    background: lighten($background, 5%);
+                    background: color.adjust($background, $lightness: 5%);
                 }
             }
 
             &:hover .display-color {
-                background: lighten($background, 3.5%);
+                background: color.adjust($background, $lightness: 3.5%);
             }
 
             .display-color-container {

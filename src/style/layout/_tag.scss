@@ -4,6 +4,8 @@
 // Tags style file
 //
 
+@use "sass:color";
+
 @use "~/abstracts/colors";
 @use "~/abstracts/fonts";
 @use "~/abstracts/sizes";
@@ -37,7 +39,7 @@
 
         &:hover,
         &:focus {
-            background-color: lighten($color, 5%);
+            background-color: color.adjust($color, $lightness: 5%);
         }
     }
 
