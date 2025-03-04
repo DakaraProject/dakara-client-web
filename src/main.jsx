@@ -3,7 +3,7 @@ import 'style/main.scss';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
 import { applyMiddleware, compose, createStore } from 'redux';
 import persistState from 'redux-localstorage';
 import { thunk } from 'redux-thunk';

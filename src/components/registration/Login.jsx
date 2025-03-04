@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import queryString from 'query-string'
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { Navigate, NavLink } from 'react-router-dom'
+import { Navigate, NavLink } from 'react-router'
 import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
 
 import { FormBlock, InputField } from 'components/generics/Form'

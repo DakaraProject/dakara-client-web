@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import {
     Navigate,
     Outlet,
-} from 'react-router-dom'
+} from 'react-router'
 import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
 
 class ProtectedRoute extends Component {

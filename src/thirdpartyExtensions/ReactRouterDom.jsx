@@ -7,7 +7,7 @@ import {
     useNavigate,
     useParams,
     useSearchParams
-} from 'react-router-dom'
+} from 'react-router'
 
 /**
  * Add the location prop to a component
