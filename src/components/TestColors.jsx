@@ -30,7 +30,7 @@ const rgbToHsl = (r,g,b) => {
   return [hue, saturation, lightness];
 }
 
-function Tile({ color }) {
+function Tile({ color, updater }) {
     // get the color of the div and convert it to HSL space
     const ref = useRef(null);
     const [background, setBackground] = useState('')
@@ -42,7 +42,7 @@ function Tile({ color }) {
             const [h, s, l] = rgbToHsl(r / 255, g / 255, b / 255)
             setBackground(`${(360 + h) % 360}, ${s.toFixed(2)}, ${l.toFixed(2)}`)
         },
-        []
+        [updater]
     )
     return (
         <div className={classNames('tile', color)} ref={ref}>
@@ -52,10 +52,11 @@ function Tile({ color }) {
 }
 
 Tile.propTypes = {
-    color: PropTypes.string
+    color: PropTypes.string,
+    updater: PropTypes.number,
 }
 
-function Row({ name, colors }) {
+function Row({ name, colors, updater }) {
     return (
         <div className="row">
             <div className="tile title">
@@ -63,7 +64,7 @@ function Row({ name, colors }) {
             </div>
             {
                 colors.map((color) => (
-                    <Tile color={color} key={color} />
+                    <Tile color={color} key={color} updater={updater} />
                 ))
             }
         </div>
@@ -72,10 +73,17 @@ function Row({ name, colors }) {
 
 Row.propTypes = {
     name: PropTypes.string,
-    colors: PropTypes.arrayOf(PropTypes.string)
+    colors: PropTypes.arrayOf(PropTypes.string),
+    updater: PropTypes.number,
 }
 
 export default function TestColors() {
+    const [updater, setUpdater] = useState(0)
+
+    const forceUpdate = () => {
+        return () => setUpdater(updater => updater + 1)
+    }
+
     const colorsBrand = [
         'brand-primary',
         'brand-success',
@@ -182,34 +190,44 @@ export default function TestColors() {
         'text-light',
     ]
 
+    const controls = (
+        <div className="controls">
+            <button className="control primary" onClick={forceUpdate()}>
+                Update
+            </button>
+        </div>
+    )
+
     return (
         <div className="test-colors box">
             <div className="header">
                 <h2>Test colors</h2>
             </div>
             <div className="content">
-                <div className="header">
-                    <h3>Brand colors</h3>
+                <h3>Brand colors</h3>
+                <div className="table">
+                    <Row name="brand lighter" colors={colorsBrandLighter} updater={updater} />
+                    <Row name="brand light" colors={colorsBrandLight} updater={updater} />
+                    <Row name="brand" colors={colorsBrand} updater={updater} />
+                    <Row name="brand darkish" colors={colorsBrandDarkish} updater={updater} />
+                    <Row name="brand darkened" colors={colorsBrandDarkened} updater={updater} />
+                    <Row name="brand dark" colors={colorsBrandDark} updater={updater} />
+                    <Row name="brand darker" colors={colorsBrandDarker} updater={updater} />
                 </div>
-                <Row name="brand lighter" colors={colorsBrandLighter} />
-                <Row name="brand light" colors={colorsBrandLight} />
-                <Row name="brand" colors={colorsBrand} />
-                <Row name="brand darkish" colors={colorsBrandDarkish} />
-                <Row name="brand darkened" colors={colorsBrandDarkened} />
-                <Row name="brand dark" colors={colorsBrandDark} />
-                <Row name="brand darker" colors={colorsBrandDarker} />
-            </div>
-            <div className="content">
+                {controls}
                 <h3>Neutral colors</h3>
-                <Row name="neutral lighter" colors={colorsNeutralLighter} />
-                <Row name="neutral light" colors={colorsNeutralLight} />
-                <Row name="neutral" colors={colorsNeutral} />
-                <Row name="neutral darkish" colors={colorsNeutralDarkish} />
-                <Row name="neutral darkened" colors={colorsNeutralDarkened} />
-                <Row name="neutral dark" colors={colorsNeutralDark} />
-                <Row name="neutral darker" colors={colorsNeutralDarker} />
-                <Row name="text light" colors={colorsTextLight} />
-                <Row name="text dark" colors={colorsTextDark} />
+                <div className="table">
+                    <Row name="neutral lighter" colors={colorsNeutralLighter} updater={updater} />
+                    <Row name="neutral light" colors={colorsNeutralLight} updater={updater} />
+                    <Row name="neutral" colors={colorsNeutral} updater={updater} />
+                    <Row name="neutral darkish" colors={colorsNeutralDarkish} updater={updater} />
+                    <Row name="neutral darkened" colors={colorsNeutralDarkened} updater={updater} />
+                    <Row name="neutral dark" colors={colorsNeutralDark} updater={updater} />
+                    <Row name="neutral darker" colors={colorsNeutralDarker} updater={updater} />
+                    <Row name="text light" colors={colorsTextLight} updater={updater} />
+                    <Row name="text dark" colors={colorsTextDark} updater={updater} />
+                </div>
+                {controls}
             </div>
         </div>
     )
