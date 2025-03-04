@@ -1,11 +1,10 @@
 import { Component } from 'react'
 import semver from 'semver'
+import version from 'version'
 
 
 export default class DevWarning extends Component {
     render() {
-        const version = semver.parse(import.meta.env.DAKARA_VERSION)
-
         if (version.prerelease.length > 0) {
             console.warn('You are running a dev version, use it at your own risks!')
             return (

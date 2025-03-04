@@ -7,6 +7,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
 import persistState from 'redux-localstorage';
 import ReduxThunk from 'redux-thunk';
+import version from 'version'
 
 import ProtectedRoute from 'components/generics/Router';
 import LibraryArtist from 'components/library/artist/List';
@@ -97,7 +98,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <Route path="tokens" element={<SettingsTokens />} />
               </Route>
             </Route>
-            <Route path="test-colors" element={<TestColors />} />
+            {
+              version.prerelease.length > 0 ? (
+                <Route path="test-colors" element={<TestColors />} />
+              ) : null
+            }
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Main>
