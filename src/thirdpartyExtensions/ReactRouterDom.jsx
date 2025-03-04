@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { stringify } from 'query-string'
+import queryString from 'query-string'
 import { Component } from 'react'
 import {
     Link as OldLink,
@@ -75,7 +75,7 @@ export default class Link extends Component {
         // to can be a string or an object
         let newTo
         if (typeof(to) === 'object') {
-            newTo = {...to, search: stringify(to.queryObj)}
+            newTo = {...to, search: queryString.stringify(to.queryObj)}
         } else {
             newTo = to
         }

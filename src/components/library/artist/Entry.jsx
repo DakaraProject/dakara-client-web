@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { stringify } from 'query-string'
+import queryString from 'query-string'
 import { Component } from 'react'
 import { withNavigate } from 'thirdpartyExtensions/ReactRouterDom'
 
@@ -20,7 +20,7 @@ class ArtistEntry extends Component {
         const newQuery = `artist:""${this.props.artist.name}""`
         this.props.navigate({
             pathname: '/library/song',
-            search: stringify({query: newQuery})
+            search: queryString.stringify({query: newQuery})
         })
     }
 

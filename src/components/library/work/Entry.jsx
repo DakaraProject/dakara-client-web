@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { stringify } from 'query-string'
+import queryString from 'query-string'
 import { Component } from 'react'
 import { withNavigate } from 'thirdpartyExtensions/ReactRouterDom'
 
@@ -21,7 +21,7 @@ class WorkEntry extends Component {
         const query = `${this.props.workType}:""${this.props.work.title}""`
         this.props.navigate({
             pathname: '/library/song',
-            search: stringify({query})
+            search: queryString.stringify({query})
         })
     }
 
