@@ -30,19 +30,56 @@ const rgbToHsl = (r,g,b) => {
   return [hue, saturation, lightness];
 }
 
-function Tile({ color, refresher }) {
+const formatRgbIntToHsl = (rInt, gInt, bInt) => {
+  const [h, s, l] = rgbToHsl(rInt / 255, gInt / 255, bInt / 255)
+  return `${(360 + h) % 360}, ${s.toFixed(2)}, ${l.toFixed(2)}`
+}
+
+const rgbToHex = (r, g, b) => {
+  return [
+    g.toString(16).padStart(2, '0'),
+    b.toString(16).padStart(2, '0'),
+  ]
+}
+
+const formatRgbIntToHex = (rInt, gInt, bInt) => {
+  const r = rInt.toString(16).padStart(2, '0')
+  const g = gInt.toString(16).padStart(2, '0')
+  const b = bInt.toString(16).padStart(2, '0')
+  return `#${r}${g}${b}`
+}
+
+const formatRgbIntToRgb = (rInt, gInt, bInt) => {
+  const r = rInt / 255
+  const g = gInt / 255
+  const b = bInt / 255
+  return `${r.toFixed(2)}, ${g.toFixed(2)}, ${b.toFixed(2)}`
+}
+
+const formatters = {
+  rgb: formatRgbIntToRgb,
+  hex: formatRgbIntToHex,
+  hsl: formatRgbIntToHsl
+}
+
+function Tile({ color, format, refresher }) {
     // get the color of the div and convert it to HSL space
     const ref = useRef(null);
     const [background, setBackground] = useState('')
     useEffect(
         () => {
-            const bg = window.getComputedStyle(ref.current)['background']
+            const bgStr = window.getComputedStyle(ref.current)['background']
             const regex = /rgb\((\d+), (\d+), (\d+)\)/
-            const [_, r, g, b] = bg.match(regex)
-            const [h, s, l] = rgbToHsl(r / 255, g / 255, b / 255)
-            setBackground(`${(360 + h) % 360}, ${s.toFixed(2)}, ${l.toFixed(2)}`)
+            const [_, rStr, gStr, bStr] = bgStr.match(regex)
+            setBackground(
+                formatters[format](
+                    parseInt(rStr),
+                    parseInt(gStr),
+                    parseInt(bStr)
+                )
+            )
         },
-        [refresher]
+        [format, refresher]
     )
     return (
         <td className={classNames('tile', color)} ref={ref}>
@@ -53,10 +90,11 @@ function Tile({ color, refresher }) {
 
 Tile.propTypes = {
     color: PropTypes.string,
+    format: PropTypes.string,
     refresher: PropTypes.number,
 }
 
-function Row({ name, colors, refresher }) {
+function Row({ name, colors, format, refresher }) {
     return (
         <tr className="listing-entry">
             <td className="tile title">
@@ -64,7 +102,7 @@ function Row({ name, colors, refresher }) {
             </td>
             {
                 colors.map((color) => (
-                    <Tile color={color} key={color} refresher={refresher} />
+                    <Tile color={color} key={color} format={format} refresher={refresher} />
                 ))
             }
         </tr>
@@ -74,6 +112,7 @@ function Row({ name, colors, refresher }) {
 Row.propTypes = {
     name: PropTypes.string,
     colors: PropTypes.arrayOf(PropTypes.string),
+    format: PropTypes.string,
     refresher: PropTypes.number,
 }
 
@@ -84,6 +123,12 @@ export default function TestColors() {
 
     const forceRefresh = () => {
         setRefresher(refresher => refresher + 1)
+    }
+
+    const [format, setFormat] = useState('hsl')
+
+    const createSetFormat = (fmt) => () => {
+        setFormat(fmt)
     }
 
     const colorsBrand = [
@@ -194,6 +239,24 @@ export default function TestColors() {
 
     const controls = (
         <div className="controls">
+            <button
+                className="control primary"
+                onClick={createSetFormat('hex')}
+            >
+                Show HEX
+            </button>
+            <button
+                className="control primary"
+                onClick={createSetFormat('rgb')}
+            >
+                Show RGB
+            </button>
+            <button
+                className="control primary"
+                onClick={createSetFormat('hsl')}
+            >
+                Show HSL
+            </button>
             <button className="control primary" onClick={forceRefresh}>
                 Refresh
             </button>
@@ -222,36 +285,43 @@ export default function TestColors() {
                         <Row
                             name="brand lighter"
                             colors={colorsBrandLighter}
+                            format={format}
                             refresher={refresher}
                         />
                         <Row
                             name="brand light"
                             colors={colorsBrandLight}
+                            format={format}
                             refresher={refresher}
                         />
                         <Row
                             name="brand"
                             colors={colorsBrand}
+                            format={format}
                             refresher={refresher}
                         />
                         <Row
                             name="brand darkish"
                             colors={colorsBrandDarkish}
+                            format={format}
                             refresher={refresher}
                         />
                         <Row
                             name="brand darkened"
                             colors={colorsBrandDarkened}
+                            format={format}
                             refresher={refresher}
                         />
                         <Row
                             name="brand dark"
                             colors={colorsBrandDark}
+                            format={format}
                             refresher={refresher}
                         />
                         <Row
                             name="brand darker"
                             colors={colorsBrandDarker}
+                            format={format}
                             refresher={refresher}
                         />
                     </tbody>
@@ -271,46 +341,55 @@ export default function TestColors() {
                         <Row
                             name="neutral lighter"
                             colors={colorsNeutralLighter}
+                            format={format}
                             refresher={refresher}
                         />
                         <Row
                             name="neutral light"
                             colors={colorsNeutralLight}
+                            format={format}
                             refresher={refresher}
                         />
                         <Row
                             name="neutral"
                             colors={colorsNeutral}
+                            format={format}
                             refresher={refresher}
                         />
                         <Row
                             name="neutral darkish"
                             colors={colorsNeutralDarkish}
+                            format={format}
                             refresher={refresher}
                         />
                         <Row
                             name="neutral darkened"
                             colors={colorsNeutralDarkened}
+                            format={format}
                             refresher={refresher}
                         />
                         <Row
                             name="neutral dark"
                             colors={colorsNeutralDark}
+                            format={format}
                             refresher={refresher}
                         />
                         <Row
                             name="neutral darker"
                             colors={colorsNeutralDarker}
+                            format={format}
                             refresher={refresher}
                         />
                         <Row
                             name="text light"
                             colors={colorsTextLight}
+                            format={format}
                             refresher={refresher}
                         />
                         <Row
                             name="text dark"
                             colors={colorsTextDark}
+                            format={format}
                             refresher={refresher}
                         />
                     </tbody>
