@@ -45,6 +45,10 @@
 
 - Songs that have a disabled tag (i.e., that are masked) are not colored in blue anymore for a playlist manager.
 
+### Fixed
+
+- Fix a crash when opening the page on certain work libraries.
+
 ## 1.8.1 - 2023-12-17
 
 ### Fixed

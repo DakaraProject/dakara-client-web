@@ -48,10 +48,13 @@ class WorkList extends Component {
 
     render() {
         /**
-         * Do not render anything if work types are not fetched
+         * Do not render anything if work types and work are not fetched
          */
 
-        if (this.props.workTypeState.status !== Status.successful) {
+        if (
+            this.props.workTypeState.status !== Status.successful ||
+            this.props.workState.status !== Status.successful
+        ) {
             return null
         }
 
