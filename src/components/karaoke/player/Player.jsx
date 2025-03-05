@@ -138,7 +138,9 @@ class Player extends Component {
             if (use_instrumental) {
                 useInstrumental = (
                     <div className="use-instrumental">
-                        <i className="las la-microphone-slash"></i>
+                        <span className="icon">
+                            <i className="las la-microphone-slash"></i>
+                        </span>
                     </div>
                 )
             }

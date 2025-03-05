@@ -4,10 +4,6 @@
 @use "~/abstracts/controls";
 @use "~/abstracts/sizes";
 
-// Sizes
-$control-height: sizes.$row-height;
-$control-font-size: 1.25em;
-
 .test-colors {
     .mosaic {
         @include sizes.make-gap(margin, vertical);
@@ -84,7 +80,7 @@ $control-font-size: 1.25em;
     }
 
     .controls {
-        @include controls.make-controls($control-height, $control-font-size);
+        @include controls.make-controls();
 
         display: flex;
         justify-content: flex-end;
@@ -95,10 +91,6 @@ $control-font-size: 1.25em;
 
         > .control {
             @include sizes.make-gap(padding, horizontal);
-
-            & {
-                width: unset;
-            }
         }
     }
 }

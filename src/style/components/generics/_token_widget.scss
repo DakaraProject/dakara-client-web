@@ -31,6 +31,8 @@ $token-widget-height: sizes.$row-height;
     }
 
     .controls {
-        @include controls.make-controls($token-widget-height);
+        @include controls.make-controls($height: $token-widget-height, $square: true);
+
+        background: red;
     }
 }

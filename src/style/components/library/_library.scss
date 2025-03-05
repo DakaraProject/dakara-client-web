@@ -36,7 +36,7 @@
                     }
 
                     .controls {
-                        @include controls.make-controls(sizes.$row-height, 1.25em);
+                        @include controls.make-controls();
                     }
                 }
             }

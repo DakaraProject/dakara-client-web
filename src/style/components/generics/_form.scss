@@ -16,9 +16,6 @@
 
 // form sizes
 $form-field-height: sizes.$row-height;
-$form-control-font-size: 1.25em;
-$form-control-icon-size: sizes.$row-icon-font-size;
-
 
 // `form` class:
 //
@@ -42,8 +39,6 @@ $form-control-icon-size: sizes.$row-icon-font-size;
 // input.
 .form {
     $field-height: $form-field-height;
-    $control-font-size: $form-control-font-size;
-    $control-icon-size: $form-control-icon-size;
 
     // `block` subclass:
     //
@@ -187,21 +182,13 @@ $form-control-icon-size: sizes.$row-icon-font-size;
 
         // `controls` subclass: buttons of the form.
         .controls {
+            @include controls.make-controls($height: $field-height);
+
             display: flex;
             justify-content: flex-end;
 
             .control {
                 @include sizes.make-gap(padding, horizontal);
-
-                & {
-                    font-size: $control-font-size;
-                    height: $field-height;
-                    line-height: $field-height;
-                }
-
-                .icon {
-                    font-size: calc($control-icon-size / $control-font-size);
-                }
             }
         }
 
@@ -251,7 +238,7 @@ $form-control-icon-size: sizes.$row-icon-font-size;
 
         // `controls` subclass: buttons of the form
         .controls {
-            @include controls.make-controls($field-height, $control-font-size, $control-icon-size);
+            @include controls.make-controls($height: $field-height);
         }
     }
 

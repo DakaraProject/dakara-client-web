@@ -6,7 +6,9 @@ export default function Marked({ marked }) {
     }
 
     return (
-        <i className="las la-check"></i>
+        <span className="icon">
+            <i className="las la-check"></i>
+        </span>
     )
 }
 Marked.propTypes = {

@@ -13,6 +13,7 @@
 
 // navigator sizes
 $navigator-height: sizes.$row-height;
+$navigator-icon-size: 2em;
 
 // `navigator` class:
 //
@@ -24,7 +25,7 @@ $navigator-height: sizes.$row-height;
 
     .paginator {
         &.controls {
-            @include controls.make-controls($navigator-height, 2em);
+            @include controls.make-controls($height: $navigator-height, $square: true, $icon-size: $navigator-icon-size);
         }
     }
 

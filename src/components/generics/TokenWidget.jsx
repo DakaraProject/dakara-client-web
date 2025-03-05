@@ -38,7 +38,9 @@ export default class TokenWidget extends Component {
                     <button className="control primary" onClick={() => {
                         this.copyToClipboard(token)
                     }}>
-                        <i className="las la-clipboard"></i>
+                        <span className="icon">
+                            <i className="las la-clipboard"></i>
+                        </span>
                     </button>
                 </div>
                 <Notification

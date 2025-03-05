@@ -9,7 +9,6 @@
 
 // Sizes
 $tokens-control-size: sizes.$row-height;
-$tokens-control-font-size: 1.25em;
 $ribbon-height: sizes.$row-height;
 
 #tokens {
@@ -26,21 +25,17 @@ $ribbon-height: sizes.$row-height;
 
         .revoke {
             &.controls {
-                @include controls.make-controls($tokens-control-size, $tokens-control-font-size);
+                @include controls.make-controls($height: $tokens-control-size);
 
                 display: flex;
                 justify-content: flex-end;
 
                 > .control {
                     @include sizes.make-gap(padding, horizontal);
-
-                    & {
-                        width: unset;
-                    }
                 }
 
                 .notification .controls {
-                    @include controls.make-controls($tokens-control-size, $tokens-control-font-size);
+                    @include controls.make-controls($height: $tokens-control-size, $square: true);
                 }
             }
         }
