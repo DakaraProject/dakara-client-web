@@ -33,6 +33,14 @@ $header-height: sizes.$row-height;
         a {
             color: inherit;
             text-decoration: none;
+
+            &:hover:not(:focus) {
+                color: colors.$neutral-clear-light;
+            }
+
+            &:focus {
+                color: colors.$neutral-clear-lighter;
+            }
         }
     }
 }

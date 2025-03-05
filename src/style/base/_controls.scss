@@ -4,8 +4,6 @@
 // Controls style file
 //
 
-@use "sass:color";
-
 @use "~/abstracts/colors";
 @use "~/abstracts/controls";
 @use "~/abstracts/sizes";
@@ -59,14 +57,12 @@
             }
 
             &:not(.disabled):not([disabled]) {
-                // this rule is weaker than the rule for even lines, so it
-                // has to be enforced manually
                 &:hover:not(:focus) {
                     background: $color-hover;
                 }
 
                 &:focus {
-                    background: color.adjust($color-focus, $lightness: 10%);
+                    background: $color-focus;
                 }
             }
         }
