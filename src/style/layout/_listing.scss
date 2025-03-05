@@ -11,7 +11,7 @@
 
 // listing sizes
 $listing-entry-height: sizes.$row-height;
-$listing-entry-control-font-size: sizes.$row-icon-font-size;
+$listing-entry-control-icon-size: sizes.$row-icon-font-size;
 
 // `listing` class:
 //
@@ -101,7 +101,7 @@ $listing-entry-control-font-size: sizes.$row-icon-font-size;
 
         // manage controls
         .controls {
-            @include controls.make-controls($listing-entry-height, $listing-entry-control-font-size);
+            @include controls.make-controls($height: $listing-entry-height, $square: true);
 
             // in listings, controls are close one to other with no space
             // inbetween

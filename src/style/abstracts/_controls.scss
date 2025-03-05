@@ -4,29 +4,30 @@
 // Controls style file
 //
 
-@use "~/thirdparty/preboot";
+@use "~/abstracts/sizes";
 
 // `make-controls` function:
 //
-// The function has to be called wherever a `controls` class is used. It defines
-// the size of the controls.
+// Defines the size of the controls within a `controls` class.
 //
 // Arguments:
-//      $height: heigth and width of the control box.
-//      $font-size: relative size of the text in the control.
-//      $icon-size: relative size of the icon of the control. This value is made
-//          independant of $font-size.
-@mixin make-controls($height, $font-size: 1em, $icon-size: $font-size) {
+//      $height: heigth of the control box.
+//      $square: if `true`, set the width of the control box equal to its height.
+//      $text-size: size of the text of the control.
+//      $icon-size: size of the icon of the control, normalized by `text-size`.
+@mixin make-controls($height: sizes.$row-height, $square: false, $text-size: 1.25em, $icon-size: 1.5em) {
     > .control,
     .subcontrols > .control {
-        @include preboot.square($height);
-
-        font-size: $font-size;
+        font-size: $text-size;
+        height: $height;
         min-width: $height;
 
+        @if $square {
+            width: $height;
+        }
+
         .icon {
-            $size: calc($icon-size / $font-size * 1em);
-            font-size: $size;
+            font-size: calc($icon-size / $text-size * 1em);
         }
     }
 }

@@ -97,13 +97,17 @@ export default class SettingsUsersEntry extends Component {
                                     to={`${user.id}`}
                                     className="control info"
                                 >
-                                    <i className="las la-pen"></i>
+                                    <span className="icon">
+                                        <i className="las la-pen"></i>
+                                    </span>
                                 </ControlLink>
                                 <button
                                     className="control danger"
                                     onClick={this.displayConfirm}
                                 >
-                                    <i className="las la-trash"></i>
+                                    <span className="icon">
+                                        <i className="las la-trash"></i>
+                                    </span>
                                 </button>
                             </IsNotSelf>
                         </div>

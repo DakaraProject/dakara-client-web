@@ -135,7 +135,9 @@ export default class Song extends Component {
         if (song.tags.some((tag) => (tag.disabled))) {
             masked = (
                 <div className="masked">
-                    <i className="las la-eye-slash"></i>
+                    <span className="icon">
+                        <i className="las la-eye-slash"></i>
+                    </span>
                 </div>
             )
         }

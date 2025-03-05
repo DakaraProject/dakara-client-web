@@ -169,9 +169,9 @@ $player-progressbar-height: 0.4rem;
     // `controls` class: buttons to send commands to the player.
     .controls {
         @include sizes.make-gap(padding, bottom);
-        @include controls.make-controls($player-controls-height, 1.5em);
+        @include controls.make-controls($height: $player-controls-height, $square: true);
         @include support.make-smartphone {
-            @include controls.make-controls($player-controls-height-smartphone, 1.1em);
+            @include controls.make-controls($height: $player-controls-height-smartphone, $square: true, $icon-size: 1.1em);
         }
 
         & {

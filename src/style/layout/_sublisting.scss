@@ -10,7 +10,7 @@
 
 // sublisting sizes
 $sublisting-entry-height: sizes.$subrow-height;
-$sublisting-entry-control-font-size: sizes.$subrow-icon-font-size;
+$sublisting-entry-control-icon-size: sizes.$subrow-icon-font-size;
 
 // `sublisting` class:
 //
@@ -43,7 +43,7 @@ $sublisting-entry-control-font-size: sizes.$subrow-icon-font-size;
         }
 
         .controls {
-            @include controls.make-controls($height, $sublisting-entry-control-font-size);
+            @include controls.make-controls($height: $height, $square: true, $icon-size: $sublisting-entry-control-icon-size);
 
             align-self: flex-start;
         }

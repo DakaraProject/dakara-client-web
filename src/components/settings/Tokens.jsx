@@ -124,7 +124,9 @@ class PlayerTokenBox extends Component {
                                     className="control primary"
                                     onClick={() => {createPlayerToken(karaoke.id)}}
                                 >
-                                    <i className="las la-plus-circle"></i>
+                                    <span className="icon">
+                                        <i className="las la-plus-circle"></i>
+                                    </span>
                                 </button>
                             </div>
                             <Notification

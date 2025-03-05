@@ -69,7 +69,9 @@ export default class SettingsSongTagsEntry extends Component {
             )
         } else {
             enablenessWidget = (
-                <i className="las la-check"></i>
+                <span className="icon">
+                    <i className="las la-check"></i>
+                </span>
             )
         }
 
@@ -86,7 +88,9 @@ export default class SettingsSongTagsEntry extends Component {
                         onClick={this.displayColorForm}
                         style={{filter: `hue-rotate(${tag.color_hue}deg)`}}
                     >
-                        <i className="las la-paint-brush"></i>
+                        <span className="icon">
+                            <i className="las la-paint-brush"></i>
+                        </span>
                     </button>
                 </div>
             )

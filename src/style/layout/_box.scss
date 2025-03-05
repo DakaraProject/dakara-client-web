@@ -168,7 +168,7 @@ $ribbon-control-height: sizes.$row-height;
 
             // subclass the controls with `free` to freely control their style
             .controls:not(.free) {
-                @include controls.make-controls($ribbon-control-height);
+                @include controls.make-controls($height: $ribbon-control-height, $square: true);
             }
         }
 
