@@ -32,13 +32,13 @@ export const loadLibraryEntries = (
     library,
     { query, page = 1, type } = {}
 ) => {
-    const string = queryString.stringify({
+    const queryStr = queryString.stringify({
         ...(page) && {page},
         ...(query) && {query},
         ...(type) && {type},
     })
 
-    const url = `${baseUrl}/library/${library}/?${string}`
+    const url = `${baseUrl}/library/${library}/?${queryStr}`
 
     return fetchLibraryEntries(url, library, type)
 }
