@@ -11,7 +11,9 @@ archive_name="dakara-client-web_$version.zip"
 echo "Creating build, please wait..."
 npm run build
 
+cd dist
+
 # archive the dist folder
-zip -r "$archive_name" dist
+zip -r "../$archive_name" static
 
 echo "Archive created in $archive_name"
