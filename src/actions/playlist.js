@@ -52,13 +52,13 @@ export const PLAYLIST_ENTRIES_FAILURE = 'PLAYLIST_ENTRIES_FAILURE'
  * @param type Type of the playlist requested.
  */
 export const loadPlaylistEntries = (playlistEntriesType, { page = 1 } = {}) => {
-    const queryString = queryString.stringify({
+    const queryStr = queryString.stringify({
         ...(page) && {page},
     })
 
     return {
         [FETCH_API]: {
-                endpoint: `${baseUrl}/playlist/${playlistEntriesType}/?${queryString}`,
+                endpoint: `${baseUrl}/playlist/${playlistEntriesType}/?${queryStr}`,
                 method: 'GET',
                 types: [
                     PLAYLIST_ENTRIES_REQUEST,
