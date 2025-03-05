@@ -73,13 +73,13 @@ class SearchBox extends Component {
         let helpBox
         if (help) {
             helpButton = (
-                <div className="control" onClick={e => {
+                <button className="control" onClick={e => {
                     this.toggleHelp()
                 }}>
                     <span className="icon">
                         <i className="las la-question-circle"></i>
                     </span>
-                </div>
+                </button>
             )
 
             helpBox = (
@@ -137,7 +137,7 @@ class SearchBox extends Component {
                                 />
                                 <div className="controls">
                                     {helpButton}
-                                    <div className="control" onClick={e => {
+                                    <button className="control" onClick={e => {
                                             this.setState({query: ''})
                                             // clear query string
                                             this.props.setSearchParams({})
@@ -146,7 +146,7 @@ class SearchBox extends Component {
                                         <span className="icon">
                                             <i className="las la-times"></i>
                                         </span>
-                                    </div>
+                                    </button>
                                 </div>
                             </div>
                         </div>

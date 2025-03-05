@@ -329,14 +329,17 @@ $form-field-height: sizes.$row-height;
         }
 
         // controls inside inputs
-        .input .controls {
+        .input .controls .control {
             // no margin when stacking controls
-            .control {
-                margin-right: 0;
+            background: transparent;
+            margin: 0;
+
+            &:hover:not(:focus) {
+                color: colors.$neutral-mid;
             }
 
-            .icon {
-                font-size: 1.1em;
+            &:focus {
+                color: colors.$neutral-mid-light;
             }
         }
 

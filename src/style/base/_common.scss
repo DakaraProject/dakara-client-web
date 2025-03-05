@@ -19,6 +19,14 @@ body {
 a {
     color: colors.$brand-primary-light;
     text-decoration: underline;
+
+    &:hover:not(:focus) {
+        color: colors.$brand-primary-lighter;
+    }
+
+    &:focus {
+        color: colors.$brand-primary-lighter;
+    }
 }
 
 // highlight tag
