@@ -16,6 +16,7 @@
     "build": "vite build --outDir dist/static --base /static",
     "lint": "eslint src --ext .js,.jsx",
     "stylelint": "stylelint ./src/style/**/*.{css,scss}",
+    "format": "prettier --write ./src",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -37,12 +38,15 @@
   "devDependencies": {
     "@vitejs/plugin-react-swc": "^3.8.0",
     "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.0.2",
     "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "normalize.css": "^8.0.1",
+    "prettier": "3.5.3",
     "sass": "^1.85.1",
     "stylelint": "^14.16.1",
     "stylelint-config-sass-guidelines": "^9.0.1",
