@@ -48,8 +48,9 @@
     "normalize.css": "^8.0.1",
     "prettier": "3.5.3",
     "sass": "^1.85.1",
-    "stylelint": "^14.16.1",
-    "stylelint-config-sass-guidelines": "^9.0.1",
+    "stylelint": "^16.0.0",
+    "stylelint-config-sass-guidelines": "^12.1.0",
+    "stylelint-prettier": "^5.0.3",
     "vite": "^6.2.0",
     "vite-jsconfig-paths": "^2.0.1",
     "vite-plugin-checker": "^0.8.0"
