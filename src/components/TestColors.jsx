@@ -102,7 +102,12 @@ function Row({ name, colors, format, refresher }) {
             </td>
             {
                 colors.map((color) => (
-                    <Tile color={color} key={color} format={format} refresher={refresher} />
+                    <Tile
+                        color={color}
+                        key={color}
+                        format={format}
+                        refresher={refresher}
+                    />
                 ))
             }
         </tr>
