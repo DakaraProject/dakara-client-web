@@ -11,6 +11,9 @@ archive_name="dakara-client-web_$version.zip"
 echo "Creating build, please wait..."
 npm run build
 
+# remove existing archive if any
+rm -rf "$archive_name"
+
 cd dist
 
 # archive the dist folder
