@@ -52,7 +52,7 @@ $tab-bar-icon-font-size: 1.25em;
             @include preboot.text-truncate();
 
             background: colors.$neutral-mid;
-            color: inherit;
+            color: colors.$neutral-clear;
             cursor: pointer;
             height: $tab-bar-height;
             line-height: $tab-bar-height;
@@ -84,6 +84,7 @@ $tab-bar-icon-font-size: 1.25em;
         &:hover:not(.active),
         &:focus:not(.active) {
             background: colors.$neutral-mid-lighter;
+            color: inherit;
         }
 
         .icon {
