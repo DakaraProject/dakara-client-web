@@ -6,6 +6,7 @@
 
 @use "~/thirdparty/preboot";
 
+@use "~/abstracts/colors";
 @use "~/abstracts/sizes";
 @use "~/abstracts/support";
 
@@ -34,22 +35,39 @@
             flex-direction: column;
         }
 
-        // `song` subclass: the song itself.
-        .song {
+        .expander {
+            background: unset;
+            border: 0;
+            color: unset;
             cursor: pointer;
             flex: 1;
-            min-height: sizes.$row-height;
+            margin: 0;
+            padding: 0;
+            text-align: unset;
 
-            .general {
-                @include sizes.make-vertical-row-padding(horizontal);
+            &:focus {
+                background: colors.$neutral-mid-lighter;
 
-                @include support.make-smartphone {
-                    align-items: initial;
-                    flex-direction: column;
+                .song .duration {
+                    background: colors.$neutral-clear-lighter;
+                }
+            }
 
-                    .artist-work {
-                        @include support.make-smartphone {
-                            display: none;
+            // `song` subclass: the song itself.
+            .song {
+                min-height: sizes.$row-height;
+
+                .general {
+                    @include sizes.make-vertical-row-padding(horizontal);
+
+                    @include support.make-smartphone {
+                        align-items: initial;
+                        flex-direction: column;
+
+                        .artist-work {
+                            @include support.make-smartphone {
+                                display: none;
+                            }
                         }
                     }
                 }
