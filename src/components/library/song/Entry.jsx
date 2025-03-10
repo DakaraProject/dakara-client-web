@@ -99,7 +99,7 @@ class SongEntry extends Component {
                 >
                     <div className="library-entry-song-compact hoverizable notifiable">
                         <button
-                            className="expander"
+                            className="expander transparent"
                             onClick={
                                 () => expanded ?
                                     this.setExpanded() :

@@ -331,7 +331,6 @@ $form-field-height: sizes.$row-height;
         // controls inside inputs
         .input .controls .control {
             // no margin when stacking controls
-            background: transparent;
             margin: 0;
 
             &:hover:not(:focus) {
