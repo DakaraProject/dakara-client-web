@@ -15,20 +15,6 @@ body {
     padding: 0;
 }
 
-// links
-a {
-    color: colors.$brand-primary-light;
-    text-decoration: underline;
-
-    &:hover:not(:focus) {
-        color: colors.$brand-primary-lighter;
-    }
-
-    &:focus {
-        color: colors.$brand-primary-lighter;
-    }
-}
-
 // highlight tag
 mark {
     background: colors.$brand-primary;
@@ -62,6 +48,20 @@ h3 {
 
 p {
     @include fonts.make-long;
+
+    // links
+    a {
+        color: colors.$brand-primary-light;
+        text-decoration: underline;
+
+        &:hover:not(:focus) {
+            color: colors.$brand-primary-lighter;
+        }
+
+        &:focus {
+            color: colors.$brand-primary-lighter;
+        }
+    }
 }
 
 ul {
