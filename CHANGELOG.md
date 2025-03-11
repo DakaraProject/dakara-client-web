@@ -30,6 +30,10 @@
 
 ## Unreleased
 
+### Changed
+
+- Allow any clickable element to focus.
+
 ## 1.9.0 - 2025-03-06
 
 ### Added
@@ -41,7 +45,7 @@
 
 - Played and queuing playlist entries can be accessed in a library fashion (using pagination).
 - Allow to reorder a queing playlist entry to the top or to the bottom of the playlist.
-- Do not highlight rows on focus (only on hover), focus buttons instead.
+- Do not highlight rows on focus (only on hover).
 
 ### Removed
 
