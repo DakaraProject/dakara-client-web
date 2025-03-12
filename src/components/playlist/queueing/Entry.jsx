@@ -127,10 +127,14 @@ class Entry extends Component {
                 {delayed: this.props.responseOfRemoveEntry}
             )}>
                 <div className="library-entry-song-compact notifiable">
-                    <Song
-                        song={entry.song}
-                        handleClick={this.handleSearch}
-                    />
+                    <button
+                        className="expander transparent"
+                        onClick={() => this.handleSearch()}
+                    >
+                        <Song
+                            song={entry.song}
+                        />
+                    </button>
                     <div className="extra">
                         <PlaylistPositionInfo
                             entryQueuing={playlistEntries.find(e => e.id === entry.id)}

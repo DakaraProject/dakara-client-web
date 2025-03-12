@@ -98,18 +98,22 @@ class SongEntry extends Component {
                     )}
                 >
                     <div className="library-entry-song-compact hoverizable notifiable">
-                        <Song
-                            song={song}
-                            query={query}
-                            noArtistWork={expanded}
-                            noTag={expanded}
-                            karaokeRemainingSeconds={karaokeRemainingSeconds}
-                            handleClick={
+                        <button
+                            className="expander transparent"
+                            onClick={
                                 () => expanded ?
                                     this.setExpanded() :
                                     this.setExpanded(song.id)
                             }
-                        />
+                        >
+                            <Song
+                                song={song}
+                                query={query}
+                                noArtistWork={expanded}
+                                noTag={expanded}
+                                karaokeRemainingSeconds={karaokeRemainingSeconds}
+                            />
+                        </button>
                         <div className="extra">
                             <TransitionGroup
                                 className="play-queue-info-wrapper"

@@ -47,7 +47,7 @@
         }
 
         // maker for different type of control buttons
-        @mixin make-control($color-enabled, $color-disabled, $color-activated) {
+        @mixin make-control($color-enabled, $color-disabled, $color-hover, $color-focus: $color-hover) {
             background: $color-enabled;
 
             &.disabled,
@@ -56,10 +56,14 @@
                 cursor: default;
             }
 
-            // this rule is weaker than the rule for even lines, so it
-            // has to be enforced manually
-            &:not(.disabled):not([disabled]):hover {
-                background: $color-activated !important;
+            &:not(.disabled):not([disabled]) {
+                &:hover:not(:focus) {
+                    background: $color-hover;
+                }
+
+                &:focus {
+                    background: $color-focus;
+                }
             }
         }
 
@@ -96,7 +100,9 @@
 .sublisting-entry:nth-child(even) .controls.subcontrols {
     .control {
         @mixin make-control-line-even($color-normal, $color-disabled) {
-            background: $color-normal;
+            &:not(:hover):not(:focus) {
+                background: $color-normal;
+            }
 
             &.disabled,
             &[disabled] {
@@ -131,7 +137,7 @@
 .hoverizable:hover .controls:not(:hover) {
     .control {
         @mixin make-control-line-hover($color-normal, $color-disabled) {
-            &:not(.disabled):not([disabled]) {
+            &:not(.disabled):not([disabled]):not(:focus) {
                 background: $color-normal;
             }
 

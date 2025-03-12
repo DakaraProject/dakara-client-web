@@ -30,6 +30,15 @@
 
 ## Unreleased
 
+### Changed
+
+- Allow any clickable element to focus.
+
+### Fixed
+
+- Fixed tabs padding for smartphones.
+- Fixed notification control font size.
+
 ## 1.9.0 - 2025-03-06
 
 ### Added
