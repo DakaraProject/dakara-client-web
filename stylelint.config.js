@@ -1,15 +1,14 @@
-{
-  "extends": [
+export default {
+  extends: [
     "stylelint-config-sass-guidelines",
-    "stylelint-prettier/recommended"
+    "stylelint-prettier/recommended",
   ],
-  "rules": {
+  rules: {
     "color-named": "always-where-possible",
-    "function-parentheses-space-inside": "never-single-line",
     "max-nesting-depth": 99,
     "scss/selector-no-redundant-nesting-selector": null,
     "selector-max-compound-selectors": 9,
     "selector-max-id": 1,
-    "selector-no-qualifying-type": [null, { "ignore": ["attribute", "class"] }]
+    "selector-no-qualifying-type": [null, { "ignore": ["attribute", "class"] }],
   }
 }
