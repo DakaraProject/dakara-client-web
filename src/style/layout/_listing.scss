@@ -65,8 +65,7 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
         // can be applied to the listing-entry itself or any of its children
         .hoverizable,
         &.hoverizable {
-            &:hover,
-            &:focus {
+            &:hover {
                 background: colors.$neutral-mid-lighter;
             }
         }

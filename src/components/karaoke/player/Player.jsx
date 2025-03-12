@@ -155,8 +155,8 @@ class Player extends Component {
                 <div className="player-info">
                     <div className="playlist-entry">
                         {useInstrumental}
-                        <div
-                            className="entry-info"
+                        <button
+                            className="entry-info transparent"
                             onClick={() => {
                                 this.handleSearch(song)
                             }}
@@ -180,7 +180,7 @@ class Player extends Component {
                                 ))}
                             </div>
                             <UserWidget user={owner} noResize />
-                        </div>
+                        </button>
                     </div>
                     <div className="timing">
                         <div className="current">

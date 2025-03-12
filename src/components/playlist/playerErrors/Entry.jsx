@@ -72,16 +72,20 @@ class PlayerErrorsEntry extends Component {
                         'hoverizable'
                     }
                 >
-                    <Song
-                        song={entry.song}
-                        handleClick={
+                    <button
+                        className="expander transparent"
+                        onClick={
                             () => {
                                 expanded ?
                                     this.setExpanded() :
                                     this.setExpanded(playerError.id)
                             }
                         }
-                    />
+                    >
+                        <Song
+                            song={entry.song}
+                        />
+                    </button>
                     <div className="extra">
                         <PlaylistPositionInfo
                             entryPlayed={entry}

@@ -36,10 +36,14 @@ class Entry extends Component {
                 }
             >
                 <div className="library-entry-song-compact">
-                    <Song
-                        song={entry.song}
-                        handleClick={this.handleSearch}
-                    />
+                    <button
+                        className="expander transparent"
+                        onClick={() => this.handleSearch()}
+                    >
+                        <Song
+                            song={entry.song}
+                        />
+                    </button>
                     <div className="extra">
                         <PlaylistPositionInfo
                             entryPlayed={entry}

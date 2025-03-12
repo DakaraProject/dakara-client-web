@@ -81,7 +81,14 @@ $player-progressbar-height: 0.4rem;
                     cursor: pointer;
                     min-height: $player-controls-height;
                     overflow: hidden;
-                    transition: all 0.3s ease-out;
+                }
+
+                &:hover:not(:focus) {
+                    color: colors.$brand-primary-lighter;
+                }
+
+                &:focus {
+                    color: colors.$brand-primary-lighter;
                 }
 
                 .song-title {

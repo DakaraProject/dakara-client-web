@@ -30,6 +30,10 @@
 
 ## Unreleased
 
+### Changed
+
+- Allow any clickable element to focus.
+
 ### Fixed
 
 - Fixed tabs padding for smartphones.

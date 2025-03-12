@@ -41,7 +41,11 @@ $playlist-info-bar-height-smartphone: 7rem;
         text-decoration: none;
     }
 
-    &:hover {
+    &:hover:not(:focus) {
+        background: colors.$brand-primary-lighter;
+    }
+
+    &:focus {
         background: colors.$brand-primary-lighter;
     }
 
