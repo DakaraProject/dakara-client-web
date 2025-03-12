@@ -14,7 +14,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --outDir dist/static --base /static",
-    "lint": "eslint src --ext .js,.jsx",
+    "lint": "eslint .",
     "stylelint": "stylelint ./src/style/**/*.{css,scss}",
     "format": "prettier --write ./src",
     "preview": "vite preview"
@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react-swc": "^3.8.0",
-    "eslint": "^8.57.1",
+    "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.0.2",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.3",
@@ -53,6 +53,8 @@
     "stylelint-prettier": "^5.0.3",
     "vite": "^6.2.0",
     "vite-jsconfig-paths": "^2.0.1",
-    "vite-plugin-checker": "^0.8.0"
+    "vite-plugin-checker": "^0.8.0",
+    "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-stylelint": "^6.0.0"
   }
 }
