@@ -37,6 +37,7 @@
 
         .expander {
             flex: 1;
+            overflow-y: hidden;
 
             &:focus {
                 background: colors.$neutral-mid-lighter;
