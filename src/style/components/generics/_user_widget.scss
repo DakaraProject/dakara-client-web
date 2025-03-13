@@ -4,18 +4,18 @@
 // User widget style file
 //
 
-@use "~/abstracts/support";
+@use '~/abstracts/support';
 
 .user-widget {
-    white-space: nowrap;
+  white-space: nowrap;
 
-    &:not(.no-resize) {
-        @include support.make-smartphone {
-            font-size: 0.85em;
-        }
+  &:not(.no-resize) {
+    @include support.make-smartphone {
+      font-size: 0.85em;
     }
+  }
 
-    .icon {
-        margin-right: 0.5em;
-    }
+  .icon {
+    margin-right: 0.5em;
+  }
 }

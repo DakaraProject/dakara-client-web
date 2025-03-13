@@ -5,15 +5,15 @@
 //
 
 @mixin make-text {
-    font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 @mixin make-icon {
-    font-family: "Line Awesome Free";
-    font-weight: 900;
+  font-family: 'Line Awesome Free';
+  font-weight: 900;
 }
 
 // make long text clearly readible
 @mixin make-long {
-    font-size: 1.2em;
+  font-size: 1.2em;
 }

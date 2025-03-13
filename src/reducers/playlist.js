@@ -3,102 +3,101 @@ import { combineReducers } from 'redux'
 
 import { ALTERATION_SUCCESS } from 'actions/alterations'
 import {
-    PLAYER_ERRORS_FAILURE,
-    PLAYER_ERRORS_REQUEST,
-    PLAYER_ERRORS_SUCCESS,
-    PLAYER_TOKEN_FAILURE,
-    PLAYER_TOKEN_REQUEST,
-    PLAYER_TOKEN_SUCCESS,
-    PLAYLIST_ENTRIES_FAILURE,
-    PLAYLIST_ENTRIES_REQUEST,
-    PLAYLIST_ENTRIES_SUCCESS,
+  PLAYER_ERRORS_FAILURE,
+  PLAYER_ERRORS_REQUEST,
+  PLAYER_ERRORS_SUCCESS,
+  PLAYER_TOKEN_FAILURE,
+  PLAYER_TOKEN_REQUEST,
+  PLAYER_TOKEN_SUCCESS,
+  PLAYLIST_ENTRIES_FAILURE,
+  PLAYLIST_ENTRIES_REQUEST,
+  PLAYLIST_ENTRIES_SUCCESS,
 } from 'actions/playlist'
 import {
-    PLAYLIST_DIGEST_FAILURE,
-    PLAYLIST_DIGEST_REQUEST,
-    PLAYLIST_DIGEST_SUCCESS,
+  PLAYLIST_DIGEST_FAILURE,
+  PLAYLIST_DIGEST_REQUEST,
+  PLAYLIST_DIGEST_SUCCESS,
 } from 'actions/playlistDigest'
 import { Status } from 'reducers/alterationsResponse'
 import digest from 'reducers/playlistDigest'
 import {
-    karaokePropType,
-    playerErrorPropType,
-    playerStatusPropType,
-    playerTokenPropType,
-    playlistEntryPropType,
+  karaokePropType,
+  playerErrorPropType,
+  playerStatusPropType,
+  playerTokenPropType,
+  playlistEntryPropType,
 } from 'serverPropTypes/playlist'
 import { updateData } from 'utils'
-
 
 /**
  * This reducer contains playlist related state
  */
-
 
 /**
  * Generators for playlist entries
  */
 
 const generatePlaylistEntriesPropType = (
-    playlistEntriesPropType,
-    playlistEntriesKey
-) => (
-    PropTypes.shape({
-        status: PropTypes.symbol,
-        data: PropTypes.shape({
-            pagination: PropTypes.shape({
-                current: PropTypes.number.isRequired,
-                last: PropTypes.number.isRequired,
-            }).isRequired,
-            count: PropTypes.number.isRequired,
-            [playlistEntriesKey]: PropTypes.arrayOf(playlistEntriesPropType).isRequired,
-        }),
-    })
-)
+  playlistEntriesPropType,
+  playlistEntriesKey
+) =>
+  PropTypes.shape({
+    status: PropTypes.symbol,
+    data: PropTypes.shape({
+      pagination: PropTypes.shape({
+        current: PropTypes.number.isRequired,
+        last: PropTypes.number.isRequired,
+      }).isRequired,
+      count: PropTypes.number.isRequired,
+      [playlistEntriesKey]: PropTypes.arrayOf(playlistEntriesPropType)
+        .isRequired,
+    }),
+  })
 
 const generateDefaultPlaylistEntries = (playlistEntriesKey) => ({
-    status: null,
-    data: {
-        pagination: {
-            current: 1,
-            last: 1,
-        },
-        count: 0,
-        [playlistEntriesKey]: []
+  status: null,
+  data: {
+    pagination: {
+      current: 1,
+      last: 1,
     },
+    count: 0,
+    [playlistEntriesKey]: [],
+  },
 })
 
-const generatePlaylistEntriesReducer = playlistEntriesType => {
-    const defaultPlaylistEntries = generateDefaultPlaylistEntries(playlistEntriesType)
+const generatePlaylistEntriesReducer = (playlistEntriesType) => {
+  const defaultPlaylistEntries =
+    generateDefaultPlaylistEntries(playlistEntriesType)
 
-    return (state = defaultPlaylistEntries, action) => {
-        if (action.playlistEntriesType !== playlistEntriesType) {
-            return state
-        }
-
-        switch (action.type) {
-            case PLAYLIST_ENTRIES_REQUEST:
-                return {
-                    ...state,
-                    status: Status.pending,
-                }
-
-            case PLAYLIST_ENTRIES_SUCCESS:
-                return {
-                    status: Status.successful,
-                    data: updateData(action.response, playlistEntriesType),
-                }
-
-            case PLAYLIST_ENTRIES_FAILURE:
-                return {
-                    status: Status.failed,
-                    data: defaultPlaylistEntries.data,
-                }
-
-            default:
-                return state
-        }
+  return (state = defaultPlaylistEntries, action) => {
+    if (action.playlistEntriesType !== playlistEntriesType) {
+      return state
     }
+
+    switch (action.type) {
+      case PLAYLIST_ENTRIES_REQUEST:
+        return {
+          ...state,
+          status: Status.pending,
+        }
+
+      case PLAYLIST_ENTRIES_SUCCESS:
+        return {
+          status: Status.successful,
+          data: updateData(action.response, playlistEntriesType),
+        }
+
+      case PLAYLIST_ENTRIES_FAILURE:
+        return {
+          status: Status.failed,
+          data: defaultPlaylistEntries.data,
+        }
+
+      default:
+        return state
+    }
+  }
 }
 
 /**
@@ -106,8 +105,8 @@ const generatePlaylistEntriesReducer = playlistEntriesType => {
  */
 
 export const queuingStatePropType = generatePlaylistEntriesPropType(
-    playlistEntryPropType,
-    'queuing'
+  playlistEntryPropType,
+  'queuing'
 )
 const queuing = generatePlaylistEntriesReducer('queuing')
 
@@ -116,8 +115,8 @@ const queuing = generatePlaylistEntriesReducer('queuing')
  */
 
 export const playedStatePropType = generatePlaylistEntriesPropType(
-    playlistEntryPropType,
-    'played'
+  playlistEntryPropType,
+  'played'
 )
 const played = generatePlaylistEntriesReducer('played')
 
@@ -126,74 +125,74 @@ const played = generatePlaylistEntriesReducer('played')
  */
 
 export const playerStatusStatePropType = PropTypes.shape({
-    status: PropTypes.symbol,
-    data: playerStatusPropType.isRequired,
+  status: PropTypes.symbol,
+  data: playerStatusPropType.isRequired,
 })
 
 const defaultPlayerStatus = {
-    status: null,
-    data: {
-        playlist_entry: null,
-        timing: 0,
-        paused: false,
-        in_transition: false,
-        date: new Date().toString(),
-    }
+  status: null,
+  data: {
+    playlist_entry: null,
+    timing: 0,
+    paused: false,
+    in_transition: false,
+    date: new Date().toString(),
+  },
 }
 
 function playerStatus(state = defaultPlayerStatus, action) {
-    switch (action.type) {
-        case PLAYLIST_DIGEST_REQUEST:
+  switch (action.type) {
+    case PLAYLIST_DIGEST_REQUEST:
+      return {
+        ...state,
+        status: state.status || Status.pending,
+      }
+
+    case PLAYLIST_DIGEST_SUCCESS:
+      return {
+        status: Status.successful,
+        data: action.response.player_status,
+      }
+
+    case PLAYLIST_DIGEST_FAILURE:
+      return {
+        ...state,
+        status: Status.failed,
+      }
+
+    // if a pause command has been successfuly sent to the server,
+    // adapt the state now
+    case ALTERATION_SUCCESS:
+      if (action.alterationName === 'sendPlayerCommand') {
+        switch (action.elementId) {
+          case 'pause':
             return {
-                ...state,
-                status: state.status || Status.pending
+              ...state,
+              data: {
+                ...state.data,
+                paused: true,
+              },
             }
 
-        case PLAYLIST_DIGEST_SUCCESS:
+          case 'resume':
             return {
-                status: Status.successful,
-                data: action.response.player_status,
+              ...state,
+              data: {
+                ...state.data,
+                paused: false,
+              },
             }
 
-        case PLAYLIST_DIGEST_FAILURE:
-            return {
-                ...state,
-                status: Status.failed,
-            }
-
-        // if a pause command has been successfuly sent to the server,
-        // adapt the state now
-        case ALTERATION_SUCCESS:
-            if (action.alterationName === 'sendPlayerCommand') {
-                switch (action.elementId) {
-                    case 'pause':
-                        return {
-                            ...state,
-                            data: {
-                                ...state.data,
-                                paused: true,
-                            }
-                        }
-
-                    case 'resume':
-                        return {
-                            ...state,
-                            data: {
-                                ...state.data,
-                                paused: false,
-                            }
-                        }
-
-                    default:
-                        return state
-                }
-            }
-
+          default:
             return state
+        }
+      }
 
-        default:
-            return state
-    }
+      return state
+
+    default:
+      return state
+  }
 }
 
 /**
@@ -201,52 +200,52 @@ function playerStatus(state = defaultPlayerStatus, action) {
  */
 
 export const playerErrorsStatePropType = PropTypes.shape({
-    status: PropTypes.symbol,
-    data: PropTypes.shape({
-        pagination: PropTypes.shape({
-            current: PropTypes.number.isRequired,
-            last: PropTypes.number.isRequired,
-        }).isRequired,
-        count: PropTypes.number.isRequired,
-        playerErrors: PropTypes.arrayOf(playerErrorPropType).isRequired,
-    }),
+  status: PropTypes.symbol,
+  data: PropTypes.shape({
+    pagination: PropTypes.shape({
+      current: PropTypes.number.isRequired,
+      last: PropTypes.number.isRequired,
+    }).isRequired,
+    count: PropTypes.number.isRequired,
+    playerErrors: PropTypes.arrayOf(playerErrorPropType).isRequired,
+  }),
 })
 
 const defaultPlayerErrors = {
-    status: null,
-    data: {
-        pagination: {
-            current: 1,
-            last: 1,
-        },
-        count: 0,
-        playerErrors: []
-    }
+  status: null,
+  data: {
+    pagination: {
+      current: 1,
+      last: 1,
+    },
+    count: 0,
+    playerErrors: [],
+  },
 }
 
 function playerErrors(state = defaultPlayerErrors, action) {
-    switch (action.type) {
-        case PLAYER_ERRORS_REQUEST:
-            return {
-                ...state,
-                status: Status.pending
-            }
+  switch (action.type) {
+    case PLAYER_ERRORS_REQUEST:
+      return {
+        ...state,
+        status: Status.pending,
+      }
 
-        case PLAYER_ERRORS_SUCCESS:
-            return {
-                status: Status.successful,
-                data: updateData(action.response, 'playerErrors'),
-            }
+    case PLAYER_ERRORS_SUCCESS:
+      return {
+        status: Status.successful,
+        data: updateData(action.response, 'playerErrors'),
+      }
 
-        case PLAYER_ERRORS_FAILURE:
-            return {
-                ...state,
-                status: Status.failed,
-            }
+    case PLAYER_ERRORS_FAILURE:
+      return {
+        ...state,
+        status: Status.failed,
+      }
 
-        default:
-            return state
-    }
+    default:
+      return state
+  }
 }
 
 /**
@@ -254,44 +253,44 @@ function playerErrors(state = defaultPlayerErrors, action) {
  */
 
 export const karaokeStatePropType = PropTypes.shape({
-    status: PropTypes.symbol,
-    data: karaokePropType.isRequired,
+  status: PropTypes.symbol,
+  data: karaokePropType.isRequired,
 })
 
 const defaultKaraoke = {
-    status: null,
-    data: {
-        id: null,
-        ongoing: false,
-        can_add_to_playlist: false,
-        player_play_next_song: false,
-        date_stop: null
-    }
+  status: null,
+  data: {
+    id: null,
+    ongoing: false,
+    can_add_to_playlist: false,
+    player_play_next_song: false,
+    date_stop: null,
+  },
 }
 
 function karaoke(state = defaultKaraoke, action) {
-    switch (action.type) {
-        case PLAYLIST_DIGEST_REQUEST:
-            return {
-                ...state,
-                status: state.status || Status.pending
-            }
+  switch (action.type) {
+    case PLAYLIST_DIGEST_REQUEST:
+      return {
+        ...state,
+        status: state.status || Status.pending,
+      }
 
-        case PLAYLIST_DIGEST_SUCCESS:
-            return {
-                status: Status.successful,
-                data: action.response.karaoke,
-            }
+    case PLAYLIST_DIGEST_SUCCESS:
+      return {
+        status: Status.successful,
+        data: action.response.karaoke,
+      }
 
-        case PLAYLIST_DIGEST_FAILURE:
-            return {
-                ...state,
-                status: Status.failed,
-            }
+    case PLAYLIST_DIGEST_FAILURE:
+      return {
+        ...state,
+        status: Status.failed,
+      }
 
-        default:
-            return state
-    }
+    default:
+      return state
+  }
 }
 
 /**
@@ -299,65 +298,65 @@ function karaoke(state = defaultKaraoke, action) {
  */
 
 export const playerTokenStatePropType = PropTypes.shape({
-    status: PropTypes.symbol,
-    data: playerTokenPropType.isRequired,
+  status: PropTypes.symbol,
+  data: playerTokenPropType.isRequired,
 })
 
 const defaultPlayerToken = {
-    status: null,
-    data: {
-        karaoke_id: null,
-        key: null,
-    },
+  status: null,
+  data: {
+    karaoke_id: null,
+    key: null,
+  },
 }
 
 function playerToken(state = defaultPlayerToken, action) {
-    switch (action.type) {
-        case PLAYER_TOKEN_REQUEST:
-            return {
-                ...state,
-                status: state.status || Status.pending,
-            }
+  switch (action.type) {
+    case PLAYER_TOKEN_REQUEST:
+      return {
+        ...state,
+        status: state.status || Status.pending,
+      }
 
-        case PLAYER_TOKEN_SUCCESS:
-            return {
-                status: Status.successful,
-                data: action.response,
-            }
+    case PLAYER_TOKEN_SUCCESS:
+      return {
+        status: Status.successful,
+        data: action.response,
+      }
 
-        case PLAYER_TOKEN_FAILURE:
-            // if the player token doesn't exist
-            // TODO change to low level check
-            if (action.error.detail === 'Not found.') {
-                return {
-                    status: Status.successful,
-                    data: {
-                        token: null,
-                    }
-                }
-            }
+    case PLAYER_TOKEN_FAILURE:
+      // if the player token doesn't exist
+      // TODO change to low level check
+      if (action.error.detail === 'Not found.') {
+        return {
+          status: Status.successful,
+          data: {
+            token: null,
+          },
+        }
+      }
 
-            return {
-                ...state,
-                status: Status.failed,
-            }
+      return {
+        ...state,
+        status: Status.failed,
+      }
 
-        case ALTERATION_SUCCESS:
-            // if the player token has been revoked
-            if (action.alterationName === 'revokePlayerToken') {
-                return {
-                    status: Status.successful,
-                    data: {
-                        token: null,
-                    }
-                }
-            }
+    case ALTERATION_SUCCESS:
+      // if the player token has been revoked
+      if (action.alterationName === 'revokePlayerToken') {
+        return {
+          status: Status.successful,
+          data: {
+            token: null,
+          },
+        }
+      }
 
-            return state
+      return state
 
-        default:
-            return state
-    }
+    default:
+      return state
+  }
 }
 
 /**
@@ -365,13 +364,13 @@ function playerToken(state = defaultPlayerToken, action) {
  */
 
 const playlist = combineReducers({
-    queuing,
-    played,
-    playerStatus,
-    playerErrors,
-    karaoke,
-    playerToken,
-    digest,
+  queuing,
+  played,
+  playerStatus,
+  playerErrors,
+  karaoke,
+  playerToken,
+  digest,
 })
 
 export default playlist

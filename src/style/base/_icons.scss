@@ -5,11 +5,11 @@
 //
 
 .icon {
-    .underbar::before {
-        text-decoration: underline;
-    }
+  .underbar::before {
+    text-decoration: underline;
+  }
 
-    .overbar::before {
-        text-decoration: overline;
-    }
+  .overbar::before {
+    text-decoration: overline;
+  }
 }

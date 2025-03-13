@@ -4,7 +4,7 @@
 // Sizes style file
 //
 
-@use "~/abstracts/support";
+@use '~/abstracts/support';
 
 // gap sizes
 $gap-horizontal: 1.5rem;
@@ -30,62 +30,62 @@ $subrow-icon-font-size: 0.85 * $row-icon-font-size;
 //  (top and bottom) or horizontal (left and right))
 // @param $factor extra scale to apply to the gap (number)
 @mixin make-gap($type, $direction, $factor: 1) {
-    // detect if the gap has to be applied to one axis or one direction only
-    $is-multi: ($direction == vertical) or ($direction == horizontal);
+  // detect if the gap has to be applied to one axis or one direction only
+  $is-multi: ($direction == vertical) or ($direction == horizontal);
 
-    // format the value accordingly
-    // for large device
-    $value: null;
-    @if $is-multi {
-        @if $direction == vertical {
-            $value: $gap-vertical * $factor 0;
-        } @else {
-            $value: 0 $gap-horizontal * $factor;
-        }
+  // format the value accordingly
+  // for large device
+  $value: null;
+  @if $is-multi {
+    @if $direction == vertical {
+      $value: $gap-vertical * $factor 0;
     } @else {
-        @if ($direction == top) or ($direction == bottom) {
-            $value: $gap-vertical * $factor;
-        } @else if ($direction == right) or ($direction == left) {
-            $value: $gap-horizontal * $factor;
-        } @else {
-            @error "direction must be either vertical, horizontal, top, bottom, left or right";
-        }
+      $value: 0 $gap-horizontal * $factor;
     }
-
-    // for smartphone
-    $value-smartphone: null;
-    @if $is-multi {
-        @if $direction == vertical {
-            $value-smartphone: $gap-vertical-smartphone * $factor 0;
-        } @else {
-            $value-smartphone: 0 $gap-horizontal-smartphone * $factor;
-        }
+  } @else {
+    @if ($direction == top) or ($direction == bottom) {
+      $value: $gap-vertical * $factor;
+    } @else if ($direction == right) or ($direction == left) {
+      $value: $gap-horizontal * $factor;
     } @else {
-        @if ($direction == top) or ($direction == bottom) {
-            $value-smartphone: $gap-vertical-smartphone * $factor;
-        } @else if ($direction == right) or ($direction == left) {
-            $value-smartphone: $gap-horizontal-smartphone * $factor;
-        } @else {
-            @error "direction must be either vertical, horizontal, top, bottom, left or right";
-        }
+      @error 'direction must be either vertical, horizontal, top, bottom, left or right';
     }
+  }
 
-    // create the property name accordingly
-    $property: null;
-    @if $is-multi {
-        $property: $type;
+  // for smartphone
+  $value-smartphone: null;
+  @if $is-multi {
+    @if $direction == vertical {
+      $value-smartphone: $gap-vertical-smartphone * $factor 0;
     } @else {
-        $property: "#{$type}-#{$direction}";
+      $value-smartphone: 0 $gap-horizontal-smartphone * $factor;
     }
+  } @else {
+    @if ($direction == top) or ($direction == bottom) {
+      $value-smartphone: $gap-vertical-smartphone * $factor;
+    } @else if ($direction == right) or ($direction == left) {
+      $value-smartphone: $gap-horizontal-smartphone * $factor;
+    } @else {
+      @error 'direction must be either vertical, horizontal, top, bottom, left or right';
+    }
+  }
 
-    // apply the rule
-    @include support.make-smartphone {
-        #{$property}: $value-smartphone !important;
-    }
+  // create the property name accordingly
+  $property: null;
+  @if $is-multi {
+    $property: $type;
+  } @else {
+    $property: '#{$type}-#{$direction}';
+  }
 
-    & {
-        #{$property}: $value;
-    }
+  // apply the rule
+  @include support.make-smartphone {
+    #{$property}: $value-smartphone !important;
+  }
+
+  & {
+    #{$property}: $value;
+  }
 }
 
 // add a special vertical padding that is tiny enough to not mess with the
@@ -94,29 +94,29 @@ $subrow-icon-font-size: 0.85 * $row-icon-font-size;
 // @param $extra when set to horizontal, apply a normal horizontal gap too
 // @param $factor extra scale to apply to the vertical padding (number)
 @mixin make-vertical-row-padding($extra: none, $factor: 1) {
-    padding-bottom: calc(($gap-horizontal / 4) * $factor);
-    padding-top: calc(($gap-horizontal / 4) * $factor);
+  padding-bottom: calc(($gap-horizontal / 4) * $factor);
+  padding-top: calc(($gap-horizontal / 4) * $factor);
 
-    @include support.make-smartphone {
-        padding-bottom: calc(($gap-horizontal-smartphone / 3) * $factor);
-        padding-top: calc(($gap-horizontal-smartphone / 3) * $factor);
-    }
+  @include support.make-smartphone {
+    padding-bottom: calc(($gap-horizontal-smartphone / 3) * $factor);
+    padding-top: calc(($gap-horizontal-smartphone / 3) * $factor);
+  }
 
-    // apply extra horizontal gap if necessary
-    @if $extra == horizontal {
-        @include make-gap(padding, right);
-        @include make-gap(padding, left);
-    }
+  // apply extra horizontal gap if necessary
+  @if $extra == horizontal {
+    @include make-gap(padding, right);
+    @include make-gap(padding, left);
+  }
 }
 
 @mixin make-reverse() {
-    flex-direction: row-reverse;
+  flex-direction: row-reverse;
 
-    .work-link-item:last-child {
-        margin-right: 0.5em;
-    }
+  .work-link-item:last-child {
+    margin-right: 0.5em;
+  }
 
-    .work-link-item:first-child {
-        margin-right: 0;
-    }
+  .work-link-item:first-child {
+    margin-right: 0;
+  }
 }

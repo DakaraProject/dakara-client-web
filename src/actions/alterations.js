@@ -33,23 +33,24 @@ export const ALTERATION_VALIDATION_ERROR = 'ALTERATION_VALIDATION_ERROR'
  * @param elementID subkey of the alteration
  * @return action
  */
-export const submitAlteration = (alterationName, elementId,
-    endpoint, method, json) => {
-    return {
-        [FETCH_API]: {
-                endpoint: `${baseUrl}/${endpoint}`,
-                method,
-                json,
-                types: [
-                    ALTERATION_REQUEST,
-                    ALTERATION_SUCCESS,
-                    ALTERATION_FAILURE,
-                ],
-            },
-        alterationName,
-        elementId,
-        alterationDate: Date.now()
-    }
+export const submitAlteration = (
+  alterationName,
+  elementId,
+  endpoint,
+  method,
+  json
+) => {
+  return {
+    [FETCH_API]: {
+      endpoint: `${baseUrl}/${endpoint}`,
+      method,
+      json,
+      types: [ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE],
+    },
+    alterationName,
+    elementId,
+    alterationDate: Date.now(),
+  }
 }
 
 /**
@@ -59,9 +60,9 @@ export const submitAlteration = (alterationName, elementId,
  * @return action
  */
 export const clearAlteration = (alterationName, elementId) => ({
-    type: ALTERATION_RESPONSE_CLEAR,
-    alterationName,
-    elementId,
+  type: ALTERATION_RESPONSE_CLEAR,
+  alterationName,
+  elementId,
 })
 
 /**
@@ -72,14 +73,18 @@ export const clearAlteration = (alterationName, elementId) => ({
  * @param fields field level errors for each field
  * @return action
  */
-export const setAlterationValidationErrors = (alterationName, elementId,
-    global, fields) => ({
-    type: ALTERATION_VALIDATION_ERROR,
-    error: {
-        non_field_errors: global,
-        ...fields
-    },
-    alterationName,
-    elementId,
-    alterationDate: Date.now()
+export const setAlterationValidationErrors = (
+  alterationName,
+  elementId,
+  global,
+  fields
+) => ({
+  type: ALTERATION_VALIDATION_ERROR,
+  error: {
+    non_field_errors: global,
+    ...fields,
+  },
+  alterationName,
+  elementId,
+  alterationDate: Date.now(),
 })

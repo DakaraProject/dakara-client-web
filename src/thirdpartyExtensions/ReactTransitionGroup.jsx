@@ -17,15 +17,11 @@ import { CSSTransition } from 'react-transition-group'
  * the FUCKING JS COMMUNITY.
  */
 
-export const CSSTransitionLazy = ({children, ...props}) => (
-    <CSSTransition
-        mountOnEnter
-        unmountOnExit
-        {...props}
-    >
-        {children}
-    </CSSTransition>
+export const CSSTransitionLazy = ({ children, ...props }) => (
+  <CSSTransition mountOnEnter unmountOnExit {...props}>
+    {children}
+  </CSSTransition>
 )
 CSSTransitionLazy.propTypes = {
-    children: PropTypes.node,
+  children: PropTypes.node,
 }

@@ -4,7 +4,7 @@
 // Controls style file
 //
 
-@use "~/abstracts/sizes";
+@use '~/abstracts/sizes';
 
 // `make-controls` function:
 //
@@ -15,20 +15,24 @@
 //      $square: if `true`, set the width of the control box equal to its height.
 //      $text-size: size of the text of the control.
 //      $icon-size: size of the icon of the control, normalized by `text-size`.
-@mixin make-controls($height: sizes.$row-height, $square: false, $text-size: 1.25em, $icon-size: 1.5em) {
-    > .control,
-    .subcontrols > .control {
-        font-size: $text-size;
-        height: $height;
-        min-width: $height;
+@mixin make-controls(
+  $height: sizes.$row-height,
+  $square: false,
+  $text-size: 1.25em,
+  $icon-size: 1.5em
+) {
+  > .control,
+  .subcontrols > .control {
+    font-size: $text-size;
+    height: $height;
+    min-width: $height;
 
-        @if $square {
-            width: $height;
-        }
-
-        .icon {
-            font-size: calc($icon-size / $text-size * 1em);
-        }
+    @if $square {
+      width: $height;
     }
-}
 
+    .icon {
+      font-size: calc($icon-size / $text-size * 1em);
+    }
+  }
+}

@@ -4,89 +4,89 @@
 // Playlist position info style file
 //
 
-@use "~/thirdparty/preboot";
+@use '~/thirdparty/preboot';
 
-@use "~/abstracts/colors";
-@use "~/abstracts/sizes";
+@use '~/abstracts/colors';
+@use '~/abstracts/sizes';
 
 // `playlist-position-info` class:
 //
 // Data relative to the status of the song in the playlist.
 .playlist-position-info {
-    background: colors.$brand-info;
-    box-sizing: border-box;
-    color: colors.$text-dark;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0 0.5em;
-    text-align: center;
-    width: 2 * sizes.$row-height;
+  background: colors.$brand-info;
+  box-sizing: border-box;
+  color: colors.$text-dark;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 0.5em;
+  text-align: center;
+  width: 2 * sizes.$row-height;
 
-    .owner {
-        @include preboot.text-truncate();
+  .owner {
+    @include preboot.text-truncate();
 
-        font-size: 0.85em;
-        margin-bottom: 0.25em;
+    font-size: 0.85em;
+    margin-bottom: 0.25em;
+  }
+
+  .played {
+    .icon {
+      padding-right: 0.5em;
     }
+  }
 
-    .played {
-        .icon {
-            padding-right: 0.5em;
-        }
+  .queueing {
+    .icon {
+      padding-left: 0.5em;
     }
+  }
 
-    .queueing {
-        .icon {
-            padding-left: 0.5em;
-        }
+  .playing,
+  .queueing,
+  .played {
+    font-size: 0.75em;
+  }
+
+  .instrumental {
+    font-size: 0.75em;
+  }
+
+  // appearance transition of the playlist info class
+  &.playlist-position-info-enter {
+    max-width: 0;
+    overflow: hidden;
+
+    &.playlist-position-info-enter-active {
+      max-width: (2 * sizes.$row-height);
+      transition: max-width 300ms ease-out;
     }
+  }
 
-    .playing,
-    .queueing,
-    .played {
-        font-size: 0.75em;
+  // disappearance transition of the playlist info class
+  &.playlist-position-info-exit {
+    max-width: (2 * sizes.$row-height);
+    overflow: hidden;
+
+    &.playlist-position-info-exit-active {
+      max-width: 0;
+      transition: max-width 150ms ease-out;
     }
-
-    .instrumental {
-        font-size: 0.75em;
-    }
-
-    // appearance transition of the playlist info class
-    &.playlist-position-info-enter {
-        max-width: 0;
-        overflow: hidden;
-
-        &.playlist-position-info-enter-active {
-            max-width: (2 * sizes.$row-height);
-            transition: max-width 300ms ease-out;
-        }
-    }
-
-    // disappearance transition of the playlist info class
-    &.playlist-position-info-exit {
-        max-width: (2 * sizes.$row-height);
-        overflow: hidden;
-
-        &.playlist-position-info-exit-active {
-            max-width: 0;
-            transition: max-width 150ms ease-out;
-        }
-    }
+  }
 }
 
 // alteration of colors when used in a listing
 .listing-entry {
-    &:nth-child(2n) {
-        .playlist-position-info {
-            background: colors.$brand-info-light;
-        }
+  &:nth-child(2n) {
+    .playlist-position-info {
+      background: colors.$brand-info-light;
     }
+  }
 
-    .hoverizable:hover,
-    &.hoverizable:hover {
-        .playlist-position-info {
-            background: colors.$brand-info-lighter;
-        }
+  .hoverizable:hover,
+  &.hoverizable:hover {
+    .playlist-position-info {
+      background: colors.$brand-info-lighter;
     }
+  }
 }

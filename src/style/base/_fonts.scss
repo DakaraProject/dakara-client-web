@@ -4,8 +4,8 @@
 // Fonts style file
 //
 
-@use "~/abstracts/fonts";
+@use '~/abstracts/fonts';
 
 body {
-    @include fonts.make-text;
+  @include fonts.make-text;
 }

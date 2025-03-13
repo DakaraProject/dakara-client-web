@@ -1,9 +1,9 @@
 export const permissionLevels = {
-    u: 'user',
-    m: 'manager',
-    p: 'player'
+  u: 'user',
+  m: 'manager',
+  p: 'player',
 }
 
 export const mapStateToProps = (state) => ({
-    user: state.authenticatedUser
+  user: state.authenticatedUser,
 })

@@ -4,17 +4,17 @@
 // Artist widget style file
 //
 
-@use "~/thirdparty/preboot";
+@use '~/thirdparty/preboot';
 
 // `artist-widget` class:
 //
 // This module is used to style an artist.
 .artist-widget {
-    &.truncatable {
-        @include preboot.text-truncate();
-    }
+  &.truncatable {
+    @include preboot.text-truncate();
+  }
 
-    .icon {
-        margin-right: 0.5em;
-    }
+  .icon {
+    margin-right: 0.5em;
+  }
 }

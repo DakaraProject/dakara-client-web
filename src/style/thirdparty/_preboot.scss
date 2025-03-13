@@ -11,31 +11,31 @@
 
 // Center-align a block level element
 @mixin center-block() {
-    margin-left: auto;
-    margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 // Sizing shortcuts
 @mixin size($width, $height) {
-    height: $height;
-    width: $width;
+  height: $height;
+  width: $width;
 }
 @mixin square($size) {
-    @include size($size, $size);
+  @include size($size, $size);
 }
 
 // Text overflow
 //
 // Requires inline-block or block for proper styling
 @mixin text-truncate() {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 // Revert text overflow
 @mixin text-untruncate() {
-    overflow: initial;
-    text-overflow: initial;
-    white-space: initial;
+  overflow: initial;
+  text-overflow: initial;
+  white-space: initial;
 }

@@ -6,16 +6,16 @@ import { LOGOUT } from 'actions/token'
  */
 
 function authenticatedUser(state = null, action) {
-    switch (action.type) {
-        case CURRENT_USER_SUCCESS:
-            return action.response
+  switch (action.type) {
+    case CURRENT_USER_SUCCESS:
+      return action.response
 
-        case LOGOUT:
-            return null
+    case LOGOUT:
+      return null
 
-        default:
-            return state
-    }
+    default:
+      return state
+  }
 }
 
 export default authenticatedUser

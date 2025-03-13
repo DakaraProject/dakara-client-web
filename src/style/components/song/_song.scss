@@ -4,135 +4,134 @@
 // Song style file
 //
 
-@use "sass:color";
+@use 'sass:color';
 
-@use "~/thirdparty/preboot";
+@use '~/thirdparty/preboot';
 
-@use "~/abstracts/colors";
-@use "~/abstracts/fonts";
-@use "~/abstracts/sizes";
+@use '~/abstracts/colors';
+@use '~/abstracts/fonts';
+@use '~/abstracts/sizes';
 
 // `song` class:
 //
 // This class stylizes a song independently of its use (as a single item or as
 // part of a listing).
 .song {
+  align-items: center;
+  display: flex;
+  overflow-y: hidden;
+  position: relative;
+  white-space: nowrap;
+
+  &.with-artist-and-work .general {
+    align-items: center;
+  }
+
+  .general {
     align-items: center;
     display: flex;
-    overflow-y: hidden;
-    position: relative;
-    white-space: nowrap;
+    flex-grow: 1;
+    overflow: hidden;
 
-    &.with-artist-and-work .general {
-        align-items: center;
+    // `header` class: song's main info.
+    // will be the last to shrink
+    .header {
+      @include preboot.text-truncate();
+
+      flex: 1 1 auto;
+
+      .title {
+        font-size: 1.05em;
+      }
+
+      .version {
+        color: color.change(colors.$text-light, $alpha: 0.7);
+        margin-left: 0.5em;
+      }
     }
 
-    .general {
-        align-items: center;
-        display: flex;
-        flex-grow: 1;
-        overflow: hidden;
+    // `artist-work` class: collapsed info for the song artists and works.
+    // will be the first to shrink
+    .artist-work {
+      display: flex;
+      flex: 0 100000 auto; // make it very easily shrinkable
+      flex-direction: column;
+      font-size: 0.9em;
+      margin-left: 0.5em;
+      overflow: hidden;
+      text-align: right;
 
-        // `header` class: song's main info.
-        // will be the last to shrink
-        .header {
-            @include preboot.text-truncate();
+      .artists {
+        @include preboot.text-truncate();
 
-            flex: 1 1 auto;
+        // display artists in one line
+        .artist-widget {
+          display: inline;
 
-            .title {
-                font-size: 1.05em;
-            }
-
-            .version {
-                color: color.change(colors.$text-light, $alpha: 0.7);
-                margin-left: 0.5em;
-            }
+          &:not(:last-child) {
+            margin-right: 0.5em;
+          }
         }
-
-        // `artist-work` class: collapsed info for the song artists and works.
-        // will be the first to shrink
-        .artist-work {
-            display: flex;
-            flex: 0 100000 auto;  // make it very easily shrinkable
-            flex-direction: column;
-            font-size: 0.9em;
-            margin-left: 0.5em;
-            overflow: hidden;
-            text-align: right;
-
-            .artists {
-                @include preboot.text-truncate();
-
-                // display artists in one line
-                .artist-widget {
-                    display: inline;
-
-                    &:not(:last-child) {
-                        margin-right: 0.5em;
-                    }
-                }
-            }
-        }
+      }
     }
+  }
 
-    // `duration` class: show song duration.
-    .duration {
-        align-items: center;
-        align-self: stretch;
-        background: colors.$text-light;
-        color: colors.$neutral-mid;
-        display: flex;
-        flex-direction: column;
-        flex-shrink: 0;
-        font-size: 0.85em;
-        justify-content: center;
-        min-width: sizes.$row-height;
+  // `duration` class: show song duration.
+  .duration {
+    align-items: center;
+    align-self: stretch;
+    background: colors.$text-light;
+    color: colors.$neutral-mid;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    font-size: 0.85em;
+    justify-content: center;
+    min-width: sizes.$row-height;
+  }
+
+  // `masked` subclass: marker if one of the tags of the song is disabled.
+  .masked {
+    align-items: center;
+    align-self: stretch;
+    display: flex;
+    flex-shrink: 0;
+    font-size: 1.25em;
+    justify-content: center;
+    min-width: sizes.$row-height;
+  }
+
+  // `song-tag-list` subclass: tag songs.
+  // The subclass only specifes the location of the tags.
+  .song-tag-list {
+    font-size: 0.65em;
+    left: 0;
+    line-height: 1em;
+    position: absolute;
+    top: 0;
+
+    .tag {
+      font-size: inherit;
     }
-
-    // `masked` subclass: marker if one of the tags of the song is disabled.
-    .masked {
-        align-items: center;
-        align-self: stretch;
-        display: flex;
-        flex-shrink: 0;
-        font-size: 1.25em;
-        justify-content: center;
-        min-width: sizes.$row-height;
-    }
-
-    // `song-tag-list` subclass: tag songs.
-    // The subclass only specifes the location of the tags.
-    .song-tag-list {
-        font-size: 0.65em;
-        left: 0;
-        line-height: 1em;
-        position: absolute;
-        top: 0;
-
-        .tag {
-            font-size: inherit;
-        }
-    }
+  }
 }
 
 // alteration of colors when used in a listing
 .listing-entry {
-    &:nth-child(2n) {
-        .song {
-            .duration {
-                background: colors.$neutral-clear-light;
-            }
-        }
+  &:nth-child(2n) {
+    .song {
+      .duration {
+        background: colors.$neutral-clear-light;
+      }
     }
+  }
 
-    .hoverizable:hover,
-    &.hoverizable:hover {
-        .song {
-            .duration {
-                background: colors.$neutral-clear-lighter;
-            }
-        }
+  .hoverizable:hover,
+  &.hoverizable:hover {
+    .song {
+      .duration {
+        background: colors.$neutral-clear-lighter;
+      }
     }
+  }
 }
-

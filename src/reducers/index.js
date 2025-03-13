@@ -13,13 +13,13 @@ import token from 'reducers/token'
  */
 
 const rootReducer = combineReducers({
-    token,
-    library,
-    playlist,
-    settings,
-    internal,
-    authenticatedUser,
-    alterationsResponse,
+  token,
+  library,
+  playlist,
+  settings,
+  internal,
+  authenticatedUser,
+  alterationsResponse,
 })
 
 export default rootReducer

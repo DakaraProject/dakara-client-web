@@ -4,35 +4,38 @@
 // Token widget style file
 //
 
-@use "~/thirdparty/preboot";
+@use '~/thirdparty/preboot';
 
-@use "~/abstracts/colors";
-@use "~/abstracts/controls";
-@use "~/abstracts/sizes";
+@use '~/abstracts/colors';
+@use '~/abstracts/controls';
+@use '~/abstracts/sizes';
 
 // token widget sizes
 $token-widget-height: sizes.$row-height;
 
 .token-widget {
-    background: colors.$neutral-clear;
-    color: colors.$text-dark;
-    display: flex;
-    height: $token-widget-height;
+  background: colors.$neutral-clear;
+  color: colors.$text-dark;
+  display: flex;
+  height: $token-widget-height;
 
-    .token {
-        @include sizes.make-gap(padding, horizontal);
+  .token {
+    @include sizes.make-gap(padding, horizontal);
 
-        & {
-            @include preboot.text-truncate();
+    & {
+      @include preboot.text-truncate();
 
-            flex: 1;
-            line-height: $token-widget-height;
-        }
+      flex: 1;
+      line-height: $token-widget-height;
     }
+  }
 
-    .controls {
-        @include controls.make-controls($height: $token-widget-height, $square: true);
+  .controls {
+    @include controls.make-controls(
+      $height: $token-widget-height,
+      $square: true
+    );
 
-        background: red;
-    }
+    background: red;
+  }
 }
