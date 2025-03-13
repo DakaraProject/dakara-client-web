@@ -10,5 +10,6 @@ export default {
     'selector-max-compound-selectors': 9,
     'selector-max-id': 1,
     'selector-no-qualifying-type': [null, { ignore: ['attribute', 'class'] }],
+    '@stylistic/function-parentheses-space-inside': 'never-single-line',
   },
 }

@@ -57,6 +57,8 @@ export default [
         'error',
         {
           args: 'none',
+          destructuredArrayIgnorePattern: '^_',
+          ignoreRestSiblings: true,
         },
       ],
 
