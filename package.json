@@ -14,9 +14,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --outDir dist/static --base /static",
-    "lint": "eslint .",
-    "stylelint": "stylelint ./src/style/**/*.{css,scss}",
+    "lint-js": "eslint .",
+    "lint-css": "stylelint ./src/style/**/*.{css,scss}",
     "format": "prettier --write ./src",
+    "check-format": "prettier --check ./src",
     "preview": "vite preview"
   },
   "dependencies": {
