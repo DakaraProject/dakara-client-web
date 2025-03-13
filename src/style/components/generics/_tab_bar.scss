@@ -4,11 +4,11 @@
 // Tab bar style file
 //
 
-@use "~/thirdparty/preboot";
+@use '~/thirdparty/preboot';
 
-@use "~/abstracts/colors";
-@use "~/abstracts/sizes";
-@use "~/abstracts/support";
+@use '~/abstracts/colors';
+@use '~/abstracts/sizes';
+@use '~/abstracts/support';
 
 // tab bar sizes
 $tab-bar-height: sizes.$row-height;
@@ -31,73 +31,73 @@ $tab-bar-icon-font-size: 1.25em;
 // Usually, the `tab-bar` element is a `nav` and the `tab` a `a` (`Link` for
 // React).
 .tab-bar {
-    display: flex;
+  display: flex;
 
-    .tab {
-        @include support.make-smartphone {
-            &:not(.active),
-            &.no-name-mobile {
-                flex: 0 0 auto;
-                padding: 0;
-                width: $tab-bar-height;
-
-                .name {
-                    display: none;
-                }
-            }
-
-            &.active:not(.square) {
-                min-width: calc($tab-bar-height - 2 * sizes.$gap-horizontal-smartphone);
-                padding: 0 sizes.$gap-horizontal-smartphone;
-            }
-        }
-
-        & {
-            @include preboot.text-truncate();
-
-            background: colors.$neutral-mid;
-            color: colors.$neutral-clear;
-            cursor: pointer;
-            height: $tab-bar-height;
-            line-height: $tab-bar-height;
-            padding: 0 sizes.$gap-horizontal;
-            text-align: center;
-            text-decoration: none;
-            white-space: nowrap;
-        }
-
-        &:nth-child(2n) {
-            background: colors.$neutral-mid-light;
-        }
-
-        &.active {
-            background: colors.$neutral-clear;
-            color: colors.$neutral-mid;
-            cursor: default;
-        }
-
-        &.squared {
-            flex: 0 0 auto;
-            padding: 0 !important;
-            width: $tab-bar-height;
-
-            .icon {
-                font-size: 1.5em;
-            }
-        }
-
-        &:hover:not(.active),
-        &:focus:not(.active) {
-            background: colors.$neutral-mid-lighter;
-            color: inherit;
-        }
-
-        .icon {
-            font-size: $tab-bar-icon-font-size;
-        }
+  .tab {
+    @include support.make-smartphone {
+      &:not(.active),
+      &.no-name-mobile {
+        flex: 0 0 auto;
+        padding: 0;
+        width: $tab-bar-height;
 
         .name {
-            margin-left: 0.5em;
+          display: none;
         }
+      }
+
+      &.active:not(.square) {
+        min-width: calc($tab-bar-height - 2 * sizes.$gap-horizontal-smartphone);
+        padding: 0 sizes.$gap-horizontal-smartphone;
+      }
     }
+
+    & {
+      @include preboot.text-truncate();
+
+      background: colors.$neutral-mid;
+      color: colors.$neutral-clear;
+      cursor: pointer;
+      height: $tab-bar-height;
+      line-height: $tab-bar-height;
+      padding: 0 sizes.$gap-horizontal;
+      text-align: center;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    &:nth-child(2n) {
+      background: colors.$neutral-mid-light;
+    }
+
+    &.active {
+      background: colors.$neutral-clear;
+      color: colors.$neutral-mid;
+      cursor: default;
+    }
+
+    &.squared {
+      flex: 0 0 auto;
+      padding: 0 !important;
+      width: $tab-bar-height;
+
+      .icon {
+        font-size: 1.5em;
+      }
+    }
+
+    &:hover:not(.active),
+    &:focus:not(.active) {
+      background: colors.$neutral-mid-lighter;
+      color: inherit;
+    }
+
+    .icon {
+      font-size: $tab-bar-icon-font-size;
+    }
+
+    .name {
+      margin-left: 0.5em;
+    }
+  }
 }

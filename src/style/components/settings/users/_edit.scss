@@ -4,10 +4,10 @@
 // Users management user edit page style file
 //
 
-@use "~/abstracts/sizes";
+@use '~/abstracts/sizes';
 
 #users-edit {
-    .form {
-        @include sizes.make-gap(padding, vertical);
-    }
+  .form {
+    @include sizes.make-gap(padding, vertical);
+  }
 }

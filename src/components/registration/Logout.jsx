@@ -6,24 +6,19 @@ import { Navigate } from 'react-router'
 import { logout } from 'actions/token'
 
 class Logout extends Component {
-    static propTypes = {
-        logout: PropTypes.func.isRequired,
-    }
+  static propTypes = {
+    logout: PropTypes.func.isRequired,
+  }
 
-    componentDidMount() {
-        this.props.logout()
-    }
+  componentDidMount() {
+    this.props.logout()
+  }
 
-    render() {
-        return (
-            <Navigate to="/login" />
-        )
-    }
+  render() {
+    return <Navigate to="/login" />
+  }
 }
 
-Logout = connect(
-    () => ({}),
-    { logout }
-)(Logout)
+Logout = connect(() => ({}), { logout })(Logout)
 
 export default Logout

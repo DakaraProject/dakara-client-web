@@ -20,44 +20,44 @@ import Highlighter from 'react-highlight-words'
  * The `Highlighter` component is used with the `autoEscape` props activated.
  */
 export default class HighlighterQuery extends Component {
-    static propTypes = {
-        className: PropTypes.string,
-        query: PropTypes.object,
-        searchWords: PropTypes.oneOfType([
-            PropTypes.func,
-            PropTypes.array,
-        ]).isRequired,
-        textToHighlight: PropTypes.string.isRequired,
-        children: PropTypes.node,
+  static propTypes = {
+    className: PropTypes.string,
+    query: PropTypes.object,
+    searchWords: PropTypes.oneOfType([PropTypes.func, PropTypes.array])
+      .isRequired,
+    textToHighlight: PropTypes.string.isRequired,
+    children: PropTypes.node,
+  }
+
+  render() {
+    const {
+      query,
+      className,
+      children,
+      searchWords,
+      textToHighlight,
+      ...remaining
+    } = this.props
+
+    // render a classic `span` if no query
+    if (!query) return <span className={className}>{textToHighlight}</span>
+
+    // if `searchWords` is a function, call it with the query
+    let searchWordsArray
+    if (typeof searchWords === 'function') {
+      searchWordsArray = searchWords(query)
+    } else {
+      searchWordsArray = searchWords
     }
 
-    render() {
-        const { query, className, children, searchWords, textToHighlight,
-            ...remaining } = this.props
-
-        // render a classic `span` if no query
-        if (!query) return (
-            <span className={className}>
-                {textToHighlight}
-            </span>
-        )
-
-        // if `searchWords` is a function, call it with the query
-        let searchWordsArray
-        if (typeof searchWords === 'function') {
-            searchWordsArray = searchWords(query)
-        } else {
-            searchWordsArray = searchWords
-        }
-
-        return (
-            <Highlighter
-                className={className}
-                searchWords={searchWordsArray}
-                textToHighlight={textToHighlight}
-                autoEscape
-                {...remaining}
-            />
-        )
-    }
+    return (
+      <Highlighter
+        className={className}
+        searchWords={searchWordsArray}
+        textToHighlight={textToHighlight}
+        autoEscape
+        {...remaining}
+      />
+    )
+  }
 }

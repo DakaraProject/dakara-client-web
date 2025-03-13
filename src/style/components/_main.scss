@@ -4,29 +4,29 @@
 // Main div style file
 //
 
-@use "~/thirdparty/preboot";
+@use '~/thirdparty/preboot';
 
-@use "~/abstracts/sizes";
-@use "~/abstracts/support";
+@use '~/abstracts/sizes';
+@use '~/abstracts/support';
 
 #main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  > .column {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    flex-grow: 1;
 
-    > .column {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
+    @include support.make-desktop {
+      @include preboot.center-block();
 
-        @include support.make-desktop {
-            @include preboot.center-block();
-
-            width: sizes.$page-width-max;
-        }
-
-        > .content {
-            flex-grow: 1;
-        }
+      width: sizes.$page-width-max;
     }
+
+    > .content {
+      flex-grow: 1;
+    }
+  }
 }

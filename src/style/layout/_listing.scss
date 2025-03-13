@@ -4,10 +4,10 @@
 // Listing style file
 //
 
-@use "~/abstracts/colors";
-@use "~/abstracts/controls";
-@use "~/abstracts/sizes";
-@use "~/abstracts/support";
+@use '~/abstracts/colors';
+@use '~/abstracts/controls';
+@use '~/abstracts/sizes';
+@use '~/abstracts/support';
 
 // listing sizes
 $listing-entry-height: sizes.$row-height;
@@ -42,138 +42,141 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
 //      - Only allows tables up to 10 rows, but can be increased.
 //      - Each row must have a fixed height of `listing-entry-height`.
 .listing {
-    // background is darker than actual rows in order to separate them
-    // when the listing has a fixed height
-    background: colors.$neutral-mid-dark;
-    margin: 0;
-    overflow-x: hidden;
-    padding: 0;
+  // background is darker than actual rows in order to separate them
+  // when the listing has a fixed height
+  background: colors.$neutral-mid-dark;
+  margin: 0;
+  overflow-x: hidden;
+  padding: 0;
 
-    .listing-header {
+  .listing-header {
+    height: $listing-entry-height;
+  }
+
+  .listing-entry {
+    // normal and alternate row colors
+    background: colors.$neutral-mid;
+
+    &:nth-child(2n) {
+      background: colors.$neutral-mid-light;
+    }
+
+    // optionnal hoverizable feature
+    // can be applied to the listing-entry itself or any of its children
+    .hoverizable,
+    &.hoverizable {
+      &:hover {
+        background: colors.$neutral-mid-lighter;
+      }
+    }
+
+    // appearance transition
+    &.add-remove-enter {
+      height: 0;
+      min-height: initial;
+      overflow: hidden;
+
+      &.add-remove-enter-active {
         height: $listing-entry-height;
+        transition: height 300ms ease-out;
+      }
     }
 
-    .listing-entry {
-        // normal and alternate row colors
-        background: colors.$neutral-mid;
+    // disappearance transition
+    &.add-remove-exit {
+      height: $listing-entry-height;
+      min-height: initial;
+      overflow: hidden;
 
-        &:nth-child(2n) {
-            background: colors.$neutral-mid-light;
+      &.add-remove-exit-active {
+        height: 0;
+        transition: height 150ms ease-out;
+
+        &.delayed {
+          transition-delay: 500ms;
         }
-
-        // optionnal hoverizable feature
-        // can be applied to the listing-entry itself or any of its children
-        .hoverizable,
-        &.hoverizable {
-            &:hover {
-                background: colors.$neutral-mid-lighter;
-            }
-        }
-
-        // appearance transition
-        &.add-remove-enter {
-            height: 0;
-            min-height: initial;
-            overflow: hidden;
-
-            &.add-remove-enter-active {
-                height: $listing-entry-height;
-                transition: height 300ms ease-out;
-            }
-        }
-
-        // disappearance transition
-        &.add-remove-exit {
-            height: $listing-entry-height;
-            min-height: initial;
-            overflow: hidden;
-
-            &.add-remove-exit-active {
-                height: 0;
-                transition: height 150ms ease-out;
-
-                &.delayed {
-                    transition-delay: 500ms;
-                }
-            }
-        }
-
-        // manage controls
-        .controls {
-            @include controls.make-controls($height: $listing-entry-height, $square: true);
-
-            // in listings, controls are close one to other with no space
-            // inbetween
-            .control {
-                // allow button to stretch vertically
-                height: unset;
-                margin: 0;
-            }
-        }
+      }
     }
+
+    // manage controls
+    .controls {
+      @include controls.make-controls(
+        $height: $listing-entry-height,
+        $square: true
+      );
+
+      // in listings, controls are close one to other with no space
+      // inbetween
+      .control {
+        // allow button to stretch vertically
+        height: unset;
+        margin: 0;
+      }
+    }
+  }
 }
 
 // Specialization for lists
 ul.listing {
-    list-style-type: none;
-    margin: 0;
-    min-height: 10 * $listing-entry-height;
+  list-style-type: none;
+  margin: 0;
+  min-height: 10 * $listing-entry-height;
 
-    .listing-entry {
-        min-height: $listing-entry-height;
-    }
+  .listing-entry {
+    min-height: $listing-entry-height;
+  }
 }
 
 // Specialization for tables
 table.listing {
-    // set height so as a div in a cell to take 100% height
-    border-collapse: collapse;
-    width: 100%;
+  // set height so as a div in a cell to take 100% height
+  border-collapse: collapse;
+  width: 100%;
 
-    // for Chrome
-    & {
-        height: 100%;
+  // for Chrome
+  & {
+    height: 100%;
+  }
+
+  // for Firefox
+  tr {
+    height: 100%;
+  }
+
+  // make the controls column as small as possible
+  .controls-col {
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  // make the notification column widthless
+  .notification-col {
+    height: 100%;
+    width: 0;
+  }
+
+  // remove default bold
+  .listing-header > th {
+    font-weight: normal;
+
+    @include support.make-smartphone {
+      font-size: 0.85em;
     }
+  }
 
-    // for Firefox
-    tr {
-        height: 100%;
+  .listing-entry > td,
+  .listing-header > th {
+    // it is safer to set row height by the cell itself
+    // default padding is 1px, but no idea for the reason why
+    box-sizing: border-box;
+    height: $listing-entry-height;
+    padding: 0;
+
+    // add padding
+    &:not(.controls-col):not(.notification-col) {
+      @include sizes.make-vertical-row-padding(horizontal);
     }
-
-    // make the controls column as small as possible
-    .controls-col {
-        white-space: nowrap;
-        width: 1px;
-    }
-
-    // make the notification column widthless
-    .notification-col {
-        height: 100%;
-        width: 0;
-    }
-
-    // remove default bold
-    .listing-header > th {
-        font-weight: normal;
-
-        @include support.make-smartphone {
-            font-size: 0.85em;
-        }
-    }
-
-    .listing-entry > td,
-    .listing-header > th {
-        // it is safer to set row height by the cell itself
-        // default padding is 1px, but no idea for the reason why
-        box-sizing: border-box;
-        height: $listing-entry-height;
-        padding: 0;
-
-        // add padding
-        &:not(.controls-col):not(.notification-col) {
-            @include sizes.make-vertical-row-padding(horizontal);
-        }
-    }
+  }
 }
 
 // `listing-table-container` class:
@@ -181,6 +184,6 @@ table.listing {
 // This container forces the table listing to have the height of 10 rows plus one
 // header.
 .listing-table-container {
-    min-height: 11 * $listing-entry-height;
-    overflow-y: auto;
+  min-height: 11 * $listing-entry-height;
+  overflow-y: auto;
 }

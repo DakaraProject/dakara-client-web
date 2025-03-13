@@ -7,8 +7,8 @@ dayjs.extend(duration)
  * Front parameters.
  */
 export const params = {
-    baseUrl: '/api',
-    pollInterval: 1000
+  baseUrl: '/api',
+  pollInterval: 1000,
 }
 
 /**
@@ -18,11 +18,11 @@ export const params = {
  * @returns Object with replaced key.
  */
 export function updateData(newData, resultsKey) {
-    const { results, ...remaining } = newData
-    return {
-        [resultsKey]: results,
-        ...remaining,
-    }
+  const { results, ...remaining } = newData
+  return {
+    [resultsKey]: results,
+    ...remaining,
+  }
 }
 
 /**
@@ -33,21 +33,21 @@ export function updateData(newData, resultsKey) {
  * @returns Formatted duration.
  */
 export function formatDuration(seconds) {
-    const duration = dayjs.duration(seconds, 'seconds')
+  const duration = dayjs.duration(seconds, 'seconds')
 
-    // for very long durations exceeding one day, express it in hours
-    if (duration.days() > 0) {
-        const hours = duration.asHours().toFixed()
-        return duration.format(`${hours}:mm:ss`)
-    }
+  // for very long durations exceeding one day, express it in hours
+  if (duration.days() > 0) {
+    const hours = duration.asHours().toFixed()
+    return duration.format(`${hours}:mm:ss`)
+  }
 
-    // display hours only if needed
-    if (duration.hours() > 0) {
-        return duration.format('H:mm:ss')
-    }
+  // display hours only if needed
+  if (duration.hours() > 0) {
+    return duration.format('H:mm:ss')
+  }
 
-    // default to minutes and seconds
-    return duration.format('m:ss')
+  // default to minutes and seconds
+  return duration.format('m:ss')
 }
 
 /**
@@ -58,8 +58,8 @@ export function formatDuration(seconds) {
  * @returns Element of the array where `fn` returns true.
  */
 export function findLast(array, fn) {
-    for(let i = array.length - 1; i >= 0; i--) {
-        if(fn(array[i], i, array)) return array[i];
-    }
-    return null
+  for (let i = array.length - 1; i >= 0; i--) {
+    if (fn(array[i], i, array)) return array[i]
+  }
+  return null
 }

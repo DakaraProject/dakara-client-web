@@ -1,96 +1,129 @@
-@use "sass:color";
+@use 'sass:color';
 
-@use "~/abstracts/colors";
-@use "~/abstracts/controls";
-@use "~/abstracts/sizes";
+@use '~/abstracts/colors';
+@use '~/abstracts/controls';
+@use '~/abstracts/sizes';
 
 .test-colors {
-    .mosaic {
-        @include sizes.make-gap(margin, vertical);
+  .mosaic {
+    @include sizes.make-gap(margin, vertical);
 
-        .tile {
-            @mixin make-tile($color-name, $color) {
-                &.#{$color-name} {
-                    background: $color;
-                    color: color.scale($color, $lightness: -50%);
-                }
-            }
-
-            @include make-tile("brand-primary", colors.$brand-primary);
-            @include make-tile("brand-success", colors.$brand-success);
-            @include make-tile("brand-warning", colors.$brand-warning);
-            @include make-tile("brand-danger", colors.$brand-danger);
-            @include make-tile("brand-info", colors.$brand-info);
-            @include make-tile("brand-primary-darkish", colors.$brand-primary-darkish);
-            @include make-tile("brand-success-darkish", colors.$brand-success-darkish);
-            @include make-tile("brand-warning-darkish", colors.$brand-warning-darkish);
-            @include make-tile("brand-danger-darkish", colors.$brand-danger-darkish);
-            @include make-tile("brand-info-darkish", colors.$brand-info-darkish);
-            @include make-tile("brand-primary-darkened", colors.$brand-primary-darkened);
-            @include make-tile("brand-success-darkened", colors.$brand-success-darkened);
-            @include make-tile("brand-warning-darkened", colors.$brand-warning-darkened);
-            @include make-tile("brand-danger-darkened", colors.$brand-danger-darkened);
-            @include make-tile("brand-info-darkened", colors.$brand-info-darkened);
-            @include make-tile("brand-primary-dark", colors.$brand-primary-dark);
-            @include make-tile("brand-success-dark", colors.$brand-success-dark);
-            @include make-tile("brand-warning-dark", colors.$brand-warning-dark);
-            @include make-tile("brand-danger-dark", colors.$brand-danger-dark);
-            @include make-tile("brand-info-dark", colors.$brand-info-dark);
-            @include make-tile("brand-primary-darker", colors.$brand-primary-darker);
-            @include make-tile("brand-success-darker", colors.$brand-success-darker);
-            @include make-tile("brand-warning-darker", colors.$brand-warning-darker);
-            @include make-tile("brand-danger-darker", colors.$brand-danger-darker);
-            @include make-tile("brand-info-darker", colors.$brand-info-darker);
-            @include make-tile("brand-primary-light", colors.$brand-primary-light);
-            @include make-tile("brand-success-light", colors.$brand-success-light);
-            @include make-tile("brand-warning-light", colors.$brand-warning-light);
-            @include make-tile("brand-danger-light", colors.$brand-danger-light);
-            @include make-tile("brand-info-light", colors.$brand-info-light);
-            @include make-tile("brand-primary-lighter", colors.$brand-primary-lighter);
-            @include make-tile("brand-success-lighter", colors.$brand-success-lighter);
-            @include make-tile("brand-warning-lighter", colors.$brand-warning-lighter);
-            @include make-tile("brand-danger-lighter", colors.$brand-danger-lighter);
-            @include make-tile("brand-info-lighter", colors.$brand-info-lighter);
-
-            @include make-tile("neutral-clear", colors.$neutral-clear);
-            @include make-tile("neutral-soft", colors.$neutral-soft);
-            @include make-tile("neutral-mid", colors.$neutral-mid);
-            @include make-tile("neutral-mid-darkish", colors.$neutral-mid-darkish);
-            @include make-tile("neutral-mid-darkened", colors.$neutral-mid-darkened);
-            @include make-tile("neutral-soft-dark", colors.$neutral-soft-dark);
-            @include make-tile("neutral-mid-dark", colors.$neutral-mid-dark);
-            @include make-tile("neutral-mid-darker", colors.$neutral-mid-darker);
-            @include make-tile("neutral-clear-light", colors.$neutral-clear-light);
-            @include make-tile("neutral-soft-light", colors.$neutral-soft-light);
-            @include make-tile("neutral-mid-light", colors.$neutral-mid-light);
-            @include make-tile("neutral-clear-lighter", colors.$neutral-clear-lighter);
-            @include make-tile("neutral-soft-lighter", colors.$neutral-soft-lighter);
-            @include make-tile("neutral-mid-lighter", colors.$neutral-mid-lighter);
-            @include make-tile("text-dark", colors.$text-dark);
-            @include make-tile("text-light", colors.$text-light);
-
-            background: black;
-            text-align: center;
-
-            &.title {
-                background: none;
-                text-align: left;
-            }
+    .tile {
+      @mixin make-tile($color-name, $color) {
+        &.#{$color-name} {
+          background: $color;
+          color: color.scale($color, $lightness: -50%);
         }
+      }
+
+      @include make-tile('brand-primary', colors.$brand-primary);
+      @include make-tile('brand-success', colors.$brand-success);
+      @include make-tile('brand-warning', colors.$brand-warning);
+      @include make-tile('brand-danger', colors.$brand-danger);
+      @include make-tile('brand-info', colors.$brand-info);
+      @include make-tile(
+        'brand-primary-darkish',
+        colors.$brand-primary-darkish
+      );
+      @include make-tile(
+        'brand-success-darkish',
+        colors.$brand-success-darkish
+      );
+      @include make-tile(
+        'brand-warning-darkish',
+        colors.$brand-warning-darkish
+      );
+      @include make-tile('brand-danger-darkish', colors.$brand-danger-darkish);
+      @include make-tile('brand-info-darkish', colors.$brand-info-darkish);
+      @include make-tile(
+        'brand-primary-darkened',
+        colors.$brand-primary-darkened
+      );
+      @include make-tile(
+        'brand-success-darkened',
+        colors.$brand-success-darkened
+      );
+      @include make-tile(
+        'brand-warning-darkened',
+        colors.$brand-warning-darkened
+      );
+      @include make-tile(
+        'brand-danger-darkened',
+        colors.$brand-danger-darkened
+      );
+      @include make-tile('brand-info-darkened', colors.$brand-info-darkened);
+      @include make-tile('brand-primary-dark', colors.$brand-primary-dark);
+      @include make-tile('brand-success-dark', colors.$brand-success-dark);
+      @include make-tile('brand-warning-dark', colors.$brand-warning-dark);
+      @include make-tile('brand-danger-dark', colors.$brand-danger-dark);
+      @include make-tile('brand-info-dark', colors.$brand-info-dark);
+      @include make-tile('brand-primary-darker', colors.$brand-primary-darker);
+      @include make-tile('brand-success-darker', colors.$brand-success-darker);
+      @include make-tile('brand-warning-darker', colors.$brand-warning-darker);
+      @include make-tile('brand-danger-darker', colors.$brand-danger-darker);
+      @include make-tile('brand-info-darker', colors.$brand-info-darker);
+      @include make-tile('brand-primary-light', colors.$brand-primary-light);
+      @include make-tile('brand-success-light', colors.$brand-success-light);
+      @include make-tile('brand-warning-light', colors.$brand-warning-light);
+      @include make-tile('brand-danger-light', colors.$brand-danger-light);
+      @include make-tile('brand-info-light', colors.$brand-info-light);
+      @include make-tile(
+        'brand-primary-lighter',
+        colors.$brand-primary-lighter
+      );
+      @include make-tile(
+        'brand-success-lighter',
+        colors.$brand-success-lighter
+      );
+      @include make-tile(
+        'brand-warning-lighter',
+        colors.$brand-warning-lighter
+      );
+      @include make-tile('brand-danger-lighter', colors.$brand-danger-lighter);
+      @include make-tile('brand-info-lighter', colors.$brand-info-lighter);
+
+      @include make-tile('neutral-clear', colors.$neutral-clear);
+      @include make-tile('neutral-soft', colors.$neutral-soft);
+      @include make-tile('neutral-mid', colors.$neutral-mid);
+      @include make-tile('neutral-mid-darkish', colors.$neutral-mid-darkish);
+      @include make-tile('neutral-mid-darkened', colors.$neutral-mid-darkened);
+      @include make-tile('neutral-soft-dark', colors.$neutral-soft-dark);
+      @include make-tile('neutral-mid-dark', colors.$neutral-mid-dark);
+      @include make-tile('neutral-mid-darker', colors.$neutral-mid-darker);
+      @include make-tile('neutral-clear-light', colors.$neutral-clear-light);
+      @include make-tile('neutral-soft-light', colors.$neutral-soft-light);
+      @include make-tile('neutral-mid-light', colors.$neutral-mid-light);
+      @include make-tile(
+        'neutral-clear-lighter',
+        colors.$neutral-clear-lighter
+      );
+      @include make-tile('neutral-soft-lighter', colors.$neutral-soft-lighter);
+      @include make-tile('neutral-mid-lighter', colors.$neutral-mid-lighter);
+      @include make-tile('text-dark', colors.$text-dark);
+      @include make-tile('text-light', colors.$text-light);
+
+      background: black;
+      text-align: center;
+
+      &.title {
+        background: none;
+        text-align: left;
+      }
+    }
+  }
+
+  .controls {
+    @include controls.make-controls();
+
+    display: flex;
+    justify-content: flex-end;
+
+    &:not(:last-child) {
+      @include sizes.make-gap(padding, bottom);
     }
 
-    .controls {
-        @include controls.make-controls();
-
-        display: flex;
-        justify-content: flex-end;
-
-        &:not(:last-child) {
-            @include sizes.make-gap(padding, bottom);
-        }
-
-        > .control {
-            @include sizes.make-gap(padding, horizontal);
-        }
+    > .control {
+      @include sizes.make-gap(padding, horizontal);
     }
+  }
 }

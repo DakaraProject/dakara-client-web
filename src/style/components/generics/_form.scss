@@ -4,15 +4,15 @@
 // Forms style file
 //
 
-@use "sass:color";
+@use 'sass:color';
 
-@use "~/thirdparty/preboot";
+@use '~/thirdparty/preboot';
 
-@use "~/abstracts/colors";
-@use "~/abstracts/controls";
-@use "~/abstracts/fonts";
-@use "~/abstracts/sizes";
-@use "~/abstracts/support";
+@use '~/abstracts/colors';
+@use '~/abstracts/controls';
+@use '~/abstracts/fonts';
+@use '~/abstracts/sizes';
+@use '~/abstracts/support';
 
 // form sizes
 $form-field-height: sizes.$row-height;
@@ -38,768 +38,770 @@ $form-field-height: sizes.$row-height;
 // have to use some JS with the `onFocus` and `onBlur` events of the faked
 // input.
 .form {
-    $field-height: $form-field-height;
+  $field-height: $form-field-height;
 
-    // `block` subclass:
-    //
-    // The `block` subclass is appropriate for large forms involving several
-    // fields. It contains a `header`, a `set` of input fiels, and `controls`.
-    // The `header` is optional and can contain the form title. It has no
-    // color. The `set` contains `field`s, which are couples of `label` and
-    // `input`. Labels can be a single icon (combined with a placeholder in the
-    // input tag), an icon and a text or a single text. As you wish. On desktop
-    // view, labels are displayed in a column style: their width is adjusted
-    // along the largest element. On mobile view, labels and input are on a
-    // separate line. Each field row has a gap with the next one. A gap is
-    // added between the `header` and the `set` if they follow each other
-    // immediately. The `controls` block contains buttons of the form (to
-    // submit it, reset it, etc.). Buttons are of primary color. The `controls`
-    // space is used to display notifications of the form submission.
-    //
-    // Example with title:
-    // +-------------------+
-    // | Title             |
-    // |                   |
-    // | Label      Input__|
-    // |                   |
-    // | Long label Input__|
-    // |                   |
-    // |          Controls |
-    // +-------------------+
-    //
-    // Example without title:
-    // +-------------------+
-    // | Label      Input__|
-    // |                   |
-    // | Long label Input__|
-    // |                   |
-    // |          Controls |
-    // +-------------------+
-    &.block {
+  // `block` subclass:
+  //
+  // The `block` subclass is appropriate for large forms involving several
+  // fields. It contains a `header`, a `set` of input fiels, and `controls`.
+  // The `header` is optional and can contain the form title. It has no
+  // color. The `set` contains `field`s, which are couples of `label` and
+  // `input`. Labels can be a single icon (combined with a placeholder in the
+  // input tag), an icon and a text or a single text. As you wish. On desktop
+  // view, labels are displayed in a column style: their width is adjusted
+  // along the largest element. On mobile view, labels and input are on a
+  // separate line. Each field row has a gap with the next one. A gap is
+  // added between the `header` and the `set` if they follow each other
+  // immediately. The `controls` block contains buttons of the form (to
+  // submit it, reset it, etc.). Buttons are of primary color. The `controls`
+  // space is used to display notifications of the form submission.
+  //
+  // Example with title:
+  // +-------------------+
+  // | Title             |
+  // |                   |
+  // | Label      Input__|
+  // |                   |
+  // | Long label Input__|
+  // |                   |
+  // |          Controls |
+  // +-------------------+
+  //
+  // Example without title:
+  // +-------------------+
+  // | Label      Input__|
+  // |                   |
+  // | Long label Input__|
+  // |                   |
+  // |          Controls |
+  // +-------------------+
+  &.block {
+    // `set` class: the set contains the fields of the form.
+    .set {
+      // this rule removes the space at the top of the set due to
+      // `border-spacing`, but the rule is cancelled if there is a header
+      // just before
+      @include sizes.make-gap(margin, top, -1);
+      @include support.make-smartphone {
+        border-spacing: 0 sizes.$gap-vertical-smartphone;
+      }
 
-        // `set` class: the set contains the fields of the form.
-        .set {
-            // this rule removes the space at the top of the set due to
-            // `border-spacing`, but the rule is cancelled if there is a header
-            // just before
-            @include sizes.make-gap(margin, top, -1);
-            @include support.make-smartphone {
-                border-spacing: 0 sizes.$gap-vertical-smartphone;
-            }
+      & {
+        border-collapse: separate;
+        border-spacing: 0 sizes.$gap-vertical;
+        display: table;
+        width: 100%;
+      }
 
-            & {
-                border-collapse: separate;
-                border-spacing: 0 sizes.$gap-vertical;
-                display: table;
-                width: 100%;
-            }
+      // The field contains a label and an input.
+      .field {
+        display: table-row;
 
-            // The field contains a label and an input.
-            .field {
-                display: table-row;
+        .label {
+          @include support.make-smartphone {
+            display: block !important;
+          }
 
-                .label {
-                    @include support.make-smartphone {
-                        display: block !important;
-                    }
+          & {
+            // this allows to shrink the label 'column' as small as
+            // possible
+            display: table-cell;
+          }
 
-                    & {
-                        // this allows to shrink the label 'column' as small as
-                        // possible
-                        display: table-cell;
-                    }
+          & {
+            // this allows to align in the middle if the field is
+            // one line height (typical `input`) and align on the
+            // top for several lines (typical `textarea`)
+            line-height: $field-height;
+            vertical-align: top;
+          }
 
-                    & {
-                        // this allows to align in the middle if the field is
-                        // one line height (typical `input`) and align on the
-                        // top for several lines (typical `textarea`)
-                        line-height: $field-height;
-                        vertical-align: top;
-                    }
+          & {
+            // this allows the shrink to be exactly the length of
+            // the label, but since the label is now un-breakable,
+            // it *must* be kept short
+            white-space: nowrap;
+          }
 
-                    & {
-                        // this allows the shrink to be exactly the length of
-                        // the label, but since the label is now un-breakable,
-                        // it *must* be kept short
-                        white-space: nowrap;
-                    }
+          // if label is empty, do not add padding
+          &:not(:empty) {
+            @include sizes.make-gap(padding, horizontal);
+          }
 
-                    // if label is empty, do not add padding
-                    &:not(:empty) {
-                        @include sizes.make-gap(padding, horizontal);
-                    }
+          .icon {
+            font-size: 1.5em;
+          }
 
-                    .icon {
-                        font-size: 1.5em;
-                    }
-
-                    // if an icon and a name are set
-                    .icon + .name,
-                    .name + .icon {
-                        margin-left: 0.5em;
-                    }
-                }
-
-                // We cannot directly use `display: table-cell` on an input tag
-                // because this property seems to be not supported.
-                // We have to use a wrapper instead.
-                // Source: http://stackoverflow.com/a/15632230
-                .input {
-                    display: table-cell;
-                    width: 100%;
-
-                    @include support.make-smartphone {
-                        display: block;
-                    }
-
-                    .error-container {
-                        .error {
-                            padding: sizes.$gap-vertical * 0.25;
-                        }
-
-                        &.error-container-enter {
-                            max-height: 0;
-
-                            &.error-container-enter-active {
-                                max-height: calc(1em + #{sizes.$gap-vertical} * 2);
-                                transition: max-height 300ms ease-out;
-                            }
-                        }
-
-                        // notification transition disappearance
-                        &.error-container-exit {
-                            max-height: calc(1em + #{sizes.$gap-vertical} * 2);
-
-                            &.error-container-exit-active {
-                                max-height: 0;
-                                transition: max-height 100ms ease-out;
-                            }
-                        }
-                    }
-                }
-            }
+          // if an icon and a name are set
+          .icon + .name,
+          .name + .icon {
+            margin-left: 0.5em;
+          }
         }
 
-        // `controls` subclass: buttons of the form.
-        .controls {
-            @include controls.make-controls($height: $field-height);
+        // We cannot directly use `display: table-cell` on an input tag
+        // because this property seems to be not supported.
+        // We have to use a wrapper instead.
+        // Source: http://stackoverflow.com/a/15632230
+        .input {
+          display: table-cell;
+          width: 100%;
 
-            display: flex;
-            justify-content: flex-end;
-
-            .control {
-                @include sizes.make-gap(padding, horizontal);
-            }
-        }
-
-        // `header` class: header of the form.
-        > .header {
-            h3 {
-                @include sizes.make-gap(padding, horizontal);
-            }
-        }
-
-        // if the set is preceded by a header
-        > .header + .set {
-            margin-top: 0;
-        }
-    }
-
-    // `inline` subclass:
-    //
-    // The `inline` subclass is appropriate for single-field forms. This
-    // subclass supports neither labels, nor titles, nor notifications. Use it
-    // for simple forms involving GET requests.
-    //
-    // Example:
-    // +-------------------+
-    // | Input    Controls |
-    // +-------------------+
-    &.inline {
-        display: flex;
-
-        // `set` class: the set contains the inputs of the form.
-        .set {
-            @include sizes.make-gap(padding, right);
-
-            & {
-                display: flex;
-                flex: 1;
-            }
-
-            .input {
-                flex: initial;
-
-                &:not(:last-child) {
-                    @include sizes.make-gap(margin, right);
-                }
-            }
-        }
-
-        // `controls` subclass: buttons of the form
-        .controls {
-            @include controls.make-controls($height: $field-height);
-        }
-    }
-
-    // `field` class:
-    //
-    // This section handles the style of the fields input. Fields are rendered
-    // the same way wether they belong to a block form or an inline form.
-    //
-    // Rules are groupped by fierd type.
-    .field {
-        // general tags and classes:
-        //
-        // Visual aspect of the inputs and faked inputs of any kind.
-        input,
-        textarea,
-        select,
-        .fake {
-            // reset style
-            border-style: none;
-            box-sizing: border-box;
-            outline: none;
-
-            &:required {
-                border-style: none;
-                box-shadow: none;
-                outline: none;
-            }
-
-            // give an appareance
-            &:not(.faked) {
-                @include sizes.make-gap(padding, horizontal);
-
-                & {
-                    background: colors.$neutral-soft;
-                }
-
-                &:focus,
-                &.focus,
-                &[type="checkbox"]:focus + .marker {
-                    background: colors.$neutral-clear !important;
-                }
-            }
-
-            // spread all possible width
-            &:not([type="checkbox"]) {
-                width: 100%;
-
-                & {
-                    // remove the limitation for Firefox
-                    min-width: 0;
-                }
-            }
-        }
-
-        &.disabled {
-            input,
-            textarea,
-            select,
-            .fake {
-                &:not(.faked) {
-                    background: colors.$neutral-soft-dark;
-                }
-            }
-        }
-
-        input,
-        .fake {
+          @include support.make-smartphone {
             display: block;
-            height: $field-height;
+          }
+
+          .error-container {
+            .error {
+              padding: sizes.$gap-vertical * 0.25;
+            }
+
+            &.error-container-enter {
+              max-height: 0;
+
+              &.error-container-enter-active {
+                max-height: calc(1em + #{sizes.$gap-vertical} * 2);
+                transition: max-height 300ms ease-out;
+              }
+            }
+
+            // notification transition disappearance
+            &.error-container-exit {
+              max-height: calc(1em + #{sizes.$gap-vertical} * 2);
+
+              &.error-container-exit-active {
+                max-height: 0;
+                transition: max-height 100ms ease-out;
+              }
+            }
+          }
         }
-
-        // faked input
-        input.faked {
-            background: none;
-            padding: 0;
-        }
-
-        // field hover
-        &:not(.disabled) {
-            input,
-            textarea,
-            select,
-            .fake {
-                &:hover:not(:focus):not(.focus) {
-                    background: colors.$neutral-soft-lighter;
-                }
-            }
-        }
-
-        // controls inside inputs
-        .input .controls .control {
-            // no margin when stacking controls
-            margin: 0;
-
-            &:hover:not(:focus) {
-                color: colors.$neutral-mid;
-            }
-
-            &:focus {
-                color: colors.$neutral-mid-light;
-            }
-        }
-
-        // `text-input` class:
-        //
-        // Text/number input and textarea.
-        .text-input {
-            input,
-            textarea {
-                color: colors.$text-dark;
-
-                &::placeholder {
-                    color: colors.$neutral-mid-dark;
-
-                    & {
-                        // override the way Firefox adds opacity
-                        // TODO see if this can be removed
-                        opacity: 1;
-                    }
-                }
-
-                & {
-                    // Some browsers (Firefox) try to use system fonts
-                    @include fonts.make-text;
-
-                    font-size: medium;
-                }
-            }
-
-            textarea {
-                // this simulates the correct space of single line `input`, but
-                // is pretty approximative
-                min-height: 3 * $field-height;
-                padding-bottom: calc(0.5 * #{$field-height} - 0.65em);
-                padding-top: calc(0.5 * #{$field-height} - 0.65em);
-                resize: vertical;
-            }
-        }
-
-        // `select-input` class:
-        //
-        // Select field, can be of type `multiple` or not.
-        .select-input {
-            position: relative;
-
-            select {
-                // fix font properties
-                // remove the marker
-                appearance: none;
-                color: colors.$text-dark;
-                font-size: medium;
-
-                // fix height which is minimal by default
-                &:not([multiple]) {
-                    height: $field-height;
-                }
-
-                // height for select of type multiple
-                &[multiple] {
-                    min-height: $field-height;
-                }
-
-                & {
-                    // Firefox adds an ugly triangle that can't be stylized
-                    // here is a hack: https://gist.github.com/joaocunha/6273016/
-                    text-indent: 0.01px;
-                    text-overflow: "";
-                }
-
-                // add space for marker
-                &:not([multiple]) {
-                    padding-right: $field-height;
-                }
-
-                &[multiple] {
-                    @include sizes.make-gap(padding, horizontal);
-                }
-
-            }
-
-            // create the marker
-            &:not(.multiple)::after {
-                // square shape
-                @include preboot.square($field-height);
-
-                // attached to the top right
-                // no pointer effect
-                color: colors.$text-dark;
-                content: "▼";
-                font-size: 1.5em;
-                line-height: $field-height;
-                pointer-events: none;
-                position: absolute;
-                right: 0;
-                text-align: center;
-                top: 0;
-            }
-        }
-
-        // handle pointer
-        &:not(.disabled) select {
-            // use pointer cursor
-            cursor: pointer;
-        }
-
-        // `radio-input` class:
-        //
-        // A set of radio buttons.
-        .radio-input {
-            input[type="radio"] {
-                // delete initial marker
-                // reset initial height
-                appearance: none;
-                height: initial;
-                width: 0;
-
-                & {
-                    // hack for old browsers (Firefox 52), for which deactivating
-                    // appareance is not enough
-                    // TODO make it conditionnal?
-                    opacity: 0;
-                    position: absolute;
-                }
-            }
-
-            // add style to adjacent marker box
-            input + label.marker {
-                @include preboot.square($field-height * 0.5);
-
-                // remove padding
-                margin-top: $field-height * 0.25;
-                padding: 0;
-                position: relative;
-            }
-
-            // add style to marker when checked
-            input:checked + label.marker::after {
-                @include preboot.square($field-height * 0.25);
-
-                background: colors.$text-dark;
-                content: "";
-                left: $field-height * 0.125;
-                position: absolute;
-                top: $field-height * 0.125;
-            }
-
-            .radio-option {
-                display: flex;
-                line-height: $field-height;
-
-                .description {
-                    @include sizes.make-gap(padding, horizontal);
-
-                    & {
-                        flex: 1;
-                    }
-
-                    &.long {
-                        @include fonts.make-long;
-
-                        line-height: normal;
-                        padding: calc(#{$field-height * 0.5} - 0.7em) sizes.$gap-horizontal;
-
-                        @include support.make-smartphone {
-                            padding: calc(#{$field-height * 0.5} - 0.7em) sizes.$gap-horizontal-smartphone;
-                        }
-                    }
-                }
-            }
-        }
-
-        &:not(.disabled) {
-            // handle cursor
-            .radio-input {
-                label {
-                    &.marker,
-                    &.description {
-                        cursor: pointer;
-                    }
-                }
-            }
-
-            // handle hover
-            .label:hover + .input .radio-input,
-            .radio-input:hover {
-                label.marker {
-                    background: colors.$neutral-soft-light;
-                }
-            }
-
-            // handle hover in options
-            .radio-option:hover label.marker {
-                background: colors.$neutral-soft-lighter;
-            }
-
-            // handle focus
-            .radio-option input:focus + label.marker {
-                background: colors.$neutral-soft-lighter;
-            }
-        }
-
-        // `checkbox-input` and `toggle-input` classes:
-        //
-        // Rules for the same input of type `checkbox`, but with two different
-        // styles.
-        .checkbox-input,
-        .toggle-input {
-            input[type="checkbox"] {
-                // delete initial marker
-                // reset initial height
-                appearance: none;
-                height: initial;
-                width: 0;
-
-                & {
-                    // hack for old browsers (Firefox 52), for which
-                    // deactivating appareance is not enough
-                    // TODO make it conditionnal?
-                    opacity: 0;
-                    position: absolute;
-                }
-            }
-        }
-
-        // specific style for checkbox
-        .checkbox-input {
-            // add style to adjacent marker box
-            input + label.marker {
-                @include preboot.square($field-height * 0.5);
-
-                // remove padding
-                margin-top: $field-height * 0.25;
-                padding: 0;
-                position: relative;
-            }
-
-            // add style to marker when checked
-            input:checked + label.marker::after {
-                @include preboot.square($field-height * 0.5);
-                @include fonts.make-icon;
-
-                color: colors.$text-dark;
-                content: "\f00c";
-                font-size: 1.3em;
-                line-height: $field-height * 0.5;
-                position: absolute;
-                text-align: center;
-            }
-        }
-
-        // specific style for toggle
-        .toggle-input {
-            // add style to adjacent marker box
-            input + label.marker {
-                // remove padding
-                height: $field-height * 0.5;
-                margin-top: $field-height * 0.25;
-                overflow: hidden;
-                padding: 0;
-                position: relative;
-                width: $field-height;
-            }
-
-            // add marker
-            input + label.marker::after {
-                @include preboot.square($field-height * 0.3);
-
-                background: colors.$text-dark;
-                content: "";
-                left: $field-height * 0.1;
-                position: absolute;
-                top: $field-height * 0.1;
-            }
-
-            // add style to marker when not checked
-            input:not(:checked) + label.marker::after {
-                left: $field-height * 0.1;
-                transition: left 150ms ease-out;
-                transition-delay: 150ms;
-            }
-
-            // add style to marker when checked
-            input:checked + label.marker::after {
-                left: $field-height * 0.6;
-                transition: left 150ms ease-out;
-            }
-
-            // add second marker
-            input + label.marker::before {
-                background: colors.$brand-info;
-                content: "";
-                height: $field-height * 0.5;
-                position: absolute;
-                right: $field-height;
-                width: $field-height;
-            }
-
-            // add style to second marker when not checked
-            input:not(:checked) + label.marker::before {
-                right: $field-height;
-                transition: right 150ms ease-out;
-            }
-
-            // add style to second marker when checked
-            input:checked + label.marker::before {
-                right: 0;
-                transition: right 150ms ease-out;
-                transition-delay: 150ms;
-            }
-        }
-
-        &:not(.disabled) {
-            // handle cursor
-            .checkbox-input,
-            .toggle-input {
-                label.marker {
-                    cursor: pointer;
-                }
-            }
-
-            // handle hover
-            .label:hover + .input .toggle-input,
-            .label:hover + .input .checkbox-input {
-                label.marker {
-                    background: colors.$neutral-soft-lighter;
-                }
-            }
-
-            // handle hover
-            .label:hover + .input .toggle-input input,
-            .toggle-input input:hover, {
-                &:not(:focus) + label.marker::before {
-                    background: colors.$brand-info-light;
-                }
-            }
-
-            // handle focus
-            .toggle-input input:focus + label.marker::before {
-                background: colors.$brand-info-lighter;
-            }
-        }
-
-        // `hue-input` class:
-        //
-        // The hue field is a specific kind of the range field.
-        .hue-input {
-            $hue-input-saturation: colors.$custom-color-saturation;
-            $hue-input-luminosity: colors.$custom-color-luminosity;
-
-            @mixin rainbow-gradient($saturation-in, $luminosity-is) {
-                // make the color a bit darker because the result is different
-                // compared to the colors given by `hue-rotate`
-                $saturation: $saturation-in * 0.8;
-                $luminosity: $luminosity-is * 0.8;
-
-                background: linear-gradient(
-                    to right,
-                    hsl(0, $saturation, $luminosity),
-                    hsl(60, $saturation, $luminosity),
-                    hsl(120, $saturation, $luminosity),
-                    hsl(180, $saturation, $luminosity),
-                    hsl(240, $saturation, $luminosity),
-                    hsl(300, $saturation, $luminosity),
-                    hsl(360, $saturation, $luminosity)
-                );
-            }
-
-            display: flex;
-
-            .preview {
-                background: hsl(0, $hue-input-saturation, $hue-input-luminosity);
-                color: color.change(colors.$text-dark, $alpha: 0.5);
-                flex-shrink: 0;
-                font-size: medium;
-                font-weight: 700;
-                line-height: $form-field-height;
-                text-align: center;
-                width: $form-field-height;
-
-                &::selection {
-                    // the real color of the background will change due to the
-                    // `hue-rotate` filter
-                    background: red;
-                }
-            }
-
-            .input {
-                $track-height: 0.5rem;
-
-                @mixin track() {
-                    @include rainbow-gradient($hue-input-saturation, $hue-input-luminosity);
-                    height: $track-height;
-                }
-
-                margin: 0 !important;
-
-                input[type=range] {
-                    appearance: none;
-                    background: transparent;
-                    height: 100%;
-
-                    &::-webkit-slider-runnable-track {
-                        @include track();
-                    }
-
-                    &::-moz-range-track {
-                        @include track();
-                    }
-                }
-
-                @mixin thumb() {
-                    @include preboot.square($track-height);
-
-                    background: colors.$text-dark;
-                    border: $track-height solid colors.$text-dark;
-                    box-sizing: content-box;
-                }
-
-                input[type=range] {
-                    &::-webkit-slider-thumb {
-                        @include thumb();
-
-                        appearance: none;
-
-                        & {
-                            // Hack to center for chrome
-                            // (thumb size - track size) * -0.5
-                            margin-top: -$track-height;
-                        }
-                    }
-
-                    &::-moz-range-thumb {
-                        @include thumb();
-
-                        border-radius: 0;
-                    }
-                }
-            }
-        }
-
-        &:not(.disabled) {
-            .hue-input {
-                @mixin thumb() {
-                    background: transparent;
-                }
-
-                // handle cursor
-                input[type="range"] {
-                    cursor: pointer;
-
-                    &:focus {
-                        &::-webkit-slider-thumb {
-                            @include thumb();
-                        }
-
-                        &::-moz-range-thumb {
-                            @include thumb();
-                        }
-                    }
-                }
-            }
-        }
+      }
     }
+
+    // `controls` subclass: buttons of the form.
+    .controls {
+      @include controls.make-controls($height: $field-height);
+
+      display: flex;
+      justify-content: flex-end;
+
+      .control {
+        @include sizes.make-gap(padding, horizontal);
+      }
+    }
+
+    // `header` class: header of the form.
+    > .header {
+      h3 {
+        @include sizes.make-gap(padding, horizontal);
+      }
+    }
+
+    // if the set is preceded by a header
+    > .header + .set {
+      margin-top: 0;
+    }
+  }
+
+  // `inline` subclass:
+  //
+  // The `inline` subclass is appropriate for single-field forms. This
+  // subclass supports neither labels, nor titles, nor notifications. Use it
+  // for simple forms involving GET requests.
+  //
+  // Example:
+  // +-------------------+
+  // | Input    Controls |
+  // +-------------------+
+  &.inline {
+    display: flex;
+
+    // `set` class: the set contains the inputs of the form.
+    .set {
+      @include sizes.make-gap(padding, right);
+
+      & {
+        display: flex;
+        flex: 1;
+      }
+
+      .input {
+        flex: initial;
+
+        &:not(:last-child) {
+          @include sizes.make-gap(margin, right);
+        }
+      }
+    }
+
+    // `controls` subclass: buttons of the form
+    .controls {
+      @include controls.make-controls($height: $field-height);
+    }
+  }
+
+  // `field` class:
+  //
+  // This section handles the style of the fields input. Fields are rendered
+  // the same way wether they belong to a block form or an inline form.
+  //
+  // Rules are groupped by fierd type.
+  .field {
+    // general tags and classes:
+    //
+    // Visual aspect of the inputs and faked inputs of any kind.
+    input,
+    textarea,
+    select,
+    .fake {
+      // reset style
+      border-style: none;
+      box-sizing: border-box;
+      outline: none;
+
+      &:required {
+        border-style: none;
+        box-shadow: none;
+        outline: none;
+      }
+
+      // give an appareance
+      &:not(.faked) {
+        @include sizes.make-gap(padding, horizontal);
+
+        & {
+          background: colors.$neutral-soft;
+        }
+
+        &:focus,
+        &.focus,
+        &[type='checkbox']:focus + .marker {
+          background: colors.$neutral-clear !important;
+        }
+      }
+
+      // spread all possible width
+      &:not([type='checkbox']) {
+        width: 100%;
+
+        & {
+          // remove the limitation for Firefox
+          min-width: 0;
+        }
+      }
+    }
+
+    &.disabled {
+      input,
+      textarea,
+      select,
+      .fake {
+        &:not(.faked) {
+          background: colors.$neutral-soft-dark;
+        }
+      }
+    }
+
+    input,
+    .fake {
+      display: block;
+      height: $field-height;
+    }
+
+    // faked input
+    input.faked {
+      background: none;
+      padding: 0;
+    }
+
+    // field hover
+    &:not(.disabled) {
+      input,
+      textarea,
+      select,
+      .fake {
+        &:hover:not(:focus):not(.focus) {
+          background: colors.$neutral-soft-lighter;
+        }
+      }
+    }
+
+    // controls inside inputs
+    .input .controls .control {
+      // no margin when stacking controls
+      margin: 0;
+
+      &:hover:not(:focus) {
+        color: colors.$neutral-mid;
+      }
+
+      &:focus {
+        color: colors.$neutral-mid-light;
+      }
+    }
+
+    // `text-input` class:
+    //
+    // Text/number input and textarea.
+    .text-input {
+      input,
+      textarea {
+        color: colors.$text-dark;
+
+        &::placeholder {
+          color: colors.$neutral-mid-dark;
+
+          & {
+            // override the way Firefox adds opacity
+            // TODO see if this can be removed
+            opacity: 1;
+          }
+        }
+
+        & {
+          // Some browsers (Firefox) try to use system fonts
+          @include fonts.make-text;
+
+          font-size: medium;
+        }
+      }
+
+      textarea {
+        // this simulates the correct space of single line `input`, but
+        // is pretty approximative
+        min-height: 3 * $field-height;
+        padding-bottom: calc(0.5 * #{$field-height} - 0.65em);
+        padding-top: calc(0.5 * #{$field-height} - 0.65em);
+        resize: vertical;
+      }
+    }
+
+    // `select-input` class:
+    //
+    // Select field, can be of type `multiple` or not.
+    .select-input {
+      position: relative;
+
+      select {
+        // fix font properties
+        // remove the marker
+        appearance: none;
+        color: colors.$text-dark;
+        font-size: medium;
+
+        // fix height which is minimal by default
+        &:not([multiple]) {
+          height: $field-height;
+        }
+
+        // height for select of type multiple
+        &[multiple] {
+          min-height: $field-height;
+        }
+
+        & {
+          // Firefox adds an ugly triangle that can't be stylized
+          // here is a hack: https://gist.github.com/joaocunha/6273016/
+          text-indent: 0.01px;
+          text-overflow: '';
+        }
+
+        // add space for marker
+        &:not([multiple]) {
+          padding-right: $field-height;
+        }
+
+        &[multiple] {
+          @include sizes.make-gap(padding, horizontal);
+        }
+      }
+
+      // create the marker
+      &:not(.multiple)::after {
+        // square shape
+        @include preboot.square($field-height);
+
+        // attached to the top right
+        // no pointer effect
+        color: colors.$text-dark;
+        content: '▼';
+        font-size: 1.5em;
+        line-height: $field-height;
+        pointer-events: none;
+        position: absolute;
+        right: 0;
+        text-align: center;
+        top: 0;
+      }
+    }
+
+    // handle pointer
+    &:not(.disabled) select {
+      // use pointer cursor
+      cursor: pointer;
+    }
+
+    // `radio-input` class:
+    //
+    // A set of radio buttons.
+    .radio-input {
+      input[type='radio'] {
+        // delete initial marker
+        // reset initial height
+        appearance: none;
+        height: initial;
+        width: 0;
+
+        & {
+          // hack for old browsers (Firefox 52), for which deactivating
+          // appareance is not enough
+          // TODO make it conditionnal?
+          opacity: 0;
+          position: absolute;
+        }
+      }
+
+      // add style to adjacent marker box
+      input + label.marker {
+        @include preboot.square($field-height * 0.5);
+
+        // remove padding
+        margin-top: $field-height * 0.25;
+        padding: 0;
+        position: relative;
+      }
+
+      // add style to marker when checked
+      input:checked + label.marker::after {
+        @include preboot.square($field-height * 0.25);
+
+        background: colors.$text-dark;
+        content: '';
+        left: $field-height * 0.125;
+        position: absolute;
+        top: $field-height * 0.125;
+      }
+
+      .radio-option {
+        display: flex;
+        line-height: $field-height;
+
+        .description {
+          @include sizes.make-gap(padding, horizontal);
+
+          & {
+            flex: 1;
+          }
+
+          &.long {
+            @include fonts.make-long;
+
+            line-height: normal;
+            padding: calc(#{$field-height * 0.5} - 0.7em) sizes.$gap-horizontal;
+
+            @include support.make-smartphone {
+              padding: calc(#{$field-height * 0.5} - 0.7em)
+                sizes.$gap-horizontal-smartphone;
+            }
+          }
+        }
+      }
+    }
+
+    &:not(.disabled) {
+      // handle cursor
+      .radio-input {
+        label {
+          &.marker,
+          &.description {
+            cursor: pointer;
+          }
+        }
+      }
+
+      // handle hover
+      .label:hover + .input .radio-input,
+      .radio-input:hover {
+        label.marker {
+          background: colors.$neutral-soft-light;
+        }
+      }
+
+      // handle hover in options
+      .radio-option:hover label.marker {
+        background: colors.$neutral-soft-lighter;
+      }
+
+      // handle focus
+      .radio-option input:focus + label.marker {
+        background: colors.$neutral-soft-lighter;
+      }
+    }
+
+    // `checkbox-input` and `toggle-input` classes:
+    //
+    // Rules for the same input of type `checkbox`, but with two different
+    // styles.
+    .checkbox-input,
+    .toggle-input {
+      input[type='checkbox'] {
+        // delete initial marker
+        // reset initial height
+        appearance: none;
+        height: initial;
+        width: 0;
+
+        & {
+          // hack for old browsers (Firefox 52), for which
+          // deactivating appareance is not enough
+          // TODO make it conditionnal?
+          opacity: 0;
+          position: absolute;
+        }
+      }
+    }
+
+    // specific style for checkbox
+    .checkbox-input {
+      // add style to adjacent marker box
+      input + label.marker {
+        @include preboot.square($field-height * 0.5);
+
+        // remove padding
+        margin-top: $field-height * 0.25;
+        padding: 0;
+        position: relative;
+      }
+
+      // add style to marker when checked
+      input:checked + label.marker::after {
+        @include preboot.square($field-height * 0.5);
+        @include fonts.make-icon;
+
+        color: colors.$text-dark;
+        content: '\f00c';
+        font-size: 1.3em;
+        line-height: $field-height * 0.5;
+        position: absolute;
+        text-align: center;
+      }
+    }
+
+    // specific style for toggle
+    .toggle-input {
+      // add style to adjacent marker box
+      input + label.marker {
+        // remove padding
+        height: $field-height * 0.5;
+        margin-top: $field-height * 0.25;
+        overflow: hidden;
+        padding: 0;
+        position: relative;
+        width: $field-height;
+      }
+
+      // add marker
+      input + label.marker::after {
+        @include preboot.square($field-height * 0.3);
+
+        background: colors.$text-dark;
+        content: '';
+        left: $field-height * 0.1;
+        position: absolute;
+        top: $field-height * 0.1;
+      }
+
+      // add style to marker when not checked
+      input:not(:checked) + label.marker::after {
+        left: $field-height * 0.1;
+        transition: left 150ms ease-out;
+        transition-delay: 150ms;
+      }
+
+      // add style to marker when checked
+      input:checked + label.marker::after {
+        left: $field-height * 0.6;
+        transition: left 150ms ease-out;
+      }
+
+      // add second marker
+      input + label.marker::before {
+        background: colors.$brand-info;
+        content: '';
+        height: $field-height * 0.5;
+        position: absolute;
+        right: $field-height;
+        width: $field-height;
+      }
+
+      // add style to second marker when not checked
+      input:not(:checked) + label.marker::before {
+        right: $field-height;
+        transition: right 150ms ease-out;
+      }
+
+      // add style to second marker when checked
+      input:checked + label.marker::before {
+        right: 0;
+        transition: right 150ms ease-out;
+        transition-delay: 150ms;
+      }
+    }
+
+    &:not(.disabled) {
+      // handle cursor
+      .checkbox-input,
+      .toggle-input {
+        label.marker {
+          cursor: pointer;
+        }
+      }
+
+      // handle hover
+      .label:hover + .input .toggle-input,
+      .label:hover + .input .checkbox-input {
+        label.marker {
+          background: colors.$neutral-soft-lighter;
+        }
+      }
+
+      // handle hover
+      .label:hover + .input .toggle-input input,
+      .toggle-input input:hover {
+        &:not(:focus) + label.marker::before {
+          background: colors.$brand-info-light;
+        }
+      }
+
+      // handle focus
+      .toggle-input input:focus + label.marker::before {
+        background: colors.$brand-info-lighter;
+      }
+    }
+
+    // `hue-input` class:
+    //
+    // The hue field is a specific kind of the range field.
+    .hue-input {
+      $hue-input-saturation: colors.$custom-color-saturation;
+      $hue-input-luminosity: colors.$custom-color-luminosity;
+
+      @mixin rainbow-gradient($saturation-in, $luminosity-is) {
+        // make the color a bit darker because the result is different
+        // compared to the colors given by `hue-rotate`
+        $saturation: $saturation-in * 0.8;
+        $luminosity: $luminosity-is * 0.8;
+
+        background: linear-gradient(
+          to right,
+          hsl(0, $saturation, $luminosity),
+          hsl(60, $saturation, $luminosity),
+          hsl(120, $saturation, $luminosity),
+          hsl(180, $saturation, $luminosity),
+          hsl(240, $saturation, $luminosity),
+          hsl(300, $saturation, $luminosity),
+          hsl(360, $saturation, $luminosity)
+        );
+      }
+
+      display: flex;
+
+      .preview {
+        background: hsl(0, $hue-input-saturation, $hue-input-luminosity);
+        color: color.change(colors.$text-dark, $alpha: 0.5);
+        flex-shrink: 0;
+        font-size: medium;
+        font-weight: 700;
+        line-height: $form-field-height;
+        text-align: center;
+        width: $form-field-height;
+
+        &::selection {
+          // the real color of the background will change due to the
+          // `hue-rotate` filter
+          background: red;
+        }
+      }
+
+      .input {
+        $track-height: 0.5rem;
+
+        @mixin track() {
+          @include rainbow-gradient(
+            $hue-input-saturation,
+            $hue-input-luminosity
+          );
+          height: $track-height;
+        }
+
+        margin: 0 !important;
+
+        input[type='range'] {
+          appearance: none;
+          background: transparent;
+          height: 100%;
+
+          &::-webkit-slider-runnable-track {
+            @include track();
+          }
+
+          &::-moz-range-track {
+            @include track();
+          }
+        }
+
+        @mixin thumb() {
+          @include preboot.square($track-height);
+
+          background: colors.$text-dark;
+          border: $track-height solid colors.$text-dark;
+          box-sizing: content-box;
+        }
+
+        input[type='range'] {
+          &::-webkit-slider-thumb {
+            @include thumb();
+
+            appearance: none;
+
+            & {
+              // Hack to center for chrome
+              // (thumb size - track size) * -0.5
+              margin-top: -$track-height;
+            }
+          }
+
+          &::-moz-range-thumb {
+            @include thumb();
+
+            border-radius: 0;
+          }
+        }
+      }
+    }
+
+    &:not(.disabled) {
+      .hue-input {
+        @mixin thumb() {
+          background: transparent;
+        }
+
+        // handle cursor
+        input[type='range'] {
+          cursor: pointer;
+
+          &:focus {
+            &::-webkit-slider-thumb {
+              @include thumb();
+            }
+
+            &::-moz-range-thumb {
+              @include thumb();
+            }
+          }
+        }
+      }
+    }
+  }
 }

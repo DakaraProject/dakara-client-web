@@ -4,9 +4,9 @@
 // Controls style file
 //
 
-@use "~/abstracts/colors";
-@use "~/abstracts/controls";
-@use "~/abstracts/sizes";
+@use '~/abstracts/colors';
+@use '~/abstracts/controls';
+@use '~/abstracts/sizes';
 
 // `controls` class:
 //
@@ -19,159 +19,212 @@
 // It provides a `control` subclass for those elements, which has the basic
 // properties. Extra subclasses are available for the color of the control.
 .controls {
+  display: flex;
+
+  > .subcontrols {
     display: flex;
+  }
 
-    > .subcontrols {
-        display: flex;
+  // subclass for a control button
+  .control {
+    align-items: center;
+    border-style: none;
+    color: colors.$text-dark;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    outline: none;
+    padding: 0;
+
+    // spacing between controls
+    &:not(:last-child) {
+      @include sizes.make-gap(margin, right);
     }
 
-    // subclass for a control button
-    .control {
-        align-items: center;
-        border-style: none;
-        color: colors.$text-dark;
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        outline: none;
-        padding: 0;
-
-        // spacing between controls
-        &:not(:last-child) {
-            @include sizes.make-gap(margin, right);
-        }
-
-        // if the control contains a picture, it is vertically centered
-        img {
-            vertical-align: middle;
-        }
-
-        // maker for different type of control buttons
-        @mixin make-control($color-enabled, $color-disabled, $color-hover, $color-focus: $color-hover) {
-            background: $color-enabled;
-
-            &.disabled,
-            &[disabled] {
-                background: $color-disabled;
-                cursor: default;
-            }
-
-            &:not(.disabled):not([disabled]) {
-                &:hover:not(:focus) {
-                    background: $color-hover;
-                }
-
-                &:focus {
-                    background: $color-focus;
-                }
-            }
-        }
-
-        &.primary {
-            @include make-control(colors.$brand-primary, colors.$brand-primary-dark, colors.$brand-primary-lighter);
-        }
-
-        &.success {
-            @include make-control(colors.$brand-success, colors.$brand-success-dark, colors.$brand-success-lighter);
-        }
-
-        &.warning {
-            @include make-control(colors.$brand-warning, colors.$brand-warning-dark, colors.$brand-warning-lighter);
-        }
-
-        &.danger {
-            @include make-control(colors.$brand-danger, colors.$brand-danger-dark, colors.$brand-danger-lighter);
-        }
-
-        &.info {
-            @include make-control(colors.$brand-info, colors.$brand-info-dark, colors.$brand-info-lighter);
-        }
+    // if the control contains a picture, it is vertically centered
+    img {
+      vertical-align: middle;
     }
 
-    // make link transparent
-    a.control {
-        text-decoration: none;
+    // maker for different type of control buttons
+    @mixin make-control(
+      $color-enabled,
+      $color-disabled,
+      $color-hover,
+      $color-focus: $color-hover
+    ) {
+      background: $color-enabled;
+
+      &.disabled,
+      &[disabled] {
+        background: $color-disabled;
+        cursor: default;
+      }
+
+      &:not(.disabled):not([disabled]) {
+        &:hover:not(:focus) {
+          background: $color-hover;
+        }
+
+        &:focus {
+          background: $color-focus;
+        }
+      }
     }
+
+    &.primary {
+      @include make-control(
+        colors.$brand-primary,
+        colors.$brand-primary-dark,
+        colors.$brand-primary-lighter
+      );
+    }
+
+    &.success {
+      @include make-control(
+        colors.$brand-success,
+        colors.$brand-success-dark,
+        colors.$brand-success-lighter
+      );
+    }
+
+    &.warning {
+      @include make-control(
+        colors.$brand-warning,
+        colors.$brand-warning-dark,
+        colors.$brand-warning-lighter
+      );
+    }
+
+    &.danger {
+      @include make-control(
+        colors.$brand-danger,
+        colors.$brand-danger-dark,
+        colors.$brand-danger-lighter
+      );
+    }
+
+    &.info {
+      @include make-control(
+        colors.$brand-info,
+        colors.$brand-info-dark,
+        colors.$brand-info-lighter
+      );
+    }
+  }
+
+  // make link transparent
+  a.control {
+    text-decoration: none;
+  }
 }
-
 
 // lighten control on even line of a `listing` list
 .listing-entry:nth-child(even) .controls:not(.subcontrols),
 .sublisting-entry:nth-child(even) .controls.subcontrols {
-    .control {
-        @mixin make-control-line-even($color-normal, $color-disabled) {
-            &:not(:hover):not(:focus) {
-                background: $color-normal;
-            }
+  .control {
+    @mixin make-control-line-even($color-normal, $color-disabled) {
+      &:not(:hover):not(:focus) {
+        background: $color-normal;
+      }
 
-            &.disabled,
-            &[disabled] {
-                background: $color-disabled;
-            }
-        }
-
-        &.primary {
-            @include make-control-line-even(colors.$brand-primary-light, colors.$brand-primary-darkened);
-        }
-
-        &.success {
-            @include make-control-line-even(colors.$brand-success-light, colors.$brand-success-darkened);
-        }
-
-        &.warning {
-            @include make-control-line-even(colors.$brand-warning-light, colors.$brand-warning-darkened);
-        }
-
-        &.danger {
-            @include make-control-line-even(colors.$brand-danger-light, colors.$brand-danger-darkened);
-        }
-
-        &.info {
-            @include make-control-line-even(colors.$brand-info-light, colors.$brand-info-darkened);
-        }
+      &.disabled,
+      &[disabled] {
+        background: $color-disabled;
+      }
     }
-}
 
+    &.primary {
+      @include make-control-line-even(
+        colors.$brand-primary-light,
+        colors.$brand-primary-darkened
+      );
+    }
+
+    &.success {
+      @include make-control-line-even(
+        colors.$brand-success-light,
+        colors.$brand-success-darkened
+      );
+    }
+
+    &.warning {
+      @include make-control-line-even(
+        colors.$brand-warning-light,
+        colors.$brand-warning-darkened
+      );
+    }
+
+    &.danger {
+      @include make-control-line-even(
+        colors.$brand-danger-light,
+        colors.$brand-danger-darkened
+      );
+    }
+
+    &.info {
+      @include make-control-line-even(
+        colors.$brand-info-light,
+        colors.$brand-info-darkened
+      );
+    }
+  }
+}
 
 // lighten control when line hovered on a list
 .hoverizable:hover .controls:not(:hover) {
-    .control {
-        @mixin make-control-line-hover($color-normal, $color-disabled) {
-            &:not(.disabled):not([disabled]):not(:focus) {
-                background: $color-normal;
-            }
+  .control {
+    @mixin make-control-line-hover($color-normal, $color-disabled) {
+      &:not(.disabled):not([disabled]):not(:focus) {
+        background: $color-normal;
+      }
 
-            &.disabled,
-            &[disabled] {
-                background: $color-disabled !important;
-            }
-        }
-
-        &.primary {
-            @include make-control-line-hover(colors.$brand-primary-lighter, colors.$brand-primary-darkish);
-        }
-
-        &.success {
-            @include make-control-line-hover(colors.$brand-success-lighter, colors.$brand-success-darkish);
-        }
-
-        &.warning {
-            @include make-control-line-hover(colors.$brand-warning-lighter, colors.$brand-warning-darkish);
-        }
-
-        &.danger {
-            @include make-control-line-hover(colors.$brand-danger-lighter, colors.$brand-danger-darkish);
-        }
-
-        &.info {
-            @include make-control-line-hover(colors.$brand-info-lighter, colors.$brand-info-darkish);
-        }
+      &.disabled,
+      &[disabled] {
+        background: $color-disabled !important;
+      }
     }
+
+    &.primary {
+      @include make-control-line-hover(
+        colors.$brand-primary-lighter,
+        colors.$brand-primary-darkish
+      );
+    }
+
+    &.success {
+      @include make-control-line-hover(
+        colors.$brand-success-lighter,
+        colors.$brand-success-darkish
+      );
+    }
+
+    &.warning {
+      @include make-control-line-hover(
+        colors.$brand-warning-lighter,
+        colors.$brand-warning-darkish
+      );
+    }
+
+    &.danger {
+      @include make-control-line-hover(
+        colors.$brand-danger-lighter,
+        colors.$brand-danger-darkish
+      );
+    }
+
+    &.info {
+      @include make-control-line-hover(
+        colors.$brand-info-lighter,
+        colors.$brand-info-darkish
+      );
+    }
+  }
 }
 
 .controls-col {
-    .controls {
-        height: 100%;
-        justify-content: flex-end;
-    }
+  .controls {
+    height: 100%;
+    justify-content: flex-end;
+  }
 }

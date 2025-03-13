@@ -3,100 +3,87 @@ import PropTypes from 'prop-types'
 import queryString from 'query-string'
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
 
 import { verifyEmail } from 'actions/users'
-import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
+import {
+  alterationResponsePropType,
+  Status,
+} from 'reducers/alterationsResponse'
+import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
 
 class VerifyEmail extends Component {
-    static propTypes = {
-        location: PropTypes.object.isRequired,
-        responseOfVerifyEmail: alterationResponsePropType,
-        verifyEmail: PropTypes.func.isRequired,
-    }
+  static propTypes = {
+    location: PropTypes.object.isRequired,
+    responseOfVerifyEmail: alterationResponsePropType,
+    verifyEmail: PropTypes.func.isRequired,
+  }
 
-    componentDidMount() {
-        const queryObj = queryString.parse(this.props.location.search)
+  componentDidMount() {
+    const queryObj = queryString.parse(this.props.location.search)
 
-        const {
-            user_id,
-            email,
-            timestamp,
-            signature
-        } = queryObj
+    const { user_id, email, timestamp, signature } = queryObj
 
-        // Send verify request to server
-        this.props.verifyEmail(
-            user_id,
-            email,
-            timestamp,
-            signature
+    // Send verify request to server
+    this.props.verifyEmail(user_id, email, timestamp, signature)
+  }
+
+  render() {
+    const { responseOfVerifyEmail } = this.props
+    let content
+    let error = false
+
+    switch (responseOfVerifyEmail.status) {
+      case Status.successful:
+        content = (
+          <div className="content">
+            <p>Email successfuly validated.</p>
+          </div>
         )
-    }
+        break
 
-    render() {
-        const {
-            responseOfVerifyEmail
-        } = this.props
-        let content
-        let error = false
-
-        switch (responseOfVerifyEmail.status) {
-            case Status.successful:
-                content = (
-                    <div className="content">
-                        <p>Email successfuly validated.</p>
-                    </div>
-                )
-                break
-
-            case Status.failed: {
-                let message
-                if (responseOfVerifyEmail.message) {
-                    message = (
-                        <p>Reason: {responseOfVerifyEmail.message}</p>
-                    )
-                }
-
-                content = (
-                    <div className="content">
-                        <p>Error validating email.</p>
-                        {message}
-                    </div>
-                )
-                error = true
-                break
-            }
-
-            default:
-                content = (
-                    <div className="content">
-                        <p>Validating...</p>
-                    </div>
-                )
+      case Status.failed: {
+        let message
+        if (responseOfVerifyEmail.message) {
+          message = <p>Reason: {responseOfVerifyEmail.message}</p>
         }
 
-        return (
-            <div id="verify-email" className={classNames('box', {danger: error})}>
-                <div className="header">
-                    <h2>Email verification</h2>
-                </div>
-                {content}
-            </div>
+        content = (
+          <div className="content">
+            <p>Error validating email.</p>
+            {message}
+          </div>
+        )
+        error = true
+        break
+      }
+
+      default:
+        content = (
+          <div className="content">
+            <p>Validating...</p>
+          </div>
         )
     }
+
+    return (
+      <div id="verify-email" className={classNames('box', { danger: error })}>
+        <div className="header">
+          <h2>Email verification</h2>
+        </div>
+        {content}
+      </div>
+    )
+  }
 }
 
-
 const mapStateToProps = (state) => ({
-    responseOfVerifyEmail: state.alterationsResponse.unique.verifyEmail || {},
+  responseOfVerifyEmail: state.alterationsResponse.unique.verifyEmail || {},
 })
 
-VerifyEmail = withLocation(connect(
-    mapStateToProps,
-    {
-        verifyEmail
-    }
-)(VerifyEmail))
+VerifyEmail = withLocation(
+  connect(mapStateToProps, {
+    verifyEmail,
+  })(VerifyEmail)
+)
 
 export default VerifyEmail

@@ -4,63 +4,63 @@
 // Work link widget style file
 //
 
-@use "sass:color";
+@use 'sass:color';
 
-@use "~/thirdparty/preboot";
+@use '~/thirdparty/preboot';
 
-@use "~/abstracts/colors";
+@use '~/abstracts/colors';
 
 // `work-link-widget` class:
 //
 // This module is used to style a work link, ie. a work and its link to the
 // song.
 .work-link-widget {
-    align-items: baseline;
-    display: flex;
-    flex-shrink: 2;
-    overflow: hidden;
-    white-space: nowrap;
+  align-items: baseline;
+  display: flex;
+  flex-shrink: 2;
+  overflow: hidden;
+  white-space: nowrap;
 
-    &.truncatable {
-        .title-group {
-            @include preboot.text-truncate();
-        }
-    }
-
-    .icon {
-        margin-right: 0.5em;
-    }
-
+  &.truncatable {
     .title-group {
-        // .title {
-        // }
-
-        .subtitle {
-            color: color.change(colors.$text-light, $alpha: 0.7);
-            margin-left: 0.5em;
-        }
+      @include preboot.text-truncate();
     }
+  }
 
-    // `link` class: the type of the link (OP, ED) and a number if any.
-    .link {
-        border-color: color.change(colors.$text-light, $alpha: 0.65);
-        border-style: solid;
-        border-width: 1px;
-        display: inline-block;
-        font-size: 0.9em;
-        margin-left: 0.5em;
-        padding: 0.1em 0.2em;
-        text-transform: uppercase;
+  .icon {
+    margin-right: 0.5em;
+  }
 
-        // .link-type {
-        // }
+  .title-group {
+    // .title {
+    // }
 
-        // .link-nb {
-        // }
+    .subtitle {
+      color: color.change(colors.$text-light, $alpha: 0.7);
+      margin-left: 0.5em;
     }
+  }
 
-    // `episodes` class: episodes concerned by this work link.
-    .episodes {
-        margin-left: 0.5em;
-    }
+  // `link` class: the type of the link (OP, ED) and a number if any.
+  .link {
+    border-color: color.change(colors.$text-light, $alpha: 0.65);
+    border-style: solid;
+    border-width: 1px;
+    display: inline-block;
+    font-size: 0.9em;
+    margin-left: 0.5em;
+    padding: 0.1em 0.2em;
+    text-transform: uppercase;
+
+    // .link-type {
+    // }
+
+    // .link-nb {
+    // }
+  }
+
+  // `episodes` class: episodes concerned by this work link.
+  .episodes {
+    margin-left: 0.5em;
+  }
 }

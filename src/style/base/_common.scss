@@ -4,27 +4,27 @@
 // Rules aiming for all or generic tags style file
 //
 
-@use "~/abstracts/colors";
-@use "~/abstracts/fonts";
+@use '~/abstracts/colors';
+@use '~/abstracts/fonts';
 
 // default colors and margins
 body {
-    background: colors.$text-dark;
-    color: colors.$text-light;
-    margin: 0;
-    padding: 0;
+  background: colors.$text-dark;
+  color: colors.$text-light;
+  margin: 0;
+  padding: 0;
 }
 
 // highlight tag
 mark {
-    background: colors.$brand-primary;
-    color: colors.$text-dark;
+  background: colors.$brand-primary;
+  color: colors.$text-dark;
 }
 
 // selection highlighting
 ::selection {
-    background: colors.$brand-primary;
-    color: colors.$text-dark;
+  background: colors.$brand-primary;
+  color: colors.$text-dark;
 }
 
 // make headers thin and marginless
@@ -34,41 +34,41 @@ h3,
 h4,
 h5,
 h6 {
-    font-weight: 100;
-    margin: 0;
+  font-weight: 100;
+  margin: 0;
 }
 
 h2 {
-    font-size: 2em;
+  font-size: 2em;
 }
 
 h3 {
-    font-size: 1.75em;
+  font-size: 1.75em;
 }
 
 p {
-    @include fonts.make-long;
+  @include fonts.make-long;
 
-    // links
-    a {
-        color: colors.$brand-primary-light;
-        text-decoration: underline;
+  // links
+  a {
+    color: colors.$brand-primary-light;
+    text-decoration: underline;
 
-        &:hover:not(:focus) {
-            color: colors.$brand-primary-lighter;
-        }
-
-        &:focus {
-            color: colors.$brand-primary-lighter;
-        }
+    &:hover:not(:focus) {
+      color: colors.$brand-primary-lighter;
     }
+
+    &:focus {
+      color: colors.$brand-primary-lighter;
+    }
+  }
 }
 
 ul {
-    list-style-type: square;
+  list-style-type: square;
 }
 
 // remove border radius from button in some browsers
 button {
-    border-radius: 0;
+  border-radius: 0;
 }

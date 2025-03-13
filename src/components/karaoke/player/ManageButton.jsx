@@ -1,9 +1,12 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
-import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
-import { alterationResponsePropType, Status } from 'reducers/alterationsResponse'
+import {
+  alterationResponsePropType,
+  Status,
+} from 'reducers/alterationsResponse'
+import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
 /**
  * ManageButton class for a button connected to a player manage command
@@ -27,134 +30,129 @@ import { alterationResponsePropType, Status } from 'reducers/alterationsResponse
  * - onClick: handle to pass to the button.
  */
 export default class ManageButton extends Component {
-    static propTypes = {
-        className: PropTypes.string,
-        disabled: PropTypes.bool,
-        icon: PropTypes.string.isRequired,
-        iconDisabled: PropTypes.string,
-        onClick: PropTypes.func.isRequired,
-        responseOfManage: alterationResponsePropType.isRequired,
-        timeout: PropTypes.number,
-    }
+  static propTypes = {
+    className: PropTypes.string,
+    disabled: PropTypes.bool,
+    icon: PropTypes.string.isRequired,
+    iconDisabled: PropTypes.string,
+    onClick: PropTypes.func.isRequired,
+    responseOfManage: alterationResponsePropType.isRequired,
+    timeout: PropTypes.number,
+  }
 
-    static defaultProps = {
-        timeout: 150,
-    }
+  static defaultProps = {
+    timeout: 150,
+  }
 
-    state = {
-        isLeaving: false,
-        display: true,
-        error: false,
-        icon: '',
-    }
+  state = {
+    isLeaving: false,
+    display: true,
+    error: false,
+    icon: '',
+  }
 
-    componentDidUpdate(prevProps) {
-        // do not watch for udptates during the transition
-        if (this.state.isLeaving) return
+  componentDidUpdate(prevProps) {
+    // do not watch for udptates during the transition
+    if (this.state.isLeaving) return
 
-        const status = this.props.responseOfManage.status
-        const prevStatus = prevProps.responseOfManage.status
+    const status = this.props.responseOfManage.status
+    const prevStatus = prevProps.responseOfManage.status
 
-        if (status !== prevStatus) {
-            if (status === Status.pending) {
-                // the status being pending means that the transition starts
-                this.setState({
-                    isLeaving: true,
-                    display: false,
-                    error: false,
-                })
-
-                // udpate the state after the transition duration
-                // we can't directly use the CSSTransition `onExit` and
-                // `onExited` attributes, because this leads to modify the state
-                // within the render and is anti-pattern
-                this.transitionEndedTimeout = setTimeout(
-                    this.transitionEndedFunc,
-                    this.props.timeout
-                )
-            } else {
-                // if the request took more time than the timeout, the display is
-                // reactivated when ready
-                this.setState({
-                    display: true,
-                    error: status === Status.failed,
-                })
-            }
-        }
-
-        const icon = this.props.icon
-        const prevIcon = prevProps.icon
-
-        if (icon !== prevIcon) {
-            // if the icon has changed (not during the transition), update it
-            this.setState({icon})
-        }
-    }
-
-    transitionEndedFunc = () => {
-        // this callback unsets the transition state and sets the display to its
-        // current state
-        // if the request has not finished, the display is reset in
-        // `componentDidUpdate`
-        const { responseOfManage, icon } = this.props
+    if (status !== prevStatus) {
+      if (status === Status.pending) {
+        // the status being pending means that the transition starts
         this.setState({
-            isLeaving: false,
-            display: responseOfManage.status !== Status.pending,
-            error: responseOfManage.status === Status.failed,
-            icon,
+          isLeaving: true,
+          display: false,
+          error: false,
         })
-    }
 
-    componentWillUnmount() {
-        // clear the state update
-        clearTimeout(this.transitionEndedTimeout)
-    }
-
-    componentDidMount() {
-        // set the first icon
-        const { icon } = this.props
-        this.setState({icon})
-    }
-
-    render() {
-        const { onClick, disabled, className, timeout, iconDisabled } = this.props
-
-        const onClickControlled = (e) => {
-            // do not manage any other click during the transition
-            // since there is a delay between the click and the update of the
-            // state, one can click the button more than once…
-            if (this.state.isLeaving) return
-            onClick(e)
-        }
-
-        // if the button is disabled, use the disabled icon
-        // if there is no disabled icon, use the normal one
-        // use the normal one if the button is not disabled as well
-        const icon = disabled ?
-            iconDisabled || this.state.icon :
-            this.state.icon
-
-        return (
-            <button
-                className={classNames(
-                    'control',
-                    'primary',
-                    className,
-                    {'managed-error': this.state.error},
-                )}
-                onClick={onClickControlled}
-                disabled={disabled}
-            >
-                <CSSTransitionLazy
-                    in={this.state.display}
-                    classNames="managed"
-                    timeout={timeout}
-                >
-                    <div className="managed icon">
-                        <i className={`las la-${icon}`}></i>
-                    </div>
-                </CSSTransitionLazy>
-            </button>
+        // udpate the state after the transition duration
+        // we can't directly use the CSSTransition `onExit` and
+        // `onExited` attributes, because this leads to modify the state
+        // within the render and is anti-pattern
+        this.transitionEndedTimeout = setTimeout(
+          this.transitionEndedFunc,
+          this.props.timeout
         )
+      } else {
+        // if the request took more time than the timeout, the display is
+        // reactivated when ready
+        this.setState({
+          display: true,
+          error: status === Status.failed,
+        })
+      }
     }
+
+    const icon = this.props.icon
+    const prevIcon = prevProps.icon
+
+    if (icon !== prevIcon) {
+      // if the icon has changed (not during the transition), update it
+      this.setState({ icon })
+    }
+  }
+
+  transitionEndedFunc = () => {
+    // this callback unsets the transition state and sets the display to its
+    // current state
+    // if the request has not finished, the display is reset in
+    // `componentDidUpdate`
+    const { responseOfManage, icon } = this.props
+    this.setState({
+      isLeaving: false,
+      display: responseOfManage.status !== Status.pending,
+      error: responseOfManage.status === Status.failed,
+      icon,
+    })
+  }
+
+  componentWillUnmount() {
+    // clear the state update
+    clearTimeout(this.transitionEndedTimeout)
+  }
+
+  componentDidMount() {
+    // set the first icon
+    const { icon } = this.props
+    this.setState({ icon })
+  }
+
+  render() {
+    const { onClick, disabled, className, timeout, iconDisabled } = this.props
+
+    const onClickControlled = (e) => {
+      // do not manage any other click during the transition
+      // since there is a delay between the click and the update of the
+      // state, one can click the button more than once…
+      if (this.state.isLeaving) return
+      onClick(e)
+    }
+
+    // if the button is disabled, use the disabled icon
+    // if there is no disabled icon, use the normal one
+    // use the normal one if the button is not disabled as well
+    const icon = disabled ? iconDisabled || this.state.icon : this.state.icon
+
+    return (
+      <button
+        className={classNames('control', 'primary', className, {
+          'managed-error': this.state.error,
+        })}
+        onClick={onClickControlled}
+        disabled={disabled}
+      >
+        <CSSTransitionLazy
+          in={this.state.display}
+          classNames="managed"
+          timeout={timeout}
+        >
+          <div className="managed icon">
+            <i className={`las la-${icon}`}></i>
+          </div>
+        </CSSTransitionLazy>
+      </button>
+    )
+  }
 }

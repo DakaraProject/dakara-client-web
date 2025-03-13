@@ -4,11 +4,11 @@
 // Tags style file
 //
 
-@use "sass:color";
+@use 'sass:color';
 
-@use "~/abstracts/colors";
-@use "~/abstracts/fonts";
-@use "~/abstracts/sizes";
+@use '~/abstracts/colors';
+@use '~/abstracts/fonts';
+@use '~/abstracts/sizes';
 
 // `tag` class:
 //
@@ -18,39 +18,43 @@
 // Its size is determined in the `listing-entry-song` class, whether the song is
 // displayed in compact or in expanded view.
 .tag {
-    $color: hsl(0, colors.$custom-color-saturation, colors.$custom-color-luminosity);
+  $color: hsl(
+    0,
+    colors.$custom-color-saturation,
+    colors.$custom-color-luminosity
+  );
 
-    background-color: $color;
-    border-style: none;
-    color: color.change(colors.$text-dark, $alpha: 0.5);
-    display: inline-block;
-    font-size: medium;
-    font-weight: 700;
-    outline: none;
-    padding: 0 sizes.$gap-horizontal;
+  background-color: $color;
+  border-style: none;
+  color: color.change(colors.$text-dark, $alpha: 0.5);
+  display: inline-block;
+  font-size: medium;
+  font-weight: 700;
+  outline: none;
+  padding: 0 sizes.$gap-horizontal;
 
-    &.clickable {
-        cursor: pointer;
+  &.clickable {
+    cursor: pointer;
 
-        .icon {
-            font-size: 1.2em;
-            margin-right: 0.5em;
-        }
-
-        &:hover,
-        &:focus {
-            background-color: color.adjust($color, $lightness: 5%);
-        }
+    .icon {
+      font-size: 1.2em;
+      margin-right: 0.5em;
     }
 
-    &.disabled {
-        background-color: color.adjust($color, $saturation: -33%);
-        opacity: 0.5;
+    &:hover,
+    &:focus {
+      background-color: color.adjust($color, $lightness: 5%);
     }
+  }
 
-    &::selection {
-        // the real color of the background will change due to the
-        // `hue-rotate` filter
-        background: red;
-    }
+  &.disabled {
+    background-color: color.adjust($color, $saturation: -33%);
+    opacity: 0.5;
+  }
+
+  &::selection {
+    // the real color of the background will change due to the
+    // `hue-rotate` filter
+    background: red;
+  }
 }

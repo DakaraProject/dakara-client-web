@@ -1,7 +1,7 @@
 import {
-    ALTERATION_FAILURE,
-    ALTERATION_REQUEST,
-    ALTERATION_SUCCESS
+  ALTERATION_FAILURE,
+  ALTERATION_REQUEST,
+  ALTERATION_SUCCESS,
 } from 'actions/alterations'
 import { FETCH_API } from 'middleware/fetchApi'
 import { params } from 'utils'
@@ -21,11 +21,11 @@ export const TAG_LIST_FAILURE = 'TAG_LIST_FAILURE'
  * @param page page to display
  */
 export const getSongTagList = (page = 1) => ({
-    [FETCH_API]: {
-            endpoint: `${baseUrl}/library/song-tags/?page=${page}`,
-            method: 'GET',
-            types: [TAG_LIST_REQUEST, TAG_LIST_SUCCESS, TAG_LIST_FAILURE],
-        }
+  [FETCH_API]: {
+    endpoint: `${baseUrl}/library/song-tags/?page=${page}`,
+    method: 'GET',
+    types: [TAG_LIST_REQUEST, TAG_LIST_SUCCESS, TAG_LIST_FAILURE],
+  },
 })
 
 /**
@@ -37,12 +37,12 @@ export const getSongTagList = (page = 1) => ({
  * @param disabled
  */
 export const editSongTag = (tagId, disabled) => ({
-    [FETCH_API]: {
-        endpoint: `${baseUrl}/library/song-tags/${tagId}/`,
-        method: 'PATCH',
-        json: {disabled},
-        types: [ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE],
-    },
-    alterationName: 'editSongTag',
-    elementId: tagId,
+  [FETCH_API]: {
+    endpoint: `${baseUrl}/library/song-tags/${tagId}/`,
+    method: 'PATCH',
+    json: { disabled },
+    types: [ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE],
+  },
+  alterationName: 'editSongTag',
+  elementId: tagId,
 })

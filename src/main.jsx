@@ -1,45 +1,45 @@
-import 'style/main.scss';
+import 'style/main.scss'
 
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
-import { applyMiddleware, compose, createStore } from 'redux';
-import persistState from 'redux-localstorage';
-import { thunk } from 'redux-thunk';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { Provider } from 'react-redux'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
+import { applyMiddleware, compose, createStore } from 'redux'
+import persistState from 'redux-localstorage'
+import { thunk } from 'redux-thunk'
 import version from 'version'
 
-import ProtectedRoute from 'components/generics/Router';
-import LibraryArtist from 'components/library/artist/List';
-import Library from 'components/library/Library';
-import LibrarySong from 'components/library/song/List';
-import LibraryWork from 'components/library/work/List';
-import Main from 'components/Main';
-import NotFound from 'components/navigation/NotFound';
-import PlaylistPlayed from 'components/playlist/played/List';
-import PlayerErrors from 'components/playlist/playerErrors/List';
-import Playlist from 'components/playlist/Playlist';
-import PlaylistQueueing from 'components/playlist/queueing/List';
-import Login from 'components/registration/Login';
-import Logout from 'components/registration/Logout';
-import Register from 'components/registration/Register';
-import ResetPassword from 'components/registration/ResetPassword';
-import SendResetPasswordLink from 'components/registration/SendResetPasswordLink';
-import VerifyEmail from 'components/registration/VerifyEmail';
-import VerifyRegistration from 'components/registration/VerifyRegistration';
-import SettingsKaraDateStop from 'components/settings/KaraDateStop';
-import SettingsKaraStatus from 'components/settings/KaraStatus';
-import Settings from 'components/settings/Settings';
-import SettingsSongTagsList from 'components/settings/songTags/List';
-import SettingsTokens from 'components/settings/Tokens';
-import SettingsUsersEdit from 'components/settings/users/Edit';
-import SettingsUsersList from 'components/settings/users/List';
-import TestColors from 'components/TestColors.jsx';
-import User from 'components/user/User';
-import manageStorageEvent from 'eventManagers/storage';
-import delayMiddleware from 'middleware/delay';
-import fetchApiMiddleware from 'middleware/fetchApi';
-import reducer from 'reducers';
+import ProtectedRoute from 'components/generics/Router'
+import LibraryArtist from 'components/library/artist/List'
+import Library from 'components/library/Library'
+import LibrarySong from 'components/library/song/List'
+import LibraryWork from 'components/library/work/List'
+import Main from 'components/Main'
+import NotFound from 'components/navigation/NotFound'
+import PlaylistPlayed from 'components/playlist/played/List'
+import PlayerErrors from 'components/playlist/playerErrors/List'
+import Playlist from 'components/playlist/Playlist'
+import PlaylistQueueing from 'components/playlist/queueing/List'
+import Login from 'components/registration/Login'
+import Logout from 'components/registration/Logout'
+import Register from 'components/registration/Register'
+import ResetPassword from 'components/registration/ResetPassword'
+import SendResetPasswordLink from 'components/registration/SendResetPasswordLink'
+import VerifyEmail from 'components/registration/VerifyEmail'
+import VerifyRegistration from 'components/registration/VerifyRegistration'
+import SettingsKaraDateStop from 'components/settings/KaraDateStop'
+import SettingsKaraStatus from 'components/settings/KaraStatus'
+import Settings from 'components/settings/Settings'
+import SettingsSongTagsList from 'components/settings/songTags/List'
+import SettingsTokens from 'components/settings/Tokens'
+import SettingsUsersEdit from 'components/settings/users/Edit'
+import SettingsUsersList from 'components/settings/users/List'
+import TestColors from 'components/TestColors.jsx'
+import User from 'components/user/User'
+import manageStorageEvent from 'eventManagers/storage'
+import delayMiddleware from 'middleware/delay'
+import fetchApiMiddleware from 'middleware/fetchApi'
+import reducer from 'reducers'
 
 const store = createStore(
   reducer,
@@ -47,9 +47,9 @@ const store = createStore(
     applyMiddleware(fetchApiMiddleware, thunk, delayMiddleware),
     persistState('token')
   )
-);
+)
 
-manageStorageEvent(store);
+manageStorageEvent(store)
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -110,4 +110,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       </BrowserRouter>
     </Provider>
   </React.StrictMode>
-);
+)

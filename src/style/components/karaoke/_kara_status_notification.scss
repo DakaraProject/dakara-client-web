@@ -4,7 +4,7 @@
 // Notification for player status style file
 //
 
-@use "~/abstracts/sizes";
+@use '~/abstracts/sizes';
 
 // kara status notification sizes
 $kara-status-notification-height: sizes.$row-height;
@@ -13,25 +13,25 @@ $kara-status-notification-font-size: 1.25em;
 // `kara-status-notification` class: message displayed to the playlist
 // manager when the kara is stopped.
 #kara-status-notification {
-    .content {
-        padding: 0;
+  .content {
+    padding: 0;
+  }
+
+  .ribbon {
+    @include sizes.make-gap(padding, vertical);
+
+    & {
+      align-items: center;
+      display: flex;
     }
 
-    .ribbon {
-        @include sizes.make-gap(padding, vertical);
+    .control {
+      @include sizes.make-gap(padding, horizontal);
 
-        & {
-            align-items: center;
-            display: flex;
-        }
-
-        .control {
-            @include sizes.make-gap(padding, horizontal);
-
-            & {
-                font-size: $kara-status-notification-font-size;
-                line-height: $kara-status-notification-height;
-            }
-        }
+      & {
+        font-size: $kara-status-notification-font-size;
+        line-height: $kara-status-notification-height;
+      }
     }
+  }
 }
