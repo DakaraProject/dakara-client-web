@@ -20,6 +20,11 @@
     "check-format": "prettier --check ./src",
     "preview": "vite preview"
   },
+  "pre-commit": [
+    "check-format",
+    "lint-js",
+    "lint-css"
+  ],
   "dependencies": {
     "classnames": "^2.5.1",
     "dayjs": "^1.11.13",
@@ -37,6 +42,7 @@
     "semver": "^7.7.1"
   },
   "devDependencies": {
+    "@fastify/pre-commit": "^2.2.0",
     "@vitejs/plugin-react-swc": "^3.8.0",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.0.2",
