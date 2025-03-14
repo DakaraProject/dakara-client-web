@@ -31,7 +31,7 @@ $playlist-info-bar-height-smartphone: 7rem;
 
   & {
     align-items: center;
-    background: colors.$brand-primary;
+    background: colors.$primary-300;
     color: colors.$text-dark;
     cursor: pointer;
     display: flex;
@@ -42,11 +42,11 @@ $playlist-info-bar-height-smartphone: 7rem;
   }
 
   &:hover:not(:focus) {
-    background: colors.$brand-primary-lighter;
+    background: colors.$primary-320;
   }
 
   &:focus {
-    background: colors.$brand-primary-lighter;
+    background: colors.$primary-320;
   }
 
   .item {

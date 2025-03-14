@@ -19,7 +19,7 @@ $navigator-icon-size: 2em;
 //
 // The paginator supplies the interface to change page and display count.
 .navigator {
-  background: colors.$brand-primary-darker;
+  background: colors.$primary-100;
   display: flex;
   min-height: $navigator-height;
 
@@ -35,7 +35,7 @@ $navigator-icon-size: 2em;
 
   .counter {
     align-items: center;
-    color: colors.$brand-primary;
+    color: colors.$primary-300;
     display: flex;
     flex-grow: 1;
     justify-content: flex-end;

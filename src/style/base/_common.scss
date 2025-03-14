@@ -17,13 +17,13 @@ body {
 
 // highlight tag
 mark {
-  background: colors.$brand-primary;
+  background: colors.$primary-300;
   color: colors.$text-dark;
 }
 
 // selection highlighting
 ::selection {
-  background: colors.$brand-primary;
+  background: colors.$primary-300;
   color: colors.$text-dark;
 }
 
@@ -51,15 +51,15 @@ p {
 
   // links
   a {
-    color: colors.$brand-primary-light;
+    color: colors.$primary-310;
     text-decoration: underline;
 
     &:hover:not(:focus) {
-      color: colors.$brand-primary-lighter;
+      color: colors.$primary-320;
     }
 
     &:focus {
-      color: colors.$brand-primary-lighter;
+      color: colors.$primary-320;
     }
   }
 }

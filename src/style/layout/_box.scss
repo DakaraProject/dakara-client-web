@@ -120,8 +120,8 @@ $ribbon-control-height: sizes.$row-height;
       @include sizes.make-gap(padding, vertical);
 
       & {
-        background: colors.$brand-primary-darker;
-        color: colors.$brand-primary-light;
+        background: colors.$primary-100;
+        color: colors.$primary-310;
       }
     }
   }

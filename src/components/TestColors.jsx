@@ -109,60 +109,19 @@ export default function TestColors() {
     setFormat(fmt)
   }
 
-  const colorsBrand = [
-    'brand-primary',
-    'brand-success',
-    'brand-warning',
-    'brand-danger',
-    'brand-info',
-  ]
+  const colors = ['primary', 'success', 'warning', 'danger', 'info']
 
-  const colorsBrandDarkish = [
-    'brand-primary-darkish',
-    'brand-success-darkish',
-    'brand-warning-darkish',
-    'brand-danger-darkish',
-    'brand-info-darkish',
-  ]
-
-  const colorsBrandDarkened = [
-    'brand-primary-darkened',
-    'brand-success-darkened',
-    'brand-warning-darkened',
-    'brand-danger-darkened',
-    'brand-info-darkened',
-  ]
-
-  const colorsBrandDark = [
-    'brand-primary-dark',
-    'brand-success-dark',
-    'brand-warning-dark',
-    'brand-danger-dark',
-    'brand-info-dark',
-  ]
-
-  const colorsBrandDarker = [
-    'brand-primary-darker',
-    'brand-success-darker',
-    'brand-warning-darker',
-    'brand-danger-darker',
-    'brand-info-darker',
-  ]
-
-  const colorsBrandLight = [
-    'brand-primary-light',
-    'brand-success-light',
-    'brand-warning-light',
-    'brand-danger-light',
-    'brand-info-light',
-  ]
-
-  const colorsBrandLighter = [
-    'brand-primary-lighter',
-    'brand-success-lighter',
-    'brand-warning-lighter',
-    'brand-danger-lighter',
-    'brand-info-lighter',
+  const lightnesses = [
+    '000',
+    '100',
+    '110',
+    '200',
+    '210',
+    '220',
+    '300',
+    '310',
+    '320',
+    '330',
   ]
 
   const colorsNeutral = ['neutral-clear', 'neutral-soft', 'neutral-mid']
@@ -234,7 +193,7 @@ export default function TestColors() {
         <table className="listing mosaic">
           <thead>
             <tr className="listing-header">
-              <th>Variation</th>
+              <th>Lightness</th>
               <th>Primary</th>
               <th>Success</th>
               <th>Warning</th>
@@ -243,48 +202,15 @@ export default function TestColors() {
             </tr>
           </thead>
           <tbody>
-            <Row
-              name="brand lighter"
-              colors={colorsBrandLighter}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="brand light"
-              colors={colorsBrandLight}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="brand"
-              colors={colorsBrand}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="brand darkish"
-              colors={colorsBrandDarkish}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="brand darkened"
-              colors={colorsBrandDarkened}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="brand dark"
-              colors={colorsBrandDark}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="brand darker"
-              colors={colorsBrandDarker}
-              format={format}
-              refresher={refresher}
-            />
+            {lightnesses.map((lightness) => (
+              <Row
+                key={lightness}
+                name={lightness}
+                colors={colors.map((color) => `${color}-${lightness}`)}
+                format={format}
+                refresher={refresher}
+              />
+            ))}
           </tbody>
         </table>
         {controls}

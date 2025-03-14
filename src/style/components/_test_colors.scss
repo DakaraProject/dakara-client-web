@@ -12,75 +12,64 @@
       @mixin make-tile($color-name, $color) {
         &.#{$color-name} {
           background: $color;
-          color: color.scale($color, $lightness: -50%);
+          @if color.channel($color, 'lightness', $space: hsl) > 30% {
+            color: color.scale($color, $lightness: -50%);
+          } @else {
+            color: color.scale($color, $lightness: 50%);
+          }
         }
       }
 
-      @include make-tile('brand-primary', colors.$brand-primary);
-      @include make-tile('brand-success', colors.$brand-success);
-      @include make-tile('brand-warning', colors.$brand-warning);
-      @include make-tile('brand-danger', colors.$brand-danger);
-      @include make-tile('brand-info', colors.$brand-info);
-      @include make-tile(
-        'brand-primary-darkish',
-        colors.$brand-primary-darkish
-      );
-      @include make-tile(
-        'brand-success-darkish',
-        colors.$brand-success-darkish
-      );
-      @include make-tile(
-        'brand-warning-darkish',
-        colors.$brand-warning-darkish
-      );
-      @include make-tile('brand-danger-darkish', colors.$brand-danger-darkish);
-      @include make-tile('brand-info-darkish', colors.$brand-info-darkish);
-      @include make-tile(
-        'brand-primary-darkened',
-        colors.$brand-primary-darkened
-      );
-      @include make-tile(
-        'brand-success-darkened',
-        colors.$brand-success-darkened
-      );
-      @include make-tile(
-        'brand-warning-darkened',
-        colors.$brand-warning-darkened
-      );
-      @include make-tile(
-        'brand-danger-darkened',
-        colors.$brand-danger-darkened
-      );
-      @include make-tile('brand-info-darkened', colors.$brand-info-darkened);
-      @include make-tile('brand-primary-dark', colors.$brand-primary-dark);
-      @include make-tile('brand-success-dark', colors.$brand-success-dark);
-      @include make-tile('brand-warning-dark', colors.$brand-warning-dark);
-      @include make-tile('brand-danger-dark', colors.$brand-danger-dark);
-      @include make-tile('brand-info-dark', colors.$brand-info-dark);
-      @include make-tile('brand-primary-darker', colors.$brand-primary-darker);
-      @include make-tile('brand-success-darker', colors.$brand-success-darker);
-      @include make-tile('brand-warning-darker', colors.$brand-warning-darker);
-      @include make-tile('brand-danger-darker', colors.$brand-danger-darker);
-      @include make-tile('brand-info-darker', colors.$brand-info-darker);
-      @include make-tile('brand-primary-light', colors.$brand-primary-light);
-      @include make-tile('brand-success-light', colors.$brand-success-light);
-      @include make-tile('brand-warning-light', colors.$brand-warning-light);
-      @include make-tile('brand-danger-light', colors.$brand-danger-light);
-      @include make-tile('brand-info-light', colors.$brand-info-light);
-      @include make-tile(
-        'brand-primary-lighter',
-        colors.$brand-primary-lighter
-      );
-      @include make-tile(
-        'brand-success-lighter',
-        colors.$brand-success-lighter
-      );
-      @include make-tile(
-        'brand-warning-lighter',
-        colors.$brand-warning-lighter
-      );
-      @include make-tile('brand-danger-lighter', colors.$brand-danger-lighter);
-      @include make-tile('brand-info-lighter', colors.$brand-info-lighter);
+      @include make-tile('primary-000', colors.$primary-000);
+      @include make-tile('success-000', colors.$success-000);
+      @include make-tile('warning-000', colors.$warning-000);
+      @include make-tile('danger-000', colors.$danger-000);
+      @include make-tile('info-000', colors.$info-000);
+      @include make-tile('primary-100', colors.$primary-100);
+      @include make-tile('success-100', colors.$success-100);
+      @include make-tile('warning-100', colors.$warning-100);
+      @include make-tile('danger-100', colors.$danger-100);
+      @include make-tile('info-100', colors.$info-100);
+      @include make-tile('primary-110', colors.$primary-110);
+      @include make-tile('success-110', colors.$success-110);
+      @include make-tile('warning-110', colors.$warning-110);
+      @include make-tile('danger-110', colors.$danger-110);
+      @include make-tile('info-110', colors.$info-110);
+      @include make-tile('primary-200', colors.$primary-200);
+      @include make-tile('success-200', colors.$success-200);
+      @include make-tile('warning-200', colors.$warning-200);
+      @include make-tile('danger-200', colors.$danger-200);
+      @include make-tile('info-200', colors.$info-200);
+      @include make-tile('primary-210', colors.$primary-210);
+      @include make-tile('success-210', colors.$success-210);
+      @include make-tile('warning-210', colors.$warning-210);
+      @include make-tile('danger-210', colors.$danger-210);
+      @include make-tile('info-210', colors.$info-210);
+      @include make-tile('primary-220', colors.$primary-220);
+      @include make-tile('success-220', colors.$success-220);
+      @include make-tile('warning-220', colors.$warning-220);
+      @include make-tile('danger-220', colors.$danger-220);
+      @include make-tile('info-220', colors.$info-220);
+      @include make-tile('primary-300', colors.$primary-300);
+      @include make-tile('success-300', colors.$success-300);
+      @include make-tile('warning-300', colors.$warning-300);
+      @include make-tile('danger-300', colors.$danger-300);
+      @include make-tile('info-300', colors.$info-300);
+      @include make-tile('primary-310', colors.$primary-310);
+      @include make-tile('success-310', colors.$success-310);
+      @include make-tile('warning-310', colors.$warning-310);
+      @include make-tile('danger-310', colors.$danger-310);
+      @include make-tile('info-310', colors.$info-310);
+      @include make-tile('primary-320', colors.$primary-320);
+      @include make-tile('success-320', colors.$success-320);
+      @include make-tile('warning-320', colors.$warning-320);
+      @include make-tile('danger-320', colors.$danger-320);
+      @include make-tile('info-320', colors.$info-320);
+      @include make-tile('primary-330', colors.$primary-330);
+      @include make-tile('success-330', colors.$success-330);
+      @include make-tile('warning-330', colors.$warning-330);
+      @include make-tile('danger-330', colors.$danger-330);
+      @include make-tile('info-330', colors.$info-330);
 
       @include make-tile('neutral-clear', colors.$neutral-clear);
       @include make-tile('neutral-soft', colors.$neutral-soft);

@@ -24,8 +24,8 @@ $player-progressbar-height: 0.4rem;
 // This component stylizes the player, containing controls, song info and a
 // progression bar.
 #player {
-  background: colors.$brand-primary-darker;
-  color: colors.$brand-primary;
+  background: colors.$primary-100;
+  color: colors.$primary-300;
   position: sticky;
   top: 0;
 
@@ -47,7 +47,7 @@ $player-progressbar-height: 0.4rem;
     @include sizes.make-gap(padding, vertical);
 
     & {
-      background: colors.$brand-primary-darker;
+      background: colors.$primary-100;
       position: sticky;
       top: 0;
       z-index: 1100;
@@ -84,11 +84,11 @@ $player-progressbar-height: 0.4rem;
         }
 
         &:hover:not(:focus) {
-          color: colors.$brand-primary-lighter;
+          color: colors.$primary-320;
         }
 
         &:focus {
-          color: colors.$brand-primary-lighter;
+          color: colors.$primary-320;
         }
 
         .song-title {
@@ -119,12 +119,12 @@ $player-progressbar-height: 0.4rem;
         .song-works {
           .title-group {
             .subtitle {
-              color: color.change(colors.$brand-primary, $alpha: 0.75);
+              color: color.change(colors.$primary-300, $alpha: 0.75);
             }
           }
 
           .link {
-            border-color: color.change(colors.$brand-primary, $alpha: 0.75);
+            border-color: color.change(colors.$primary-300, $alpha: 0.75);
           }
         }
       }
@@ -168,7 +168,7 @@ $player-progressbar-height: 0.4rem;
       }
 
       .duration {
-        color: color.change(colors.$brand-primary, $alpha: 0.85);
+        color: color.change(colors.$primary-300, $alpha: 0.85);
       }
     }
   }
@@ -277,7 +277,7 @@ $player-progressbar-height: 0.4rem;
       }
 
       @mixin make-value() {
-        background: colors.$brand-primary-dark;
+        background: colors.$primary-200;
       }
 
       & {
@@ -287,7 +287,7 @@ $player-progressbar-height: 0.4rem;
 
       & {
         // for ie
-        color: colors.$brand-primary-dark;
+        color: colors.$primary-200;
       }
 
       &::-moz-progress-bar {
@@ -322,10 +322,10 @@ $player-progressbar-height: 0.4rem;
         animation: sliding-animation 1s linear infinite;
         background: repeating-linear-gradient(
           -45deg,
-          colors.$brand-primary-dark,
-          colors.$brand-primary-dark 2rem,
-          colors.$brand-primary-darker 2rem,
-          colors.$brand-primary-darker 4rem
+          colors.$primary-200,
+          colors.$primary-200 2rem,
+          colors.$primary-100 2rem,
+          colors.$primary-100 4rem
         );
       }
 

@@ -13,7 +13,7 @@
 //
 // Data relative to the status of the song in the playlist.
 .playlist-position-info {
-  background: colors.$brand-info;
+  background: colors.$info-300;
   box-sizing: border-box;
   color: colors.$text-dark;
   display: flex;
@@ -79,14 +79,14 @@
 .listing-entry {
   &:nth-child(2n) {
     .playlist-position-info {
-      background: colors.$brand-info-light;
+      background: colors.$info-310;
     }
   }
 
   .hoverizable:hover,
   &.hoverizable:hover {
     .playlist-position-info {
-      background: colors.$brand-info-lighter;
+      background: colors.$info-320;
     }
   }
 }

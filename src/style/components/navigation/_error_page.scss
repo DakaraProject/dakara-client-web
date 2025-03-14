@@ -12,8 +12,8 @@
     @include sizes.make-gap(padding, horizontal);
 
     & {
-      background: colors.$brand-danger;
-      color: colors.$brand-danger-darker;
+      background: colors.$danger-300;
+      color: colors.$danger-100;
       display: inline-block;
       font-size: 1.1em;
       line-height: 1.5em;
@@ -23,8 +23,8 @@
     }
 
     &::selection {
-      background: colors.$brand-danger-darker;
-      color: colors.$brand-danger;
+      background: colors.$danger-100;
+      color: colors.$danger-300;
     }
   }
 }
