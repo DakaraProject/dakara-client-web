@@ -271,13 +271,13 @@ $form-field-height: sizes.$row-height;
         @include sizes.make-gap(padding, horizontal);
 
         & {
-          background: colors.$neutral-soft;
+          background: colors.$neutral-300;
         }
 
         &:focus,
         &.focus,
         &[type='checkbox']:focus + .marker {
-          background: colors.$neutral-clear !important;
+          background: colors.$neutral-300 !important;
         }
       }
 
@@ -298,7 +298,7 @@ $form-field-height: sizes.$row-height;
       select,
       .fake {
         &:not(.faked) {
-          background: colors.$neutral-soft-dark;
+          background: colors.$neutral-200;
         }
       }
     }
@@ -322,22 +322,24 @@ $form-field-height: sizes.$row-height;
       select,
       .fake {
         &:hover:not(:focus):not(.focus) {
-          background: colors.$neutral-soft-lighter;
+          background: colors.$neutral-320;
         }
       }
     }
 
-    // controls inside inputs
+    // transparent controls inside inputs
     .input .controls .control {
       // no margin when stacking controls
       margin: 0;
 
       &:hover:not(:focus) {
-        color: colors.$neutral-mid;
+        // XXX wrong color
+        color: colors.$neutral-100;
       }
 
       &:focus {
-        color: colors.$neutral-mid-light;
+        // XXX wrong color
+        color: colors.$neutral-110;
       }
     }
 
@@ -350,7 +352,7 @@ $form-field-height: sizes.$row-height;
         color: colors.$text-dark;
 
         &::placeholder {
-          color: colors.$neutral-mid-dark;
+          color: colors.$neutral-100;
 
           & {
             // override the way Firefox adds opacity
@@ -521,21 +523,11 @@ $form-field-height: sizes.$row-height;
       }
 
       // handle hover
-      .label:hover + .input .radio-input,
-      .radio-input:hover {
-        label.marker {
-          background: colors.$neutral-soft-light;
+      .label:hover + .input .radio-input:not(:hover),
+      .radio-input:hover .radio-option:hover {
+        input[type='radio']:not(:focus) + label.marker {
+          background: colors.$neutral-320;
         }
-      }
-
-      // handle hover in options
-      .radio-option:hover label.marker {
-        background: colors.$neutral-soft-lighter;
-      }
-
-      // handle focus
-      .radio-option input:focus + label.marker {
-        background: colors.$neutral-soft-lighter;
       }
     }
 
@@ -662,7 +654,7 @@ $form-field-height: sizes.$row-height;
       .label:hover + .input .toggle-input,
       .label:hover + .input .checkbox-input {
         label.marker {
-          background: colors.$neutral-soft-lighter;
+          background: colors.$neutral-320;
         }
       }
 

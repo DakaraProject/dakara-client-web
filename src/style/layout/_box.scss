@@ -113,7 +113,7 @@ $ribbon-control-height: sizes.$row-height;
 
   // if not subclassed
   &:not(.primary):not(.success):not(.warning):not(.danger):not(.info) {
-    background: colors.$neutral-mid-darker;
+    background: colors.$neutral-100;
 
     > .header,
     > .footer {

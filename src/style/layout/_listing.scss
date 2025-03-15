@@ -42,9 +42,6 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
 //      - Only allows tables up to 10 rows, but can be increased.
 //      - Each row must have a fixed height of `listing-entry-height`.
 .listing {
-  // background is darker than actual rows in order to separate them
-  // when the listing has a fixed height
-  background: colors.$neutral-mid-dark;
   margin: 0;
   overflow-x: hidden;
   padding: 0;
@@ -55,10 +52,13 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
 
   .listing-entry {
     // normal and alternate row colors
-    background: colors.$neutral-mid;
+    // XXX maybe wrong color
+    // background: colors.$neutral-120;
+    background: colors.$neutral-120;
 
     &:nth-child(2n) {
-      background: colors.$neutral-mid-light;
+      // XXX maybe wrong color
+      background: colors.$neutral-130;
     }
 
     // optionnal hoverizable feature
@@ -66,7 +66,7 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
     .hoverizable,
     &.hoverizable {
       &:hover {
-        background: colors.$neutral-mid-lighter;
+        background: colors.$neutral-160;
       }
     }
 
@@ -155,9 +155,10 @@ table.listing {
     width: 0;
   }
 
-  // remove default bold
   .listing-header > th {
-    font-weight: normal;
+    background: colors.$neutral-110;
+    // remove default bold
+    font-weight: unset;
 
     @include support.make-smartphone {
       font-size: 0.85em;

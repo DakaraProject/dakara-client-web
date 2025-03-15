@@ -11,8 +11,7 @@
   @include sizes.make-gap(padding, vertical);
 
   & {
-    background: colors.$neutral-mid-dark;
-    margin: 0;
+    background: colors.$neutral-110;
     text-align: right;
   }
 

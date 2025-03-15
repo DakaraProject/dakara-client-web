@@ -109,12 +109,16 @@ export default function TestColors() {
     setFormat(fmt)
   }
 
-  const colors = ['primary', 'success', 'warning', 'danger', 'info']
+  const colors = ['primary', 'neutral', 'success', 'warning', 'danger', 'info']
 
   const lightnesses = [
     '000',
     '100',
     '110',
+    '120',
+    '130',
+    '140',
+    '150',
     '200',
     '210',
     '220',
@@ -122,44 +126,6 @@ export default function TestColors() {
     '310',
     '320',
     '330',
-  ]
-
-  const colorsNeutral = ['neutral-clear', 'neutral-soft', 'neutral-mid']
-
-  const colorsNeutralDarkish = [
-    'neutral-clear-darkish',
-    'neutral-soft-darkish',
-    'neutral-mid-darkish',
-  ]
-
-  const colorsNeutralDarkened = [
-    'neutral-clear-darkened',
-    'neutral-soft-darkened',
-    'neutral-mid-darkened',
-  ]
-
-  const colorsNeutralDark = [
-    'neutral-clear-dark',
-    'neutral-soft-dark',
-    'neutral-mid-dark',
-  ]
-
-  const colorsNeutralDarker = [
-    'neutral-clear-darker',
-    'neutral-soft-darker',
-    'neutral-mid-darker',
-  ]
-
-  const colorsNeutralLight = [
-    'neutral-clear-light',
-    'neutral-soft-light',
-    'neutral-mid-light',
-  ]
-
-  const colorsNeutralLighter = [
-    'neutral-clear-lighter',
-    'neutral-soft-lighter',
-    'neutral-mid-lighter',
   ]
 
   const colorsTextDark = ['text-dark']
@@ -195,6 +161,7 @@ export default function TestColors() {
             <tr className="listing-header">
               <th>Lightness</th>
               <th>Primary</th>
+              <th>Neutral</th>
               <th>Success</th>
               <th>Warning</th>
               <th>Danger</th>
@@ -219,54 +186,10 @@ export default function TestColors() {
           <thead>
             <tr className="listing-header">
               <th>Variation</th>
-              <th>Clear</th>
-              <th>Soft</th>
-              <th>Mid</th>
+              <th>Text</th>
             </tr>
           </thead>
           <tbody>
-            <Row
-              name="neutral lighter"
-              colors={colorsNeutralLighter}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="neutral light"
-              colors={colorsNeutralLight}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="neutral"
-              colors={colorsNeutral}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="neutral darkish"
-              colors={colorsNeutralDarkish}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="neutral darkened"
-              colors={colorsNeutralDarkened}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="neutral dark"
-              colors={colorsNeutralDark}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="neutral darker"
-              colors={colorsNeutralDarker}
-              format={format}
-              refresher={refresher}
-            />
             <Row
               name="text light"
               colors={colorsTextLight}

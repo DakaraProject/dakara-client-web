@@ -26,20 +26,14 @@ $sublisting-entry-control-icon-size: sizes.$subrow-icon-font-size;
     $height: $sublisting-entry-height;
 
     align-items: center;
-    background: colors.$neutral-mid-darkened;
+    // XXX maybe wrong color
+    background: colors.$neutral-140;
     display: flex;
     min-height: $height;
 
     &:nth-child(even) {
-      background: colors.$neutral-mid-darkish;
-
-      .listing-entry:nth-child(even) {
-        background: colors.$neutral-mid;
-      }
-    }
-
-    .listing-entry:nth-child(even) {
-      background: colors.$neutral-mid-darkish;
+      // XXX maybe wrong color
+      background: colors.$neutral-150;
     }
 
     .controls {

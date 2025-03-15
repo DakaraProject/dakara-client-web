@@ -12,7 +12,7 @@
 $header-height: sizes.$row-height;
 
 #header {
-  background: colors.$neutral-mid-dark;
+  background: colors.$neutral-110;
   display: flex;
   height: $header-height;
   justify-content: space-between;
@@ -35,11 +35,11 @@ $header-height: sizes.$row-height;
       text-decoration: none;
 
       &:hover:not(:focus) {
-        color: colors.$neutral-clear-light;
+        color: colors.$neutral-310;
       }
 
       &:focus {
-        color: colors.$neutral-clear-lighter;
+        color: colors.$neutral-320;
       }
     }
   }

@@ -23,7 +23,7 @@ $success-000: color.adjust($success, $lightness: -45%);
 $warning-000: color.adjust($warning, $lightness: -40%);
 $danger-000: color.adjust($danger, $lightness: -37%);
 $info-000: color.adjust($info, $lightness: -40%);
-$neutral-000: color.adjust($neutral, $lightness: -90%);
+$neutral-000: color.adjust($neutral, $lightness: -30%);
 
 // 1** colors for dark
 // 100 colors for normal dark
@@ -32,7 +32,7 @@ $success-100: color.adjust($success, $lightness: -20%);
 $warning-100: color.adjust($warning, $lightness: -25%);
 $danger-100: color.adjust($danger, $lightness: -26%);
 $info-100: color.adjust($info, $lightness: -26%);
-$neutral-100: color.adjust($neutral, $lightness: -26%);
+$neutral-100: color.adjust($neutral, $lightness: -25%);
 
 // 110 colors for even row dark
 $primary-110: color.adjust($primary, $lightness: -18%);
@@ -40,7 +40,13 @@ $success-110: color.adjust($success, $lightness: -18%);
 $warning-110: color.adjust($warning, $lightness: -23%);
 $danger-110: color.adjust($danger, $lightness: -24%);
 $info-110: color.adjust($info, $lightness: -24%);
-$neutral-110: color.adjust($neutral, $lightness: -24%);
+$neutral-110: color.adjust($neutral, $lightness: -23%);
+
+$neutral-120: color.adjust($neutral, $lightness: -21%);
+$neutral-130: color.adjust($neutral, $lightness: -19%);
+$neutral-140: color.adjust($neutral, $lightness: -17%);
+$neutral-150: color.adjust($neutral, $lightness: -15%);
+$neutral-160: color.adjust($neutral, $lightness: -13%);
 
 // 2** colors for disabled
 // 200 colors for normal disabled
@@ -49,7 +55,7 @@ $success-200: color.adjust($success, $lightness: -10%);
 $warning-200: color.adjust($warning, $lightness: -20%);
 $danger-200: color.adjust($danger, $lightness: -20%);
 $info-200: color.adjust($info, $lightness: -20%);
-$neutral-200: color.adjust($neutral, $lightness: -20%);
+$neutral-200: color.adjust($neutral, $lightness: -12%);
 
 // 210 colors for even row disabled
 $primary-210: color.adjust($primary, $lightness: -9.5%);
@@ -57,7 +63,7 @@ $success-210: color.adjust($success, $lightness: -7.5%);
 $warning-210: color.adjust($warning, $lightness: -15%);
 $danger-210: color.adjust($danger, $lightness: -15%);
 $info-210: color.adjust($info, $lightness: -15%);
-$neutral-210: color.adjust($neutral, $lightness: -15%);
+$neutral-210: color.adjust($neutral, $lightness: -10%);
 
 // 210 colors for highlighted disabled
 $primary-220: color.adjust($primary, $lightness: -7%);
@@ -82,7 +88,7 @@ $success-310: color.adjust($success, $lightness: 5.5%);
 $warning-310: color.adjust($warning, $lightness: 4.5%);
 $danger-310: color.adjust($danger, $lightness: 4.5%);
 $info-310: color.adjust($info, $lightness: 3.5%);
-$neutral-310: color.adjust($neutral, $lightness: 3.5%);
+$neutral-310: color.adjust($neutral, $lightness: 2%);
 
 // 320 colors for highlighted light
 $primary-320: color.adjust($primary, $lightness: 7%);
@@ -101,32 +107,7 @@ $info-330: color.adjust($info, $lightness: 9%);
 $neutral-330: color.adjust($neutral, $lightness: 9%);
 
 // neutral colors
-$neutral-clear: color.adjust(white, $lightness: -60%);
-$neutral-soft: color.adjust(white, $lightness: -70%);
-$neutral-mid: color.adjust(white, $lightness: -80%);
-
-// darkish neutral colors
-$neutral-mid-darkish: color.adjust($neutral-mid, $lightness: -1%);
-
-// darkened neutral colors
-$neutral-mid-darkened: color.adjust($neutral-mid, $lightness: -2%);
-
-// dark neutral colors
-$neutral-soft-dark: color.adjust($neutral-soft, $lightness: -8%);
-$neutral-mid-dark: color.adjust($neutral-mid, $lightness: -3%);
-
-// darker neutral colors
-$neutral-mid-darker: color.adjust($neutral-mid, $lightness: -5%);
-
-// light neutral corors
-$neutral-clear-light: color.adjust($neutral-clear, $lightness: 2.5%);
-$neutral-soft-light: color.adjust($neutral-soft, $lightness: 2.5%);
-$neutral-mid-light: color.adjust($neutral-mid, $lightness: 2.5%);
-
-// lighter neutral corors
-$neutral-clear-lighter: color.adjust($neutral-clear, $lightness: 7%);
-$neutral-soft-lighter: color.adjust($neutral-soft, $lightness: 7%);
-$neutral-mid-lighter: color.adjust($neutral-mid, $lightness: 7%);
+$neutral-300: color.adjust(white, $lightness: -60%); // 40
 
 // text colors
 $text-light: color.adjust(white, $lightness: -60%);

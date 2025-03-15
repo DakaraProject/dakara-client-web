@@ -55,8 +55,8 @@ $tab-bar-icon-font-size: 1.25em;
     & {
       @include preboot.text-truncate();
 
-      background: colors.$neutral-mid;
-      color: colors.$neutral-clear;
+      background: colors.$neutral-120;
+      color: colors.$neutral-300;
       cursor: pointer;
       height: $tab-bar-height;
       line-height: $tab-bar-height;
@@ -67,12 +67,13 @@ $tab-bar-icon-font-size: 1.25em;
     }
 
     &:nth-child(2n) {
-      background: colors.$neutral-mid-light;
+      background: colors.$neutral-130;
     }
 
     &.active {
-      background: colors.$neutral-clear;
-      color: colors.$neutral-mid;
+      background: colors.$neutral-300;
+      // XXX wrong color
+      color: colors.$neutral-120;
       cursor: default;
     }
 
@@ -86,9 +87,13 @@ $tab-bar-icon-font-size: 1.25em;
       }
     }
 
-    &:hover:not(.active),
+    &:hover:not(:focus):not(.active) {
+      background: colors.$neutral-320;
+      color: inherit;
+    }
+
     &:focus:not(.active) {
-      background: colors.$neutral-mid-lighter;
+      background: colors.$neutral-330;
       color: inherit;
     }
 
