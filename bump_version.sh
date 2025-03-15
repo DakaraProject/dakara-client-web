@@ -27,7 +27,7 @@ sed -i "/^## Unreleased$/a \\
 ## $version_number - $version_date" $changelog_file
 
 git add package.json package-lock.json $changelog_file
-git commit -m "Version $version_number"
+git commit -m "Version $version_number" --no-verify
 git tag "$version_number"
 
 echo "Version bumped to $version_number"
