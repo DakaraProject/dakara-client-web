@@ -52,13 +52,10 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
 
   .listing-entry {
     // normal and alternate row colors
-    // XXX maybe wrong color
-    // background: colors.$neutral-120;
-    background: colors.$neutral-120;
+    background: colors.$neutral-110;
 
     &:nth-child(2n) {
-      // XXX maybe wrong color
-      background: colors.$neutral-130;
+      background: colors.$neutral-111;
     }
 
     // optionnal hoverizable feature
@@ -66,7 +63,7 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
     .hoverizable,
     &.hoverizable {
       &:hover {
-        background: colors.$neutral-160;
+        background: colors.$neutral-112;
       }
     }
 
@@ -156,7 +153,7 @@ table.listing {
   }
 
   .listing-header > th {
-    background: colors.$neutral-110;
+    background: colors.$neutral-101;
     // remove default bold
     font-weight: unset;
 

@@ -84,11 +84,11 @@ $player-progressbar-height: 0.4rem;
         }
 
         &:hover:not(:focus) {
-          color: colors.$primary-320;
+          color: colors.$primary-302;
         }
 
         &:focus {
-          color: colors.$primary-320;
+          color: colors.$primary-302;
         }
 
         .song-title {

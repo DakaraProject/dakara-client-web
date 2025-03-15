@@ -79,14 +79,14 @@
 .listing-entry {
   &:nth-child(2n) {
     .playlist-position-info {
-      background: colors.$info-310;
+      background: colors.$info-301;
     }
   }
 
   .hoverizable:hover,
   &.hoverizable:hover {
     .playlist-position-info {
-      background: colors.$info-320;
+      background: colors.$info-302;
     }
   }
 }

@@ -51,15 +51,15 @@ p {
 
   // links
   a {
-    color: colors.$primary-310;
+    color: colors.$primary-301;
     text-decoration: underline;
 
     &:hover:not(:focus) {
-      color: colors.$primary-320;
+      color: colors.$primary-302;
     }
 
     &:focus {
-      color: colors.$primary-320;
+      color: colors.$primary-302;
     }
   }
 }

@@ -41,7 +41,7 @@
       align-self: stretch;
       background: colors.$neutral-300;
       // XXX wrong color
-      color: colors.$neutral-120;
+      color: colors.$neutral-110;
       display: flex;
       flex-shrink: 0;
       font-size: 0.85em;
@@ -55,10 +55,10 @@
   }
 
   &:nth-child(2n) .songs-amount {
-    background: colors.$neutral-310;
+    background: colors.$neutral-301;
   }
 
   &:hover .songs-amount {
-    background: colors.$neutral-320;
+    background: colors.$neutral-302;
   }
 }

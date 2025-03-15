@@ -9,7 +9,7 @@
 .primary {
   @include colors.make-color(
     colors.$primary-100,
-    colors.$primary-310,
+    colors.$primary-301,
     colors.$primary-300
   );
 }
@@ -17,7 +17,7 @@
 .success {
   @include colors.make-color(
     colors.$success-100,
-    colors.$success-310,
+    colors.$success-301,
     colors.$success-300
   );
 }
@@ -25,7 +25,7 @@
 .warning {
   @include colors.make-color(
     colors.$warning-100,
-    colors.$warning-310,
+    colors.$warning-301,
     colors.$warning-300
   );
 }
@@ -33,7 +33,7 @@
 .danger {
   @include colors.make-color(
     colors.$danger-100,
-    colors.$danger-310,
+    colors.$danger-301,
     colors.$danger-300
   );
 }
@@ -41,7 +41,7 @@
 .info {
   @include colors.make-color(
     colors.$info-100,
-    colors.$info-310,
+    colors.$info-301,
     colors.$info-300
   );
 }

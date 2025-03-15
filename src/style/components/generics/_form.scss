@@ -322,7 +322,7 @@ $form-field-height: sizes.$row-height;
       select,
       .fake {
         &:hover:not(:focus):not(.focus) {
-          background: colors.$neutral-320;
+          background: colors.$neutral-302;
         }
       }
     }
@@ -339,7 +339,7 @@ $form-field-height: sizes.$row-height;
 
       &:focus {
         // XXX wrong color
-        color: colors.$neutral-110;
+        color: colors.$neutral-101;
       }
     }
 
@@ -526,7 +526,7 @@ $form-field-height: sizes.$row-height;
       .label:hover + .input .radio-input:not(:hover),
       .radio-input:hover .radio-option:hover {
         input[type='radio']:not(:focus) + label.marker {
-          background: colors.$neutral-320;
+          background: colors.$neutral-302;
         }
       }
     }
@@ -654,7 +654,7 @@ $form-field-height: sizes.$row-height;
       .label:hover + .input .toggle-input,
       .label:hover + .input .checkbox-input {
         label.marker {
-          background: colors.$neutral-320;
+          background: colors.$neutral-302;
         }
       }
 
@@ -662,13 +662,13 @@ $form-field-height: sizes.$row-height;
       .label:hover + .input .toggle-input input,
       .toggle-input input:hover {
         &:not(:focus) + label.marker::before {
-          background: colors.$info-310;
+          background: colors.$info-301;
         }
       }
 
       // handle focus
       .toggle-input input:focus + label.marker::before {
-        background: colors.$info-320;
+        background: colors.$info-302;
       }
     }
 

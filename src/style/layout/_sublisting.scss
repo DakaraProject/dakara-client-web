@@ -26,14 +26,12 @@ $sublisting-entry-control-icon-size: sizes.$subrow-icon-font-size;
     $height: $sublisting-entry-height;
 
     align-items: center;
-    // XXX maybe wrong color
-    background: colors.$neutral-140;
+    background: colors.$neutral-120;
     display: flex;
     min-height: $height;
 
     &:nth-child(even) {
-      // XXX maybe wrong color
-      background: colors.$neutral-150;
+      background: colors.$neutral-121;
     }
 
     .controls {

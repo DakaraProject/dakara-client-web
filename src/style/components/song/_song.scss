@@ -82,7 +82,7 @@
     align-self: stretch;
     background: colors.$text-light;
     // XXX wrong color
-    color: colors.$neutral-120;
+    color: colors.$neutral-110;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
@@ -122,7 +122,7 @@
   &:nth-child(2n) {
     .song {
       .duration {
-        background: colors.$neutral-310;
+        background: colors.$neutral-301;
       }
     }
   }
@@ -131,7 +131,7 @@
   &.hoverizable:hover {
     .song {
       .duration {
-        background: colors.$neutral-320;
+        background: colors.$neutral-302;
       }
     }
   }
