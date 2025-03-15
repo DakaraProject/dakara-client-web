@@ -36,15 +36,16 @@
 
     > .header {
       @include sizes.make-gap(padding, horizontal);
-      @include support.make-smartphone {
-        display: block;
-      }
 
       & {
         display: table-cell;
         font-weight: normal;
         vertical-align: top;
         white-space: nowrap;
+      }
+
+      @include support.make-smartphone {
+        display: block;
       }
 
       // .icon {

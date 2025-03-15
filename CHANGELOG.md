@@ -39,6 +39,7 @@
 - Fixed tabs padding for smartphones.
 - Fixed notification control font size.
 - Fixed padding/margin problems for smartphones.
+- Fixed incorrect smartphone styling.
 
 ## 1.9.0 - 2025-03-06
 

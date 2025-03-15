@@ -21,13 +21,14 @@ $header-height: sizes.$row-height;
 
   h1 {
     @include sizes.make-gap(padding, horizontal);
-    @include support.make-smartphone {
-      font-size: x-large;
-    }
 
     & {
       font-size: xx-large;
       line-height: $header-height * 0.9;
+    }
+
+    @include support.make-smartphone {
+      font-size: x-large;
     }
 
     a {

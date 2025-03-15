@@ -24,10 +24,6 @@ $playlist-info-bar-height-smartphone: 7rem;
 // Info don't have specific classes.
 #playlist-info-bar {
   @include sizes.make-gap(padding, horizontal);
-  @include support.make-smartphone {
-    font-size: 0.85em;
-    height: $playlist-info-bar-height-smartphone;
-  }
 
   & {
     align-items: center;
@@ -39,6 +35,11 @@ $playlist-info-bar-height-smartphone: 7rem;
     justify-content: space-between;
     overflow: hidden;
     text-decoration: none;
+  }
+
+  @include support.make-smartphone {
+    font-size: 0.85em;
+    height: $playlist-info-bar-height-smartphone;
   }
 
   &:hover:not(:focus) {
