@@ -30,6 +30,8 @@
 
 ## Unreleased
 
+## 1.9.1 - 2025-03-15
+
 ### Fixed
 
 - Fixed tabs padding for smartphones.
