@@ -9,8 +9,8 @@
 
 // default colors and margins
 body {
-  background: colors.$text-dark;
-  color: colors.$text-light;
+  background: colors.$neutral-000;
+  color: colors.$neutral-300;
   margin: 0;
   padding: 0;
 }
@@ -18,13 +18,13 @@ body {
 // highlight tag
 mark {
   background: colors.$primary-300;
-  color: colors.$text-dark;
+  color: colors.$neutral-000;
 }
 
 // selection highlighting
 ::selection {
   background: colors.$primary-300;
-  color: colors.$text-dark;
+  color: colors.$neutral-000;
 }
 
 // make headers thin and marginless

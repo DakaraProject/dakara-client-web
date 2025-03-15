@@ -19,7 +19,7 @@
       // }
 
       .subtitle {
-        color: color.change(colors.$text-light, $alpha: 0.7);
+        color: color.change(colors.$neutral-400, $alpha: 0.7);
         margin-left: 0.5em;
       }
     }

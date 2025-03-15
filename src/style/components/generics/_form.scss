@@ -349,7 +349,7 @@ $form-field-height: sizes.$row-height;
     .text-input {
       input,
       textarea {
-        color: colors.$text-dark;
+        color: colors.$neutral-000;
 
         &::placeholder {
           color: colors.$neutral-100;
@@ -389,7 +389,7 @@ $form-field-height: sizes.$row-height;
         // fix font properties
         // remove the marker
         appearance: none;
-        color: colors.$text-dark;
+        color: colors.$neutral-000;
         font-size: medium;
 
         // fix height which is minimal by default
@@ -426,7 +426,7 @@ $form-field-height: sizes.$row-height;
 
         // attached to the top right
         // no pointer effect
-        color: colors.$text-dark;
+        color: colors.$neutral-000;
         content: '▼';
         font-size: 1.5em;
         line-height: $field-height;
@@ -478,7 +478,7 @@ $form-field-height: sizes.$row-height;
       input:checked + label.marker::after {
         @include preboot.square($field-height * 0.25);
 
-        background: colors.$text-dark;
+        background: colors.$neutral-000;
         content: '';
         left: $field-height * 0.125;
         position: absolute;
@@ -571,7 +571,7 @@ $form-field-height: sizes.$row-height;
         @include preboot.square($field-height * 0.5);
         @include fonts.make-icon;
 
-        color: colors.$text-dark;
+        color: colors.$neutral-000;
         content: '\f00c';
         font-size: 1.3em;
         line-height: $field-height * 0.5;
@@ -597,7 +597,7 @@ $form-field-height: sizes.$row-height;
       input + label.marker::after {
         @include preboot.square($field-height * 0.3);
 
-        background: colors.$text-dark;
+        background: colors.$neutral-000;
         content: '';
         left: $field-height * 0.1;
         position: absolute;
@@ -701,7 +701,7 @@ $form-field-height: sizes.$row-height;
 
       .preview {
         background: hsl(0, $hue-input-saturation, $hue-input-luminosity);
-        color: color.change(colors.$text-dark, $alpha: 0.5);
+        color: color.change(colors.$neutral-000, $alpha: 0.5);
         flex-shrink: 0;
         font-size: medium;
         font-weight: 700;
@@ -746,8 +746,8 @@ $form-field-height: sizes.$row-height;
         @mixin thumb() {
           @include preboot.square($track-height);
 
-          background: colors.$text-dark;
-          border: $track-height solid colors.$text-dark;
+          background: colors.$neutral-000;
+          border: $track-height solid colors.$neutral-000;
           box-sizing: content-box;
         }
 

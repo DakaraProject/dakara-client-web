@@ -26,7 +26,7 @@
 
   background-color: $color;
   border-style: none;
-  color: color.change(colors.$text-dark, $alpha: 0.5);
+  color: color.change(colors.$neutral-000, $alpha: 0.5);
   display: inline-block;
   font-size: medium;
   font-weight: 700;

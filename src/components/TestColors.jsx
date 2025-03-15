@@ -129,11 +129,13 @@ export default function TestColors() {
     '301',
     '302',
     '303',
+    '400',
+    '402',
+    '403',
+    '410',
+    '412',
+    '413',
   ]
-
-  const colorsTextDark = ['text-dark']
-
-  const colorsTextLight = ['text-light']
 
   const controls = (
     <div className="controls">
@@ -158,7 +160,7 @@ export default function TestColors() {
         <h2>Test colors</h2>
       </div>
       <div className="content">
-        <h3>Brand colors</h3>
+        <h3>Colors</h3>
         <table className="listing mosaic">
           <thead>
             <tr className="listing-header">
@@ -181,30 +183,6 @@ export default function TestColors() {
                 refresher={refresher}
               />
             ))}
-          </tbody>
-        </table>
-        {controls}
-        <h3>Neutral colors</h3>
-        <table className="listing mosaic">
-          <thead>
-            <tr className="listing-header">
-              <th>Variation</th>
-              <th>Text</th>
-            </tr>
-          </thead>
-          <tbody>
-            <Row
-              name="text light"
-              colors={colorsTextLight}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="text dark"
-              colors={colorsTextDark}
-              format={format}
-              refresher={refresher}
-            />
           </tbody>
         </table>
         {controls}
