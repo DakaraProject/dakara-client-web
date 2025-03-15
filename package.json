@@ -1,6 +1,6 @@
 {
   "name": "dakara-client-web",
-  "version": "1.9.1",
+  "version": "1.10.0-dev",
   "description": "Web client for Dakara Project",
   "homepage": "https://github.com/DakaraProject/dakara-client-web",
   "bugs": {
