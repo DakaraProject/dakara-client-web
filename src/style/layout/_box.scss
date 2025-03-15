@@ -187,12 +187,12 @@ $ribbon-control-height: sizes.$row-height;
   // }
 
   p,
-  ul {
+  ul:not(.listing) {
     @include sizes.make-gap(margin, horizontal);
 
     // paragraphs have margin between them
     + p,
-    + ul {
+    + ul:not(.listing) {
       margin-top: 0.5em;
     }
   }
