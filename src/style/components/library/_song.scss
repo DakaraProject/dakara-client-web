@@ -48,9 +48,7 @@
                     flex-direction: column;
 
                     .artist-work {
-                        @include support.make-smartphone {
-                            display: none;
-                        }
+                        display: none;
                     }
                 }
             }
