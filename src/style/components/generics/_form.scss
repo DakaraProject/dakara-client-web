@@ -329,17 +329,18 @@ $form-field-height: sizes.$row-height;
 
     // transparent controls inside inputs
     .input .controls .control {
+      color: colors.$neutral-000;
       // no margin when stacking controls
       margin: 0;
 
       &:hover:not(:focus) {
         // XXX wrong color
-        color: colors.$neutral-100;
+        color: colors.$neutral-122;
       }
 
       &:focus {
         // XXX wrong color
-        color: colors.$neutral-101;
+        color: colors.$neutral-122;
       }
     }
 
@@ -352,7 +353,8 @@ $form-field-height: sizes.$row-height;
         color: colors.$neutral-000;
 
         &::placeholder {
-          color: colors.$neutral-100;
+          // XXX wrong color
+          color: colors.$neutral-110;
 
           & {
             // override the way Firefox adds opacity
@@ -619,7 +621,7 @@ $form-field-height: sizes.$row-height;
 
       // add second marker
       input + label.marker::before {
-        background: colors.$info-300;
+        background: colors.$primary-300;
         content: '';
         height: $field-height * 0.5;
         position: absolute;
@@ -662,13 +664,13 @@ $form-field-height: sizes.$row-height;
       .label:hover + .input .toggle-input input,
       .toggle-input input:hover {
         &:not(:focus) + label.marker::before {
-          background: colors.$info-301;
+          background: colors.$primary-302;
         }
       }
 
       // handle focus
       .toggle-input input:focus + label.marker::before {
-        background: colors.$info-302;
+        background: colors.$primary-303;
       }
     }
 

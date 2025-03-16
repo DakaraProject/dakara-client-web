@@ -179,11 +179,17 @@ $custom-color-saturation: 55%;
 $custom-color-luminosity: 55%;
 
 // create colors
-@mixin make-color($background, $color, $background-selection) {
+@mixin make-color(
+  $background,
+  $color,
+  $background-selection,
+  $color-selection
+) {
   background: $background;
   color: $color;
 
   ::selection {
     background: $background-selection;
+    color: $color-selection;
   }
 }

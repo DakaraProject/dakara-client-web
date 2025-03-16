@@ -56,7 +56,7 @@ $tab-bar-icon-font-size: 1.25em;
       @include preboot.text-truncate();
 
       background: colors.$neutral-110;
-      color: colors.$neutral-300;
+      color: colors.$neutral-400;
       cursor: pointer;
       height: $tab-bar-height;
       line-height: $tab-bar-height;
@@ -72,8 +72,7 @@ $tab-bar-icon-font-size: 1.25em;
 
     &.active {
       background: colors.$neutral-300;
-      // XXX wrong color
-      color: colors.$neutral-110;
+      color: colors.$neutral-000;
       cursor: default;
     }
 
@@ -88,12 +87,12 @@ $tab-bar-icon-font-size: 1.25em;
     }
 
     &:hover:not(:focus):not(.active) {
-      background: colors.$neutral-302;
+      background: colors.$neutral-112;
       color: inherit;
     }
 
     &:focus:not(.active) {
-      background: colors.$neutral-303;
+      background: colors.$neutral-112;
       color: inherit;
     }
 

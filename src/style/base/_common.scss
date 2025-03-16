@@ -10,21 +10,21 @@
 // default colors and margins
 body {
   background: colors.$neutral-000;
-  color: colors.$neutral-300;
+  color: colors.$neutral-400;
   margin: 0;
   padding: 0;
 }
 
 // highlight tag
 mark {
-  background: colors.$primary-300;
-  color: colors.$neutral-000;
+  background: colors.$primary-200;
+  color: colors.$primary-000;
 }
 
 // selection highlighting
 ::selection {
-  background: colors.$primary-300;
-  color: colors.$neutral-000;
+  background: colors.$primary-200;
+  color: colors.$primary-000;
 }
 
 // make headers thin and marginless
@@ -51,15 +51,15 @@ p {
 
   // links
   a {
-    color: colors.$primary-301;
+    color: colors.$primary-400;
     text-decoration: underline;
 
     &:hover:not(:focus) {
-      color: colors.$primary-302;
+      color: colors.$primary-402;
     }
 
     &:focus {
-      color: colors.$primary-302;
+      color: colors.$primary-403;
     }
   }
 }

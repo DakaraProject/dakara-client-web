@@ -80,9 +80,8 @@
   .duration {
     align-items: center;
     align-self: stretch;
-    background: colors.$neutral-400;
-    // XXX wrong color
-    color: colors.$neutral-110;
+    background: colors.$neutral-300;
+    color: colors.$neutral-000;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;

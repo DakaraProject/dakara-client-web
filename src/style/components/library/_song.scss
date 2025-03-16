@@ -40,10 +40,10 @@
       overflow-y: hidden;
 
       &:focus {
-        background: colors.$neutral-303;
+        background: colors.$neutral-112;
 
         .song .duration {
-          background: colors.$neutral-302;
+          background: colors.$neutral-303;
         }
       }
 

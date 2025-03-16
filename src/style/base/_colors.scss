@@ -9,39 +9,44 @@
 .primary {
   @include colors.make-color(
     colors.$primary-100,
-    colors.$primary-301,
-    colors.$primary-300
+    colors.$primary-400,
+    colors.$primary-200,
+    colors.$primary-000
   );
 }
 
 .success {
   @include colors.make-color(
     colors.$success-100,
-    colors.$success-301,
-    colors.$success-300
+    colors.$success-400,
+    colors.$success-200,
+    colors.$success-000
   );
 }
 
 .warning {
   @include colors.make-color(
     colors.$warning-100,
-    colors.$warning-301,
-    colors.$warning-300
+    colors.$warning-400,
+    colors.$warning-200,
+    colors.$warning-000
   );
 }
 
 .danger {
   @include colors.make-color(
     colors.$danger-100,
-    colors.$danger-301,
-    colors.$danger-300
+    colors.$danger-400,
+    colors.$danger-200,
+    colors.$danger-000
   );
 }
 
 .info {
   @include colors.make-color(
     colors.$info-100,
-    colors.$info-301,
-    colors.$info-300
+    colors.$info-400,
+    colors.$info-200,
+    colors.$info-000
   );
 }

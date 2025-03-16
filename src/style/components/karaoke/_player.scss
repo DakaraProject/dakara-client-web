@@ -25,7 +25,7 @@ $player-progressbar-height: 0.4rem;
 // progression bar.
 #player {
   background: colors.$primary-100;
-  color: colors.$primary-300;
+  color: colors.$primary-400;
   position: sticky;
   top: 0;
 
@@ -47,7 +47,6 @@ $player-progressbar-height: 0.4rem;
     @include sizes.make-gap(padding, vertical);
 
     & {
-      background: colors.$primary-100;
       position: sticky;
       top: 0;
       z-index: 1100;
@@ -84,11 +83,11 @@ $player-progressbar-height: 0.4rem;
         }
 
         &:hover:not(:focus) {
-          color: colors.$primary-302;
+          color: colors.$primary-402;
         }
 
         &:focus {
-          color: colors.$primary-302;
+          color: colors.$primary-403;
         }
 
         .song-title {
@@ -119,12 +118,12 @@ $player-progressbar-height: 0.4rem;
         .song-works {
           .title-group {
             .subtitle {
-              color: color.change(colors.$primary-300, $alpha: 0.75);
+              color: color.change(colors.$primary-400, $alpha: 0.75);
             }
           }
 
           .link {
-            border-color: color.change(colors.$primary-300, $alpha: 0.75);
+            border-color: color.change(colors.$primary-400, $alpha: 0.75);
           }
         }
       }
@@ -168,7 +167,7 @@ $player-progressbar-height: 0.4rem;
       }
 
       .duration {
-        color: color.change(colors.$primary-300, $alpha: 0.85);
+        color: color.change(colors.$primary-400, $alpha: 0.85);
       }
     }
   }
