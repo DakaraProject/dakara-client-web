@@ -18,13 +18,13 @@ body {
 // highlight tag
 mark {
   background: colors.$primary-200;
-  color: colors.$primary-000;
+  color: colors.$primary-410;
 }
 
 // selection highlighting
 ::selection {
   background: colors.$primary-200;
-  color: colors.$primary-000;
+  color: colors.$primary-410;
 }
 
 // make headers thin and marginless

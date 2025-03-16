@@ -47,6 +47,11 @@ $info-101: color.adjust($info, $lightness: -24%);
 $neutral-101: color.adjust($neutral, $lightness: -23.5%);
 
 // 102 colors for background 0 highlight
+$primary-102: color.adjust($primary, $lightness: -16%);
+$success-102: color.adjust($success, $lightness: -16%);
+$warning-102: color.adjust($warning, $lightness: -21%);
+$danger-102: color.adjust($danger, $lightness: -22%);
+$info-102: color.adjust($info, $lightness: -22%);
 $neutral-102: color.adjust($neutral, $lightness: -22%);
 
 // 110 colors for background 1 base

@@ -19,77 +19,64 @@
 .notification {
   box-sizing: border-box;
 
-  @mixin make-notification(
-    $color,
-    $background,
-    $background-selection,
-    $background-even,
-    $background-selection-even
-  ) {
-    background: $background;
-    color: $color;
-
-    ::selection {
-      background: $background-selection;
-    }
-
+  @mixin make-color-even($background, $background-selection) {
     &:nth-child(2n) {
-      background: $background-even;
+      background: $background;
 
       ::selection {
-        background: $background-selection-even;
+        background: $background-selection;
       }
     }
   }
 
   &.primary {
-    @include make-notification(
-      colors.$primary-000,
-      colors.$primary-300,
+    @include colors.make-color(
+      colors.$primary-100,
+      colors.$primary-400,
       colors.$primary-200,
-      colors.$primary-301,
-      colors.$primary-201
+      colors.$primary-410
     );
+    @include make-color-even(colors.$primary-101, colors.$primary-201);
   }
 
   &.success {
-    @include make-notification(
-      colors.$success-000,
-      colors.$success-300,
+    @include colors.make-color(
+      colors.$success-100,
+      colors.$success-400,
       colors.$success-200,
-      colors.$success-301,
-      colors.$success-201
+      colors.$success-410
     );
+    @include make-color-even(colors.$success-101, colors.$success-201);
   }
 
   &.warning {
-    @include make-notification(
-      colors.$warning-000,
-      colors.$warning-300,
+    @include colors.make-color(
+      colors.$warning-100,
+      colors.$warning-400,
       colors.$warning-200,
-      colors.$warning-301,
-      colors.$warning-201
+      colors.$warning-410
     );
+    @include make-color-even(colors.$warning-101, colors.$warning-201);
   }
 
   &.danger {
-    @include make-notification(
-      colors.$danger-000,
-      colors.$danger-300,
+    @include colors.make-color(
+      colors.$danger-100,
+      colors.$danger-400,
       colors.$danger-200,
-      colors.$danger-301,
-      colors.$danger-201
+      colors.$danger-410
     );
+    @include make-color-even(colors.$danger-101, colors.$danger-201);
   }
 
   &.info {
-    @include make-notification(
-      colors.$info-000,
-      colors.$info-300,
+    @include colors.make-color(
+      colors.$info-100,
+      colors.$info-400,
       colors.$info-200,
-      colors.$info-301,
-      colors.$info-201
+      colors.$info-410
     );
+    @include make-color-even(colors.$info-101, colors.$info-201);
   }
 
   .message {
@@ -109,7 +96,7 @@
 
 // lighten notification when on even line of a list
 .listing-entry:nth-child(2n) .notification {
-  @mixin make-notification-line-even($background, $background-selection) {
+  @mixin make-color-even($background, $background-selection) {
     background: $background;
 
     ::selection {
@@ -118,35 +105,23 @@
   }
 
   &.primary {
-    @include make-notification-line-even(
-      colors.$primary-301,
-      colors.$primary-201
-    );
+    @include make-color-even(colors.$primary-101, colors.$primary-201);
   }
 
   &.success {
-    @include make-notification-line-even(
-      colors.$success-301,
-      colors.$success-201
-    );
+    @include make-color-even(colors.$success-101, colors.$success-201);
   }
 
   &.warning {
-    @include make-notification-line-even(
-      colors.$warning-301,
-      colors.$warning-201
-    );
+    @include make-color-even(colors.$warning-101, colors.$warning-201);
   }
 
   &.danger {
-    @include make-notification-line-even(
-      colors.$danger-301,
-      colors.$danger-201
-    );
+    @include make-color-even(colors.$danger-101, colors.$danger-201);
   }
 
   &.info {
-    @include make-notification-line-even(colors.$info-301, colors.$info-201);
+    @include make-color-even(colors.$info-101, colors.$info-201);
   }
 }
 
