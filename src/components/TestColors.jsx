@@ -78,13 +78,13 @@ MosaicTile.propTypes = {
   refresher: PropTypes.number,
 }
 
-function MosaicRow({ name, colors, format, refresher }) {
+function MosaicRow({ lightness, colors, format, refresher }) {
   return (
     <tr className="listing-entry">
-      <td className="title">{name}</td>
+      <td className="title">{lightness}</td>
       {colors.map((color) => (
         <MosaicTile
-          color={color}
+          color={`${color}-${lightness}`}
           key={color}
           format={format}
           refresher={refresher}
@@ -95,7 +95,7 @@ function MosaicRow({ name, colors, format, refresher }) {
 }
 
 MosaicRow.propTypes = {
-  name: PropTypes.string,
+  lightness: PropTypes.string,
   colors: PropTypes.arrayOf(PropTypes.string),
   format: PropTypes.string,
   refresher: PropTypes.number,
@@ -164,8 +164,8 @@ function Mosaic() {
             {lightnesses.map((lightness) => (
               <MosaicRow
                 key={lightness}
-                name={lightness}
-                colors={colors.map((color) => `${color}-${lightness}`)}
+                lightness={lightness}
+                colors={colors}
                 format={format}
                 refresher={refresher}
               />
