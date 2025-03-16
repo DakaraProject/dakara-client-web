@@ -147,30 +147,32 @@ function Mosaic() {
   return (
     <div className="section">
       <h3>Colors</h3>
-      <table className="listing mosaic">
-        <thead>
-          <tr className="listing-header">
-            <th>Lightness</th>
-            <th>Primary</th>
-            <th>Neutral</th>
-            <th>Success</th>
-            <th>Warning</th>
-            <th>Danger</th>
-            <th>Info</th>
-          </tr>
-        </thead>
-        <tbody>
-          {lightnesses.map((lightness) => (
-            <MosaicRow
-              key={lightness}
-              name={lightness}
-              colors={colors.map((color) => `${color}-${lightness}`)}
-              format={format}
-              refresher={refresher}
-            />
-          ))}
-        </tbody>
-      </table>
+      <div className="listing-table-container free">
+        <table className="listing mosaic">
+          <thead>
+            <tr className="listing-header">
+              <th>Lightness</th>
+              <th>Primary</th>
+              <th>Neutral</th>
+              <th>Success</th>
+              <th>Warning</th>
+              <th>Danger</th>
+              <th>Info</th>
+            </tr>
+          </thead>
+          <tbody>
+            {lightnesses.map((lightness) => (
+              <MosaicRow
+                key={lightness}
+                name={lightness}
+                colors={colors.map((color) => `${color}-${lightness}`)}
+                format={format}
+                refresher={refresher}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div className="controls">
         <button className="control primary" onClick={createSetFormat('hex')}>
           Show HEX
@@ -295,25 +297,27 @@ function Sampler() {
   return (
     <div className="section">
       <h3>Contrasts</h3>
-      <table className="listing sampler">
-        <thead>
-          <tr className="listing-header">
-            <th>Background lightness</th>
-            <th>Foreground lightness</th>
-            <th>Primary</th>
-            <th>Neutral</th>
-            <th>Success</th>
-            <th>Warning</th>
-            <th>Danger</th>
-            <th>Info</th>
-          </tr>
-        </thead>
-        <tbody>
-          {createRows(lightnesses['200'], lightnesses['000'])}
-          {createRows(lightnesses['300'], lightnesses['000'])}
-          {createRows(lightnesses['100'], lightnesses['400'])}
-        </tbody>
-      </table>
+      <div className="listing-table-container free">
+        <table className="listing sampler">
+          <thead>
+            <tr className="listing-header">
+              <th>Background lightness</th>
+              <th>Foreground lightness</th>
+              <th>Primary</th>
+              <th>Neutral</th>
+              <th>Success</th>
+              <th>Warning</th>
+              <th>Danger</th>
+              <th>Info</th>
+            </tr>
+          </thead>
+          <tbody>
+            {createRows(lightnesses['200'], lightnesses['000'])}
+            {createRows(lightnesses['300'], lightnesses['000'])}
+            {createRows(lightnesses['100'], lightnesses['400'])}
+          </tbody>
+        </table>
+      </div>
       <div className="controls">
         <button className="control primary" onClick={forceRefresh}>
           Refresh
