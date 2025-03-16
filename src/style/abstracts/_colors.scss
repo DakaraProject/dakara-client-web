@@ -32,29 +32,29 @@ $lightness-000: -40%;
 
 // 1** colors for background
 // 100 colors for background 0 base
-$primary-100: color.adjust($primary, $lightness: -25%);
+$primary-100: color.adjust($primary, $lightness: -27%);
 $success-100: color.adjust($success, $lightness: -22%);
 $warning-100: color.adjust($warning, $lightness: -24%);
 $danger-100: color.adjust($danger, $lightness: -26%);
-$info-100: color.adjust($info, $lightness: -28%);
+$info-100: color.adjust($info, $lightness: -26%);
 $neutral-100: color.adjust($neutral, $lightness: -25%);
 $lightness-100: -28%;
 
 // 101 colors for background 0 even row
-$primary-101: color.adjust($primary, $lightness: -23%);
+$primary-101: color.adjust($primary, $lightness: -25%);
 $success-101: color.adjust($success, $lightness: -20.5%);
 $warning-101: color.adjust($warning, $lightness: -22%);
 $danger-101: color.adjust($danger, $lightness: -24%);
-$info-101: color.adjust($info, $lightness: -25%);
+$info-101: color.adjust($info, $lightness: -23%);
 $neutral-101: color.adjust($neutral, $lightness: -23.5%);
 $lightness-101: -25%;
 
 // 102 colors for background 0 highlight
-$primary-102: color.adjust($primary, $lightness: -20%);
+$primary-102: color.adjust($primary, $lightness: -22%);
 $success-102: color.adjust($success, $lightness: -17%);
 $warning-102: color.adjust($warning, $lightness: -17%);
 $danger-102: color.adjust($danger, $lightness: -21%);
-$info-102: color.adjust($info, $lightness: -21%);
+$info-102: color.adjust($info, $lightness: -19%);
 $neutral-102: color.adjust($neutral, $lightness: -22%);
 $lightness-102: -22%;
 
@@ -167,28 +167,28 @@ $info-403: color.adjust($info, $lightness: 27%);
 $neutral-403: color.adjust($neutral, $lightness: 35%);
 
 // 410 colors for text 1 base
-$primary-410: color.adjust($primary, $lightness: 26%);
-$success-410: color.adjust($success, $lightness: 26%);
-$warning-410: color.adjust($warning, $lightness: 26%);
-$danger-410: color.adjust($danger, $lightness: 26%);
-$info-410: color.adjust($info, $lightness: 26%);
-$neutral-410: color.adjust($neutral, $lightness: 30%);
+$primary-410: color.adjust($primary, $lightness: 30%);
+$success-410: color.adjust($success, $lightness: 30%);
+$warning-410: color.adjust($warning, $lightness: 30%);
+$danger-410: color.adjust($danger, $lightness: 30%);
+$info-410: color.adjust($info, $lightness: 30%);
+$neutral-410: color.adjust($neutral, $lightness: 37%);
 
 // 412 colors for text 1 highlight
-$primary-412: color.adjust($primary, $lightness: 31%);
-$success-412: color.adjust($success, $lightness: 31%);
-$warning-412: color.adjust($warning, $lightness: 31%);
-$danger-412: color.adjust($danger, $lightness: 31%);
-$info-412: color.adjust($info, $lightness: 31%);
-$neutral-412: color.adjust($neutral, $lightness: 35%);
+$primary-412: color.adjust($primary, $lightness: 35%);
+$success-412: color.adjust($success, $lightness: 35%);
+$warning-412: color.adjust($warning, $lightness: 35%);
+$danger-412: color.adjust($danger, $lightness: 35%);
+$info-412: color.adjust($info, $lightness: 35%);
+$neutral-412: color.adjust($neutral, $lightness: 42%);
 
 // 413 colors for text 1 focus
-$primary-413: color.adjust($primary, $lightness: 33%);
-$success-413: color.adjust($success, $lightness: 33%);
-$warning-413: color.adjust($warning, $lightness: 33%);
-$danger-413: color.adjust($danger, $lightness: 33%);
-$info-413: color.adjust($info, $lightness: 33%);
-$neutral-413: color.adjust($neutral, $lightness: 37%);
+$primary-413: color.adjust($primary, $lightness: 37%);
+$success-413: color.adjust($success, $lightness: 37%);
+$warning-413: color.adjust($warning, $lightness: 37%);
+$danger-413: color.adjust($danger, $lightness: 37%);
+$info-413: color.adjust($info, $lightness: 37%);
+$neutral-413: color.adjust($neutral, $lightness: 44%);
 
 // custom colors saturation and luminosity
 $custom-color-saturation: 50%;
