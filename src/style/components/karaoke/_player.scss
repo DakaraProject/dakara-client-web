@@ -47,6 +47,8 @@ $player-progressbar-height: 0.4rem;
     @include sizes.make-gap(padding, vertical);
 
     & {
+      // repeat background to hide controls when scrolling
+      background: colors.$primary-100;
       position: sticky;
       top: 0;
       z-index: 1100;
@@ -163,7 +165,7 @@ $player-progressbar-height: 0.4rem;
       }
 
       .current {
-        font-weight: 100;
+        font-weight: 200;
       }
 
       .duration {

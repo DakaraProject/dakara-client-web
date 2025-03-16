@@ -50,6 +50,11 @@
     @include make-tile('danger-101', colors.$danger-101);
     @include make-tile('info-101', colors.$info-101);
     @include make-tile('neutral-101', colors.$neutral-101);
+    @include make-tile('primary-102', colors.$primary-102);
+    @include make-tile('success-102', colors.$success-102);
+    @include make-tile('warning-102', colors.$warning-102);
+    @include make-tile('danger-102', colors.$danger-102);
+    @include make-tile('info-102', colors.$info-102);
     @include make-tile('neutral-102', colors.$neutral-102);
     @include make-tile('neutral-110', colors.$neutral-110);
     @include make-tile('neutral-111', colors.$neutral-111);

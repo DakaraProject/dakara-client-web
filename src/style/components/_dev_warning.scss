@@ -12,10 +12,10 @@ $dev-warning-height: 2rem;
 #dev-warning {
   background: repeating-linear-gradient(
     -45deg,
-    colors.$warning-200,
+    colors.$warning-300,
+    colors.$warning-300 2rem,
     colors.$warning-200 2rem,
-    colors.$warning-100 2rem,
-    colors.$warning-100 4rem
+    colors.$warning-200 4rem
   );
   color: colors.$neutral-000;
   height: $dev-warning-height;
