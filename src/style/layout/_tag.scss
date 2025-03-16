@@ -41,14 +41,17 @@
       margin-right: 0.5em;
     }
 
-    &:hover,
+    &:hover:not(:focus) {
+      background-color: color.adjust($color, $lightness: colors.$lightness-302);
+    }
+
     &:focus {
-      background-color: color.adjust($color, $lightness: 5%);
+      background-color: color.adjust($color, $lightness: colors.$lightness-303);
     }
   }
 
   &.disabled {
-    background-color: color.adjust($color, $saturation: -33%);
+    background-color: color.adjust($color, $lightness: colors.$lightness-200);
     opacity: 0.5;
   }
 

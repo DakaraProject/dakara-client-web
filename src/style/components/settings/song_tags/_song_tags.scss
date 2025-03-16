@@ -79,14 +79,21 @@
 
       .display-color {
         background: $background;
+        color: color.adjust($background, $lightness: colors.$lightness-000);
 
         &:focus {
-          background: color.adjust($background, $lightness: 5%);
+          background: color.adjust(
+            $background,
+            $lightness: colors.$lightness-303
+          );
         }
       }
 
-      &:hover .display-color {
-        background: color.adjust($background, $lightness: 3.5%);
+      &:hover .display-color:not(:focus) {
+        background: color.adjust(
+          $background,
+          $lightness: colors.$lightness-302
+        );
       }
 
       .display-color-container {
