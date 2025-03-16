@@ -144,19 +144,19 @@
       text-align: left;
     }
   }
-}
 
-.controls {
-  @include controls.make-controls();
+  .controls {
+    @include controls.make-controls();
 
-  display: flex;
-  justify-content: flex-end;
+    display: flex;
+    justify-content: flex-end;
 
-  &:not(:last-child) {
-    @include sizes.make-gap(padding, bottom);
-  }
+    &:not(:last-child) {
+      @include sizes.make-gap(padding, bottom);
+    }
 
-  > .control {
-    @include sizes.make-gap(padding, horizontal);
+    > .control {
+      @include sizes.make-gap(padding, horizontal);
+    }
   }
 }
