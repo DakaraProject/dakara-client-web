@@ -11,6 +11,7 @@
 $dev-warning-height: sizes.$row-height;
 
 #dev-warning {
+  align-items: center;
   background: repeating-linear-gradient(
     -45deg,
     colors.$warning-102,
@@ -19,14 +20,14 @@ $dev-warning-height: sizes.$row-height;
     colors.$warning-100 4rem
   );
   color: colors.$warning-400;
+  display: flex;
   height: $dev-warning-height;
-  line-height: $dev-warning-height;
+  justify-content: center;
   position: relative;
-  text-align: center;
   z-index: 1400;
 
   &::selection {
     background: colors.$warning-200;
-    color: colors.$warning-400;
+    color: colors.$warning-410;
   }
 }
