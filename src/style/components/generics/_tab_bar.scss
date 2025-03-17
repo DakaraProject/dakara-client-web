@@ -12,7 +12,7 @@
 
 // tab bar sizes
 $tab-bar-height: sizes.$row-height;
-$tab-bar-icon-font-size: 1.25em;
+$tab-bar-icon-font-size: 1.5em;
 
 // `tab-bar` class:
 //
@@ -80,10 +80,6 @@ $tab-bar-icon-font-size: 1.25em;
       flex: 0 0 auto;
       padding: 0 !important;
       width: $tab-bar-height;
-
-      .icon {
-        font-size: 1.5em;
-      }
     }
 
     &:hover:not(:focus):not(.active) {
@@ -96,6 +92,7 @@ $tab-bar-icon-font-size: 1.25em;
 
     .icon {
       font-size: $tab-bar-icon-font-size;
+      vertical-align: middle;
     }
 
     .name {
