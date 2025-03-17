@@ -24,7 +24,7 @@
     colors.$custom-color-luminosity
   );
 
-  background-color: $color;
+  background: $color;
   border-style: none;
   color: color.change(colors.$neutral-000, $alpha: 0.75);
   display: inline-block;
@@ -42,16 +42,16 @@
     }
 
     &:hover:not(:focus) {
-      background-color: color.adjust($color, $lightness: colors.$lightness-302);
+      background: color.adjust($color, $lightness: colors.$lightness-302);
     }
 
     &:focus {
-      background-color: color.adjust($color, $lightness: colors.$lightness-303);
+      background: color.adjust($color, $lightness: colors.$lightness-303);
     }
   }
 
   &.disabled {
-    background-color: color.adjust($color, $lightness: colors.$lightness-200);
+    background: color.adjust($color, $lightness: colors.$lightness-200);
     opacity: 0.5;
   }
 
