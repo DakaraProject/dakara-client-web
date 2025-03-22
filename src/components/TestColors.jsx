@@ -142,6 +142,11 @@ function Mosaic() {
     '410',
     '412',
     '413',
+    '420',
+    '422',
+    '423',
+    '500',
+    '502',
   ]
 
   return (
@@ -276,7 +281,8 @@ function Sampler() {
     100: ['100', '101', '102', '110', '111', '112', '120', '121', '122'],
     200: ['200', '201', '202'],
     300: ['300', '301', '302', '303'],
-    400: ['400', '402', '403', '410', '412', '413'],
+    400: ['400', '402', '403', '410', '412', '413', '420', '422', '423'],
+    500: ['500', '502'],
   }
 
   const createRows = (...arrays) =>
@@ -315,6 +321,7 @@ function Sampler() {
             {createRows(lightnesses['200'], lightnesses['000'])}
             {createRows(lightnesses['300'], lightnesses['000'])}
             {createRows(lightnesses['100'], lightnesses['400'])}
+            {createRows(lightnesses['200'], lightnesses['500'])}
           </tbody>
         </table>
       </div>

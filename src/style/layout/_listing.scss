@@ -53,6 +53,7 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
   .listing-entry {
     // normal and alternate row colors
     background: colors.$neutral-110;
+    color: colors.$neutral-410;
 
     &:nth-child(2n) {
       background: colors.$neutral-111;
@@ -64,6 +65,7 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
     &.hoverizable {
       &:hover {
         background: colors.$neutral-112;
+        color: colors.$neutral-412;
       }
     }
 

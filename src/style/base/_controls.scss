@@ -135,9 +135,7 @@
 .sublisting-entry:nth-child(even) .controls.subcontrols {
   .control {
     @mixin make-control-line-even($color-normal, $color-disabled) {
-      &:not(:hover):not(:focus) {
-        background: $color-normal;
-      }
+      background: $color-normal;
 
       &.disabled,
       &[disabled] {
