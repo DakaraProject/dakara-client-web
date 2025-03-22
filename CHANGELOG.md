@@ -29,17 +29,23 @@
 -->
 
 ## Unreleased
-
 ### Changed
 
 - Allow any clickable element to focus.
+
+## 1.9.2 - 2025-03-22
+
+### Fixed
+
+- Fixed incorrect smartphone styling.
+
+## 1.9.1 - 2025-03-15
 
 ### Fixed
 
 - Fixed tabs padding for smartphones.
 - Fixed notification control font size.
 - Fixed padding/margin problems for smartphones.
-- Fixed incorrect smartphone styling.
 
 ## 1.9.0 - 2025-03-06
 
