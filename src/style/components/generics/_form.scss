@@ -354,14 +354,7 @@ $form-field-height: sizes.$row-height;
         color: colors.$neutral-000;
 
         &::placeholder {
-          // XXX wrong color
-          color: colors.$neutral-110;
-
-          & {
-            // override the way Firefox adds opacity
-            // TODO see if this can be removed
-            opacity: 1;
-          }
+          color: colors.$neutral-100;
         }
 
         & {
