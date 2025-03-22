@@ -4,8 +4,6 @@
 // Tags style file
 //
 
-@use 'sass:color';
-
 @use '~/abstracts/colors';
 @use '~/abstracts/fonts';
 @use '~/abstracts/sizes';
@@ -18,15 +16,9 @@
 // Its size is determined in the `listing-entry-song` class, whether the song is
 // displayed in compact or in expanded view.
 .tag {
-  $color: hsl(
-    0,
-    colors.$custom-color-saturation,
-    colors.$custom-color-luminosity
-  );
-
-  background: $color;
+  background: colors.$placeholder-300;
   border-style: none;
-  color: color.change(colors.$neutral-000, $alpha: 0.75);
+  color: colors.$placeholder-000;
   display: inline-block;
   font-size: medium;
   font-weight: 700;
@@ -42,22 +34,20 @@
     }
 
     &:hover:not(:focus) {
-      background: color.adjust($color, $lightness: colors.$lightness-302);
+      background: colors.$placeholder-302;
     }
 
     &:focus {
-      background: color.adjust($color, $lightness: colors.$lightness-303);
+      background: colors.$placeholder-303;
     }
   }
 
   &.disabled {
-    background: color.adjust($color, $lightness: colors.$lightness-200);
-    opacity: 0.5;
+    background: colors.$placeholder-200;
   }
 
   &::selection {
-    // the real color of the background will change due to the
-    // `hue-rotate` filter
-    background: red;
+    background: colors.$placeholder-200;
+    color: colors.$placeholder-500;
   }
 }

@@ -679,9 +679,6 @@ $form-field-height: sizes.$row-height;
     //
     // The hue field is a specific kind of the range field.
     .hue-input {
-      $hue-input-saturation: colors.$custom-color-saturation;
-      $hue-input-luminosity: colors.$custom-color-luminosity;
-
       @mixin rainbow-gradient($saturation-in, $luminosity-is) {
         // make the color a bit darker because the result is different
         // compared to the colors given by `hue-rotate`
@@ -703,8 +700,8 @@ $form-field-height: sizes.$row-height;
       display: flex;
 
       .preview {
-        background: hsl(0, $hue-input-saturation, $hue-input-luminosity);
-        color: color.change(colors.$neutral-000, $alpha: 0.5);
+        background: colors.$placeholder-300;
+        color: colors.$placeholder-000;
         flex-shrink: 0;
         font-size: medium;
         font-weight: 700;
@@ -713,9 +710,8 @@ $form-field-height: sizes.$row-height;
         width: $form-field-height;
 
         &::selection {
-          // the real color of the background will change due to the
-          // `hue-rotate` filter
-          background: red;
+          background: colors.$placeholder-200;
+          color: colors.$placeholder-500;
         }
       }
 
@@ -724,8 +720,8 @@ $form-field-height: sizes.$row-height;
 
         @mixin track() {
           @include rainbow-gradient(
-            $hue-input-saturation,
-            $hue-input-luminosity
+            color.channel(colors.$placeholder, 'saturation'),
+            color.channel(colors.$placeholder, 'lightness')
           );
           height: $track-height;
         }
