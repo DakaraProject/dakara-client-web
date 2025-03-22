@@ -278,7 +278,7 @@ $form-field-height: sizes.$row-height;
         &:focus,
         &.focus,
         &[type='checkbox']:focus + .marker {
-          background: colors.$neutral-300 !important;
+          background: colors.$neutral-303;
         }
       }
 
