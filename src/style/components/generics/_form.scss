@@ -317,12 +317,12 @@ $form-field-height: sizes.$row-height;
     }
 
     // field hover
-    &:not(.disabled) {
+    &:not(.disabled):hover {
       input,
       textarea,
       select,
-      .fake {
-        &:hover:not(:focus):not(.focus) {
+      .fake:not(.marker) {
+        &:not(:focus):not(.focus) {
           background: colors.$neutral-302;
         }
       }
@@ -395,6 +395,10 @@ $form-field-height: sizes.$row-height;
         color: colors.$neutral-000;
         font-size: medium;
 
+        &:not(:disabled) {
+          cursor: pointer;
+        }
+
         // fix height which is minimal by default
         &:not([multiple]) {
           height: $field-height;
@@ -441,12 +445,6 @@ $form-field-height: sizes.$row-height;
       }
     }
 
-    // handle pointer
-    &:not(.disabled) select {
-      // use pointer cursor
-      cursor: pointer;
-    }
-
     // `radio-input` class:
     //
     // A set of radio buttons.
@@ -455,16 +453,9 @@ $form-field-height: sizes.$row-height;
         // delete initial marker
         // reset initial height
         appearance: none;
+        position: absolute;
         height: initial;
         width: 0;
-
-        & {
-          // hack for old browsers (Firefox 52), for which deactivating
-          // appareance is not enough
-          // TODO make it conditionnal?
-          opacity: 0;
-          position: absolute;
-        }
       }
 
       // add style to adjacent marker box
@@ -630,6 +621,10 @@ $form-field-height: sizes.$row-height;
         width: $field-height;
       }
 
+      input:disabled + label.marker::before {
+        background: colors.$primary-200;
+      }
+
       // add style to second marker when not checked
       input:not(:checked) + label.marker::before {
         right: $field-height;
@@ -708,6 +703,10 @@ $form-field-height: sizes.$row-height;
         line-height: $form-field-height;
         text-align: center;
         width: $form-field-height;
+
+        &:has(+ .input input:disabled) {
+          background: colors.$placeholder-200;
+        }
 
         &::selection {
           background: colors.$placeholder-200;
