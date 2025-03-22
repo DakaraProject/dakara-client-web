@@ -321,7 +321,7 @@ $form-field-height: sizes.$row-height;
       input,
       textarea,
       select,
-      .fake:not(.marker) {
+      .fake:not(.group) {
         &:not(:focus):not(.focus) {
           background: colors.$neutral-302;
         }

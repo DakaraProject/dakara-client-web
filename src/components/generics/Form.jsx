@@ -826,7 +826,7 @@ export class RadioField extends Field {
             checked={option.value === value}
             {...remaining}
           />
-          <label htmlFor={optionId} className="fake marker"></label>
+          <label htmlFor={optionId} className="fake marker group"></label>
           <label
             htmlFor={optionId}
             className={classNames('description', { long })}
