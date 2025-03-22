@@ -133,12 +133,12 @@ $neutral-302: color.adjust($neutral, $lightness: 6%);
 $lightness-302: 7%;
 
 // 303 colors for light focus
-$primary-303: color.adjust($primary, $lightness: 8%);
+$primary-303: color.adjust($primary, $lightness: 11.5%);
 $success-303: color.adjust($success, $lightness: 7%);
 $warning-303: color.adjust($warning, $lightness: 7%);
-$danger-303: color.adjust($danger, $lightness: 7%);
-$info-303: color.adjust($info, $lightness: 9%);
-$neutral-303: color.adjust($neutral, $lightness: 8%);
+$danger-303: color.adjust($danger, $lightness: 7.5%);
+$info-303: color.adjust($info, $lightness: 10%);
+$neutral-303: color.adjust($neutral, $lightness: 11%);
 $lightness-303: 9%;
 
 // 4** colors for text
