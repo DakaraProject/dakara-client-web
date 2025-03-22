@@ -29,10 +29,17 @@
 -->
 
 ## Unreleased
-
 ### Changed
 
 - Allow any clickable element to focus.
+
+## 1.9.2 - 2025-03-22
+
+### Fixed
+
+- Fixed incorrect smartphone styling.
+
+## 1.9.1 - 2025-03-15
 
 ### Fixed
 

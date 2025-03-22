@@ -148,9 +148,6 @@ $player-progressbar-height: 0.4rem;
       }
 
       @include sizes.make-gap(margin, right);
-      @include support.make-smartphone {
-        @include make-timing(0.7);
-      }
 
       & {
         @include make-timing(0.7);
@@ -162,6 +159,10 @@ $player-progressbar-height: 0.4rem;
         min-width: max-content;
         overflow: hidden;
         text-align: right;
+      }
+
+      @include support.make-smartphone {
+        @include make-timing(0.7);
       }
 
       .current {
