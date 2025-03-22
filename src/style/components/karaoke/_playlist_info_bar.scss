@@ -106,7 +106,7 @@ $playlist-info-bar-height-smartphone: 7rem;
 
         &.detail {
           // using opacity creates weird effects with the sticky player
-          color: color.change(colors.$primary-000, $alpha: 0.7);
+          color: color.change(colors.$primary-000, $alpha: 0.75);
         }
 
         + .line {

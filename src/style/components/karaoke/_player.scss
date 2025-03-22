@@ -170,7 +170,7 @@ $player-progressbar-height: 0.4rem;
       }
 
       .duration {
-        color: color.change(colors.$primary-400, $alpha: 0.85);
+        letter-spacing: 0.25rem;
       }
     }
   }
