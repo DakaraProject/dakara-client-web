@@ -6,20 +6,19 @@
 
 @use 'sass:color';
 
-// There are 6 colors in the project, with their own meaning. Each color has a lot of variations identified by a 3-digit number:
-//
-// TOC
-//
-// For Type (the type of the color), Order (order of the color within its type), and Context (how the color is used).
+// There are 7 colors in the project, with their own meaning.
 
-// base colors
-$primary: hsl(289, 80%, 42%);
-$success: hsl(159, 50%, 38%);
-$warning: hsl(43, 50%, 42%);
-$danger: hsl(12, 50%, 45%);
-$info: hsl(224, 50%, 47%);
-$neutral: hsl(0, 0%, 40%);
+$primary: hsl(289, 80%, 42%); // for the main color of Dakara
+$success: hsl(159, 50%, 38%); // for success feedback
+$warning: hsl(43, 50%, 42%); // for warning feedback
+$danger: hsl(12, 50%, 45%); // for danger feedback
+$info: hsl(224, 50%, 47%); // for info
+$neutral: hsl(0, 0%, 40%); // for gray
 $placeholder: hsl(0, 50%, 60%); // for use with the `hue-rotate` filter
+
+// Each color has a lot of variations identified by a 3-digit number: TOC, for
+// Type (the type of the color), Order (order of the color within its type),
+// and Context (how the color is used).
 
 // 0** colors for black
 // 000 colors for black base
