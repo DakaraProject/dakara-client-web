@@ -667,24 +667,6 @@ $form-field-height: sizes.$row-height;
     //
     // The hue field is a specific kind of the range field.
     .hue-input {
-      @mixin rainbow-gradient($saturation-in, $luminosity-is) {
-        // make the color a bit darker because the result is different
-        // compared to the colors given by `hue-rotate`
-        $saturation: $saturation-in * 0.8;
-        $luminosity: $luminosity-is * 0.8;
-
-        background: linear-gradient(
-          to right,
-          hsl(0, $saturation, $luminosity),
-          hsl(60, $saturation, $luminosity),
-          hsl(120, $saturation, $luminosity),
-          hsl(180, $saturation, $luminosity),
-          hsl(240, $saturation, $luminosity),
-          hsl(300, $saturation, $luminosity),
-          hsl(360, $saturation, $luminosity)
-        );
-      }
-
       display: flex;
 
       .preview {
@@ -710,55 +692,38 @@ $form-field-height: sizes.$row-height;
       .input {
         $track-height: 0.5rem;
 
-        @mixin track() {
-          @include rainbow-gradient(
-            color.channel(colors.$placeholder, 'saturation'),
-            color.channel(colors.$placeholder, 'lightness')
-          );
-          height: $track-height;
-        }
-
-        margin: 0 !important;
-
         input[type='range'] {
           appearance: none;
           background: transparent;
           height: 100%;
 
-          &::-webkit-slider-runnable-track {
-            @include track();
+          // use of custom selectors `::range-*` via postcss-input-range
+
+          &::range-track {
+            // make the placeholder color a bit darker because the result is
+            // different compared to the colors given by `hue-rotate`
+            $color: color.scale(colors.$placeholder-300, $lightness: -20%);
+
+            background: linear-gradient(
+              in hsl longer hue to right,
+              $color 0% 100%
+            );
+            height: $track-height;
           }
 
-          &::-moz-range-track {
-            @include track();
-          }
-        }
+          &::range-thumb {
+            @include preboot.square($track-height);
 
-        @mixin thumb() {
-          @include preboot.square($track-height);
-
-          background: colors.$neutral-000;
-          border: $track-height solid colors.$neutral-000;
-          box-sizing: content-box;
-        }
-
-        input[type='range'] {
-          &::-webkit-slider-thumb {
-            @include thumb();
-
+            // fix for Chrome
             appearance: none;
-
-            & {
-              // Hack to center for chrome
-              // (thumb size - track size) * -0.5
-              margin-top: -$track-height;
-            }
-          }
-
-          &::-moz-range-thumb {
-            @include thumb();
-
+            background: colors.$neutral-000;
+            border: $track-height solid colors.$neutral-000;
+            // fix for Firefox
             border-radius: 0;
+            box-sizing: content-box;
+            // fix for Chrome to center the thumb vertically
+            // (thumb size - track size) * -0.5
+            margin-top: -$track-height;
           }
         }
       }
@@ -766,22 +731,13 @@ $form-field-height: sizes.$row-height;
 
     &:not(.disabled) {
       .hue-input {
-        @mixin thumb() {
-          background: transparent;
-        }
-
-        // handle cursor
         input[type='range'] {
           cursor: pointer;
 
-          &:focus {
-            &::-webkit-slider-thumb {
-              @include thumb();
-            }
+          // use of custom selectors `::range-*` via postcss-input-range
 
-            &::-moz-range-thumb {
-              @include thumb();
-            }
+          &:focus::range-thumb {
+            background: transparent;
           }
         }
       }
