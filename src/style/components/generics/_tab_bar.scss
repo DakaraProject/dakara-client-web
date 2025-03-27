@@ -12,7 +12,7 @@
 
 // tab bar sizes
 $tab-bar-height: sizes.$row-height;
-$tab-bar-icon-font-size: 1.25em;
+$tab-bar-icon-font-size: 1.5em;
 
 // `tab-bar` class:
 //
@@ -55,8 +55,8 @@ $tab-bar-icon-font-size: 1.25em;
     & {
       @include preboot.text-truncate();
 
-      background: colors.$neutral-mid;
-      color: colors.$neutral-clear;
+      background: colors.$neutral-300;
+      color: colors.$neutral-000;
       cursor: pointer;
       height: $tab-bar-height;
       line-height: $tab-bar-height;
@@ -67,12 +67,12 @@ $tab-bar-icon-font-size: 1.25em;
     }
 
     &:nth-child(2n) {
-      background: colors.$neutral-mid-light;
+      background: colors.$neutral-301;
     }
 
     &.active {
-      background: colors.$neutral-clear;
-      color: colors.$neutral-mid;
+      background: colors.$neutral-110;
+      color: colors.$neutral-410;
       cursor: default;
     }
 
@@ -80,20 +80,19 @@ $tab-bar-icon-font-size: 1.25em;
       flex: 0 0 auto;
       padding: 0 !important;
       width: $tab-bar-height;
-
-      .icon {
-        font-size: 1.5em;
-      }
     }
 
-    &:hover:not(.active),
+    &:hover:not(:focus):not(.active) {
+      background: colors.$neutral-302;
+    }
+
     &:focus:not(.active) {
-      background: colors.$neutral-mid-lighter;
-      color: inherit;
+      background: colors.$neutral-303;
     }
 
     .icon {
       font-size: $tab-bar-icon-font-size;
+      vertical-align: middle;
     }
 
     .name {

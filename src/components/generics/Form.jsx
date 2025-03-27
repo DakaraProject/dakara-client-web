@@ -34,6 +34,7 @@ class Form extends Component {
     title: PropTypes.string,
     validate: PropTypes.func,
     children: PropTypes.node,
+    extraControls: PropTypes.arrayOf(PropTypes.element),
   }
 
   static defaultProps = {
@@ -267,6 +268,14 @@ class Form extends Component {
       </button>
     )
   }
+
+  renderExtraControls = () => {
+    const { extraControls } = this.props
+
+    return React.Children.map(extraControls, (control) =>
+      React.cloneElement(control, { key: control })
+    )
+  }
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -297,7 +306,10 @@ const mapStateToProps = (state, ownProps) => {
  *
  * Optional properties:
  * - method <str>: Method used to submit form, default to 'POST'
- * - submitText <str>: Submit button text, default: "Submit"
+ * - submitText <str or element>: Submit button text, default: "Submit"
+ * - submitClass <str>: Submit button class, default: `primary`
+ * - extraControls <list of elements>: Extra controls appended to the right of
+ *                                     the submit control.
  * - successMessage <str>: Message to display when form submit suceed,
  *                           if false, no messsage is displayed.
  * - pendingMessage <str>: Message to display when submit request is pending
@@ -341,6 +353,9 @@ class FormBlock extends Form {
     // get submit
     const submit = this.renderSubmit()
 
+    // get extra controls
+    const extraControls = this.renderExtraControls()
+
     // get failed message if unconsistent case
     let failedMessage
     if (
@@ -373,6 +388,7 @@ class FormBlock extends Form {
             pendingMessage={pendingMessage}
           />
           {submit}
+          {extraControls}
         </div>
       </form>
     )
@@ -398,7 +414,10 @@ export { FormBlock }
  *
  * Optional properties:
  * - method <str>: Method used to submit form, default to 'POST'
- * - submitText <str>: Submit button text, default: "Submit"
+ * - submitText <str or element>: Submit button text, default: "Submit"
+ * - submitClass <str>: Submit button class, default: `primary`
+ * - extraControls <list of elements>: Extra controls appended to the right of
+ *                                     the submit control.
  * - successMessage <str>: Message to display when form submit suceed,
  *                           if null, no messsage is displayed.
  * - validate <func>: Called on submit, with object containing form values.
@@ -427,6 +446,9 @@ class FormInline extends Form {
     // get submit
     const submit = this.renderSubmit()
 
+    // get extra controls
+    const extraControls = this.renderExtraControls()
+
     return (
       <form
         onSubmit={(e) => {
@@ -439,7 +461,10 @@ class FormInline extends Form {
         noValidate
       >
         {fieldsSet}
-        <div className="controls">{submit}</div>
+        <div className="controls">
+          {submit}
+          {extraControls}
+        </div>
       </form>
     )
   }
@@ -801,7 +826,7 @@ export class RadioField extends Field {
             checked={option.value === value}
             {...remaining}
           />
-          <label htmlFor={optionId} className="fake marker"></label>
+          <label htmlFor={optionId} className="fake marker group"></label>
           <label
             htmlFor={optionId}
             className={classNames('description', { long })}

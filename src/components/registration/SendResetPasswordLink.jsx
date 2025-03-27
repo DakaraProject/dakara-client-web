@@ -30,12 +30,7 @@ class SendResetPasswordLink extends Component {
         pendingMessage={false}
         onSuccess={() => this.setState({ emailSent: true })}
       >
-        <InputField
-          id="login"
-          label="Login"
-          placeholder="Username or email..."
-          required
-        />
+        <InputField id="login" label="Username or email" required />
       </FormBlock>
     )
 

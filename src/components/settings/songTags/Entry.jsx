@@ -124,6 +124,14 @@ export default class SettingsSongTagsEntry extends Component {
       </span>
     )
 
+    const cancelButton = (
+      <button onClick={this.clearColorForm} className="control danger">
+        <span className="icon">
+          <i className="las la-times"></i>
+        </span>
+      </button>
+    )
+
     const colorForm = (
       <div className="notified color-form-notified">
         <FormInline
@@ -135,16 +143,10 @@ export default class SettingsSongTagsEntry extends Component {
           elementId={tag.id}
           noClearOnSuccess
           onSuccess={this.clearColorForm}
+          extraControls={[cancelButton]}
         >
           <HueField id="color_hue" defaultValue={tag.color_hue} />
         </FormInline>
-        <div className="controls">
-          <button onClick={this.clearColorForm} className="control danger">
-            <span className="icon">
-              <i className="las la-times"></i>
-            </span>
-          </button>
-        </div>
       </div>
     )
 

@@ -7,6 +7,7 @@ export default function Lab() {
     <div id="lab" className="box">
       <nav className="tab-bar">
         <Tab to="/lab/colors" iconName="palette" name="Colors" />
+        <Tab to="/lab/fields" iconName="pencil-ruler" name="Fields" />
       </nav>
       <div className="content">
         <Outlet />

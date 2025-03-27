@@ -18,118 +18,65 @@
 // The class provides also alterations when used with the class `listing-entry`.
 .notification {
   box-sizing: border-box;
-  color: colors.$text-dark;
 
-  @mixin make-notification(
-    $background,
-    $selection,
-    $background-light,
-    $selection-light
-  ) {
-    background: $background;
-
-    ::selection {
-      background: $selection;
-    }
-
+  @mixin make-color-even($background, $background-selection) {
     &:nth-child(2n) {
-      background: $background-light;
+      background: $background;
 
       ::selection {
-        background: $selection-light;
+        background: $background-selection;
       }
     }
   }
 
   &.primary {
-    @include make-notification(
-      colors.$brand-primary,
-      colors.$brand-primary-dark,
-      colors.$brand-primary-light,
-      colors.$brand-primary-darkened
+    @include colors.make-color(
+      colors.$primary-100,
+      colors.$primary-400,
+      colors.$primary-200,
+      colors.$primary-500
     );
+    @include make-color-even(colors.$primary-101, colors.$primary-201);
   }
 
   &.success {
-    @include make-notification(
-      colors.$brand-success,
-      colors.$brand-success-dark,
-      colors.$brand-success-light,
-      colors.$brand-success-darkened
+    @include colors.make-color(
+      colors.$success-100,
+      colors.$success-400,
+      colors.$success-200,
+      colors.$success-500
     );
+    @include make-color-even(colors.$success-101, colors.$success-201);
   }
 
   &.warning {
-    @include make-notification(
-      colors.$brand-warning,
-      colors.$brand-warning-dark,
-      colors.$brand-warning-light,
-      colors.$brand-warning-darkened
+    @include colors.make-color(
+      colors.$warning-100,
+      colors.$warning-400,
+      colors.$warning-200,
+      colors.$warning-500
     );
+    @include make-color-even(colors.$warning-101, colors.$warning-201);
   }
 
   &.danger {
-    @include make-notification(
-      colors.$brand-danger,
-      colors.$brand-danger-dark,
-      colors.$brand-danger-light,
-      colors.$brand-danger-darkened
+    @include colors.make-color(
+      colors.$danger-100,
+      colors.$danger-400,
+      colors.$danger-200,
+      colors.$danger-500
     );
+    @include make-color-even(colors.$danger-101, colors.$danger-201);
   }
 
   &.info {
-    @include make-notification(
-      colors.$brand-info,
-      colors.$brand-info-dark,
-      colors.$brand-info-light,
-      colors.$brand-info-darkened
+    @include colors.make-color(
+      colors.$info-100,
+      colors.$info-400,
+      colors.$info-200,
+      colors.$info-500
     );
-  }
-
-  // lighten notification when on even line of a list
-  .listing-entry:nth-child(2n) & {
-    @mixin make-notification-line-even($background, $selection) {
-      background: $background;
-
-      ::selection {
-        background: $selection;
-      }
-    }
-
-    &.primary {
-      @include make-notification-line-even(
-        colors.$brand-primary-light,
-        colors.$brand-primary-darkened
-      );
-    }
-
-    &.success {
-      @include make-notification-line-even(
-        colors.$brand-success-light,
-        colors.$brand-success-darkened
-      );
-    }
-
-    &.warning {
-      @include make-notification-line-even(
-        colors.$brand-warning-light,
-        colors.$brand-warning-darkened
-      );
-    }
-
-    &.danger {
-      @include make-notification-line-even(
-        colors.$brand-danger-light,
-        colors.$brand-danger-darkened
-      );
-    }
-
-    &.info {
-      @include make-notification-line-even(
-        colors.$brand-info-light,
-        colors.$brand-info-darkened
-      );
-    }
+    @include make-color-even(colors.$info-101, colors.$info-201);
   }
 
   .message {
@@ -144,6 +91,37 @@
   // force the appareance of controls (when used as confirmation bar)
   .control {
     margin: 0 !important;
+  }
+}
+
+// lighten notification when on even line of a list
+.listing-entry:nth-child(2n) .notification {
+  @mixin make-color-even($background, $background-selection) {
+    background: $background;
+
+    ::selection {
+      background: $background-selection;
+    }
+  }
+
+  &.primary {
+    @include make-color-even(colors.$primary-101, colors.$primary-201);
+  }
+
+  &.success {
+    @include make-color-even(colors.$success-101, colors.$success-201);
+  }
+
+  &.warning {
+    @include make-color-even(colors.$warning-101, colors.$warning-201);
+  }
+
+  &.danger {
+    @include make-color-even(colors.$danger-101, colors.$danger-201);
+  }
+
+  &.info {
+    @include make-color-even(colors.$info-101, colors.$info-201);
   }
 }
 

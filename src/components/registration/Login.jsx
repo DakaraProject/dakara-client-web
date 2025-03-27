@@ -58,7 +58,6 @@ class Login extends Component {
                     <i className="las la-user"></i>
                   </span>
                 }
-                placeholder="Username or email..."
                 required
               />
               <InputField
@@ -68,7 +67,6 @@ class Login extends Component {
                     <i className="las la-lock"></i>
                   </span>
                 }
-                placeholder="Password..."
                 type="password"
                 required
               />

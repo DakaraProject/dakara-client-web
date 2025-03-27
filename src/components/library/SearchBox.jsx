@@ -80,6 +80,7 @@ class SearchBox extends Component {
       helpButton = (
         <button
           className="control transparent"
+          type="button"
           onClick={(e) => {
             this.toggleHelp()
           }}
@@ -143,6 +144,7 @@ class SearchBox extends Component {
                   {helpButton}
                   <button
                     className="control transparent"
+                    type="button"
                     onClick={(e) => {
                       this.setState({ query: '' })
                       // clear query string

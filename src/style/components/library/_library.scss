@@ -20,7 +20,7 @@
     @include sizes.make-gap(padding, vertical);
 
     & {
-      background: colors.$brand-primary-darker;
+      background: colors.$primary-100;
     }
 
     .set {
@@ -53,7 +53,7 @@
       @include sizes.make-gap(padding, top);
 
       & {
-        color: colors.$brand-primary;
+        color: colors.$primary-400;
       }
 
       &.help-enter {
@@ -77,7 +77,7 @@
       }
 
       .example {
-        color: colors.$brand-primary-lighter;
+        color: colors.$primary-500;
       }
     }
   }

@@ -27,8 +27,8 @@ $playlist-info-bar-height-smartphone: 7rem;
 
   & {
     align-items: center;
-    background: colors.$brand-primary;
-    color: colors.$text-dark;
+    background: colors.$primary-300;
+    color: colors.$primary-000;
     cursor: pointer;
     display: flex;
     height: $playlist-info-bar-height;
@@ -43,11 +43,11 @@ $playlist-info-bar-height-smartphone: 7rem;
   }
 
   &:hover:not(:focus) {
-    background: colors.$brand-primary-lighter;
+    background: colors.$primary-302;
   }
 
   &:focus {
-    background: colors.$brand-primary-lighter;
+    background: colors.$primary-303;
   }
 
   .item {
@@ -106,7 +106,7 @@ $playlist-info-bar-height-smartphone: 7rem;
 
         &.detail {
           // using opacity creates weird effects with the sticky player
-          color: color.change(colors.$text-dark, $alpha: 0.7);
+          color: color.change(colors.$primary-000, $alpha: 0.75);
         }
 
         + .line {

@@ -9,8 +9,9 @@ import persistState from 'redux-localstorage'
 import { thunk } from 'redux-thunk'
 
 import ProtectedRoute from 'components/generics/Router'
-import Colors from 'components/lab/Colors.jsx'
-import Lab from 'components/lab/Lab.jsx'
+import Colors from 'components/lab/Colors'
+import Fields from 'components/lab/Fields'
+import Lab from 'components/lab/Lab'
 import LibraryArtist from 'components/library/artist/List'
 import Library from 'components/library/Library'
 import LibrarySong from 'components/library/song/List'
@@ -102,6 +103,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path="lab" element={<Lab />}>
               <Route index element={<Navigate to="colors" replace />} />
               <Route path="colors" element={<Colors />} />
+              <Route path="fields" element={<Fields />} />
             </Route>
             {/* #endif */}
             <Route path="*" element={<NotFound />} />
