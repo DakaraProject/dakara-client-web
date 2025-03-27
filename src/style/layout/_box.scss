@@ -103,7 +103,14 @@ $ribbon-control-height: sizes.$row-height;
 .box {
   // separation margin on desktop only
   @include support.make-desktop {
-    margin-bottom: sizes.$gap-vertical;
+    &:not(:last-child) {
+      margin-bottom: sizes.$gap-vertical;
+    }
+
+    // make last child pushed at the bottom
+    &:last-child {
+      margin-top: auto;
+    }
   }
 
   // if not embedded
@@ -113,15 +120,15 @@ $ribbon-control-height: sizes.$row-height;
 
   // if not subclassed
   &:not(.primary):not(.success):not(.warning):not(.danger):not(.info) {
-    background: colors.$neutral-mid-darker;
+    background: colors.$neutral-100;
 
     > .header,
     > .footer {
       @include sizes.make-gap(padding, vertical);
 
       & {
-        background: colors.$brand-primary-darker;
-        color: colors.$brand-primary-light;
+        background: colors.$primary-100;
+        color: colors.$primary-400;
       }
     }
   }

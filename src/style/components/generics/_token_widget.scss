@@ -14,8 +14,8 @@
 $token-widget-height: sizes.$row-height;
 
 .token-widget {
-  background: colors.$neutral-clear;
-  color: colors.$text-dark;
+  background: colors.$neutral-300;
+  color: colors.$neutral-000;
   display: flex;
   height: $token-widget-height;
 
@@ -35,7 +35,5 @@ $token-widget-height: sizes.$row-height;
       $height: $token-widget-height,
       $square: true
     );
-
-    background: red;
   }
 }

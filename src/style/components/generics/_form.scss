@@ -272,13 +272,13 @@ $form-field-height: sizes.$row-height;
         @include sizes.make-gap(padding, horizontal);
 
         & {
-          background: colors.$neutral-soft;
+          background: colors.$neutral-300;
         }
 
         &:focus,
         &.focus,
         &[type='checkbox']:focus + .marker {
-          background: colors.$neutral-clear !important;
+          background: colors.$neutral-303;
         }
       }
 
@@ -299,7 +299,7 @@ $form-field-height: sizes.$row-height;
       select,
       .fake {
         &:not(.faked) {
-          background: colors.$neutral-soft-dark;
+          background: colors.$neutral-200;
         }
       }
     }
@@ -317,28 +317,31 @@ $form-field-height: sizes.$row-height;
     }
 
     // field hover
-    &:not(.disabled) {
+    &:not(.disabled):hover {
       input,
       textarea,
       select,
-      .fake {
-        &:hover:not(:focus):not(.focus) {
-          background: colors.$neutral-soft-lighter;
+      .fake:not(.group) {
+        &:not(:focus):not(.focus) {
+          background: colors.$neutral-302;
         }
       }
     }
 
-    // controls inside inputs
+    // transparent controls inside inputs
     .input .controls .control {
+      color: colors.$neutral-000;
       // no margin when stacking controls
       margin: 0;
 
       &:hover:not(:focus) {
-        color: colors.$neutral-mid;
+        // XXX wrong color
+        color: colors.$neutral-122;
       }
 
       &:focus {
-        color: colors.$neutral-mid-light;
+        // XXX wrong color
+        color: colors.$neutral-122;
       }
     }
 
@@ -348,16 +351,10 @@ $form-field-height: sizes.$row-height;
     .text-input {
       input,
       textarea {
-        color: colors.$text-dark;
+        color: colors.$neutral-000;
 
         &::placeholder {
-          color: colors.$neutral-mid-dark;
-
-          & {
-            // override the way Firefox adds opacity
-            // TODO see if this can be removed
-            opacity: 1;
-          }
+          color: colors.$neutral-100;
         }
 
         & {
@@ -388,8 +385,12 @@ $form-field-height: sizes.$row-height;
         // fix font properties
         // remove the marker
         appearance: none;
-        color: colors.$text-dark;
+        color: colors.$neutral-000;
         font-size: medium;
+
+        &:not(:disabled) {
+          cursor: pointer;
+        }
 
         // fix height which is minimal by default
         &:not([multiple]) {
@@ -425,7 +426,7 @@ $form-field-height: sizes.$row-height;
 
         // attached to the top right
         // no pointer effect
-        color: colors.$text-dark;
+        color: colors.$neutral-000;
         content: '▼';
         font-size: 1.5em;
         line-height: $field-height;
@@ -437,12 +438,6 @@ $form-field-height: sizes.$row-height;
       }
     }
 
-    // handle pointer
-    &:not(.disabled) select {
-      // use pointer cursor
-      cursor: pointer;
-    }
-
     // `radio-input` class:
     //
     // A set of radio buttons.
@@ -451,16 +446,9 @@ $form-field-height: sizes.$row-height;
         // delete initial marker
         // reset initial height
         appearance: none;
+        position: absolute;
         height: initial;
         width: 0;
-
-        & {
-          // hack for old browsers (Firefox 52), for which deactivating
-          // appareance is not enough
-          // TODO make it conditionnal?
-          opacity: 0;
-          position: absolute;
-        }
       }
 
       // add style to adjacent marker box
@@ -477,7 +465,7 @@ $form-field-height: sizes.$row-height;
       input:checked + label.marker::after {
         @include preboot.square($field-height * 0.25);
 
-        background: colors.$text-dark;
+        background: colors.$neutral-000;
         content: '';
         left: $field-height * 0.125;
         position: absolute;
@@ -522,21 +510,11 @@ $form-field-height: sizes.$row-height;
       }
 
       // handle hover
-      .label:hover + .input .radio-input,
-      .radio-input:hover {
-        label.marker {
-          background: colors.$neutral-soft-light;
+      .label:hover + .input .radio-input:not(:hover),
+      .radio-input:hover .radio-option:hover {
+        input[type='radio']:not(:focus) + label.marker {
+          background: colors.$neutral-302;
         }
-      }
-
-      // handle hover in options
-      .radio-option:hover label.marker {
-        background: colors.$neutral-soft-lighter;
-      }
-
-      // handle focus
-      .radio-option input:focus + label.marker {
-        background: colors.$neutral-soft-lighter;
       }
     }
 
@@ -580,7 +558,7 @@ $form-field-height: sizes.$row-height;
         @include preboot.square($field-height * 0.5);
         @include fonts.make-icon;
 
-        color: colors.$text-dark;
+        color: colors.$neutral-000;
         content: '\f00c';
         font-size: 1.3em;
         line-height: $field-height * 0.5;
@@ -606,7 +584,7 @@ $form-field-height: sizes.$row-height;
       input + label.marker::after {
         @include preboot.square($field-height * 0.3);
 
-        background: colors.$text-dark;
+        background: colors.$neutral-000;
         content: '';
         left: $field-height * 0.1;
         position: absolute;
@@ -628,12 +606,16 @@ $form-field-height: sizes.$row-height;
 
       // add second marker
       input + label.marker::before {
-        background: colors.$brand-info;
+        background: colors.$primary-300;
         content: '';
         height: $field-height * 0.5;
         position: absolute;
         right: $field-height;
         width: $field-height;
+      }
+
+      input:disabled + label.marker::before {
+        background: colors.$primary-200;
       }
 
       // add style to second marker when not checked
@@ -663,7 +645,7 @@ $form-field-height: sizes.$row-height;
       .label:hover + .input .toggle-input,
       .label:hover + .input .checkbox-input {
         label.marker {
-          background: colors.$neutral-soft-lighter;
+          background: colors.$neutral-302;
         }
       }
 
@@ -671,13 +653,13 @@ $form-field-height: sizes.$row-height;
       .label:hover + .input .toggle-input input,
       .toggle-input input:hover {
         &:not(:focus) + label.marker::before {
-          background: colors.$brand-info-light;
+          background: colors.$primary-302;
         }
       }
 
       // handle focus
       .toggle-input input:focus + label.marker::before {
-        background: colors.$brand-info-lighter;
+        background: colors.$primary-303;
       }
     }
 
@@ -685,32 +667,11 @@ $form-field-height: sizes.$row-height;
     //
     // The hue field is a specific kind of the range field.
     .hue-input {
-      $hue-input-saturation: colors.$custom-color-saturation;
-      $hue-input-luminosity: colors.$custom-color-luminosity;
-
-      @mixin rainbow-gradient($saturation-in, $luminosity-is) {
-        // make the color a bit darker because the result is different
-        // compared to the colors given by `hue-rotate`
-        $saturation: $saturation-in * 0.8;
-        $luminosity: $luminosity-is * 0.8;
-
-        background: linear-gradient(
-          to right,
-          hsl(0, $saturation, $luminosity),
-          hsl(60, $saturation, $luminosity),
-          hsl(120, $saturation, $luminosity),
-          hsl(180, $saturation, $luminosity),
-          hsl(240, $saturation, $luminosity),
-          hsl(300, $saturation, $luminosity),
-          hsl(360, $saturation, $luminosity)
-        );
-      }
-
       display: flex;
 
       .preview {
-        background: hsl(0, $hue-input-saturation, $hue-input-luminosity);
-        color: color.change(colors.$text-dark, $alpha: 0.5);
+        background: colors.$placeholder-300;
+        color: colors.$placeholder-000;
         flex-shrink: 0;
         font-size: medium;
         font-weight: 700;
@@ -718,65 +679,51 @@ $form-field-height: sizes.$row-height;
         text-align: center;
         width: $form-field-height;
 
+        &:has(+ .input input:disabled) {
+          background: colors.$placeholder-200;
+        }
+
         &::selection {
-          // the real color of the background will change due to the
-          // `hue-rotate` filter
-          background: red;
+          background: colors.$placeholder-200;
+          color: colors.$placeholder-500;
         }
       }
 
       .input {
         $track-height: 0.5rem;
 
-        @mixin track() {
-          @include rainbow-gradient(
-            $hue-input-saturation,
-            $hue-input-luminosity
-          );
-          height: $track-height;
-        }
-
-        margin: 0 !important;
-
         input[type='range'] {
           appearance: none;
           background: transparent;
           height: 100%;
 
-          &::-webkit-slider-runnable-track {
-            @include track();
+          // use of custom selectors `::range-*` via postcss-input-range
+
+          &::range-track {
+            // make the placeholder color a bit darker because the result is
+            // different compared to the colors given by `hue-rotate`
+            $color: color.scale(colors.$placeholder-300, $lightness: -20%);
+
+            background: linear-gradient(
+              in hsl longer hue to right,
+              $color 0% 100%
+            );
+            height: $track-height;
           }
 
-          &::-moz-range-track {
-            @include track();
-          }
-        }
+          &::range-thumb {
+            @include preboot.square($track-height);
 
-        @mixin thumb() {
-          @include preboot.square($track-height);
-
-          background: colors.$text-dark;
-          border: $track-height solid colors.$text-dark;
-          box-sizing: content-box;
-        }
-
-        input[type='range'] {
-          &::-webkit-slider-thumb {
-            @include thumb();
-
+            // fix for Chrome
             appearance: none;
-
-            & {
-              // Hack to center for chrome
-              // (thumb size - track size) * -0.5
-              margin-top: -$track-height;
-            }
-          }
-
-          &::-moz-range-thumb {
-            @include thumb();
-
+            background: colors.$neutral-000;
+            border: $track-height solid colors.$neutral-000;
+            // fix for Firefox
             border-radius: 0;
+            box-sizing: content-box;
+            // fix for Chrome to center the thumb vertically
+            // (thumb size - track size) * -0.5
+            margin-top: -$track-height;
           }
         }
       }
@@ -784,22 +731,13 @@ $form-field-height: sizes.$row-height;
 
     &:not(.disabled) {
       .hue-input {
-        @mixin thumb() {
-          background: transparent;
-        }
-
-        // handle cursor
         input[type='range'] {
           cursor: pointer;
 
-          &:focus {
-            &::-webkit-slider-thumb {
-              @include thumb();
-            }
+          // use of custom selectors `::range-*` via postcss-input-range
 
-            &::-moz-range-thumb {
-              @include thumb();
-            }
+          &:focus::range-thumb {
+            background: transparent;
           }
         }
       }

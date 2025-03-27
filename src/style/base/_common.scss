@@ -9,22 +9,22 @@
 
 // default colors and margins
 body {
-  background: colors.$text-dark;
-  color: colors.$text-light;
+  background: colors.$neutral-000;
+  color: colors.$neutral-400;
   margin: 0;
   padding: 0;
 }
 
 // highlight tag
 mark {
-  background: colors.$brand-primary;
-  color: colors.$text-dark;
+  background: colors.$primary-200;
+  color: colors.$primary-500;
 }
 
 // selection highlighting
 ::selection {
-  background: colors.$brand-primary;
-  color: colors.$text-dark;
+  background: colors.$primary-200;
+  color: colors.$primary-500;
 }
 
 // make headers thin and marginless
@@ -34,7 +34,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: 100;
+  font-weight: 200;
   margin: 0;
 }
 
@@ -51,15 +51,15 @@ p {
 
   // links
   a {
-    color: colors.$brand-primary-light;
+    color: colors.$primary-400;
     text-decoration: underline;
 
     &:hover:not(:focus) {
-      color: colors.$brand-primary-lighter;
+      color: colors.$primary-402;
     }
 
     &:focus {
-      color: colors.$brand-primary-lighter;
+      color: colors.$primary-403;
     }
   }
 }

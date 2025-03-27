@@ -8,40 +8,45 @@
 
 .primary {
   @include colors.make-color(
-    colors.$brand-primary-darker,
-    colors.$brand-primary-light,
-    colors.$brand-primary
+    colors.$primary-100,
+    colors.$primary-400,
+    colors.$primary-200,
+    colors.$primary-500
   );
 }
 
 .success {
   @include colors.make-color(
-    colors.$brand-success-darker,
-    colors.$brand-success-light,
-    colors.$brand-success
+    colors.$success-100,
+    colors.$success-400,
+    colors.$success-200,
+    colors.$success-500
   );
 }
 
 .warning {
   @include colors.make-color(
-    colors.$brand-warning-darker,
-    colors.$brand-warning-light,
-    colors.$brand-warning
+    colors.$warning-100,
+    colors.$warning-400,
+    colors.$warning-200,
+    colors.$warning-500
   );
 }
 
 .danger {
   @include colors.make-color(
-    colors.$brand-danger-darker,
-    colors.$brand-danger-light,
-    colors.$brand-danger
+    colors.$danger-100,
+    colors.$danger-400,
+    colors.$danger-200,
+    colors.$danger-500
   );
 }
 
 .info {
   @include colors.make-color(
-    colors.$brand-info-darker,
-    colors.$brand-info-light,
-    colors.$brand-info
+    colors.$info-100,
+    colors.$info-400,
+    colors.$info-200,
+    colors.$info-500
   );
 }

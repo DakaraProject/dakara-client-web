@@ -27,6 +27,7 @@
   ],
   "dependencies": {
     "classnames": "^2.5.1",
+    "color-convert": "^3.0.1",
     "dayjs": "^1.11.13",
     "prop-types": "^15.8.1",
     "query-string": "^9.1.1",
@@ -39,11 +40,13 @@
     "redux": "^5.0.1",
     "redux-localstorage": "^0.4.1",
     "redux-thunk": "^3.1.0",
-    "semver": "^7.7.1"
+    "semver": "^7.7.1",
+    "wcag-contrast-utils": "^1.0.1"
   },
   "devDependencies": {
     "@fastify/pre-commit": "^2.2.0",
     "@vitejs/plugin-react-swc": "^3.8.0",
+    "autoprefixer": "^10.4.21",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.0.2",
     "eslint-plugin-import": "^2.31.0",
@@ -53,6 +56,8 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "normalize.css": "^8.0.1",
+    "postcss": "^8.5.3",
+    "postcss-input-range": "^6.0.0",
     "prettier": "3.5.3",
     "sass": "^1.85.1",
     "stylelint": "^16.0.0",

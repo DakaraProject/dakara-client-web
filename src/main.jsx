@@ -34,7 +34,8 @@ import SettingsSongTagsList from 'components/settings/songTags/List'
 import SettingsTokens from 'components/settings/Tokens'
 import SettingsUsersEdit from 'components/settings/users/Edit'
 import SettingsUsersList from 'components/settings/users/List'
-import TestColors from 'components/TestColors.jsx'
+import TestColors from 'components/TestColors'
+import TestFields from 'components/TestFields'
 import User from 'components/user/User'
 import manageStorageEvent from 'eventManagers/storage'
 import delayMiddleware from 'middleware/delay'
@@ -101,7 +102,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             {
               // only display in dev mode
               version.prerelease.length > 0 ? (
-                <Route path="test-colors" element={<TestColors />} />
+                <>
+                  <Route path="test-colors" element={<TestColors />} />
+                  <Route path="test-fields" element={<TestFields />} />
+                </>
               ) : null
             }
             <Route path="*" element={<NotFound />} />

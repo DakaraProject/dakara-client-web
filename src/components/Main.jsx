@@ -41,7 +41,7 @@ class Main extends Component {
           <IsAuthenticated>
             <Karaoke />
           </IsAuthenticated>
-          <div className="content">{this.props.children}</div>
+          {this.props.children}
           <Footer />
         </div>
       </div>

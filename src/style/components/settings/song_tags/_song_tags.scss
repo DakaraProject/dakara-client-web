@@ -4,8 +4,6 @@
 // Tags management page style file
 //
 
-@use 'sass:color';
-
 @use '~/abstracts/colors';
 @use '~/abstracts/sizes';
 
@@ -71,22 +69,17 @@
     }
 
     .listing-entry {
-      $background: hsl(
-        0,
-        colors.$custom-color-saturation,
-        colors.$custom-color-luminosity
-      );
-
       .display-color {
-        background: $background;
+        background: colors.$placeholder-300;
+        color: colors.$placeholder-000;
 
         &:focus {
-          background: color.adjust($background, $lightness: 5%);
+          background: colors.$placeholder-303;
         }
       }
 
-      &:hover .display-color {
-        background: color.adjust($background, $lightness: 3.5%);
+      &:hover .display-color:not(:focus) {
+        background: colors.$placeholder-302;
       }
 
       .display-color-container {
