@@ -40,7 +40,8 @@
     "redux": "^5.0.1",
     "redux-localstorage": "^0.4.1",
     "redux-thunk": "^3.1.0",
-    "semver": "^7.7.1"
+    "semver": "^7.7.1",
+    "wcag-contrast-utils": "^1.0.1"
   },
   "devDependencies": {
     "@fastify/pre-commit": "^2.2.0",
