@@ -7,9 +7,11 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
 import { applyMiddleware, compose, createStore } from 'redux'
 import persistState from 'redux-localstorage'
 import { thunk } from 'redux-thunk'
-import version from 'version'
 
 import ProtectedRoute from 'components/generics/Router'
+import Colors from 'components/lab/Colors'
+import Fields from 'components/lab/Fields'
+import Lab from 'components/lab/Lab'
 import LibraryArtist from 'components/library/artist/List'
 import Library from 'components/library/Library'
 import LibrarySong from 'components/library/song/List'
@@ -34,8 +36,6 @@ import SettingsSongTagsList from 'components/settings/songTags/List'
 import SettingsTokens from 'components/settings/Tokens'
 import SettingsUsersEdit from 'components/settings/users/Edit'
 import SettingsUsersList from 'components/settings/users/List'
-import TestColors from 'components/TestColors'
-import TestFields from 'components/TestFields'
 import User from 'components/user/User'
 import manageStorageEvent from 'eventManagers/storage'
 import delayMiddleware from 'middleware/delay'
@@ -99,15 +99,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <Route path="tokens" element={<SettingsTokens />} />
               </Route>
             </Route>
-            {
-              // only display in dev mode
-              version.prerelease.length > 0 ? (
-                <>
-                  <Route path="test-colors" element={<TestColors />} />
-                  <Route path="test-fields" element={<TestFields />} />
-                </>
-              ) : null
-            }
+            {/* #if DEV */}
+            <Route path="lab" element={<Lab />}>
+              <Route index element={<Navigate to="colors" replace />} />
+              <Route path="colors" element={<Colors />} />
+              <Route path="fields" element={<Fields />} />
+            </Route>
+            {/* #endif */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Main>

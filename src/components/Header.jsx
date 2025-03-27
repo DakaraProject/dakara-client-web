@@ -32,6 +32,9 @@ class Header extends Component {
           <Tab to="/library" iconName="home" />
           <Tab to="/playlist" iconName="list-ol" />
           <Tab to="/settings" iconName="cog" />
+          {/* #if DEV */}
+          <Tab to="/lab" iconName="vial" />
+          {/* #endif */}
           {userTab}
           <Tab to="/logout" iconName="sign-out-alt" />
         </nav>

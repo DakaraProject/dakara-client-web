@@ -292,16 +292,11 @@ function Sampler() {
   )
 }
 
-export default function TestColors() {
+export default function Colors() {
   return (
-    <div className="test-colors box">
-      <div className="header">
-        <h2>Test colors</h2>
-      </div>
-      <div className="content">
-        <Mosaic />
-        <Sampler />
-      </div>
+    <div className="colors">
+      <Mosaic />
+      <Sampler />
     </div>
   )
 }

@@ -4,7 +4,7 @@
 @use '~/abstracts/controls';
 @use '~/abstracts/sizes';
 
-.test-colors {
+.colors {
   .section {
     &:not(:last-child) {
       @include sizes.make-gap(margin, bottom);
