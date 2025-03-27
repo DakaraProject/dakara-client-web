@@ -58,7 +58,9 @@ function Tile({ color, format, refresher }) {
   useEffect(() => {
     const bgStr = window.getComputedStyle(ref.current)['background']
     const regex = /rgb\((\d+), (\d+), (\d+)\)/
-    const [_, rStr, gStr, bStr] = bgStr.match(regex)
+    const match = bgStr.match(regex)
+    if (!match) return
+    const [_, rStr, gStr, bStr] = match
     setBackground(
       formatters[format](parseInt(rStr), parseInt(gStr), parseInt(bStr))
     )
@@ -94,7 +96,7 @@ Row.propTypes = {
   refresher: PropTypes.number,
 }
 
-export default function TestColors() {
+export default function Colors() {
   // add a manual refresher for the HSL values displayed in the tiles that
   // won't refresh themselves when the CSS is updated
   const [refresher, setRefresher] = useState(0)
@@ -225,138 +227,133 @@ export default function TestColors() {
   )
 
   return (
-    <div className="test-colors box">
-      <div className="header">
-        <h2>Test colors</h2>
-      </div>
-      <div className="content">
-        <h3>Brand colors</h3>
-        <table className="listing mosaic">
-          <thead>
-            <tr className="listing-header">
-              <th>Variation</th>
-              <th>Primary</th>
-              <th>Success</th>
-              <th>Warning</th>
-              <th>Danger</th>
-              <th>Info</th>
-            </tr>
-          </thead>
-          <tbody>
-            <Row
-              name="brand lighter"
-              colors={colorsBrandLighter}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="brand light"
-              colors={colorsBrandLight}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="brand"
-              colors={colorsBrand}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="brand darkish"
-              colors={colorsBrandDarkish}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="brand darkened"
-              colors={colorsBrandDarkened}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="brand dark"
-              colors={colorsBrandDark}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="brand darker"
-              colors={colorsBrandDarker}
-              format={format}
-              refresher={refresher}
-            />
-          </tbody>
-        </table>
-        {controls}
-        <h3>Neutral colors</h3>
-        <table className="listing mosaic">
-          <thead>
-            <tr className="listing-header">
-              <th>Variation</th>
-              <th>Clear</th>
-              <th>Soft</th>
-              <th>Mid</th>
-            </tr>
-          </thead>
-          <tbody>
-            <Row
-              name="neutral lighter"
-              colors={colorsNeutralLighter}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="neutral light"
-              colors={colorsNeutralLight}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="neutral"
-              colors={colorsNeutral}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="neutral darkish"
-              colors={colorsNeutralDarkish}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="neutral darkened"
-              colors={colorsNeutralDarkened}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="neutral dark"
-              colors={colorsNeutralDark}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="neutral darker"
-              colors={colorsNeutralDarker}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="text light"
-              colors={colorsTextLight}
-              format={format}
-              refresher={refresher}
-            />
-            <Row
-              name="text dark"
-              colors={colorsTextDark}
-              format={format}
-              refresher={refresher}
-            />
-          </tbody>
-        </table>
-        {controls}
-      </div>
+    <div className="colors">
+      <h3>Brand colors</h3>
+      <table className="listing mosaic">
+        <thead>
+          <tr className="listing-header">
+            <th>Variation</th>
+            <th>Primary</th>
+            <th>Success</th>
+            <th>Warning</th>
+            <th>Danger</th>
+            <th>Info</th>
+          </tr>
+        </thead>
+        <tbody>
+          <Row
+            name="brand lighter"
+            colors={colorsBrandLighter}
+            format={format}
+            refresher={refresher}
+          />
+          <Row
+            name="brand light"
+            colors={colorsBrandLight}
+            format={format}
+            refresher={refresher}
+          />
+          <Row
+            name="brand"
+            colors={colorsBrand}
+            format={format}
+            refresher={refresher}
+          />
+          <Row
+            name="brand darkish"
+            colors={colorsBrandDarkish}
+            format={format}
+            refresher={refresher}
+          />
+          <Row
+            name="brand darkened"
+            colors={colorsBrandDarkened}
+            format={format}
+            refresher={refresher}
+          />
+          <Row
+            name="brand dark"
+            colors={colorsBrandDark}
+            format={format}
+            refresher={refresher}
+          />
+          <Row
+            name="brand darker"
+            colors={colorsBrandDarker}
+            format={format}
+            refresher={refresher}
+          />
+        </tbody>
+      </table>
+      {controls}
+      <h3>Neutral colors</h3>
+      <table className="listing mosaic">
+        <thead>
+          <tr className="listing-header">
+            <th>Variation</th>
+            <th>Clear</th>
+            <th>Soft</th>
+            <th>Mid</th>
+          </tr>
+        </thead>
+        <tbody>
+          <Row
+            name="neutral lighter"
+            colors={colorsNeutralLighter}
+            format={format}
+            refresher={refresher}
+          />
+          <Row
+            name="neutral light"
+            colors={colorsNeutralLight}
+            format={format}
+            refresher={refresher}
+          />
+          <Row
+            name="neutral"
+            colors={colorsNeutral}
+            format={format}
+            refresher={refresher}
+          />
+          <Row
+            name="neutral darkish"
+            colors={colorsNeutralDarkish}
+            format={format}
+            refresher={refresher}
+          />
+          <Row
+            name="neutral darkened"
+            colors={colorsNeutralDarkened}
+            format={format}
+            refresher={refresher}
+          />
+          <Row
+            name="neutral dark"
+            colors={colorsNeutralDark}
+            format={format}
+            refresher={refresher}
+          />
+          <Row
+            name="neutral darker"
+            colors={colorsNeutralDarker}
+            format={format}
+            refresher={refresher}
+          />
+          <Row
+            name="text light"
+            colors={colorsTextLight}
+            format={format}
+            refresher={refresher}
+          />
+          <Row
+            name="text dark"
+            colors={colorsTextDark}
+            format={format}
+            refresher={refresher}
+          />
+        </tbody>
+      </table>
+      {controls}
     </div>
   )
 }

@@ -1,5 +1,6 @@
 import react from '@vitejs/plugin-react-swc'
 import { dirname, resolve } from 'path'
+import preprocessorDirectives from 'unplugin-preprocessor-directives/vite'
 import { fileURLToPath } from 'url'
 import { defineConfig } from 'vite'
 import jsconfigPaths from 'vite-jsconfig-paths'
@@ -15,7 +16,13 @@ export default defineConfig({
       '~': resolve(dirname(fileURLToPath(import.meta.url)), 'src/style'),
     },
   },
-  plugins: [react(), jsconfigPaths(), eslint(), stylelint()],
+  plugins: [
+    react(),
+    jsconfigPaths(),
+    eslint(),
+    stylelint(),
+    preprocessorDirectives(),
+  ],
   server: {
     port: 3000,
     proxy: {

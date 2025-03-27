@@ -4,7 +4,7 @@
 @use '~/abstracts/controls';
 @use '~/abstracts/sizes';
 
-.test-colors {
+.colors {
   .mosaic {
     @include sizes.make-gap(margin, vertical);
 
