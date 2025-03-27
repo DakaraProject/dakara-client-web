@@ -80,6 +80,10 @@ export default [
       'import/first': 'error',
       'import/newline-after-import': 'error',
       'import/no-duplicates': 'error',
+      'import/no-unresolved': [
+        'error',
+        { ignore: ['unplugin-preprocessor-directives'] },
+      ],
 
       quotes: ['error', 'single'],
     },
