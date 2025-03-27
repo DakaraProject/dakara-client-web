@@ -21,9 +21,10 @@ $dev-warning-height: sizes.$row-height;
   );
   color: colors.$warning-400;
   display: flex;
-  height: $dev-warning-height;
+  min-height: $dev-warning-height;
   justify-content: center;
   position: relative;
+  text-align: center;
   z-index: 1400;
 
   &::selection {
