@@ -463,13 +463,14 @@ $form-field-height: sizes.$row-height;
 
       // add style to marker when checked
       input:checked + label.marker::after {
-        @include preboot.square($field-height * 0.25);
+        @include preboot.square($field-height * 0.3);
 
         background: colors.$neutral-000;
+        border-radius: 50%;
         content: '';
-        left: $field-height * 0.125;
+        left: $field-height * 0.1;
         position: absolute;
-        top: $field-height * 0.125;
+        top: $field-height * 0.1;
       }
 
       .radio-option {
@@ -555,15 +556,31 @@ $form-field-height: sizes.$row-height;
 
       // add style to marker when checked
       input:checked + label.marker::after {
-        @include preboot.square($field-height * 0.5);
-        @include fonts.make-icon;
+        @include preboot.square($field-height * 0.3);
 
-        color: colors.$neutral-000;
-        content: '\f00c';
-        font-size: 1.3em;
-        line-height: $field-height * 0.5;
+        background: colors.$neutral-000;
+        clip-path: polygon(
+          0% 0%,
+          30% 0%,
+          50% 20%,
+          70% 0%,
+          100% 0%,
+          100% 30%,
+          80% 50%,
+          100% 70%,
+          100% 100%,
+          70% 100%,
+          50% 80%,
+          30% 100%,
+          0% 100%,
+          0% 70%,
+          20% 50%,
+          0% 30%
+        );
+        content: '';
+        left: $field-height * 0.1;
         position: absolute;
-        text-align: center;
+        top: $field-height * 0.1;
       }
     }
 
