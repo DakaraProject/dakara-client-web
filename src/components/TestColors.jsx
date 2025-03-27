@@ -1,69 +1,51 @@
 import classNames from 'classnames'
+import convert from 'color-convert'
 import PropTypes from 'prop-types'
 import { useEffect, useRef, useState } from 'react'
 
-function getColor(ref, colorName) {
-  const str = window.getComputedStyle(ref.current)[colorName]
+import { SelectField } from 'components/generics/Form'
+
+function getColor(ref, style) {
+  const str = window.getComputedStyle(ref.current)[style]
   const regex = /rgb\((\d+), (\d+), (\d+)\)/
   const [_, r, g, b] = str.match(regex)
   return [parseInt(r), parseInt(g), parseInt(b)]
 }
 
-// see:
-// https://blog.logrocket.com/how-to-manipulate-css-colors-with-javascript-fb547113a1b8/
-const rgbToLightness = (r, g, b) =>
-  (1 / 2) * (Math.max(r, g, b) + Math.min(r, g, b))
+function formatColor(color, format) {
+  switch (format) {
+    case 'hex':
+      return `#${color}`
 
-const rgbToSaturation = (r, g, b) => {
-  const L = rgbToLightness(r, g, b)
-  const max = Math.max(r, g, b)
-  const min = Math.min(r, g, b)
-  return L === 0 || L === 1 ? 0 : (max - min) / (1 - Math.abs(2 * L - 1))
+    case 'keyword':
+    case 'ansi16':
+    case 'ansi256':
+      return color
+
+    default:
+      return color.join(', ')
+  }
 }
 
-const rgbToHue = (r, g, b) =>
-  Math.round(
-    (Math.atan2(Math.sqrt(3) * (g - b), 2 * r - g - b) * 180) / Math.PI
+function convertColor(color, format) {
+  return formatColor(
+    format === 'rgb' ? color : convert.rgb[format](color),
+    format
   )
-
-const rgbToHsl = (r, g, b) => {
-  const lightness = rgbToLightness(r, g, b)
-  const saturation = rgbToSaturation(r, g, b)
-  const hue = rgbToHue(r, g, b)
-  return [hue, saturation, lightness]
 }
 
-const formatRgbIntToHsl = ([rInt, gInt, bInt]) => {
-  const [h, s, l] = rgbToHsl(rInt / 255, gInt / 255, bInt / 255)
-  return `${(360 + h) % 360}, ${s.toFixed(2)}, ${l.toFixed(2)}`
-}
-
-const formatRgbIntToHex = ([rInt, gInt, bInt]) => {
-  const r = rInt.toString(16).padStart(2, '0')
-  const g = gInt.toString(16).padStart(2, '0')
-  const b = bInt.toString(16).padStart(2, '0')
-  return `#${r}${g}${b}`
-}
-
-const formatRgbIntToRgb = ([rInt, gInt, bInt]) => {
-  const r = rInt / 255
-  const g = gInt / 255
-  const b = bInt / 255
-  return `${r.toFixed(2)}, ${g.toFixed(2)}, ${b.toFixed(2)}`
-}
-
-const formatters = {
-  rgb: formatRgbIntToRgb,
-  hex: formatRgbIntToHex,
-  hsl: formatRgbIntToHsl,
-}
+const formats = Object.freeze(
+  Object.keys(convert).map((format) => {
+    return { value: format, name: format.toUpperCase() }
+  })
+)
 
 function MosaicTile({ color, format, refresher }) {
   // get the color of the div and convert it to HSL space
   const ref = useRef(null)
   const [text, setText] = useState('')
   useEffect(() => {
-    setText(formatters[format](getColor(ref, 'background')))
+    setText(convertColor(getColor(ref, 'background'), format))
   }, [format, refresher])
   return (
     <td className={classNames('tile', color)} ref={ref}>
@@ -106,15 +88,7 @@ function Mosaic() {
   // won't refresh themselves when the CSS is updated
   const [refresher, setRefresher] = useState(0)
 
-  const forceRefresh = () => {
-    setRefresher((refresher) => refresher + 1)
-  }
-
   const [format, setFormat] = useState('hsl')
-
-  const createSetFormat = (fmt) => () => {
-    setFormat(fmt)
-  }
 
   const colors = ['primary', 'neutral', 'success', 'warning', 'danger', 'info']
 
@@ -179,16 +153,19 @@ function Mosaic() {
         </table>
       </div>
       <div className="controls">
-        <button className="control primary" onClick={createSetFormat('hex')}>
-          Show HEX
-        </button>
-        <button className="control primary" onClick={createSetFormat('rgb')}>
-          Show RGB
-        </button>
-        <button className="control primary" onClick={createSetFormat('hsl')}>
-          Show HSL
-        </button>
-        <button className="control primary" onClick={forceRefresh}>
+        <div className="form inline format">
+          <SelectField
+            id="color-format"
+            value={format}
+            options={formats}
+            setValue={(id, format) => setFormat(format)}
+            inline
+          />
+        </div>
+        <button
+          className="control primary"
+          onClick={() => setRefresher((refresher) => refresher + 1)}
+        >
           Refresh
         </button>
       </div>

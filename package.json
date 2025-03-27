@@ -27,6 +27,7 @@
   ],
   "dependencies": {
     "classnames": "^2.5.1",
+    "color-convert": "^3.0.1",
     "dayjs": "^1.11.13",
     "prop-types": "^15.8.1",
     "query-string": "^9.1.1",

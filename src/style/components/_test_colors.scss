@@ -13,6 +13,10 @@
     .listing {
       @include sizes.make-gap(margin, vertical);
     }
+
+    .format {
+      @include sizes.make-gap(margin, right);
+    }
   }
 
   .mosaic {
