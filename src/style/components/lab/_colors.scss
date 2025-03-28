@@ -14,7 +14,7 @@
       @include sizes.make-gap(margin, vertical);
     }
 
-    .format {
+    .space {
       @include sizes.make-gap(margin, right);
     }
   }

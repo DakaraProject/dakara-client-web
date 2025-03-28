@@ -6,15 +6,21 @@ import { contrastRatio } from 'wcag-contrast-utils'
 
 import { SelectField } from 'components/generics/Form'
 
+const colorRegex = /(\w+)\((\d+.?\d*),? (\d+.?\d*),? (\d+.?\d*)\)/
+
 function getColor(ref, style) {
   const str = window.getComputedStyle(ref.current)[style]
-  const regex = /rgb\((\d+), (\d+), (\d+)\)/
-  const [_, r, g, b] = str.match(regex)
-  return [parseInt(r), parseInt(g), parseInt(b)]
+  const match = str.match(colorRegex)
+  if (!match) {
+    console.warn('Unable to parse color', str)
+    return ['rgb', [0.0, 0.0, 0.0]]
+  }
+  const [_, space, c1, c2, c3] = match
+  return [space, [parseFloat(c1), parseFloat(c2), parseFloat(c3)]]
 }
 
-function formatColor(color, format) {
-  switch (format) {
+function formatColor(color, space) {
+  switch (space) {
     case 'hex':
       return `#${color}`
 
@@ -28,26 +34,27 @@ function formatColor(color, format) {
   }
 }
 
-function convertColor(color, format) {
+function convertColor(color, fromSpace, toSpace) {
   return formatColor(
-    format === 'rgb' ? color : convert.rgb[format](color),
-    format
+    fromSpace === toSpace ? color : convert[fromSpace][toSpace](color),
+    toSpace
   )
 }
 
-const formats = Object.freeze(
-  Object.keys(convert).map((format) => {
-    return { value: format, name: format.toUpperCase() }
+const spaces = Object.freeze(
+  Object.keys(convert).map((space) => {
+    return { value: space, name: space.toUpperCase() }
   })
 )
 
-function MosaicTile({ color, format, refresher }) {
+function MosaicTile({ color, space, refresher }) {
   // get the color of the div and convert it to HSL space
   const ref = useRef(null)
   const [text, setText] = useState('')
   useEffect(() => {
-    setText(convertColor(getColor(ref, 'background'), format))
-  }, [format, refresher])
+    const [fromSpace, color] = getColor(ref, 'background')
+    setText(convertColor(color, fromSpace, space))
+  }, [space, refresher])
   return (
     <td className={classNames('tile', color)} ref={ref}>
       {text}
@@ -57,11 +64,11 @@ function MosaicTile({ color, format, refresher }) {
 
 MosaicTile.propTypes = {
   color: PropTypes.string,
-  format: PropTypes.string,
+  space: PropTypes.string,
   refresher: PropTypes.number,
 }
 
-function MosaicRow({ lightness, colors, format, refresher }) {
+function MosaicRow({ lightness, colors, space, refresher }) {
   return (
     <tr className="listing-entry">
       <td className="title">{lightness}</td>
@@ -69,7 +76,7 @@ function MosaicRow({ lightness, colors, format, refresher }) {
         <MosaicTile
           color={`${color}-${lightness}`}
           key={color}
-          format={format}
+          space={space}
           refresher={refresher}
         />
       ))}
@@ -80,16 +87,16 @@ function MosaicRow({ lightness, colors, format, refresher }) {
 MosaicRow.propTypes = {
   lightness: PropTypes.string,
   colors: PropTypes.arrayOf(PropTypes.string),
-  format: PropTypes.string,
+  space: PropTypes.string,
   refresher: PropTypes.number,
 }
 
 function Mosaic() {
-  // add a manual refresher for the HSL values displayed in the tiles that
-  // won't refresh themselves when the CSS is updated
+  // add a manual refresher for the values displayed in the tiles that won't
+  // refresh themselves when the CSS is updated
   const [refresher, setRefresher] = useState(0)
 
-  const [format, setFormat] = useState('hsl')
+  const [space, setSpace] = useState('lch')
 
   const colors = ['primary', 'neutral', 'success', 'warning', 'danger', 'info']
 
@@ -146,7 +153,7 @@ function Mosaic() {
                 key={lightness}
                 lightness={lightness}
                 colors={colors}
-                format={format}
+                space={space}
                 refresher={refresher}
               />
             ))}
@@ -154,12 +161,12 @@ function Mosaic() {
         </table>
       </div>
       <div className="controls">
-        <div className="form inline format">
+        <div className="form inline space">
           <SelectField
-            id="color-format"
-            value={format}
-            options={formats}
-            setValue={(id, format) => setFormat(format)}
+            id="color-space"
+            value={space}
+            options={spaces}
+            setValue={(id, space) => setSpace(space)}
             inline
           />
         </div>
