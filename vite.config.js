@@ -33,6 +33,11 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    rollupOptions: {
+      treeshake: 'smallest',
+    },
+  },
   define: {
     'import.meta.env.DAKARA_VERSION': JSON.stringify(packageJson.version),
     'import.meta.env.DAKARA_BUGTRACKER': JSON.stringify(packageJson.bugs.url),
