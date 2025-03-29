@@ -463,13 +463,14 @@ $form-field-height: sizes.$row-height;
 
       // add style to marker when checked
       input:checked + label.marker::after {
-        @include preboot.square($field-height * 0.25);
+        @include preboot.square($field-height * 0.3);
 
         background: colors.$neutral-000;
+        border-radius: 50%;
         content: '';
-        left: $field-height * 0.125;
+        left: $field-height * 0.1;
         position: absolute;
-        top: $field-height * 0.125;
+        top: $field-height * 0.1;
       }
 
       .radio-option {
@@ -555,15 +556,66 @@ $form-field-height: sizes.$row-height;
 
       // add style to marker when checked
       input:checked + label.marker::after {
-        @include preboot.square($field-height * 0.5);
-        @include fonts.make-icon;
+        @include preboot.square($field-height * 0.3);
 
-        color: colors.$neutral-000;
-        content: '\f00c';
-        font-size: 1.3em;
-        line-height: $field-height * 0.5;
+        background: colors.$neutral-000;
+        clip-path: polygon(
+          0% 0%,
+          30% 0%,
+          50% 20%,
+          70% 0%,
+          100% 0%,
+          100% 30%,
+          80% 50%,
+          100% 70%,
+          100% 100%,
+          70% 100%,
+          50% 80%,
+          30% 100%,
+          0% 100%,
+          0% 70%,
+          20% 50%,
+          0% 30%
+        );
+        content: '';
+        left: $field-height * 0.1;
         position: absolute;
-        text-align: center;
+        top: $field-height * 0.1;
+      }
+    }
+
+    .toggle-input,
+    .checkbox-input,
+    .radio-input {
+      input + label.marker {
+        overflow: hidden;
+      }
+
+      // add second marker
+      input + label.marker::before {
+        background: colors.$primary-300;
+        content: '';
+        height: $field-height * 0.5;
+        position: absolute;
+        right: $field-height * 0.5;
+        width: $field-height * 0.5;
+      }
+
+      input:disabled + label.marker::before {
+        background: colors.$primary-200;
+      }
+
+      // add style to second marker when not checked
+      input:not(:checked) + label.marker::before {
+        right: $field-height * 0.5;
+        transition: right 150ms ease-out;
+      }
+
+      // add style to second marker when checked
+      input:checked + label.marker::before {
+        right: 0;
+        transition: right 150ms ease-out;
+        transition-delay: 150ms;
       }
     }
 
@@ -574,7 +626,6 @@ $form-field-height: sizes.$row-height;
         // remove padding
         height: $field-height * 0.5;
         margin-top: $field-height * 0.25;
-        overflow: hidden;
         padding: 0;
         position: relative;
         width: $field-height;
@@ -604,61 +655,45 @@ $form-field-height: sizes.$row-height;
         transition: left 150ms ease-out;
       }
 
-      // add second marker
+      // size of the second marker
       input + label.marker::before {
-        background: colors.$primary-300;
-        content: '';
         height: $field-height * 0.5;
-        position: absolute;
         right: $field-height;
         width: $field-height;
       }
 
-      input:disabled + label.marker::before {
-        background: colors.$primary-200;
-      }
-
-      // add style to second marker when not checked
+      // size of the second marker when not checked
       input:not(:checked) + label.marker::before {
         right: $field-height;
-        transition: right 150ms ease-out;
-      }
-
-      // add style to second marker when checked
-      input:checked + label.marker::before {
-        right: 0;
-        transition: right 150ms ease-out;
-        transition-delay: 150ms;
       }
     }
 
     &:not(.disabled) {
       // handle cursor
       .checkbox-input,
-      .toggle-input {
+      .toggle-input,
+      .radio-input {
         label.marker {
           cursor: pointer;
         }
       }
 
       // handle hover
-      .label:hover + .input .toggle-input,
-      .label:hover + .input .checkbox-input {
-        label.marker {
-          background: colors.$neutral-302;
-        }
-      }
-
-      // handle hover
       .label:hover + .input .toggle-input input,
-      .toggle-input input:hover {
+      .label:hover + .input .checkbox-input input,
+      .label:hover + .input .radio-input input,
+      .toggle-input input:hover,
+      .checkbox-input input:hover,
+      .radio-input input:hover {
         &:not(:focus) + label.marker::before {
           background: colors.$primary-302;
         }
       }
 
       // handle focus
-      .toggle-input input:focus + label.marker::before {
+      .toggle-input input:focus + label.marker::before,
+      .checkbox-input input:focus + label.marker::before,
+      .radio-input input:focus + label.marker::before {
         background: colors.$primary-303;
       }
     }
