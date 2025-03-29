@@ -35,10 +35,11 @@ function formatColor(color, space) {
 }
 
 function convertColor(color, fromSpace, toSpace) {
-  return formatColor(
-    fromSpace === toSpace ? color : convert[fromSpace][toSpace](color),
-    toSpace
-  )
+  return fromSpace === toSpace ? color : convert[fromSpace][toSpace](color)
+}
+
+function convertFormatColor(color, fromSpace, toSpace) {
+  return formatColor(convertColor(color, fromSpace, toSpace), toSpace)
 }
 
 const spaces = Object.freeze(
@@ -53,7 +54,7 @@ function MosaicTile({ color, space, refresher }) {
   const [text, setText] = useState('')
   useEffect(() => {
     const [fromSpace, color] = getColor(ref, 'background')
-    setText(convertColor(color, fromSpace, space))
+    setText(convertFormatColor(color, fromSpace, space))
   }, [space, refresher])
   return (
     <td className={classNames('tile', color)} ref={ref}>
@@ -185,10 +186,12 @@ function SamplerTile({ background, foreground, refresher }) {
   const ref = useRef(null)
   const [text, setText] = useState('')
   useEffect(() => {
+    const [backgroundSpace, background] = getColor(ref, 'background')
+    const [colorSpace, color] = getColor(ref, 'color')
     setText(
       contrastRatio(
-        getColor(ref, 'background'),
-        getColor(ref, 'color')
+        convertColor(background, backgroundSpace, 'rgb'),
+        convertColor(color, colorSpace, 'rgb')
       ).toFixed(2)
     )
   }, [refresher])
