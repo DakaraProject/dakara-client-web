@@ -154,7 +154,7 @@ $form-field-height: sizes.$row-height;
 
           .error-container {
             .error {
-              padding: sizes.$gap-vertical * 0.25;
+              @include sizes.make-vertical-row-padding(horizontal);
             }
 
             &.error-container-enter {

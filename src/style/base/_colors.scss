@@ -52,44 +52,54 @@
 }
 
 .listable:nth-child(even) {
+  &.primary,
   .primary {
     @include colors.make-color(colors.$primary-101);
   }
 
+  &.success,
   .success {
     @include colors.make-color(colors.$success-101);
   }
 
+  &.warning,
   .warning {
     @include colors.make-color(colors.$warning-101);
   }
 
+  &.danger,
   .danger {
     @include colors.make-color(colors.$danger-101);
   }
 
+  &.info,
   .info {
     @include colors.make-color(colors.$info-101);
   }
 }
 
 .hoverizable:hover {
+  &.primary,
   .primary {
     @include colors.make-color(colors.$primary-102);
   }
 
+  &.succees,
   .success {
     @include colors.make-color(colors.$success-102);
   }
 
+  &.warning,
   .warning {
     @include colors.make-color(colors.$warning-102);
   }
 
+  &.danger,
   .danger {
     @include colors.make-color(colors.$danger-102);
   }
 
+  &.info,
   .info {
     @include colors.make-color(colors.$info-102);
   }

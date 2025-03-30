@@ -556,7 +556,7 @@ class Field extends Component {
     let fieldErrorMessages
     if (fieldErrors && !inline) {
       const fieldErrorContent = fieldErrors.map((fieldError, id) => (
-        <div className="notification danger error" key={id}>
+        <div className="notification listable danger error" key={id}>
           {fieldError}
         </div>
       ))
