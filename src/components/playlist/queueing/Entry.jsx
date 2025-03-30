@@ -149,7 +149,9 @@ class Entry extends Component {
                     exit: 1500,
                   }}
                 >
-                  <div className="subcontrols">{reorderExtraButtons}</div>
+                  <div className="controls compact subcontrols">
+                    {reorderExtraButtons}
+                  </div>
                 </CSSTransitionLazy>
                 {reorderButton}
               </IsPlaylistManager>

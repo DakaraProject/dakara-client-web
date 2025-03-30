@@ -19,6 +19,8 @@
 //
 // It provides a `control` subclass for those elements, which has the basic
 // properties. Extra subclasses are available for the color of the control.
+//
+// If you have controls inside controls, mark the subsequent controls with `subcontrols`.
 .controls {
   // default aspect of controls
   @include controls.make-controls;
@@ -33,11 +35,6 @@
     @include support.make-smartphone {
       gap: sizes.$gap-horizontal-smartphone;
     }
-  }
-
-  // subcontrols class for controls contained inside controls
-  > .subcontrols {
-    display: flex;
   }
 
   // subclass for a control button
@@ -145,9 +142,9 @@
 }
 
 // lighten control on even line of a `listing` list
-.listing-entry:nth-child(even) .controls:not(.subcontrols),
-.sublisting-entry:nth-child(even) .controls.subcontrols {
-  .control {
+.listing-entry:nth-child(even),
+.sublisting-entry:nth-child(even) {
+  .controls .control {
     @mixin make-control-line-even($color-normal, $color-disabled) {
       background: $color-normal;
 
@@ -179,8 +176,8 @@
   }
 }
 
-// lighten control when line hovered on a list
-.hoverizable:hover .controls:not(:hover) {
+// lighten control (but not in subcontrols) when line hovered on a list
+.hoverizable:hover .controls:not(.subcontrols):not(:hover) {
   .control {
     @mixin make-control-line-hover($color-normal, $color-disabled) {
       &:not(.disabled):not([disabled]):not(:focus) {
