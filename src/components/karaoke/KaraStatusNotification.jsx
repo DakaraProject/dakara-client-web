@@ -1,9 +1,9 @@
 import { Link } from 'react-router'
 
-const karaStatusNotification = () => (
-  <div className="box primary" id="kara-status-notification">
-    <div className="content">
-      <div className="ribbon">
+export default function KaraStatusNotification() {
+  return (
+    <div className="box primary" id="kara-status-notification">
+      <div className="content">
         <p className="message">
           The karaoke is stopped for now. You can activate it in the settings
           page.
@@ -15,7 +15,5 @@ const karaStatusNotification = () => (
         </div>
       </div>
     </div>
-  </div>
-)
-
-export default karaStatusNotification
+  )
+}
