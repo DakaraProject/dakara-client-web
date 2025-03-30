@@ -23,12 +23,6 @@ $ribbon-height: sizes.$row-height;
       @include sizes.make-gap(margin, top, 0.5);
     }
 
-    .revoke {
-      &.controls {
-        justify-content: flex-end;
-      }
-    }
-
     & + .token-box {
       // create margin for following token boxes
       @include sizes.make-gap(margin, top);

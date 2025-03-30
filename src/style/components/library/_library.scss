@@ -38,13 +38,6 @@
       }
     }
 
-    .controls {
-      > .control .icon {
-        font-size: 1.4em;
-        line-height: 1.4em;
-      }
-    }
-
     .help {
       @include sizes.make-gap(padding, top);
 

@@ -189,6 +189,7 @@ $player-progressbar-height: 0.4rem;
     & {
       align-items: center;
       display: flex;
+      justify-content: flex-start;
     }
 
     &.expand-enter {

@@ -24,6 +24,7 @@
   @include controls.make-controls;
 
   display: flex;
+  justify-content: flex-end;
 
   // non compact controls have space between each other
   &:not(.compact) {

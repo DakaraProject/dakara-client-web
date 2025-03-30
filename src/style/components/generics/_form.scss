@@ -180,11 +180,6 @@ $form-field-height: sizes.$row-height;
       }
     }
 
-    // `controls` subclass: buttons of the form.
-    .controls {
-      justify-content: flex-end;
-    }
-
     // `header` class: header of the form.
     > .header {
       h3 {
