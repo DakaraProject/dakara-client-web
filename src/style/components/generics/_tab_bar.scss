@@ -4,8 +4,6 @@
 // Tab bar style file
 //
 
-@use '~/thirdparty/preboot';
-
 @use '~/abstracts/colors';
 @use '~/abstracts/sizes';
 @use '~/abstracts/support';
@@ -14,12 +12,11 @@
 $tab-bar-height: sizes.$row-height;
 $tab-bar-icon-font-size: 1.5em;
 
-// `tab-bar` class:
+// `tabs` class:
 //
-// The `tab-bar` class is aimed to stylize a tab bar, contiaining several tabs
-// of class `tab`. Each even tab has a lighter background compared to the odd
-// ones. The hovered tab has a lighten background. The active tab (with the
-// `active` class) has a negative background.
+// The `tabs` class is aimed to stylize a tab bar, contiaining several tabs of
+// class `tab`. Tabs are actually controls with extra styling.  The active tab
+// (with the `active` class) has a dark background.
 //
 // Each tab can have a `icon` span and/or a `name` span, for its icon and text.
 //
@@ -30,73 +27,55 @@ $tab-bar-icon-font-size: 1.5em;
 //
 // Usually, the `tab-bar` element is a `nav` and the `tab` a `a` (`Link` for
 // React).
-.tab-bar {
-  display: flex;
+.tabs {
+  justify-content: flex-start;
+  overflow-x: scroll;
 
   .tab {
+    white-space: nowrap;
+
     @include support.make-smartphone {
       &:not(.active),
-      &.no-name-mobile {
-        flex: 0 0 auto;
+      &.square-on-smartphone {
         padding: 0;
-        width: $tab-bar-height;
+        min-width: sizes.$row-height;
 
         .name {
           display: none;
         }
       }
 
-      &.active:not(.square) {
-        min-width: calc($tab-bar-height - 2 * sizes.$gap-horizontal-smartphone);
+      &.active:not(.square):not(.square-on-smartphone) {
         padding: 0 sizes.$gap-horizontal-smartphone;
       }
     }
 
-    & {
-      @include preboot.text-truncate();
-
-      background: colors.$neutral-300;
-      color: colors.$neutral-000;
-      cursor: pointer;
-      height: $tab-bar-height;
-      line-height: $tab-bar-height;
-      padding: 0 sizes.$gap-horizontal;
-      text-align: center;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-
-    &:nth-child(2n) {
-      background: colors.$neutral-301;
-    }
-
     &.active {
-      background: colors.$neutral-110;
-      color: colors.$neutral-410;
+      background: colors.$neutral-110 !important;
+      color: colors.$neutral-410 !important;
       cursor: default;
-    }
 
-    &.squared {
-      flex: 0 0 auto;
-      padding: 0 !important;
-      width: $tab-bar-height;
-    }
+      &:hover:not(:focus) {
+        background: colors.$neutral-112 !important;
+      }
 
-    &:hover:not(:focus):not(.active) {
-      background: colors.$neutral-302;
-    }
-
-    &:focus:not(.active) {
-      background: colors.$neutral-303;
+      &:focus {
+        // XXX wrong color
+        background: colors.$neutral-112 !important;
+      }
     }
 
     .icon {
-      font-size: $tab-bar-icon-font-size;
       vertical-align: middle;
     }
 
     .name {
+      font-size: 0.9em;
       margin-left: 0.5em;
+
+      @include support.make-smartphone {
+        margin-left: 0.25em;
+      }
     }
   }
 }

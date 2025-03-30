@@ -22,7 +22,10 @@
   > .control {
     font-size: $text-size;
     height: $height;
-    min-width: $height;
+
+    &.square {
+      min-width: $height;
+    }
 
     .icon {
       font-size: calc($icon-size / $text-size * 1em);

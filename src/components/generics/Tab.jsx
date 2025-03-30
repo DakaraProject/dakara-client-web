@@ -1,35 +1,39 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { Component } from 'react'
 import { NavLink } from 'react-router'
 
-export default class Tab extends Component {
-  static propTypes = {
-    extraClassName: PropTypes.string,
-    iconName: PropTypes.string,
-    name: PropTypes.string,
-    to: PropTypes.string.isRequired,
+export function Tabs({ children }) {
+  return <nav className="tabs controls compact">{children}</nav>
+}
+
+Tabs.propTypes = {
+  children: PropTypes.element,
+}
+
+export function Tab({ extraClassName, iconName, name, to }) {
+  let tabName
+  if (name) {
+    tabName = <span className="name">{name}</span>
   }
 
-  render() {
-    const { name, extraClassName, iconName, to } = this.props
-    let tabName
-    if (name) {
-      tabName = <span className="name">{name}</span>
-    }
+  // classes
+  const linkClass = classNames('tab control neutral listable', extraClassName, {
+    square: !name,
+  })
 
-    // classes
-    const linkClass = classNames('tab', extraClassName, {
-      squared: !name,
-    })
+  return (
+    <NavLink to={to} className={linkClass}>
+      <span className="icon">
+        <i className={`las la-${iconName}`}></i>
+      </span>
+      {tabName}
+    </NavLink>
+  )
+}
 
-    return (
-      <NavLink to={to} className={linkClass}>
-        <span className="icon">
-          <i className={`las la-${iconName}`}></i>
-        </span>
-        {tabName}
-      </NavLink>
-    )
-  }
+Tab.propTypes = {
+  extraClassName: PropTypes.string,
+  iconName: PropTypes.string,
+  name: PropTypes.string,
+  to: PropTypes.string.isRequired,
 }

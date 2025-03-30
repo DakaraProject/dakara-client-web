@@ -46,10 +46,7 @@
     justify-content: center;
     outline: none;
     padding: 0;
-
-    &a {
-      text-decoration: none;
-    }
+    text-decoration: none;
 
     // non-square buttons have padding
     &:not(.square) {
@@ -82,6 +79,16 @@
           background: $background-focus;
         }
       }
+    }
+
+    &.neutral {
+      @include make-control(
+        colors.$neutral-000,
+        colors.$neutral-300,
+        colors.$neutral-200,
+        colors.$neutral-302,
+        colors.$neutral-303
+      );
     }
 
     &.primary {
@@ -142,36 +149,39 @@
 }
 
 // lighten control on even line
-.listable:nth-child(even) {
-  .controls .control {
-    @mixin make-control-line-even($color-normal, $color-disabled) {
-      background: $color-normal;
+.listable:nth-child(even) .control,
+.control.listable:nth-child(even) {
+  @mixin make-control-line-even($color-normal, $color-disabled) {
+    background: $color-normal;
 
-      &.disabled,
-      &[disabled] {
-        background: $color-disabled;
-      }
+    &.disabled,
+    &[disabled] {
+      background: $color-disabled;
     }
+  }
 
-    &.primary {
-      @include make-control-line-even(colors.$primary-301, colors.$primary-201);
-    }
+  &.neutral {
+    @include make-control-line-even(colors.$neutral-301, colors.$neutral-201);
+  }
 
-    &.success {
-      @include make-control-line-even(colors.$success-301, colors.$success-201);
-    }
+  &.primary {
+    @include make-control-line-even(colors.$primary-301, colors.$primary-201);
+  }
 
-    &.warning {
-      @include make-control-line-even(colors.$warning-301, colors.$warning-201);
-    }
+  &.success {
+    @include make-control-line-even(colors.$success-301, colors.$success-201);
+  }
 
-    &.danger {
-      @include make-control-line-even(colors.$danger-301, colors.$danger-201);
-    }
+  &.warning {
+    @include make-control-line-even(colors.$warning-301, colors.$warning-201);
+  }
 
-    &.info {
-      @include make-control-line-even(colors.$info-301, colors.$info-201);
-    }
+  &.danger {
+    @include make-control-line-even(colors.$danger-301, colors.$danger-201);
+  }
+
+  &.info {
+    @include make-control-line-even(colors.$info-301, colors.$info-201);
   }
 }
 
@@ -187,6 +197,13 @@
       &[disabled] {
         background: $color-disabled !important;
       }
+    }
+
+    &.neutral {
+      @include make-control-line-hover(
+        colors.$neutral-302,
+        colors.$neutral-202
+      );
     }
 
     &.primary {

@@ -1,14 +1,14 @@
 import { Outlet } from 'react-router'
 
-import Tab from 'components/generics/Tab'
+import { Tab, Tabs } from 'components/generics/Tab'
 
 export default function Lab() {
   return (
     <div id="lab" className="box">
-      <nav className="tab-bar">
+      <Tabs>
         <Tab to="/lab/colors" iconName="palette" name="Colors" />
         <Tab to="/lab/fields" iconName="pencil-ruler" name="Fields" />
-      </nav>
+      </Tabs>
       <div className="content">
         <Outlet />
       </div>
