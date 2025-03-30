@@ -6,7 +6,7 @@ import { Tab, TabBar } from 'components/generics/TabBar'
 export default class Settings extends Component {
   render() {
     return (
-      <div id="settings" className="box">
+      <div id="settings" className="box neutral">
         <TabBar>
           <Tab to="/settings/users" iconName="users" name="Users" />
           <Tab to="/settings/song-tags" iconName="tags" name="Tags" />

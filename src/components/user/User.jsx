@@ -85,8 +85,8 @@ class User extends Component {
     }
 
     return (
-      <div className="box" id="user">
-        <div className="header">
+      <div className="box neutral" id="user">
+        <div className="header primary">
           <div className="user-name-block">
             <h1>{user.username}</h1>
             <h2>{user.email}</h2>

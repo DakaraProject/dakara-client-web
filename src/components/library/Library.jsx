@@ -40,7 +40,7 @@ class Library extends Component {
     }
 
     return (
-      <div id="library" className="box">
+      <div id="library" className="box neutral">
         <TabBar>
           <Tab to="/library/song" iconName="music" extraClassName="home" />
           <Tab to="/library/artist" iconName="microphone-alt" name="Artists" />

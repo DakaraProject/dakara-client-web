@@ -6,6 +6,10 @@
 
 @use '~/abstracts/colors';
 
+.neutral {
+  @include colors.make-color(colors.$neutral-100, colors.$neutral-400);
+}
+
 .primary {
   @include colors.make-color(
     colors.$primary-100,

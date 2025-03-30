@@ -24,8 +24,6 @@ $player-progressbar-height: 0.4rem;
 // This component stylizes the player, containing controls, song info and a
 // progression bar.
 #player {
-  background: colors.$primary-100;
-  color: colors.$primary-400;
   position: sticky;
   top: 0;
 
@@ -47,8 +45,6 @@ $player-progressbar-height: 0.4rem;
     @include sizes.make-gap(padding, vertical);
 
     & {
-      // repeat background to hide controls when scrolling
-      background: colors.$primary-100;
       position: sticky;
       top: 0;
       z-index: 1100;
@@ -272,7 +268,7 @@ $player-progressbar-height: 0.4rem;
 
     &[value] {
       @mixin make-bar() {
-        background: transparent;
+        background: colors.$primary-100;
       }
 
       @mixin make-value() {

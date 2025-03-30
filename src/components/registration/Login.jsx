@@ -73,7 +73,7 @@ class Login extends Component {
             </FormBlock>
           </div>
         </div>
-        <div id="login-links" className="box">
+        <div id="login-links" className="box neutral">
           <p className="content">
             New here? Create a <NavLink to="/register">new account</NavLink>.
             {forgottenPasswordLink}

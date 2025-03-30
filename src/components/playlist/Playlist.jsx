@@ -6,7 +6,7 @@ import { Tab, TabBar } from 'components/generics/TabBar'
 export default class Playlist extends Component {
   render() {
     return (
-      <div id="playlist" className="box">
+      <div id="playlist" className="box neutral">
         <TabBar>
           <Tab
             to="/playlist/queueing"

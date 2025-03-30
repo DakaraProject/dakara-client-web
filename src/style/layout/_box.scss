@@ -113,44 +113,36 @@ $ribbon-control-height: sizes.$row-height;
     }
   }
 
-  // if not embedded
+  // shadow if not embedded
   &:not(.embedded) {
     box-shadow: 0 0 2rem color.change(black, $alpha: 0.5);
   }
 
-  // if not subclassed
-  &:not(.primary):not(.success):not(.warning):not(.danger):not(.info) {
-    background: colors.$neutral-100;
-
-    > .header,
-    > .footer {
-      @include sizes.make-gap(padding, vertical);
-
-      & {
-        background: colors.$primary-100;
-        color: colors.$primary-400;
-      }
-    }
-  }
-
-  // if subclassed
-  &.primary,
-  &.success,
-  &.warning,
-  &.danger,
-  &.info {
-    > .header {
-      @include sizes.make-gap(padding, top);
-    }
-
-    > .footer {
-      @include sizes.make-gap(padding, bottom);
-    }
-  }
-
   > .header {
+    @include sizes.make-gap(padding, top);
+
+    &.primary,
+    &.success,
+    &.warning,
+    &.danger,
+    &.info {
+      @include sizes.make-gap(padding, vertical);
+    }
+
     > h2 {
       @include sizes.make-gap(padding, horizontal);
+    }
+  }
+
+  > .footer {
+    @include sizes.make-gap(padding, bottom);
+
+    &.primary,
+    &.success,
+    &.warning,
+    &.danger,
+    &.info {
+      @include sizes.make-gap(padding, vertical);
     }
   }
 
@@ -181,9 +173,6 @@ $ribbon-control-height: sizes.$row-height;
       @include sizes.make-gap(padding, horizontal);
     }
   }
-
-  // > .footer {
-  // }
 
   p,
   ul {

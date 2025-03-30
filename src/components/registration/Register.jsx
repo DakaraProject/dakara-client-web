@@ -72,8 +72,8 @@ class Register extends Component {
     }
 
     return (
-      <div id="register" className="box">
-        <div className="header">
+      <div id="register" className="box neutral">
+        <div className="header primary">
           <h2>Create a new account</h2>
         </div>
         <div className="content">

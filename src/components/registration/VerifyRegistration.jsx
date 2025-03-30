@@ -30,7 +30,7 @@ class VerifyRegistration extends Component {
   render() {
     const { responseOfVerifyRegistration } = this.props
     let content
-    let error = false
+    let className
 
     switch (responseOfVerifyRegistration.status) {
       case Status.successful:
@@ -43,6 +43,7 @@ class VerifyRegistration extends Component {
             </p>
           </div>
         )
+        className = 'success'
         break
 
       case Status.failed: {
@@ -57,7 +58,7 @@ class VerifyRegistration extends Component {
             {message}
           </div>
         )
-        error = true
+        className = 'danger'
         break
       }
 
@@ -67,13 +68,11 @@ class VerifyRegistration extends Component {
             <p>Validating...</p>
           </div>
         )
+        className = 'success'
     }
 
     return (
-      <div
-        id="verify-registration"
-        className={classNames('box', { danger: error })}
-      >
+      <div id="verify-registration" className={classNames('box', className)}>
         <div className="header">
           <h2>Email verification</h2>
         </div>
