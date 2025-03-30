@@ -63,7 +63,7 @@ MosaicTile.propTypes = {
 
 function MosaicRow({ lightness, colors, format, refresher }) {
   return (
-    <tr className="listing-entry">
+    <tr className="listing-entry listable">
       <td className="title">{lightness}</td>
       {colors.map((color) => (
         <MosaicTile
@@ -203,7 +203,7 @@ SamplerTile.propTypes = {
 
 function SamplerRow({ background, foreground, colors, refresher }) {
   return (
-    <tr className="listing-entry">
+    <tr className="listing-entry listable">
       <td className="title">{background}</td>
       <td className="title">{foreground}</td>
       {colors.map((color) => (

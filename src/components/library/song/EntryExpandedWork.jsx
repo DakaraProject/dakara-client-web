@@ -17,7 +17,7 @@ export default class SongEntryExpandedWork extends Component {
 
   render() {
     return (
-      <li className="sublisting-entry">
+      <li className="sublisting-entry listable">
         <div className="controls">
           <button
             className="control square primary"

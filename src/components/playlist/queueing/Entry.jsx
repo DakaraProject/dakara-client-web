@@ -124,6 +124,7 @@ class Entry extends Component {
           'playlist-entry',
           'library-entry',
           'library-entry-song',
+          'listable',
           'hoverizable',
           { delayed: this.props.responseOfRemoveEntry }
         )}

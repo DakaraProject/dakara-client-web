@@ -42,7 +42,7 @@ export default class SettingsUsersEntry extends Component {
     const { user, deleteUser } = this.props
 
     return (
-      <tr className="listing-entry user-listing-entry hoverizable">
+      <tr className="listing-entry user-listing-entry listable hoverizable">
         <td className="notification-col">
           <NotifiableForTable>
             <CSSTransitionLazy

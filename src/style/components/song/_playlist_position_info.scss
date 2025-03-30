@@ -76,8 +76,8 @@
 }
 
 // alteration of colors when used in a listing
-.listing-entry {
-  &:nth-child(2n) {
+.listable {
+  &:nth-child(even) {
     .playlist-position-info {
       background: colors.$info-101;
     }

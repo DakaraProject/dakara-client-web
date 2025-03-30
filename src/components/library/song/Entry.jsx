@@ -85,7 +85,7 @@ class SongEntry extends Component {
     return (
       <li
         className={classNames(
-          'library-entry listing-entry library-entry-song',
+          'library-entry listing-entry library-entry-song listable',
           { expanded }
         )}
       >

@@ -28,7 +28,7 @@ class WorkEntry extends Component {
   render() {
     const { title, subtitle, song_count } = this.props.work
     return (
-      <li className="library-entry listing-entry library-entry-work hoverizable">
+      <li className="library-entry listing-entry library-entry-work listable hoverizable">
         <div className="library-entry-work-artist-display">
           <div className="header">
             <HighlighterQuery

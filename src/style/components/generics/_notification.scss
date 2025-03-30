@@ -90,7 +90,7 @@
 }
 
 // lighten notification when on even line of a list
-.listing-entry:nth-child(2n) .notification {
+.listable:nth-child(even) .notification {
   @mixin make-color-even($background, $background-selection) {
     background: $background;
 

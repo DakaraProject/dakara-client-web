@@ -29,12 +29,7 @@ class Entry extends Component {
     const { entry } = this.props
 
     return (
-      <li
-        className={
-          'listing-entry playlist-entry library-entry library-entry-song ' +
-          'hoverizable'
-        }
-      >
+      <li className="listing-entry playlist-entry library-entry library-entry-song listable hoverizable">
         <div className="library-entry-song-compact">
           <button
             className="expander transparent"

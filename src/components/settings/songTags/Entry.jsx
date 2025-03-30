@@ -151,7 +151,7 @@ export default class SettingsSongTagsEntry extends Component {
     )
 
     return (
-      <tr className="listing-entry hoverizable">
+      <tr className="listing-entry listable hoverizable">
         <td className="notification-col color">
           <NotifiableForTable>
             <Notification

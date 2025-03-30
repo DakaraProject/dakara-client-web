@@ -117,8 +117,8 @@
 }
 
 // alteration of colors when used in a listing
-.listing-entry {
-  &:nth-child(2n) {
+.listable {
+  &:nth-child(even) {
     .song {
       .duration {
         background: colors.$neutral-301;

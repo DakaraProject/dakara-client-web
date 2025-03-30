@@ -142,8 +142,7 @@
 }
 
 // lighten control on even line of a `listing` list
-.listing-entry:nth-child(even),
-.sublisting-entry:nth-child(even) {
+.listable:nth-child(even) {
   .controls .control {
     @mixin make-control-line-even($color-normal, $color-disabled) {
       background: $color-normal;
