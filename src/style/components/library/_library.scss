@@ -34,10 +34,6 @@
           .faked {
             flex: 1;
           }
-
-          .controls {
-            @include controls.make-controls();
-          }
         }
       }
     }

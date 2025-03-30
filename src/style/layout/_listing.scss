@@ -99,8 +99,6 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
 
     // manage controls
     .controls {
-      @include controls.make-controls($height: $listing-entry-height);
-
       // in listings, controls are close one to other with no space
       // inbetween
       .control {

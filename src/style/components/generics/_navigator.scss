@@ -25,10 +25,7 @@ $navigator-icon-size: 2em;
 
   .paginator {
     &.controls {
-      @include controls.make-controls(
-        $height: $navigator-height,
-        $icon-size: $navigator-icon-size
-      );
+      @include controls.make-controls($icon-size: $navigator-icon-size);
     }
   }
 

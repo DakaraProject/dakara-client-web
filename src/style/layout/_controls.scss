@@ -14,12 +14,15 @@
 // The `controls` class is a manager for buttons, i.e. controls, which change
 // feel and color depending on hover and activation. If contained in a
 // `listing-entry` class line, they also depend on their parent hover and
-// alteration. The class does not set the size of the controls, this is
-// performed by the `make-controls` function.
+// alteration. The class sets the default size of the controls, which can be
+// overriden by the `controls.make-controls` mixin.
 //
 // It provides a `control` subclass for those elements, which has the basic
 // properties. Extra subclasses are available for the color of the control.
 .controls {
+  // default aspect of controls
+  @include controls.make-controls;
+
   display: flex;
 
   // non compact controls have space between each other

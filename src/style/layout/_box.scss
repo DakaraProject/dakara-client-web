@@ -172,11 +172,6 @@ $ribbon-control-height: sizes.$row-height;
       .message {
         flex: 1;
       }
-
-      // subclass the controls with `free` to freely control their style
-      .controls:not(.free) {
-        @include controls.make-controls($height: $ribbon-control-height);
-      }
     }
 
     h3,

@@ -151,8 +151,6 @@
   }
 
   .controls {
-    @include controls.make-controls();
-
     justify-content: flex-end;
   }
 }

@@ -25,13 +25,7 @@ $ribbon-height: sizes.$row-height;
 
     .revoke {
       &.controls {
-        @include controls.make-controls($height: $tokens-control-size);
-
         justify-content: flex-end;
-
-        .notification .controls {
-          @include controls.make-controls($height: $tokens-control-size);
-        }
       }
     }
 
