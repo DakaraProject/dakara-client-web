@@ -126,7 +126,7 @@ class PlayerTokenBox extends Component {
               </p>
               <div className="controls">
                 <button
-                  className="control primary"
+                  className="control square primary"
                   onClick={() => {
                     createPlayerToken(karaoke.id)
                   }}

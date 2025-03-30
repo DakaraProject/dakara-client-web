@@ -185,10 +185,6 @@ $form-field-height: sizes.$row-height;
       @include controls.make-controls($height: $field-height);
 
       justify-content: flex-end;
-
-      .control {
-        @include sizes.make-gap(padding, horizontal);
-      }
     }
 
     // `header` class: header of the form.

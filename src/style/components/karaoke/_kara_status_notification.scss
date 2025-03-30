@@ -26,12 +26,8 @@ $kara-status-notification-font-size: 1.25em;
     }
 
     .control {
-      @include sizes.make-gap(padding, horizontal);
-
-      & {
-        font-size: $kara-status-notification-font-size;
-        line-height: $kara-status-notification-height;
-      }
+      font-size: $kara-status-notification-font-size;
+      line-height: $kara-status-notification-height;
     }
   }
 }

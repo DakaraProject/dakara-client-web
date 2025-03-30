@@ -84,7 +84,7 @@ class Entry extends Component {
      */
     const createReorderButton = (id, iconName, extraClassName = '') => (
       <button
-        className="control primary"
+        className="control square primary"
         onClick={() => {
           onReorderButtonClick(id)
         }}
@@ -155,7 +155,7 @@ class Entry extends Component {
               </IsPlaylistManager>
               <IsPlaylistManagerOrOwner object={entry} disable>
                 <button
-                  className="control warning"
+                  className="control square warning"
                   onClick={this.displayConfirm}
                 >
                   <span className="icon">

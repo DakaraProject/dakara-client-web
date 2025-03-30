@@ -79,7 +79,7 @@ class SearchBox extends Component {
     if (help) {
       helpButton = (
         <button
-          className="control transparent"
+          className="control square transparent"
           type="button"
           onClick={(e) => {
             this.toggleHelp()
@@ -143,7 +143,7 @@ class SearchBox extends Component {
                 <div className="controls compact">
                   {helpButton}
                   <button
-                    className="control transparent"
+                    className="control square transparent"
                     type="button"
                     onClick={(e) => {
                       this.setState({ query: '' })
@@ -160,7 +160,7 @@ class SearchBox extends Component {
             </div>
           </div>
           <div className="controls">
-            <button type="submit" className="control primary">
+            <button type="submit" className="control square primary">
               <span className="icon">
                 <i className="las la-search"></i>
               </span>

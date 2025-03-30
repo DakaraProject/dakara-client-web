@@ -29,15 +29,8 @@ $ribbon-height: sizes.$row-height;
 
         justify-content: flex-end;
 
-        > .control {
-          @include sizes.make-gap(padding, horizontal);
-        }
-
         .notification .controls {
-          @include controls.make-controls(
-            $height: $tokens-control-size,
-            $square: true
-          );
+          @include controls.make-controls($height: $tokens-control-size);
         }
       }
     }

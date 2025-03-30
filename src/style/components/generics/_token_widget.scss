@@ -31,9 +31,6 @@ $token-widget-height: sizes.$row-height;
   }
 
   .controls {
-    @include controls.make-controls(
-      $height: $token-widget-height,
-      $square: true
-    );
+    @include controls.make-controls($height: $token-widget-height);
   }
 }

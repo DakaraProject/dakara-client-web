@@ -94,13 +94,13 @@ export default class SettingsUsersEntry extends Component {
           <IsUserManager>
             <div className="controls compact">
               <IsNotSelf object={user} disable>
-                <ControlLink to={`${user.id}`} className="control info">
+                <ControlLink to={`${user.id}`} className="control square info">
                   <span className="icon">
                     <i className="las la-pen"></i>
                   </span>
                 </ControlLink>
                 <button
-                  className="control danger"
+                  className="control square danger"
                   onClick={this.displayConfirm}
                 >
                   <span className="icon">

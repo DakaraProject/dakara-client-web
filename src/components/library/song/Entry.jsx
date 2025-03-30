@@ -113,7 +113,7 @@ class SongEntry extends Component {
                 <IsPlaylistUser>
                   <button
                     disabled={!canAdd}
-                    className="control primary"
+                    className="control square primary"
                     onClick={() => {
                       this.props.addSongToPlaylist(this.props.song.id)
                     }}

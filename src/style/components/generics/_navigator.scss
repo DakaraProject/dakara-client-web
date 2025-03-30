@@ -27,7 +27,6 @@ $navigator-icon-size: 2em;
     &.controls {
       @include controls.make-controls(
         $height: $navigator-height,
-        $square: true,
         $icon-size: $navigator-icon-size
       );
     }

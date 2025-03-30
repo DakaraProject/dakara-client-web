@@ -137,7 +137,7 @@ export default class ManageButton extends Component {
 
     return (
       <button
-        className={classNames('control', 'primary', className, {
+        className={classNames('control', 'square', 'primary', className, {
           'managed-error': this.state.error,
         })}
         onClick={onClickControlled}

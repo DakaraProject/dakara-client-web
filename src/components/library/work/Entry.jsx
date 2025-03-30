@@ -42,7 +42,10 @@ class WorkEntry extends Component {
           <div className="songs-amount">{song_count}</div>
         </div>
         <div className="controls compact">
-          <button className="control primary" onClick={this.handleSearch}>
+          <button
+            className="control square primary"
+            onClick={this.handleSearch}
+          >
             <span className="icon">
               <i className="las la-search"></i>
             </span>
