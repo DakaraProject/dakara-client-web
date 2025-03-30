@@ -206,6 +206,7 @@ $neutral-502: color.adjust($neutral, $lightness: 40%);
   background: $background;
   color: $color;
 
+  &::selection,
   ::selection {
     background: $background-selection;
     color: $color-selection;
