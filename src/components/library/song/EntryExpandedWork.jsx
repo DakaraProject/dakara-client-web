@@ -18,7 +18,7 @@ export default class SongEntryExpandedWork extends Component {
   render() {
     return (
       <li className="sublisting-entry">
-        <div className="controls subcontrols">
+        <div className="controls">
           <button
             className="control square primary"
             onClick={this.handleSearchWork}

@@ -18,7 +18,7 @@ export default class SongEntryExpandedArtist extends Component {
     const artist = this.props.artist
     return (
       <li className="sublisting-entry">
-        <div className="controls subcontrols">
+        <div className="controls">
           <button
             className="control square primary"
             onClick={this.handleSearchArtist}
