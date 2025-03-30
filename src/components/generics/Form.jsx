@@ -380,7 +380,7 @@ class FormBlock extends Form {
       >
         {header}
         {fieldsSet}
-        <div className="controls notifiable">
+        <div className="controls compact notifiable">
           <Notification
             alterationResponse={alterationResponse}
             successfulMessage={successMessage}
@@ -461,7 +461,7 @@ class FormInline extends Form {
         noValidate
       >
         {fieldsSet}
-        <div className="controls">
+        <div className="controls compact">
           {submit}
           {extraControls}
         </div>

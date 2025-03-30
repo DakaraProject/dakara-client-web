@@ -7,6 +7,7 @@
 @use '~/abstracts/colors';
 @use '~/abstracts/controls';
 @use '~/abstracts/sizes';
+@use '~/abstracts/support';
 
 // `controls` class:
 //
@@ -20,6 +21,14 @@
 // properties. Extra subclasses are available for the color of the control.
 .controls {
   display: flex;
+
+  &:not(.compact) {
+    gap: sizes.$gap-horizontal;
+
+    @include support.make-smartphone {
+      gap: sizes.$gap-horizontal-smartphone;
+    }
+  }
 
   > .subcontrols {
     display: flex;
@@ -35,14 +44,8 @@
     outline: none;
     padding: 0;
 
-    // spacing between controls
-    &:not(:last-child) {
-      @include sizes.make-gap(margin, right);
-    }
-
-    // if the control contains a picture, it is vertically centered
-    img {
-      vertical-align: middle;
+    &a {
+      text-decoration: none;
     }
 
     // maker for different type of control buttons
@@ -122,11 +125,11 @@
         colors.$info-303
       );
     }
-  }
 
-  // make link transparent
-  a.control {
-    text-decoration: none;
+    // if the control contains a picture, it is vertically centered
+    img {
+      vertical-align: middle;
+    }
   }
 }
 

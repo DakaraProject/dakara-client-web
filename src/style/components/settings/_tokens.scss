@@ -27,7 +27,6 @@ $ribbon-height: sizes.$row-height;
       &.controls {
         @include controls.make-controls($height: $tokens-control-size);
 
-        display: flex;
         justify-content: flex-end;
 
         > .control {

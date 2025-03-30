@@ -140,7 +140,7 @@ class SearchBox extends Component {
                       .classList.remove('focus')
                   }}
                 />
-                <div className="controls">
+                <div className="controls compact">
                   {helpButton}
                   <button
                     className="control transparent"

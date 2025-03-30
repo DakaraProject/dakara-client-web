@@ -92,7 +92,7 @@ export default class SettingsUsersEntry extends Component {
         </td>
         <td className="controls-col">
           <IsUserManager>
-            <div className="controls">
+            <div className="controls compact">
               <IsNotSelf object={user} disable>
                 <ControlLink to={`${user.id}`} className="control info">
                   <span className="icon">

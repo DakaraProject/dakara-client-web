@@ -184,7 +184,6 @@ $form-field-height: sizes.$row-height;
     .controls {
       @include controls.make-controls($height: $field-height);
 
-      display: flex;
       justify-content: flex-end;
 
       .control {

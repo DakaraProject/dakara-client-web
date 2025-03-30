@@ -13,10 +13,6 @@
     .listing {
       @include sizes.make-gap(margin, vertical);
     }
-
-    .format {
-      @include sizes.make-gap(margin, right);
-    }
   }
 
   .mosaic {
@@ -157,12 +153,7 @@
   .controls {
     @include controls.make-controls();
 
-    display: flex;
     justify-content: flex-end;
-
-    &:not(:last-child) {
-      @include sizes.make-gap(padding, bottom);
-    }
 
     > .control {
       @include sizes.make-gap(padding, horizontal);

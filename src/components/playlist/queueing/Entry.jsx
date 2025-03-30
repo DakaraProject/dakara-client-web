@@ -139,7 +139,7 @@ class Entry extends Component {
             <PlaylistPositionInfo
               entryQueuing={playlistEntries.find((e) => e.id === entry.id)}
             />
-            <div className="controls main">
+            <div className="controls compact main">
               <IsPlaylistManager>
                 <CSSTransitionLazy
                   in={!!reorderExtraButtons}

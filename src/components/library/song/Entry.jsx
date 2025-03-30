@@ -108,7 +108,7 @@ class SongEntry extends Component {
             <TransitionGroup className="play-queue-info-wrapper">
               {playlistPositionInfo}
             </TransitionGroup>
-            <div className="controls" id={`song-${this.props.song.id}`}>
+            <div className="controls compact" id={`song-${this.props.song.id}`}>
               <CanAddToPlaylist>
                 <IsPlaylistUser>
                   <button

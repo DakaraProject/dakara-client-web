@@ -19,7 +19,7 @@ export default class ConfirmationBar extends Component {
       <div className="notified">
         <div className="notification warning">
           <div className="message">{message}</div>
-          <div className="controls">
+          <div className="controls compact">
             <button onClick={onConfirm} className="control success">
               <span className="icon">
                 <i className="las la-check"></i>
