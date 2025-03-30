@@ -101,18 +101,6 @@ $ribbon-control-height: sizes.$row-height;
 // |                   | < gap
 // +-------------------+
 .box {
-  // separation margin on desktop only
-  @include support.make-desktop {
-    &:not(:last-child) {
-      margin-bottom: sizes.$gap-vertical;
-    }
-
-    // make last child pushed at the bottom
-    &:last-child {
-      margin-top: auto;
-    }
-  }
-
   // shadow if not embedded
   &:not(.embedded) {
     box-shadow: 0 0 2rem color.change(black, $alpha: 0.5);

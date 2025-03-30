@@ -38,43 +38,39 @@ class Login extends Component {
     }
 
     return (
-      <div id="login">
-        <div id="login-form" className="box primary">
-          <div className="header">
-            <h2>Login</h2>
-          </div>
-          <div className="content">
-            <FormBlock
-              action="accounts/login/"
-              submitText="Login"
-              alterationName="login"
-              successMessage={false}
-              pendingMessage={false}
-            >
-              <InputField
-                id="login"
-                label={
-                  <span className="icon">
-                    <i className="las la-user"></i>
-                  </span>
-                }
-                required
-              />
-              <InputField
-                id="password"
-                label={
-                  <span className="icon">
-                    <i className="las la-lock"></i>
-                  </span>
-                }
-                type="password"
-                required
-              />
-            </FormBlock>
-          </div>
+      <div id="login" className="box primary">
+        <div className="header">
+          <h2>Login</h2>
         </div>
-        <div id="login-links" className="box neutral">
-          <p className="content">
+        <div className="content">
+          <FormBlock
+            action="accounts/login/"
+            submitText="Login"
+            alterationName="login"
+            successMessage={false}
+            pendingMessage={false}
+          >
+            <InputField
+              id="login"
+              label={
+                <span className="icon">
+                  <i className="las la-user"></i>
+                </span>
+              }
+              required
+            />
+            <InputField
+              id="password"
+              label={
+                <span className="icon">
+                  <i className="las la-lock"></i>
+                </span>
+              }
+              type="password"
+              required
+            />
+          </FormBlock>
+          <p className="links">
             New here? Create a <NavLink to="/register">new account</NavLink>.
             {forgottenPasswordLink}
           </p>
