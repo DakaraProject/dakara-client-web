@@ -2,11 +2,11 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router'
 
-export function Tabs({ children }) {
-  return <nav className="tabs controls compact">{children}</nav>
+export function TabBar({ children }) {
+  return <nav className="tab-bar controls compact">{children}</nav>
 }
 
-Tabs.propTypes = {
+TabBar.propTypes = {
   children: PropTypes.element,
 }
 

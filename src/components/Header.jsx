@@ -3,7 +3,7 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router'
 
-import { Tab, Tabs } from 'components/generics/Tab'
+import { Tab, TabBar } from 'components/generics/TabBar'
 import { userPropType } from 'serverPropTypes/users'
 
 class Header extends Component {
@@ -28,7 +28,7 @@ class Header extends Component {
       }
 
       menu = (
-        <Tabs>
+        <TabBar>
           <Tab to="/library" iconName="home" />
           <Tab to="/playlist" iconName="list-ol" />
           <Tab to="/settings" iconName="cog" />
@@ -37,7 +37,7 @@ class Header extends Component {
           {/* #endif */}
           {userTab}
           <Tab to="/logout" iconName="sign-out-alt" />
-        </Tabs>
+        </TabBar>
       )
     }
 
