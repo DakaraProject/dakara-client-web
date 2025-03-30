@@ -50,3 +50,47 @@
     colors.$info-500
   );
 }
+
+.listable:nth-child(even) {
+  .primary {
+    @include colors.make-color(colors.$primary-101);
+  }
+
+  .success {
+    @include colors.make-color(colors.$success-101);
+  }
+
+  .warning {
+    @include colors.make-color(colors.$warning-101);
+  }
+
+  .danger {
+    @include colors.make-color(colors.$danger-101);
+  }
+
+  .info {
+    @include colors.make-color(colors.$info-101);
+  }
+}
+
+.hoverizable:hover {
+  .primary {
+    @include colors.make-color(colors.$primary-102);
+  }
+
+  .success {
+    @include colors.make-color(colors.$success-102);
+  }
+
+  .warning {
+    @include colors.make-color(colors.$warning-102);
+  }
+
+  .danger {
+    @include colors.make-color(colors.$danger-102);
+  }
+
+  .info {
+    @include colors.make-color(colors.$info-102);
+  }
+}

@@ -141,7 +141,7 @@
   }
 }
 
-// lighten control on even line of a `listing` list
+// lighten control on even line
 .listable:nth-child(even) {
   .controls .control {
     @mixin make-control-line-even($color-normal, $color-disabled) {
@@ -175,7 +175,7 @@
   }
 }
 
-// lighten control (but not in subcontrols) when line hovered on a list
+// lighten control (not in subcontrols) when in hovered element
 .hoverizable:hover .controls:not(.subcontrols):not(:hover) {
   .control {
     @mixin make-control-line-hover($color-normal, $color-disabled) {
