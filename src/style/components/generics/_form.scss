@@ -338,6 +338,7 @@ $form-field-height: sizes.$row-height;
 
         &::placeholder {
           color: colors.$neutral-100;
+          opacity: 1;
         }
 
         & {
