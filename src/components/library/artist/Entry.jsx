@@ -26,7 +26,7 @@ class ArtistEntry extends Component {
 
   render() {
     return (
-      <li className="library-entry listing-entry library-entry-artist lisatble hoverizable">
+      <li className="library-entry listing-entry library-entry-artist listable hoverizable">
         <div className="library-entry-work-artist-display">
           <div className="header">
             <HighlighterQuery

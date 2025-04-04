@@ -31,8 +31,18 @@ $sublisting-entry-control-icon-size: sizes.$subrow-icon-font-size;
     display: flex;
     min-height: $height;
 
-    &:nth-child(even) {
-      background: colors.$neutral-121;
+    .listable,
+    &.listable {
+      &:nth-child(even) {
+        background: colors.$neutral-121;
+      }
+    }
+
+    .hoverizable,
+    &.hoverizable {
+      &:hover {
+        background: colors.$neutral-122;
+      }
     }
 
     .controls {
