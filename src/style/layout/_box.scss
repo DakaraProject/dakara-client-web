@@ -11,92 +11,87 @@
 @use '~/abstracts/sizes';
 @use '~/abstracts/support';
 
-// box sizes
-$ribbon-control-height: sizes.$row-height;
-
 // `box` class:
 //
-// This class is aimed to style a generic box container in the layout. It can
-// be subclassed to be of a specific color (`primary`, `success`, `warning`,
-// `danger`, or `info`). The box has direct child classes corresponding to its
-// different parts: a `header`, a `footer`, and a `content`. All of them are
-// optional. The `header` and the `footer` have a primary color by default and
-// have their own vertical gaps. The `content` has no color. In case of color
-// subclass, all elements are of the same requested color. The `content`
-// creates vertical gaps to isolate its elements. If the box has a color
-// subclass, top gap of the `content`, respectively bottom gap, is deactivated
-// if a `header` immediately precedes it, respectively if a `footer`
-// immediately succeeds it. The content can have a ribbon.
+// This class is aimed to style a generic box container in the layout. It
+// should be subclassed with a color (`primary`, `success`, `warning`,
+// `danger`, `info`, or `neutral`), as it has no colors by default. The box has
+// direct child classes corresponding to its different parts: a `header`, a
+// `footer`, and a `content`. All of them are optional. The `header` and the
+// `footer` should be subclassed with a color, as they have no color by
+// default. In this case, they have their own vertical gaps, otherwise only a
+// top gap for the `header`, and a bottom gap for the `footer`. The `content`
+// has no color. The `content` creates vertical gaps to isolate its elements.
+// The `content` can have a ribbon for emphasis.
 //
-// Example without color subclass, with header and footer:
+// Example without color subclass, with header and footer with color subclass:
 // +-------------------+
-// |                   |
+// |                   | < gap
 // | Header            |
-// |                   |
+// |                   | < gap
 // + - - - - - - - - - +
 // |                   | < gap
 // | Content           |
 // |                   | < gap
 // + - - - - - - - - - +
-// |                   |
+// |                   | < gap
 // | Footer            |
-// |                   |
+// |                   | < gap
 // +-------------------+
 //
-// Example without color subclass, with header and no footer:
+// Example without color subclass, with header with color subclass:
 // +-------------------+
-// |                   |
+// |                   | < gap
 // | Header            |
-// |                   |
+// |                   | < gap
 // + - - - - - - - - - +
 // |                   | < gap
 // | Content           |
 // |                   | < gap
 // +-------------------+
 //
-// Example with no color subclass and ribbon:
+// Example without color subclass, with header and footer with color subclass, and content ribbon:
 // +-------------------+
-// |                   |
+// |                   | < gap
 // | Header            |
-// |                   |
+// |                   | < gap
 // + - - - - - - - - - +
 // |                   | < gap
 // |/Ribbon////////////|
 // | Content           |
 // |                   | < gap
 // + - - - - - - - - - +
-// |                   |
+// |                   | < gap
 // | Footer            |
-// |                   |
-// +-------------------+
-//
-// Example with color subclass, with header and footer:
-// +-------------------+
-// |                   |
-// | Header            |
-// |                   |
-// | Content           | < no extra gap
-// |                   |
-// | Footer            |
-// |                   |
-// +-------------------+
-//
-// Example with color subclass, with header and no footer:
-// +-------------------+
-// |                   |
-// | Header            |
-// |                   |
-// | Content           | < no extra gap
 // |                   | < gap
 // +-------------------+
 //
-// Example with color subclass, with header, no footer and another element:
+// Example with color subclass, with header and footer without color subclass:
 // +-------------------+
-// |                   |
+// |                   | < gap
 // | Header            |
-// |                   |
+// |                   | < gap (only 1)
+// | Content           |
+// |                   | < gap (only 1)
+// | Footer            |
+// |                   | < gap
+// +-------------------+
+//
+// Example with color subclass, with header without color subclass and no footer:
+// +-------------------+
+// |                   | < gap
+// | Header            |
+// |                   | < gap (only 1)
+// | Content           |
+// |                   | < gap
+// +-------------------+
+//
+// Example with color subclass, with header without color subclass, no footer and another element:
+// +-------------------+
+// |                   | < gap
+// | Header            |
 // | Other             |
-// |                   | < gap
+// |                   | < gap of content
 // | Content           |
 // |                   | < gap
 // +-------------------+
@@ -114,7 +109,7 @@ $ribbon-control-height: sizes.$row-height;
     &.warning,
     &.danger,
     &.info {
-      @include sizes.make-gap(padding, vertical);
+      @include sizes.make-gap(padding, bottom);
     }
 
     > h2 {
@@ -130,7 +125,7 @@ $ribbon-control-height: sizes.$row-height;
     &.warning,
     &.danger,
     &.info {
-      @include sizes.make-gap(padding, vertical);
+      @include sizes.make-gap(padding, top);
     }
   }
 

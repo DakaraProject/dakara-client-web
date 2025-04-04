@@ -11,21 +11,22 @@
 
 // `controls` class:
 //
-// The `controls` class is a manager for buttons, i.e. controls, which change
-// feel and color depending on hover and activation. If contained in a
-// `listing-entry` class line, they also depend on their parent hover and
-// alteration. The class sets the default size of the controls, which can be
-// overriden by the `controls.make-controls` mixin.
+// The `controls` class is a manager for buttons, i.e. controls or `control`s,
+// which displays them together. A default size is given for the controls,
+// which can be overriden by the `abstracts.controls.make-controls` mixin.
+// Controls have no color by default, and should have a color subclass. The
+// color is adjusted wether the control is in a listable or a hoverizable
+// element.
 //
-// It provides a `control` subclass for those elements, which has the basic
-// properties. Extra subclasses are available for the color of the control.
-//
-// If you have controls inside controls, mark the subsequent controls with `subcontrols`.
+// If you have controls inside controls, add the `subcontrols` class to the
+// subsequent `controls`.
 .controls {
   // default aspect of controls
   @include controls.make-controls;
 
   display: flex;
+
+  // align right by default
   justify-content: flex-end;
 
   // non compact controls have space between each other
@@ -37,7 +38,7 @@
     }
   }
 
-  // subclass for a control button
+  // class for a control button
   .control {
     align-items: center;
     border-style: none;
@@ -237,9 +238,9 @@
   }
 }
 
+// `controls-col` class used to have a colomn of controls in a table.
 .controls-col {
   .controls {
     height: 100%;
-    justify-content: flex-end;
   }
 }

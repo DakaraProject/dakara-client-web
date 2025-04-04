@@ -10,11 +10,9 @@
 
 // `tag` class:
 //
-// The `tag` class is a basic style for tags in musics. It can be extended with 8
-// different colorized subclasses.
-//
-// Its size is determined in the `listing-entry-song` class, whether the song is
-// displayed in compact or in expanded view.
+// The `tag` class is a basic style for tags in songs. Size is left to the
+// component using it. Color is set to a placeholder, and must be set by
+// `filter hue-rotate`.
 .tag {
   background: colors.$placeholder-300;
   border-style: none;
