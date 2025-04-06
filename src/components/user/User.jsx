@@ -91,7 +91,7 @@ class User extends Component {
             <h2>{user.username}</h2>
             <span className="email">{user.email}</span>
           </div>
-          <div className="permissions">{permissions}</div>
+          <div className="permissions flow compact">{permissions}</div>
         </div>
         <div className="flow">
           <FormBlock

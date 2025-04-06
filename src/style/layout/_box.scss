@@ -130,11 +130,13 @@
   }
 
   .flow {
-    @include sizes.make-gap(padding, vertical);
+    &:not(.compact) {
+      @include sizes.make-gap(padding, vertical);
 
-    // immediately nested flows do not have vertical padding
-    > .flow {
-      padding: 0;
+      // immediately nested flows do not have vertical padding
+      > .flow {
+        padding: 0;
+      }
     }
 
     // any elewent within a flow has vertical spacing
