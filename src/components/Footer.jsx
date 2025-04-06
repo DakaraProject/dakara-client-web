@@ -8,16 +8,18 @@ export default class Footer extends Component {
 
     return (
       <footer id="footer" className="box">
-        <h2>
-          Dakara client <span className="version">{version}</span>
-        </h2>
-        <div className="contact">
-          <p className="project">
-            Visit the <a href={projectHomepage}>project page</a>
-          </p>
-          <p className="bug">
-            Report a <a href={bugtracker}>bug</a>
-          </p>
+        <div className="content">
+          <h2>
+            Dakara client <span className="version">{version}</span>
+          </h2>
+          <div className="contact">
+            <p className="project">
+              Visit the <a href={projectHomepage}>project page</a>
+            </p>
+            <p className="bug">
+              Report a <a href={bugtracker}>bug</a>
+            </p>
+          </div>
         </div>
       </footer>
     )

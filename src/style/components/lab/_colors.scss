@@ -5,16 +5,6 @@
 @use '~/abstracts/sizes';
 
 .colors {
-  .section {
-    &:not(:last-child) {
-      @include sizes.make-gap(margin, bottom);
-    }
-
-    .listing {
-      @include sizes.make-gap(margin, vertical);
-    }
-  }
-
   .mosaic {
     .tile {
       color: hsl(0, 100%, 100%, 0.5);

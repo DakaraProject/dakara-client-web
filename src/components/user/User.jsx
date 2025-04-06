@@ -87,9 +87,9 @@ class User extends Component {
     return (
       <div className="box neutral" id="user">
         <div className="header primary">
-          <div className="user-name-block">
-            <h1>{user.username}</h1>
-            <h2>{user.email}</h2>
+          <div className="name">
+            <h2>{user.username}</h2>
+            <span className="email">{user.email}</span>
           </div>
           <div className="permissions">{permissions}</div>
         </div>

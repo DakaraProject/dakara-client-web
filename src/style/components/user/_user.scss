@@ -12,7 +12,7 @@
     display: flex;
     flex-wrap: wrap;
 
-    .user-name-block {
+    .name {
       @include sizes.make-gap(padding, horizontal);
 
       & {
@@ -20,12 +20,8 @@
         overflow-wrap: break-word;
       }
 
-      h1 {
-        font-size: 3em;
-      }
-
       h2 {
-        font-size: 1.5em;
+        font-size: 3em;
       }
     }
 
@@ -33,9 +29,5 @@
       flex: 1 0 auto;
       text-align: right;
     }
-  }
-
-  .change-email-disabled {
-    @include sizes.make-gap(margin, top);
   }
 }

@@ -9,9 +9,7 @@ export default function Lab() {
         <Tab to="/lab/colors" iconName="palette" name="Colors" />
         <Tab to="/lab/fields" iconName="pencil-ruler" name="Fields" />
       </TabBar>
-      <div className="content">
-        <Outlet />
-      </div>
+      <Outlet />
     </div>
   )
 }

@@ -132,6 +132,11 @@
   > .content {
     @include sizes.make-gap(padding, vertical);
 
+    > * + *,
+    .content > * + * {
+      @include sizes.make-gap(margin, top);
+    }
+
     // `ribbon` class:
     //
     // The ribbon is a colored sub-content used for emphasis. It can

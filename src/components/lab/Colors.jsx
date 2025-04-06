@@ -125,7 +125,7 @@ function Mosaic() {
   ]
 
   return (
-    <div className="section">
+    <div className="content">
       <h3>Colors</h3>
       <div className="listing-table-container free">
         <table className="listing mosaic">
@@ -259,7 +259,7 @@ function Sampler() {
     )
 
   return (
-    <div className="section">
+    <div className="content">
       <h3>Contrasts</h3>
       <div className="listing-table-container free">
         <table className="listing sampler">
@@ -294,7 +294,7 @@ function Sampler() {
 
 export default function Colors() {
   return (
-    <div className="colors">
+    <div className="colors content">
       <Mosaic />
       <Sampler />
     </div>
