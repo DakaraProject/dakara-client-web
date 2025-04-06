@@ -69,7 +69,7 @@ class ResetPassword extends Component {
         <div className="header primary">
           <h2>Reset password</h2>
         </div>
-        <div className="content">
+        <div className="flow">
           {this.state.emailSent ? emailSentMessage : resetPasswordForm}
         </div>
       </div>

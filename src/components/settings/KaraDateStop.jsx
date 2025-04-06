@@ -98,7 +98,7 @@ class KaraDateStop extends Component {
     }
 
     return (
-      <div id="kara-date-stop" className="content">
+      <div id="kara-date-stop" className="flow">
         {karaDateStopWidget}
       </div>
     )

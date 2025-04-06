@@ -156,7 +156,7 @@ class PlayerTokenBox extends Component {
     }
 
     return (
-      <div className="token-box player content">
+      <div className="token-box player flow">
         <h3>Player token</h3>
         {playerTokenBox}
       </div>
@@ -202,8 +202,8 @@ class Tokens extends Component {
     const { userToken, revokeToken, responseOfRevokeToken } = this.props
 
     return (
-      <div id="tokens" className="content">
-        <div className="token-box user content">
+      <div id="tokens" className="flow">
+        <div className="token-box user flow">
           <h3>User token</h3>
           <TokenWidget token={userToken} />
           <IsLibraryManager>

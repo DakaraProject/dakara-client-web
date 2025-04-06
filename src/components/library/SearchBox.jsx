@@ -106,7 +106,7 @@ class SearchBox extends Component {
     }
 
     return (
-      <div className="library-searchbox">
+      <div className="searchbox primary flow">
         <form
           className="form inline"
           onSubmit={(e) => {

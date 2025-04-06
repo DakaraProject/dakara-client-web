@@ -46,7 +46,7 @@ class SendResetPasswordLink extends Component {
         <div className="header primary">
           <h2>Send reset password link</h2>
         </div>
-        <div className="content">
+        <div className="flow">
           {this.state.emailSent ? emailSentMessage : sendResetPasswordLinkForm}
         </div>
       </div>

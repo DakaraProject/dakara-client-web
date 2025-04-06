@@ -42,7 +42,7 @@ class Login extends Component {
         <div className="header">
           <h2>Login</h2>
         </div>
-        <div className="content">
+        <div className="flow">
           <FormBlock
             action="accounts/login/"
             submitText="Login"

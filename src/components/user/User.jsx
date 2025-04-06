@@ -93,7 +93,7 @@ class User extends Component {
           </div>
           <div className="permissions">{permissions}</div>
         </div>
-        <div className="content">
+        <div className="flow">
           <FormBlock
             title="Change password"
             action="accounts/change-password/"

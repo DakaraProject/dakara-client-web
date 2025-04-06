@@ -7,7 +7,11 @@
 @use '~/abstracts/colors';
 
 .neutral {
-  @include colors.make-color(colors.$neutral-100, colors.$neutral-400);
+  @include colors.make-color(
+    colors.$neutral-100,
+    colors.$neutral-400,
+    $color-quote: colors.$neutral-500
+  );
 }
 
 .primary {
@@ -15,6 +19,7 @@
     colors.$primary-100,
     colors.$primary-400,
     colors.$primary-200,
+    colors.$primary-500,
     colors.$primary-500
   );
 }
@@ -24,6 +29,7 @@
     colors.$success-100,
     colors.$success-400,
     colors.$success-200,
+    colors.$success-500,
     colors.$success-500
   );
 }
@@ -33,6 +39,7 @@
     colors.$warning-100,
     colors.$warning-400,
     colors.$warning-200,
+    colors.$warning-500,
     colors.$warning-500
   );
 }
@@ -42,6 +49,7 @@
     colors.$danger-100,
     colors.$danger-400,
     colors.$danger-200,
+    colors.$danger-500,
     colors.$danger-500
   );
 }
@@ -51,6 +59,7 @@
     colors.$info-100,
     colors.$info-400,
     colors.$info-200,
+    colors.$info-500,
     colors.$info-500
   );
 }

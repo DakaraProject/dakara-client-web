@@ -35,7 +35,7 @@ class VerifyRegistration extends Component {
     switch (responseOfVerifyRegistration.status) {
       case Status.successful:
         content = (
-          <div className="content">
+          <div className="flow">
             <p>Email successfuly validated.</p>
             <p>
               A manager will validate your account, you&apos;ll be notified by
@@ -53,7 +53,7 @@ class VerifyRegistration extends Component {
         }
 
         content = (
-          <div className="content">
+          <div className="flow">
             <p>Error validating email.</p>
             {message}
           </div>
@@ -64,7 +64,7 @@ class VerifyRegistration extends Component {
 
       default:
         content = (
-          <div className="content">
+          <div className="flow">
             <p>Validating...</p>
           </div>
         )

@@ -213,14 +213,15 @@ $form-field-height: sizes.$row-height;
       & {
         display: flex;
         flex: 1;
+        gap: sizes.$gap-horizontal;
+      }
+
+      @include support.make-smartphone {
+        gap: sizes.$gap-horizontal-smartphone;
       }
 
       .input {
         flex: initial;
-
-        &:not(:last-child) {
-          @include sizes.make-gap(margin, right);
-        }
       }
     }
   }

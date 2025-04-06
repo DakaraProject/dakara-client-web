@@ -76,7 +76,7 @@ class Register extends Component {
         <div className="header primary">
           <h2>Create a new account</h2>
         </div>
-        <div className="content">
+        <div className="flow">
           {this.state.created ? createdMessage : registerForm}
         </div>
       </div>

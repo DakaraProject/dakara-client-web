@@ -8,7 +8,7 @@ export default class Footer extends Component {
 
     return (
       <footer id="footer" className="box">
-        <div className="content">
+        <div className="flow">
           <h2>
             Dakara client <span className="version">{version}</span>
           </h2>

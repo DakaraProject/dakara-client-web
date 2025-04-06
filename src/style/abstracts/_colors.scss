@@ -201,7 +201,8 @@ $neutral-502: color.adjust($neutral, $lightness: 40%);
   $background: null,
   $color: null,
   $background-selection: null,
-  $color-selection: null
+  $color-selection: null,
+  $color-quote: null
 ) {
   @if $background {
     background: $background;
@@ -217,6 +218,13 @@ $neutral-502: color.adjust($neutral, $lightness: 40%);
     }
     @if $color-selection {
       color: $color-selection;
+    }
+  }
+
+  &q,
+  q {
+    @if $color-quote {
+      color: $color-quote;
     }
   }
 }
