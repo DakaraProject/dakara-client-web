@@ -55,5 +55,12 @@
         transition: max-height 150ms ease-out;
       }
     }
+
+    q {
+      &::before,
+      &::after {
+        content: '';
+      }
+    }
   }
 }
