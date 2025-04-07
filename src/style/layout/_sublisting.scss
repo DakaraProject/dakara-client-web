@@ -18,7 +18,7 @@ $sublisting-entry-control-icon-size: sizes.$subrow-icon-font-size;
 // list entry.
 .sublisting {
   list-style-type: none;
-  margin: 0 !important; // FIXME Remove box p and ul rules
+  margin: 0;
   padding: 0;
   width: 100%;
 

@@ -107,7 +107,6 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
 // Specialization for lists
 ul.listing {
   list-style-type: none;
-  margin: 0;
 
   // limit to 10 entries by default
   &:not(.free) {
