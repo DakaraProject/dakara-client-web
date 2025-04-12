@@ -72,6 +72,9 @@
 
     .name {
       font-size: 0.9em;
+    }
+
+    .icon + .name {
       margin-left: 0.5em;
 
       @include support.make-smartphone {
