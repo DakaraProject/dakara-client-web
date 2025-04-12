@@ -12,10 +12,6 @@
 //
 // Query box for searching items in a library.
 .searchbox {
-  // & {
-  //   background: colors.$primary-100;
-  // }
-
   .set {
     .field {
       flex: 1;
@@ -32,10 +28,6 @@
   }
 
   .help {
-    // & {
-    //   color: colors.$primary-400;
-    // }
-
     &.help-enter {
       max-height: 0;
       overflow: hidden;
