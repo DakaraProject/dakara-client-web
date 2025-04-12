@@ -25,66 +25,54 @@ $subrow-height: 0.75 * $row-height;
 $subrow-icon-font-size: 0.85 * $row-icon-font-size;
 
 // helper for padding or margin gaps
+// can be called successively in different directions
 // @param $type property to use (padding or margin)
 // @param $direction where to apply the gap (top, bottom, left, right, vertical
-//  (top and bottom) or horizontal (left and right))
-// @param $factor extra scale to apply to the gap (number)
+// (top and bottom) or horizontal (left and right))
+// @param $factor extra scale to apply to the gap (number, default to 1)
 @mixin make-gap($type, $direction, $factor: 1) {
-  // detect if the gap has to be applied to one axis or one direction only
-  $is-multi: ($direction == vertical) or ($direction == horizontal);
-
-  // format the value accordingly
-  // for large device
-  $value: null;
-  @if $is-multi {
-    @if $direction == vertical {
-      $value: $gap-vertical * $factor 0;
-    } @else {
-      $value: 0 $gap-horizontal * $factor;
+  // set top gap
+  @if ($direction == vertical) or ($direction == top) {
+    & {
+      #{$type}-top: $gap-vertical * $factor;
     }
-  } @else {
-    @if ($direction == top) or ($direction == bottom) {
-      $value: $gap-vertical * $factor;
-    } @else if ($direction == right) or ($direction == left) {
-      $value: $gap-horizontal * $factor;
-    } @else {
-      @error 'direction must be either vertical, horizontal, top, bottom, left or right';
+
+    @include support.make-smartphone {
+      #{$type}-top: $gap-vertical-smartphone * $factor;
     }
   }
 
-  // for smartphone
-  $value-smartphone: null;
-  @if $is-multi {
-    @if $direction == vertical {
-      $value-smartphone: $gap-vertical-smartphone * $factor 0;
-    } @else {
-      $value-smartphone: 0 $gap-horizontal-smartphone * $factor;
+  // set bottom gap
+  @if ($direction == vertical) or ($direction == bottom) {
+    & {
+      #{$type}-bottom: $gap-vertical * $factor;
     }
-  } @else {
-    @if ($direction == top) or ($direction == bottom) {
-      $value-smartphone: $gap-vertical-smartphone * $factor;
-    } @else if ($direction == right) or ($direction == left) {
-      $value-smartphone: $gap-horizontal-smartphone * $factor;
-    } @else {
-      @error 'direction must be either vertical, horizontal, top, bottom, left or right';
+
+    @include support.make-smartphone {
+      #{$type}-bottom: $gap-vertical-smartphone * $factor;
     }
   }
 
-  // create the property name accordingly
-  $property: null;
-  @if $is-multi {
-    $property: $type;
-  } @else {
-    $property: '#{$type}-#{$direction}';
+  // set right gap
+  @if ($direction == horizontal) or ($direction == right) {
+    & {
+      #{$type}-right: $gap-horizontal * $factor;
+    }
+
+    @include support.make-smartphone {
+      #{$type}-right: $gap-horizontal-smartphone * $factor;
+    }
   }
 
-  // apply the rule
-  & {
-    #{$property}: $value;
-  }
+  // set left gap
+  @if ($direction == horizontal) or ($direction == left) {
+    & {
+      #{$type}-left: $gap-horizontal * $factor;
+    }
 
-  @include support.make-smartphone {
-    #{$property}: $value-smartphone;
+    @include support.make-smartphone {
+      #{$type}-left: $gap-horizontal-smartphone * $factor;
+    }
   }
 }
 

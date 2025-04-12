@@ -113,7 +113,7 @@
     }
 
     > h2 {
-      @include sizes.make-gap(padding, horizontal);
+      @include sizes.make-gap(margin, horizontal);
     }
   }
 
@@ -161,7 +161,7 @@
     h4,
     h5,
     h6 {
-      @include sizes.make-gap(padding, horizontal);
+      @include sizes.make-gap(margin, horizontal);
     }
 
     p,
