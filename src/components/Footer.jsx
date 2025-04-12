@@ -12,14 +12,11 @@ export default class Footer extends Component {
           <h2>
             Dakara client <span className="version">{version}</span>
           </h2>
-          <div className="contact">
-            <p className="project">
-              Visit the <a href={projectHomepage}>project page</a>
-            </p>
-            <p className="bug">
-              Report a <a href={bugtracker}>bug</a>
-            </p>
-          </div>
+          <p className="contact">
+            Visit the <a href={projectHomepage}>project page</a>
+            <br />
+            Report a <a href={bugtracker}>bug</a>
+          </p>
         </div>
       </footer>
     )
