@@ -4,7 +4,7 @@ export default function KaraStatusNotification() {
   return (
     <div className="box primary" id="kara-status-notification">
       <div className="flow">
-        <p className="message">
+        <p>
           The karaoke is stopped for now. You can activate it in the settings
           page.
         </p>
