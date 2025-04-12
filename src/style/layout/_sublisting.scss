@@ -47,7 +47,7 @@ $sublisting-entry-control-icon-size: sizes.$subrow-icon-font-size;
 
     .controls {
       @include controls.make-controls(
-        $height: $height,
+        $height,
         $icon-size: $sublisting-entry-control-icon-size
       );
 
