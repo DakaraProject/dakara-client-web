@@ -79,7 +79,7 @@ class SearchBox extends Component {
     if (help) {
       helpButton = (
         <button
-          className="control transparent"
+          className="control square transparent"
           type="button"
           onClick={(e) => {
             this.toggleHelp()
@@ -106,7 +106,7 @@ class SearchBox extends Component {
     }
 
     return (
-      <div className="library-searchbox">
+      <div className="searchbox primary flow">
         <form
           className="form inline"
           onSubmit={(e) => {
@@ -140,10 +140,10 @@ class SearchBox extends Component {
                       .classList.remove('focus')
                   }}
                 />
-                <div className="controls">
+                <div className="controls compact">
                   {helpButton}
                   <button
-                    className="control transparent"
+                    className="control square transparent"
                     type="button"
                     onClick={(e) => {
                       this.setState({ query: '' })
@@ -160,7 +160,7 @@ class SearchBox extends Component {
             </div>
           </div>
           <div className="controls">
-            <button type="submit" className="control primary">
+            <button type="submit" className="control square primary">
               <span className="icon">
                 <i className="las la-search"></i>
               </span>

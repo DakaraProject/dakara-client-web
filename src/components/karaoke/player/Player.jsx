@@ -207,7 +207,7 @@ class Player extends Component {
         id="player"
         className={classNames({ 'with-controls': withControls })}
       >
-        <div className="player-sticky">
+        <div className="player-sticky primary">
           <div className="notifiable">
             {info}
             <PlayerNotification

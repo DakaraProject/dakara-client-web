@@ -83,21 +83,18 @@ class SongList extends Component {
               </p>
               <ul>
                 <li>
-                  Quotes to group words:{' '}
-                  <span className="example">&quot;my artist&quot;</span>
+                  Quotes to group words: <q>&quot;my artist&quot;</q>
                 </li>
                 <li>
                   Prefix and quotes to search in a specific field:{' '}
-                  <span className="example">artist:&quot;my artist&quot;</span>
+                  <q>artist:&quot;my artist&quot;</q>
                 </li>
                 <li>
                   Prefix and doubled quotes to search a specific field exactly:{' '}
-                  <span className="example">
-                    artist:&quot;&quot;my artist name&quot;&quot;
-                  </span>
+                  <q>artist:&quot;&quot;my artist name&quot;&quot;</q>
                 </li>
                 <li>
-                  Hash tag to target tags: <span className="example">#tag</span>
+                  Hash tag to target tags: <q>#tag</q>
                 </li>
               </ul>
             </>

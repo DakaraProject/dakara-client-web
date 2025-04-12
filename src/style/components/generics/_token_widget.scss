@@ -29,11 +29,4 @@ $token-widget-height: sizes.$row-height;
       line-height: $token-widget-height;
     }
   }
-
-  .controls {
-    @include controls.make-controls(
-      $height: $token-widget-height,
-      $square: true
-    );
-  }
 }

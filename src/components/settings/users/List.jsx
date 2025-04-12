@@ -86,7 +86,7 @@ class UsersList extends Component {
         </ListingFetchWrapper>
         <Navigator pagination={pagination} location={location} />
         <IsUserManager>
-          <div className="create-user">
+          <div className="create-user flow">
             <FormBlock
               title="Create user"
               submitText="Create"

@@ -62,13 +62,7 @@ class PlayerErrorsEntry extends Component {
     const expanded = +this.props.searchParams.get('expanded') === playerError.id
 
     return (
-      <li
-        className={
-          'listing-entry ' +
-          'library-entry library-entry-song ' +
-          'player-error-entry'
-        }
-      >
+      <li className="listing-entry library-entry library-entry-song player-error-entry listable">
         <div
           className={
             'library-entry-song-compact player-errors-entry-song ' +

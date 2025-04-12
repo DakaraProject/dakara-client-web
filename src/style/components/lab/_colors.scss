@@ -5,20 +5,6 @@
 @use '~/abstracts/sizes';
 
 .colors {
-  .section {
-    &:not(:last-child) {
-      @include sizes.make-gap(margin, bottom);
-    }
-
-    .listing {
-      @include sizes.make-gap(margin, vertical);
-    }
-
-    .format {
-      @include sizes.make-gap(margin, right);
-    }
-  }
-
   .mosaic {
     .tile {
       color: hsl(0, 100%, 100%, 0.5);
@@ -151,21 +137,6 @@
     &.title {
       background: none;
       text-align: left;
-    }
-  }
-
-  .controls {
-    @include controls.make-controls();
-
-    display: flex;
-    justify-content: flex-end;
-
-    &:not(:last-child) {
-      @include sizes.make-gap(padding, bottom);
-    }
-
-    > .control {
-      @include sizes.make-gap(padding, horizontal);
     }
   }
 }

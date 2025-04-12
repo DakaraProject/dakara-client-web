@@ -30,15 +30,16 @@ class VerifyEmail extends Component {
   render() {
     const { responseOfVerifyEmail } = this.props
     let content
-    let error = false
+    let className
 
     switch (responseOfVerifyEmail.status) {
       case Status.successful:
         content = (
-          <div className="content">
+          <div className="flow">
             <p>Email successfuly validated.</p>
           </div>
         )
+        className = 'success'
         break
 
       case Status.failed: {
@@ -48,25 +49,26 @@ class VerifyEmail extends Component {
         }
 
         content = (
-          <div className="content">
+          <div className="flow">
             <p>Error validating email.</p>
             {message}
           </div>
         )
-        error = true
+        className = 'danger'
         break
       }
 
       default:
         content = (
-          <div className="content">
+          <div className="flow">
             <p>Validating...</p>
           </div>
         )
+        className = 'success'
     }
 
     return (
-      <div id="verify-email" className={classNames('box', { danger: error })}>
+      <div id="verify-email" className={classNames('box', className)}>
         <div className="header">
           <h2>Email verification</h2>
         </div>

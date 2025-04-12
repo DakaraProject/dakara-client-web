@@ -83,7 +83,7 @@ class PlayerTokenBox extends Component {
       if (created) {
         // display token
         playerTokenBoxContent = (
-          <div className="created">
+          <>
             <TokenWidget token={playerToken.key} />
             <div className="ribbon info copy-help">
               <p className="message">
@@ -111,46 +111,40 @@ class PlayerTokenBox extends Component {
                 failedMessage="Unable to revoke player token"
               />
               <button className="control primary" onClick={this.displayConfirm}>
-                Revoke token
+                Revoke player token
               </button>
             </div>
-          </div>
+          </>
         )
       } else {
         // display button to create token
         playerTokenBoxContent = (
-          <div className="create">
-            <div className="ribbon primary notifiable">
-              <p className="message">
-                Create a token that can be used to authenticate the player.
-              </p>
-              <div className="controls">
-                <button
-                  className="control primary"
-                  onClick={() => {
-                    createPlayerToken(karaoke.id)
-                  }}
-                >
-                  <span className="icon">
-                    <i className="las la-plus-circle"></i>
-                  </span>
-                </button>
-              </div>
-              <Notification
-                alterationResponse={responseOfCreatePlayerToken}
-                pendingMessage={null}
-                successfulMessage={null}
-                failedMessage="Unable to create player token"
-              />
+          <>
+            <p>Create a token that can be used to authenticate the player.</p>
+            <div className="controls notifiable">
+              <button
+                className="control primary"
+                onClick={() => {
+                  createPlayerToken(karaoke.id)
+                }}
+              >
+                Create player token
+              </button>
             </div>
-          </div>
+            <Notification
+              alterationResponse={responseOfCreatePlayerToken}
+              pendingMessage={null}
+              successfulMessage={null}
+              failedMessage="Unable to create player token"
+            />
+          </>
         )
       }
 
       playerTokenBox = (
         <CSSTransition
           in={created}
-          classNames="created"
+          classNames="token-player"
           timeout={{
             enter: 300,
             exit: 150,
@@ -162,7 +156,7 @@ class PlayerTokenBox extends Component {
     }
 
     return (
-      <div className="token-box player">
+      <div className="token-box player flow">
         <h3>Player token</h3>
         {playerTokenBox}
       </div>
@@ -208,45 +202,43 @@ class Tokens extends Component {
     const { userToken, revokeToken, responseOfRevokeToken } = this.props
 
     return (
-      <div id="tokens" className="content">
-        <div className="token-box user">
+      <div id="tokens" className="flow">
+        <div className="token-box user flow">
           <h3>User token</h3>
-          <div className="created">
-            <TokenWidget token={userToken} />
-            <IsLibraryManager>
-              <div className="ribbon info copy-help">
-                <p className="message">
-                  You can use this token to authenticate the feeder.
-                </p>
-              </div>
-            </IsLibraryManager>
-            <div className="revoke controls notifiable">
-              <CSSTransitionLazy
-                in={this.state.confirmDisplayed}
-                classNames="notified"
-                timeout={{
-                  enter: 300,
-                  exit: 150,
-                }}
-              >
-                <ConfirmationBar
-                  message="This will disconnect you from
-                                    all your device. Are you sure?"
-                  onConfirm={revokeToken}
-                  onCancel={this.clearConfirm}
-                />
-              </CSSTransitionLazy>
-              <button className="control primary" onClick={this.displayConfirm}>
-                Revoke token
-              </button>
+          <TokenWidget token={userToken} />
+          <IsLibraryManager>
+            <div className="ribbon info copy-help">
+              <p className="message">
+                You can use this token to authenticate the feeder.
+              </p>
             </div>
-            <Notification
-              alterationResponse={responseOfRevokeToken}
-              pendingMessage={null}
-              successfulMessage={null}
-              failedMessage="Unable to revoke token"
-            />
+          </IsLibraryManager>
+          <div className="revoke controls notifiable">
+            <CSSTransitionLazy
+              in={this.state.confirmDisplayed}
+              classNames="notified"
+              timeout={{
+                enter: 300,
+                exit: 150,
+              }}
+            >
+              <ConfirmationBar
+                message="This will disconnect you from
+                                  all your devices. Are you sure?"
+                onConfirm={revokeToken}
+                onCancel={this.clearConfirm}
+              />
+            </CSSTransitionLazy>
+            <button className="control primary" onClick={this.displayConfirm}>
+              Revoke token
+            </button>
           </div>
+          <Notification
+            alterationResponse={responseOfRevokeToken}
+            pendingMessage={null}
+            successfulMessage={null}
+            failedMessage="Unable to revoke token"
+          />
         </div>
         <IsPlaylistManager>
           <PlayerTokenBox />

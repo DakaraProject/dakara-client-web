@@ -84,7 +84,7 @@ class Entry extends Component {
      */
     const createReorderButton = (id, iconName, extraClassName = '') => (
       <button
-        className="control primary"
+        className="control square primary"
         onClick={() => {
           onReorderButtonClick(id)
         }}
@@ -124,6 +124,7 @@ class Entry extends Component {
           'playlist-entry',
           'library-entry',
           'library-entry-song',
+          'listable',
           'hoverizable',
           { delayed: this.props.responseOfRemoveEntry }
         )}
@@ -139,7 +140,7 @@ class Entry extends Component {
             <PlaylistPositionInfo
               entryQueuing={playlistEntries.find((e) => e.id === entry.id)}
             />
-            <div className="controls main">
+            <div className="controls compact main">
               <IsPlaylistManager>
                 <CSSTransitionLazy
                   in={!!reorderExtraButtons}
@@ -149,13 +150,15 @@ class Entry extends Component {
                     exit: 1500,
                   }}
                 >
-                  <div className="subcontrols">{reorderExtraButtons}</div>
+                  <div className="controls compact subcontrols">
+                    {reorderExtraButtons}
+                  </div>
                 </CSSTransitionLazy>
                 {reorderButton}
               </IsPlaylistManager>
               <IsPlaylistManagerOrOwner object={entry} disable>
                 <button
-                  className="control warning"
+                  className="control square warning"
                   onClick={this.displayConfirm}
                 >
                   <span className="icon">

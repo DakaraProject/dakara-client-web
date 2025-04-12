@@ -26,7 +26,7 @@ class ArtistEntry extends Component {
 
   render() {
     return (
-      <li className="library-entry listing-entry library-entry-artist hoverizable">
+      <li className="library-entry listing-entry library-entry-artist listable hoverizable">
         <div className="library-entry-work-artist-display">
           <div className="header">
             <HighlighterQuery
@@ -38,8 +38,11 @@ class ArtistEntry extends Component {
           </div>
           <div className="songs-amount">{this.props.artist.song_count}</div>
         </div>
-        <div className="controls">
-          <button className="control primary" onClick={this.handleSearch}>
+        <div className="controls compact">
+          <button
+            className="control square primary"
+            onClick={this.handleSearch}
+          >
             <span className="icon">
               <i className="las la-search"></i>
             </span>

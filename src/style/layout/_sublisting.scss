@@ -18,7 +18,7 @@ $sublisting-entry-control-icon-size: sizes.$subrow-icon-font-size;
 // list entry.
 .sublisting {
   list-style-type: none;
-  margin: 0 !important; // FIXME Remove box p and ul rules
+  margin: 0;
   padding: 0;
   width: 100%;
 
@@ -31,14 +31,23 @@ $sublisting-entry-control-icon-size: sizes.$subrow-icon-font-size;
     display: flex;
     min-height: $height;
 
-    &:nth-child(even) {
-      background: colors.$neutral-121;
+    .listable,
+    &.listable {
+      &:nth-child(even) {
+        background: colors.$neutral-121;
+      }
+    }
+
+    .hoverizable,
+    &.hoverizable {
+      &:hover {
+        background: colors.$neutral-122;
+      }
     }
 
     .controls {
       @include controls.make-controls(
-        $height: $height,
-        $square: true,
+        $height,
         $icon-size: $sublisting-entry-control-icon-size
       );
 

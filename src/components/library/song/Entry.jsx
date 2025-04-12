@@ -85,7 +85,7 @@ class SongEntry extends Component {
     return (
       <li
         className={classNames(
-          'library-entry listing-entry library-entry-song',
+          'library-entry listing-entry library-entry-song listable',
           { expanded }
         )}
       >
@@ -108,12 +108,12 @@ class SongEntry extends Component {
             <TransitionGroup className="play-queue-info-wrapper">
               {playlistPositionInfo}
             </TransitionGroup>
-            <div className="controls" id={`song-${this.props.song.id}`}>
+            <div className="controls compact" id={`song-${this.props.song.id}`}>
               <CanAddToPlaylist>
                 <IsPlaylistUser>
                   <button
                     disabled={!canAdd}
-                    className="control primary"
+                    className="control square primary"
                     onClick={() => {
                       this.props.addSongToPlaylist(this.props.song.id)
                     }}

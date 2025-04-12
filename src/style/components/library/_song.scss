@@ -98,9 +98,6 @@
       padding-bottom: sizes.$gap-vertical;
 
       .controls {
-        height: sizes.$row-height;
-        justify-content: flex-end;
-
         .text {
           line-height: sizes.$row-height;
           padding-right: 0.5em;

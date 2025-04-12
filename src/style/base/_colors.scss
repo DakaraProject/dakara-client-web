@@ -6,11 +6,20 @@
 
 @use '~/abstracts/colors';
 
+.neutral {
+  @include colors.make-color(
+    colors.$neutral-100,
+    colors.$neutral-400,
+    $color-quote: colors.$neutral-500
+  );
+}
+
 .primary {
   @include colors.make-color(
     colors.$primary-100,
     colors.$primary-400,
     colors.$primary-200,
+    colors.$primary-500,
     colors.$primary-500
   );
 }
@@ -20,6 +29,7 @@
     colors.$success-100,
     colors.$success-400,
     colors.$success-200,
+    colors.$success-500,
     colors.$success-500
   );
 }
@@ -29,6 +39,7 @@
     colors.$warning-100,
     colors.$warning-400,
     colors.$warning-200,
+    colors.$warning-500,
     colors.$warning-500
   );
 }
@@ -38,6 +49,7 @@
     colors.$danger-100,
     colors.$danger-400,
     colors.$danger-200,
+    colors.$danger-500,
     colors.$danger-500
   );
 }
@@ -47,6 +59,61 @@
     colors.$info-100,
     colors.$info-400,
     colors.$info-200,
+    colors.$info-500,
     colors.$info-500
   );
+}
+
+.listable:nth-child(even) {
+  &.primary,
+  .primary {
+    @include colors.make-color(colors.$primary-101);
+  }
+
+  &.success,
+  .success {
+    @include colors.make-color(colors.$success-101);
+  }
+
+  &.warning,
+  .warning {
+    @include colors.make-color(colors.$warning-101);
+  }
+
+  &.danger,
+  .danger {
+    @include colors.make-color(colors.$danger-101);
+  }
+
+  &.info,
+  .info {
+    @include colors.make-color(colors.$info-101);
+  }
+}
+
+.hoverizable:hover {
+  &.primary,
+  .primary {
+    @include colors.make-color(colors.$primary-102);
+  }
+
+  &.succees,
+  .success {
+    @include colors.make-color(colors.$success-102);
+  }
+
+  &.warning,
+  .warning {
+    @include colors.make-color(colors.$warning-102);
+  }
+
+  &.danger,
+  .danger {
+    @include colors.make-color(colors.$danger-102);
+  }
+
+  &.info,
+  .info {
+    @include colors.make-color(colors.$info-102);
+  }
 }

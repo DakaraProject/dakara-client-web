@@ -31,6 +31,7 @@ $playlist-info-bar-height-smartphone: 7rem;
     color: colors.$primary-000;
     cursor: pointer;
     display: flex;
+    gap: sizes.$gap-horizontal;
     height: $playlist-info-bar-height;
     justify-content: space-between;
     overflow: hidden;
@@ -39,6 +40,7 @@ $playlist-info-bar-height-smartphone: 7rem;
 
   @include support.make-smartphone {
     font-size: 0.85em;
+    gap: sizes.$gap-horizontal-smartphone;
     height: $playlist-info-bar-height-smartphone;
   }
 
@@ -59,10 +61,6 @@ $playlist-info-bar-height-smartphone: 7rem;
     @include support.make-smartphone {
       align-items: flex-start;
       flex-direction: column;
-    }
-
-    &:not(:last-child) {
-      @include sizes.make-gap(padding, right);
     }
 
     &:last-child {

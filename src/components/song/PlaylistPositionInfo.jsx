@@ -125,7 +125,7 @@ class PlaylistPositionInfo extends Component {
     }
 
     return (
-      <div className="playlist-position-info">
+      <div className="playlist-position-info info">
         <UserWidget className="owner" user={entry.owner} />
         {content}
         {instrumentalContent}

@@ -18,7 +18,7 @@ class NotFound extends Component {
         <div className="header">
           <h2>Not found</h2>
         </div>
-        <div className="content">
+        <div className="flow">
           <div className="url">{url}</div>
           <p>We&apos;re sorry, your request did not match any route…</p>
         </div>

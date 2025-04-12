@@ -246,7 +246,7 @@ class SongEntryExpanded extends Component {
                   <span className="text">Request instrumental track</span>
                   <button
                     disabled={!canAdd}
-                    className="control primary submit"
+                    className="control square primary submit"
                     onClick={() => {
                       this.props.addSongToPlaylistWithOptions(
                         this.props.song.id,

@@ -42,7 +42,7 @@ export default class SettingsUsersEntry extends Component {
     const { user, deleteUser } = this.props
 
     return (
-      <tr className="listing-entry user-listing-entry hoverizable">
+      <tr className="listing-entry user-listing-entry listable hoverizable">
         <td className="notification-col">
           <NotifiableForTable>
             <CSSTransitionLazy
@@ -92,15 +92,15 @@ export default class SettingsUsersEntry extends Component {
         </td>
         <td className="controls-col">
           <IsUserManager>
-            <div className="controls">
+            <div className="controls compact">
               <IsNotSelf object={user} disable>
-                <ControlLink to={`${user.id}`} className="control info">
+                <ControlLink to={`${user.id}`} className="control square info">
                   <span className="icon">
                     <i className="las la-pen"></i>
                   </span>
                 </ControlLink>
                 <button
-                  className="control danger"
+                  className="control square danger"
                   onClick={this.displayConfirm}
                 >
                   <span className="icon">

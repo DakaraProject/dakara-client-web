@@ -8,6 +8,8 @@
 @use '~/abstracts/sizes';
 @use '~/abstracts/support';
 
+// `listing-details` class:
+//
 // The class behaves like a table in order to keep a column of labels of the
 // same width. This does not go without consequenses, as a table element is
 // difficult to style.
@@ -28,10 +30,10 @@
 
     @include support.make-smartphone {
       display: block;
-    }
 
-    &:not(:last-child) {
-      @include sizes.make-gap(padding, bottom);
+      & + .entry {
+        margin-top: sizes.$gap-vertical-smartphone;
+      }
     }
 
     > .header {

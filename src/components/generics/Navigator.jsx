@@ -40,7 +40,7 @@ class Navigator extends Component {
           <ControlLink
             to={{ pathname, queryObj: { ...queryObj, page: 1 } }}
             disabled={!hasPrevious}
-            className="primary"
+            className="square primary"
           >
             <span className="icon">
               <i className="las la-angle-double-left"></i>
@@ -49,7 +49,7 @@ class Navigator extends Component {
           <ControlLink
             to={{ pathname, queryObj: { ...queryObj, page: current - 1 } }}
             disabled={!hasPrevious}
-            className="primary"
+            className="square primary"
           >
             <span className="icon">
               <i className="las la-angle-left"></i>
@@ -58,7 +58,7 @@ class Navigator extends Component {
           <ControlLink
             to={{ pathname, queryObj: { ...queryObj, page: current + 1 } }}
             disabled={!hasNext}
-            className="primary"
+            className="square primary"
           >
             <span className="icon">
               <i className="las la-angle-right"></i>
@@ -67,7 +67,7 @@ class Navigator extends Component {
           <ControlLink
             to={{ pathname, queryObj: { ...queryObj, page: last } }}
             disabled={!hasNext}
-            className="primary"
+            className="square primary"
           >
             <span className="icon">
               <i className="las la-angle-double-right"></i>

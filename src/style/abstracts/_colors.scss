@@ -198,16 +198,33 @@ $neutral-502: color.adjust($neutral, $lightness: 40%);
 
 // create colors
 @mixin make-color(
-  $background,
-  $color,
-  $background-selection,
-  $color-selection
+  $background: null,
+  $color: null,
+  $background-selection: null,
+  $color-selection: null,
+  $color-quote: null
 ) {
-  background: $background;
-  color: $color;
+  @if $background {
+    background: $background;
+  }
+  @if $color {
+    color: $color;
+  }
 
+  &::selection,
   ::selection {
-    background: $background-selection;
-    color: $color-selection;
+    @if $background-selection {
+      background: $background-selection;
+    }
+    @if $color-selection {
+      color: $color-selection;
+    }
+  }
+
+  &q,
+  q {
+    @if $color-quote {
+      color: $color-quote;
+    }
   }
 }

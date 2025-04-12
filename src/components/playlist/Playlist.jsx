@@ -1,13 +1,13 @@
 import { Component } from 'react'
 import { Outlet } from 'react-router'
 
-import Tab from 'components/generics/Tab'
+import { Tab, TabBar } from 'components/generics/TabBar'
 
 export default class Playlist extends Component {
   render() {
     return (
-      <div id="playlist" className="box">
-        <nav className="tab-bar">
+      <div id="playlist" className="box neutral">
+        <TabBar>
           <Tab
             to="/playlist/queueing"
             iconName="chevron-right"
@@ -19,7 +19,7 @@ export default class Playlist extends Component {
             iconName="exclamation-triangle"
             name="Errors"
           />
-        </nav>
+        </TabBar>
         <Outlet />
       </div>
     )

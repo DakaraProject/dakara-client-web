@@ -28,7 +28,7 @@ class WorkEntry extends Component {
   render() {
     const { title, subtitle, song_count } = this.props.work
     return (
-      <li className="library-entry listing-entry library-entry-work hoverizable">
+      <li className="library-entry listing-entry library-entry-work listable hoverizable">
         <div className="library-entry-work-artist-display">
           <div className="header">
             <HighlighterQuery
@@ -41,8 +41,11 @@ class WorkEntry extends Component {
           </div>
           <div className="songs-amount">{song_count}</div>
         </div>
-        <div className="controls">
-          <button className="control primary" onClick={this.handleSearch}>
+        <div className="controls compact">
+          <button
+            className="control square primary"
+            onClick={this.handleSearch}
+          >
             <span className="icon">
               <i className="las la-search"></i>
             </span>

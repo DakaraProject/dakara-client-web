@@ -7,6 +7,11 @@
 @use '~/abstracts/colors';
 @use '~/abstracts/fonts';
 
+// prevent overscroll
+html {
+  overscroll-behavior: none;
+}
+
 // default colors and margins
 body {
   background: colors.$neutral-000;
@@ -49,6 +54,8 @@ h3 {
 p {
   @include fonts.make-long;
 
+  margin: 0;
+
   // links
   a {
     color: colors.$primary-400;
@@ -66,6 +73,7 @@ p {
 
 ul {
   list-style-type: square;
+  margin: 0;
 }
 
 // remove border radius from button in some browsers

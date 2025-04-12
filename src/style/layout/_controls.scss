@@ -7,25 +7,38 @@
 @use '~/abstracts/colors';
 @use '~/abstracts/controls';
 @use '~/abstracts/sizes';
+@use '~/abstracts/support';
 
 // `controls` class:
 //
-// The `controls` class is a manager for buttons, i.e. controls, which change
-// feel and color depending on hover and activation. If contained in a
-// `listing-entry` class line, they also depend on their parent hover and
-// alteration. The class does not set the size of the controls, this is
-// performed by the `make-controls` function.
+// The `controls` class is a manager for buttons, i.e. controls or `control`s,
+// which displays them together. A default size is given for the controls,
+// which can be overriden by the `abstracts.controls.make-controls` mixin.
+// Controls have no color by default, and should have a color subclass. The
+// color is adjusted wether the control is in a listable or a hoverizable
+// element.
 //
-// It provides a `control` subclass for those elements, which has the basic
-// properties. Extra subclasses are available for the color of the control.
+// If you have controls inside controls, add the `subcontrols` class to the
+// subsequent `controls`.
 .controls {
+  // default aspect of controls
+  @include controls.make-controls;
+
   display: flex;
 
-  > .subcontrols {
-    display: flex;
+  // align right by default
+  justify-content: flex-end;
+
+  // non compact controls have space between each other
+  &:not(.compact) {
+    gap: sizes.$gap-horizontal;
+
+    @include support.make-smartphone {
+      gap: sizes.$gap-horizontal-smartphone;
+    }
   }
 
-  // subclass for a control button
+  // class for a control button
   .control {
     align-items: center;
     border-style: none;
@@ -34,15 +47,11 @@
     justify-content: center;
     outline: none;
     padding: 0;
+    text-decoration: none;
 
-    // spacing between controls
-    &:not(:last-child) {
-      @include sizes.make-gap(margin, right);
-    }
-
-    // if the control contains a picture, it is vertically centered
-    img {
-      vertical-align: middle;
+    // non-square buttons have padding
+    &:not(.square) {
+      @include sizes.make-gap(padding, horizontal);
     }
 
     // maker for different type of control buttons
@@ -71,6 +80,16 @@
           background: $background-focus;
         }
       }
+    }
+
+    &.neutral {
+      @include make-control(
+        colors.$neutral-000,
+        colors.$neutral-300,
+        colors.$neutral-200,
+        colors.$neutral-302,
+        colors.$neutral-303
+      );
     }
 
     &.primary {
@@ -122,51 +141,53 @@
         colors.$info-303
       );
     }
-  }
 
-  // make link transparent
-  a.control {
-    text-decoration: none;
-  }
-}
-
-// lighten control on even line of a `listing` list
-.listing-entry:nth-child(even) .controls:not(.subcontrols),
-.sublisting-entry:nth-child(even) .controls.subcontrols {
-  .control {
-    @mixin make-control-line-even($color-normal, $color-disabled) {
-      background: $color-normal;
-
-      &.disabled,
-      &[disabled] {
-        background: $color-disabled;
-      }
-    }
-
-    &.primary {
-      @include make-control-line-even(colors.$primary-301, colors.$primary-201);
-    }
-
-    &.success {
-      @include make-control-line-even(colors.$success-301, colors.$success-201);
-    }
-
-    &.warning {
-      @include make-control-line-even(colors.$warning-301, colors.$warning-201);
-    }
-
-    &.danger {
-      @include make-control-line-even(colors.$danger-301, colors.$danger-201);
-    }
-
-    &.info {
-      @include make-control-line-even(colors.$info-301, colors.$info-201);
+    // if the control contains a picture, it is vertically centered
+    img {
+      vertical-align: middle;
     }
   }
 }
 
-// lighten control when line hovered on a list
-.hoverizable:hover .controls:not(:hover) {
+// lighten control on even line
+.listable:nth-child(even) .control,
+.control.listable:nth-child(even) {
+  @mixin make-control-line-even($color-normal, $color-disabled) {
+    background: $color-normal;
+
+    &.disabled,
+    &[disabled] {
+      background: $color-disabled;
+    }
+  }
+
+  &.neutral {
+    @include make-control-line-even(colors.$neutral-301, colors.$neutral-201);
+  }
+
+  &.primary {
+    @include make-control-line-even(colors.$primary-301, colors.$primary-201);
+  }
+
+  &.success {
+    @include make-control-line-even(colors.$success-301, colors.$success-201);
+  }
+
+  &.warning {
+    @include make-control-line-even(colors.$warning-301, colors.$warning-201);
+  }
+
+  &.danger {
+    @include make-control-line-even(colors.$danger-301, colors.$danger-201);
+  }
+
+  &.info {
+    @include make-control-line-even(colors.$info-301, colors.$info-201);
+  }
+}
+
+// lighten control (not in subcontrols) when in hovered element
+.hoverizable:hover .controls:not(.subcontrols):not(:hover) {
   .control {
     @mixin make-control-line-hover($color-normal, $color-disabled) {
       &:not(.disabled):not([disabled]):not(:focus) {
@@ -177,6 +198,13 @@
       &[disabled] {
         background: $color-disabled !important;
       }
+    }
+
+    &.neutral {
+      @include make-control-line-hover(
+        colors.$neutral-302,
+        colors.$neutral-202
+      );
     }
 
     &.primary {
@@ -210,9 +238,9 @@
   }
 }
 
+// `controls-col` class used to have a colomn of controls in a table.
 .controls-col {
   .controls {
     height: 100%;
-    justify-content: flex-end;
   }
 }
