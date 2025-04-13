@@ -14,7 +14,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --outDir dist/static --base /static",
-    "lint-js": "eslint .",
+    "lint-js": "eslint . --max-warnings 0",
     "lint-css": "stylelint ./src/style/**/*.{css,scss}",
     "format": "prettier --write ./src",
     "check-format": "prettier --check ./src",
