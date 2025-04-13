@@ -26,6 +26,7 @@ export default class Notification extends Component {
     pendingMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     successfulDuration: PropTypes.number,
     successfulMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    displayOnMount: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -35,9 +36,10 @@ export default class Notification extends Component {
     pendingDuration: null,
     successfulDuration: 3000,
     failedDuration: 5000,
+    displayOnMount: true,
   }
 
-  state = { display: true }
+  state = { display: this.props.displayOnMount }
 
   componentDidMount() {
     this.setNotificationClearTimeout()

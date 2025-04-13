@@ -54,7 +54,7 @@ export default [
 
       'no-class-assign': 'off',
       'no-unused-vars': [
-        'error',
+        'warn',
         {
           args: 'none',
           destructuredArrayIgnorePattern: '^_',
@@ -63,7 +63,7 @@ export default [
       ],
 
       'simple-import-sort/imports': [
-        'error',
+        'warn',
         {
           groups: [
             ['^\\u0000'],

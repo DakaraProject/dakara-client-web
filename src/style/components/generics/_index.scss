@@ -4,7 +4,9 @@
 // Generic components main style file
 //
 
+@use 'details';
 @use 'form';
+@use 'listing';
 @use 'listing_fetch_wrapper';
 @use 'navigator';
 @use 'notification';

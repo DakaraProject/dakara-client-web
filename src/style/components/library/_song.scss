@@ -25,6 +25,30 @@
 //
 // This list entry is not hoverizable, in order to make only the compact view
 // react to hover.
+#song-library {
+  .listing-entry {
+    .one-line {
+      .song {
+        flex: 1;
+
+        .general {
+          @include sizes.make-gap(padding, left);
+        }
+
+        .duration {
+          @include sizes.make-gap(padding, right);
+        }
+      }
+    }
+
+    .expanded {
+      .status {
+        @include sizes.make-vertical-row-padding(horizontal);
+      }
+    }
+  }
+}
+
 .library-entry.library-entry-song {
   // `library-entry-song-compact` class: song compact view.
   // This class must be used with the `hoverizable` subclass.
@@ -36,17 +60,6 @@
     }
 
     .expander {
-      flex: 1;
-      overflow-y: hidden;
-
-      &:focus {
-        background: colors.$neutral-112;
-
-        .song .duration {
-          background: colors.$neutral-303;
-        }
-      }
-
       // `song` subclass: the song itself.
       .song {
         min-height: sizes.$row-height;
@@ -125,26 +138,6 @@
   // table and thus its `max-height` property cannot be animated.
   .library-entry-song-expanded-wrapper {
     // appearance transition of the expanded view
-    &.expand-view-enter {
-      max-height: 0;
-      overflow: hidden;
-
-      &.expand-view-enter-active {
-        max-height: 10 * 0.75 * sizes.$row-height;
-        transition: max-height 600ms ease-out;
-      }
-    }
-
-    // disappearance transition of the expanded view
-    &.expand-view-exit {
-      max-height: 10 * 0.75 * sizes.$row-height;
-      overflow: hidden;
-
-      &.expand-view-exit-active {
-        max-height: 0;
-        transition: max-height 300ms ease-out;
-      }
-    }
   }
 
   // fix appareance and disappearance transitions for moblie

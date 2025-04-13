@@ -78,16 +78,7 @@
 
   // `duration` class: show song duration.
   .duration {
-    align-items: center;
-    align-self: stretch;
-    background: colors.$neutral-300;
-    color: colors.$neutral-000;
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    font-size: 0.85em;
-    justify-content: center;
-    min-width: sizes.$row-height;
+    margin-left: 0.5em;
   }
 
   // `masked` subclass: marker if one of the tags of the song is disabled.
@@ -112,26 +103,6 @@
 
     .tag {
       font-size: inherit;
-    }
-  }
-}
-
-// alteration of colors when used in a listing
-.listable {
-  &:nth-child(even) {
-    .song {
-      .duration {
-        background: colors.$neutral-301;
-      }
-    }
-  }
-
-  .hoverizable:hover,
-  &.hoverizable:hover {
-    .song {
-      .duration {
-        background: colors.$neutral-302;
-      }
     }
   }
 }

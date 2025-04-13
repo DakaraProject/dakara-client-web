@@ -94,11 +94,57 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
       }
     }
 
-    // manage controls
-    .controls {
-      .control {
-        // allow button to stretch vertically
-        height: unset;
+    > .one-line {
+      display: flex;
+
+      .expander {
+        display: flex;
+        flex: 1;
+        overflow-y: hidden;
+
+        &:focus {
+          background: colors.$neutral-112;
+        }
+      }
+
+      .main {
+        display: flex;
+        flex: 1;
+      }
+
+      .extra {
+        display: flex;
+      }
+
+      .controls {
+        .control {
+          // allow button to stretch vertically
+          // height: unset;
+        }
+      }
+    }
+
+    > .expanded {
+      @include sizes.make-gap(padding, vertical);
+
+      &.expand-view-enter {
+        max-height: 0;
+        overflow: hidden;
+
+        &.expand-view-enter-active {
+          max-height: 10 * 0.75 * sizes.$row-height;
+          transition: max-height 600ms ease-out;
+        }
+      }
+
+      &.expand-view-exit {
+        max-height: 10 * 0.75 * sizes.$row-height;
+        overflow: hidden;
+
+        &.expand-view-exit-active {
+          max-height: 0;
+          transition: max-height 300ms ease-in;
+        }
       }
     }
   }

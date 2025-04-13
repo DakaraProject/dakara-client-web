@@ -5,15 +5,16 @@
 //
 
 @use '~/abstracts/colors';
+@use '~/abstracts/controls';
 @use '~/abstracts/sizes';
 @use '~/abstracts/support';
 
-// `listing-details` class:
+// `details` class:
 //
 // The class behaves like a table in order to keep a column of labels of the
 // same width. This does not go without consequenses, as a table element is
 // difficult to style.
-.listing-details {
+.details {
   $height: sizes.$subrow-height;
   border-collapse: separate;
   border-spacing: 0 sizes.$gap-vertical;
@@ -25,13 +26,17 @@
     padding: sizes.$gap-vertical-smartphone 0;
   }
 
-  > .entry {
+  .controls {
+    @include controls.make-controls($height);
+  }
+
+  > .detail {
     display: table-row;
 
     @include support.make-smartphone {
       display: block;
 
-      & + .entry {
+      & + .detail {
         margin-top: sizes.$gap-vertical-smartphone;
       }
     }
@@ -50,22 +55,63 @@
         display: block;
       }
 
-      // .icon {
-      // }
-
       .name {
         line-height: $height;
+      }
+
+      .icon + .name {
         padding-left: 0.5em;
       }
     }
 
     > .content {
+      background: colors.$neutral-120;
+      color: colors.$neutral-420;
       display: table-cell;
       width: 100%;
 
       @include support.make-smartphone {
         display: block;
       }
+
+      &.text,
+      &.long-text > .paragraph,
+      &.artist-widget,
+      &.work-link-widget {
+        @include sizes.make-vertical-row-padding(horizontal, 2);
+
+        & {
+          // allow words to break
+          overflow: hidden;
+          overflow-wrap: break-word;
+        }
+      }
+
+      &.text {
+        align-items: center;
+        display: flex;
+        min-height: calc($height - sizes.$gap-horizontal / 4 * 2 * 2);
+
+        @include support.make-smartphone {
+          min-height: calc(
+            $height - sizes.$gap-horizontal-smartphone / 3 * 2 * 2
+          );
+        }
+      }
+
+      &.long-text {
+        > .paragraph {
+          white-space: pre-wrap;
+          overflow-y: hidden;
+
+          &:not(.expanded) {
+            // hide after about 4 lines
+            max-height: 4.4em;
+          }
+        }
+      }
+
+      // XXX to remove
 
       .sublisting-entry {
         // allow words to break
@@ -78,38 +124,6 @@
           .control {
             height: unset;
           }
-        }
-      }
-
-      .text,
-      .song-tag-list,
-      .paragraph {
-        background: colors.$neutral-120;
-        color: colors.$neutral-420;
-      }
-
-      .text,
-      .paragraph,
-      .artist-widget,
-      .work-link-widget {
-        @include sizes.make-vertical-row-padding(horizontal, 2);
-
-        & {
-          // allow words to break
-          overflow: hidden;
-          overflow-wrap: break-word;
-        }
-      }
-
-      .text {
-        align-items: center;
-        display: flex;
-        min-height: calc($height - sizes.$gap-horizontal / 4 * 2 * 2);
-
-        @include support.make-smartphone {
-          min-height: calc(
-            $height - sizes.$gap-horizontal-smartphone / 3 * 2 * 2
-          );
         }
       }
 
@@ -142,20 +156,6 @@
       &.artists-widget {
         .artist {
           flex: 1;
-        }
-      }
-
-      &.lyrics .paragraph {
-        .line:not(:last-child) {
-          margin-bottom: 0.25em;
-        }
-
-        &.truncated {
-          .line:last-child::after {
-            content: '…';
-            font-size: 1.5em;
-            line-height: 0;
-          }
         }
       }
     }
