@@ -50,7 +50,6 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
     color: colors.$neutral-410;
 
     // optional listable feature
-    .listable,
     &.listable {
       &:nth-child(2n) {
         background: colors.$neutral-111;

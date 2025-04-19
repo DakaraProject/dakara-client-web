@@ -13,7 +13,9 @@ import {
   ListingEntryExpanded,
 } from 'components/generics/listing/Entry'
 import Notification from 'components/generics/Notification'
-import PlaylistPositionInfo from 'components/song/PlaylistPositionInfo'
+import ExceedsKaraStopTime from 'components/song/songStatus/ExceedsKaraStopTime'
+import MaskedByTag from 'components/song/songStatus/MaskedByTag'
+import PositionInPlaylist from 'components/song/songStatus/PositionInPlaylist'
 import Song from 'components/song/Song'
 import SongExpanded from 'components/song/SongExpanded'
 import {
@@ -25,7 +27,6 @@ import { alterationResponsePropType } from 'reducers/alterationsResponse'
 import { songPropType } from 'serverPropTypes/library'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 import { userPropType } from 'serverPropTypes/users'
-import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 
 class SongEntry extends Component {
   static propTypes = {
@@ -35,8 +36,6 @@ class SongEntry extends Component {
     playlistEntries: PropTypes.arrayOf(playlistEntryPropType).isRequired,
     query: PropTypes.object,
     responseOfAddSong: alterationResponsePropType,
-    searchParams: PropTypes.object.isRequired,
-    setSearchParams: PropTypes.func.isRequired,
     song: songPropType.isRequired,
     user: userPropType.isRequired,
     addSongToPlaylistWithOptions: PropTypes.func.isRequired,
@@ -66,24 +65,17 @@ class SongEntry extends Component {
      */
 
     if (song.tags.some((tag) => tag.disabled)) {
-      extra.push(
-        <div className="warning status">
-          <span className="icon">
-            <i className="las la-eye-slash"></i>
-          </span>
-        </div>
-      )
+      extra.push(<MaskedByTag />)
+      extraExpanded.push(<MaskedByTag expanded />)
+    }
 
-      extraExpanded.push(
-        <div className="warning status" key="masked">
-          <span className="icon">
-            <i className="las la-eye-slash"></i>
-          </span>
-          <span className="message">
-            Song disabled because at least one of its tags is deactivated
-          </span>
-        </div>
-      )
+    /**
+     * Song exceeds kara stop date
+     */
+
+    if (karaokeRemainingSeconds && karaokeRemainingSeconds < song.duration) {
+      extra.push(<ExceedsKaraStopTime />)
+      extraExpanded.push(<ExceedsKaraStopTime expanded />)
     }
 
     /**
@@ -101,15 +93,11 @@ class SongEntry extends Component {
           }}
           key="playlist-position-info"
         >
-          <PlaylistPositionInfo entries={entries} />
+          <PositionInPlaylist entries={entries} />
         </CSSTransition>
       )
 
-      extraExpanded.push(
-        <div className="info status" key="playlist-position-info">
-          Song submitted to the playlist by..., should play at...
-        </div>
-      )
+      extraExpanded.push(<PositionInPlaylist entries={entries} expanded />)
     }
 
     const controls = [
@@ -197,11 +185,7 @@ class SongEntry extends Component {
         notifications={notifications}
         entryExpanded={entryExpanded}
       >
-        <Song
-          song={song}
-          query={query}
-          karaokeRemainingSeconds={karaokeRemainingSeconds}
-        />
+        <Song song={song} query={query} />
       </ListingEntry>
     )
 
@@ -289,12 +273,10 @@ const mapStateToProps = (state, ownProps) => ({
   user: state.authenticatedUser,
 })
 
-SongEntry = withSearchParams(
-  connect(mapStateToProps, {
-    addSongToPlaylist,
-    addSongToPlaylistWithOptions,
-    clearAlteration,
-  })(SongEntry)
-)
+SongEntry = connect(mapStateToProps, {
+  addSongToPlaylist,
+  addSongToPlaylistWithOptions,
+  clearAlteration,
+})(SongEntry)
 
 export default SongEntry

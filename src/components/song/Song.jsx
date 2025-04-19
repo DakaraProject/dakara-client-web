@@ -21,7 +21,6 @@ import { formatDuration } from 'utils'
 export default class Song extends Component {
   static propTypes = {
     handleClick: PropTypes.func,
-    karaokeRemainingSeconds: PropTypes.number,
     noArtistWork: PropTypes.bool,
     noDuration: PropTypes.bool,
     noTag: PropTypes.bool,
@@ -30,7 +29,7 @@ export default class Song extends Component {
   }
 
   render() {
-    const { song, query, karaokeRemainingSeconds } = this.props
+    const { song, query } = this.props
 
     /**
      * Song version
@@ -92,17 +91,8 @@ export default class Song extends Component {
 
     let duration
     if (!this.props.noDuration) {
-      let warningIcon
-      if (karaokeRemainingSeconds && karaokeRemainingSeconds < song.duration) {
-        warningIcon = (
-          <span className="icon">
-            <i className="las la-exclamation-triangle"></i>
-          </span>
-        )
-      }
       duration = (
         <div className="duration">
-          {warningIcon}
           <span className="value">{formatDuration(song.duration)}</span>
         </div>
       )

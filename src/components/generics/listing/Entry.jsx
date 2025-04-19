@@ -108,7 +108,7 @@ export function ListingEntryExpanded({
 }) {
   return (
     <div className="expanded">
-      {isDisplayable(extra) && <div className="extra listable">{extra}</div>}
+      {isDisplayable(extra) && <div className="extra">{extra}</div>}
       <div className="main">{children}</div>
       <div className="notifiable">
         {isDisplayable(controls) && <div className="controls">{controls}</div>}

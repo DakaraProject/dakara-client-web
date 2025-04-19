@@ -81,17 +81,6 @@
     margin-left: 0.5em;
   }
 
-  // `masked` subclass: marker if one of the tags of the song is disabled.
-  .masked {
-    align-items: center;
-    align-self: stretch;
-    display: flex;
-    flex-shrink: 0;
-    font-size: 1.25em;
-    justify-content: center;
-    min-width: sizes.$row-height;
-  }
-
   // `song-tag-list` subclass: tag songs.
   // The subclass only specifes the location of the tags.
   .song-tag-list {

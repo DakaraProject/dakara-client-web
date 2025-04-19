@@ -66,27 +66,27 @@
 
 .listable:nth-child(even) {
   &.primary,
-  .primary {
+  .far.primary {
     @include colors.make-color(colors.$primary-101);
   }
 
   &.success,
-  .success {
+  .far.success {
     @include colors.make-color(colors.$success-101);
   }
 
   &.warning,
-  .warning {
+  .far.warning {
     @include colors.make-color(colors.$warning-101);
   }
 
   &.danger,
-  .danger {
+  .far.danger {
     @include colors.make-color(colors.$danger-101);
   }
 
   &.info,
-  .info {
+  .far.info {
     @include colors.make-color(colors.$info-101);
   }
 }

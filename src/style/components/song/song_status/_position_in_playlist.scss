@@ -1,0 +1,31 @@
+//
+// Dakara Project
+//
+// Position in playlist song status style file
+//
+
+.song-status.position-in-playlist {
+  .position {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .icon {
+    font-size: 1em;
+  }
+
+  .date {
+    font-size: x-small;
+    text-align: center;
+  }
+
+  // adjustments to user widget in message
+  .user-widget {
+    display: inline;
+
+    .icon {
+      margin-right: 0.25em;
+      width: unset;
+    }
+  }
+}

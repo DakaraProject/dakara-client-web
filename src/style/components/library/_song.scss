@@ -41,11 +41,8 @@
       }
     }
 
-    .expanded {
-      .status {
-        @include sizes.make-vertical-row-padding(horizontal);
-      }
-    }
+    // .expanded {
+    // }
   }
 }
 
