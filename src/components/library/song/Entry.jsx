@@ -13,11 +13,11 @@ import {
   ListingEntryExpanded,
 } from 'components/generics/listing/Entry'
 import Notification from 'components/generics/Notification'
+import Song from 'components/song/Song'
+import SongExpanded from 'components/song/SongExpanded'
 import ExceedsKaraStopTime from 'components/song/songStatus/ExceedsKaraStopTime'
 import MaskedByTag from 'components/song/songStatus/MaskedByTag'
 import PositionInPlaylist from 'components/song/songStatus/PositionInPlaylist'
-import Song from 'components/song/Song'
-import SongExpanded from 'components/song/SongExpanded'
 import {
   CanAddToPlaylist,
   IsPlaylistManager,
@@ -100,8 +100,8 @@ class SongEntry extends Component {
       extraExpanded.push(<PositionInPlaylist entries={entries} expanded />)
     }
 
-    const controls = [
-      <CanAddToPlaylist key="add-to-playlist">
+    const controls = (
+      <CanAddToPlaylist>
         <IsPlaylistUser>
           <button
             disabled={!canAdd}
@@ -115,10 +115,10 @@ class SongEntry extends Component {
             </span>
           </button>
         </IsPlaylistUser>
-      </CanAddToPlaylist>,
-    ]
+      </CanAddToPlaylist>
+    )
 
-    const controlsExpanded = [
+    const controlsExpanded = (
       <CanAddToPlaylist key="add-to-playlist">
         <IsPlaylistUser>
           {song.has_instrumental && (
@@ -145,8 +145,8 @@ class SongEntry extends Component {
             Add to playlist
           </button>
         </IsPlaylistUser>
-      </CanAddToPlaylist>,
-    ]
+      </CanAddToPlaylist>
+    )
 
     const notifications = [
       <Notification
@@ -154,7 +154,7 @@ class SongEntry extends Component {
         pendingMessage="Adding…"
         successfulMessage="Successfuly added!"
         failedMessage="Error attempting to add song to playlist"
-        displayOnMount={false}
+        noDisplayOnMount
         key="add-song"
       />,
       <Notification
@@ -162,7 +162,7 @@ class SongEntry extends Component {
         pendingMessage="Adding…"
         successfulMessage="Successfuly added!"
         failedMessage={'Error attempting to add song to playlist'}
-        displayOnMount={false}
+        noDisplayOnMount
         key="add-song-with-options"
       />,
     ]
@@ -173,7 +173,7 @@ class SongEntry extends Component {
         controls={controlsExpanded}
         notifications={notifications}
       >
-        <SongExpanded query={query} song={song} />
+        <SongExpanded song={song} query={query} />
       </ListingEntryExpanded>
     )
 

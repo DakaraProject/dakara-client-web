@@ -48,7 +48,7 @@ export function ListingEntry({
           <div className="main">children</div>
         )}
         {!expanded && isDisplayable(extra) && (
-          <div className="extra">{extra}</div>
+          <ul className="extra">{extra}</ul>
         )}
         {!expanded && isDisplayable(controls) && (
           <div className="controls compact">{controls}</div>
@@ -74,9 +74,18 @@ export function ListingEntry({
 ListingEntry.propTypes = {
   children: PropTypes.element,
   entryExpanded: PropTypes.element,
-  extra: PropTypes.arrayOf(PropTypes.element),
-  controls: PropTypes.arrayOf(PropTypes.element),
-  notifications: PropTypes.arrayOf(PropTypes.element),
+  extra: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
+  ]),
+  controls: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
+  ]),
+  notifications: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
+  ]),
   id: PropTypes.any,
 }
 
@@ -108,7 +117,7 @@ export function ListingEntryExpanded({
 }) {
   return (
     <div className="expanded">
-      {isDisplayable(extra) && <div className="extra">{extra}</div>}
+      {isDisplayable(extra) && <ul className="extra">{extra}</ul>}
       <div className="main">{children}</div>
       <div className="notifiable">
         {isDisplayable(controls) && <div className="controls">{controls}</div>}
@@ -122,7 +131,16 @@ export function ListingEntryExpanded({
 
 ListingEntryExpanded.propTypes = {
   children: PropTypes.element,
-  extra: PropTypes.arrayOf(PropTypes.element),
-  controls: PropTypes.arrayOf(PropTypes.element),
-  notifications: PropTypes.arrayOf(PropTypes.element),
+  extra: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
+  ]),
+  controls: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
+  ]),
+  notifications: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
+  ]),
 }

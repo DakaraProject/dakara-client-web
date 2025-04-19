@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
 
 export default function MaskedByTag({ expanded }) {
   let message
@@ -11,7 +11,7 @@ export default function MaskedByTag({ expanded }) {
     )
   }
   return (
-    <div
+    <li
       className={classNames('song-status masked-by-tag warning', {
         'expanded listable': expanded,
         far: !expanded,
@@ -21,7 +21,7 @@ export default function MaskedByTag({ expanded }) {
         <i className="las la-eye-slash"></i>
       </span>
       {message}
-    </div>
+    </li>
   )
 }
 

@@ -93,6 +93,11 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
       }
     }
 
+    .extra {
+      // remove list left padding
+      padding: 0;
+    }
+
     > .one-line {
       display: flex;
 

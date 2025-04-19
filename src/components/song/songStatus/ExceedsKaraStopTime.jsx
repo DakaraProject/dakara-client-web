@@ -11,7 +11,7 @@ export default function ExceedsKaraStopTime({ expanded }) {
     )
   }
   return (
-    <div
+    <li
       className={classNames('song-status exceeds-kara-stop-time warning', {
         'expanded listable': expanded,
         far: !expanded,
@@ -21,7 +21,7 @@ export default function ExceedsKaraStopTime({ expanded }) {
         <i className="las la-clock"></i>
       </span>
       {message}
-    </div>
+    </li>
   )
 }
 

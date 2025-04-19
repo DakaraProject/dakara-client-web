@@ -189,7 +189,7 @@ export default function PositionInPlaylist({ entries, expanded }) {
   }
 
   return (
-    <div
+    <li
       className={classNames('song-status position-in-playlist info', {
         'expanded listable': expanded,
         far: !expanded,
@@ -197,7 +197,7 @@ export default function PositionInPlaylist({ entries, expanded }) {
     >
       <Position entry={entry} position={position} />
       {message}
-    </div>
+    </li>
   )
 }
 
