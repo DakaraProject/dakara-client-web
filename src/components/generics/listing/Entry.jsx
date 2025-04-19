@@ -3,6 +3,17 @@ import { useSearchParams } from 'react-router'
 
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
+/**
+ * Returns `true` if the argument is not falsy, or not an empty list.
+ */
+function isDisplayable(item) {
+  if (!item || item?.length === 0) {
+    return false
+  }
+
+  return true
+}
+
 export function ListingEntry({
   children,
   entryExpanded,
@@ -36,11 +47,13 @@ export function ListingEntry({
         ) : (
           <div className="main">children</div>
         )}
-        {!expanded && extra && <div className="extra">{extra}</div>}
-        {!expanded && controls && (
+        {!expanded && isDisplayable(extra) && (
+          <div className="extra">{extra}</div>
+        )}
+        {!expanded && isDisplayable(controls) && (
           <div className="controls compact">{controls}</div>
         )}
-        {!expanded && notifications && (
+        {!expanded && isDisplayable(notifications) && (
           <div className="notifications">{notifications}</div>
         )}
       </div>
@@ -95,11 +108,13 @@ export function ListingEntryExpanded({
 }) {
   return (
     <div className="expanded">
-      {extra && <div className="extra listable">{extra}</div>}
+      {isDisplayable(extra) && <div className="extra listable">{extra}</div>}
       <div className="main">{children}</div>
       <div className="notifiable">
-        {controls && <div className="controls">{controls}</div>}
-        {notifications && <div className="notifications">{notifications}</div>}
+        {isDisplayable(controls) && <div className="controls">{controls}</div>}
+        {isDisplayable(notifications) && (
+          <div className="notifications">{notifications}</div>
+        )}
       </div>
     </div>
   )

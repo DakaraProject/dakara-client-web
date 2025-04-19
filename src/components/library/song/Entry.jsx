@@ -62,6 +62,31 @@ class SongEntry extends Component {
     const extraExpanded = []
 
     /**
+     * Masked tags
+     */
+
+    if (song.tags.some((tag) => tag.disabled)) {
+      extra.push(
+        <div className="warning status">
+          <span className="icon">
+            <i className="las la-eye-slash"></i>
+          </span>
+        </div>
+      )
+
+      extraExpanded.push(
+        <div className="warning status" key="masked">
+          <span className="icon">
+            <i className="las la-eye-slash"></i>
+          </span>
+          <span className="message">
+            Song disabled because at least one of its tags is deactivated
+          </span>
+        </div>
+      )
+    }
+
+    /**
      * Play queue info
      */
 

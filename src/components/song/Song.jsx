@@ -118,22 +118,6 @@ export default class Song extends Component {
       tags = <SongTagList tags={song.tags} query={query} unclickable={true} />
     }
 
-    /**
-     * Masked marker
-     * Display if one of the tags is disabled
-     */
-
-    let masked
-    if (song.tags.some((tag) => tag.disabled)) {
-      masked = (
-        <div className="masked">
-          <span className="icon">
-            <i className="las la-eye-slash"></i>
-          </span>
-        </div>
-      )
-    }
-
     return (
       <div
         className={classNames('song', {
@@ -141,7 +125,6 @@ export default class Song extends Component {
         })}
         onClick={this.props.handleClick}
       >
-        {masked}
         <div className="general">
           <div className="header">
             <HighlighterQuery
