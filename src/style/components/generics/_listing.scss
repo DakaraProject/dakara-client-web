@@ -146,6 +146,14 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
           transition: max-height 300ms ease-in;
         }
       }
+
+      .main {
+        &:first-child .details {
+          // remove `.details` always present margin, as it would be redundant
+          // with `.expanded` internal padding
+          @include sizes.make-gap(margin, top, -1);
+        }
+      }
     }
   }
 }

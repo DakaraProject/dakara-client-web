@@ -121,16 +121,8 @@ class SongExpanded extends Component {
 
     let detailSong
     if (song.detail) {
-      const header = (
-        <>
-          <span className="icon">
-            <i className="las la-file-alt"></i>
-          </span>
-          <span className="name">Music details</span>
-        </>
-      )
       detailSong = (
-        <DetailText header={header}>
+        <DetailText icon="la-file-alt" name="Music details">
           <HighlighterQuery
             query={query}
             searchWords={(q) => q.remaining}
@@ -142,16 +134,8 @@ class SongExpanded extends Component {
 
     let detailVideo
     if (song.detail_video) {
-      const header = (
-        <>
-          <span className="icon">
-            <i className="las la-file-alt"></i>
-          </span>
-          <span className="name">Video details</span>
-        </>
-      )
       detailVideo = (
-        <DetailText header={header}>
+        <DetailText icon="la-file-alt" name="Video details">
           <HighlighterQuery
             query={query}
             searchWords={(q) => q.remaining}
@@ -167,16 +151,8 @@ class SongExpanded extends Component {
 
     let lyrics
     if (song.lyrics_preview) {
-      const header = (
-        <>
-          <span className="icon">
-            <i className="las la-align-left"></i>
-          </span>
-          <span className="name">Lyrics</span>
-        </>
-      )
       lyrics = (
-        <DetailLongText header={header}>
+        <DetailLongText icon="la-align-left" name="Lyrics">
           {song.lyrics_preview.text}
         </DetailLongText>
       )
@@ -188,16 +164,8 @@ class SongExpanded extends Component {
 
     let tags
     if (song.tags.length > 0) {
-      const header = (
-        <>
-          <span className="icon">
-            <i className="las la-tags"></i>
-          </span>
-          <span className="name">Tags</span>
-        </>
-      )
       tags = (
-        <DetailAny header={header}>
+        <DetailAny icon="la-tags" name="Tags">
           <SongTagList tags={song.tags} setQuery={this.setQuery} />
         </DetailAny>
       )
