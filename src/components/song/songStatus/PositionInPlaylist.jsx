@@ -192,7 +192,6 @@ export default function PositionInPlaylist({ entries, expanded }) {
     <li
       className={classNames('song-status position-in-playlist info', {
         'expanded listable': expanded,
-        far: !expanded,
       })}
     >
       <Position entry={entry} position={position} />

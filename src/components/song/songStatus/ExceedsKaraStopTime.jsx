@@ -14,7 +14,6 @@ export default function ExceedsKaraStopTime({ expanded }) {
     <li
       className={classNames('song-status exceeds-kara-stop-time warning', {
         'expanded listable': expanded,
-        far: !expanded,
       })}
     >
       <span className="icon">

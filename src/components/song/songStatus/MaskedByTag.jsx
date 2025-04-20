@@ -14,7 +14,6 @@ export default function MaskedByTag({ expanded }) {
     <li
       className={classNames('song-status masked-by-tag warning', {
         'expanded listable': expanded,
-        far: !expanded,
       })}
     >
       <span className="icon">
