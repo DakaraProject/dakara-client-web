@@ -37,81 +37,60 @@ class SongExpanded extends Component {
      * Works
      */
 
-    // Generate object containing works by type
-    const worksByType = {}
-
-    for (let workItem of song.works) {
-      const workType = workItem.work.work_type.query_name
-      let list = worksByType[workType]
-      if (!list) {
-        list = []
-        worksByType[workType] = list
-      }
-      list.push(workItem)
-    }
-
-    // Iterate over each work type
-    const worksRenderList = Object.keys(worksByType).map((key) => {
-      const worksList = worksByType[key]
-      const workType = worksList[0].work.work_type
-
-      // Create SongEntryExpandedWork for each work for this work type
-      const worksForTypeList = worksList.map((work) => (
-        <SongEntryExpandedWork
-          key={work.work.id}
-          work={work}
-          setQuery={this.setQuery}
-        />
-      ))
-
-      // Display the list of works, preceded by the work type
-      return (
-        <div key={workType.query_name} className="works entry">
-          <h4 className="header">
-            <span className="icon">
-              <i className={`las la-${workType.icon_name}`}></i>
-            </span>
-            <span className="name">
-              {workType.name + (worksForTypeList.length > 1 ? 's' : '')}
-            </span>
-          </h4>
-          <div className="content">
-            <ul className="sublisting">{worksForTypeList}</ul>
-          </div>
-        </div>
+    let works
+    if (song.works.length > 0) {
+      // group works per work type
+      const worksByType = Object.groupBy(
+        song.works,
+        (workItem) => workItem.work.work_type.query_name
       )
-    })
+
+      // create one detail per work type
+      works = Object.keys(worksByType).map((workTypeKey) => {
+        const worksOfType = worksByType[workTypeKey]
+        const workType = worksOfType[0].work.work_type
+
+        const worksList = worksOfType.map((work) => (
+          <SongEntryExpandedWork
+            key={work.work.id}
+            work={work}
+            setQuery={this.setQuery}
+          />
+        ))
+
+        return (
+          <DetailAny
+            icon={`la-${workType.icon_name}`}
+            name={worksList.length > 1 ? workType.name_plural : workType.name}
+            key={workTypeKey}
+          >
+            <ul className="sublisting">{worksList}</ul>
+          </DetailAny>
+        )
+      })
+    }
 
     /**
      * Artists
      */
 
-    // Create SongEntryExpandedArtist for each artist
-    const artistList = song.artists.map((artist) => (
-      <SongEntryExpandedArtist
-        key={artist.id}
-        artist={artist}
-        setQuery={this.setQuery}
-      />
-    ))
-
-    // Display the list of works preceded by "Artist"
     let artists
     if (song.artists.length > 0) {
+      const artistsList = song.artists.map((artist) => (
+        <SongEntryExpandedArtist
+          key={artist.id}
+          artist={artist}
+          setQuery={this.setQuery}
+        />
+      ))
+
       artists = (
-        <div className="artists entry">
-          <h4 className="header">
-            <span className="icon">
-              <i className="las la-microphone-alt"></i>
-            </span>
-            <span className="name">
-              Artist{song.artists.length > 1 ? 's' : ''}
-            </span>
-          </h4>
-          <div className="content">
-            <ul className="sublisting">{artistList}</ul>
-          </div>
-        </div>
+        <DetailAny
+          icon="la-microphone-alt"
+          name={song.artists.length > 1 ? 'Artists' : 'Artist'}
+        >
+          <ul className="sublisting">{artistsList}</ul>
+        </DetailAny>
       )
     }
 
@@ -174,8 +153,8 @@ class SongExpanded extends Component {
     return (
       <div className="song-expanded">
         <Details>
-          {/* {artists} */}
-          {/* {worksRenderList} */}
+          {artists}
+          {works}
           {detailSong}
           {detailVideo}
           {lyrics}
