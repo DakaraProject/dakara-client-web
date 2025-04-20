@@ -1,0 +1,18 @@
+//
+// Dakara Project
+//
+// Song expanded style file
+//
+
+@use '~/abstracts/sizes';
+
+.song-expanded {
+  .artist-widget,
+  .work-link-widget {
+    @include sizes.make-gap(padding, horizontal);
+
+    & {
+      align-items: center;
+    }
+  }
+}

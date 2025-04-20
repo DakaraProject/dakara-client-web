@@ -8,9 +8,11 @@ import {
   DetailText,
 } from 'components/generics/Details'
 import HighlighterQuery from 'components/generics/HighlighterQuery'
-import SongEntryExpandedArtist from 'components/library/song/EntryExpandedArtist'
-import SongEntryExpandedWork from 'components/library/song/EntryExpandedWork'
+import { ListingEntry } from 'components/generics/listing/Entry'
+import ListingList from 'components/generics/listing/List'
+import ArtistWidget from 'components/song/ArtistWidget'
 import SongTagList from 'components/song/SongTagList'
+import WorkLinkWidget from 'components/song/WorkLinkWidget'
 import { songPropType } from 'serverPropTypes/library'
 import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 
@@ -50,13 +52,30 @@ class SongExpanded extends Component {
         const worksOfType = worksByType[workTypeKey]
         const workType = worksOfType[0].work.work_type
 
-        const worksList = worksOfType.map((work) => (
-          <SongEntryExpandedWork
-            key={work.work.id}
-            work={work}
-            setQuery={this.setQuery}
-          />
-        ))
+        const worksList = worksOfType.map((work) => {
+          const controls = (
+            <button
+              className="control square primary"
+              onClick={() =>
+                this.setQuery(`${work.work_type.query_name}:""${work.title}""`)
+              }
+            >
+              <span className="icon">
+                <i className="las la-search"></i>
+              </span>
+            </button>
+          )
+          return (
+            <ListingEntry controls={controls} noHoverizable key={work.work.id}>
+              <WorkLinkWidget
+                workLink={work}
+                query={query}
+                longLinkType
+                noIcon
+              />
+            </ListingEntry>
+          )
+        })
 
         return (
           <DetailAny
@@ -64,7 +83,9 @@ class SongExpanded extends Component {
             name={worksList.length > 1 ? workType.name_plural : workType.name}
             key={workTypeKey}
           >
-            <ul className="sublisting">{worksList}</ul>
+            <ListingList mini free>
+              {worksList}
+            </ListingList>
           </DetailAny>
         )
       })
@@ -76,20 +97,32 @@ class SongExpanded extends Component {
 
     let artists
     if (song.artists.length > 0) {
-      const artistsList = song.artists.map((artist) => (
-        <SongEntryExpandedArtist
-          key={artist.id}
-          artist={artist}
-          setQuery={this.setQuery}
-        />
-      ))
+      const artistsList = song.artists.map((artist) => {
+        const controls = (
+          <button
+            className="control square primary"
+            onClick={() => this.setQuery(`artist:""${artist.name}""`)}
+          >
+            <span className="icon">
+              <i className="las la-search"></i>
+            </span>
+          </button>
+        )
+        return (
+          <ListingEntry controls={controls} noHoverizable key={artist.id}>
+            <ArtistWidget artist={artist} query={query} noIcon />
+          </ListingEntry>
+        )
+      })
 
       artists = (
         <DetailAny
           icon="la-microphone-alt"
           name={song.artists.length > 1 ? 'Artists' : 'Artist'}
         >
-          <ul className="sublisting">{artistsList}</ul>
+          <ListingList mini free>
+            {artistsList}
+          </ListingList>
         </DetailAny>
       )
     }

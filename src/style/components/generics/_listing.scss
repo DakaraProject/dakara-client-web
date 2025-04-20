@@ -65,6 +65,29 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
       }
     }
 
+    // nested listings
+    .listing-entry {
+      // normal and alternate row colors
+      background: colors.$neutral-120;
+      color: colors.$neutral-420;
+
+      // optional listable feature
+      &.listable {
+        &:nth-child(2n) {
+          background: colors.$neutral-121;
+        }
+      }
+
+      // optionnal hoverizable feature
+      .hoverizable,
+      &.hoverizable {
+        &:hover {
+          background: colors.$neutral-122;
+          color: colors.$neutral-422;
+        }
+      }
+    }
+
     // appearance transition
     &.add-remove-enter {
       height: 0;
@@ -169,10 +192,20 @@ ul.listing {
   // limit to 10 entries by default
   &:not(.free) {
     min-height: 10 * $listing-entry-height;
+
+    &.mini {
+      min-height: 10 * sizes.$subrow-height;
+    }
   }
 
   .listing-entry {
     min-height: $listing-entry-height;
+  }
+
+  &.mini {
+    .listing-entry {
+      min-height: sizes.$subrow-height;
+    }
   }
 }
 

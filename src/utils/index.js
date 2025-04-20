@@ -63,3 +63,71 @@ export function findLast(array, fn) {
   }
   return null
 }
+
+/**
+ * Detect if an element or list of elements can be displayed.
+ * @param item Element, or list of elements.
+ * @returns `true` if the input is not falsy, or not an empty list.
+ */
+export function isDisplayable(item) {
+  if (!item || item?.length === 0) {
+    return false
+  }
+
+  return true
+}
+
+/**
+ * Return the current playing entry.
+ * @param entries Array of entries.
+ * @param playerStatus Status of the player.
+ * @returns Entry being currently played, or `undefined`.
+ */
+export function getPlaying(entries, playerStatus) {
+  if (!playerStatus.playlist_entry) return null
+
+  return entries.find((e) => e.id === playerStatus.playlist_entry.id)
+}
+
+/**
+ * Return the first queuing entry.
+ * @param entries Array of entries.
+ * @returns First entry which is queuing.
+ */
+export function getQueuing(entries) {
+  return entries.find((e) => e.will_play)
+}
+
+/**
+ * Return the last played entry.
+ * @param entries Array of entries.
+ * @returns Last entry which was played.
+ */
+export function getPlayed(entries) {
+  return entries.findLast((e) => e.was_played)
+}
+
+/**
+ * Return the most pertinent entry of a list of entries.
+ * @param entries Array of entries.
+ * @param playerStatus Status of the player.
+ * @returns Object containing the entry which is currently playing, or the
+ * first entry which is queuing, or the last entry which was played, with the
+ * position as a string. Both default to `null`.
+ */
+export function getEntry(entries, playerStatus) {
+  let entry
+  if (playerStatus && (entry = getPlaying(entries, playerStatus))) {
+    return { entry, position: 'playing' }
+  }
+
+  if ((entry = getQueuing(entries))) {
+    return { entry, position: 'queuing' }
+  }
+
+  if ((entry = getPlayed(entries))) {
+    return { entry, position: 'played' }
+  }
+
+  return { entry: null, position: null }
+}

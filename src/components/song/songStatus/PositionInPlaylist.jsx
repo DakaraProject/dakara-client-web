@@ -6,62 +6,9 @@ import { useSelector } from 'react-redux'
 
 import UserWidget from 'components/generics/UserWidget'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
+import { getEntry } from 'utils'
 
 dayjs.extend(relativeTime)
-
-/**
- * Return the current playing entry.
- * @param entries List of entries.
- * @param playerStatus Status of the player.
- * @returns Entry being currently played, or `undefined`.
- */
-function getPlaying(entries, playerStatus) {
-  if (!playerStatus.playlist_entry) return null
-
-  return entries.find((e) => e.id === playerStatus.playlist_entry.id)
-}
-
-/**
- * Return the first queuing entry.
- * @param entries List of entries.
- * @returns First entry which is queuing.
- */
-function getQueuing(entries) {
-  return entries.find((e) => e.will_play)
-}
-
-/**
- * Return the last played entry.
- * @param entries List of entries.
- * @returns Last entry which was played.
- */
-function getPlayed(entries) {
-  return entries.findLast((e) => e.was_played)
-}
-
-/**
- * Return the most pertinent entry of a list of entries.
- * @param entries List of entries.
- * @param playerStatus Status of the player.
- * @returns The entry which is currently playing, or the first entry which is
- * queuing, or the last entry which was played.
- */
-function getEntry(entries, playerStatus) {
-  let entry
-  if ((entry = getPlaying(entries, playerStatus))) {
-    return { entry, position: 'playing' }
-  }
-
-  if ((entry = getQueuing(entries))) {
-    return { entry, position: 'queuing' }
-  }
-
-  if ((entry = getPlayed(entries))) {
-    return { entry, position: 'played' }
-  }
-
-  return { entry: null, position: null }
-}
 
 function Playing({ entry }) {
   const playerStatus = useSelector((state) => state.playlist.playerStatus.data)

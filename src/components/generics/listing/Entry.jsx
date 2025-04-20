@@ -1,18 +1,9 @@
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { useSearchParams } from 'react-router'
 
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
-
-/**
- * Returns `true` if the argument is not falsy, or not an empty list.
- */
-function isDisplayable(item) {
-  if (!item || item?.length === 0) {
-    return false
-  }
-
-  return true
-}
+import { isDisplayable } from 'utils'
 
 export function ListingEntry({
   children,
@@ -21,6 +12,7 @@ export function ListingEntry({
   controls,
   notifications,
   id,
+  noHoverizable = false,
 }) {
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -39,13 +31,18 @@ export function ListingEntry({
 
   return (
     <li className="listing-entry listable" key={id}>
-      <div className="one-line hoverizable notifiable">
+      <div
+        className={classNames('one-line', {
+          hoverizable: !noHoverizable,
+          notifiable: isDisplayable(notifications),
+        })}
+      >
         {expandable ? (
           <Expander setExpanded={setExpanded}>
             <div className="main">{children}</div>
           </Expander>
         ) : (
-          <div className="main">children</div>
+          <div className="main">{children}</div>
         )}
         {!expanded && isDisplayable(extra) && (
           <ul className="extra">{extra}</ul>
@@ -87,6 +84,7 @@ ListingEntry.propTypes = {
     PropTypes.element,
   ]),
   id: PropTypes.any,
+  noHoverizable: PropTypes.bool,
 }
 
 function Expander({ children, setExpanded }) {

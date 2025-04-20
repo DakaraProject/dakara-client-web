@@ -65,8 +65,8 @@
     }
 
     > .content {
-      background: colors.$neutral-120;
-      color: colors.$neutral-420;
+      background: colors.$neutral-110;
+      color: colors.$neutral-410;
       display: table-cell;
       width: 100%;
 
@@ -163,5 +163,13 @@
 
   &:empty + .instrumental {
     padding-top: sizes.$gap-vertical;
+  }
+}
+
+// used within a listing
+.listing-entry {
+  .details > .detail > .content {
+    background: colors.$neutral-120;
+    color: colors.$neutral-420;
   }
 }

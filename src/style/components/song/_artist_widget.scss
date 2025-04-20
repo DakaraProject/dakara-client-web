@@ -10,6 +10,8 @@
 //
 // This module is used to style an artist.
 .artist-widget {
+  display: flex;
+
   &.truncatable {
     @include preboot.text-truncate();
   }
