@@ -34,7 +34,7 @@ class KaraDateStop extends Component {
       const formatDateTime = (values) => {
         if (!values.enable_stop) {
           return {
-            karaokeDateStop: null,
+            date_stop: null,
           }
         }
         // the form gives a time only, we parse it and add it to the
