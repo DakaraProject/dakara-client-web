@@ -15,6 +15,7 @@ export default [
   importPlugin.flatConfigs.recommended,
   reactPlugin.configs.flat.recommended,
   reactPlugin.configs.flat['jsx-runtime'],
+  prettierPlugin,
   {
     files: ['**/*.{js,jsx}'],
 
@@ -88,4 +89,4 @@ export default [
       quotes: ['error', 'single'],
     },
   },
-].concat(prettierPlugin)
+]
