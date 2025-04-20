@@ -8,15 +8,19 @@ import { artistPropType } from 'serverPropTypes/library'
 export default class ArtistWidget extends Component {
   static propTypes = {
     artist: artistPropType.isRequired,
-    noIcon: PropTypes.bool,
     query: PropTypes.object,
+    noIcon: PropTypes.bool,
+    noCount: PropTypes.bool,
     truncatable: PropTypes.bool,
   }
 
   render() {
-    const { artist, query, noIcon, truncatable } = this.props
+    const { artist, query, noIcon, noCount, truncatable } = this.props
 
-    // artist microphone icon
+    /**
+     * Artist icon
+     */
+
     let icon
     if (!noIcon) {
       icon = (
@@ -24,6 +28,15 @@ export default class ArtistWidget extends Component {
           <i className="las la-microphone-alt"></i>
         </span>
       )
+    }
+
+    /**
+     * Song count
+     */
+
+    let count
+    if (!noCount) {
+      count = <span className="count">{artist.song_count}</span>
     }
 
     return (
@@ -35,6 +48,7 @@ export default class ArtistWidget extends Component {
           searchWords={(q) => q.artist.contains.concat(q.remaining)}
           textToHighlight={artist.name}
         />
+        {count}
       </div>
     )
   }
