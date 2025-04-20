@@ -93,27 +93,27 @@
 
 .hoverizable:hover {
   &.primary,
-  .primary {
+  .far.primary {
     @include colors.make-color(colors.$primary-102);
   }
 
   &.succees,
-  .success {
+  .far.success {
     @include colors.make-color(colors.$success-102);
   }
 
   &.warning,
-  .warning {
+  .far.warning {
     @include colors.make-color(colors.$warning-102);
   }
 
   &.danger,
-  .danger {
+  .far.danger {
     @include colors.make-color(colors.$danger-102);
   }
 
   &.info,
-  .info {
+  .far.info {
     @include colors.make-color(colors.$info-102);
   }
 }
