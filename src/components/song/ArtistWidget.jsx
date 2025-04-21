@@ -36,14 +36,21 @@ export default class ArtistWidget extends Component {
 
     let count
     if (!noCount) {
-      count = <span className="count">{artist.song_count}</span>
+      count = (
+        <span className="count">
+          <span className="icon">
+            <i className="las la-music"></i>
+          </span>
+          <span className="value">{artist.song_count}</span>
+        </span>
+      )
     }
 
     return (
       <div className={classNames('artist-widget', { truncatable })}>
         {icon}
         <HighlighterQuery
-          className="artist"
+          className="name"
           query={query}
           searchWords={(q) => q.artist.contains.concat(q.remaining)}
           textToHighlight={artist.name}

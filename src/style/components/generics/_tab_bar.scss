@@ -26,7 +26,7 @@
 // why there are some styling for when hovered or focused.
 .tab-bar {
   justify-content: flex-start;
-  overflow-x: scroll;
+  overflow-x: auto;
 
   .tab {
     white-space: nowrap;

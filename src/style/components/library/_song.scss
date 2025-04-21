@@ -26,24 +26,47 @@
 // This list entry is not hoverizable, in order to make only the compact view
 // react to hover.
 #song-library {
-  .listing-entry {
-    .one-line {
-      .song {
-        flex: 1;
+  .one-line {
+    .main {
+      & {
+        align-items: center;
+        position: relative;
+      }
 
-        .general {
-          @include sizes.make-gap(padding, left);
+      @include sizes.make-gap(padding, horizontal);
+
+      .song {
+        align-items: inherit;
+        display: flex;
+        flex-grow: 1;
+
+        // flush content to the right to:
+        // relations if relations is present,
+        // or duration after version if no relations and version is present,
+        // or duration after title if no relations and no version
+        .relations,
+        .version + .duration,
+        .title + .duration {
+          margin-left: auto;
         }
 
-        .duration {
-          @include sizes.make-gap(padding, right);
+        .relations {
+          font-size: 0.9em;
+          flex-direction: column;
+
+          // `align-items: flex-end` prevents the entire block to be
+          // truncatable
+          .artist-widget:first-child,
+          .work-link-widget:first-child {
+            margin-left: auto;
+          }
         }
       }
     }
-
-    // .expanded {
-    // }
   }
+
+  // .expanded {
+  // }
 }
 
 .library-entry.library-entry-song {

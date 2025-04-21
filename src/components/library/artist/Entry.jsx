@@ -38,7 +38,7 @@ class ArtistEntry extends Component {
 
     return (
       <ListingEntry id={artist.id} controls={controls}>
-        <ArtistWidget artist={artist} query={query} noIcon />
+        <ArtistWidget artist={artist} query={query} noIcon truncatable />
       </ListingEntry>
     )
   }

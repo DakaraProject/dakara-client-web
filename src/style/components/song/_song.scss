@@ -17,68 +17,43 @@
 // This class stylizes a song independently of its use (as a single item or as
 // part of a listing).
 .song {
-  align-items: center;
-  display: flex;
-  overflow-y: hidden;
-  position: relative;
-  white-space: nowrap;
+  column-gap: 0.5em;
+  display: inline-flex;
+  overflow: hidden;
 
-  &.with-artist-and-work .general {
-    align-items: center;
-  }
-
-  .general {
-    align-items: center;
-    display: flex;
-    flex-grow: 1;
+  .relations,
+  .artists,
+  .works {
+    column-gap: 0.5em;
+    display: inline-flex;
     overflow: hidden;
+  }
 
-    // `header` class: song's main info.
-    // will be the last to shrink
-    .header {
+  &.truncatable {
+    .title,
+    .version {
       @include preboot.text-truncate();
-
-      flex: 1 1 auto;
-
-      .title {
-        font-size: 1.05em;
-      }
-
-      .version {
-        color: color.change(colors.$neutral-400, $alpha: 0.75);
-        margin-left: 0.5em;
-      }
     }
 
-    // `artist-work` class: collapsed info for the song artists and works.
-    // will be the first to shrink
-    .artist-work {
-      display: flex;
-      flex: 0 100000 auto; // make it very easily shrinkable
-      flex-direction: column;
-      font-size: 0.9em;
-      margin-left: 0.5em;
-      overflow: hidden;
-      text-align: right;
+    .version {
+      // easily shrinkable
+      flex-shrink: 10000;
+    }
 
-      .artists {
-        @include preboot.text-truncate();
-
-        // display artists in one line
-        .artist-widget {
-          display: inline;
-
-          &:not(:last-child) {
-            margin-right: 0.5em;
-          }
-        }
-      }
+    .relations {
+      // easily shrinkable
+      flex-shrink: 2;
     }
   }
 
-  // `duration` class: show song duration.
-  .duration {
-    margin-left: 0.5em;
+  .version {
+    &::before {
+      content: '(';
+    }
+
+    &::after {
+      content: ')';
+    }
   }
 
   // `song-tag-list` subclass: tag songs.

@@ -185,7 +185,7 @@ class SongEntry extends Component {
         notifications={notifications}
         entryExpanded={entryExpanded}
       >
-        <Song song={song} query={query} />
+        <Song song={song} query={query} truncatable />
       </ListingEntry>
     )
   }

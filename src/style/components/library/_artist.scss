@@ -1,18 +1,27 @@
 //
 // Dakara Project
 //
-// Artist library entry style file
+// Artist library style file
 //
 
-// `library-entry-artist` subclass:
-//
-// This class is a specialization of the `listing-entry` class defined in the
-// `listing` module. It is aimed to stylize the specific elements of an artist.
-// .library-entry.library-entry-artist {
-//     .library-entry-work-artist-display {
-//         .header {
-//             .name {
-//             }
-//         }
-//     }
-// }
+@use '~/abstracts/sizes';
+
+#artist-library {
+  .one-line {
+    .main {
+      & {
+        align-items: center;
+      }
+
+      @include sizes.make-gap(padding, horizontal);
+
+      .artist-widget {
+        flex-grow: 1;
+
+        .count {
+          margin-left: auto;
+        }
+      }
+    }
+  }
+}

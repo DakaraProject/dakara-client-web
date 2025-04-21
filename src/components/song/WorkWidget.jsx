@@ -30,7 +30,14 @@ export default function WorkWidget({
 
   let count
   if (!noCount) {
-    count = <span className="count">{work.song_count}</span>
+    count = (
+      <span className="count">
+        <span className="icon">
+          <i className="las la-music"></i>
+        </span>
+        <span className="value">{work.song_count}</span>
+      </span>
+    )
   }
 
   /**
@@ -45,24 +52,22 @@ export default function WorkWidget({
   return (
     <div className={classNames('work-widget', { truncatable })}>
       {icon}
-      <span className="name">
-        <HighlighterQuery
-          query={query}
-          className="title"
-          searchWords={(q) => {
-            let searchWords = q.work.contains.concat(q.remaining)
-            const workTypeQuery = q.work_type[work.work_type.query_name]
-            if (workTypeQuery) {
-              // Add keyword for specific worktype if it exists
-              searchWords = searchWords.concat(workTypeQuery.contains)
-            }
+      <HighlighterQuery
+        query={query}
+        className="title"
+        searchWords={(q) => {
+          let searchWords = q.work.contains.concat(q.remaining)
+          const workTypeQuery = q.work_type[work.work_type.query_name]
+          if (workTypeQuery) {
+            // Add keyword for specific worktype if it exists
+            searchWords = searchWords.concat(workTypeQuery.contains)
+          }
 
-            return searchWords
-          }}
-          textToHighlight={work.title}
-        />
-        {subtitle}
-      </span>
+          return searchWords
+        }}
+        textToHighlight={work.title}
+      />
+      {subtitle}
       {count}
     </div>
   )

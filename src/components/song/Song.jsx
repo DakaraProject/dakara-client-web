@@ -9,27 +9,19 @@ import WorkLinkWidget from 'components/song/WorkLinkWidget'
 import { songPropType } from 'serverPropTypes/library'
 import { formatDuration } from 'utils'
 
-/**
- * Displays a song info in a compact format.
- * properties:
- * - song: song to display
- * - query: query to highlight search terms
- * - noArtistWork: don't display artist and work
- * - noDuration: don't display duration
- * - noTag: don't diplay tags
- */
 export default class Song extends Component {
   static propTypes = {
-    handleClick: PropTypes.func,
-    noArtistWork: PropTypes.bool,
+    noRelations: PropTypes.bool,
     noDuration: PropTypes.bool,
-    noTag: PropTypes.bool,
-    query: PropTypes.object, // should be isRequired
+    noTags: PropTypes.bool,
+    query: PropTypes.object,
     song: songPropType.isRequired,
+    truncatable: PropTypes.bool,
   }
 
   render() {
-    const { song, query } = this.props
+    const { song, query, noRelations, noDuration, noTags, truncatable } =
+      this.props
 
     /**
      * Song version
@@ -38,95 +30,82 @@ export default class Song extends Component {
     let version
     if (song.version) {
       version = (
-        <span className="version">
-          <HighlighterQuery
-            query={query}
-            searchWords={(q) => q.remaining}
-            textToHighlight={song.version}
-          />{' '}
-          version
-        </span>
-      )
-    }
-
-    // Display artist and work conditionally
-    let artistWork
-    let withArtistAndWork = false
-    if (!this.props.noArtistWork) {
-      // Display first work if any
-      // Highlighted with query
-      let firstWorkLink
-      if (song.works.length > 0) {
-        // display the first work only for this display
-        firstWorkLink = (
-          <WorkLinkWidget
-            workLink={song.works[0]}
-            query={query}
-            noEpisodes
-            truncatable
-          />
-        )
-
-        // check if there is at least an artist too
-        withArtistAndWork = song.artists.length > 0
-      }
-
-      // Display artists
-      const artists = song.artists.map((a) => (
-        <ArtistWidget artist={a} query={query} key={a.id} truncatable />
-      ))
-
-      artistWork = (
-        <div className="artist-work">
-          {firstWorkLink}
-          <div className="artists">{artists}</div>
-        </div>
+        <HighlighterQuery
+          query={query}
+          className="version"
+          searchWords={(q) => q.remaining}
+          textToHighlight={song.version}
+        />
       )
     }
 
     /**
+     * Relations
+     * (artists and works)
+     */
+
+    let relations
+    if (!noRelations) {
+      const works = song.works.map((work) => (
+        <WorkLinkWidget
+          key={work.id}
+          workLink={work}
+          query={query}
+          noEpisodes
+          truncatable
+        />
+      ))
+
+      const artists = song.artists.map((artist) => (
+        <ArtistWidget
+          artist={artist}
+          query={query}
+          key={artist.id}
+          noCount
+          truncatable
+        />
+      ))
+
+      if (artists.length > 0 || works.length > 0) {
+        relations = (
+          <span className="relations">
+            <span className="artists">{artists}</span>
+            <span className="works">{works}</span>
+          </span>
+        )
+      }
+    }
+
+    /**
      * Song duration
-     * Display conditionally
      */
 
     let duration
-    if (!this.props.noDuration) {
+    if (!noDuration) {
       duration = (
-        <div className="duration">
-          <span className="value">{formatDuration(song.duration)}</span>
-        </div>
+        <span className="duration">{formatDuration(song.duration)}</span>
       )
     }
 
     /**
      * Song tags
-     * Display conditionally
      */
 
     let tags
-    if (!this.props.noTag) {
+    if (!noTags && song.tags.length > 0) {
       tags = <SongTagList tags={song.tags} query={query} unclickable={true} />
     }
 
     return (
-      <div
-        className={classNames('song', {
-          'with-artist-and-work': withArtistAndWork,
-        })}
-        onClick={this.props.handleClick}
-      >
-        <div className="general">
-          <div className="header">
-            <HighlighterQuery
-              query={query}
-              className="title"
-              searchWords={(q) => q.title.contains.concat(q.remaining)}
-              textToHighlight={song.title}
-            />
-            {version}
-          </div>
-          {artistWork}
-        </div>
+      <div className={classNames('song', { truncatable })}>
+        <HighlighterQuery
+          query={query}
+          className="title"
+          searchWords={(q) => q.title.contains.concat(q.remaining)}
+          textToHighlight={song.title}
+        />
+        {version}
+        {relations}
         {duration}
         {tags}
       </div>

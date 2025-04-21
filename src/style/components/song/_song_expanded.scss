@@ -9,10 +9,6 @@
 .song-expanded {
   .artist-widget,
   .work-link-widget {
-    @include sizes.make-gap(padding, horizontal);
-
-    & {
-      align-items: center;
-    }
+    align-items: center;
   }
 }

@@ -137,6 +137,7 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
       .main {
         display: flex;
         flex: 1;
+        overflow: hidden;
       }
 
       .extra {

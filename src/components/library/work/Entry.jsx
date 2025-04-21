@@ -38,7 +38,7 @@ class WorkEntry extends Component {
 
     return (
       <ListingEntry id={work.id} controls={controls}>
-        <WorkWidget work={work} query={query} noIcon />
+        <WorkWidget work={work} query={query} noIcon truncatable />
       </ListingEntry>
     )
   }

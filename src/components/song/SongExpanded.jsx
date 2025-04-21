@@ -110,7 +110,7 @@ class SongExpanded extends Component {
         )
         return (
           <ListingEntry controls={controls} noHoverizable key={artist.id}>
-            <ArtistWidget artist={artist} query={query} noIcon />
+            <ArtistWidget artist={artist} query={query} noIcon noCount />
           </ListingEntry>
         )
       })

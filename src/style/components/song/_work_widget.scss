@@ -1,22 +1,35 @@
 //
 // Dakara Project
 //
-// Artist widget style file
+// Work widget style file
 //
 
 @use '~/thirdparty/preboot';
 
-// `artist-widget` class:
+// `work-widget` class:
 //
-// This module is used to style artists.
-.artist-widget {
+// This module is used to style works.
+.work-widget {
   column-gap: 0.5em;
   display: inline-flex;
   overflow: hidden;
 
   &.truncatable {
-    .name {
+    .title,
+    .subtitle {
       @include preboot.text-truncate();
+    }
+  }
+
+  .subtitle {
+    flex-shrink: 10000;
+
+    &::before {
+      content: '(';
+    }
+
+    &::after {
+      content: ')';
     }
   }
 
