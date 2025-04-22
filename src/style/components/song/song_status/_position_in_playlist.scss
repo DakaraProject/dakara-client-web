@@ -4,10 +4,21 @@
 // Position in playlist song status style file
 //
 
+@use '~/abstracts/support';
+
 .song-status.position-in-playlist {
   .position {
     display: flex;
     flex-direction: column;
+  }
+
+  &:not(.expanded) {
+    .position {
+      @include support.make-smartphone {
+        column-gap: 0.25em;
+        flex-direction: row;
+      }
+    }
   }
 
   .icon {

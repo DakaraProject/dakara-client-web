@@ -5,6 +5,7 @@
 //
 
 @use '~/abstracts/sizes';
+@use '~/abstracts/support';
 
 .song-status {
   display: flex;
@@ -15,6 +16,17 @@
 
   &:not(.expanded) {
     justify-content: center;
+
+    @include support.make-smartphone {
+      padding: 0 sizes.$gap-horizontal-smartphone;
+
+      .icon {
+        font-size: 0.65em;
+        height: unset;
+        line-height: 1em;
+        width: unset;
+      }
+    }
   }
 
   &.expanded {

@@ -63,6 +63,14 @@
         }
       }
     }
+
+    .extra {
+      @include support.make-smartphone {
+        bottom: 0;
+        position: absolute;
+        right: 0;
+      }
+    }
   }
 
   // .expanded {
