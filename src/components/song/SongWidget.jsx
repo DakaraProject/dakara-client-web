@@ -9,7 +9,7 @@ import WorkLinkWidget from 'components/song/WorkLinkWidget'
 import { songPropType } from 'serverPropTypes/library'
 import { formatDuration } from 'utils'
 
-export default class Song extends Component {
+export default class SongWidget extends Component {
   static propTypes = {
     noRelations: PropTypes.bool,
     noDuration: PropTypes.bool,
@@ -52,7 +52,7 @@ export default class Song extends Component {
           workLink={work}
           query={query}
           noEpisodes
-          truncatable
+          truncatable={truncatable}
         />
       ))
 
@@ -62,7 +62,7 @@ export default class Song extends Component {
           query={query}
           key={artist.id}
           noCount
-          truncatable
+          truncatable={truncatable}
         />
       ))
 
@@ -97,7 +97,7 @@ export default class Song extends Component {
     }
 
     return (
-      <div className={classNames('song', { truncatable })}>
+      <div className={classNames('song-widget', { truncatable })}>
         <HighlighterQuery
           query={query}
           className="title"

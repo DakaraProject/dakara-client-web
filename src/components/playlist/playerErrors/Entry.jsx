@@ -5,7 +5,7 @@ import queryString from 'query-string'
 import { Component } from 'react'
 
 import PlaylistPositionInfo from 'components/song/PlaylistPositionInfo'
-import Song from 'components/song/Song'
+import SongWidget from 'components/song/SongWidget'
 import { playerErrorPropType } from 'serverPropTypes/playlist'
 import {
   withNavigate,
@@ -75,7 +75,7 @@ class PlayerErrorsEntry extends Component {
               expanded ? this.setExpanded() : this.setExpanded(playerError.id)
             }}
           >
-            <Song song={entry.song} />
+            <SongWidget song={entry.song} />
           </button>
           <div className="extra">
             <PlaylistPositionInfo entryPlayed={entry} />

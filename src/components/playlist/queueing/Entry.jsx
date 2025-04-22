@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
 import PlaylistPositionInfo from 'components/song/PlaylistPositionInfo'
-import Song from 'components/song/Song'
+import SongWidget from 'components/song/SongWidget'
 import {
   IsPlaylistManager,
   IsPlaylistManagerOrOwner,
@@ -134,7 +134,7 @@ class Entry extends Component {
             className="expander transparent"
             onClick={() => this.handleSearch()}
           >
-            <Song song={entry.song} />
+            <SongWidget song={entry.song} />
           </button>
           <div className="extra">
             <PlaylistPositionInfo

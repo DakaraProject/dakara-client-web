@@ -35,7 +35,7 @@
 
       @include sizes.make-gap(padding, horizontal);
 
-      .song {
+      .song-widget {
         align-items: inherit;
         display: flex;
         flex-grow: 1;

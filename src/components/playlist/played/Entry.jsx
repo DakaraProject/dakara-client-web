@@ -3,7 +3,7 @@ import queryString from 'query-string'
 import { Component } from 'react'
 
 import PlaylistPositionInfo from 'components/song/PlaylistPositionInfo'
-import Song from 'components/song/Song'
+import SongWidget from 'components/song/SongWidget'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 import { withNavigate } from 'thirdpartyExtensions/ReactRouterDom'
 
@@ -35,7 +35,7 @@ class Entry extends Component {
             className="expander transparent"
             onClick={() => this.handleSearch()}
           >
-            <Song song={entry.song} />
+            <SongWidget song={entry.song} />
           </button>
           <div className="extra">
             <PlaylistPositionInfo entryPlayed={entry} />

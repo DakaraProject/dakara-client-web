@@ -13,11 +13,11 @@ import {
   ListingEntryExpanded,
 } from 'components/generics/listing/Entry'
 import Notification from 'components/generics/Notification'
-import Song from 'components/song/Song'
-import SongExpanded from 'components/song/SongExpanded'
+import SongExpandedWidget from 'components/song/SongExpandedWidget'
 import ExceedsKaraStopTime from 'components/song/songStatus/ExceedsKaraStopTime'
 import MaskedByTag from 'components/song/songStatus/MaskedByTag'
 import PositionInPlaylist from 'components/song/songStatus/PositionInPlaylist'
+import SongWidget from 'components/song/SongWidget'
 import {
   CanAddToPlaylist,
   IsPlaylistManager,
@@ -173,7 +173,7 @@ class SongEntry extends Component {
         controls={controlsExpanded}
         notifications={notifications}
       >
-        <SongExpanded song={song} query={query} />
+        <SongExpandedWidget song={song} query={query} />
       </ListingEntryExpanded>
     )
 
@@ -185,7 +185,7 @@ class SongEntry extends Component {
         notifications={notifications}
         entryExpanded={entryExpanded}
       >
-        <Song song={song} query={query} truncatable />
+        <SongWidget song={song} query={query} truncatable />
       </ListingEntry>
     )
   }
