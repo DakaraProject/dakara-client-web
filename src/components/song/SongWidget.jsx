@@ -7,7 +7,7 @@ import ArtistWidget from 'components/song/ArtistWidget'
 import SongTagList from 'components/song/SongTagList'
 import WorkLinkWidget from 'components/song/WorkLinkWidget'
 import { songPropType } from 'serverPropTypes/library'
-import { formatDuration } from 'utils'
+import { formatDuration, isDisplayable } from 'utils'
 
 export default class SongWidget extends Component {
   static propTypes = {
@@ -69,8 +69,10 @@ export default class SongWidget extends Component {
       if (artists.length > 0 || works.length > 0) {
         relations = (
           <span className="relations">
-            <span className="artists">{artists}</span>
-            <span className="works">{works}</span>
+            {isDisplayable(artists) && (
+              <span className="artists">{artists}</span>
+            )}
+            {isDisplayable(works) && <span className="works">{works}</span>}
           </span>
         )
       }
@@ -93,7 +95,7 @@ export default class SongWidget extends Component {
 
     let tags
     if (!noTags && song.tags.length > 0) {
-      tags = <SongTagList tags={song.tags} query={query} unclickable={true} />
+      tags = <SongTagList tags={song.tags} query={query} noClick />
     }
 
     return (

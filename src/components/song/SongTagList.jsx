@@ -9,7 +9,7 @@ export default class SongTagList extends Component {
     query: PropTypes.object,
     setQuery: PropTypes.func,
     tags: PropTypes.arrayOf(songTagPropType).isRequired,
-    unclickable: PropTypes.bool,
+    noClick: PropTypes.bool,
   }
 
   render() {
@@ -39,7 +39,7 @@ export default class SongTagList extends Component {
           tag.disabled,
       })
 
-      if (this.props.unclickable) {
+      if (this.props.noClick) {
         return (
           <div
             className={className}
