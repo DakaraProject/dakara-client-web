@@ -327,7 +327,7 @@ function playerToken(state = defaultPlayerToken, action) {
     case PLAYER_TOKEN_FAILURE:
       // if the player token doesn't exist
       // TODO change to low level check
-      if (action.error.detail === 'Not found.') {
+      if (action.error.detail === 'No PlayerToken matches the given query.') {
         return {
           status: Status.successful,
           data: {
