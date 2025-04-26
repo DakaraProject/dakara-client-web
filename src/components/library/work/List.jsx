@@ -87,6 +87,7 @@ class WorkList extends Component {
         work={work}
         workType={workTypeQueryName}
         query={query}
+        noTransition
       />
     ))
 
@@ -96,7 +97,7 @@ class WorkList extends Component {
           placeholder={`What ${workType.name.toLowerCase()} do you want?`}
         />
         <div className="work-list">
-          <ListingList fetchStatus={this.props.workState.status}>
+          <ListingList fetchStatus={this.props.workState.status} noTransition>
             {libraryEntryWorkList}
           </ListingList>
           <Navigator

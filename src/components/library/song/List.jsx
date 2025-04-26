@@ -68,6 +68,7 @@ class SongList extends Component {
         key={song.id}
         song={song}
         karaokeRemainingSeconds={karaokeRemainingSeconds}
+        noTransition
       />
     ))
 
@@ -101,7 +102,7 @@ class SongList extends Component {
           }
         />
         <div className="song-list">
-          <ListingList fetchStatus={this.props.songState.status}>
+          <ListingList fetchStatus={this.props.songState.status} noTransition>
             {libraryEntrySongList}
           </ListingList>
           <Navigator

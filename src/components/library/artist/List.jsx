@@ -45,14 +45,14 @@ class ArtistList extends Component {
      */
 
     const libraryEntryArtistList = artists.map((artist) => (
-      <ArtistEntry key={artist.id} artist={artist} query={query} />
+      <ArtistEntry key={artist.id} artist={artist} query={query} noTransition />
     ))
 
     return (
       <div id="artist-library">
         <SearchBox placeholder="Who are you looking for?" />
         <div className="artist-list">
-          <ListingList fetchStatus={this.props.artistState.status}>
+          <ListingList fetchStatus={this.props.artistState.status} noTransition>
             {libraryEntryArtistList}
           </ListingList>
           <Navigator

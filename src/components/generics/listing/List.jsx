@@ -1,17 +1,27 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
+import { TransitionGroup } from 'react-transition-group'
 
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 
 export default function ListingList({
   children,
   fetchStatus,
-  free = false,
-  mini = false,
+  free,
+  mini,
+  noTransition,
 }) {
-  const content = (
-    <ul className={classNames('listing', { free, mini })}>{children}</ul>
-  )
+  const className = classNames('listing', { free, mini })
+  let content
+  if (noTransition) {
+    content = <ul className={className}>{children}</ul>
+  } else {
+    content = (
+      <TransitionGroup className={className} component="ul">
+        {children}
+      </TransitionGroup>
+    )
+  }
 
   if (fetchStatus) {
     return (
@@ -27,4 +37,5 @@ ListingList.propTypes = {
   fetchStatus: PropTypes.object,
   free: PropTypes.bool,
   mini: PropTypes.bool,
+  noTransition: PropTypes.bool,
 }
