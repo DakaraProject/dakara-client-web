@@ -1,17 +1,53 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router'
+import { TransitionGroup } from 'react-transition-group'
 
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 
 export default function ListingList({
   children,
   fetchStatus,
-  free = false,
-  mini = false,
+  free,
+  mini,
+  noTransition,
+  transitionObservable = null,
 }) {
-  const content = (
-    <ul className={classNames('listing', { free, mini })}>{children}</ul>
-  )
+  const className = classNames('listing', { free, mini })
+
+  const [transition, setTransition] = useState(false)
+  const [searchParams, _] = useSearchParams()
+
+  // disable transition if search params changed
+  useEffect(() => {
+    setTransition(false)
+  }, [searchParams])
+
+  // enable transition if a given observable changed
+  useEffect(() => {
+    if (transitionObservable) {
+      setTransition(true)
+    }
+  }, [transitionObservable])
+
+  // enable transition if observable changed
+
+  let content
+  if (noTransition) {
+    content = <ul className={className}>{children}</ul>
+  } else {
+    content = (
+      <TransitionGroup
+        className={className}
+        component="ul"
+        enter={transition}
+        exit={transition}
+      >
+        {children}
+      </TransitionGroup>
+    )
+  }
 
   if (fetchStatus) {
     return (
@@ -27,4 +63,6 @@ ListingList.propTypes = {
   fetchStatus: PropTypes.object,
   free: PropTypes.bool,
   mini: PropTypes.bool,
+  noTransition: PropTypes.bool,
+  transitionObservable: PropTypes.any,
 }

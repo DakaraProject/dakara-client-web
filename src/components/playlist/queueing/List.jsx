@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { CSSTransition } from 'react-transition-group'
 
 import { clearAlteration } from 'actions/alterations'
 import {
@@ -9,7 +9,7 @@ import {
   removeEntryFromPlaylist,
   reorderPlaylistEntry,
 } from 'actions/playlist'
-import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
+import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
 import PlaylistEntry from 'components/playlist/queueing/Entry'
 import {
@@ -20,6 +20,21 @@ import { queuingStatePropType } from 'reducers/playlist'
 import { playlistEntriesStatePropType } from 'reducers/playlistDigest'
 import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 import { findLast } from 'utils'
+
+/**
+ * Get a hash unique for a list of entries.
+ * The hash should be unique by addition, by substraction, by substitution, and
+ * by permutation.
+ * It should be 0 only if the list of entries is empty.
+ * @param entries List of playlist entries.
+ * @returns Hash unique to the given playlist entries.
+ */
+function getPlaylistHash(entries) {
+  return entries.reduce(
+    (accumulator, entry, index) => accumulator + entry.id * index,
+    0
+  )
+}
 
 class Queueing extends Component {
   static propTypes = {
@@ -217,16 +232,14 @@ class Queueing extends Component {
 
     return (
       <div id="queuing">
-        <ListingFetchWrapper status={status}>
-          <TransitionGroup
-            className="listing"
-            component="ul"
-            enter={transitionsEnabled}
-            exit={transitionsEnabled}
-          >
-            {queuingComponents}
-          </TransitionGroup>
-        </ListingFetchWrapper>
+        <ListingList
+          fetchStatus={status}
+          transitionObservable={getPlaylistHash(
+            playlistEntries.filter((e) => !e.was_played)
+          )}
+        >
+          {queuingComponents}
+        </ListingList>
         <Navigator
           count={count}
           pagination={pagination}

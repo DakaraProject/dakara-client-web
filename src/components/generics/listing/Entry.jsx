@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { useSearchParams } from 'react-router'
+import { CSSTransition } from 'react-transition-group'
 
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 import { isDisplayable } from 'utils'
@@ -12,7 +13,8 @@ export function ListingEntry({
   controls,
   notifications,
   id,
-  noHoverizable = false,
+  noHoverizable,
+  noTransition,
 }) {
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -28,9 +30,8 @@ export function ListingEntry({
     }
     setSearchParams(searchParams)
   }
-
-  return (
-    <li className="listing-entry listable" key={id}>
+  const content = (
+    <li className="listing-entry listable">
       <div
         className={classNames('one-line', {
           hoverizable: !noHoverizable,
@@ -66,6 +67,21 @@ export function ListingEntry({
       </CSSTransitionLazy>
     </li>
   )
+
+  if (noTransition) {
+    return content
+  }
+  return (
+    <CSSTransition
+      classNames="add-remove"
+      timeout={{
+        enter: 300,
+        exit: 600,
+      }}
+    >
+      {content}
+    </CSSTransition>
+  )
 }
 
 ListingEntry.propTypes = {
@@ -85,6 +101,7 @@ ListingEntry.propTypes = {
   ]),
   id: PropTypes.any,
   noHoverizable: PropTypes.bool,
+  noTransition: PropTypes.bool,
 }
 
 function Expander({ children, setExpanded }) {
