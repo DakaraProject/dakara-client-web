@@ -17,19 +17,21 @@ export default function ListingList({
   const className = classNames('listing', { free, mini })
 
   const [transition, setTransition] = useState(false)
-  const [searchParams, _] = useSearchParams()
+  const [transitionObservableInitial, _] = useState(transitionObservable)
+  const [searchParams, __] = useSearchParams()
 
   // disable transition if search params changed
   useEffect(() => {
     setTransition(false)
   }, [searchParams])
 
-  // enable transition if a given observable changed
+  // enable transition if a given observable changed, and is different from its
+  // initial value when mounted
   useEffect(() => {
-    if (transitionObservable) {
+    if (transitionObservable != transitionObservableInitial) {
       setTransition(true)
     }
-  }, [transitionObservable])
+  }, [transitionObservable, transitionObservableInitial])
 
   // enable transition if observable changed
 
