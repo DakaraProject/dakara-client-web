@@ -183,18 +183,23 @@ class SongExpanded extends Component {
       )
     }
 
-    return (
-      <div className="song-expanded">
-        <Details>
-          {artists}
-          {works}
-          {detailSong}
-          {detailVideo}
-          {lyrics}
-          {tags}
-        </Details>
-      </div>
-    )
+    if (artists || works || detailSong || detailVideo || lyrics || tags) {
+      return (
+        <div className="song-expanded">
+          <Details>
+            {artists}
+            {works}
+            {detailSong}
+            {detailVideo}
+            {lyrics}
+            {tags}
+          </Details>
+        </div>
+      )
+    }
+
+    // return nothing if empty
+    return null
   }
 }
 

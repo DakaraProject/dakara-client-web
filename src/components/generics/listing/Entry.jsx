@@ -134,12 +134,16 @@ export function ListingEntryExpanded({
     <div className="expanded">
       {isDisplayable(extra) && <ul className="extra">{extra}</ul>}
       <div className="main">{children}</div>
-      <div className="notifiable">
-        {isDisplayable(controls) && <div className="controls">{controls}</div>}
-        {isDisplayable(notifications) && (
-          <div className="notifications">{notifications}</div>
-        )}
-      </div>
+      {(isDisplayable(controls) || isDisplayable(notifications)) && (
+        <div className="notifiable">
+          {isDisplayable(controls) && (
+            <div className="controls">{controls}</div>
+          )}
+          {isDisplayable(notifications) && (
+            <div className="notifications">{notifications}</div>
+          )}
+        </div>
+      )}
     </div>
   )
 }

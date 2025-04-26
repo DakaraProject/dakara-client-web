@@ -19,10 +19,15 @@
   border-collapse: separate;
   border-spacing: 0 sizes.$gap-vertical;
   display: table;
+  // cancel the outer margin created by `border-spacing`
+  margin-top: -(sizes.$gap-vertical);
+  margin-bottom: -(sizes.$gap-vertical);
   width: 100%;
 
   @include support.make-smartphone {
     display: block;
+    margin-top: unset;
+    margin-bottom: unset;
     padding: sizes.$gap-vertical-smartphone 0;
   }
 
