@@ -72,15 +72,17 @@ class PlayerTokenBox extends Component {
       responseOfRevokePlayerToken,
     } = this.props
     const { data: karaoke } = this.props.karaokeState
-    const { data: playerToken } = this.props.playerTokenState
-    const { status: playerTokenStatus } = this.props.playerTokenState
-    const created = !!playerToken.key
+    const { data: playerToken, status: playerTokenStatus } =
+      this.props.playerTokenState
+    const keyExists = !!playerToken.key
 
-    // display something only if the player token has been fetched
+    // NOTE If the token is not found, the state is still `successful` as this
+    // is a valid case. Check the reducer to see how this case is handled.
+
     let playerTokenBox
     if (playerTokenStatus === Status.successful) {
       let playerTokenBoxContent
-      if (created) {
+      if (keyExists) {
         // display token
         playerTokenBoxContent = (
           <>
@@ -143,7 +145,7 @@ class PlayerTokenBox extends Component {
 
       playerTokenBox = (
         <CSSTransition
-          in={created}
+          in={keyExists}
           classNames="token-player"
           timeout={{
             enter: 300,
@@ -152,6 +154,12 @@ class PlayerTokenBox extends Component {
         >
           {playerTokenBoxContent}
         </CSSTransition>
+      )
+    } else if (playerTokenStatus === Status.failed) {
+      playerTokenBox = (
+        <div className="ribbon danger">
+          <p>Unable to get player token.</p>
+        </div>
       )
     }
 
