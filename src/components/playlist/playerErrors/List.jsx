@@ -53,21 +53,25 @@ class PlayerErrorsList extends Component {
   }
 
   render() {
-    const { playerErrors, count, pagination } =
-      this.props.playerErrorsState.data
+    const {
+      playerErrors: errors,
+      count,
+      pagination,
+    } = this.props.playerErrorsState.data
+    const { status } = this.props.playerErrorsState
+    const { data: playerErrors } = this.props.playerErrorsDigestState
 
-    const playerErrorsList = playerErrors.map((playerError) => (
+    const errorsList = errors.map((playerError) => (
       <PlayerErrorsEntry key={playerError.id} playerError={playerError} />
     ))
 
-    // XXX observable to actual list from digest
     return (
       <div id="player-errors-list">
         <ListingList
-          status={this.props.playerErrorsState.status}
+          status={status}
           transitionObservable={getEntriesHash(playerErrors)}
         >
-          {playerErrorsList}
+          {errorsList}
         </ListingList>
         <Navigator
           count={count}

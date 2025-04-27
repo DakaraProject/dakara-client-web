@@ -55,25 +55,23 @@ class Played extends Component {
   }
 
   render() {
-    const {
-      played: playlistEntries,
-      count,
-      pagination,
-    } = this.props.playlistPlayedState.data
+    const { played, count, pagination } = this.props.playlistPlayedState.data
     const { status } = this.props.playlistPlayedState
+    const { playlistEntries } = this.props.playlistEntriesState.data
 
-    const playlistEntriesComponent = playlistEntries.map((entry) => (
+    const playedComponent = played.map((entry) => (
       <PlayedEntry key={entry.id} entry={entry} />
     ))
 
-    // XXX observable to actual list from digest
     return (
       <div id="played">
         <ListingList
           fetchStatus={status}
-          transitionObservable={getEntriesHash(playlistEntries)}
+          transitionObservable={getEntriesHash(
+            playlistEntries.filter((e) => e.was_played)
+          )}
         >
-          {playlistEntriesComponent}
+          {playedComponent}
         </ListingList>
         <Navigator
           count={count}
