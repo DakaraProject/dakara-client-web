@@ -89,7 +89,7 @@ class Player extends Component {
   render() {
     const { withControls, animationsEnabled } = this.state
     const { data: playerStatus } = this.props.playerStatusState
-    const { data: playerErrors } = this.props.playerErrorsState
+    const { playerErrors } = this.props.playerErrorsState.data
     const fetchError = this.props.playerStatusState.status === Status.failed
     const isPlaying = !!playerStatus.playlist_entry
     const controlDisabled = !isPlaying || fetchError

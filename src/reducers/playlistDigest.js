@@ -115,12 +115,16 @@ function entries(state = defaultEntries, action) {
 
 export const playerErrorsDigestStatePropType = PropTypes.shape({
   status: PropTypes.symbol,
-  data: PropTypes.arrayOf(playerErrorPropType).isRequired,
+  data: PropTypes.shape({
+    playerErrors: PropTypes.arrayOf(playerErrorPropType).isRequired,
+  }),
 })
 
 const defaultPlayerErrors = {
   status: null,
-  data: [],
+  data: {
+    playerErrors: [],
+  },
 }
 
 function playerErrors(state = defaultPlayerErrors, action) {
@@ -134,7 +138,9 @@ function playerErrors(state = defaultPlayerErrors, action) {
     case PLAYLIST_DIGEST_SUCCESS:
       return {
         status: Status.successful,
-        data: action.response.player_errors,
+        data: {
+          playerErrors: action.response.player_errors,
+        },
       }
 
     case PLAYLIST_DIGEST_FAILURE:

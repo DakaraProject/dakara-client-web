@@ -10,7 +10,7 @@ import {
 } from 'actions/playlist'
 import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
-import PlaylistEntry from 'components/playlist/queueing/Entry'
+import QueuingEntry from 'components/playlist/queueing/Entry'
 import {
   alterationResponsePropType,
   Status,
@@ -181,7 +181,7 @@ class Queueing extends Component {
     const isLastPage = this.props.searchParams.get('page') == pagination.last
 
     const queuingComponents = queuing.map((entry, position) => (
-      <PlaylistEntry
+      <QueuingEntry
         key={entry.id}
         entry={entry}
         removeEntry={removeEntry}

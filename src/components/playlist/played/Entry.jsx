@@ -35,7 +35,7 @@ class Entry extends Component {
   }
 
   render() {
-    const { entry } = this.props
+    const { entry, ...rest } = this.props
 
     const controlsExpanded = (
       <button className="control primary" onClick={this.handleSearch}>
@@ -77,6 +77,7 @@ class Entry extends Component {
         id={entry.id}
         controls={controls}
         entryExpanded={entryExpanded}
+        {...rest}
       >
         <PlaylistEntryWidget entry={entry} truncatable />
       </ListingEntry>

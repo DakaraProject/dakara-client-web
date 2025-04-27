@@ -38,8 +38,12 @@ class PlayerErrorsList extends Component {
       playerErrorsDigestState !== prevPlayerErrorsDigestState &&
       playerErrorsState.status !== Status.pending
     ) {
-      const errorIds = playerErrorsDigestState.data.map((e) => e.id)
-      const prevErrorIds = prevPlayerErrorsDigestState.data.map((e) => e.id)
+      const errorIds = playerErrorsDigestState.data.playerErrors.map(
+        (e) => e.id
+      )
+      const prevErrorIds = prevPlayerErrorsDigestState.data.playerErrors.map(
+        (e) => e.id
+      )
       if (errorIds.length !== prevErrorIds.length) {
         this.refreshEntries()
       }
@@ -59,7 +63,7 @@ class PlayerErrorsList extends Component {
       pagination,
     } = this.props.playerErrorsState.data
     const { status } = this.props.playerErrorsState
-    const { data: playerErrors } = this.props.playerErrorsDigestState
+    const { playerErrors } = this.props.playerErrorsDigestState.data
 
     const errorsList = errors.map((playerError) => (
       <PlayerErrorsEntry key={playerError.id} playerError={playerError} />
