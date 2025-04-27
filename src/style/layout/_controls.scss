@@ -17,9 +17,6 @@
 // Controls have no color by default, and should have a color subclass. The
 // color is adjusted wether the control is in a listable or a hoverizable
 // element.
-//
-// If you have controls inside controls, add the `subcontrols` class to the
-// subsequent `controls`.
 .controls {
   // default aspect of controls
   @include controls.make-controls;
@@ -187,8 +184,8 @@
   }
 }
 
-// lighten control (not in subcontrols) when in hovered element
-.hoverizable:hover .controls:not(.subcontrols):not(:hover) .control {
+// lighten control when in hovered element
+.hoverizable:hover .controls:not(:hover) .control {
   @mixin make-control-line-hover($color-normal, $color-disabled) {
     &:not(.disabled):not([disabled]):not(:focus) {
       background: $color-normal;
