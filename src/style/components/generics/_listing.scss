@@ -108,7 +108,7 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
 
       &.add-remove-exit-active {
         height: 0;
-        transition: height 150ms ease-out;
+        transition: height 150ms ease-in;
 
         &.delayed {
           transition-delay: 500ms;
@@ -160,21 +160,21 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
     > .expanded {
       @include sizes.make-gap(padding, vertical);
 
-      &.expand-view-enter {
+      &.expand-collapse-enter {
         max-height: 0;
         overflow: hidden;
 
-        &.expand-view-enter-active {
-          max-height: 10 * 0.75 * sizes.$row-height;
+        &.expand-collapse-enter-active {
+          max-height: 15 * sizes.$subrow-height;
           transition: max-height 600ms ease-out;
         }
       }
 
-      &.expand-view-exit {
-        max-height: 10 * 0.75 * sizes.$row-height;
+      &.expand-collapse-exit {
+        max-height: 15 * sizes.$subrow-height;
         overflow: hidden;
 
-        &.expand-view-exit-active {
+        &.expand-collapse-exit-active {
           max-height: 0;
           transition: max-height 300ms ease-in;
         }

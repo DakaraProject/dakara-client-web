@@ -58,7 +58,7 @@ export function ListingEntry({
       </div>
       <CSSTransitionLazy
         in={expanded}
-        classNames="expand-view"
+        classNames="expand-collapse"
         timeout={{
           enter: 600,
           exit: 300,
