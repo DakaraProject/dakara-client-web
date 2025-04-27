@@ -21,10 +21,10 @@ export default function PlaylistEntryWidget({ entry, truncatable }) {
     )
   }
 
-  const playlistEntries = useSelector(
+  const playlistEntriesDigest = useSelector(
     (state) => state.playlist.digest.entries.data.playlistEntries
   )
-  const playlistEntry = playlistEntries.find((e) => e.id === entry.id)
+  const playlistEntry = playlistEntriesDigest.find((e) => e.id === entry.id)
 
   return (
     <div className={classNames('playlist-entry-widget', { truncatable })}>

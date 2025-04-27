@@ -30,7 +30,7 @@ class Entry extends Component {
     entry: playlistEntryPropType.isRequired,
     navigate: PropTypes.func.isRequired,
     onReorderButtonClick: PropTypes.func.isRequired,
-    playlistEntries: PropTypes.arrayOf(playlistEntryPropType).isRequired,
+    playlistEntriesDigest: PropTypes.arrayOf(playlistEntryPropType).isRequired,
     positions: PropTypes.shape({
       position: PropTypes.number.isRequired,
       firstId: PropTypes.number,
@@ -80,7 +80,7 @@ class Entry extends Component {
       onReorderButtonClick,
       positions,
       reorderEntryPosition,
-      playlistEntries,
+      playlistEntriesDigest,
       ...rest
     } = this.props
 
@@ -206,7 +206,9 @@ class Entry extends Component {
       />,
     ]
 
-    const playlistEntry = playlistEntries.find((e) => e.id === entry.id)
+    const playlistEntryDigest = playlistEntriesDigest.find(
+      (e) => e.id === entry.id
+    )
 
     const entryExpanded = (
       <ListingEntryExpanded
@@ -225,9 +227,9 @@ class Entry extends Component {
           <DetailText icon="la-clock" name="Requested at">
             {formatDateLong(entry.date_created)}
           </DetailText>
-          {playlistEntry && (
+          {playlistEntryDigest && (
             <DetailText icon="la-clock" name="Should play at">
-              {formatDateLong(playlistEntry.date_play)}
+              {formatDateLong(playlistEntryDigest.date_play)}
             </DetailText>
           )}
         </Details>
@@ -249,7 +251,7 @@ class Entry extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  playlistEntries: state.playlist.digest.entries.data.playlistEntries,
+  playlistEntriesDigest: state.playlist.digest.entries.data.playlistEntries,
 })
 
 Entry = withSearchParams(withNavigate(connect(mapStateToProps, {})(Entry)))

@@ -16,7 +16,7 @@ import {
   Status,
 } from 'reducers/alterationsResponse'
 import { queuingStatePropType } from 'reducers/playlist'
-import { playlistEntriesStatePropType } from 'reducers/playlistDigest'
+import { playlistEntriesDigestStatePropType } from 'reducers/playlistDigest'
 import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 import { getEntriesHash } from 'utils'
 
@@ -24,7 +24,7 @@ class Queueing extends Component {
   static propTypes = {
     clearAlteration: PropTypes.func.isRequired,
     loadPlaylistEntries: PropTypes.func.isRequired,
-    playlistEntriesState: playlistEntriesStatePropType.isRequired,
+    playlistEntriesDigestState: playlistEntriesDigestStatePropType.isRequired,
     playlistQueuingState: queuingStatePropType.isRequired,
     removeEntryFromPlaylist: PropTypes.func.isRequired,
     reorderPlaylistEntry: PropTypes.func.isRequired,
@@ -68,15 +68,18 @@ class Queueing extends Component {
 
     // refresh if the playlist changed
     if (
-      this.props.playlistEntriesState !== prevProps.playlistEntriesState &&
+      this.props.playlistEntriesDigestState !==
+        prevProps.playlistEntriesDigestState &&
       this.props.playlistQueuingState.status !== Status.pending
     ) {
-      const queuingId = this.props.playlistEntriesState.data.playlistEntries
-        .filter((e) => !e.was_played)
-        .map((e) => e.id)
-      const prevQueuingId = prevProps.playlistEntriesState.data.playlistEntries
-        .filter((e) => !e.was_played)
-        .map((e) => e.id)
+      const queuingId =
+        this.props.playlistEntriesDigestState.data.playlistEntries
+          .filter((e) => !e.was_played)
+          .map((e) => e.id)
+      const prevQueuingId =
+        prevProps.playlistEntriesDigestState.data.playlistEntries
+          .filter((e) => !e.was_played)
+          .map((e) => e.id)
       if (
         queuingId.length !== prevQueuingId.length ||
         !queuingId.every((e, i) => e === prevQueuingId[i])
@@ -163,7 +166,7 @@ class Queueing extends Component {
   render() {
     const { queuing, count, pagination } = this.props.playlistQueuingState.data
     const { status } = this.props.playlistQueuingState
-    const { playlistEntries } = this.props.playlistEntriesState.data
+    const { playlistEntries } = this.props.playlistEntriesDigestState.data
     const {
       removeEntryFromPlaylist: removeEntry,
       responseOfMultipleRemoveEntry,
@@ -226,7 +229,7 @@ class Queueing extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  playlistEntriesState: state.playlist.digest.entries,
+  playlistEntriesDigestState: state.playlist.digest.entries,
   playlistQueuingState: state.playlist.queuing,
 
   responseOfMultipleRemoveEntry:

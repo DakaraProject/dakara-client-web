@@ -7,13 +7,13 @@ import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
 import PlayedEntry from 'components/playlist/played/Entry'
 import { playedStatePropType } from 'reducers/playlist'
-import { playlistEntriesStatePropType } from 'reducers/playlistDigest'
+import { playlistEntriesDigestStatePropType } from 'reducers/playlistDigest'
 import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 import { getEntriesHash } from 'utils'
 
 class Played extends Component {
   static propTypes = {
-    playlistEntriesState: playlistEntriesStatePropType.isRequired,
+    playlistEntriesDigestState: playlistEntriesDigestStatePropType.isRequired,
     playlistPlayedState: playedStatePropType.isRequired,
     loadPlaylistEntries: PropTypes.func.isRequired,
     searchParams: PropTypes.object.isRequired,
@@ -30,13 +30,16 @@ class Played extends Component {
     }
 
     // refresh if the playlist changed
-    if (this.props.playlistEntriesState !== prevProps.playlistEntriesState) {
+    if (
+      this.props.playlistEntriesDigestState !==
+      prevProps.playlistEntriesDigestState
+    ) {
       const played =
-        this.props.playlistEntriesState.data.playlistEntries.filter(
+        this.props.playlistEntriesDigestState.data.playlistEntries.filter(
           (e) => e.was_played
         )
       const prevPlayed =
-        prevProps.playlistEntriesState.data.playlistEntries.filter(
+        prevProps.playlistEntriesDigestState.data.playlistEntries.filter(
           (e) => e.was_played
         )
       if (played.length !== prevPlayed.length) {
@@ -57,7 +60,7 @@ class Played extends Component {
   render() {
     const { played, count, pagination } = this.props.playlistPlayedState.data
     const { status } = this.props.playlistPlayedState
-    const { playlistEntries } = this.props.playlistEntriesState.data
+    const { playlistEntries } = this.props.playlistEntriesDigestState.data
 
     const playedComponent = played.map((entry) => (
       <PlayedEntry key={entry.id} entry={entry} />
@@ -87,7 +90,7 @@ class Played extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  playlistEntriesState: state.playlist.digest.entries,
+  playlistEntriesDigestState: state.playlist.digest.entries,
   playlistPlayedState: state.playlist.played,
 })
 

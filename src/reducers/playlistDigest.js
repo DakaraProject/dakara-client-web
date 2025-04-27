@@ -22,7 +22,7 @@ import {
  * Minimal information is stored
  */
 
-export const playlistEntriesStatePropType = PropTypes.shape({
+export const playlistEntriesDigestStatePropType = PropTypes.shape({
   status: PropTypes.symbol,
   data: PropTypes.shape({
     dateEnd: PropTypes.string.isRequired,
