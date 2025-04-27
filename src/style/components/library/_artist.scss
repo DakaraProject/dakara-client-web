@@ -9,12 +9,6 @@
 #artist-library {
   .one-line {
     .main {
-      & {
-        align-items: center;
-      }
-
-      @include sizes.make-gap(padding, horizontal);
-
       .artist-widget {
         flex-grow: 1;
 

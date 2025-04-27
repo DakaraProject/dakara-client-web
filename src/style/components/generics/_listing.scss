@@ -135,9 +135,14 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
       }
 
       .main {
-        display: flex;
-        flex: 1;
-        overflow: hidden;
+        & {
+          align-items: center;
+          display: flex;
+          flex: 1;
+          overflow: hidden;
+        }
+
+        @include sizes.make-gap(padding, horizontal);
       }
 
       .extra {

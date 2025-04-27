@@ -9,12 +9,6 @@
 #work-library {
   .one-line {
     .main {
-      & {
-        align-items: center;
-      }
-
-      @include sizes.make-gap(padding, horizontal);
-
       .work-widget {
         flex-grow: 1;
 
