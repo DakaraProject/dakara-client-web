@@ -21,7 +21,9 @@ export function DetailAny({ children, icon, name, className }) {
         )}
         {name && <span className="name">{name}</span>}
       </h4>
-      <div className={classNames('content', className)}>{children}</div>
+      <div className="content">
+        <div className={className}>{children}</div>
+      </div>
     </div>
   )
 }
