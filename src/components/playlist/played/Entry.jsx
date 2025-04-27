@@ -1,5 +1,3 @@
-import dayjs from 'dayjs'
-import localizedFormat from 'dayjs/plugin/localizedFormat'
 import PropTypes from 'prop-types'
 import queryString from 'query-string'
 import { Component } from 'react'
@@ -13,8 +11,6 @@ import PlaylistEntryWidget from 'components/playlist/PlaylistEntryWidget'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 import { withNavigate } from 'thirdpartyExtensions/ReactRouterDom'
 import { formatDateLong } from 'utils'
-
-dayjs.extend(localizedFormat)
 
 class Entry extends Component {
   static propTypes = {
