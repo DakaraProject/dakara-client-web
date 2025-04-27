@@ -1,0 +1,33 @@
+//
+// Dakara Project
+//
+// Playlist entry widget style file
+//
+
+@use '~/thirdparty/preboot';
+
+.playlist-entry-widget {
+  column-gap: 0.5em;
+  display: inline-flex;
+  overflow: hidden;
+
+  &.truncatable {
+    .relative-date {
+      @include preboot.text-truncate;
+    }
+  }
+
+  .user-widget {
+    // not easily shrinkable
+    flex-shrink: 0.1;
+  }
+
+  .relative-date {
+    // normally shrinkable
+    flex-shrink: 1;
+
+    .icon + .date {
+      margin-left: 0.25em;
+    }
+  }
+}

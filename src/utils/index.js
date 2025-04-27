@@ -1,7 +1,11 @@
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
+import localizedFormat from 'dayjs/plugin/localizedFormat'
+import relativeTime from 'dayjs/plugin/relativeTime'
 
 dayjs.extend(duration)
+dayjs.extend(localizedFormat)
+dayjs.extend(relativeTime)
 
 /**
  * Front parameters.
@@ -26,7 +30,7 @@ export function updateData(newData, resultsKey) {
 }
 
 /**
- * Smart formating for a duration.
+ * Smart formatting for a duration.
  * Will format a duration less than one hour as m:ss, and more than one hour as
  * h:mm:ss.
  * @param seconds Duration in seconds.
@@ -48,6 +52,64 @@ export function formatDuration(seconds) {
 
   // default to minutes and seconds
   return duration.format('m:ss')
+}
+
+/**
+ * Smart formatting for a date.
+ * Formats a date before or after one day in long form (date + time), otherwise
+ * in short form (time only).
+ * @param dateIso Date as a string in ISO format.
+ * @returns Formatted date.
+ */
+export function formatDateLong(dateIso) {
+  const date = dayjs(dateIso)
+
+  // long format if date is before or after one day
+  if (
+    date.isBefore(dayjs().subtract(1, 'day')) ||
+    date.isAfter(dayjs().add(1, 'day'))
+  ) {
+    return date.format('L LT')
+  }
+
+  // short format otherwise
+  return date.format('LT')
+}
+
+export function formatDate(dateIso) {
+  const date = dayjs(dateIso)
+
+  // long ago if date is before one day
+  if (date.isBefore(dayjs().subtract(1, 'day'))) {
+    return 'long ago'
+  }
+
+  // not soon if date is after one day
+  if (date.isAfter(dayjs().add(1, 'day'))) {
+    return 'not soon'
+  }
+
+  // short format otherwise
+  return date.format('LT')
+}
+
+export function formatDateRelative(dateIso) {
+  const date = dayjs(dateIso)
+  const now = dayjs()
+
+  // long ago if date is before one day
+  if (date.isBefore(now.subtract(1, 'day'))) {
+    return 'long ago'
+  }
+
+  // not soon if date is after one day
+  if (date.isAfter(now.add(1, 'day'))) {
+    return 'not soon'
+  }
+
+  // add 5 seconds to avoid displaying "will play in a few second ago" when
+  // the date is within one minute
+  return date.add(5, 'second').fromNow()
 }
 
 /**
@@ -130,4 +192,19 @@ export function getEntry(entries, playerStatus) {
   }
 
   return { entry: null, position: null }
+}
+
+/**
+ * Get a hash unique for a list of entries.
+ * The hash should be unique by addition, by substraction, by substitution, and
+ * by permutation.
+ * It should be 0 only if the list of entries is empty.
+ * @param entries List of playlist entries. Each entry must have an `id` key.
+ * @returns Hash unique to the given playlist entries.
+ */
+export function getEntriesHash(entries) {
+  return entries.reduce(
+    (accumulator, entry, index) => accumulator + entry.id * index,
+    0
+  )
 }

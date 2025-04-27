@@ -1,13 +1,16 @@
-import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import queryString from 'query-string'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import ConfirmationBar from 'components/generics/ConfirmationBar'
+import { Details, DetailText } from 'components/generics/Details'
+import {
+  ListingEntry,
+  ListingEntryExpanded,
+} from 'components/generics/listing/Entry'
 import Notification from 'components/generics/Notification'
-import PlaylistPositionInfo from 'components/song/PlaylistPositionInfo'
-import SongWidget from 'components/song/SongWidget'
+import PlaylistEntryWidget from 'components/playlist/PlaylistEntryWidget'
 import {
   IsPlaylistManager,
   IsPlaylistManagerOrOwner,
@@ -19,6 +22,7 @@ import {
   withSearchParams,
 } from 'thirdpartyExtensions/ReactRouterDom'
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
+import { formatDateLong } from 'utils'
 
 class Entry extends Component {
   static propTypes = {
@@ -77,6 +81,7 @@ class Entry extends Component {
       positions,
       reorderEntryPosition,
       playlistEntries,
+      ...rest
     } = this.props
 
     /**
@@ -117,92 +122,133 @@ class Entry extends Component {
       reorderButton = createReorderButton(entry.id, 'arrows-alt-v')
     }
 
-    return (
-      <li
-        className={classNames(
-          'listing-entry',
-          'playlist-entry',
-          'library-entry',
-          'library-entry-song',
-          'listable',
-          'hoverizable',
-          { delayed: this.props.responseOfRemoveEntry }
-        )}
+    const controlsExpanded = [
+      <button
+        key="search"
+        className="control primary"
+        onClick={this.handleSearch}
       >
-        <div className="library-entry-song-compact notifiable">
-          <button
-            className="expander transparent"
-            onClick={() => this.handleSearch()}
-          >
-            <SongWidget song={entry.song} />
-          </button>
-          <div className="extra">
-            <PlaylistPositionInfo
-              entryQueuing={playlistEntries.find((e) => e.id === entry.id)}
-            />
-            <div className="controls compact main">
-              <IsPlaylistManager>
-                <CSSTransitionLazy
-                  in={!!reorderExtraButtons}
-                  classNames="displayed"
-                  timeout={{
-                    enter: 3000,
-                    exit: 1500,
-                  }}
-                >
-                  <div className="controls compact subcontrols">
-                    {reorderExtraButtons}
-                  </div>
-                </CSSTransitionLazy>
-                {reorderButton}
-              </IsPlaylistManager>
-              <IsPlaylistManagerOrOwner object={entry} disable>
-                <button
-                  className="control square warning"
-                  onClick={this.displayConfirm}
-                >
-                  <span className="icon">
-                    <i className="las la-times"></i>
-                  </span>
-                </button>
-              </IsPlaylistManagerOrOwner>
-            </div>
-          </div>
-          <CSSTransitionLazy
-            in={this.state.confirmDisplayed}
-            classNames="notified"
-            timeout={{
-              enter: 300,
-              exit: 150,
-            }}
-          >
-            <ConfirmationBar
-              onConfirm={() => {
-                this.props.removeEntry(entry.id)
-              }}
-              onCancel={this.clearConfirm}
-            />
-          </CSSTransitionLazy>
-          <Notification
-            alterationResponse={this.props.responseOfRemoveEntry}
-            pendingMessage="Removing…"
-            successfulMessage="Successfuly removed!"
-            successfulDuration={null}
-            failedMessage="Error attempting to remove song from playlist"
-          />
-          <Notification
-            alterationResponse={this.props.responseOfReorderPlaylistEntry}
-            pendingMessage={false}
-            successfulMessage={false}
-            failedMessage="Error attempting to reorder playlist"
-          />
-        </div>
-      </li>
+        Search song
+      </button>,
+      <IsPlaylistManagerOrOwner key="remove" object={entry} disable>
+        <button className="control warning" onClick={this.displayConfirm}>
+          Remove from playlist
+        </button>
+      </IsPlaylistManagerOrOwner>,
+    ]
+
+    const controls = [
+      <IsPlaylistManager key="reorder">
+        <CSSTransitionLazy
+          in={!!reorderExtraButtons}
+          classNames="displayed"
+          timeout={{
+            enter: 3000,
+            exit: 1500,
+          }}
+        >
+          <div className="reorder">{reorderExtraButtons}</div>
+        </CSSTransitionLazy>
+        {reorderButton}
+      </IsPlaylistManager>,
+      <button
+        key="search"
+        className="control square primary"
+        onClick={this.handleSearch}
+      >
+        <span className="icon">
+          <i className="las la-search"></i>
+        </span>
+      </button>,
+      <IsPlaylistManagerOrOwner key="remove" object={entry} disable>
+        <button
+          className="control square warning"
+          onClick={this.displayConfirm}
+        >
+          <span className="icon">
+            <i className="las la-trash"></i>
+          </span>
+        </button>
+      </IsPlaylistManagerOrOwner>,
+    ]
+
+    const notifications = [
+      <CSSTransitionLazy
+        key="remove"
+        in={this.state.confirmDisplayed}
+        classNames="notified"
+        timeout={{
+          enter: 300,
+          exit: 150,
+        }}
+      >
+        <ConfirmationBar
+          onConfirm={() => {
+            this.props.removeEntry(entry.id)
+          }}
+          onCancel={this.clearConfirm}
+        />
+      </CSSTransitionLazy>,
+      <Notification
+        key="response-of-remove-entry"
+        alterationResponse={this.props.responseOfRemoveEntry}
+        pendingMessage="Removing…"
+        successfulMessage="Successfuly removed!"
+        successfulDuration={null}
+        failedMessage="Error attempting to remove song from playlist"
+      />,
+      <Notification
+        key="response-of-reorder-playlist-entry"
+        alterationResponse={this.props.responseOfReorderPlaylistEntry}
+        pendingMessage={false}
+        successfulMessage={false}
+        failedMessage="Error attempting to reorder playlist"
+      />,
+    ]
+
+    const playlistEntry = playlistEntries.find((e) => e.id === entry.id)
+
+    const entryExpanded = (
+      <ListingEntryExpanded
+        controls={controlsExpanded}
+        notifications={notifications}
+      >
+        <Details>
+          <DetailText icon="la-user" name="For">
+            {entry.owner.username}
+          </DetailText>
+          {entry.use_instrumental && (
+            <DetailText icon="la-microphone-slash" name="Instrumental">
+              Yes
+            </DetailText>
+          )}
+          <DetailText icon="la-clock" name="Requested at">
+            {formatDateLong(entry.date_created)}
+          </DetailText>
+          {playlistEntry && (
+            <DetailText icon="la-clock" name="Should play at">
+              {formatDateLong(playlistEntry.date_play)}
+            </DetailText>
+          )}
+        </Details>
+      </ListingEntryExpanded>
+    )
+
+    return (
+      <ListingEntry
+        id={entry.id}
+        controls={controls}
+        notifications={notifications}
+        entryExpanded={entryExpanded}
+        {...rest}
+      >
+        <PlaylistEntryWidget entry={entry} truncatable />
+      </ListingEntry>
     )
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state) => ({
   playlistEntries: state.playlist.digest.entries.data.playlistEntries,
 })
 

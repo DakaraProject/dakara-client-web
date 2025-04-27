@@ -8,26 +8,22 @@ import { userPropType } from 'serverPropTypes/users'
 class UserWidget extends Component {
   static propTypes = {
     currentUser: userPropType.isRequired,
-    noResize: PropTypes.bool,
     user: userPropType.isRequired,
-    className: PropTypes.string,
+    truncatable: PropTypes.bool,
   }
 
   render() {
-    const { user, currentUser, className, noResize } = this.props
+    const { user, currentUser, truncatable } = this.props
     const isCurrentUser = currentUser && currentUser.id === user.id
 
-    const iconClass = isCurrentUser ? 'las la-user' : 'las la-user-friends'
-    const userWidgetClass = classNames('user-widget', className, {
-      'no-resize': noResize,
-    })
-
     return (
-      <div className={userWidgetClass}>
+      <div className={classNames('user-widget', { truncatable })}>
         <span className="icon">
-          <i className={iconClass}></i>
+          <i
+            className={isCurrentUser ? 'las la-user' : 'las la-user-friends'}
+          ></i>
         </span>
-        {user.username}
+        <span className="name">{user.username}</span>
       </div>
     )
   }

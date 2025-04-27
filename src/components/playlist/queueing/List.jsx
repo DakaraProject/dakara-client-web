@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { CSSTransition } from 'react-transition-group'
 
 import { clearAlteration } from 'actions/alterations'
 import {
@@ -19,22 +18,7 @@ import {
 import { queuingStatePropType } from 'reducers/playlist'
 import { playlistEntriesStatePropType } from 'reducers/playlistDigest'
 import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
-import { findLast } from 'utils'
-
-/**
- * Get a hash unique for a list of entries.
- * The hash should be unique by addition, by substraction, by substitution, and
- * by permutation.
- * It should be 0 only if the list of entries is empty.
- * @param entries List of playlist entries.
- * @returns Hash unique to the given playlist entries.
- */
-function getPlaylistHash(entries) {
-  return entries.reduce(
-    (accumulator, entry, index) => accumulator + entry.id * index,
-    0
-  )
-}
+import { getEntriesHash } from 'utils'
 
 class Queueing extends Component {
   static propTypes = {
@@ -56,7 +40,6 @@ class Queueing extends Component {
 
   state = {
     reorderEntryId: null,
-    transitionsEnabled: false,
   }
 
   componentDidMount() {
@@ -79,7 +62,6 @@ class Queueing extends Component {
 
     // refresh if moved to a different page
     if (this.props.searchParams !== prevProps.searchParams) {
-      this.setState({ transitionsEnabled: false })
       this.setState({ reorderEntryId: null })
       this.refreshEntries()
     }
@@ -99,7 +81,6 @@ class Queueing extends Component {
         queuingId.length !== prevQueuingId.length ||
         !queuingId.every((e, i) => e === prevQueuingId[i])
       ) {
-        this.setState({ transitionsEnabled: true })
         this.refreshEntries()
       }
     }
@@ -180,7 +161,6 @@ class Queueing extends Component {
   }
 
   render() {
-    const { transitionsEnabled } = this.state
     const { queuing, count, pagination } = this.props.playlistQueuingState.data
     const { status } = this.props.playlistQueuingState
     const { playlistEntries } = this.props.playlistEntriesState.data
@@ -194,47 +174,39 @@ class Queueing extends Component {
     )
 
     const firstId = playlistEntries.find((e) => e.will_play)?.id
-    const lastId = findLast(playlistEntries, (e) => e.will_play)?.id
+    const lastId = playlistEntries.findLast((e) => e.will_play)?.id
     const isFirstPage =
       !this.props.searchParams.get('page') ||
-      +this.props.searchParams.get('page') === 1
-    const isLastPage = +this.props.searchParams.get('page') === pagination.last
+      this.props.searchParams.get('page') == 1
+    const isLastPage = this.props.searchParams.get('page') == pagination.last
 
     const queuingComponents = queuing.map((entry, position) => (
-      <CSSTransition
-        classNames="add-remove"
-        timeout={{
-          enter: 300,
-          exit: 650,
-        }}
+      <PlaylistEntry
         key={entry.id}
-      >
-        <PlaylistEntry
-          entry={entry}
-          removeEntry={removeEntry}
-          clearAlteration={this.props.clearAlteration}
-          responseOfRemoveEntry={responseOfMultipleRemoveEntry[entry.id]}
-          responseOfReorderPlaylistEntry={
-            responseOfMultipleReorderPlaylistEntry[entry.id]
-          }
-          positions={{
-            position,
-            firstId,
-            lastId,
-            isFirstPage,
-            isLastPage,
-          }}
-          onReorderButtonClick={this.onReorderButtonClick}
-          reorderEntryPosition={reorderEntryPosition}
-        />
-      </CSSTransition>
+        entry={entry}
+        removeEntry={removeEntry}
+        clearAlteration={this.props.clearAlteration}
+        responseOfRemoveEntry={responseOfMultipleRemoveEntry[entry.id]}
+        responseOfReorderPlaylistEntry={
+          responseOfMultipleReorderPlaylistEntry[entry.id]
+        }
+        positions={{
+          position,
+          firstId,
+          lastId,
+          isFirstPage,
+          isLastPage,
+        }}
+        onReorderButtonClick={this.onReorderButtonClick}
+        reorderEntryPosition={reorderEntryPosition}
+      />
     ))
 
     return (
       <div id="queuing">
         <ListingList
           fetchStatus={status}
-          transitionObservable={getPlaylistHash(
+          transitionObservable={getEntriesHash(
             playlistEntries.filter((e) => !e.was_played)
           )}
         >

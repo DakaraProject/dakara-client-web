@@ -3,12 +3,13 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { loadPlaylistEntries } from 'actions/playlist'
-import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
+import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
 import PlayedEntry from 'components/playlist/played/Entry'
 import { playedStatePropType } from 'reducers/playlist'
 import { playlistEntriesStatePropType } from 'reducers/playlistDigest'
 import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
+import { getEntriesHash } from 'utils'
 
 class Played extends Component {
   static propTypes = {
@@ -65,11 +66,15 @@ class Played extends Component {
       <PlayedEntry key={entry.id} entry={entry} />
     ))
 
+    // XXX observable to actual list from digest
     return (
       <div id="played">
-        <ListingFetchWrapper status={status}>
-          <ul className="listing">{playlistEntriesComponent}</ul>
-        </ListingFetchWrapper>
+        <ListingList
+          fetchStatus={status}
+          transitionObservable={getEntriesHash(playlistEntries)}
+        >
+          {playlistEntriesComponent}
+        </ListingList>
         <Navigator
           count={count}
           pagination={pagination}

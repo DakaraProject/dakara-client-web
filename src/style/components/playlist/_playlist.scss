@@ -6,6 +6,16 @@
 
 @use '~/abstracts/sizes';
 
+#playlist {
+  .playlist-entry-widget {
+    flex-grow: 1;
+
+    .user-widget {
+      margin-left: auto;
+    }
+  }
+}
+
 .playlist-entry {
   .subcontrols {
     // min-width: 100px;

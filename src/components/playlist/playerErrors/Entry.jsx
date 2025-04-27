@@ -4,14 +4,18 @@ import PropTypes from 'prop-types'
 import queryString from 'query-string'
 import { Component } from 'react'
 
-import PlaylistPositionInfo from 'components/song/PlaylistPositionInfo'
-import SongWidget from 'components/song/SongWidget'
-import { playerErrorPropType } from 'serverPropTypes/playlist'
 import {
-  withNavigate,
-  withSearchParams,
-} from 'thirdpartyExtensions/ReactRouterDom'
-import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
+  DetailLongText,
+  Details,
+  DetailText,
+} from 'components/generics/Details'
+import {
+  ListingEntry,
+  ListingEntryExpanded,
+} from 'components/generics/listing/Entry'
+import PlaylistEntryWidget from 'components/playlist/PlaylistEntryWidget'
+import { playerErrorPropType } from 'serverPropTypes/playlist'
+import { withNavigate } from 'thirdpartyExtensions/ReactRouterDom'
 
 dayjs.extend(localizedFormat)
 
@@ -19,8 +23,6 @@ class PlayerErrorsEntry extends Component {
   static propTypes = {
     playerError: playerErrorPropType.isRequired,
     navigate: PropTypes.func.isRequired,
-    searchParams: PropTypes.object.isRequired,
-    setSearchParams: PropTypes.func.isRequired,
   }
 
   /**
@@ -38,20 +40,6 @@ class PlayerErrorsEntry extends Component {
     })
   }
 
-  /**
-   * Toggle expanded view of error
-   */
-  setExpanded = (expanded) => {
-    if (expanded) {
-      this.props.searchParams.delete('expanded')
-      this.props.searchParams.append('expanded', expanded)
-    } else {
-      this.props.searchParams.delete('expanded')
-    }
-
-    this.props.setSearchParams(this.props.searchParams)
-  }
-
   render() {
     const { playerError } = this.props
     const {
@@ -59,70 +47,46 @@ class PlayerErrorsEntry extends Component {
       error_message: message,
       date_created: date,
     } = playerError
-    const expanded = +this.props.searchParams.get('expanded') === playerError.id
+
+    const controlsExpanded = (
+      <button className="control primary" onClick={this.handleSearch}>
+        Search song
+      </button>
+    )
+
+    const entryExpanded = (
+      <ListingEntryExpanded controls={controlsExpanded}>
+        <Details>
+          <DetailText icon="la-clock" name="Error at">
+            {dayjs(date).format('L LTS')}
+          </DetailText>
+          <DetailLongText icon="la-file-alt" name="Error message">
+            {message}
+          </DetailLongText>
+        </Details>
+      </ListingEntryExpanded>
+    )
+
+    const controls = (
+      <button className="control square primary" onClick={this.handleSearch}>
+        <span className="icon">
+          <i className="las la-search"></i>
+        </span>
+      </button>
+    )
 
     return (
-      <li className="listing-entry library-entry library-entry-song player-error-entry listable">
-        <div
-          className={
-            'library-entry-song-compact player-errors-entry-song ' +
-            'hoverizable'
-          }
-        >
-          <button
-            className="expander transparent"
-            onClick={() => {
-              expanded ? this.setExpanded() : this.setExpanded(playerError.id)
-            }}
-          >
-            <SongWidget song={entry.song} />
-          </button>
-          <div className="extra">
-            <PlaylistPositionInfo entryPlayed={entry} />
-          </div>
-        </div>
-        <CSSTransitionLazy
-          in={expanded}
-          classNames="expand-view"
-          timeout={{
-            enter: 600,
-            exit: 300,
-          }}
-        >
-          <div className="library-entry-song-expanded-wrapper">
-            <div className="library-entry-song-expanded-subcontainer">
-              <div className="listing-details">
-                <div className="date entry">
-                  <h4 className="header">
-                    <span className="icon">
-                      <i className="las la-clock"></i>
-                    </span>
-                    <span className="name">Date</span>
-                  </h4>
-                  <div className="content">
-                    <div className="text">{dayjs(date).format('L LTS')}</div>
-                  </div>
-                </div>
-                <div className="date entry">
-                  <h4 className="header">
-                    <span className="icon">
-                      <i className="las la-file-alt"></i>
-                    </span>
-                    <span className="name">Error message</span>
-                  </h4>
-                  <div className="content">
-                    <div className="text">{message}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </CSSTransitionLazy>
-      </li>
+      <ListingEntry
+        id={playerError.id}
+        controls={controls}
+        entryExpanded={entryExpanded}
+      >
+        <PlaylistEntryWidget entry={entry} truncatable />
+      </ListingEntry>
     )
   }
 }
 
-PlayerErrorsEntry = withNavigate(withSearchParams(PlayerErrorsEntry))
+PlayerErrorsEntry = withNavigate(PlayerErrorsEntry)
 
 export default PlayerErrorsEntry

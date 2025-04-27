@@ -15,6 +15,7 @@ export function ListingEntry({
   id,
   noHoverizable,
   noTransition,
+  ...rest
 }) {
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -78,6 +79,7 @@ export function ListingEntry({
         enter: 300,
         exit: 600,
       }}
+      {...rest}
     >
       {content}
     </CSSTransition>

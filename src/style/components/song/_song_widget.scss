@@ -1,16 +1,10 @@
 //
 // Dakara Project
 //
-// Song style file
+// Song widget style file
 //
 
-@use 'sass:color';
-
 @use '~/thirdparty/preboot';
-
-@use '~/abstracts/colors';
-@use '~/abstracts/fonts';
-@use '~/abstracts/sizes';
 
 // `song-widget` class:
 //
@@ -36,7 +30,7 @@
     }
 
     .version {
-      // easily shrinkable
+      // very easily shrinkable
       flex-shrink: 10000;
     }
 

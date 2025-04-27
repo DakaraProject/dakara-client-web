@@ -4,18 +4,20 @@
 // User widget style file
 //
 
-@use '~/abstracts/support';
+@use '~/thirdparty/preboot';
 
 .user-widget {
+  display: inline-flex;
   white-space: nowrap;
+  overflow: hidden;
 
-  &:not(.no-resize) {
-    @include support.make-smartphone {
-      font-size: 0.85em;
+  &.truncatable {
+    .name {
+      @include preboot.text-truncate();
     }
   }
 
-  .icon {
-    margin-right: 0.5em;
+  .icon + .name {
+    margin-left: 0.25em;
   }
 }

@@ -3,13 +3,14 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { loadPlayerErrors } from 'actions/playlist'
-import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
+import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
 import PlayerErrorsEntry from 'components/playlist/playerErrors/Entry'
 import { Status } from 'reducers/alterationsResponse'
 import { playerErrorsStatePropType } from 'reducers/playlist'
 import { playerErrorsDigestStatePropType } from 'reducers/playlistDigest'
 import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
+import { getEntriesHash } from 'utils'
 
 class PlayerErrorsList extends Component {
   static propTypes = {
@@ -59,11 +60,15 @@ class PlayerErrorsList extends Component {
       <PlayerErrorsEntry key={playerError.id} playerError={playerError} />
     ))
 
+    // XXX observable to actual list from digest
     return (
       <div id="player-errors-list">
-        <ListingFetchWrapper status={this.props.playerErrorsState.status}>
-          <ul className="player-errors-list listing">{playerErrorsList}</ul>
-        </ListingFetchWrapper>
+        <ListingList
+          status={this.props.playerErrorsState.status}
+          transitionObservable={getEntriesHash(playerErrors)}
+        >
+          {playerErrorsList}
+        </ListingList>
         <Navigator
           count={count}
           pagination={pagination}
