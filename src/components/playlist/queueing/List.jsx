@@ -3,18 +3,11 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { clearAlteration } from 'actions/alterations'
-import {
-  loadPlaylistEntries,
-  removeEntryFromPlaylist,
-  reorderPlaylistEntry,
-} from 'actions/playlist'
+import { loadPlaylistEntries, reorderPlaylistEntry } from 'actions/playlist'
 import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
 import QueuingEntry from 'components/playlist/queueing/Entry'
-import {
-  alterationResponsePropType,
-  Status,
-} from 'reducers/alterationsResponse'
+import { Status } from 'reducers/alterationsResponse'
 import { queuingStatePropType } from 'reducers/playlist'
 import { playlistEntriesDigestStatePropType } from 'reducers/playlistDigest'
 import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
@@ -26,14 +19,7 @@ class Queueing extends Component {
     loadPlaylistEntries: PropTypes.func.isRequired,
     playlistEntriesDigestState: playlistEntriesDigestStatePropType.isRequired,
     playlistQueuingState: queuingStatePropType.isRequired,
-    removeEntryFromPlaylist: PropTypes.func.isRequired,
     reorderPlaylistEntry: PropTypes.func.isRequired,
-    responseOfMultipleRemoveEntry: PropTypes.objectOf(
-      alterationResponsePropType
-    ),
-    responseOfMultipleReorderPlaylistEntry: PropTypes.objectOf(
-      alterationResponsePropType
-    ),
     searchParams: PropTypes.object.isRequired,
     setSearchParams: PropTypes.func.isRequired,
   }
@@ -167,11 +153,6 @@ class Queueing extends Component {
     const { queuing, count, pagination } = this.props.playlistQueuingState.data
     const { status } = this.props.playlistQueuingState
     const { playlistEntries } = this.props.playlistEntriesDigestState.data
-    const {
-      removeEntryFromPlaylist: removeEntry,
-      responseOfMultipleRemoveEntry,
-      responseOfMultipleReorderPlaylistEntry,
-    } = this.props
     const reorderEntryPosition = this.getEntryPosition(
       this.state.reorderEntryId
     )
@@ -187,12 +168,7 @@ class Queueing extends Component {
       <QueuingEntry
         key={entry.id}
         entry={entry}
-        removeEntry={removeEntry}
         clearAlteration={this.props.clearAlteration}
-        responseOfRemoveEntry={responseOfMultipleRemoveEntry[entry.id]}
-        responseOfReorderPlaylistEntry={
-          responseOfMultipleReorderPlaylistEntry[entry.id]
-        }
         positions={{
           position,
           firstId,
@@ -231,19 +207,12 @@ class Queueing extends Component {
 const mapStateToProps = (state) => ({
   playlistEntriesDigestState: state.playlist.digest.entries,
   playlistQueuingState: state.playlist.queuing,
-
-  responseOfMultipleRemoveEntry:
-    state.alterationsResponse.multiple.removeEntryFromPlaylist || {},
-
-  responseOfMultipleReorderPlaylistEntry:
-    state.alterationsResponse.multiple.reorderPlaylistEntry || {},
 })
 
 Queueing = withSearchParams(
   connect(mapStateToProps, {
     clearAlteration,
     loadPlaylistEntries,
-    removeEntryFromPlaylist,
     reorderPlaylistEntry,
   })(Queueing)
 )

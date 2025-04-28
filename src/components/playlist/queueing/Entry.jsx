@@ -3,6 +3,7 @@ import queryString from 'query-string'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 
+import { removeEntryFromPlaylist } from 'actions/playlist'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import { Details, DetailText } from 'components/generics/Details'
 import {
@@ -38,9 +39,8 @@ class Entry extends Component {
       isFirstPage: PropTypes.bool,
       isLastPage: PropTypes.bool,
     }).isRequired,
-    removeEntry: PropTypes.func.isRequired,
+    removeEntryFromPlaylist: PropTypes.func.isRequired,
     reorderEntryPosition: PropTypes.number,
-    responseOfMultipleReorderPlaylistEntry: PropTypes.object,
     responseOfRemoveEntry: alterationResponsePropType,
     responseOfReorderPlaylistEntry: alterationResponsePropType,
   }
@@ -184,7 +184,7 @@ class Entry extends Component {
       >
         <ConfirmationBar
           onConfirm={() => {
-            this.props.removeEntry(entry.id)
+            this.props.removeEntryFromPlaylist(entry.id)
           }}
           onCancel={this.clearConfirm}
         />
@@ -250,10 +250,24 @@ class Entry extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
   playlistEntriesDigest: state.playlist.digest.entries.data.playlistEntries,
+  responseOfRemoveEntry:
+    state.alterationsResponse.multiple.removeEntryFromPlaylist?.[
+      ownProps.entry.id
+    ],
+  responseOfReorderPlaylistEntry:
+    state.alterationsResponse.multiple.reorderPlaylistEntry?.[
+      ownProps.entry.id
+    ],
 })
 
-Entry = withSearchParams(withNavigate(connect(mapStateToProps, {})(Entry)))
+Entry = withSearchParams(
+  withNavigate(
+    connect(mapStateToProps, {
+      removeEntryFromPlaylist,
+    })(Entry)
+  )
+)
 
 export default Entry
