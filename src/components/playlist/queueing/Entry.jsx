@@ -1,9 +1,10 @@
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import queryString from 'query-string'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { removeEntryFromPlaylist } from 'actions/playlist'
+import { removeEntryFromPlaylist, reorderPlaylistEntry } from 'actions/playlist'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import { Details, DetailText } from 'components/generics/Details'
 import {
@@ -30,7 +31,7 @@ class Entry extends Component {
     clearAlteration: PropTypes.func.isRequired,
     entry: playlistEntryPropType.isRequired,
     navigate: PropTypes.func.isRequired,
-    onReorderButtonClick: PropTypes.func.isRequired,
+    reorderPlaylistEntry: PropTypes.func.isRequired,
     playlistEntriesDigest: PropTypes.arrayOf(playlistEntryPropType).isRequired,
     positions: PropTypes.shape({
       position: PropTypes.number.isRequired,
@@ -40,9 +41,10 @@ class Entry extends Component {
       isLastPage: PropTypes.bool,
     }).isRequired,
     removeEntryFromPlaylist: PropTypes.func.isRequired,
-    reorderEntryPosition: PropTypes.number,
     responseOfRemoveEntry: alterationResponsePropType,
     responseOfReorderPlaylistEntry: alterationResponsePropType,
+    searchParams: PropTypes.object.isRequired,
+    setSearchParams: PropTypes.func.isRequired,
   }
 
   state = {
@@ -52,6 +54,7 @@ class Entry extends Component {
   componentWillUnmount() {
     this.props.clearAlteration('removeEntryFromPlaylist', this.props.entry.id)
     this.props.clearAlteration('reorderPlaylistEntry', this.props.entry.id)
+    this.cancelReorder()
   }
 
   displayConfirm = () => {
@@ -74,55 +77,148 @@ class Entry extends Component {
     })
   }
 
+  handleReorderUp = (reorderId) => {
+    const currentId = this.props.entry.id
+
+    // return early if missing data
+    if (!reorderId) {
+      return
+    }
+
+    // reorder up
+    this.props.reorderPlaylistEntry({
+      playlistEntryId: reorderId,
+      beforeId: currentId,
+    })
+
+    // clean reorder mode
+    this.cancelReorder()
+  }
+
+  handleReorderDown = (reorderId) => {
+    const currentId = this.props.entry.id
+
+    // return early if missing data
+    if (!reorderId) {
+      return
+    }
+
+    // reorder down
+    this.props.reorderPlaylistEntry({
+      playlistEntryId: reorderId,
+      afterId: currentId,
+    })
+
+    // clean reorder mode
+    this.cancelReorder()
+  }
+
+  handleReorderFirst = () => {
+    // reorder on top of playlist
+    this.props.reorderPlaylistEntry({
+      playlistEntryId: this.props.entry.id,
+      beforeId: this.props.positions.firstId,
+    })
+
+    // clean reorder mode
+    this.cancelReorder()
+  }
+
+  handleReorderLast = () => {
+    // reorder on bottom of playlist
+    this.props.reorderPlaylistEntry({
+      playlistEntryId: this.props.entry.id,
+      afterId: this.props.positions.lastId,
+    })
+
+    // clean reorder mode
+    this.cancelReorder()
+  }
+
+  handleReorderToggle = () => {
+    // if called in reorder mode, clean reorder mode
+    if (this.props.searchParams.has('reorder')) {
+      this.cancelReorder()
+
+      return
+    }
+
+    // otherwise, enter reorder mode
+    this.props.searchParams.append('reorder', this.props.positions.position)
+    this.props.setSearchParams(this.props.searchParams)
+  }
+
+  cancelReorder = () => {
+    this.props.searchParams.delete('reorder')
+    this.props.setSearchParams(this.props.searchParams)
+  }
+
   render() {
-    const {
-      entry,
-      onReorderButtonClick,
-      positions,
-      reorderEntryPosition,
-      playlistEntriesDigest,
-      ...rest
-    } = this.props
+    const { entry, positions, playlistEntriesDigest, ...rest } = this.props
 
     /**
      * Reorder buttons
      */
-    const createReorderButton = (id, iconName, extraClassName = '') => (
+    const createReorderButton = (handleReorder, className, id) => (
       <button
         className="control square primary"
         onClick={() => {
-          onReorderButtonClick(id)
+          handleReorder(id)
         }}
       >
         <span className="icon">
-          <i className={`las la-${iconName} ${extraClassName}`}></i>
+          <i className={classNames('las', className)}></i>
         </span>
       </button>
     )
-    let reorderButton
-    let reorderExtraButtons
-    if (reorderEntryPosition !== null) {
-      // if in reorder mode, display icon depending on the relative
-      // position of the current entry and the entry to reorder
-      if (reorderEntryPosition > positions.position) {
-        reorderButton = createReorderButton(entry.id, 'arrow-up')
-      } else if (reorderEntryPosition < positions.position) {
-        reorderButton = createReorderButton(entry.id, 'arrow-down')
-      } else {
-        reorderButton = createReorderButton(entry.id, 'ban')
-        reorderExtraButtons = (
-          <>
-            {createReorderButton(positions.firstId, 'arrow-up', 'overbar')}
-            {createReorderButton(positions.lastId, 'arrow-down', 'underbar')}
-          </>
-        )
-      }
-    } else {
-      // if not in reorder mode, display reorder icon
-      reorderButton = createReorderButton(entry.id, 'arrows-alt-v')
-    }
+
+    const inReorder =
+      this.props.searchParams.has('expanded') &&
+      this.props.searchParams.has('reorder')
+
+    const reorderId = this.props.searchParams.get('expanded')
+    const reorderIndex = this.props.searchParams.get('reorder')
+
+    const reorderToggleButton = createReorderButton(
+      this.handleReorderToggle,
+      inReorder ? 'la-ban' : 'la-arrows-alt-v'
+    )
+    const reorderUpButton = createReorderButton(
+      this.handleReorderUp,
+      inReorder ? 'la-arrow-up' : 'la-arrows-alt-v',
+      reorderId
+    )
+    const reorderDownButton = createReorderButton(
+      this.handleReorderDown,
+      inReorder ? 'la-arrow-down' : 'la-arrows-alt-v',
+      reorderId
+    )
+    const reorderFirstButton = createReorderButton(
+      this.handleReorderFirst,
+      'la-arrow-up overbar'
+    )
+    const reorderLastButton = createReorderButton(
+      this.handleReorderLast,
+      'la-arrow-down underbar'
+    )
 
     const controlsExpanded = [
+      <IsPlaylistManager key="reorder">
+        <CSSTransitionLazy
+          in={inReorder}
+          classNames="show-hide"
+          timeout={{
+            enter: 3000,
+            exit: 1500,
+          }}
+        >
+          <div className="reorder">
+            {reorderFirstButton}
+            {reorderLastButton}
+          </div>
+        </CSSTransitionLazy>
+        {reorderToggleButton}
+      </IsPlaylistManager>,
       <button
         key="search"
         className="control primary"
@@ -131,7 +227,7 @@ class Entry extends Component {
         Search song
       </button>,
       <IsPlaylistManagerOrOwner key="remove" object={entry} disable>
-        <button className="control warning" onClick={this.displayConfirm}>
+        <button className="control danger" onClick={this.displayConfirm}>
           Remove from playlist
         </button>
       </IsPlaylistManagerOrOwner>,
@@ -140,16 +236,19 @@ class Entry extends Component {
     const controls = [
       <IsPlaylistManager key="reorder">
         <CSSTransitionLazy
-          in={!!reorderExtraButtons}
-          classNames="displayed"
+          in={inReorder}
+          classNames="show-hide"
           timeout={{
             enter: 3000,
             exit: 1500,
           }}
         >
-          <div className="reorder">{reorderExtraButtons}</div>
+          <div className="reorder">
+            {reorderIndex > positions.position
+              ? reorderUpButton
+              : reorderDownButton}
+          </div>
         </CSSTransitionLazy>
-        {reorderButton}
       </IsPlaylistManager>,
       <button
         key="search"
@@ -160,16 +259,6 @@ class Entry extends Component {
           <i className="las la-search"></i>
         </span>
       </button>,
-      <IsPlaylistManagerOrOwner key="remove" object={entry} disable>
-        <button
-          className="control square warning"
-          onClick={this.displayConfirm}
-        >
-          <span className="icon">
-            <i className="las la-trash"></i>
-          </span>
-        </button>
-      </IsPlaylistManagerOrOwner>,
     ]
 
     const notifications = [
@@ -266,6 +355,7 @@ Entry = withSearchParams(
   withNavigate(
     connect(mapStateToProps, {
       removeEntryFromPlaylist,
+      reorderPlaylistEntry,
     })(Entry)
   )
 )

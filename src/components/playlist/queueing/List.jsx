@@ -24,31 +24,13 @@ class Queueing extends Component {
     setSearchParams: PropTypes.func.isRequired,
   }
 
-  state = {
-    reorderEntryId: null,
-  }
-
   componentDidMount() {
     this.refreshEntries()
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // reset reorder entry ID
-    if (this.state.reorderEntryId !== prevState.reorderEntryId) {
-      const { reorderEntryId } = this.state
-
-      // when in reorder mode, if the entry to reorder has been removed, quit
-      // reorder mode
-      if (reorderEntryId !== null) {
-        if (this.getEntryPosition(reorderEntryId) === -1) {
-          this.setState({ reorderEntryId: null })
-        }
-      }
-    }
-
     // refresh if moved to a different page
     if (this.props.searchParams !== prevProps.searchParams) {
-      this.setState({ reorderEntryId: null })
       this.refreshEntries()
     }
 
@@ -88,22 +70,6 @@ class Queueing extends Component {
   }
 
   /**
-   * Get the position of an intry within the array of entries
-   * @param entryId the ID of the entry to get the position of
-   * @return the position of the entry, `null` if `entryId` is null, `-1` if
-   * the entry was not found
-   */
-  getEntryPosition = (entryId) => {
-    if (entryId === null) {
-      return null
-    }
-
-    return this.props.playlistQueuingState.data.queuing.findIndex(
-      (e) => e.id === entryId
-    )
-  }
-
-  /**
    * Fetch queuing playlist entries from server
    */
   refreshEntries = () => {
@@ -112,50 +78,10 @@ class Queueing extends Component {
     })
   }
 
-  /**
-   * Callback passed to entries for their reorder button
-   * @param id ID of the entry which button was clicked
-   */
-  onReorderButtonClick = (id) => {
-    const { reorderEntryId } = this.state
-    const { reorderPlaylistEntry } = this.props
-
-    if (reorderEntryId !== null) {
-      // if in reorder mode, reorderEntryId will be reordered relative to id
-      const reorderEntryPosition = this.getEntryPosition(reorderEntryId)
-      const position = this.getEntryPosition(id)
-      if (reorderEntryPosition > position) {
-        reorderPlaylistEntry({
-          playlistEntryId: reorderEntryId,
-          beforeId: id,
-        })
-      } else if (reorderEntryPosition < position) {
-        reorderPlaylistEntry({
-          playlistEntryId: reorderEntryId,
-          afterId: id,
-        })
-      }
-      // otherwise, assume the user wants to cancel
-
-      // after reordering or cancel, quit reorder mode
-      this.setState({
-        reorderEntryId: null,
-      })
-    } else {
-      // if not in reorder mode, enter reorder mode for the given id
-      this.setState({
-        reorderEntryId: id,
-      })
-    }
-  }
-
   render() {
     const { queuing, count, pagination } = this.props.playlistQueuingState.data
     const { status } = this.props.playlistQueuingState
     const { playlistEntries } = this.props.playlistEntriesDigestState.data
-    const reorderEntryPosition = this.getEntryPosition(
-      this.state.reorderEntryId
-    )
 
     const firstId = playlistEntries.find((e) => e.will_play)?.id
     const lastId = playlistEntries.findLast((e) => e.will_play)?.id
@@ -176,8 +102,6 @@ class Queueing extends Component {
           isFirstPage,
           isLastPage,
         }}
-        onReorderButtonClick={this.onReorderButtonClick}
-        reorderEntryPosition={reorderEntryPosition}
       />
     ))
 
