@@ -129,7 +129,7 @@ class SongEntry extends Component {
           {song.has_instrumental && (
             <button
               disabled={!canAdd}
-              className="control primary"
+              className="control square primary"
               onClick={() => {
                 this.props.addSongToPlaylistWithOptions(
                   this.props.song.id,
@@ -137,17 +137,24 @@ class SongEntry extends Component {
                 )
               }}
             >
-              Add instrumental to playlist
+              <span className="icon with-sub-icon">
+                <i className="las la-plus"></i>
+                <span className="sub-icon top-right">
+                  <i className="las la-microphone-slash"></i>
+                </span>
+              </span>
             </button>
           )}
           <button
             disabled={!canAdd}
-            className="control primary"
+            className="control square primary"
             onClick={() => {
               this.props.addSongToPlaylist(this.props.song.id)
             }}
           >
-            Add to playlist
+            <span className="icon">
+              <i className="las la-plus"></i>
+            </span>
           </button>
         </IsPlaylistUser>
       </CanAddToPlaylist>

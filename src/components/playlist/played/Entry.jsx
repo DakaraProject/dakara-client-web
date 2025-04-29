@@ -34,8 +34,10 @@ class Entry extends Component {
     const { entry, ...rest } = this.props
 
     const controlsExpanded = (
-      <button className="control primary" onClick={this.handleSearch}>
-        Search song
+      <button className="control square primary" onClick={this.handleSearch}>
+        <span className="icon">
+          <i className="las la-search"></i>
+        </span>
       </button>
     )
 
@@ -47,7 +49,7 @@ class Entry extends Component {
           </DetailText>
           {entry.use_instrumental && (
             <DetailText icon="la-microphone-slash" name="Instrumental">
-              Yes
+              Used the instrumental version
             </DetailText>
           )}
           <DetailText icon="la-clock" name="Requested at">

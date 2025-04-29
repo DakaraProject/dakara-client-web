@@ -49,8 +49,10 @@ class PlayerErrorsEntry extends Component {
     } = playerError
 
     const controlsExpanded = (
-      <button className="control primary" onClick={this.handleSearch}>
-        Search song
+      <button className="control square primary" onClick={this.handleSearch}>
+        <span className="icon">
+          <i className="las la-search"></i>
+        </span>
       </button>
     )
 

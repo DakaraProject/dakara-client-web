@@ -221,14 +221,18 @@ class Entry extends Component {
       </IsPlaylistManager>,
       <button
         key="search"
-        className="control primary"
+        className="control square primary"
         onClick={this.handleSearch}
       >
-        Search song
+        <span className="icon">
+          <i className="las la-search"></i>
+        </span>
       </button>,
       <IsPlaylistManagerOrOwner key="remove" object={entry} disable>
-        <button className="control danger" onClick={this.displayConfirm}>
-          Remove from playlist
+        <button className="control square danger" onClick={this.displayConfirm}>
+          <span className="icon">
+            <i className="las la-trash"></i>
+          </span>
         </button>
       </IsPlaylistManagerOrOwner>,
     ]
@@ -310,7 +314,7 @@ class Entry extends Component {
           </DetailText>
           {entry.use_instrumental && (
             <DetailText icon="la-microphone-slash" name="Instrumental">
-              Yes
+              Uses the instrumental version
             </DetailText>
           )}
           <DetailText icon="la-clock" name="Requested at">

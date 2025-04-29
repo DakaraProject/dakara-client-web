@@ -171,6 +171,19 @@ class SongExpanded extends Component {
     }
 
     /**
+     * Instrumental
+     */
+
+    let instrumental
+    if (song.has_instrumental) {
+      instrumental = (
+        <DetailText icon="la-microphone-slash" name="Instrumental">
+          Has an instrumental version
+        </DetailText>
+      )
+    }
+
+    /**
      * Tags
      */
 
@@ -183,7 +196,15 @@ class SongExpanded extends Component {
       )
     }
 
-    if (artists || works || detailSong || detailVideo || lyrics || tags) {
+    if (
+      artists ||
+      works ||
+      detailSong ||
+      detailVideo ||
+      lyrics ||
+      instrumental ||
+      tags
+    ) {
       return (
         <div className="song-expanded">
           <Details>
@@ -192,6 +213,7 @@ class SongExpanded extends Component {
             {detailSong}
             {detailVideo}
             {lyrics}
+            {instrumental}
             {tags}
           </Details>
         </div>
