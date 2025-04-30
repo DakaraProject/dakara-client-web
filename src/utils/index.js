@@ -208,7 +208,7 @@ export function getEntriesHash(entries) {
   return (
     entries.reduce(
       (accumulator, entry, index) =>
-        accumulator + (entry.id << Math.floor(index + 10 / (index + 1))),
+        accumulator + (entry.id << (index + ((36 >> index) >> 2))),
       0
     ) + entries.length
   )
