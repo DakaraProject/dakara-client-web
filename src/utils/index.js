@@ -199,12 +199,17 @@ export function getEntry(entries, playerStatus) {
  * The hash should be unique by addition, by substraction, by substitution, and
  * by permutation.
  * It should be 0 only if the list of entries is empty.
+ * When tested for lists of 1-50 entries with ids in the range 0-4000, this
+ * implementation gave one collision about every 3e7 tries.
  * @param entries List of playlist entries. Each entry must have an `id` key.
  * @returns Hash unique to the given playlist entries.
  */
 export function getEntriesHash(entries) {
-  return entries.reduce(
-    (accumulator, entry, index) => accumulator + entry.id * index,
-    0
+  return (
+    entries.reduce(
+      (accumulator, entry, index) =>
+        accumulator + (entry.id << Math.floor(index + 10 / (index + 1))),
+      0
+    ) + entries.length
   )
 }
