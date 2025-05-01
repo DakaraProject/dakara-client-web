@@ -147,7 +147,7 @@ export function isDisplayable(item) {
  * @param playerStatus Status of the player.
  * @returns Entry being currently played, or `undefined`.
  */
-export function getPlaying(entries, playerStatus) {
+export function getEntryPlaying(entries, playerStatus) {
   if (!playerStatus.playlist_entry) return null
 
   return entries.find((e) => e.id === playerStatus.playlist_entry.id)
@@ -158,7 +158,7 @@ export function getPlaying(entries, playerStatus) {
  * @param entries Array of entries.
  * @returns First entry which is queuing.
  */
-export function getQueuing(entries) {
+export function getEntryQueuing(entries) {
   return entries.find((e) => e.will_play)
 }
 
@@ -167,7 +167,7 @@ export function getQueuing(entries) {
  * @param entries Array of entries.
  * @returns Last entry which was played.
  */
-export function getPlayed(entries) {
+export function getEntryPlayed(entries) {
   return entries.findLast((e) => e.was_played)
 }
 
@@ -181,15 +181,15 @@ export function getPlayed(entries) {
  */
 export function getEntry(entries, playerStatus) {
   let entry
-  if (playerStatus && (entry = getPlaying(entries, playerStatus))) {
+  if (playerStatus && (entry = getEntryPlaying(entries, playerStatus))) {
     return { entry, position: 'playing' }
   }
 
-  if ((entry = getQueuing(entries))) {
+  if ((entry = getEntryQueuing(entries))) {
     return { entry, position: 'queuing' }
   }
 
-  if ((entry = getPlayed(entries))) {
+  if ((entry = getEntryPlayed(entries))) {
     return { entry, position: 'played' }
   }
 
