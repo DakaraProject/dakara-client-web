@@ -63,11 +63,12 @@ export function formatDuration(seconds) {
  */
 export function formatDateLong(dateIso) {
   const date = dayjs(dateIso)
+  const now = dayjs()
 
-  // long format if date is before or after one day
+  // long format if date is before 6 hours or after 12 hours
   if (
-    date.isBefore(dayjs().subtract(1, 'day')) ||
-    date.isAfter(dayjs().add(1, 'day'))
+    date.isBefore(now.subtract(6, 'hour')) ||
+    date.isAfter(now.add(12, 'hour'))
   ) {
     return date.format('L LT')
   }
@@ -78,14 +79,15 @@ export function formatDateLong(dateIso) {
 
 export function formatDate(dateIso) {
   const date = dayjs(dateIso)
+  const now = dayjs()
 
-  // long ago if date is before one day
-  if (date.isBefore(dayjs().subtract(1, 'day'))) {
+  // long ago if date is before 6 hours
+  if (date.isBefore(now.subtract(6, 'hour'))) {
     return 'long ago'
   }
 
-  // not soon if date is after one day
-  if (date.isAfter(dayjs().add(1, 'day'))) {
+  // not soon if date is after 12 hours
+  if (date.isAfter(now.add(12, 'hour'))) {
     return 'not soon'
   }
 
@@ -98,12 +100,12 @@ export function formatDateRelative(dateIso) {
   const now = dayjs()
 
   // long ago if date is before one day
-  if (date.isBefore(now.subtract(1, 'day'))) {
+  if (date.isBefore(now.subtract(6, 'hour'))) {
     return 'long ago'
   }
 
   // not soon if date is after one day
-  if (date.isAfter(now.add(1, 'day'))) {
+  if (date.isAfter(now.add(12, 'hour'))) {
     return 'not soon'
   }
 

@@ -1,19 +1,118 @@
-import { expect, test } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
-import { formatDuration } from '.'
+import {
+  formatDate,
+  formatDateLong,
+  formatDateRelative,
+  formatDuration,
+} from '.'
 
-test('duration of more than one day', () => {
-  expect(formatDuration(25 * 3600)).toBe('25:00:00')
+describe('format duration', () => {
+  test('more than one day', () => {
+    expect(formatDuration(25 * 3600)).toBe('25:00:00')
+  })
+
+  test('more than one hour', () => {
+    expect(formatDuration(3600 + 20)).toBe('1:00:20')
+  })
+
+  test('less than one hour', () => {
+    expect(formatDuration(2 * 60 + 40)).toBe('2:40')
+  })
+
+  test('less than one minute', () => {
+    expect(formatDuration(40)).toBe('0:40')
+  })
 })
 
-test('duration of more than one hour', () => {
-  expect(formatDuration(3600 + 20)).toBe('1:00:20')
+describe('format date long', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+
+    const date = new Date(1970, 0, 5, 0, 30)
+    vi.setSystemTime(date)
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  test('before more than 6 hours', () => {
+    expect(formatDateLong('1970-01-03T00:00:00')).toBe('01/03/1970 12:00 AM')
+    expect(formatDateLong('1970-01-04T18:29:00')).toBe('01/04/1970 6:29 PM')
+  })
+
+  test('after more than 12 hours', () => {
+    expect(formatDateLong('1970-01-07T00:00:00')).toBe('01/07/1970 12:00 AM')
+    expect(formatDateLong('1970-01-05T12:31:00')).toBe('01/05/1970 12:31 PM')
+  })
+
+  test('before less than 6 hours and after less than 12 hours', () => {
+    expect(formatDateLong('1970-01-05T00:35:00')).toBe('12:35 AM')
+    expect(formatDateLong('1970-01-05T00:25:00')).toBe('12:25 AM')
+    expect(formatDateLong('1970-01-04T18:30:00')).toBe('6:30 PM')
+    expect(formatDateLong('1970-01-05T12:29:00')).toBe('12:29 PM')
+  })
 })
 
-test('duration of less than one hour', () => {
-  expect(formatDuration(2 * 60 + 40)).toBe('2:40')
+describe('format date', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+
+    const date = new Date(1970, 0, 5, 0, 30)
+    vi.setSystemTime(date)
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  test('before more than 6 hours', () => {
+    expect(formatDate('1970-01-03T00:00:00')).toBe('long ago')
+    expect(formatDate('1970-01-04T18:29:00')).toBe('long ago')
+  })
+
+  test('after more than 12 hours', () => {
+    expect(formatDate('1970-01-07T00:00:00')).toBe('not soon')
+    expect(formatDate('1970-01-05T12:31:00')).toBe('not soon')
+  })
+
+  test('before less than 6 hours and after less than 12 hours', () => {
+    expect(formatDate('1970-01-05T00:35:00')).toBe('12:35 AM')
+    expect(formatDate('1970-01-05T00:25:00')).toBe('12:25 AM')
+    expect(formatDate('1970-01-04T18:30:00')).toBe('6:30 PM')
+    expect(formatDate('1970-01-05T12:29:00')).toBe('12:29 PM')
+  })
 })
 
-test('duration of less than one minute', () => {
-  expect(formatDuration(40)).toBe('0:40')
+describe('format date relative', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+
+    const date = new Date(1970, 0, 5, 0, 30)
+    vi.setSystemTime(date)
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  test('before more than 6 hours', () => {
+    expect(formatDateRelative('1970-01-03T00:00:00')).toBe('long ago')
+    expect(formatDateRelative('1970-01-04T18:29:00')).toBe('long ago')
+  })
+
+  test('after more than 12 hours', () => {
+    expect(formatDateRelative('1970-01-07T00:00:00')).toBe('not soon')
+    expect(formatDateRelative('1970-01-05T12:31:00')).toBe('not soon')
+  })
+
+  test('before less than 6 hours and after less than 12 hours', () => {
+    expect(formatDateRelative('1970-01-05T00:35:00')).toBe('in 5 minutes')
+    expect(formatDateRelative('1970-01-05T00:25:00')).toBe('5 minutes ago')
+  })
+
+  test('after less than 5 seconds', () => {
+    expect(formatDateRelative('1970-01-05T00:30:00')).toBe('in a few seconds')
+  })
 })
