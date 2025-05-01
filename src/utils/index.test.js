@@ -3,13 +3,17 @@ import { expect, test } from 'vitest'
 import { formatDuration } from '.'
 
 test('duration of more than one day', () => {
-  expect(formatDuration(3600 * 25)).toBe('25:00:00')
+  expect(formatDuration(25 * 3600)).toBe('25:00:00')
 })
 
 test('duration of more than one hour', () => {
-  expect(formatDuration(3620)).toBe('1:00:20')
+  expect(formatDuration(3600 + 20)).toBe('1:00:20')
 })
 
 test('duration of less than one hour', () => {
-  expect(formatDuration(160)).toBe('2:40')
+  expect(formatDuration(2 * 60 + 40)).toBe('2:40')
+})
+
+test('duration of less than one minute', () => {
+  expect(formatDuration(40)).toBe('0:40')
 })
