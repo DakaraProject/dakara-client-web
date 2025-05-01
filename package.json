@@ -22,6 +22,7 @@
     "preview": "vite preview"
   },
   "pre-commit": [
+    "test",
     "check-format",
     "lint-js",
     "lint-css"
