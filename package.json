@@ -14,6 +14,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --outDir dist/static --base /static",
+    "test": "vitest",
     "lint-js": "eslint .",
     "lint-css": "stylelint ./src/style/**/*.{css,scss}",
     "format": "prettier --write ./src",
@@ -21,6 +22,7 @@
     "preview": "vite preview"
   },
   "pre-commit": [
+    "test",
     "check-format",
     "lint-js",
     "lint-css"
@@ -68,6 +70,7 @@
     "vite-jsconfig-paths": "^2.0.1",
     "vite-plugin-checker": "^0.8.0",
     "vite-plugin-eslint": "^1.8.1",
-    "vite-plugin-stylelint": "^6.0.0"
+    "vite-plugin-stylelint": "^6.0.0",
+    "vitest": "^3.1.2"
   }
 }
