@@ -15,6 +15,7 @@
     "dev": "vite",
     "build": "vite build --outDir dist/static --base /static",
     "test": "vitest",
+    "benchmark": "vitest bench",
     "lint-js": "eslint . --max-warnings 0",
     "lint-css": "stylelint ./src/style/**/*.{css,scss}",
     "format": "prettier --write ./src",
