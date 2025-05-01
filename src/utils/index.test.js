@@ -5,6 +5,7 @@ import {
   formatDateLong,
   formatDateRelative,
   formatDuration,
+  getEntriesHash,
 } from '.'
 
 describe('format duration', () => {
@@ -114,5 +115,36 @@ describe('format date relative', () => {
 
   test('after less than 5 seconds', () => {
     expect(formatDateRelative('1970-01-05T00:30:00')).toBe('in a few seconds')
+  })
+})
+
+describe('get entries hash', () => {
+  test('0 on empty', () => {
+    expect(getEntriesHash([])).toBe(0)
+    expect(getEntriesHash([{ id: 1 }])).not.toBe(0)
+  })
+
+  test('idempotent', () => {
+    const hash1 = getEntriesHash([{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }])
+    const hash2 = getEntriesHash([{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }])
+    expect(hash1).toBe(hash2)
+  })
+
+  test('unique by cardinal', () => {
+    const hash1 = getEntriesHash([{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }])
+    const hash2 = getEntriesHash([{ id: 1 }, { id: 2 }, { id: 3 }])
+    expect(hash1).not.toBe(hash2)
+  })
+
+  test('unique by substitution', () => {
+    const hash1 = getEntriesHash([{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }])
+    const hash2 = getEntriesHash([{ id: 1 }, { id: 2 }, { id: 3 }, { id: 5 }])
+    expect(hash1).not.toBe(hash2)
+  })
+
+  test('unique by permutation', () => {
+    const hash1 = getEntriesHash([{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }])
+    const hash2 = getEntriesHash([{ id: 1 }, { id: 2 }, { id: 4 }, { id: 3 }])
+    expect(hash1).not.toBe(hash2)
   })
 })
