@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { Component } from 'react'
 
 import HighlighterQuery from 'components/generics/HighlighterQuery'
-import ArtistWidget from 'components/song/ArtistWidget'
-import SongTagList from 'components/song/SongTagList'
-import WorkLinkWidget from 'components/song/WorkLinkWidget'
+import SongTagList from 'components/library/SongTagList'
+import ArtistWidget from 'components/library/widgets/Artist'
+import WorkLinkWidget from 'components/library/widgets/WorkLink'
 import { songPropType } from 'serverPropTypes/library'
 import { formatDuration, isDisplayable } from 'utils'
 

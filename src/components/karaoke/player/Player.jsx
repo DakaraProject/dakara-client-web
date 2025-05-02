@@ -8,8 +8,8 @@ import { sendPlayerCommand } from 'actions/playlist'
 import UserWidget from 'components/generics/UserWidget'
 import ManageButton from 'components/karaoke/player/ManageButton'
 import PlayerNotification from 'components/karaoke/player/Notification'
-import ArtistWidget from 'components/song/ArtistWidget'
-import WorkLinkWidget from 'components/song/WorkLinkWidget'
+import ArtistWidget from 'components/library/widgets/Artist'
+import WorkLinkWidget from 'components/library/widgets/WorkLink'
 import { IsPlaylistManagerOrOwner } from 'permissions/Playlist'
 import {
   alterationResponsePropType,

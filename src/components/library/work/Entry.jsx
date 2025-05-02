@@ -3,7 +3,7 @@ import queryString from 'query-string'
 import { Component } from 'react'
 
 import { ListingEntry } from 'components/generics/listing/Entry'
-import WorkWidget from 'components/song/WorkWidget'
+import WorkWidget from 'components/library/widgets/Work'
 import { workPropType } from 'serverPropTypes/library'
 import { withNavigate } from 'thirdpartyExtensions/ReactRouterDom'
 

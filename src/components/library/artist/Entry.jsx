@@ -3,7 +3,7 @@ import queryString from 'query-string'
 import { Component } from 'react'
 
 import { ListingEntry } from 'components/generics/listing/Entry'
-import ArtistWidget from 'components/song/ArtistWidget'
+import ArtistWidget from 'components/library/widgets/Artist'
 import { artistPropType } from 'serverPropTypes/library'
 import { withNavigate } from 'thirdpartyExtensions/ReactRouterDom'
 

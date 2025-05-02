@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 
-import WorkWidget from 'components/song/WorkWidget'
+import WorkWidget from 'components/library/widgets/Work'
 import { WorkLinkName } from 'reducers/library'
 import { workLinkPropType } from 'serverPropTypes/library'
 

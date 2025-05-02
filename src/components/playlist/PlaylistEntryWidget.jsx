@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
 import UserWidget from 'components/generics/UserWidget'
-import SongWidget from 'components/song/SongWidget'
+import SongWidget from 'components/library/widgets/Song'
 import { formatDateRelative } from 'utils'
 
 export default function PlaylistEntryWidget({ entry, truncatable }) {

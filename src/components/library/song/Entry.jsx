@@ -13,11 +13,11 @@ import {
   ListingEntryExpanded,
 } from 'components/generics/listing/Entry'
 import Notification from 'components/generics/Notification'
-import SongExpandedWidget from 'components/song/SongExpandedWidget'
-import ExceedsKaraStopTime from 'components/song/songStatus/ExceedsKaraStopTime'
-import MaskedByTag from 'components/song/songStatus/MaskedByTag'
-import PositionInPlaylist from 'components/song/songStatus/PositionInPlaylist'
-import SongWidget from 'components/song/SongWidget'
+import ExceedsKaraStopTime from 'components/library/status/ExceedsKaraStopTime'
+import MaskedByTag from 'components/library/status/MaskedByTag'
+import PositionInPlaylist from 'components/library/status/PositionInPlaylist'
+import SongWidget from 'components/library/widgets/Song'
+import SongExpandedWidget from 'components/library/widgets/SongExpanded'
 import {
   CanAddToPlaylist,
   IsPlaylistManager,
