@@ -12,7 +12,7 @@ import {
   ListingEntryExpanded,
 } from 'components/generics/listing/Entry'
 import Notification from 'components/generics/Notification'
-import PlaylistEntryWidget from 'components/playlist/PlaylistEntryWidget'
+import PlaylistEntryWidget from 'components/playlist/widgets/PlaylistEntry'
 import {
   IsPlaylistManager,
   IsPlaylistManagerOrOwner,

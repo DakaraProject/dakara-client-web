@@ -7,7 +7,7 @@ import {
   ListingEntry,
   ListingEntryExpanded,
 } from 'components/generics/listing/Entry'
-import PlaylistEntryWidget from 'components/playlist/PlaylistEntryWidget'
+import PlaylistEntryWidget from 'components/playlist/widgets/PlaylistEntry'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 import { withNavigate } from 'thirdpartyExtensions/ReactRouterDom'
 import { formatDateLong } from 'utils'
