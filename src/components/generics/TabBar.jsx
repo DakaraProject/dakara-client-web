@@ -7,7 +7,7 @@ export function TabBar({ children }) {
 }
 
 TabBar.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.node,
 }
 
 export function Tab({ extraClassName, iconName, name, to }) {

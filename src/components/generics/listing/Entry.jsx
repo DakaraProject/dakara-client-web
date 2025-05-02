@@ -97,7 +97,7 @@ export function ListingEntry({
 }
 
 ListingEntry.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.node,
   entryExpanded: PropTypes.element,
   extra: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.element),
@@ -133,7 +133,7 @@ function Expander({ children, setExpanded }) {
 }
 
 Expander.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.node,
   setExpanded: PropTypes.func,
 }
 
@@ -162,7 +162,7 @@ export function ListingEntryExpanded({
 }
 
 ListingEntryExpanded.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.node,
   extra: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.element),
     PropTypes.element,

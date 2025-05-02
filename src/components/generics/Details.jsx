@@ -7,7 +7,7 @@ export function Details({ children }) {
 }
 
 Details.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.node,
 }
 
 export function DetailAny({ children, icon, name, className }) {
@@ -29,7 +29,7 @@ export function DetailAny({ children, icon, name, className }) {
 }
 
 DetailAny.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   icon: PropTypes.string,
   name: PropTypes.string,
   className: PropTypes.string,
@@ -44,7 +44,7 @@ export function DetailText({ children, icon, name }) {
 }
 
 DetailText.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   icon: PropTypes.string,
   name: PropTypes.string,
 }
@@ -75,7 +75,7 @@ export function DetailLongText({ children, icon, name }) {
 }
 
 DetailLongText.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   icon: PropTypes.string,
   name: PropTypes.string,
 }

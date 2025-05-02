@@ -61,8 +61,8 @@ export default function ListingList({
 }
 
 ListingList.propTypes = {
-  children: PropTypes.element,
-  fetchStatus: PropTypes.object,
+  children: PropTypes.node,
+  fetchStatus: PropTypes.symbol,
   free: PropTypes.bool,
   mini: PropTypes.bool,
   noTransition: PropTypes.bool,
