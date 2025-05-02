@@ -54,7 +54,6 @@ class Entry extends Component {
   componentWillUnmount() {
     this.props.clearAlteration('removeEntryFromPlaylist', this.props.entry.id)
     this.props.clearAlteration('reorderPlaylistEntry', this.props.entry.id)
-    this.cancelReorder()
   }
 
   displayConfirm = () => {
