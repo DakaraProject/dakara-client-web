@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
+import { useEffect } from 'react'
 import { useSearchParams } from 'react-router'
 import { CSSTransition } from 'react-transition-group'
 
@@ -13,6 +14,7 @@ export function ListingEntry({
   controls,
   notifications,
   id,
+  onExpanded,
   noHoverizable,
   noTransition,
   ...rest
@@ -24,7 +26,15 @@ export function ListingEntry({
   // component
   const expanded = !!(expandable && searchParams.get('expanded') == id)
 
+  useEffect(() => {
+    if (onExpanded) {
+      onExpanded(expanded)
+    }
+  }, [expanded, onExpanded])
+
   const setExpanded = () => {
+    // called when clicking the expand button, so it means the expanded
+    // state is the reverse of `expanded`!
     searchParams.delete('expanded')
     if (!expanded) {
       searchParams.append('expanded', id)
@@ -102,6 +112,7 @@ ListingEntry.propTypes = {
     PropTypes.element,
   ]),
   id: PropTypes.any,
+  onExpanded: PropTypes.func,
   noHoverizable: PropTypes.bool,
   noTransition: PropTypes.bool,
 }

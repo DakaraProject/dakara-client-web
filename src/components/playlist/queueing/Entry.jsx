@@ -148,8 +148,16 @@ class Entry extends Component {
   }
 
   cancelReorder = () => {
-    this.props.searchParams.delete('reorder')
-    this.props.setSearchParams(this.props.searchParams)
+    if (this.props.searchParams.has('reorder')) {
+      this.props.searchParams.delete('reorder')
+      this.props.setSearchParams(this.props.searchParams)
+    }
+  }
+
+  handleExpanded = (expanded) => {
+    if (!expanded) {
+      this.cancelReorder()
+    }
   }
 
   render() {
@@ -178,29 +186,6 @@ class Entry extends Component {
     const reorderId = this.props.searchParams.get('expanded')
     const reorderIndex = this.props.searchParams.get('reorder')
 
-    const reorderToggleButton = createReorderButton(
-      this.handleReorderToggle,
-      inReorder ? 'la-ban' : 'la-arrows-alt-v'
-    )
-    const reorderUpButton = createReorderButton(
-      this.handleReorderUp,
-      inReorder ? 'la-arrow-up' : 'la-arrows-alt-v',
-      reorderId
-    )
-    const reorderDownButton = createReorderButton(
-      this.handleReorderDown,
-      inReorder ? 'la-arrow-down' : 'la-arrows-alt-v',
-      reorderId
-    )
-    const reorderFirstButton = createReorderButton(
-      this.handleReorderFirst,
-      'la-arrow-up overbar'
-    )
-    const reorderLastButton = createReorderButton(
-      this.handleReorderLast,
-      'la-arrow-down underbar'
-    )
-
     const controlsExpanded = [
       <IsPlaylistManager key="reorder">
         <CSSTransitionLazy
@@ -212,11 +197,22 @@ class Entry extends Component {
           }}
         >
           <div className="reorder">
-            {reorderFirstButton}
-            {reorderLastButton}
+            {!positions.isFirstPage &&
+              createReorderButton(
+                this.handleReorderFirst,
+                'la-arrow-up overbar'
+              )}
+            {!positions.isLastPage &&
+              createReorderButton(
+                this.handleReorderLast,
+                'la-arrow-down underbar'
+              )}
           </div>
         </CSSTransitionLazy>
-        {reorderToggleButton}
+        {createReorderButton(
+          this.handleReorderToggle,
+          inReorder ? 'la-ban' : 'la-arrows-alt-v'
+        )}
       </IsPlaylistManager>,
       <button
         key="search"
@@ -248,8 +244,16 @@ class Entry extends Component {
         >
           <div className="reorder">
             {reorderIndex > positions.position
-              ? reorderUpButton
-              : reorderDownButton}
+              ? createReorderButton(
+                  this.handleReorderUp,
+                  inReorder ? 'la-arrow-up' : 'la-arrows-alt-v',
+                  reorderId
+                )
+              : createReorderButton(
+                  this.handleReorderDown,
+                  inReorder ? 'la-arrow-down' : 'la-arrows-alt-v',
+                  reorderId
+                )}
           </div>
         </CSSTransitionLazy>
       </IsPlaylistManager>,
@@ -334,6 +338,7 @@ class Entry extends Component {
         controls={controls}
         notifications={notifications}
         entryExpanded={entryExpanded}
+        onExpanded={this.handleExpanded}
         {...rest}
       >
         <PlaylistEntryWidget entry={entry} truncatable />
