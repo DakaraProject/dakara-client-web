@@ -26,6 +26,7 @@ import { alterationResponsePropType } from 'reducers/alterationsResponse'
 import { songPropType } from 'serverPropTypes/library'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 import { userPropType } from 'serverPropTypes/users'
+import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 
 class SongEntry extends Component {
   static propTypes = {
@@ -39,6 +40,8 @@ class SongEntry extends Component {
     user: userPropType.isRequired,
     addSongToPlaylistWithOptions: PropTypes.func.isRequired,
     responseOfAddSongWithOptions: alterationResponsePropType,
+    searchParams: PropTypes.object.isRequired,
+    setSearchParams: PropTypes.func.isRequired,
   }
 
   componentWillUnmount() {
@@ -56,10 +59,13 @@ class SongEntry extends Component {
       song,
       user,
       playlistEntriesDigest,
+      searchParams,
     } = this.props
     const exceeding =
       karaokeRemainingSeconds && karaokeRemainingSeconds < song.duration
     const canAdd = !exceeding || IsPlaylistManager.hasPermission(user)
+
+    const expanded = searchParams.get('expanded') == song.id
 
     const extra = []
     const extraExpanded = []
@@ -184,7 +190,17 @@ class SongEntry extends Component {
         notifications={notifications}
         entryExpanded={entryExpanded}
       >
-        <SongWidget song={song} query={query} truncatable />
+        {expanded ? (
+          <SongWidget
+            song={song}
+            query={query}
+            noRelations
+            noTags
+            truncatable
+          />
+        ) : (
+          <SongWidget song={song} query={query} truncatable />
+        )}
       </ListingEntry>
     )
   }
@@ -202,10 +218,12 @@ const mapStateToProps = (state, ownProps) => ({
   user: state.authenticatedUser,
 })
 
-SongEntry = connect(mapStateToProps, {
-  addSongToPlaylist,
-  addSongToPlaylistWithOptions,
-  clearAlteration,
-})(SongEntry)
+SongEntry = withSearchParams(
+  connect(mapStateToProps, {
+    addSongToPlaylist,
+    addSongToPlaylistWithOptions,
+    clearAlteration,
+  })(SongEntry)
+)
 
 export default SongEntry

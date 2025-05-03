@@ -155,13 +155,14 @@ class Entry extends Component {
   }
 
   handleExpanded = (expanded) => {
+    // TODO use `searchParams` instead
     if (!expanded) {
       this.cancelReorder()
     }
   }
 
   render() {
-    const { entry, positions, playlistEntriesDigest } = this.props
+    const { entry, positions, playlistEntriesDigest, searchParams } = this.props
 
     /**
      * Reorder buttons
@@ -179,12 +180,11 @@ class Entry extends Component {
       </button>
     )
 
-    const inReorder =
-      this.props.searchParams.has('expanded') &&
-      this.props.searchParams.has('reorder')
+    const reorderId = searchParams.get('expanded')
+    const reorderIndex = searchParams.get('reorder')
 
-    const reorderId = this.props.searchParams.get('expanded')
-    const reorderIndex = this.props.searchParams.get('reorder')
+    const expanded = reorderId == entry.id
+    const inReorder = !!reorderId && !!reorderIndex
 
     const controlsExpanded = [
       <IsPlaylistManager key="reorder">
@@ -340,7 +340,16 @@ class Entry extends Component {
         entryExpanded={entryExpanded}
         onExpanded={this.handleExpanded}
       >
-        <PlaylistEntryWidget entry={entry} truncatable />
+        {expanded ? (
+          <PlaylistEntryWidget
+            entry={entry}
+            noOwner
+            noInstrumental
+            truncatable
+          />
+        ) : (
+          <PlaylistEntryWidget entry={entry} truncatable />
+        )}
       </ListingEntry>
     )
   }

@@ -8,7 +8,8 @@
   .playlist-entry-widget {
     flex-grow: 1;
 
-    .user-widget {
+    .user-widget,
+    .song-widget + .relative-date {
       margin-left: auto;
     }
   }

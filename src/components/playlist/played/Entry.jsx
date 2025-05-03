@@ -12,7 +12,10 @@ import HasError from 'components/playlist/status/HasError'
 import PlaylistEntryWidget from 'components/playlist/widgets/PlaylistEntry'
 import { playerErrorsDigestStatePropType } from 'reducers/playlistDigest'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
-import { withNavigate } from 'thirdpartyExtensions/ReactRouterDom'
+import {
+  withNavigate,
+  withSearchParams,
+} from 'thirdpartyExtensions/ReactRouterDom'
 import { formatDateLong } from 'utils'
 
 class Entry extends Component {
@@ -20,6 +23,8 @@ class Entry extends Component {
     entry: playlistEntryPropType.isRequired,
     playerErrorsDigestState: playerErrorsDigestStatePropType.isRequired,
     navigate: PropTypes.func.isRequired,
+    searchParams: PropTypes.object.isRequired,
+    setSearchParams: PropTypes.func.isRequired,
   }
 
   handleSearch = () => {
@@ -35,7 +40,9 @@ class Entry extends Component {
   }
 
   render() {
-    const { entry, playerErrorsDigestState } = this.props
+    const { entry, playerErrorsDigestState, searchParams } = this.props
+
+    const expanded = searchParams.get('expanded') == entry.id
 
     const extra = []
     const extraExpanded = []
@@ -97,7 +104,16 @@ class Entry extends Component {
         extra={extra}
         entryExpanded={entryExpanded}
       >
-        <PlaylistEntryWidget entry={entry} truncatable />
+        {expanded ? (
+          <PlaylistEntryWidget
+            entry={entry}
+            noOwner
+            noInstrumental
+            truncatable
+          />
+        ) : (
+          <PlaylistEntryWidget entry={entry} truncatable />
+        )}
       </ListingEntry>
     )
   }
@@ -107,6 +123,6 @@ const mapStateToProps = (state) => ({
   playerErrorsDigestState: state.playlist.digest.playerErrors,
 })
 
-Entry = withNavigate(connect(mapStateToProps, {})(Entry))
+Entry = withSearchParams(withNavigate(connect(mapStateToProps, {})(Entry)))
 
 export default Entry
