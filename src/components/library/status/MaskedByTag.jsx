@@ -12,7 +12,7 @@ export default function MaskedByTag({ expanded }) {
   }
   return (
     <li
-      className={classNames('song-status masked-by-tag warning', {
+      className={classNames('status masked-by-tag warning', {
         'expanded listable': expanded,
       })}
     >

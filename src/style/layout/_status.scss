@@ -7,7 +7,7 @@
 @use '~/abstracts/sizes';
 @use '~/abstracts/support';
 
-.song-status {
+.status {
   display: flex;
   align-items: center;
   align-self: stretch;
@@ -21,7 +21,7 @@
       padding: 0 sizes.$gap-horizontal-smartphone;
 
       .icon {
-        font-size: 0.65em;
+        font-size: 0.65em !important;
         height: unset;
         line-height: 1em;
         width: unset;

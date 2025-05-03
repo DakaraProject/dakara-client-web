@@ -78,7 +78,7 @@ Position.propTypes = {
   position: PropTypes.string,
 }
 
-export default function PositionInPlaylist({ entries, expanded }) {
+export default function InPlaylist({ entries, expanded }) {
   const playerStatus = useSelector((state) => state.playlist.playerStatus.data)
   const { entry, position } = getEntry(entries, playerStatus)
 
@@ -115,7 +115,7 @@ export default function PositionInPlaylist({ entries, expanded }) {
 
   return (
     <li
-      className={classNames('song-status position-in-playlist info', {
+      className={classNames('status in-playlist info', {
         'expanded listable': expanded,
       })}
     >
@@ -125,7 +125,7 @@ export default function PositionInPlaylist({ entries, expanded }) {
   )
 }
 
-PositionInPlaylist.propTypes = {
+InPlaylist.propTypes = {
   entries: PropTypes.arrayOf(playlistEntryPropType),
   expanded: PropTypes.bool,
 }

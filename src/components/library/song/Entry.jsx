@@ -14,8 +14,8 @@ import {
 } from 'components/generics/listing/Entry'
 import Notification from 'components/generics/Notification'
 import ExceedsKaraStopTime from 'components/library/status/ExceedsKaraStopTime'
+import InPlaylist from 'components/library/status/InPlaylist'
 import MaskedByTag from 'components/library/status/MaskedByTag'
-import PositionInPlaylist from 'components/library/status/PositionInPlaylist'
 import SongWidget from 'components/library/widgets/Song'
 import SongExpandedWidget from 'components/library/widgets/SongExpanded'
 import {
@@ -98,11 +98,11 @@ class SongEntry extends Component {
           }}
           key="playlist-position-info"
         >
-          <PositionInPlaylist entries={entries} />
+          <InPlaylist entries={entries} />
         </CSSTransition>
       )
 
-      extraExpanded.push(<PositionInPlaylist entries={entries} expanded />)
+      extraExpanded.push(<InPlaylist entries={entries} expanded />)
     }
 
     const controls = (

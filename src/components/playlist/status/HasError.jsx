@@ -10,7 +10,7 @@ export default function HasError({ expanded }) {
   }
   return (
     <li
-      className={classNames('song-status has-error danger', {
+      className={classNames('status has-error danger', {
         'expanded listable': expanded,
       })}
     >

@@ -12,7 +12,7 @@ export default function ExceedsKaraStopTime({ expanded }) {
   }
   return (
     <li
-      className={classNames('song-status exceeds-kara-stop-time warning', {
+      className={classNames('song exceeds-kara-stop-time warning', {
         'expanded listable': expanded,
       })}
     >

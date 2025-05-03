@@ -1,12 +1,12 @@
 //
 // Dakara Project
 //
-// Position in playlist song status style file
+// In playlist status style file
 //
 
 @use '~/abstracts/support';
 
-.song-status.position-in-playlist {
+.status.in-playlist {
   .position {
     display: flex;
     flex-direction: column;
