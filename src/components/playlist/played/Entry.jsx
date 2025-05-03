@@ -35,7 +35,7 @@ class Entry extends Component {
   }
 
   render() {
-    const { entry, playerErrorsDigestState, ...rest } = this.props
+    const { entry, playerErrorsDigestState } = this.props
 
     const extra = []
     const extraExpanded = []
@@ -96,7 +96,6 @@ class Entry extends Component {
         controls={controls}
         extra={extra}
         entryExpanded={entryExpanded}
-        {...rest}
       >
         <PlaylistEntryWidget entry={entry} truncatable />
       </ListingEntry>

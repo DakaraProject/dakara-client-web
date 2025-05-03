@@ -16,8 +16,6 @@ export function ListingEntry({
   id,
   onExpanded,
   noHoverizable,
-  noTransition,
-  ...rest
 }) {
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -48,21 +46,21 @@ export function ListingEntry({
 
   let extraTransition
   if (extra) {
-    extraTransition = extra.map((e) => (
+    extraTransition = extra.map((item, index) => (
       <CSSTransition
-        key={e}
+        key={index}
         classNames="add-remove"
         timeout={{
           enter: 300,
           exit: 150,
         }}
       >
-        {e}
+        {item}
       </CSSTransition>
     ))
   }
 
-  const content = (
+  return (
     <li className="listing-entry listable">
       <div
         className={classNames('one-line', {
@@ -78,9 +76,11 @@ export function ListingEntry({
           ) : (
             <div className="main">{children}</div>
           )}
-          <TransitionGroup className="extra" component="ul">
-            {extraTransition}
-          </TransitionGroup>
+          {!expanded && (
+            <TransitionGroup className="extra" component="ul">
+              {extraTransition}
+            </TransitionGroup>
+          )}
         </div>
         {!expanded && isDisplayable(controls) && (
           <div className="controls compact">{controls}</div>
@@ -100,22 +100,6 @@ export function ListingEntry({
         <>{entryExpanded}</>
       </CSSTransitionLazy>
     </li>
-  )
-
-  if (noTransition) {
-    return content
-  }
-  return (
-    <CSSTransition
-      classNames="add-remove"
-      timeout={{
-        enter: 300,
-        exit: 600,
-      }}
-      {...rest}
-    >
-      {content}
-    </CSSTransition>
   )
 }
 
@@ -137,7 +121,6 @@ ListingEntry.propTypes = {
   id: PropTypes.any,
   onExpanded: PropTypes.func,
   noHoverizable: PropTypes.bool,
-  noTransition: PropTypes.bool,
 }
 
 function Expander({ children, setExpanded }) {

@@ -161,7 +161,7 @@ class Entry extends Component {
   }
 
   render() {
-    const { entry, positions, playlistEntriesDigest, ...rest } = this.props
+    const { entry, positions, playlistEntriesDigest } = this.props
 
     /**
      * Reorder buttons
@@ -339,7 +339,6 @@ class Entry extends Component {
         notifications={notifications}
         entryExpanded={entryExpanded}
         onExpanded={this.handleExpanded}
-        {...rest}
       >
         <PlaylistEntryWidget entry={entry} truncatable />
       </ListingEntry>

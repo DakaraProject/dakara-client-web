@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router'
-import { TransitionGroup } from 'react-transition-group'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
 
@@ -46,7 +46,18 @@ export default function ListingList({
         enter={transition}
         exit={transition}
       >
-        {children}
+        {children.map((item, index) => (
+          <CSSTransition
+            key={index}
+            classNames="add-remove"
+            timeout={{
+              enter: 300,
+              exit: 600,
+            }}
+          >
+            {item}
+          </CSSTransition>
+        ))}
       </TransitionGroup>
     )
   }

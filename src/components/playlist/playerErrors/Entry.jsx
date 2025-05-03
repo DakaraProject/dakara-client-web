@@ -41,7 +41,7 @@ class PlayerErrorsEntry extends Component {
   }
 
   render() {
-    const { playerError, ...rest } = this.props
+    const { playerError } = this.props
     const {
       playlist_entry: entry,
       error_message: message,
@@ -82,7 +82,6 @@ class PlayerErrorsEntry extends Component {
         id={playerError.id}
         controls={controls}
         entryExpanded={entryExpanded}
-        {...rest}
       >
         <PlaylistEntryWidget entry={entry} truncatable />
       </ListingEntry>
