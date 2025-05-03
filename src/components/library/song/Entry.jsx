@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { CSSTransition } from 'react-transition-group'
 
 import { clearAlteration } from 'actions/alterations'
 import {
@@ -89,19 +88,7 @@ class SongEntry extends Component {
 
     const entries = playlistEntriesDigest.filter((e) => e.song.id === song.id)
     if (entries.length > 0) {
-      extra.push(
-        <CSSTransition
-          classNames="playlist-position-info"
-          timeout={{
-            enter: 300,
-            exit: 150,
-          }}
-          key="playlist-position-info"
-        >
-          <InPlaylist entries={entries} />
-        </CSSTransition>
-      )
-
+      extra.push(<InPlaylist entries={entries} />)
       extraExpanded.push(<InPlaylist entries={entries} expanded />)
     }
 

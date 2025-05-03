@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { useEffect } from 'react'
 import { useSearchParams } from 'react-router'
-import { CSSTransition } from 'react-transition-group'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 import { isDisplayable } from 'utils'
@@ -41,6 +41,27 @@ export function ListingEntry({
     }
     setSearchParams(searchParams)
   }
+
+  /**
+   * Add transition to extra
+   */
+
+  let extraTransition
+  if (extra) {
+    extraTransition = extra.map((e) => (
+      <CSSTransition
+        key={e}
+        classNames="add-remove"
+        timeout={{
+          enter: 300,
+          exit: 150,
+        }}
+      >
+        {e}
+      </CSSTransition>
+    ))
+  }
+
   const content = (
     <li className="listing-entry listable">
       <div
@@ -57,9 +78,9 @@ export function ListingEntry({
           ) : (
             <div className="main">{children}</div>
           )}
-          {!expanded && isDisplayable(extra) && (
-            <ul className="extra">{extra}</ul>
-          )}
+          <TransitionGroup className="extra" component="ul">
+            {extraTransition}
+          </TransitionGroup>
         </div>
         {!expanded && isDisplayable(controls) && (
           <div className="controls compact">{controls}</div>
