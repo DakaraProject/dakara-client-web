@@ -46,7 +46,7 @@ export function ListingEntry({
 
   let extraTransition
   if (extra) {
-    extraTransition = extra.map((item, index) => (
+    extraTransition = [extra].flat().map((item, index) => (
       <CSSTransition
         key={index}
         classNames="add-remove"
@@ -61,7 +61,7 @@ export function ListingEntry({
   }
 
   return (
-    <li className="listing-entry listable">
+    <li className={classNames('listing-entry listable', { expanded })}>
       <div
         className={classNames('one-line', {
           hoverizable: !noHoverizable,

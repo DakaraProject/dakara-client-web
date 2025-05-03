@@ -90,25 +90,33 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
 
     // appearance transition
     &.add-remove-enter {
-      height: 0;
+      max-height: 0;
       min-height: initial;
       overflow: hidden;
 
       &.add-remove-enter-active {
-        height: $listing-entry-height;
-        transition: height 300ms ease-out;
+        max-height: $listing-entry-height;
+        transition: max-height 300ms ease-out;
       }
     }
 
     // disappearance transition
     &.add-remove-exit {
-      height: $listing-entry-height;
+      max-height: $listing-entry-height;
       min-height: initial;
       overflow: hidden;
 
+      &.expanded {
+        max-height: 15 * sizes.$subrow-height;
+      }
+
       &.add-remove-exit-active {
-        height: 0;
-        transition: height 150ms ease-in;
+        max-height: 0;
+        transition: max-height 150ms ease-in;
+
+        &.expanded {
+          transition: max-height 300ms ease-in;
+        }
 
         &.delayed {
           transition-delay: 500ms;

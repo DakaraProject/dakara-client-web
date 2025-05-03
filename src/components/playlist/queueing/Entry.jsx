@@ -238,8 +238,8 @@ class Entry extends Component {
           in={inReorder}
           classNames="show-hide"
           timeout={{
-            enter: 3000,
-            exit: 1500,
+            enter: 300,
+            exit: 150,
           }}
         >
           <div className="reorder">

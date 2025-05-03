@@ -52,7 +52,7 @@ export default function ListingList({
             classNames="add-remove"
             timeout={{
               enter: 300,
-              exit: 600,
+              exit: 800,
             }}
           >
             {item}
