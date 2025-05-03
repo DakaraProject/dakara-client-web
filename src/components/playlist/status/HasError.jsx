@@ -5,7 +5,7 @@ export default function HasError({ expanded }) {
   let message
   if (expanded) {
     message = (
-      <span className="message">This playlist entry could not play.</span>
+      <span className="message">This playlist entry encountered an error.</span>
     )
   }
   return (
