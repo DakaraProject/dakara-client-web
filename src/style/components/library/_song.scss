@@ -4,12 +4,6 @@
 // Song library entry style file
 //
 
-@use '~/thirdparty/preboot';
-
-@use '~/abstracts/colors';
-@use '~/abstracts/sizes';
-@use '~/abstracts/support';
-
 // `library-entry-song` subclass:
 //
 // This class is a specialization of the `listing-entry` class defined in the
@@ -56,14 +50,6 @@
             margin-left: auto;
           }
         }
-      }
-    }
-
-    .extra {
-      @include support.make-smartphone {
-        bottom: 0;
-        position: absolute;
-        right: 0;
       }
     }
   }

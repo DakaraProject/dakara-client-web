@@ -134,6 +134,13 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
         }
       }
 
+      .sub-line {
+        flex: 1;
+        display: flex;
+        overflow: hidden;
+        position: relative;
+      }
+
       .main {
         & {
           align-items: center;
@@ -147,6 +154,12 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
 
       .extra {
         display: flex;
+
+        @include support.make-smartphone {
+          bottom: 0;
+          position: absolute;
+          right: 0;
+        }
       }
 
       .controls {

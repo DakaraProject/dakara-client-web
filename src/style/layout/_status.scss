@@ -18,7 +18,7 @@
     justify-content: center;
 
     @include support.make-smartphone {
-      padding: 0 sizes.$gap-horizontal-smartphone;
+      padding: 0 sizes.$gap-horizontal;
 
       .icon {
         font-size: 0.65em !important;

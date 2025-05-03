@@ -49,16 +49,18 @@ export function ListingEntry({
           notifiable: isDisplayable(notifications),
         })}
       >
-        {expandable ? (
-          <Expander setExpanded={setExpanded}>
+        <div className="sub-line">
+          {expandable ? (
+            <Expander setExpanded={setExpanded}>
+              <div className="main">{children}</div>
+            </Expander>
+          ) : (
             <div className="main">{children}</div>
-          </Expander>
-        ) : (
-          <div className="main">{children}</div>
-        )}
-        {!expanded && isDisplayable(extra) && (
-          <ul className="extra">{extra}</ul>
-        )}
+          )}
+          {!expanded && isDisplayable(extra) && (
+            <ul className="extra">{extra}</ul>
+          )}
+        </div>
         {!expanded && isDisplayable(controls) && (
           <div className="controls compact">{controls}</div>
         )}
