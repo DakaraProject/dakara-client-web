@@ -50,5 +50,9 @@
 
   .message {
     flex: 1;
+
+    .icon {
+      width: unset;
+    }
   }
 }

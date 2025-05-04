@@ -30,13 +30,8 @@
     text-align: center;
   }
 
-  // adjustments to user widget in message
+  // adjust widget
   .user-widget {
-    display: inline;
-
-    .icon {
-      margin-right: 0.25em;
-      width: unset;
-    }
+    align-items: baseline;
   }
 }
