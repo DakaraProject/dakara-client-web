@@ -15,7 +15,7 @@ Some performance critical functions are benchmarked with [Vitest](https://vitest
 Run the benchmarks during development with:
 
 ```sh
-npm run benchmark
+npm run bench
 ```
 
 ## Release
