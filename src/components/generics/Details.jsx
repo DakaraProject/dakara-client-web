@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { useState } from 'react'
+import { CSSTransition } from 'react-transition-group'
 
 export function Details({ children }) {
   return <div className="details">{children}</div>
@@ -50,26 +51,31 @@ DetailText.propTypes = {
 }
 
 export function DetailLongText({ children, icon, name }) {
-  const [expanded, setExpanded] = useState(false)
+  const [revealed, setRevealed] = useState(false)
 
   return (
     <DetailAny icon={icon} name={name} className="long-text">
-      <p className={classNames('paragraph', { expanded })}>{children}</p>
-      <div className="controls">
-        <button
-          className="control neutral square"
-          onClick={() => setExpanded(!expanded)}
-        >
-          <span className="icon">
-            <i
-              className={classNames(
-                'las',
-                expanded ? 'la-minus-square' : 'la-plus-square'
-              )}
-            ></i>
-          </span>
-        </button>
-      </div>
+      <CSSTransition
+        classNames="reveal"
+        in={revealed}
+        timeout={{
+          enter: 300,
+        }}
+      >
+        <p className="paragraph">{children}</p>
+      </CSSTransition>
+      {!revealed && (
+        <div className="controls">
+          <button
+            className="control neutral square"
+            onClick={() => setRevealed(true)}
+          >
+            <span className="icon">
+              <i className="las la-plus-square"></i>
+            </span>
+          </button>
+        </div>
+      )}
     </DetailAny>
   )
 }

@@ -104,14 +104,27 @@
       }
 
       > .long-text {
-        > .paragraph {
-          white-space: pre-wrap;
-          overflow-y: hidden;
+        display: flex;
 
-          &:not(.expanded) {
-            // hide after about 4 lines
-            max-height: 4.4em;
+        > .paragraph {
+          flex-grow: 1;
+          // hide after about 4 lines
+          max-height: 4.4em;
+          overflow-y: hidden;
+          white-space: pre-wrap;
+
+          &.reveal-enter-active {
+            max-height: 10 * $height;
+            transition: max-height 300ms ease-out;
           }
+
+          &.reveal-enter-done {
+            max-height: unset;
+          }
+        }
+
+        > .controls {
+          align-self: end;
         }
       }
 
