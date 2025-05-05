@@ -52,13 +52,15 @@ class SongExpanded extends Component {
         const worksOfType = worksByType[workTypeKey]
         const workType = worksOfType[0].work.work_type
 
-        const worksList = worksOfType.map((work) => {
+        const worksList = worksOfType.map((workLink) => {
           const controls = (
             <button
               className="control square primary"
-              onClick={() =>
-                this.setQuery(`${work.work_type.query_name}:""${work.title}""`)
-              }
+              onClick={() => {
+                this.setQuery(
+                  `${workLink.work.work_type.query_name}:""${workLink.work.title}""`
+                )
+              }}
             >
               <span className="icon">
                 <i className="las la-search"></i>
@@ -66,9 +68,9 @@ class SongExpanded extends Component {
             </button>
           )
           return (
-            <ListingEntry controls={controls} noHoverizable key={work.work.id}>
+            <ListingEntry controls={controls} noHoverizable key={workLink.id}>
               <WorkLinkWidget
-                workLink={work}
+                workLink={workLink}
                 query={query}
                 longLinkType
                 noIcon
@@ -101,7 +103,9 @@ class SongExpanded extends Component {
         const controls = (
           <button
             className="control square primary"
-            onClick={() => this.setQuery(`artist:""${artist.name}""`)}
+            onClick={() => {
+              this.setQuery(`artist:""${artist.name}""`)
+            }}
           >
             <span className="icon">
               <i className="las la-search"></i>
