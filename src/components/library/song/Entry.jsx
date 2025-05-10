@@ -75,8 +75,8 @@ class SongEntry extends Component {
      */
 
     if (song.tags.some((tag) => tag.disabled)) {
-      extra.push(<MaskedByTag />)
-      extraExpanded.push(<MaskedByTag expanded />)
+      extra.push(<MaskedByTag key="masked-by-tag" />)
+      extraExpanded.push(<MaskedByTag key="masked-by-tag" expanded />)
     }
 
     /**
@@ -84,8 +84,10 @@ class SongEntry extends Component {
      */
 
     if (karaokeRemainingSeconds && karaokeRemainingSeconds < song.duration) {
-      extra.push(<ExceedsKaraStopTime />)
-      extraExpanded.push(<ExceedsKaraStopTime expanded />)
+      extra.push(<ExceedsKaraStopTime key="karaoke-remaining-seconds" />)
+      extraExpanded.push(
+        <ExceedsKaraStopTime key="karaoke-remaining-seconds" expanded />
+      )
     }
 
     /**
@@ -94,8 +96,10 @@ class SongEntry extends Component {
 
     const entries = playlistEntriesDigest.filter((e) => e.song.id === song.id)
     if (entries.length > 0) {
-      extra.push(<InPlaylist entries={entries} />)
-      extraExpanded.push(<InPlaylist entries={entries} expanded />)
+      extra.push(<InPlaylist key="in-playlist" entries={entries} />)
+      extraExpanded.push(
+        <InPlaylist key="in-playlist" entries={entries} expanded />
+      )
     }
 
     const controls = (
