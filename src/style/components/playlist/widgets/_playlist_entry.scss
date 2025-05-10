@@ -18,9 +18,9 @@
   }
 
   .user-widget {
+    align-items: baseline;
     // not easily shrinkable
     flex-shrink: 0.1;
-    align-items: baseline;
   }
 
   .relative-date {

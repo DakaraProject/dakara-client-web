@@ -8,8 +8,8 @@
 
 .user-widget {
   display: inline-flex;
-  white-space: nowrap;
   overflow: hidden;
+  white-space: nowrap;
 
   &.truncatable {
     .name {

@@ -424,8 +424,8 @@ $form-field-height: sizes.$row-height;
         // delete initial marker
         // reset initial height
         appearance: none;
-        position: absolute;
         height: initial;
+        position: absolute;
         width: 0;
       }
 

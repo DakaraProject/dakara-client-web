@@ -19,15 +19,15 @@
   border-collapse: separate;
   border-spacing: 0 sizes.$gap-vertical;
   display: table;
+  margin-bottom: -(sizes.$gap-vertical);
   // cancel the outer margin created by `border-spacing`
   margin-top: -(sizes.$gap-vertical);
-  margin-bottom: -(sizes.$gap-vertical);
   width: 100%;
 
   @include support.make-smartphone {
     display: block;
-    margin-top: unset;
     margin-bottom: unset;
+    margin-top: unset;
   }
 
   .controls {
@@ -131,10 +131,10 @@
         }
 
         .paragraph {
+          -webkit-box-orient: vertical;
           display: -webkit-box;
           font-size: inherit;
           -webkit-line-clamp: 4;
-          -webkit-box-orient: vertical;
           line-clamp: 4;
           overflow: hidden;
           white-space: pre-wrap;

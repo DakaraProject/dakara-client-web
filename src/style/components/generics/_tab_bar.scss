@@ -34,8 +34,8 @@
     @include support.make-smartphone {
       &:not(.active),
       &.square-on-smartphone {
-        padding: 0;
         min-width: sizes.$row-height;
+        padding: 0;
 
         .name {
           display: none;
