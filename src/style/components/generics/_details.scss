@@ -79,7 +79,7 @@
       }
 
       > .text,
-      > .long-text > .paragraph,
+      > .long-text > .border,
       > .artist-widget,
       > .work-link-widget {
         @include sizes.make-vertical-row-padding(horizontal, 2);
@@ -106,21 +106,38 @@
       > .long-text {
         display: flex;
 
-        > .paragraph {
+        > .border {
           flex-grow: 1;
           // hide after about 4 lines
-          max-height: 4.4em;
-          overflow-y: hidden;
-          white-space: pre-wrap;
+          max-height: 4.6em;
+          overflow: hidden;
 
           &.reveal-enter-active {
             max-height: 10 * $height;
             transition: max-height 300ms ease-out;
+
+            .paragraph {
+              -webkit-line-clamp: none;
+            }
           }
 
           &.reveal-enter-done {
             max-height: unset;
+
+            .paragraph {
+              -webkit-line-clamp: none;
+            }
           }
+        }
+
+        .paragraph {
+          display: -webkit-box;
+          font-size: inherit;
+          -webkit-line-clamp: 4;
+          -webkit-box-orient: vertical;
+          line-clamp: 4;
+          overflow: hidden;
+          white-space: pre-wrap;
         }
 
         > .controls {

@@ -62,7 +62,9 @@ export function DetailLongText({ children, icon, name }) {
           enter: 300,
         }}
       >
-        <p className="paragraph">{children}</p>
+        <div className="border">
+          <p className="paragraph">{children}</p>
+        </div>
       </CSSTransition>
       {!revealed && (
         <div className="controls">
