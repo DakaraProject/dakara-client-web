@@ -29,7 +29,12 @@ class WorkEntry extends Component {
   render() {
     const { work, query } = this.props
     const controls = (
-      <button className="control square primary" onClick={this.handleSearch}>
+      <button
+        className="control square primary"
+        onClick={() => {
+          this.handleSearch()
+        }}
+      >
         <span className="icon">
           <i className="las la-search"></i>
         </span>

@@ -130,7 +130,7 @@ class SongEntry extends Component {
               onClick={() => {
                 this.props.addSongToPlaylistWithOptions(
                   this.props.song.id,
-                  true
+                  /* instrumental = */ true
                 )
               }}
             >

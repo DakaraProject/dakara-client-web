@@ -20,12 +20,22 @@ export default class ConfirmationBar extends Component {
         <div className="notification warning">
           <div className="message">{message}</div>
           <div className="controls compact">
-            <button onClick={onConfirm} className="control square success">
+            <button
+              onClick={() => {
+                onConfirm()
+              }}
+              className="control square success"
+            >
               <span className="icon">
                 <i className="las la-check"></i>
               </span>
             </button>
-            <button onClick={onCancel} className="control square danger">
+            <button
+              onClick={() => {
+                onCancel()
+              }}
+              className="control square danger"
+            >
               <span className="icon">
                 <i className="las la-times"></i>
               </span>

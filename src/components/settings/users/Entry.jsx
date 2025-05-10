@@ -101,7 +101,9 @@ export default class SettingsUsersEntry extends Component {
                 </ControlLink>
                 <button
                   className="control square danger"
-                  onClick={this.displayConfirm}
+                  onClick={() => {
+                    this.displayConfirm()
+                  }}
                 >
                   <span className="icon">
                     <i className="las la-trash"></i>

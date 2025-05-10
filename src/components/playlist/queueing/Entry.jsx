@@ -217,14 +217,21 @@ class Entry extends Component {
       <button
         key="search"
         className="control square primary"
-        onClick={this.handleSearch}
+        onClick={() => {
+          this.handleSearch()
+        }}
       >
         <span className="icon">
           <i className="las la-search"></i>
         </span>
       </button>,
       <IsPlaylistManagerOrOwner key="remove" object={entry} disable>
-        <button className="control square danger" onClick={this.displayConfirm}>
+        <button
+          className="control square danger"
+          onClick={() => {
+            this.displayConfirm()
+          }}
+        >
           <span className="icon">
             <i className="las la-trash"></i>
           </span>
@@ -260,7 +267,9 @@ class Entry extends Component {
       <button
         key="search"
         className="control square primary"
-        onClick={this.handleSearch}
+        onClick={() => {
+          this.handleSearch()
+        }}
       >
         <span className="icon">
           <i className="las la-search"></i>

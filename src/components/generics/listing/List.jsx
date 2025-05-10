@@ -33,8 +33,6 @@ export default function ListingList({
     }
   }, [transitionObservable, transitionObservableInitial])
 
-  // enable transition if observable changed
-
   let content
   if (noTransition) {
     content = <ul className={className}>{children}</ul>

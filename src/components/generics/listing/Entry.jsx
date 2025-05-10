@@ -125,7 +125,12 @@ ListingEntry.propTypes = {
 
 function Expander({ children, setExpanded }) {
   return (
-    <button className="expander transparent" onClick={setExpanded}>
+    <button
+      className="expander transparent"
+      onClick={() => {
+        setExpanded()
+      }}
+    >
       <div className="controls">
         <div className="control neutral square">
           <span className="icon">

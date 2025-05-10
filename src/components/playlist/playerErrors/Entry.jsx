@@ -49,7 +49,12 @@ class PlayerErrorsEntry extends Component {
     } = playerError
 
     const controlsExpanded = (
-      <button className="control square primary" onClick={this.handleSearch}>
+      <button
+        className="control square primary"
+        onClick={() => {
+          this.handleSearch()
+        }}
+      >
         <span className="icon">
           <i className="las la-search"></i>
         </span>
@@ -70,7 +75,12 @@ class PlayerErrorsEntry extends Component {
     )
 
     const controls = (
-      <button className="control square primary" onClick={this.handleSearch}>
+      <button
+        className="control square primary"
+        onClick={() => {
+          this.handleSearch()
+        }}
+      >
         <span className="icon">
           <i className="las la-search"></i>
         </span>

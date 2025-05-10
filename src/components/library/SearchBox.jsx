@@ -81,7 +81,7 @@ class SearchBox extends Component {
         <button
           className="control square transparent"
           type="button"
-          onClick={(e) => {
+          onClick={() => {
             this.toggleHelp()
           }}
         >
@@ -145,7 +145,7 @@ class SearchBox extends Component {
                   <button
                     className="control square transparent"
                     type="button"
-                    onClick={(e) => {
+                    onClick={() => {
                       this.setState({ query: '' })
                       // clear query string
                       this.props.setSearchParams({})
