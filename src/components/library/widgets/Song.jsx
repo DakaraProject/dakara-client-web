@@ -66,7 +66,7 @@ export default class SongWidget extends Component {
         />
       ))
 
-      if (artists.length > 0 || works.length > 0) {
+      if (isDisplayable(artists) || isDisplayable(works)) {
         relations = (
           <span className="relations">
             {isDisplayable(artists) && (

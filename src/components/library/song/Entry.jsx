@@ -168,9 +168,9 @@ class SongEntry extends Component {
       />,
       <Notification
         alterationResponse={this.props.responseOfAddSongWithOptions}
-        pendingMessage="Adding…"
-        successfulMessage="Successfuly added!"
-        failedMessage={'Error attempting to add song to playlist'}
+        pendingMessage="Adding with options…"
+        successfulMessage="Successfuly added with options!"
+        failedMessage="Error attempting to add song to playlist with options"
         noDisplayOnMount
         key="add-song-with-options"
       />,

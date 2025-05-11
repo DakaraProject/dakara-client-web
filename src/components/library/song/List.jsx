@@ -68,7 +68,6 @@ class SongList extends Component {
         key={song.id}
         song={song}
         karaokeRemainingSeconds={karaokeRemainingSeconds}
-        noTransition
       />
     ))
 
