@@ -5,11 +5,11 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { sendPlayerCommand } from 'actions/playlist'
-import UserWidget from 'components/generics/UserWidget'
 import ManageButton from 'components/karaoke/player/ManageButton'
 import PlayerNotification from 'components/karaoke/player/Notification'
 import ArtistWidget from 'components/library/widgets/Artist'
 import WorkLinkWidget from 'components/library/widgets/WorkLink'
+import UserWidget from 'components/user/widgets/User'
 import { IsPlaylistManagerOrOwner } from 'permissions/Playlist'
 import {
   alterationResponsePropType,

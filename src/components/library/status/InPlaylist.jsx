@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
-import UserWidget from 'components/generics/UserWidget'
+import UserWidget from 'components/user/widgets/User'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 import { formatDate, formatDateRelative, getEntry } from 'utils'
 

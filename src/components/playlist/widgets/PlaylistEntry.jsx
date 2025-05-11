@@ -2,8 +2,8 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
-import UserWidget from 'components/generics/UserWidget'
 import SongWidget from 'components/library/widgets/Song'
+import UserWidget from 'components/user/widgets/User'
 import { formatDateRelative } from 'utils'
 
 export default function PlaylistEntryWidget({
