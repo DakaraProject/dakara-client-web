@@ -31,8 +31,8 @@ export function updateData(newData, resultsKey) {
 
 /**
  * Smart formatting for a duration.
- * Will format a duration less than one hour as m:ss, and more than one hour as
- * h:mm:ss.
+ * Will format a duration less than one hour as `m:ss`, and more than one hour
+ * as `h:mm:ss`.
  * @param seconds Duration in seconds.
  * @returns Formatted duration.
  */
@@ -56,8 +56,8 @@ export function formatDuration(seconds) {
 
 /**
  * Smart formatting for a date.
- * Formats a date before or after one day in long form (date + time), otherwise
- * in short form (time only).
+ * Formats a date before 6 hours or after 12 hours in long form (date + time),
+ * otherwise in short form (time only).
  * @param dateIso Date as a string in ISO format.
  * @returns Formatted date.
  */
@@ -77,6 +77,13 @@ export function formatDateLong(dateIso) {
   return date.format('LT')
 }
 
+/**
+ * Smart formatting for a date.
+ * Formats a date before 6 hours or after 12 hours as "long ago" or "not soon",
+ * otherwise in short form.
+ * @param dateIso Date as a string in ISO format.
+ * @returns Formatted date.
+ */
 export function formatDate(dateIso) {
   const date = dayjs(dateIso)
   const now = dayjs()
@@ -95,6 +102,13 @@ export function formatDate(dateIso) {
   return date.format('LT')
 }
 
+/**
+ * Smart formatting for a date.
+ * Formats a date before 6 hours or after 12 hours as "long ago" or "not soon",
+ * otherwise in relative form.
+ * @param dateIso Date as a string in ISO format.
+ * @returns Formatted date.
+ */
 export function formatDateRelative(dateIso) {
   const date = dayjs(dateIso)
   const now = dayjs()
