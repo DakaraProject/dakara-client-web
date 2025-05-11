@@ -85,7 +85,7 @@ class Queueing extends Component {
 
     const firstId = playlistEntries.find((e) => e.will_play)?.id
     const lastId = playlistEntries.findLast((e) => e.will_play)?.id
-    const page = this.props.searchParams.get('page') || 1
+    const page = parseInt(this.props.searchParams.get('page')) || 1
     const isFirstPage = page === 1
     const isLastPage = page === pagination.last
 
