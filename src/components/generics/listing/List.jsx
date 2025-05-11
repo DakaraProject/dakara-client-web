@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
-import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
+import ListingFetchWrapper from 'components/generics/listing/FetchWrapper'
 
 export default function ListingList({
   children,
