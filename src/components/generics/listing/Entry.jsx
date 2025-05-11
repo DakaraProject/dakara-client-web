@@ -132,7 +132,7 @@ function Expander({ children, setExpanded }) {
       }}
     >
       <div className="controls">
-        <div className="control neutral square">
+        <div className="control neutral square expand-button">
           <span className="icon">
             <i className="las la-ellipsis-v"></i>
           </span>
