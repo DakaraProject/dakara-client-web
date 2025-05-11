@@ -87,7 +87,6 @@ class WorkList extends Component {
         work={work}
         workType={workTypeQueryName}
         query={query}
-        noTransition
       />
     ))
 

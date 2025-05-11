@@ -60,7 +60,7 @@ class Entry extends Component {
       extraExpanded.push(<HasError expanded />)
     }
 
-    const controlsExpanded = (
+    const controls = (
       <button
         className="control square primary"
         onClick={() => {
@@ -74,7 +74,7 @@ class Entry extends Component {
     )
 
     const entryExpanded = (
-      <ListingEntryExpanded controls={controlsExpanded} extra={extraExpanded}>
+      <ListingEntryExpanded controls={controls} extra={extraExpanded}>
         <Details>
           <DetailText icon="la-user" name="For">
             {entry.owner.username}
@@ -92,19 +92,6 @@ class Entry extends Component {
           </DetailText>
         </Details>
       </ListingEntryExpanded>
-    )
-
-    const controls = (
-      <button
-        className="control square primary"
-        onClick={() => {
-          this.handleSearch()
-        }}
-      >
-        <span className="icon">
-          <i className="las la-search"></i>
-        </span>
-      </button>
     )
 
     return (

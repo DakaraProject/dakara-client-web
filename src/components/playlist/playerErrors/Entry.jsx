@@ -48,7 +48,7 @@ class PlayerErrorsEntry extends Component {
       date_created: date,
     } = playerError
 
-    const controlsExpanded = (
+    const controls = (
       <button
         className="control square primary"
         onClick={() => {
@@ -62,7 +62,7 @@ class PlayerErrorsEntry extends Component {
     )
 
     const entryExpanded = (
-      <ListingEntryExpanded controls={controlsExpanded}>
+      <ListingEntryExpanded controls={controls}>
         <Details>
           <DetailText icon="la-clock" name="Error at">
             {dayjs(date).format('L LTS')}
@@ -72,19 +72,6 @@ class PlayerErrorsEntry extends Component {
           </DetailLongText>
         </Details>
       </ListingEntryExpanded>
-    )
-
-    const controls = (
-      <button
-        className="control square primary"
-        onClick={() => {
-          this.handleSearch()
-        }}
-      >
-        <span className="icon">
-          <i className="las la-search"></i>
-        </span>
-      </button>
     )
 
     return (
