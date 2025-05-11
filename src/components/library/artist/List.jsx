@@ -45,7 +45,7 @@ class ArtistList extends Component {
      */
 
     const libraryEntryArtistList = artists.map((artist) => (
-      <ArtistEntry key={artist.id} artist={artist} query={query} noTransition />
+      <ArtistEntry key={artist.id} artist={artist} query={query} />
     ))
 
     return (

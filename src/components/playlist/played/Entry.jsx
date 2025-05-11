@@ -56,8 +56,8 @@ class Entry extends Component {
         (e) => e.playlist_entry.id === entry.id
       )
     ) {
-      extra.push(<HasError />)
-      extraExpanded.push(<HasError expanded />)
+      extra.push(<HasError key="has-error" />)
+      extraExpanded.push(<HasError key="has-error" expanded />)
     }
 
     const controls = (
