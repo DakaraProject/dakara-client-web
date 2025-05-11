@@ -19,8 +19,8 @@
   border-collapse: separate;
   border-spacing: 0 sizes.$gap-vertical;
   display: table;
-  margin-bottom: -(sizes.$gap-vertical);
   // cancel the outer margin created by `border-spacing`
+  margin-bottom: -(sizes.$gap-vertical);
   margin-top: -(sizes.$gap-vertical);
   width: 100%;
 

@@ -6,9 +6,6 @@
 
 @use '~/thirdparty/preboot';
 
-// `work-widget` class:
-//
-// This module is used to style works.
 .work-widget {
   column-gap: 0.5em;
   display: inline-flex;
@@ -22,6 +19,7 @@
   }
 
   .subtitle {
+    // very easily shrinkable
     flex-shrink: 10000;
 
     &::before {
