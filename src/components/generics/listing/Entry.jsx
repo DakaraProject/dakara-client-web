@@ -22,7 +22,7 @@ export function ListingEntry({
   const expandable = !!entryExpanded
   // expanded state is stored in the search parameters, not in the state of the
   // component
-  const expanded = expandable && searchParams.get('expanded') == id
+  const expanded = expandable && parseInt(searchParams.get('expanded')) === id
 
   useEffect(() => {
     if (onExpanded) {

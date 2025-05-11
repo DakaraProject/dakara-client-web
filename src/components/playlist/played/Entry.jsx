@@ -42,7 +42,7 @@ class Entry extends Component {
   render() {
     const { entry, playerErrorsDigestState, searchParams } = this.props
 
-    const expanded = searchParams.get('expanded') == entry.id
+    const expanded = parseInt(searchParams.get('expanded')) === entry.id
 
     const extra = []
     const extraExpanded = []

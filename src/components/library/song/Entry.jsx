@@ -65,7 +65,7 @@ class SongEntry extends Component {
       karaokeRemainingSeconds && karaokeRemainingSeconds < song.duration
     const canAdd = !exceeding || IsPlaylistManager.hasPermission(user)
 
-    const expanded = searchParams.get('expanded') == song.id
+    const expanded = parseInt(searchParams.get('expanded')) === song.id
 
     const extra = []
     const extraExpanded = []

@@ -180,10 +180,10 @@ class Entry extends Component {
       </button>
     )
 
-    const reorderId = searchParams.get('expanded')
-    const reorderIndex = searchParams.get('reorder')
+    const reorderId = parseInt(searchParams.get('expanded'))
+    const reorderIndex = parseInt(searchParams.get('reorder'))
 
-    const expanded = reorderId == entry.id
+    const expanded = reorderId === entry.id
     const inReorder = !!reorderId && !!reorderIndex
 
     const controlsExpanded = [
