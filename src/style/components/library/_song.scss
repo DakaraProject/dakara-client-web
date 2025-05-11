@@ -43,11 +43,25 @@
           flex-direction: column;
           font-size: 0.9em;
 
-          // `align-items: flex-end` prevents the entire block to be
-          // truncatable
-          .artist-widget:first-child,
-          .work-link-widget:first-child {
-            margin-left: auto;
+          .artist-widget,
+          .work-link-widget {
+            // relations become more shrinkable as they are numerous
+            flex-shrink: 1000000;
+
+            &:first-child {
+              flex-shrink: 4;
+              // `align-items: flex-end` prevents the entire block to be
+              // truncatable
+              margin-left: auto;
+            }
+
+            &:nth-child(2) {
+              flex-shrink: 100;
+            }
+
+            &:nth-child(3) {
+              flex-shrink: 10000;
+            }
           }
         }
       }
