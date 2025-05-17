@@ -129,20 +129,6 @@ export function formatDateRelative(dateIso) {
 }
 
 /**
- * Find an element in an array starting from the bottom.
- * See: https://stackoverflow.com/a/64445124/4584444
- * @param array Array of elements.
- * @param fn Function to evaluate on array elements.
- * @returns Element of the array where `fn` returns true.
- */
-export function findLast(array, fn) {
-  for (let i = array.length - 1; i >= 0; i--) {
-    if (fn(array[i], i, array)) return array[i]
-  }
-  return null
-}
-
-/**
  * Detect if an element or list of elements can be displayed.
  * @param item Element, or list of elements.
  * @returns `true` if the input is not falsy, or not an empty list.
