@@ -17,9 +17,6 @@
 // Controls have no color by default, and should have a color subclass. The
 // color is adjusted wether the control is in a listable or a hoverizable
 // element.
-//
-// If you have controls inside controls, add the `subcontrols` class to the
-// subsequent `controls`.
 .controls {
   // default aspect of controls
   @include controls.make-controls;
@@ -149,8 +146,9 @@
   }
 }
 
-// lighten control on even line
-.listable:nth-child(even) .control,
+// lighten control listable on even line, or control in closest listable on
+// even line
+.listable:nth-child(even):not(:has(.listable)) .control,
 .control.listable:nth-child(even) {
   @mixin make-control-line-even($color-normal, $color-disabled) {
     background: $color-normal;
@@ -186,55 +184,41 @@
   }
 }
 
-// lighten control (not in subcontrols) when in hovered element
-.hoverizable:hover .controls:not(.subcontrols):not(:hover) {
-  .control {
-    @mixin make-control-line-hover($color-normal, $color-disabled) {
-      &:not(.disabled):not([disabled]):not(:focus) {
-        background: $color-normal;
-      }
-
-      &.disabled,
-      &[disabled] {
-        background: $color-disabled !important;
-      }
+// lighten control when in hovered element
+.hoverizable:hover .controls:not(:hover) .control {
+  @mixin make-control-line-hover($color-normal, $color-disabled) {
+    &:not(.disabled):not([disabled]):not(:focus) {
+      background: $color-normal;
     }
 
-    &.neutral {
-      @include make-control-line-hover(
-        colors.$neutral-302,
-        colors.$neutral-202
-      );
+    &.disabled,
+    &[disabled] {
+      background: $color-disabled !important;
     }
+  }
 
-    &.primary {
-      @include make-control-line-hover(
-        colors.$primary-302,
-        colors.$primary-202
-      );
-    }
+  &.neutral {
+    @include make-control-line-hover(colors.$neutral-302, colors.$neutral-202);
+  }
 
-    &.success {
-      @include make-control-line-hover(
-        colors.$success-302,
-        colors.$success-202
-      );
-    }
+  &.primary {
+    @include make-control-line-hover(colors.$primary-302, colors.$primary-202);
+  }
 
-    &.warning {
-      @include make-control-line-hover(
-        colors.$warning-302,
-        colors.$warning-202
-      );
-    }
+  &.success {
+    @include make-control-line-hover(colors.$success-302, colors.$success-202);
+  }
 
-    &.danger {
-      @include make-control-line-hover(colors.$danger-302, colors.$danger-202);
-    }
+  &.warning {
+    @include make-control-line-hover(colors.$warning-302, colors.$warning-202);
+  }
 
-    &.info {
-      @include make-control-line-hover(colors.$info-302, colors.$info-202);
-    }
+  &.danger {
+    @include make-control-line-hover(colors.$danger-302, colors.$danger-202);
+  }
+
+  &.info {
+    @include make-control-line-hover(colors.$info-302, colors.$info-202);
   }
 }
 

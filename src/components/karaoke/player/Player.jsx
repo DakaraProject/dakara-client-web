@@ -5,11 +5,11 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { sendPlayerCommand } from 'actions/playlist'
-import UserWidget from 'components/generics/UserWidget'
 import ManageButton from 'components/karaoke/player/ManageButton'
 import PlayerNotification from 'components/karaoke/player/Notification'
-import ArtistWidget from 'components/song/ArtistWidget'
-import WorkLinkWidget from 'components/song/WorkLinkWidget'
+import ArtistWidget from 'components/library/widgets/Artist'
+import WorkLinkWidget from 'components/library/widgets/WorkLink'
+import UserWidget from 'components/user/widgets/User'
 import { IsPlaylistManagerOrOwner } from 'permissions/Playlist'
 import {
   alterationResponsePropType,
@@ -24,7 +24,7 @@ import { formatDuration } from 'utils'
 
 class Player extends Component {
   static propTypes = {
-    playerErrorsState: playerErrorsDigestStatePropType.isRequired,
+    playerErrorsDigestState: playerErrorsDigestStatePropType.isRequired,
     playerStatusState: playerStatusStatePropType.isRequired,
     responseOfSendPlayerCommands: PropTypes.objectOf(
       alterationResponsePropType
@@ -89,7 +89,7 @@ class Player extends Component {
   render() {
     const { withControls, animationsEnabled } = this.state
     const { data: playerStatus } = this.props.playerStatusState
-    const { data: playerErrors } = this.props.playerErrorsState
+    const { playerErrors } = this.props.playerErrorsDigestState.data
     const fetchError = this.props.playerStatusState.status === Status.failed
     const isPlaying = !!playerStatus.playlist_entry
     const controlDisabled = !isPlaying || fetchError
@@ -300,7 +300,7 @@ const ServerLost = () => (
 const mapStateToProps = (state) => ({
   user: state.authenticatedUser,
   playerStatusState: state.playlist.playerStatus,
-  playerErrorsState: state.playlist.digest.playerErrors,
+  playerErrorsDigestState: state.playlist.digest.playerErrors,
   responseOfSendPlayerCommands:
     state.alterationsResponse.multiple.sendPlayerCommands,
 })

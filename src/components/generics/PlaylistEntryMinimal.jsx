@@ -1,4 +1,4 @@
-import UserWidget from 'components/generics/UserWidget'
+import UserWidget from 'components/user/widgets/User'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 
 const PlaylistEntryMinimal = (props) => (

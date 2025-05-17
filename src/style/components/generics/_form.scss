@@ -180,13 +180,6 @@ $form-field-height: sizes.$row-height;
       }
     }
 
-    // `header` class: header of the form.
-    > .header {
-      h3 {
-        @include sizes.make-gap(padding, horizontal);
-      }
-    }
-
     // if the set is preceded by a header
     > .header + .set {
       margin-top: 0;
@@ -431,8 +424,8 @@ $form-field-height: sizes.$row-height;
         // delete initial marker
         // reset initial height
         appearance: none;
-        position: absolute;
         height: initial;
+        position: absolute;
         width: 0;
       }
 

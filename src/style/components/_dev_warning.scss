@@ -20,8 +20,8 @@ $dev-warning-height: sizes.$row-height;
     colors.$warning-100 4rem
   );
   display: flex;
-  min-height: $dev-warning-height;
   justify-content: center;
+  min-height: $dev-warning-height;
   position: relative;
   text-align: center;
   z-index: 1400;

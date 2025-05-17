@@ -1,0 +1,33 @@
+//
+// Dakara Project
+//
+// Work link widget style file
+//
+
+@use 'sass:color';
+
+@use '~/thirdparty/preboot';
+
+@use '~/abstracts/colors';
+
+.work-link-widget {
+  column-gap: 0.5em;
+  display: inline-flex;
+  overflow: hidden;
+
+  &.truncatable {
+    .work-widget {
+      @include preboot.text-truncate();
+    }
+  }
+
+  // the type of the link (OP, ED) and a number if any.
+  .link {
+    border-color: color.change(colors.$neutral-400, $alpha: 0.65);
+    border-style: solid;
+    border-width: 1px;
+    font-size: 0.9em;
+    padding: 0.1em 0.2em;
+    text-transform: uppercase;
+  }
+}

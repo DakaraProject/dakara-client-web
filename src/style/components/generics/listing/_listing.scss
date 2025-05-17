@@ -50,7 +50,6 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
     color: colors.$neutral-410;
 
     // optional listable feature
-    .listable,
     &.listable {
       &:nth-child(2n) {
         background: colors.$neutral-111;
@@ -66,27 +65,58 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
       }
     }
 
+    // nested listings
+    .listing-entry {
+      // normal and alternate row colors
+      background: colors.$neutral-120;
+      color: colors.$neutral-420;
+
+      // optional listable feature
+      &.listable {
+        &:nth-child(2n) {
+          background: colors.$neutral-121;
+        }
+      }
+
+      // optionnal hoverizable feature
+      .hoverizable,
+      &.hoverizable {
+        &:hover {
+          background: colors.$neutral-122;
+          color: colors.$neutral-422;
+        }
+      }
+    }
+
     // appearance transition
     &.add-remove-enter {
-      height: 0;
+      max-height: 0;
       min-height: initial;
       overflow: hidden;
 
       &.add-remove-enter-active {
-        height: $listing-entry-height;
-        transition: height 300ms ease-out;
+        max-height: $listing-entry-height;
+        transition: max-height 300ms ease-out;
       }
     }
 
     // disappearance transition
     &.add-remove-exit {
-      height: $listing-entry-height;
+      max-height: $listing-entry-height;
       min-height: initial;
       overflow: hidden;
 
+      &.expanded {
+        max-height: 15 * sizes.$subrow-height;
+      }
+
       &.add-remove-exit-active {
-        height: 0;
-        transition: height 150ms ease-out;
+        max-height: 0;
+        transition: max-height 150ms ease-in;
+
+        &.expanded {
+          transition: max-height 300ms ease-in;
+        }
 
         &.delayed {
           transition-delay: 500ms;
@@ -94,11 +124,109 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
       }
     }
 
-    // manage controls
-    .controls {
-      .control {
-        // allow button to stretch vertically
-        height: unset;
+    .extra {
+      // remove list left padding
+      padding: 0;
+    }
+
+    > .one-line {
+      display: flex;
+
+      .expander {
+        display: flex;
+        flex: 1;
+        overflow-y: hidden;
+
+        &:focus {
+          background: colors.$neutral-112;
+        }
+
+        @include support.make-smartphone {
+          .expand-button {
+            // stretch button horizontally to save space
+            min-width: 0.33 * $listing-entry-height;
+            width: 0.33 * $listing-entry-height;
+          }
+        }
+      }
+
+      .sub-line {
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .main {
+        & {
+          align-items: center;
+          display: flex;
+          flex: 1;
+          overflow: hidden;
+        }
+
+        @include sizes.make-gap(padding, horizontal);
+      }
+
+      .extra {
+        display: flex;
+
+        @include support.make-smartphone {
+          bottom: 0;
+          position: absolute;
+          right: 0;
+        }
+
+        // appearance transition
+        .add-remove-enter {
+          max-width: 0;
+          overflow: hidden;
+
+          &.add-remove-enter-active {
+            max-width: $listing-entry-height;
+            transition: max-width 300ms ease-out;
+          }
+        }
+
+        // disappearance transition
+        .add-remove-exit {
+          max-width: $listing-entry-height;
+          overflow: hidden;
+
+          &.add-remove-exit-active {
+            max-width: 0;
+            transition: max-width 150ms ease-in;
+          }
+        }
+      }
+    }
+
+    > .expanded {
+      @include sizes.make-gap(padding, vertical);
+
+      &.expand-collapse-enter {
+        max-height: 0;
+        overflow: hidden;
+
+        &.expand-collapse-enter-active {
+          max-height: 15 * sizes.$subrow-height;
+          transition: max-height 600ms ease-out;
+        }
+      }
+
+      &.expand-collapse-exit {
+        max-height: 15 * sizes.$subrow-height;
+        overflow: hidden;
+
+        &.expand-collapse-exit-active {
+          max-height: 0;
+          transition: max-height 300ms ease-in;
+        }
+      }
+
+      // space between every element
+      & > * + * {
+        @include sizes.make-gap(margin, top);
       }
     }
   }
@@ -111,10 +239,20 @@ ul.listing {
   // limit to 10 entries by default
   &:not(.free) {
     min-height: 10 * $listing-entry-height;
+
+    &.mini {
+      min-height: 10 * sizes.$subrow-height;
+    }
   }
 
   .listing-entry {
     min-height: $listing-entry-height;
+  }
+
+  &.mini {
+    .listing-entry {
+      min-height: sizes.$subrow-height;
+    }
   }
 }
 
@@ -187,8 +325,8 @@ table.listing {
 // This container forces the table listing to have the height of 10 rows plus one
 // header.
 .listing-table-container {
-  overflow-y: auto;
   overflow-x: scroll;
+  overflow-y: auto;
 
   &:not(.free) {
     min-height: 11 * $listing-entry-height;

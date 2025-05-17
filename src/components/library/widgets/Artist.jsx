@@ -8,15 +8,19 @@ import { artistPropType } from 'serverPropTypes/library'
 export default class ArtistWidget extends Component {
   static propTypes = {
     artist: artistPropType.isRequired,
-    noIcon: PropTypes.bool,
     query: PropTypes.object,
+    noIcon: PropTypes.bool,
+    noCount: PropTypes.bool,
     truncatable: PropTypes.bool,
   }
 
   render() {
-    const { artist, query, noIcon, truncatable } = this.props
+    const { artist, query, noIcon, noCount, truncatable } = this.props
 
-    // artist microphone icon
+    /**
+     * Artist icon
+     */
+
     let icon
     if (!noIcon) {
       icon = (
@@ -26,15 +30,32 @@ export default class ArtistWidget extends Component {
       )
     }
 
+    /**
+     * Song count
+     */
+
+    let count
+    if (!noCount) {
+      count = (
+        <span className="count">
+          <span className="icon">
+            <i className="las la-music"></i>
+          </span>
+          <span className="value">{artist.song_count}</span>
+        </span>
+      )
+    }
+
     return (
       <div className={classNames('artist-widget', { truncatable })}>
         {icon}
         <HighlighterQuery
-          className="artist"
+          className="name"
           query={query}
           searchWords={(q) => q.artist.contains.concat(q.remaining)}
           textToHighlight={artist.name}
         />
+        {count}
       </div>
     )
   }

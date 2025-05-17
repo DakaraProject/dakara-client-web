@@ -94,7 +94,9 @@ export default class SettingsSongTagsEntry extends Component {
         <div className="controls">
           <button
             className="control square display-color"
-            onClick={this.displayColorForm}
+            onClick={() => {
+              this.displayColorForm()
+            }}
             style={{ filter: `hue-rotate(${tag.color_hue}deg)` }}
           >
             <span className="icon">
@@ -125,7 +127,12 @@ export default class SettingsSongTagsEntry extends Component {
     )
 
     const cancelButton = (
-      <button onClick={this.clearColorForm} className="control square danger">
+      <button
+        onClick={() => {
+          this.clearColorForm()
+        }}
+        className="control square danger"
+      >
         <span className="icon">
           <i className="las la-times"></i>
         </span>

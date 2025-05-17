@@ -3,13 +3,14 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { loadPlayerErrors } from 'actions/playlist'
-import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
+import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
 import PlayerErrorsEntry from 'components/playlist/playerErrors/Entry'
 import { Status } from 'reducers/alterationsResponse'
 import { playerErrorsStatePropType } from 'reducers/playlist'
 import { playerErrorsDigestStatePropType } from 'reducers/playlistDigest'
 import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
+import { getEntriesHash } from 'utils'
 
 class PlayerErrorsList extends Component {
   static propTypes = {
@@ -37,8 +38,12 @@ class PlayerErrorsList extends Component {
       playerErrorsDigestState !== prevPlayerErrorsDigestState &&
       playerErrorsState.status !== Status.pending
     ) {
-      const errorIds = playerErrorsDigestState.data.map((e) => e.id)
-      const prevErrorIds = prevPlayerErrorsDigestState.data.map((e) => e.id)
+      const errorIds = playerErrorsDigestState.data.playerErrors.map(
+        (e) => e.id
+      )
+      const prevErrorIds = prevPlayerErrorsDigestState.data.playerErrors.map(
+        (e) => e.id
+      )
       if (errorIds.length !== prevErrorIds.length) {
         this.refreshEntries()
       }
@@ -52,18 +57,26 @@ class PlayerErrorsList extends Component {
   }
 
   render() {
-    const { playerErrors, count, pagination } =
-      this.props.playerErrorsState.data
+    const {
+      playerErrors: errors,
+      count,
+      pagination,
+    } = this.props.playerErrorsState.data
+    const { status } = this.props.playerErrorsState
+    const { playerErrors } = this.props.playerErrorsDigestState.data
 
-    const playerErrorsList = playerErrors.map((playerError) => (
+    const errorsList = errors.map((playerError) => (
       <PlayerErrorsEntry key={playerError.id} playerError={playerError} />
     ))
 
     return (
       <div id="player-errors-list">
-        <ListingFetchWrapper status={this.props.playerErrorsState.status}>
-          <ul className="player-errors-list listing">{playerErrorsList}</ul>
-        </ListingFetchWrapper>
+        <ListingList
+          status={status}
+          transitionObservable={getEntriesHash(playerErrors)}
+        >
+          {errorsList}
+        </ListingList>
         <Navigator
           count={count}
           pagination={pagination}

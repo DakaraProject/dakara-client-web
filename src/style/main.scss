@@ -4,9 +4,19 @@
 // Main style file
 //
 
-@forward 'thirdparty';
+@use 'sass:meta';
+
 @forward 'thirdparty_extensions';
 @forward 'abstracts';
-@forward 'base';
 @forward 'layout';
 @forward 'components';
+
+@layer thirdparty, base;
+
+@layer thirdparty {
+  @include meta.load-css('thirdparty');
+}
+
+@layer base {
+  @include meta.load-css('base');
+}

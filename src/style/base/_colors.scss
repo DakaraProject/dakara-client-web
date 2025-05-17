@@ -64,56 +64,60 @@
   );
 }
 
+// lighten listable with color on even line, or color in closest listable on
+// even line
 .listable:nth-child(even) {
   &.primary,
-  .primary {
+  &:not(:has(.listable)) .primary {
     @include colors.make-color(colors.$primary-101);
   }
 
   &.success,
-  .success {
+  &:not(:has(.listable)) .success {
     @include colors.make-color(colors.$success-101);
   }
 
   &.warning,
-  .warning {
+  &:not(:has(.listable)) .warning {
     @include colors.make-color(colors.$warning-101);
   }
 
   &.danger,
-  .danger {
+  &:not(:has(.listable)) .danger {
     @include colors.make-color(colors.$danger-101);
   }
 
   &.info,
-  .info {
+  &:not(:has(.listable)) .info {
     @include colors.make-color(colors.$info-101);
   }
 }
 
+// lighten hoverizable with color on hover, or color in closest hoverizable on
+// hover
 .hoverizable:hover {
   &.primary,
-  .primary {
+  &:not(:has(.hoverizable)) .primary {
     @include colors.make-color(colors.$primary-102);
   }
 
   &.succees,
-  .success {
+  &:not(:has(.hoverizable)) .success {
     @include colors.make-color(colors.$success-102);
   }
 
   &.warning,
-  .warning {
+  &:not(:has(.hoverizable)) .warning {
     @include colors.make-color(colors.$warning-102);
   }
 
   &.danger,
-  .danger {
+  &:not(:has(.hoverizable)) .danger {
     @include colors.make-color(colors.$danger-102);
   }
 
   &.info,
-  .info {
+  &:not(:has(.hoverizable)) .info {
     @include colors.make-color(colors.$info-102);
   }
 }

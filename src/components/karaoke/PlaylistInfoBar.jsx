@@ -9,7 +9,7 @@ import {
   karaokeStatePropType,
   playerStatusStatePropType,
 } from 'reducers/playlist'
-import { playlistEntriesStatePropType } from 'reducers/playlistDigest'
+import { playlistEntriesDigestStatePropType } from 'reducers/playlistDigest'
 
 dayjs.extend(relativeTime)
 
@@ -17,11 +17,12 @@ class PlaylistInfoBar extends Component {
   static propTypes = {
     karaokeState: karaokeStatePropType.isRequired,
     playerStatusState: playerStatusStatePropType.isRequired,
-    playlistEntriesState: playlistEntriesStatePropType.isRequired,
+    playlistEntriesDigestState: playlistEntriesDigestStatePropType.isRequired,
   }
 
   render() {
-    const { playlistEntries, dateEnd } = this.props.playlistEntriesState.data
+    const { playlistEntries, dateEnd } =
+      this.props.playlistEntriesDigestState.data
     const { data: playerStatus } = this.props.playerStatusState
     const { data: karaoke } = this.props.karaokeState
     const { date_stop: dateStop } = karaoke
@@ -138,7 +139,7 @@ class PlaylistInfoBar extends Component {
 const mapStateToProps = (state) => ({
   karaokeState: state.playlist.karaoke,
   playerStatusState: state.playlist.playerStatus,
-  playlistEntriesState: state.playlist.digest.entries,
+  playlistEntriesDigestState: state.playlist.digest.entries,
 })
 
 PlaylistInfoBar = connect(mapStateToProps, {})(PlaylistInfoBar)

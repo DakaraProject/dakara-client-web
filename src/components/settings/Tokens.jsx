@@ -112,7 +112,12 @@ class PlayerTokenBox extends Component {
                 successfulMessage={null}
                 failedMessage="Unable to revoke player token"
               />
-              <button className="control primary" onClick={this.displayConfirm}>
+              <button
+                className="control primary"
+                onClick={() => {
+                  this.displayConfirm()
+                }}
+              >
                 Revoke player token
               </button>
             </div>
@@ -237,7 +242,12 @@ class Tokens extends Component {
                 onCancel={this.clearConfirm}
               />
             </CSSTransitionLazy>
-            <button className="control primary" onClick={this.displayConfirm}>
+            <button
+              className="control primary"
+              onClick={() => {
+                this.displayConfirm()
+              }}
+            >
               Revoke token
             </button>
           </div>

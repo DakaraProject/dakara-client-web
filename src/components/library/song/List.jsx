@@ -4,7 +4,7 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { loadLibraryEntries } from 'actions/library'
-import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
+import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
 import SearchBox from 'components/library/SearchBox'
 import SongEntry from 'components/library/song/Entry'
@@ -101,9 +101,9 @@ class SongList extends Component {
           }
         />
         <div className="song-list">
-          <ListingFetchWrapper status={this.props.songState.status}>
-            <ul className="library-list listing">{libraryEntrySongList}</ul>
-          </ListingFetchWrapper>
+          <ListingList fetchStatus={this.props.songState.status} noTransition>
+            {libraryEntrySongList}
+          </ListingList>
           <Navigator
             count={count}
             pagination={pagination}

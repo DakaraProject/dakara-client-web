@@ -2,7 +2,8 @@ import PropTypes from 'prop-types'
 import queryString from 'query-string'
 import { Component } from 'react'
 
-import HighlighterQuery from 'components/generics/HighlighterQuery'
+import { ListingEntry } from 'components/generics/listing/Entry'
+import ArtistWidget from 'components/library/widgets/Artist'
 import { artistPropType } from 'serverPropTypes/library'
 import { withNavigate } from 'thirdpartyExtensions/ReactRouterDom'
 
@@ -25,30 +26,25 @@ class ArtistEntry extends Component {
   }
 
   render() {
+    const { artist, query } = this.props
+
+    const controls = (
+      <button
+        className="control square primary"
+        onClick={() => {
+          this.handleSearch()
+        }}
+      >
+        <span className="icon">
+          <i className="las la-search"></i>
+        </span>
+      </button>
+    )
+
     return (
-      <li className="library-entry listing-entry library-entry-artist listable hoverizable">
-        <div className="library-entry-work-artist-display">
-          <div className="header">
-            <HighlighterQuery
-              className="name"
-              query={this.props.query}
-              searchWords={(q) => q.remaining}
-              textToHighlight={this.props.artist.name}
-            />
-          </div>
-          <div className="songs-amount">{this.props.artist.song_count}</div>
-        </div>
-        <div className="controls compact">
-          <button
-            className="control square primary"
-            onClick={this.handleSearch}
-          >
-            <span className="icon">
-              <i className="las la-search"></i>
-            </span>
-          </button>
-        </div>
-      </li>
+      <ListingEntry id={artist.id} controls={controls}>
+        <ArtistWidget artist={artist} query={query} noIcon truncatable />
+      </ListingEntry>
     )
   }
 }

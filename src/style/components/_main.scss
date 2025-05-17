@@ -23,8 +23,8 @@
     @include support.make-desktop {
       @include preboot.center-block();
 
-      width: sizes.$page-width-max;
       gap: sizes.$gap-vertical;
+      width: sizes.$page-width-max;
 
       // make last child pushed at the bottom
       > *:last-child {
