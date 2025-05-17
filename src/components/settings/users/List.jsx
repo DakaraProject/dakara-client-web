@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { clearAlteration } from 'actions/alterations'
 import { deleteUser, getUsers } from 'actions/users'
 import { FormBlock, InputField } from 'components/generics/Form'
-import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
+import ListingFetchWrapper from 'components/generics/listing/FetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import SettingsUserEntry from 'components/settings/users/Entry'
 import { IsUserManager } from 'permissions/Users'
@@ -86,7 +86,7 @@ class UsersList extends Component {
         </ListingFetchWrapper>
         <Navigator pagination={pagination} location={location} />
         <IsUserManager>
-          <div className="create-user">
+          <div className="create-user flow">
             <FormBlock
               title="Create user"
               submitText="Create"

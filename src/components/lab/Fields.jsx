@@ -9,7 +9,7 @@ import {
 
 export default function Fields() {
   return (
-    <div className="fields">
+    <div className="fields flow">
       <FormBlock action={null} alterationName="">
         <CheckboxField
           defaultValue={false}

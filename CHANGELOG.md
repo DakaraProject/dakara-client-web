@@ -29,10 +29,15 @@
 -->
 
 ## Unreleased
+
 ### Changed
 
 - Allow any clickable element to focus.
 - Rework all colors. The client is now more accessible: it is compiliant with WCAG on almost all elements with a rating of AA. A better color logic is now used: any element with a clear background can be interacted with.
+
+### Fixed
+
+- Fixed empty player token dialog if no player token exists.
 
 ## 1.9.2 - 2025-03-22
 

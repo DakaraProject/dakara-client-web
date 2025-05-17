@@ -1,0 +1,170 @@
+//
+// Dakara Project
+//
+// Listing details style file
+//
+
+@use '~/abstracts/colors';
+@use '~/abstracts/controls';
+@use '~/abstracts/sizes';
+@use '~/abstracts/support';
+
+// `details` class:
+//
+// The class behaves like a table in order to keep a column of labels of the
+// same width. This does not go without consequenses, as a table element is
+// difficult to style.
+.details {
+  $height: sizes.$subrow-height;
+  border-collapse: separate;
+  border-spacing: 0 sizes.$gap-vertical;
+  display: table;
+  // cancel the outer margin created by `border-spacing`
+  margin-bottom: -(sizes.$gap-vertical);
+  margin-top: -(sizes.$gap-vertical);
+  width: 100%;
+
+  @include support.make-smartphone {
+    display: block;
+    margin-bottom: unset;
+    margin-top: unset;
+  }
+
+  .controls {
+    @include controls.make-controls($height);
+  }
+
+  > .detail {
+    display: table-row;
+
+    @include support.make-smartphone {
+      display: block;
+
+      & + .detail {
+        margin-top: sizes.$gap-vertical-smartphone;
+      }
+    }
+
+    > .header {
+      @include sizes.make-gap(padding, horizontal);
+
+      & {
+        display: table-cell;
+        font-weight: normal;
+        vertical-align: top;
+        white-space: nowrap;
+      }
+
+      @include support.make-smartphone {
+        display: block;
+      }
+
+      .name {
+        line-height: $height;
+      }
+
+      .icon + .name {
+        padding-left: 0.5em;
+      }
+    }
+
+    > .content {
+      background: colors.$neutral-110;
+      color: colors.$neutral-410;
+      display: table-cell;
+      width: 100%;
+
+      @include support.make-smartphone {
+        display: block;
+      }
+
+      > .text,
+      > .long-text > .border,
+      > .artist-widget,
+      > .work-link-widget {
+        @include sizes.make-vertical-row-padding(horizontal, 2);
+
+        & {
+          // allow words to break
+          overflow: hidden;
+          overflow-wrap: break-word;
+        }
+      }
+
+      > .text {
+        align-items: center;
+        display: flex;
+        min-height: calc($height - sizes.$gap-horizontal / 4 * 2 * 2);
+
+        @include support.make-smartphone {
+          min-height: calc(
+            $height - sizes.$gap-horizontal-smartphone / 3 * 2 * 2
+          );
+        }
+      }
+
+      > .long-text {
+        display: flex;
+
+        > .border {
+          flex-grow: 1;
+          // hide after about 4 lines
+          max-height: 4.6em;
+          overflow: hidden;
+
+          &.reveal-enter-active {
+            max-height: 10 * $height;
+            transition: max-height 300ms ease-out;
+
+            .paragraph {
+              -webkit-line-clamp: none;
+            }
+          }
+
+          &.reveal-enter-done {
+            max-height: unset;
+
+            .paragraph {
+              -webkit-line-clamp: none;
+            }
+          }
+        }
+
+        .paragraph {
+          -webkit-box-orient: vertical;
+          display: -webkit-box;
+          font-size: inherit;
+          -webkit-line-clamp: 4;
+          line-clamp: 4;
+          overflow: hidden;
+          white-space: pre-wrap;
+        }
+
+        > .controls {
+          align-self: end;
+        }
+      }
+
+      // XXX move away?
+      .song-tag-list {
+        line-height: $height;
+
+        .tag {
+          height: $height;
+        }
+      }
+    }
+  }
+
+  &:empty + .instrumental {
+    padding-top: sizes.$gap-vertical;
+  }
+}
+
+// used within a listing
+.listing-entry {
+  .details > .detail > .content {
+    background: colors.$neutral-120;
+    color: colors.$neutral-420;
+  }
+}

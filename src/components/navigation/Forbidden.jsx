@@ -15,7 +15,7 @@ class Forbidden extends Component {
         <div className="header">
           <h2>Forbidden</h2>
         </div>
-        <div className="content">
+        <div className="flow">
           <div className="url">{url}</div>
           <p>
             We&apos;re sorry, you do not have the privilege to access this

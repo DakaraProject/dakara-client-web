@@ -92,7 +92,7 @@ class UsersEdit extends Component {
     }
 
     return (
-      <div id="users-edit">
+      <div id="users-edit" className="flow">
         <FormBlock
           title={`Edit user “${user.username}”`}
           action={`users/${user.id}/`}

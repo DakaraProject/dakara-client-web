@@ -15,6 +15,7 @@ export default [
   importPlugin.flatConfigs.recommended,
   reactPlugin.configs.flat.recommended,
   reactPlugin.configs.flat['jsx-runtime'],
+  prettierPlugin,
   {
     files: ['**/*.{js,jsx}'],
 
@@ -54,7 +55,7 @@ export default [
 
       'no-class-assign': 'off',
       'no-unused-vars': [
-        'error',
+        'warn',
         {
           args: 'none',
           destructuredArrayIgnorePattern: '^_',
@@ -63,7 +64,7 @@ export default [
       ],
 
       'simple-import-sort/imports': [
-        'error',
+        'warn',
         {
           groups: [
             ['^\\u0000'],
@@ -88,4 +89,4 @@ export default [
       quotes: ['error', 'single'],
     },
   },
-].concat(prettierPlugin)
+]

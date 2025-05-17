@@ -85,15 +85,15 @@ class User extends Component {
     }
 
     return (
-      <div className="box" id="user">
-        <div className="header">
-          <div className="user-name-block">
-            <h1>{user.username}</h1>
-            <h2>{user.email}</h2>
+      <div className="box neutral" id="user">
+        <div className="header primary">
+          <div className="name">
+            <h2>{user.username}</h2>
+            <span className="email">{user.email}</span>
           </div>
-          <div className="permissions">{permissions}</div>
+          <div className="permissions flow compact">{permissions}</div>
         </div>
-        <div className="content">
+        <div className="flow">
           <FormBlock
             title="Change password"
             action="accounts/change-password/"

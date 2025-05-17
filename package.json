@@ -14,13 +14,16 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --outDir dist/static --base /static",
-    "lint-js": "eslint .",
+    "test": "vitest",
+    "bench": "vitest bench",
+    "lint-js": "eslint . --max-warnings 0",
     "lint-css": "stylelint ./src/style/**/*.{css,scss}",
     "format": "prettier --write ./src",
     "check-format": "prettier --check ./src",
     "preview": "vite preview"
   },
   "pre-commit": [
+    "test",
     "check-format",
     "lint-js",
     "lint-css"
@@ -35,7 +38,7 @@
     "react-dom": "^18.3.1",
     "react-highlight-words": "^0.21.0",
     "react-redux": "^9.2.0",
-    "react-router": "^7.2.0",
+    "react-router": "^7.5.2",
     "react-transition-group": "^4.4.5",
     "redux": "^5.0.1",
     "redux-localstorage": "^0.4.1",
@@ -62,12 +65,14 @@
     "sass": "^1.85.1",
     "stylelint": "^16.0.0",
     "stylelint-config-sass-guidelines": "^12.1.0",
+    "stylelint-order": "^7.0.0",
     "stylelint-prettier": "^5.0.3",
     "unplugin-preprocessor-directives": "^1.0.3",
-    "vite": "^6.2.3",
+    "vite": "^6.3.4",
     "vite-jsconfig-paths": "^2.0.1",
     "vite-plugin-checker": "^0.8.0",
     "vite-plugin-eslint": "^1.8.1",
-    "vite-plugin-stylelint": "^6.0.0"
+    "vite-plugin-stylelint": "^6.0.0",
+    "vitest": "^3.1.2"
   }
 }

@@ -1,26 +1,20 @@
 //
 // Dakara Project
 //
-// Work library entry style file
+// Work library style file
 //
 
-@use 'sass:color';
+@use '~/abstracts/sizes';
 
-@use '~/abstracts/colors';
+#work-library {
+  .one-line {
+    .main {
+      .work-widget {
+        flex-grow: 1;
 
-// `library-entry-work` subclass:
-//
-// This class is a specialization of the `listing-entry` class defined in the
-// `listing` module. It is aimed to stylize the specific elements of a work.
-.library-entry.library-entry-work {
-  .library-entry-work-artist-display {
-    .header {
-      // .title {
-      // }
-
-      .subtitle {
-        color: color.change(colors.$neutral-400, $alpha: 0.75);
-        margin-left: 0.5em;
+        .count {
+          margin-left: auto;
+        }
       }
     }
   }

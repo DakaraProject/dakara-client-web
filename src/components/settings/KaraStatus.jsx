@@ -88,7 +88,7 @@ class KaraStatus extends Component {
     }
 
     return (
-      <div id="kara-status" className="content">
+      <div id="kara-status" className="flow">
         {karaStatusWidget}
       </div>
     )

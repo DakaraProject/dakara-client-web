@@ -154,7 +154,7 @@ $form-field-height: sizes.$row-height;
 
           .error-container {
             .error {
-              padding: sizes.$gap-vertical * 0.25;
+              @include sizes.make-vertical-row-padding(horizontal);
             }
 
             &.error-container-enter {
@@ -177,25 +177,6 @@ $form-field-height: sizes.$row-height;
             }
           }
         }
-      }
-    }
-
-    // `controls` subclass: buttons of the form.
-    .controls {
-      @include controls.make-controls($height: $field-height);
-
-      display: flex;
-      justify-content: flex-end;
-
-      .control {
-        @include sizes.make-gap(padding, horizontal);
-      }
-    }
-
-    // `header` class: header of the form.
-    > .header {
-      h3 {
-        @include sizes.make-gap(padding, horizontal);
       }
     }
 
@@ -225,20 +206,16 @@ $form-field-height: sizes.$row-height;
       & {
         display: flex;
         flex: 1;
+        gap: sizes.$gap-horizontal;
+      }
+
+      @include support.make-smartphone {
+        gap: sizes.$gap-horizontal-smartphone;
       }
 
       .input {
         flex: initial;
-
-        &:not(:last-child) {
-          @include sizes.make-gap(margin, right);
-        }
       }
-    }
-
-    // `controls` subclass: buttons of the form
-    .controls {
-      @include controls.make-controls($height: $field-height);
     }
   }
 
@@ -355,6 +332,7 @@ $form-field-height: sizes.$row-height;
 
         &::placeholder {
           color: colors.$neutral-100;
+          opacity: 1;
         }
 
         & {
@@ -446,8 +424,8 @@ $form-field-height: sizes.$row-height;
         // delete initial marker
         // reset initial height
         appearance: none;
-        position: absolute;
         height: initial;
+        position: absolute;
         width: 0;
       }
 

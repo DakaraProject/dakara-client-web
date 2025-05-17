@@ -34,7 +34,7 @@ class KaraDateStop extends Component {
       const formatDateTime = (values) => {
         if (!values.enable_stop) {
           return {
-            karaokeDateStop: null,
+            date_stop: null,
           }
         }
         // the form gives a time only, we parse it and add it to the
@@ -98,7 +98,7 @@ class KaraDateStop extends Component {
     }
 
     return (
-      <div id="kara-date-stop" className="content">
+      <div id="kara-date-stop" className="flow">
         {karaDateStopWidget}
       </div>
     )

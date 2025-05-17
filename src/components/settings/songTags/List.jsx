@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 import { clearAlteration } from 'actions/alterations'
 import { editSongTag, getSongTagList } from 'actions/songTags'
-import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
+import ListingFetchWrapper from 'components/generics/listing/FetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import SettingsSongTagsEntry from 'components/settings/songTags/Entry'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'

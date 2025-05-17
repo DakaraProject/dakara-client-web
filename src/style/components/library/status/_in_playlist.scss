@@ -1,0 +1,38 @@
+//
+// Dakara Project
+//
+// In playlist status style file
+//
+
+@use '~/abstracts/support';
+
+.status.in-playlist {
+  .position {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &:not(.expanded) {
+    .position {
+      @include support.make-smartphone {
+        column-gap: 0.25em;
+        flex-direction: row;
+      }
+    }
+  }
+
+  .icon {
+    font-size: 1em;
+  }
+
+  .date {
+    font-size: x-small;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  // adjust widget
+  .user-widget {
+    align-items: baseline;
+  }
+}

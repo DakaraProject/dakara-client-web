@@ -1,0 +1,23 @@
+//
+// Dakara Project
+//
+// User widget style file
+//
+
+@use '~/thirdparty/preboot';
+
+.user-widget {
+  display: inline-flex;
+  overflow: hidden;
+  white-space: nowrap;
+
+  &.truncatable {
+    .name {
+      @include preboot.text-truncate();
+    }
+  }
+
+  .icon + .name {
+    margin-left: 0.25em;
+  }
+}

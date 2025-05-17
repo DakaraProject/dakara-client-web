@@ -380,7 +380,7 @@ class FormBlock extends Form {
       >
         {header}
         {fieldsSet}
-        <div className="controls notifiable">
+        <div className="controls compact notifiable">
           <Notification
             alterationResponse={alterationResponse}
             successfulMessage={successMessage}
@@ -461,7 +461,7 @@ class FormInline extends Form {
         noValidate
       >
         {fieldsSet}
-        <div className="controls">
+        <div className="controls compact">
           {submit}
           {extraControls}
         </div>
@@ -556,7 +556,7 @@ class Field extends Component {
     let fieldErrorMessages
     if (fieldErrors && !inline) {
       const fieldErrorContent = fieldErrors.map((fieldError, id) => (
-        <div className="notification danger error" key={id}>
+        <div className="notification listable danger error" key={id}>
           {fieldError}
         </div>
       ))

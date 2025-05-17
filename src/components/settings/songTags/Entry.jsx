@@ -93,8 +93,10 @@ export default class SettingsSongTagsEntry extends Component {
       colorWidget = (
         <div className="controls">
           <button
-            className="control display-color"
-            onClick={this.displayColorForm}
+            className="control square display-color"
+            onClick={() => {
+              this.displayColorForm()
+            }}
             style={{ filter: `hue-rotate(${tag.color_hue}deg)` }}
           >
             <span className="icon">
@@ -125,7 +127,12 @@ export default class SettingsSongTagsEntry extends Component {
     )
 
     const cancelButton = (
-      <button onClick={this.clearColorForm} className="control danger">
+      <button
+        onClick={() => {
+          this.clearColorForm()
+        }}
+        className="control square danger"
+      >
         <span className="icon">
           <i className="las la-times"></i>
         </span>
@@ -151,7 +158,7 @@ export default class SettingsSongTagsEntry extends Component {
     )
 
     return (
-      <tr className="listing-entry hoverizable">
+      <tr className="listing-entry listable hoverizable">
         <td className="notification-col color">
           <NotifiableForTable>
             <Notification

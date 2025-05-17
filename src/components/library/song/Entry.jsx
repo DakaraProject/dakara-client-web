@@ -1,15 +1,22 @@
-import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import { clearAlteration } from 'actions/alterations'
-import { addSongToPlaylist } from 'actions/playlist'
+import {
+  addSongToPlaylist,
+  addSongToPlaylistWithOptions,
+} from 'actions/playlist'
+import {
+  ListingEntry,
+  ListingEntryExpanded,
+} from 'components/generics/listing/Entry'
 import Notification from 'components/generics/Notification'
-import SongEntryExpanded from 'components/library/song/EntryExpanded'
-import PlaylistPositionInfo from 'components/song/PlaylistPositionInfo'
-import Song from 'components/song/Song'
+import ExceedsKaraStopTime from 'components/library/status/ExceedsKaraStopTime'
+import InPlaylist from 'components/library/status/InPlaylist'
+import MaskedByTag from 'components/library/status/MaskedByTag'
+import SongWidget from 'components/library/widgets/Song'
+import SongExpandedWidget from 'components/library/widgets/SongExpanded'
 import {
   CanAddToPlaylist,
   IsPlaylistManager,
@@ -20,152 +27,205 @@ import { songPropType } from 'serverPropTypes/library'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 import { userPropType } from 'serverPropTypes/users'
 import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
-import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
 class SongEntry extends Component {
   static propTypes = {
     addSongToPlaylist: PropTypes.func.isRequired,
     clearAlteration: PropTypes.func.isRequired,
     karaokeRemainingSeconds: PropTypes.number,
-    playlistEntries: PropTypes.arrayOf(playlistEntryPropType).isRequired,
+    playlistEntriesDigest: PropTypes.arrayOf(playlistEntryPropType).isRequired,
     query: PropTypes.object,
     responseOfAddSong: alterationResponsePropType,
-    searchParams: PropTypes.object.isRequired,
-    setSearchParams: PropTypes.func.isRequired,
     song: songPropType.isRequired,
     user: userPropType.isRequired,
+    addSongToPlaylistWithOptions: PropTypes.func.isRequired,
+    responseOfAddSongWithOptions: alterationResponsePropType,
+    searchParams: PropTypes.object.isRequired,
+    setSearchParams: PropTypes.func.isRequired,
   }
 
   componentWillUnmount() {
     this.props.clearAlteration('addSongToPlaylist', this.props.song.id)
-  }
-
-  /**
-   * Toggle expanded view of song
-   */
-  setExpanded = (expanded) => {
-    if (expanded) {
-      this.props.searchParams.delete('expanded')
-      this.props.searchParams.append('expanded', expanded)
-    } else {
-      this.props.searchParams.delete('expanded')
-    }
-
-    this.props.setSearchParams(this.props.searchParams)
+    this.props.clearAlteration(
+      'addSongToPlaylistWithOptions',
+      this.props.song.id
+    )
   }
 
   render() {
-    const { karaokeRemainingSeconds, query, song, user, playlistEntries } =
-      this.props
-    const expanded = +this.props.searchParams.get('expanded') === song.id
+    const {
+      karaokeRemainingSeconds,
+      query,
+      song,
+      user,
+      playlistEntriesDigest,
+      searchParams,
+    } = this.props
     const exceeding =
       karaokeRemainingSeconds && karaokeRemainingSeconds < song.duration
     const canAdd = !exceeding || IsPlaylistManager.hasPermission(user)
+
+    const expanded = parseInt(searchParams.get('expanded')) === song.id
+
+    const extra = []
+    const extraExpanded = []
+
+    /**
+     * Masked tags
+     */
+
+    if (song.tags.some((tag) => tag.disabled)) {
+      extra.push(<MaskedByTag key="masked-by-tag" />)
+      extraExpanded.push(<MaskedByTag key="masked-by-tag" expanded />)
+    }
+
+    /**
+     * Song exceeds kara stop date
+     */
+
+    if (karaokeRemainingSeconds && karaokeRemainingSeconds < song.duration) {
+      extra.push(<ExceedsKaraStopTime key="karaoke-remaining-seconds" />)
+      extraExpanded.push(
+        <ExceedsKaraStopTime key="karaoke-remaining-seconds" expanded />
+      )
+    }
 
     /**
      * Play queue info
      */
 
-    let playlistPositionInfo
-    const entries = playlistEntries.filter((e) => e.song.id === song.id)
+    const entries = playlistEntriesDigest.filter((e) => e.song.id === song.id)
     if (entries.length > 0) {
-      playlistPositionInfo = (
-        <CSSTransition
-          classNames="playlist-position-info"
-          timeout={{
-            enter: 300,
-            exit: 150,
-          }}
-        >
-          <PlaylistPositionInfo entries={entries} />
-        </CSSTransition>
+      extra.push(<InPlaylist key="in-playlist" entries={entries} />)
+      extraExpanded.push(
+        <InPlaylist key="in-playlist" entries={entries} expanded />
       )
     }
 
-    return (
-      <li
-        className={classNames(
-          'library-entry listing-entry library-entry-song',
-          { expanded }
-        )}
-      >
-        <div className="library-entry-song-compact hoverizable notifiable">
+    const controls = (
+      <CanAddToPlaylist>
+        <IsPlaylistUser>
           <button
-            className="expander transparent"
-            onClick={() =>
-              expanded ? this.setExpanded() : this.setExpanded(song.id)
-            }
+            disabled={!canAdd}
+            className="control square primary"
+            onClick={() => {
+              this.props.addSongToPlaylist(this.props.song.id)
+            }}
           >
-            <Song
-              song={song}
-              query={query}
-              noArtistWork={expanded}
-              noTag={expanded}
-              karaokeRemainingSeconds={karaokeRemainingSeconds}
-            />
+            <span className="icon">
+              <i className="las la-plus"></i>
+            </span>
           </button>
-          <div className="extra">
-            <TransitionGroup className="play-queue-info-wrapper">
-              {playlistPositionInfo}
-            </TransitionGroup>
-            <div className="controls" id={`song-${this.props.song.id}`}>
-              <CanAddToPlaylist>
-                <IsPlaylistUser>
-                  <button
-                    disabled={!canAdd}
-                    className="control primary"
-                    onClick={() => {
-                      this.props.addSongToPlaylist(this.props.song.id)
-                    }}
-                  >
-                    <span className="icon">
-                      <i className="las la-plus"></i>
-                    </span>
-                  </button>
-                </IsPlaylistUser>
-              </CanAddToPlaylist>
-            </div>
-            <Notification
-              alterationResponse={this.props.responseOfAddSong}
-              pendingMessage="Adding…"
-              successfulMessage="Successfuly added!"
-              failedMessage="Error attempting to add song to playlist"
-            />
-          </div>
-        </div>
-        <CSSTransitionLazy
-          in={expanded}
-          classNames="expand-view"
-          timeout={{
-            enter: 600,
-            exit: 300,
-          }}
-        >
-          <div className="library-entry-song-expanded-wrapper">
-            <SongEntryExpanded
-              song={this.props.song}
-              query={this.props.query}
-              canAdd={canAdd}
-            />
-          </div>
-        </CSSTransitionLazy>
-      </li>
+        </IsPlaylistUser>
+      </CanAddToPlaylist>
+    )
+
+    const controlsExpanded = (
+      <CanAddToPlaylist key="add-to-playlist">
+        <IsPlaylistUser>
+          {song.has_instrumental && (
+            <button
+              disabled={!canAdd}
+              className="control square primary"
+              onClick={() => {
+                this.props.addSongToPlaylistWithOptions(
+                  this.props.song.id,
+                  /* instrumental = */ true
+                )
+              }}
+            >
+              <span className="icon with-sub-icon">
+                <i className="las la-plus"></i>
+                <span className="sub-icon top-right">
+                  <i className="las la-microphone-slash"></i>
+                </span>
+              </span>
+            </button>
+          )}
+          <button
+            disabled={!canAdd}
+            className="control square primary"
+            onClick={() => {
+              this.props.addSongToPlaylist(this.props.song.id)
+            }}
+          >
+            <span className="icon">
+              <i className="las la-plus"></i>
+            </span>
+          </button>
+        </IsPlaylistUser>
+      </CanAddToPlaylist>
+    )
+
+    const notifications = [
+      <Notification
+        alterationResponse={this.props.responseOfAddSong}
+        pendingMessage="Adding…"
+        successfulMessage="Successfuly added!"
+        failedMessage="Error attempting to add song to playlist"
+        noDisplayOnMount
+        key="add-song"
+      />,
+      <Notification
+        alterationResponse={this.props.responseOfAddSongWithOptions}
+        pendingMessage="Adding with options…"
+        successfulMessage="Successfuly added with options!"
+        failedMessage="Error attempting to add song to playlist with options"
+        noDisplayOnMount
+        key="add-song-with-options"
+      />,
+    ]
+
+    const entryExpanded = (
+      <ListingEntryExpanded
+        extra={extraExpanded}
+        controls={controlsExpanded}
+        notifications={notifications}
+      >
+        <SongExpandedWidget song={song} query={query} />
+      </ListingEntryExpanded>
+    )
+
+    return (
+      <ListingEntry
+        id={song.id}
+        extra={extra}
+        controls={controls}
+        notifications={notifications}
+        entryExpanded={entryExpanded}
+      >
+        {expanded ? (
+          <SongWidget
+            song={song}
+            query={query}
+            noRelations
+            noTags
+            truncatable
+          />
+        ) : (
+          <SongWidget song={song} query={query} truncatable />
+        )}
+      </ListingEntry>
     )
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
   query: state.library.song.data.query,
-
   responseOfAddSong:
     state.alterationsResponse.multiple.addSongToPlaylist?.[ownProps.song.id],
-  playlistEntries: state.playlist.digest.entries.data.playlistEntries,
+  responseOfAddSongWithOptions:
+    state.alterationsResponse.multiple.addSongToPlaylistWithOptions?.[
+      ownProps.song.id
+    ],
+  playlistEntriesDigest: state.playlist.digest.entries.data.playlistEntries,
   user: state.authenticatedUser,
 })
 
 SongEntry = withSearchParams(
   connect(mapStateToProps, {
     addSongToPlaylist,
+    addSongToPlaylistWithOptions,
     clearAlteration,
   })(SongEntry)
 )

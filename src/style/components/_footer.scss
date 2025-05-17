@@ -8,13 +8,9 @@
 @use '~/abstracts/sizes';
 
 #footer {
-  @include sizes.make-gap(padding, vertical);
-
-  & {
-    background: colors.$neutral-110;
-    color: colors.$neutral-410;
-    text-align: right;
-  }
+  background: colors.$neutral-110;
+  color: colors.$neutral-410;
+  text-align: right;
 
   h2 {
     @include sizes.make-gap(padding, horizontal);
@@ -30,15 +26,6 @@
   }
 
   .contact {
-    @include sizes.make-gap(padding, top);
-
-    & {
-      font-size: small;
-    }
-
-    p {
-      margin-bottom: 0;
-      margin-top: 0;
-    }
+    font-size: small;
   }
 }

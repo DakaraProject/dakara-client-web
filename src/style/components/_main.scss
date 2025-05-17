@@ -19,10 +19,17 @@
     flex-direction: column;
     flex-grow: 1;
 
+    // separation margin on desktop only
     @include support.make-desktop {
       @include preboot.center-block();
 
+      gap: sizes.$gap-vertical;
       width: sizes.$page-width-max;
+
+      // make last child pushed at the bottom
+      > *:last-child {
+        margin-top: auto;
+      }
     }
   }
 }

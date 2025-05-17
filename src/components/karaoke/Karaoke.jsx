@@ -67,7 +67,7 @@ class Karaoke extends Component {
     return (
       <div
         id="karaoke"
-        className={classNames('box', {
+        className={classNames('box', 'primary', {
           'player-with-controls': playerWithControls,
         })}
       >

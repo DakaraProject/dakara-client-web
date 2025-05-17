@@ -59,8 +59,4 @@
       }
     }
   }
-
-  .create-user {
-    @include sizes.make-gap(padding, vertical);
-  }
 }

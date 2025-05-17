@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Outlet } from 'react-router'
 
 import { loadWorkTypes } from 'actions/library'
-import Tab from 'components/generics/Tab'
+import { Tab, TabBar } from 'components/generics/TabBar'
 import { Status } from 'reducers/alterationsResponse'
 import { workTypeStatePropType } from 'reducers/library'
 
@@ -40,12 +40,12 @@ class Library extends Component {
     }
 
     return (
-      <div id="library" className="box">
-        <nav className="tab-bar">
+      <div id="library" className="box neutral">
+        <TabBar>
           <Tab to="/library/song" iconName="music" extraClassName="home" />
           <Tab to="/library/artist" iconName="microphone-alt" name="Artists" />
           {workTypesTabs}
-        </nav>
+        </TabBar>
         <Outlet />
       </div>
     )

@@ -24,7 +24,7 @@ $header-height: sizes.$row-height;
 
     & {
       font-size: xx-large;
-      line-height: $header-height * 0.9;
+      line-height: $header-height;
     }
 
     @include support.make-smartphone {

@@ -42,11 +42,11 @@ class SendResetPasswordLink extends Component {
     )
 
     return (
-      <div id="send-reset-password-link" className="box">
-        <div className="header">
+      <div id="send-reset-password-link" className="box neutral">
+        <div className="header primary">
           <h2>Send reset password link</h2>
         </div>
-        <div className="content">
+        <div className="flow">
           {this.state.emailSent ? emailSentMessage : sendResetPasswordLinkForm}
         </div>
       </div>
