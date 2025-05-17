@@ -57,60 +57,47 @@ Played.propTypes = {
   entry: playlistEntryPropType,
 }
 
-function Position({ entry, position }) {
-  switch (position) {
-    case 'playing':
-      return <Playing entry={entry} />
-
-    case 'queuing':
-      return <Queuing entry={entry} />
-
-    case 'played':
-      return <Played entry={entry} />
-
-    default:
-      return null
-  }
-}
-
-Position.propTypes = {
-  entry: playlistEntryPropType,
-  position: PropTypes.string,
-}
-
 export default function InPlaylist({ entries, expanded }) {
   const playerStatus = useSelector((state) => state.playlist.playerStatus.data)
   const { entry, position } = getEntry(entries, playerStatus)
 
+  let main
   let message
-  if (expanded) {
-    switch (position) {
-      case 'playing':
+  switch (position) {
+    case 'playing':
+      main = <Playing entry={entry} />
+      if (expanded) {
         message = (
           <span className="message">
             This song is requested by <UserWidget user={entry.owner} /> and is
             currently playing
           </span>
         )
-        break
+      }
+      break
 
-      case 'queuing':
+    case 'queuing':
+      main = <Queuing entry={entry} />
+      if (expanded) {
         message = (
           <span className="message">
             This song is requested by <UserWidget user={entry.owner} /> and will
             play {formatDateRelative(entry.date_play)}
           </span>
         )
-        break
+      }
+      break
 
-      case 'played':
+    case 'played':
+      main = <Played entry={entry} />
+      if (expanded) {
         message = (
           <span className="message">
             This song was requested by <UserWidget user={entry.owner} /> and
             played {formatDateRelative(entry.date_play)}
           </span>
         )
-    }
+      }
   }
 
   return (
@@ -119,7 +106,7 @@ export default function InPlaylist({ entries, expanded }) {
         'expanded listable': expanded,
       })}
     >
-      <Position entry={entry} position={position} />
+      {main}
       {message}
     </li>
   )
