@@ -184,7 +184,7 @@ class Entry extends Component {
     const reorderIndex = parseInt(searchParams.get('reorder'))
 
     const expanded = reorderId === entry.id
-    const inReorder = !!reorderId && !!reorderIndex
+    const inReorder = !(isNaN(reorderId) || isNaN(reorderIndex))
 
     const controlsExpanded = [
       <IsPlaylistManager key="reorder">
