@@ -143,7 +143,7 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
 
         @include support.make-smartphone {
           .expand-button {
-            // make button horizontall smaller to save space
+            // stretch button horizontally to save space
             min-width: 0.33 * $listing-entry-height;
             width: 0.33 * $listing-entry-height;
           }
