@@ -5,14 +5,14 @@ import WorkWidget from 'components/library/widgets/Work'
 import { WorkLinkName } from 'reducers/library'
 import { workLinkPropType } from 'serverPropTypes/library'
 
-export default function WorkLinkWidget(
+export default function WorkLinkWidget({
   workLink,
   query,
   longLinkType,
   noEpisodes,
   truncatable,
   ...rest
-) {
+}) {
   /**
    * Link
    */
