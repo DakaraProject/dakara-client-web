@@ -80,7 +80,7 @@ class Entry extends Component {
     const currentId = this.props.entry.id
 
     // return early if missing data
-    if (!reorderId) {
+    if (isNaN(reorderId)) {
       return
     }
 
@@ -98,7 +98,7 @@ class Entry extends Component {
     const currentId = this.props.entry.id
 
     // return early if missing data
-    if (!reorderId) {
+    if (isNaN(reorderId)) {
       return
     }
 
