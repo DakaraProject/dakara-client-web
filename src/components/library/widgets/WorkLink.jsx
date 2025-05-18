@@ -11,7 +11,7 @@ export default function WorkLinkWidget({
   longLinkType,
   noEpisodes,
   truncatable,
-  ...rest
+  workProps,
 }) {
   /**
    * Link
@@ -48,7 +48,7 @@ export default function WorkLinkWidget({
 
   return (
     <div className={classNames('work-link-widget', { truncatable })}>
-      <WorkWidget work={workLink.work} query={query} {...rest} noCount />
+      <WorkWidget work={workLink.work} query={query} {...workProps} noCount />
       {link}
       {episodes}
     </div>
@@ -61,4 +61,5 @@ WorkLinkWidget.propTypes = {
   longLinkType: PropTypes.bool,
   noEpisodes: PropTypes.bool,
   truncatable: PropTypes.bool,
+  workProps: PropTypes.object,
 }

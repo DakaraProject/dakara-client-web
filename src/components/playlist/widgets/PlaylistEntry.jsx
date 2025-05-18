@@ -12,6 +12,8 @@ export default function PlaylistEntryWidget({
   noOwner,
   noInstrumental,
   noRelativeDate,
+  songProps,
+  userProps,
 }) {
   /**
    * Instrumental
@@ -54,8 +56,15 @@ export default function PlaylistEntryWidget({
 
   return (
     <div className={classNames('playlist-entry-widget', { truncatable })}>
-      <SongWidget song={entry.song} noRelations noDuration noTags truncatable />
-      {!noOwner && <UserWidget user={entry.owner} truncatable />}
+      <SongWidget
+        song={entry.song}
+        noRelations
+        noDuration
+        noTags
+        truncatable
+        {...songProps}
+      />
+      {!noOwner && <UserWidget user={entry.owner} truncatable {...userProps} />}
       {instrumental}
       {relativeDate}
     </div>
@@ -68,4 +77,6 @@ PlaylistEntryWidget.propTypes = {
   noOwner: PropTypes.bool,
   noInstrumental: PropTypes.bool,
   noRelativeDate: PropTypes.bool,
+  songProps: PropTypes.object,
+  userProps: PropTypes.object,
 }
