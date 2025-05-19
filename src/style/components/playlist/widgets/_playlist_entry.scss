@@ -24,11 +24,9 @@
   }
 
   .relative-date {
+    column-gap: inherit;
+    display: inherit;
     // normally shrinkable
     flex-shrink: 1;
-
-    .icon + .date {
-      margin-left: 0.25em;
-    }
   }
 }

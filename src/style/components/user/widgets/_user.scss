@@ -7,6 +7,7 @@
 @use '~/thirdparty/preboot';
 
 .user-widget {
+  column-gap: 0.5em;
   display: inline-flex;
   overflow: hidden;
   white-space: nowrap;
@@ -15,9 +16,5 @@
     .name {
       @include preboot.text-truncate();
     }
-  }
-
-  .icon + .name {
-    margin-left: 0.25em;
   }
 }
