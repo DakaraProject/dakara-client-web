@@ -97,7 +97,7 @@ function Mosaic() {
   // refresh themselves when the CSS is updated
   const [refresher, setRefresher] = useState(0)
 
-  const [space, setSpace] = useState('lch')
+  const [space, setSpace] = useState('oklch')
 
   const colors = ['primary', 'neutral', 'success', 'warning', 'danger', 'info']
 
