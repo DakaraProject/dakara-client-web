@@ -1,15 +1,16 @@
 import classNames from 'classnames'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import PropTypes from 'prop-types'
 import queryString from 'query-string'
 import { Component } from 'react'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
+import { Link } from 'react-router'
 
 import { sendPlayerCommand } from 'actions/playlist'
 import ManageButton from 'components/karaoke/player/ManageButton'
 import PlayerNotification from 'components/karaoke/player/Notification'
-import ArtistWidget from 'components/library/widgets/Artist'
-import WorkLinkWidget from 'components/library/widgets/WorkLink'
-import UserWidget from 'components/user/widgets/User'
+import PlaylistEntryWidget from 'components/playlist/widgets/PlaylistEntry'
 import { IsPlaylistManagerOrOwner } from 'permissions/Playlist'
 import {
   alterationResponsePropType,
@@ -20,7 +21,9 @@ import { playerErrorsDigestStatePropType } from 'reducers/playlistDigest'
 import { userPropType } from 'serverPropTypes/users'
 import { withNavigate } from 'thirdpartyExtensions/ReactRouterDom'
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
-import { formatDuration } from 'utils'
+import { formatDate, formatDuration, isDisplayable } from 'utils'
+
+dayjs.extend(relativeTime)
 
 class Player extends Component {
   static propTypes = {
@@ -30,7 +33,6 @@ class Player extends Component {
       alterationResponsePropType
     ),
     sendPlayerCommand: PropTypes.func.isRequired,
-    setWithControls: PropTypes.func.isRequired,
     user: userPropType.isRequired,
     navigate: PropTypes.func.isRequired,
   }
@@ -50,7 +52,6 @@ class Player extends Component {
 
     if (withControls) {
       this.setState({ withControls })
-      this.props.setWithControls(withControls)
     }
   }
 
@@ -70,7 +71,6 @@ class Player extends Component {
 
       if (withControls !== prevWithControls) {
         this.setState({ withControls, animationsEnabled: true })
-        this.props.setWithControls(withControls)
       }
     }
   }
@@ -110,113 +110,33 @@ class Player extends Component {
     }
 
     /**
-     * Server lost widget
-     */
-    const serverLost = (
-      <CSSTransitionLazy
-        in={fetchError}
-        classNames="notified"
-        timeout={{
-          enter: 300,
-          exit: 150,
-        }}
-      >
-        <ServerLost />
-      </CSSTransitionLazy>
-    )
-
-    /**
      * Display playlist entry if any song is currently playing
      */
 
-    let progress
-    let info
+    let progress = 0
     if (isPlaying) {
-      const { song, owner, use_instrumental } = playerStatus.playlist_entry
-
-      /**
-       * Manage instrumental playlist entry
-       */
-      let useInstrumental
-      if (use_instrumental) {
-        useInstrumental = (
-          <div className="use-instrumental">
-            <span className="icon">
-              <i className="las la-microphone-slash"></i>
-            </span>
-          </div>
-        )
-      }
-
-      // the progress is displayed only when the song has really started
-      // and only if the song has a known duration
+      const { song } = playerStatus.playlist_entry
       if (!playerStatus.in_transition && song.duration > 0) {
-        progress = Math.min((playerStatus.timing * 100) / song.duration, 100)
+        progress = Math.min(playerStatus.timing / song.duration, 1)
+      } else {
+        progress = undefined
       }
-
-      info = (
-        <div className="player-info">
-          <div className="playlist-entry">
-            {useInstrumental}
-            <button
-              className="entry-info transparent"
-              onClick={() => {
-                this.handleSearch(song)
-              }}
-            >
-              <div className="song-title">{song.title}</div>
-              <div className="song-artists">
-                {song.artists.map((a) => (
-                  <ArtistWidget artist={a} key={a.id} truncatable />
-                ))}
-              </div>
-              <div className="song-works">
-                {song.works.map((w) => (
-                  <WorkLinkWidget
-                    workLink={w}
-                    key={w.id}
-                    noEpisodes
-                    truncatable
-                  />
-                ))}
-              </div>
-              <UserWidget user={owner} noResize />
-            </button>
-          </div>
-          <div className="timing">
-            <div className="current">{formatDuration(playerStatus.timing)}</div>
-            <div className="duration">{formatDuration(song.duration)}</div>
-          </div>
-        </div>
-      )
-    } else {
-      progress = 0
-      info = (
-        <div className="player-info">
-          <div className="playlist-entry"></div>
-          <div className="timing">
-            <div className="current">{formatDuration(0)}</div>
-            <div className="duration">{formatDuration(0)}</div>
-          </div>
-        </div>
-      )
     }
 
     return (
       <div
         id="player"
-        className={classNames({ 'with-controls': withControls })}
+        className={classNames('box', fetchError ? 'danger' : 'primary')}
       >
-        <div className="player-sticky primary">
-          <div className="notifiable">
-            {info}
-            <PlayerNotification
-              alterationsResponse={responseOfSendPlayerCommandsSafe}
-              playerErrors={playerErrors}
-            />
-            {serverLost}
-          </div>
-        </div>
+        {fetchError ? (
+          <ServerLost />
+        ) : (
+          <Carousel className={fetchError ? 'danger' : 'primary'}>
+            <CarouselEntryStats />
+            <CarouselEntryCurrentSong />
+            <CarouselEntryNextSong />
+          </Carousel>
+        )}
         <CSSTransitionLazy
           in={withControls}
           classNames="expand"
@@ -232,12 +152,14 @@ class Player extends Component {
               responseOfManage={responseOfSendPlayerCommandsSafe.restart}
               onClick={() => this.props.sendPlayerCommand('restart')}
               disabled={controlDisabled}
+              error={fetchError}
               icon="step-backward"
             />
             <ManageButton
               responseOfManage={responseOfSendPlayerCommandsSafe.rewind}
               onClick={() => this.props.sendPlayerCommand('rewind')}
               disabled={controlDisabled}
+              error={fetchError}
               icon="backward"
             />
             <ManageButton
@@ -256,6 +178,7 @@ class Player extends Component {
                 }
               }}
               disabled={controlDisabled}
+              error={fetchError}
               icon={
                 isPlaying ? (playerStatus.paused ? 'play' : 'pause') : 'stop'
               }
@@ -264,35 +187,43 @@ class Player extends Component {
               responseOfManage={responseOfSendPlayerCommandsSafe.fast_forward}
               onClick={() => this.props.sendPlayerCommand('fast_forward')}
               disabled={controlDisabled}
+              error={fetchError}
               icon="forward"
             />
             <ManageButton
               responseOfManage={responseOfSendPlayerCommandsSafe.skip}
               onClick={() => this.props.sendPlayerCommand('skip', true)}
               disabled={controlDisabled}
+              error={fetchError}
               icon="step-forward"
             />
           </div>
         </CSSTransitionLazy>
-        <progress className="progressbar" max="100" value={progress}>
-          <div className="bar">
-            <div className="value" style={{ width: `${progress}%` }}></div>
-          </div>
+        <progress
+          className={classNames(
+            'progressbar',
+            fetchError ? 'danger' : 'primary'
+          )}
+          value={progress}
+        >
+          {progress}
         </progress>
+        <PlayerNotification
+          alterationsResponse={responseOfSendPlayerCommandsSafe}
+          playerErrors={playerErrors}
+        />
       </div>
     )
   }
 }
 
 const ServerLost = () => (
-  <div className="notified">
-    <div className="notification danger">
-      <div className="message">Unable to get status from server</div>
-      <div className="animation pending">
-        <span className="point">·</span>
-        <span className="point">·</span>
-        <span className="point">·</span>
-      </div>
+  <div className="server-lost danger">
+    <div className="message">Unable to get status from server</div>
+    <div className="pending">
+      <span className="point">·</span>
+      <span className="point">·</span>
+      <span className="point">·</span>
     </div>
   </div>
 )
@@ -312,3 +243,225 @@ Player = withNavigate(
 )
 
 export default Player
+
+function Carousel({ children, className }) {
+  return (
+    <div className={classNames('carousel', className)}>
+      <ul className="viewport">{children}</ul>
+    </div>
+  )
+}
+
+Carousel.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+}
+
+function CarouselEntry({ children, className, jumbo }) {
+  return (
+    <li className="carousel-entry">
+      {isDisplayable(jumbo) && <div className="jumbo">{jumbo}</div>}
+      <div className="content" tabIndex="0">
+        <div className={className}>{children}</div>
+      </div>
+    </li>
+  )
+}
+
+CarouselEntry.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  jumbo: PropTypes.string,
+}
+
+function CarouselEntryCurrentSong() {
+  const { data: playerStatus } = useSelector(
+    (state) => state.playlist.playerStatus
+  )
+  const { playlist_entry: entry, timing } = playerStatus
+
+  if (!entry) {
+    return null
+  }
+
+  return (
+    <CarouselEntry className="current-song">
+      <Link
+        className="to-song"
+        to={{
+          pathname: '/library/song',
+          search: queryString.stringify({
+            query: `title:""${entry.song.title}""`,
+            expanded: entry.song.id,
+          }),
+        }}
+      >
+        <PlaylistEntryWidget
+          entry={entry}
+          noRelativeDate
+          songProps={{ noRelations: false }}
+        />
+      </Link>
+      <div className="timing">
+        <div className="current">{formatDuration(timing)}</div>
+        <div className="duration">{formatDuration(entry.song.duration)}</div>
+      </div>
+    </CarouselEntry>
+  )
+}
+
+function CarouselEntryNextSong() {
+  const { playlistEntries } = useSelector(
+    (state) => state.playlist.digest.entries.data
+  )
+  const entry = playlistEntries.find((e) => e.will_play)
+
+  if (!entry) {
+    return null
+  }
+
+  return (
+    <CarouselEntry jumbo="Next" className="next-song">
+      <Link
+        to={{
+          pathname: '/library/song',
+          search: queryString.stringify({
+            query: `title:""${entry.song.title}""`,
+            expanded: entry.song.id,
+          }),
+        }}
+      >
+        <PlaylistEntryWidget entry={entry} />
+      </Link>
+    </CarouselEntry>
+  )
+}
+
+function CarouselEntryStats() {
+  const { playlistEntries, dateEnd } = useSelector(
+    (state) => state.playlist.digest.entries.data
+  )
+  const { data: playerStatus } = useSelector(
+    (state) => state.playlist.playerStatus
+  )
+  const { date_stop: karaokeDateStop } = useSelector(
+    (state) => state.playlist.karaoke.data
+  )
+  const countPlayed = playlistEntries.filter((e) => e.was_played).length
+  const countQueueing = playlistEntries.filter((e) => e.will_play).length
+
+  /**
+   * Played songs
+   */
+
+  let played
+  switch (countPlayed) {
+    case 0:
+      played = <li>The karaoke has just started!</li>
+      break
+    case 1:
+      played = <li>One song played, keep going!</li>
+      break
+    default:
+      played = (
+        <li>
+          <q>{countPlayed}</q> songs played so far
+        </li>
+      )
+  }
+
+  /**
+   * Queuing songs
+   */
+
+  let queuing
+  switch (countQueueing) {
+    case 0:
+      queuing = <li>No songs queued in playlist yet</li>
+      break
+    case 1:
+      queuing = <li>One song queued in playlist, add more!</li>
+      break
+    default:
+      queuing = (
+        <li>
+          <q>{countQueueing}</q> songs queued in playlist
+        </li>
+      )
+  }
+
+  /**
+   * Display karaoke end or playlist end
+   *
+   * The code is voluntary redundant, as the different cases do not factor
+   * well together. At least, the code is easy to understand.
+   */
+
+  const playlistEndDate =
+    dateEnd && (countQueueing || playerStatus.playlist_entry)
+      ? dayjs(dateEnd)
+      : null
+  const karaokeEndDate = karaokeDateStop ? dayjs(karaokeDateStop) : null
+
+  let end
+  // only playlist date end
+  if (playlistEndDate && !karaokeEndDate) {
+    end = (
+      <li>
+        Playlist ends at <q>{formatDate(playlistEndDate)}</q>
+      </li>
+    )
+    // only karaoke date end
+  } else if (!playlistEndDate && karaokeEndDate) {
+    if (karaokeEndDate.isAfter()) {
+      end = (
+        <>
+          <li>
+            Karaoke ends at <q>{formatDate(karaokeEndDate)}</q>
+          </li>
+          <li>
+            <q>{dayjs().to(karaokeEndDate, true)}</q> remaining
+          </li>
+        </>
+      )
+    } else {
+      end = <li>Karaoke ended</li>
+    }
+    // both playlist date end and karaoke date end
+  } else if (playlistEndDate && karaokeEndDate) {
+    // karaoke date end is after playlist date end
+    if (karaokeEndDate.isAfter(playlistEndDate)) {
+      end = (
+        <>
+          <li>
+            Karaoke ends at <q>{formatDate(karaokeEndDate)}</q>
+          </li>
+          <li>
+            <q>{dayjs().to(karaokeEndDate, true)}</q> remaining
+          </li>
+        </>
+      )
+      // playlist date end is after karaoke date end
+    } else {
+      end = (
+        <>
+          <li>
+            Playlist should end after karaoke at{' '}
+            <q>{formatDate(playlistEndDate)}</q>
+          </li>
+          <li>Playlist exceeds karaoke scheduled end!</li>
+        </>
+      )
+    }
+  }
+
+  return (
+    <CarouselEntry jumbo="Stats" className="stats">
+      <ul>
+        {played}
+        {queuing}
+        {end}
+      </ul>
+    </CarouselEntry>
+  )
+}

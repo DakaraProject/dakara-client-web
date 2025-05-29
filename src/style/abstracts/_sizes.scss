@@ -28,11 +28,12 @@ $subrow-icon-font-size: 0.85 * $row-icon-font-size;
 // can be called successively in different directions
 // @param $type property to use (padding or margin)
 // @param $direction where to apply the gap (top, bottom, left, right, vertical
-// (top and bottom) or horizontal (left and right))
+// (top and bottom), horizontal (left and right), or all (top, bottom, left,
+// and right)
 // @param $factor extra scale to apply to the gap (number, default to 1)
 @mixin make-gap($type, $direction, $factor: 1) {
   // set top gap
-  @if ($direction == vertical) or ($direction == top) {
+  @if (($direction == all) or ($direction == vertical) or ($direction == top)) {
     & {
       #{$type}-top: $gap-vertical * $factor;
     }
@@ -43,7 +44,9 @@ $subrow-icon-font-size: 0.85 * $row-icon-font-size;
   }
 
   // set bottom gap
-  @if ($direction == vertical) or ($direction == bottom) {
+  @if (
+    ($direction == all) or ($direction == vertical) or ($direction == bottom)
+  ) {
     & {
       #{$type}-bottom: $gap-vertical * $factor;
     }
@@ -54,7 +57,9 @@ $subrow-icon-font-size: 0.85 * $row-icon-font-size;
   }
 
   // set right gap
-  @if ($direction == horizontal) or ($direction == right) {
+  @if (
+    ($direction == all) or ($direction == horizontal) or ($direction == right)
+  ) {
     & {
       #{$type}-right: $gap-horizontal * $factor;
     }
@@ -65,7 +70,9 @@ $subrow-icon-font-size: 0.85 * $row-icon-font-size;
   }
 
   // set left gap
-  @if ($direction == horizontal) or ($direction == left) {
+  @if (
+    ($direction == all) or ($direction == horizontal) or ($direction == left)
+  ) {
     & {
       #{$type}-left: $gap-horizontal * $factor;
     }

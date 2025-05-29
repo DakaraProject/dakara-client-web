@@ -1,0 +1,35 @@
+//
+// Dakara Project
+//
+// Player notification style file
+//
+
+@use '~/abstracts/sizes';
+
+.player-notification {
+  .player-notified {
+    &.player-notified-enter {
+      max-height: 0;
+      overflow-y: hidden;
+
+      &.player-notified-enter-active {
+        max-height: 3em;
+        transition: max-height 300ms ease-out;
+      }
+    }
+
+    &.player-notified-exit {
+      max-height: 3em;
+
+      &.player-notified-exit-active {
+        max-height: 0;
+        overflow-y: hidden;
+        transition: max-height 150ms ease-in;
+      }
+    }
+  }
+
+  .error {
+    @include sizes.make-vertical-row-padding(horizontal);
+  }
+}

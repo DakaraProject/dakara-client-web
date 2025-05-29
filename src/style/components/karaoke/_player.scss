@@ -25,155 +25,18 @@ $player-progressbar-height: 0.4rem;
 // progression bar.
 #player {
   position: sticky;
-  top: 0;
+  top: 0; // XXX check value
+  z-index: 1000;
 
-  @include support.make-smartphone {
-    top: 0;
-  }
-
-  // if the player has controls activated, the player-sticky item will hide
-  // the controls item on scroll
-  &.with-controls {
+  &:has(> .controls) {
     top: -$player-controls-height - sizes.$gap-vertical;
 
-    @include support.make-smartphone {
-      top: -$player-controls-height-smartphone - sizes.$gap-vertical-smartphone;
-    }
-  }
-
-  .player-sticky {
-    @include sizes.make-gap(padding, vertical);
-
-    & {
-      position: sticky;
-      top: 0;
-      z-index: 1100;
-    }
-  }
-
-  .player-info {
-    display: flex;
-    overflow: hidden;
-
-    // `playlist-entry` class: container for the current playlist entry.
-    .playlist-entry {
-      display: flex;
-      max-height: $player-timing-height * 2;
-      overflow: hidden;
-
-      // `use-instrumental` subclass: indicate if the playlist entry use the instrumental track.
-      .use-instrumental {
-        @include sizes.make-gap(margin, left);
-
-        & {
-          font-size: 1.45em;
-        }
-      }
-
-      // `entry-info` sublcass: show info about the playlist entry (song + playing request)
-      .entry-info {
-        @include sizes.make-gap(margin, horizontal);
-
-        & {
-          cursor: pointer;
-          min-height: $player-controls-height;
-          overflow: hidden;
-        }
-
-        &:hover:not(:focus) {
-          color: colors.$primary-402;
-        }
-
-        &:focus {
-          color: colors.$primary-403;
-        }
-
-        .song-title {
-          @include preboot.text-truncate();
-
-          font-size: 1.5em;
-          font-weight: 300;
-        }
-
-        .song-artists,
-        .song-works {
-          overflow: hidden;
-        }
-
-        .song-artists {
-          @include preboot.text-truncate();
-
-          // display artists in one line
-          .artist-widget {
-            display: inline;
-
-            &:not(:last-child) {
-              margin-right: 0.5em;
-            }
-          }
-        }
-
-        .song-works {
-          .title-group {
-            .subtitle {
-              color: color.change(colors.$primary-400, $alpha: 0.75);
-            }
-          }
-
-          .link {
-            border-color: color.change(colors.$primary-400, $alpha: 0.75);
-          }
-        }
-      }
-    }
-
-    // `timing` subclass: display current timing over expected duration.
-    .timing {
-      @mixin make-timing($ratio-timing) {
-        $height-timing: $player-timing-height;
-
-        .current {
-          font-size: $height-timing * $ratio-timing;
-          line-height: $height-timing * $ratio-timing;
-        }
-
-        .duration {
-          font-size: $height-timing * (1 - $ratio-timing);
-          line-height: $height-timing * (1 - $ratio-timing);
-        }
-      }
-
-      @include sizes.make-gap(margin, right);
-
-      & {
-        @include make-timing(0.7);
-
-        // shrink the timing class element first when resizing, up to
-        // the width of the duration (4 digits plus one colon)
-        flex: 1;
-        font-feature-settings: 'tnum';
-        min-width: max-content;
-        overflow: hidden;
-        text-align: right;
-      }
-
-      @include support.make-smartphone {
-        @include make-timing(0.7);
-      }
-
-      .current {
-        font-weight: 200;
-      }
-
-      .duration {
-        letter-spacing: 0.25rem;
-      }
-    }
+    // XXX smartphone
   }
 
   // `controls` class: buttons to send commands to the player.
   .controls {
-    @include sizes.make-gap(padding, bottom);
+    @include sizes.make-gap(margin, bottom);
     @include controls.make-controls($player-controls-height);
     @include support.make-smartphone {
       @include controls.make-controls(
@@ -266,67 +129,71 @@ $player-progressbar-height: 0.4rem;
     height: $player-progressbar-height;
     width: 100%;
 
-    &[value] {
-      @mixin make-bar() {
-        background: colors.$primary-100;
-      }
-
-      @mixin make-value() {
-        background: colors.$primary-200;
-      }
-
+    @mixin make-progress-bar {
       & {
-        // for firefox and ie
-        @include make-bar();
-      }
-
-      & {
-        // for ie
-        color: colors.$primary-200;
-      }
-
-      &::-moz-progress-bar {
-        // for firefox
-        @include make-value();
+        @content;
       }
 
       &::-webkit-progress-bar {
-        // for webkit
-        @include make-bar();
-      }
-
-      &::-webkit-progress-value {
-        // for webkit
-        @include make-value();
-      }
-
-      // fallback styling
-      .bar {
-        @include make-bar();
-
-        .value {
-          @include make-value();
-          height: 100%;
-        }
+        @content;
       }
     }
 
-    &:not([value]),
-    &:indeterminate {
-      @mixin make-bar() {
-        animation: sliding-animation 1s linear infinite;
-        background: repeating-linear-gradient(
-          -45deg,
-          colors.$primary-200,
-          colors.$primary-200 2rem,
-          colors.$primary-100 2rem,
-          colors.$primary-100 4rem
-        );
+    @mixin make-progress-value {
+      &::-moz-progress-bar {
+        @content;
       }
 
-      & {
-        // for firefox and ie
-        @include make-bar();
+      &::-webkit-progress-value {
+        @content;
+      }
+    }
+
+    &.primary {
+      @include make-progress-value {
+        background: colors.$primary-300;
+      }
+
+      @include make-progress-bar {
+        background: colors.$primary-100;
+      }
+    }
+
+    &.danger {
+      @include make-progress-value {
+        background: colors.$danger-300;
+      }
+
+      @include make-progress-bar {
+        background: colors.$danger-100;
+      }
+    }
+
+    &:indeterminate {
+      &.primary {
+        @include make-progress-bar {
+          animation: sliding-animation 1s linear infinite;
+          background: repeating-linear-gradient(
+            -45deg,
+            colors.$primary-300,
+            colors.$primary-300 2rem,
+            colors.$primary-100 2rem,
+            colors.$primary-100 4rem
+          );
+        }
+      }
+
+      &.danger {
+        @include make-progress-bar {
+          animation: sliding-animation 1s linear infinite;
+          background: repeating-linear-gradient(
+            -45deg,
+            colors.$danger-300,
+            colors.$danger-300 2rem,
+            colors.$danger-100 2rem,
+            colors.$danger-100 4rem
+          );
+        }
       }
 
       @keyframes sliding-animation {
@@ -335,16 +202,326 @@ $player-progressbar-height: 0.4rem;
         }
       }
 
-      &::-webkit-progress-bar {
-        // for webkit
-        // it does not seem to work for now
-        @include make-bar();
-      }
-
-      // firefox considers that the bar is at 100%
+      // firefox considers that the value is at 100%
       &::-moz-progress-bar {
         background: transparent;
       }
+    }
+  }
+
+  .server-lost {
+    @include sizes.make-gap(padding, all);
+
+    & {
+      align-items: center;
+      display: flex;
+      position: sticky;
+      top: 0;
+      z-index: 1100;
+    }
+
+    .pending {
+      font-size: 3em;
+      line-height: 0.5em;
+      margin-left: auto;
+
+      .point {
+        animation: animation-ellipsis 1s steps(3, start) infinite;
+
+        &:nth-child(2) {
+          animation-delay: 0.1s;
+        }
+
+        &:nth-child(3) {
+          animation-delay: 0.2s;
+        }
+
+        @keyframes animation-ellipsis {
+          to {
+            visibility: hidden;
+          }
+        }
+      }
+    }
+  }
+
+  .playlist-entry-widget {
+    display: flex;
+    flex-flow: row wrap;
+
+    .song-widget {
+      flex-flow: row wrap;
+      width: 100%;
+
+      > .title {
+        font-size: 3rem;
+        font-weight: 200;
+        width: 100%;
+      }
+
+      > .relations {
+        flex-direction: column;
+
+        .link {
+          border-color: color.change(colors.$primary-400, $alpha: 0.75);
+        }
+      }
+    }
+  }
+
+  .current-song {
+    display: flex;
+
+    .timing {
+      @mixin make-timing($ratio-timing) {
+        $height-timing: $player-timing-height;
+
+        .current {
+          font-size: $height-timing * $ratio-timing;
+          line-height: $height-timing * $ratio-timing;
+        }
+
+        .duration {
+          font-size: $height-timing * (1 - $ratio-timing);
+          line-height: $height-timing * (1 - $ratio-timing);
+        }
+      }
+
+      @include make-timing(0.7);
+
+      // shrink the timing class element first when resizing, up to
+      // the width of the duration (4 digits plus one colon)
+      font-feature-settings: 'tnum';
+      margin-left: auto;
+      // XXX necessary?
+      min-width: max-content;
+      overflow: hidden;
+      text-align: right;
+
+      // XXX necessary?
+      @include support.make-smartphone {
+        @include make-timing(0.7);
+      }
+
+      .current {
+        font-weight: 200;
+      }
+
+      .duration {
+        letter-spacing: 0.25rem;
+      }
+    }
+  }
+
+  .stats {
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      line-height: 2rem;
+    }
+
+    q {
+      font-size: 2rem;
+      font-weight: 200;
+
+      &::after,
+      &::before {
+        content: '';
+      }
+    }
+  }
+
+  .carousel {
+    @include sizes.make-gap(padding, vertical);
+
+    & {
+      position: sticky;
+      top: 0;
+      z-index: 1100;
+    }
+
+    .carousel-entry {
+      min-height: 7.5rem;
+
+      .next-song {
+        .playlist-entry-widget {
+          justify-content: end;
+        }
+      }
+    }
+  }
+
+  .carousel {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scrollbar-width: none;
+
+    > .viewport {
+      // Formula for keyframes computation. The animation consists in transition
+      // between two panes, then stop on one pane.
+      //
+      // T: animation absolute duration [s]
+      // n: number of panes [1]
+      // d: transition relative duration [%]
+      // e: stop relative duration [%]
+      //
+      // Time evolution of the animation looks like:
+      //
+      //        d            d
+      //  e / 2       e        e / 2
+      // |-----|-|----------|-|-----|
+      // 0                         100
+      //
+      // Since the animation is looped back and forth, first and last stop
+      // duration is just one half of the normal stop duration.
+      // For a given T, n, and d (usually, d * T = 300 ms), e is given by:
+      //
+      // e = (100 - (n - 1) * d) / (n - 1)
+      //
+      // @param $panes Number of panes (n).
+      // @param $duration-pane Approximate absolute duration for one pane
+      // (about e + d).
+      @mixin make-animation($panes, $duration-pane: 5s) {
+        $duration: calc($panes * $duration-pane);
+        $duration-transition: calc(100 * 300ms / $duration);
+        $duration-stop: calc(
+          (100 - ($panes - 1) * $duration-transition) / ($panes - 1)
+        );
+        // start on second pane
+        animation-delay: calc(
+          $duration * ($duration-stop * 0.5 + $duration-transition) / 100
+        );
+        animation-duration: $duration;
+
+        @if $panes == 2 {
+          $key-1: calc($duration-stop / 2 * 1%);
+          $key-2: calc($key-1 + $duration-transition * 1%);
+
+          animation-name: carousel-animation-2;
+
+          @keyframes carousel-animation-2 {
+            0% {
+              transform: translateX(0);
+            }
+
+            #{$key-1} {
+              transform: translateX(0);
+            }
+
+            #{$key-2} {
+              transform: translateX(-100%);
+            }
+
+            100% {
+              transform: translateX(-100%);
+            }
+          }
+        } @else if $panes == 3 {
+          $key-1: calc($duration-stop / 2 * 1%);
+          $key-2: calc($key-1 + $duration-transition * 1%);
+          $key-3: calc($key-2 + $duration-stop * 1%);
+          $key-4: calc($key-3 + $duration-transition * 1%);
+
+          animation-name: carousel-animation-3;
+
+          @keyframes carousel-animation-3 {
+            0% {
+              transform: translateX(0);
+            }
+
+            #{$key-1} {
+              transform: translateX(0);
+            }
+
+            #{$key-2} {
+              transform: translateX(-100%);
+            }
+
+            #{$key-3} {
+              transform: translateX(-100%);
+            }
+
+            #{$key-4} {
+              transform: translateX(-200%);
+            }
+
+            100% {
+              transform: translateX(-200%);
+            }
+          }
+        } @else {
+          @error 'Unexpected number of panes';
+        }
+      }
+
+      animation-direction: alternate;
+      animation-fill-mode: both;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in;
+      counter-reset: item;
+      display: flex;
+      list-style-type: none;
+      padding: 0;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+
+      &:hover {
+        animation-play-state: paused;
+      }
+
+      &:has(.carousel-entry + .carousel-entry) {
+        &:not(:has(.carousel-entry + .carousel-entry + .carousel-entry)) {
+          @include make-animation(2);
+        }
+      }
+
+      &:has(.carousel-entry + .carousel-entry + .carousel-entry) {
+        @include make-animation(3);
+      }
+    }
+
+    .carousel-entry {
+      @include sizes.make-gap(padding, horizontal);
+
+      & {
+        box-sizing: border-box;
+        counter-increment: item;
+        display: flex;
+        flex: 0 0 100%;
+        object-fit: cover;
+        scroll-snap-align: center;
+      }
+
+      a {
+        color: unset;
+        text-decoration: unset;
+      }
+
+      .content {
+        flex-grow: 1;
+      }
+
+      .jumbo {
+        font-size: 3rem;
+        font-weight: 200;
+
+        & + .content {
+          text-align: right;
+        }
+      }
+    }
+  }
+
+  &.primary .carousel-entry a {
+    &:hover:not(:focus) {
+      color: colors.$primary-402;
+    }
+
+    &:focus {
+      color: colors.$primary-403;
     }
   }
 }

@@ -1,6 +1,5 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { Component } from 'react'
 
 import HighlighterQuery from 'components/generics/HighlighterQuery'
 import SongTagList from 'components/library/SongTagList'
