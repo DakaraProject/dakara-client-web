@@ -16,7 +16,7 @@
 // player sizes
 $player-controls-height: 6rem;
 $player-controls-height-smartphone: sizes.$row-height;
-$player-timing-height: 6.5rem;
+$player-timing-height: 5.5rem;
 $player-progressbar-height: 0.4rem;
 
 // `player` id:
@@ -25,13 +25,15 @@ $player-progressbar-height: 0.4rem;
 // progression bar.
 #player {
   position: sticky;
-  top: 0; // XXX check value
+  top: 0;
   z-index: 1000;
 
   &:has(> .controls) {
     top: -$player-controls-height - sizes.$gap-vertical;
 
-    // XXX smartphone
+    @include support.make-smartphone {
+      top: -$player-controls-height-smartphone - sizes.$gap-vertical-smartphone;
+    }
   }
 
   // `controls` class: buttons to send commands to the player.
@@ -56,26 +58,28 @@ $player-progressbar-height: 0.4rem;
       overflow-y: hidden;
 
       &.expand-enter-active {
-        max-height: $player-controls-height;
+        max-height: $player-controls-height + sizes.$gap-vertical;
         transition: max-height 300ms ease-out;
 
         @include support.make-smartphone {
-          max-height: $player-controls-height-smartphone;
+          max-height: $player-controls-height-smartphone +
+            sizes.$gap-vertical-smartphone;
         }
       }
     }
 
     &.expand-exit {
-      max-height: $player-controls-height;
+      max-height: $player-controls-height + sizes.$gap-vertical;
       overflow-y: hidden;
 
       @include support.make-smartphone {
-        max-height: $player-controls-height-smartphone;
+        max-height: $player-controls-height-smartphone +
+          sizes.$gap-vertical-smartphone;
       }
 
       &.expand-exit-active {
         max-height: 0;
-        transition: max-height 150ms ease-out;
+        transition: max-height 150ms ease-in;
       }
     }
   }
@@ -217,6 +221,11 @@ $player-progressbar-height: 0.4rem;
         font-size: 3rem;
         font-weight: 200;
         width: 100%;
+
+        @include support.make-smartphone {
+          font-size: 2.2rem;
+          font-weight: 300;
+        }
       }
 
       > .relations {
@@ -239,48 +248,45 @@ $player-progressbar-height: 0.4rem;
     }
 
     .carousel-entry {
-      min-height: 7.5rem;
+      // approximatively 1 title and 2 lines
+      min-height: calc(3rem + 3em);
+
+      @include support.make-smartphone {
+        min-height: calc(2.2rem + 3em);
+      }
 
       .current-song {
         display: flex;
 
         .timing {
-          @mixin make-timing($ratio-timing) {
-            $height-timing: $player-timing-height;
-
-            .current {
-              font-size: $height-timing * $ratio-timing;
-              line-height: $height-timing * $ratio-timing;
-            }
-
-            .duration {
-              font-size: $height-timing * (1 - $ratio-timing);
-              line-height: $height-timing * (1 - $ratio-timing);
-            }
-          }
-
-          @include make-timing(0.7);
-
           // shrink the timing class element first when resizing, up to
           // the width of the duration (4 digits plus one colon)
           font-feature-settings: 'tnum';
           margin-left: auto;
-          // XXX necessary?
           min-width: max-content;
           overflow: hidden;
           text-align: right;
 
-          // XXX necessary?
-          @include support.make-smartphone {
-            @include make-timing(0.7);
+          @mixin make-timing($factor) {
+            font-size: $player-timing-height * $factor;
+            line-height: $player-timing-height * $factor;
+
+            @include support.make-smartphone {
+              font-size: $player-timing-height * $factor * 0.7;
+              line-height: $player-timing-height * $factor * 0.7;
+            }
           }
 
           .current {
             font-weight: 200;
+
+            @include make-timing(0.7);
           }
 
           .duration {
             letter-spacing: 0.25rem;
+
+            @include make-timing(0.3);
           }
         }
       }
@@ -304,6 +310,11 @@ $player-progressbar-height: 0.4rem;
         q {
           font-size: 2rem;
           font-weight: 200;
+
+          @include support.make-smartphone {
+            font-size: 1.7rem;
+            font-weight: 300;
+          }
 
           &::after,
           &::before {

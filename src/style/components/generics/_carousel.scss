@@ -6,6 +6,7 @@
 
 @use '~/abstracts/colors';
 @use '~/abstracts/sizes';
+@use '~/abstracts/support';
 
 .carousel {
   overflow-x: scroll;
@@ -160,6 +161,11 @@
     .jumbo {
       font-size: 3rem;
       font-weight: 200;
+
+      @include support.make-smartphone {
+        font-size: 2.2rem;
+        font-weight: 300;
+      }
 
       & + .content {
         text-align: right;
