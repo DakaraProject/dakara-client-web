@@ -146,7 +146,8 @@
       display: flex;
       flex: 0 0 100%;
       object-fit: cover;
-      scroll-snap-align: center;
+      overflow: hidden;
+      scroll-snap-align: start;
     }
 
     a {
@@ -156,6 +157,7 @@
 
     .content {
       flex-grow: 1;
+      overflow: hidden;
     }
 
     .jumbo {

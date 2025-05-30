@@ -36,6 +36,7 @@ export function CarouselEntryCurrentSong() {
           entry={entry}
           noRelativeDate
           songProps={{ noRelations: false }}
+          truncatable
         />
       </Link>
       <div className="timing">
@@ -59,6 +60,7 @@ export function CarouselEntryNextSong() {
   return (
     <CarouselEntry jumbo="Next" className="next-song">
       <Link
+        className="to-song"
         to={{
           pathname: '/library/song',
           search: queryString.stringify({
@@ -67,7 +69,7 @@ export function CarouselEntryNextSong() {
           }),
         }}
       >
-        <PlaylistEntryWidget entry={entry} />
+        <PlaylistEntryWidget entry={entry} truncatable />
       </Link>
     </CarouselEntry>
   )

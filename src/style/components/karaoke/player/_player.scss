@@ -217,14 +217,18 @@ $player-progressbar-height: 0.4rem;
       flex-flow: row wrap;
       width: 100%;
 
-      > .title {
-        font-size: 3rem;
-        font-weight: 200;
+      .titling {
+        align-items: baseline;
         width: 100%;
 
-        @include support.make-smartphone {
-          font-size: 2.2rem;
-          font-weight: 300;
+        .title {
+          font-size: 3rem;
+          font-weight: 200;
+
+          @include support.make-smartphone {
+            font-size: 2.2rem;
+            font-weight: 300;
+          }
         }
       }
 
@@ -255,8 +259,13 @@ $player-progressbar-height: 0.4rem;
         min-height: calc(2.2rem + 3em);
       }
 
+      .to-song {
+        overflow: hidden;
+      }
+
       .current-song {
         display: flex;
+        overflow: hidden;
 
         .timing {
           // shrink the timing class element first when resizing, up to
@@ -292,8 +301,14 @@ $player-progressbar-height: 0.4rem;
       }
 
       .next-song {
+        overflow: hidden;
+
         .playlist-entry-widget {
           justify-content: end;
+
+          .titling {
+            justify-content: end;
+          }
         }
       }
 

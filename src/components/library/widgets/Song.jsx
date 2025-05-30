@@ -93,13 +93,15 @@ export default function SongWidget({
 
   return (
     <div className={classNames('song-widget', { truncatable })}>
-      <HighlighterQuery
-        query={query}
-        className="title"
-        searchWords={(q) => q.title.contains.concat(q.remaining)}
-        textToHighlight={song.title}
-      />
-      {version}
+      <span className="titling">
+        <HighlighterQuery
+          query={query}
+          className="title"
+          searchWords={(q) => q.title.contains.concat(q.remaining)}
+          textToHighlight={song.title}
+        />
+        {version}
+      </span>
       {relations}
       {duration}
       {tags}
