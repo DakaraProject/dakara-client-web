@@ -140,7 +140,7 @@ export default class ManageButton extends Component {
     return (
       <button
         className={classNames(
-          'control square',
+          'control square managed-button',
           error ? 'danger' : 'primary',
           className,
           {

@@ -1,0 +1,39 @@
+.managed-button {
+  overflow: hidden;
+  position: relative;
+
+  &.managed-error .managed.managed-enter {
+    left: -100%;
+  }
+
+  .managed {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+
+    // appearance transition
+    &.managed-enter {
+      left: 100%;
+
+      &.managed-enter-active {
+        left: 0;
+        transition: left 150ms ease-out;
+      }
+    }
+
+    // disappearance transition
+    &.managed-exit {
+      left: 0;
+
+      &.managed-exit-active {
+        left: -100%;
+        transition: left 150ms ease-out;
+      }
+    }
+  }
+}

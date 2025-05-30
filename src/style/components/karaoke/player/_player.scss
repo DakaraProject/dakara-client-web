@@ -1,0 +1,326 @@
+//
+// Dakara Project
+//
+// Player style file
+//
+
+@use 'sass:color';
+
+@use '~/thirdparty/preboot';
+
+@use '~/abstracts/colors';
+@use '~/abstracts/controls';
+@use '~/abstracts/sizes';
+@use '~/abstracts/support';
+
+// player sizes
+$player-controls-height: 6rem;
+$player-controls-height-smartphone: sizes.$row-height;
+$player-timing-height: 6.5rem;
+$player-progressbar-height: 0.4rem;
+
+// `player` id:
+//
+// This component stylizes the player, containing controls, song info and a
+// progression bar.
+#player {
+  position: sticky;
+  top: 0; // XXX check value
+  z-index: 1000;
+
+  &:has(> .controls) {
+    top: -$player-controls-height - sizes.$gap-vertical;
+
+    // XXX smartphone
+  }
+
+  // `controls` class: buttons to send commands to the player.
+  .controls {
+    @include sizes.make-gap(margin, bottom);
+    @include controls.make-controls($player-controls-height);
+    @include support.make-smartphone {
+      @include controls.make-controls(
+        $player-controls-height-smartphone,
+        $icon-size: 1.1em
+      );
+    }
+
+    & {
+      align-items: center;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    &.expand-enter {
+      max-height: 0;
+      overflow-y: hidden;
+
+      &.expand-enter-active {
+        max-height: $player-controls-height;
+        transition: max-height 300ms ease-out;
+
+        @include support.make-smartphone {
+          max-height: $player-controls-height-smartphone;
+        }
+      }
+    }
+
+    &.expand-exit {
+      max-height: $player-controls-height;
+      overflow-y: hidden;
+
+      @include support.make-smartphone {
+        max-height: $player-controls-height-smartphone;
+      }
+
+      &.expand-exit-active {
+        max-height: 0;
+        transition: max-height 150ms ease-out;
+      }
+    }
+  }
+
+  // `progressbar` class: visual indicator of the song progression.
+  .progressbar {
+    // reset default style
+    appearance: none;
+    border-style: none;
+    display: block;
+    height: $player-progressbar-height;
+    width: 100%;
+
+    @mixin make-progress-bar {
+      & {
+        @content;
+      }
+
+      &::-webkit-progress-bar {
+        @content;
+      }
+    }
+
+    @mixin make-progress-value {
+      &::-moz-progress-bar {
+        @content;
+      }
+
+      &::-webkit-progress-value {
+        @content;
+      }
+    }
+
+    &.primary {
+      @include make-progress-value {
+        background: colors.$primary-300;
+      }
+
+      @include make-progress-bar {
+        background: colors.$primary-100;
+      }
+    }
+
+    &.danger {
+      @include make-progress-value {
+        background: colors.$danger-300;
+      }
+
+      @include make-progress-bar {
+        background: colors.$danger-100;
+      }
+    }
+
+    &:indeterminate {
+      &.primary {
+        @include make-progress-bar {
+          animation: sliding-animation 1s linear infinite;
+          background: repeating-linear-gradient(
+            -45deg,
+            colors.$primary-300,
+            colors.$primary-300 2rem,
+            colors.$primary-100 2rem,
+            colors.$primary-100 4rem
+          );
+        }
+      }
+
+      &.danger {
+        @include make-progress-bar {
+          animation: sliding-animation 1s linear infinite;
+          background: repeating-linear-gradient(
+            -45deg,
+            colors.$danger-300,
+            colors.$danger-300 2rem,
+            colors.$danger-100 2rem,
+            colors.$danger-100 4rem
+          );
+        }
+      }
+
+      @keyframes sliding-animation {
+        to {
+          background-position-x: 1.41421356 * 4rem;
+        }
+      }
+
+      // firefox considers that the value is at 100%
+      &::-moz-progress-bar {
+        background: transparent;
+      }
+    }
+  }
+
+  .server-lost {
+    @include sizes.make-gap(padding, all);
+
+    & {
+      align-items: center;
+      display: flex;
+      position: sticky;
+      top: 0;
+      z-index: 1100;
+    }
+
+    .pending {
+      font-size: 3em;
+      line-height: 0.5em;
+      margin-left: auto;
+
+      .point {
+        animation: animation-ellipsis 1s steps(3, start) infinite;
+
+        &:nth-child(2) {
+          animation-delay: 0.1s;
+        }
+
+        &:nth-child(3) {
+          animation-delay: 0.2s;
+        }
+
+        @keyframes animation-ellipsis {
+          to {
+            visibility: hidden;
+          }
+        }
+      }
+    }
+  }
+
+  .playlist-entry-widget {
+    display: flex;
+    flex-flow: row wrap;
+
+    .song-widget {
+      flex-flow: row wrap;
+      width: 100%;
+
+      > .title {
+        font-size: 3rem;
+        font-weight: 200;
+        width: 100%;
+      }
+
+      > .relations {
+        flex-direction: column;
+
+        .link {
+          border-color: color.change(colors.$primary-400, $alpha: 0.75);
+        }
+      }
+    }
+  }
+
+  .carousel {
+    @include sizes.make-gap(padding, vertical);
+
+    & {
+      position: sticky;
+      top: 0;
+      z-index: 1100;
+    }
+
+    .carousel-entry {
+      min-height: 7.5rem;
+
+      .current-song {
+        display: flex;
+
+        .timing {
+          @mixin make-timing($ratio-timing) {
+            $height-timing: $player-timing-height;
+
+            .current {
+              font-size: $height-timing * $ratio-timing;
+              line-height: $height-timing * $ratio-timing;
+            }
+
+            .duration {
+              font-size: $height-timing * (1 - $ratio-timing);
+              line-height: $height-timing * (1 - $ratio-timing);
+            }
+          }
+
+          @include make-timing(0.7);
+
+          // shrink the timing class element first when resizing, up to
+          // the width of the duration (4 digits plus one colon)
+          font-feature-settings: 'tnum';
+          margin-left: auto;
+          // XXX necessary?
+          min-width: max-content;
+          overflow: hidden;
+          text-align: right;
+
+          // XXX necessary?
+          @include support.make-smartphone {
+            @include make-timing(0.7);
+          }
+
+          .current {
+            font-weight: 200;
+          }
+
+          .duration {
+            letter-spacing: 0.25rem;
+          }
+        }
+      }
+
+      .next-song {
+        .playlist-entry-widget {
+          justify-content: end;
+        }
+      }
+
+      .stats {
+        ul {
+          list-style-type: none;
+          padding: 0;
+        }
+
+        li {
+          line-height: 2rem;
+        }
+
+        q {
+          font-size: 2rem;
+          font-weight: 200;
+
+          &::after,
+          &::before {
+            content: '';
+          }
+        }
+      }
+    }
+  }
+
+  &.primary .carousel-entry a {
+    &:hover:not(:focus) {
+      color: colors.$primary-402;
+    }
+
+    &:focus {
+      color: colors.$primary-403;
+    }
+  }
+}
