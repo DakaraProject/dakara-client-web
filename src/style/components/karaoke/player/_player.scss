@@ -253,10 +253,10 @@ $player-progressbar-height: 0.4rem;
 
     .carousel-entry {
       // approximatively 1 title and 2 lines
-      min-height: calc(3rem + 3em);
+      min-height: calc(3rem + 2em);
 
       @include support.make-smartphone {
-        min-height: calc(2.2rem + 3em);
+        min-height: calc(2.2rem + 2em);
       }
 
       .to-song {
