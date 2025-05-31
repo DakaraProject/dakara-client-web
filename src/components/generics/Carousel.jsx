@@ -1,11 +1,29 @@
 import classNames from 'classnames'
+import Autoplay from 'embla-carousel-autoplay'
+import useEmblaCarousel from 'embla-carousel-react'
+import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
 import PropTypes from 'prop-types'
 
 import { isDisplayable } from 'utils'
 
 export function Carousel({ children, className }) {
+  const [emblaRef] = useEmblaCarousel(
+    { loop: true, duration: 20, skipSnaps: true },
+    [
+      Autoplay({
+        delay: 6000,
+        stopOnMouseEnter: true,
+        stopOnFocusIn: true,
+        stopOnInteraction: false,
+      }),
+      WheelGesturesPlugin({
+        forceWheelAxis: 'y',
+      }),
+    ]
+  )
+
   return (
-    <div className={classNames('carousel', className)}>
+    <div className={classNames('carousel', className)} ref={emblaRef}>
       <ul className="viewport">{children}</ul>
     </div>
   )

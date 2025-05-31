@@ -4,137 +4,16 @@
 // Carousel style file
 //
 
-@use '~/abstracts/colors';
 @use '~/abstracts/sizes';
 @use '~/abstracts/support';
 
 .carousel {
-  overflow-x: scroll;
-  overflow-y: hidden;
-  scrollbar-width: none;
+  overflow: hidden;
 
-  > .viewport {
-    // Formula for keyframes computation. The animation consists in transition
-    // between two panes, then stop on one pane.
-    //
-    // T: animation absolute duration [s]
-    // n: number of panes [1]
-    // d: transition relative duration [%]
-    // e: stop relative duration [%]
-    //
-    // Time evolution of the animation looks like:
-    //
-    //        d            d
-    //  e / 2       e        e / 2
-    // |-----|-|----------|-|-----|
-    // 0                         100
-    //
-    // Since the animation is looped back and forth, first and last stop
-    // duration is just one half of the normal stop duration.
-    // For a given T, n, and d (usually, d * T = 300 ms), e is given by:
-    //
-    // e = (100 - (n - 1) * d) / (n - 1)
-    //
-    // @param $panes Number of panes (n).
-    // @param $duration-pane Approximate absolute duration for one pane
-    // (about e + d).
-    @mixin make-animation($panes, $duration-pane: 5s) {
-      $duration: calc($panes * $duration-pane);
-      $duration-transition: calc(100 * 300ms / $duration);
-      $duration-stop: calc(
-        (100 - ($panes - 1) * $duration-transition) / ($panes - 1)
-      );
-      // start on second pane
-      animation-delay: calc(
-        $duration * ($duration-stop * 0.5 + $duration-transition) / 100
-      );
-      animation-duration: $duration;
-
-      @if $panes == 2 {
-        $key-1: calc($duration-stop / 2 * 1%);
-        $key-2: calc($key-1 + $duration-transition * 1%);
-
-        animation-name: carousel-animation-2;
-
-        @keyframes carousel-animation-2 {
-          0% {
-            transform: translateX(0);
-          }
-
-          #{$key-1} {
-            transform: translateX(0);
-          }
-
-          #{$key-2} {
-            transform: translateX(-100%);
-          }
-
-          100% {
-            transform: translateX(-100%);
-          }
-        }
-      } @else if $panes == 3 {
-        $key-1: calc($duration-stop / 2 * 1%);
-        $key-2: calc($key-1 + $duration-transition * 1%);
-        $key-3: calc($key-2 + $duration-stop * 1%);
-        $key-4: calc($key-3 + $duration-transition * 1%);
-
-        animation-name: carousel-animation-3;
-
-        @keyframes carousel-animation-3 {
-          0% {
-            transform: translateX(0);
-          }
-
-          #{$key-1} {
-            transform: translateX(0);
-          }
-
-          #{$key-2} {
-            transform: translateX(-100%);
-          }
-
-          #{$key-3} {
-            transform: translateX(-100%);
-          }
-
-          #{$key-4} {
-            transform: translateX(-200%);
-          }
-
-          100% {
-            transform: translateX(-200%);
-          }
-        }
-      } @else {
-        @error 'Unexpected number of panes';
-      }
-    }
-
-    animation-direction: alternate;
-    animation-fill-mode: both;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-in;
-    counter-reset: item;
+  .viewport {
     display: flex;
     list-style-type: none;
     padding: 0;
-    scroll-behavior: smooth;
-    scroll-snap-type: x mandatory;
-
-    &:hover {
-      animation-play-state: paused;
-    }
-
-    &:has(.carousel-entry + .carousel-entry) {
-      &:not(:has(.carousel-entry + .carousel-entry + .carousel-entry)) {
-        @include make-animation(2);
-      }
-    }
-
-    &:has(.carousel-entry + .carousel-entry + .carousel-entry) {
-      @include make-animation(3);
-    }
   }
 
   .carousel-entry {
@@ -142,12 +21,10 @@
 
     & {
       box-sizing: border-box;
-      counter-increment: item;
       display: flex;
       flex: 0 0 100%;
-      object-fit: cover;
+      min-width: 0;
       overflow: hidden;
-      scroll-snap-align: start;
     }
 
     a {

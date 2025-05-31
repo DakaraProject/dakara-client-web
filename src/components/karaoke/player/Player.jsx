@@ -131,9 +131,9 @@ class Player extends Component {
           <ServerLost />
         ) : (
           <Carousel className={fetchError ? 'danger' : 'primary'}>
-            <CarouselEntryStats />
             <CarouselEntryCurrentSong />
             <CarouselEntryNextSong />
+            <CarouselEntryStats />
           </Carousel>
         )}
         <CSSTransitionLazy
