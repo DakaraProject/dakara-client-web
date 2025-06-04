@@ -16,7 +16,23 @@ function getColor(ref, style) {
     return ['rgb', [0.0, 0.0, 0.0]]
   }
   const [_, space, c1, c2, c3] = match
-  return [space, [parseFloat(c1), parseFloat(c2), parseFloat(c3)]]
+
+  switch (space) {
+    case 'oklch':
+      // multiply by 100
+      // keep two decimals
+      return [
+        space,
+        [
+          Math.round(parseFloat(c1) * 10000) / 100,
+          Math.round(parseFloat(c2) * 10000) / 100,
+          parseFloat(c3),
+        ],
+      ]
+
+    default:
+      return [space, [parseFloat(c1), parseFloat(c2), parseFloat(c3)]]
+  }
 }
 
 function formatColor(color, space) {
