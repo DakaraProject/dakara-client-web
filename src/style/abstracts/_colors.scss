@@ -32,11 +32,12 @@ $neutral-000: color.change($neutral, $lightness: 0.2);
 
 // 1** colors for background
 // 100 colors for background 0 base
-$primary-100: color.scale($primary, $lightness: -55%, $chroma: -50%);
-$success-100: color.scale($success, $lightness: -55%, $chroma: -50%);
-$warning-100: color.scale($warning, $lightness: -55%, $chroma: -50%);
-$danger-100: color.scale($danger, $lightness: -55%, $chroma: -50%);
-$info-100: color.scale($info, $lightness: -55%, $chroma: -50%);
+// adjustment to keep within sRGB
+$primary-100: color.scale($primary, $lightness: -52.5%, $chroma: -50%);
+$success-100: color.scale($success, $lightness: -52.5%, $chroma: -50%);
+$warning-100: color.scale($warning, $lightness: -52.5%, $chroma: -50%);
+$danger-100: color.scale($danger, $lightness: -52.5%, $chroma: -50%);
+$info-100: color.scale($info, $lightness: -52.5%, $chroma: -50%);
 $neutral-100: color.change($neutral, $lightness: 0.25);
 
 // 101 colors for background 0 even row
