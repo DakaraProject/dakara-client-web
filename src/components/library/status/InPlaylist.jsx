@@ -67,12 +67,21 @@ export default function InPlaylist({ entries, expanded }) {
     case 'playing':
       main = <Playing entry={entry} />
       if (expanded) {
-        message = (
-          <span className="message">
-            This song is requested by <UserWidget user={entry.owner} /> and is
-            currently playing
-          </span>
-        )
+        if (playerStatus.paused) {
+          message = (
+            <span className="message">
+              This song is requested by <UserWidget user={entry.owner} /> and is
+              currently on pause
+            </span>
+          )
+        } else {
+          message = (
+            <span className="message">
+              This song is requested by <UserWidget user={entry.owner} /> and is
+              currently playing
+            </span>
+          )
+        }
       }
       break
 

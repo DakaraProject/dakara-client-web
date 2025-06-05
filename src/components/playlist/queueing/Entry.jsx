@@ -225,7 +225,7 @@ class Entry extends Component {
           <i className="las la-search"></i>
         </span>
       </button>,
-      <IsPlaylistManagerOrOwner key="remove" object={entry} disable>
+      <IsPlaylistManagerOrOwner key="remove" object={entry}>
         <button
           className="control square danger"
           onClick={() => {

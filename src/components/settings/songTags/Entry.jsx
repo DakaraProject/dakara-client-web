@@ -145,7 +145,7 @@ export default class SettingsSongTagsEntry extends Component {
           action={`library/song-tags/${tag.id}/`}
           method="PATCH"
           submitText={submitText}
-          submitClass="success"
+          submitClass="square success"
           alterationName="editSongTagColor"
           elementId={tag.id}
           noClearOnSuccess
