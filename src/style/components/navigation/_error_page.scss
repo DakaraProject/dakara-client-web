@@ -12,17 +12,15 @@
     @include sizes.make-gap(padding, horizontal);
 
     & {
-      background: colors.$danger-200;
+      background: colors.$danger-300;
+      color: colors.$danger-000;
       display: inline-block;
       font-size: 1.1em;
       line-height: 1.5em;
       margin-bottom: 1em;
       margin-left: 0;
       margin-right: 0;
-    }
-
-    &::selection {
-      background: colors.$danger-300;
+      user-select: all;
     }
   }
 }
