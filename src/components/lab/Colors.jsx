@@ -262,10 +262,14 @@ function Sampler() {
 
   const lightnesses = {
     '000': ['000'],
-    100: ['100', '101', '102', '110', '111', '112', '120', '121', '122'],
+    100: ['100', '101', '102'],
+    110: ['110', '111', '112'],
+    120: ['120', '121', '122'],
     200: ['200', '201', '202'],
     300: ['300', '301', '302', '303'],
-    400: ['400', '402', '403', '410', '412', '413', '420', '422', '423'],
+    400: ['400', '402', '403'],
+    410: ['410', '412', '413'],
+    420: ['420', '422', '423'],
     500: ['500', '502'],
   }
 
@@ -305,6 +309,8 @@ function Sampler() {
             {createRows(lightnesses['200'], lightnesses['000'])}
             {createRows(lightnesses['300'], lightnesses['000'])}
             {createRows(lightnesses['100'], lightnesses['400'])}
+            {createRows(lightnesses['110'], lightnesses['410'])}
+            {createRows(lightnesses['120'], lightnesses['420'])}
             {createRows(lightnesses['200'], lightnesses['500'])}
           </tbody>
         </table>
