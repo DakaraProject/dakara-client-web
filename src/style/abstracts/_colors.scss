@@ -13,8 +13,10 @@ $success: oklch(0.59 0.12 166deg); // for success feedback
 $warning: oklch(0.62 0.12 87.3deg); // for warning feedback
 $danger: oklch(0.52 0.12 35.2deg); // for danger feedback
 $info: oklch(0.5 0.12 266.2deg); // for info
+$placeholder: oklch(
+    0.53 0.243 29.234deg
+); // for use with the `hue-rotate` filter, pure red
 $neutral: oklch(0.51 0 0deg); // for gray
-$placeholder: oklch(0.53 0.243 29.234deg); // for use with the `hue-rotate` filter
 
 // Each color has a lot of variations identified by a 3-digit number: TOC, for
 // Type (the type of the color), Order (order of the color within its type),
@@ -81,8 +83,8 @@ $success-200: color.scale($success, $lightness: -30%, $chroma: -33%);
 $warning-200: color.scale($warning, $lightness: -30%, $chroma: -33%);
 $danger-200: color.scale($danger, $lightness: -30%, $chroma: -33%);
 $info-200: color.scale($info, $lightness: -30%, $chroma: -33%);
-$neutral-200: color.change($neutral, $lightness: 0.42);
 $placeholder-200: color.scale($placeholder, $lightness: -30%, $chroma: -33%);
+$neutral-200: color.change($neutral, $lightness: 0.42);
 
 // 201 colors for disabled even row
 $primary-201: color.adjust($primary-200, $lightness: 0.02);
@@ -107,8 +109,8 @@ $success-300: $success;
 $warning-300: $warning;
 $danger-300: $danger;
 $info-300: $info;
-$neutral-300: $neutral;
 $placeholder-300: $placeholder;
+$neutral-300: $neutral;
 
 // 301 colors for light even row
 $primary-301: color.adjust($primary-300, $lightness: 0.02);
@@ -124,8 +126,8 @@ $success-302: color.adjust($success-300, $lightness: 0.05);
 $warning-302: color.adjust($warning-300, $lightness: 0.05);
 $danger-302: color.adjust($danger-300, $lightness: 0.05);
 $info-302: color.adjust($info-300, $lightness: 0.05);
-$neutral-302: color.adjust($neutral-300, $lightness: 0.05);
 $placeholder-302: color.adjust($placeholder-300, $lightness: 0.05);
+$neutral-302: color.adjust($neutral-300, $lightness: 0.05);
 
 // 303 colors for light focus
 $primary-303: color.adjust($primary-300, $lightness: 0.07);
@@ -133,8 +135,8 @@ $success-303: color.adjust($success-300, $lightness: 0.07);
 $warning-303: color.adjust($warning-300, $lightness: 0.07);
 $danger-303: color.adjust($danger-300, $lightness: 0.07);
 $info-303: color.adjust($info-300, $lightness: 0.07);
-$neutral-303: color.adjust($neutral-300, $lightness: 0.07);
 $placeholder-303: color.adjust($placeholder-300, $lightness: 0.07);
+$neutral-303: color.adjust($neutral-300, $lightness: 0.07);
 
 // 4** colors for text
 // 400 colors for text 0 base
@@ -199,33 +201,33 @@ $neutral-502: color.adjust($neutral-500, $lightness: 0.05);
 
 // create colors
 @mixin make-color(
-  $background: null,
-  $color: null,
-  $background-selection: null,
-  $color-selection: null,
-  $color-quote: null
+    $background: null,
+    $color: null,
+    $background-selection: null,
+    $color-selection: null,
+    $color-quote: null
 ) {
-  @if $background {
-    background: $background;
-  }
-  @if $color {
-    color: $color;
-  }
+    @if $background {
+        background: $background;
+    }
+    @if $color {
+        color: $color;
+    }
 
-  &::selection,
-  ::selection {
-    @if $background-selection {
-      background: $background-selection;
+    &::selection,
+    ::selection {
+        @if $background-selection {
+            background: $background-selection;
+        }
+        @if $color-selection {
+            color: $color-selection;
+        }
     }
-    @if $color-selection {
-      color: $color-selection;
-    }
-  }
 
-  &q,
-  q {
-    @if $color-quote {
-      color: $color-quote;
+    &q,
+    q {
+        @if $color-quote {
+            color: $color-quote;
+        }
     }
-  }
 }
