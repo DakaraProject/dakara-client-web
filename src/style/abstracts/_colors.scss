@@ -14,7 +14,7 @@ $warning: oklch(0.62 0.12 87.3deg); // for warning feedback
 $danger: oklch(0.52 0.12 35.2deg); // for danger feedback
 $info: oklch(0.5 0.12 266.2deg); // for info
 $placeholder: oklch(
-    0.53 0.243 29.234deg
+  0.53 0.243 29.234deg
 ); // for use with the `hue-rotate` filter, pure red
 $neutral: oklch(0.51 0 0deg); // for gray
 
@@ -201,33 +201,33 @@ $neutral-502: color.adjust($neutral-500, $lightness: 0.05);
 
 // create colors
 @mixin make-color(
-    $background: null,
-    $color: null,
-    $background-selection: null,
-    $color-selection: null,
-    $color-quote: null
+  $background: null,
+  $color: null,
+  $background-selection: null,
+  $color-selection: null,
+  $color-quote: null
 ) {
-    @if $background {
-        background: $background;
-    }
-    @if $color {
-        color: $color;
-    }
+  @if $background {
+    background: $background;
+  }
+  @if $color {
+    color: $color;
+  }
 
-    &::selection,
-    ::selection {
-        @if $background-selection {
-            background: $background-selection;
-        }
-        @if $color-selection {
-            color: $color-selection;
-        }
+  &::selection,
+  ::selection {
+    @if $background-selection {
+      background: $background-selection;
     }
+    @if $color-selection {
+      color: $color-selection;
+    }
+  }
 
-    &q,
-    q {
-        @if $color-quote {
-            color: $color-quote;
-        }
+  &q,
+  q {
+    @if $color-quote {
+      color: $color-quote;
     }
+  }
 }
