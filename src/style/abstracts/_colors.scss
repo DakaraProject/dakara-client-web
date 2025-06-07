@@ -24,12 +24,12 @@ $neutral: oklch(0.51 0 0deg); // for gray
 
 // 0** colors for black
 // 000 colors for black base
-$primary-000: color.scale($primary, $lightness: -75%, $chroma: -80%);
-$success-000: color.scale($success, $lightness: -75%, $chroma: -80%);
-$warning-000: color.scale($warning, $lightness: -75%, $chroma: -80%);
-$danger-000: color.scale($danger, $lightness: -75%, $chroma: -80%);
-$info-000: color.scale($info, $lightness: -75%, $chroma: -80%);
-$placeholder-000: color.scale($placeholder, $lightness: -75%, $chroma: -80%);
+$primary-000: color.scale($primary, $lightness: -80%, $chroma: -80%);
+$success-000: color.scale($success, $lightness: -80%, $chroma: -80%);
+$warning-000: color.scale($warning, $lightness: -80%, $chroma: -80%);
+$danger-000: color.scale($danger, $lightness: -80%, $chroma: -80%);
+$info-000: color.scale($info, $lightness: -80%, $chroma: -80%);
+$placeholder-000: color.scale($placeholder, $lightness: -80%, $chroma: -80%);
 $neutral-000: color.change($neutral, $lightness: 0.2);
 
 // 1** colors for background
