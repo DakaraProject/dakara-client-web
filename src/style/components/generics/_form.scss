@@ -717,10 +717,10 @@ $form-field-height: sizes.$row-height;
           &::range-track {
             // make the placeholder color a bit darker because the result is
             // different compared to the colors given by `hue-rotate`
-            $color: color.scale(colors.$placeholder-300, $lightness: -20%);
+            $color: color.scale(colors.$placeholder-300, $lightness: -15%);
 
             background: linear-gradient(
-              in hsl longer hue to right,
+              in oklch longer hue to right,
               $color 0% 100%
             );
             height: $track-height;
