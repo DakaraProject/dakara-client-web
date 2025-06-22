@@ -194,7 +194,7 @@ export function CarouselEntryStats() {
   }
 
   return (
-    <CarouselEntry jumbo="Stats" className="stats">
+    <CarouselEntry jumbo="Playlist" className="stats">
       <ul>
         {played}
         {queuing}
