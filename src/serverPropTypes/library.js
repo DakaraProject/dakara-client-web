@@ -38,8 +38,8 @@ export const songPropType = PropTypes.shape({
   title: PropTypes.string.isRequired,
   version: PropTypes.string,
   duration: PropTypes.number.isRequired,
-  works: PropTypes.arrayOf(workLinkPropType).isRequired,
-  artists: PropTypes.arrayOf(artistPropType).isRequired,
+  works: PropTypes.arrayOf(workLinkPropType),
+  artists: PropTypes.arrayOf(artistPropType),
   detail: PropTypes.string,
   detail_video: PropTypes.string,
   lyrics: PropTypes.shape({
@@ -47,5 +47,5 @@ export const songPropType = PropTypes.shape({
     text: PropTypes.string.isRequired,
   }),
   has_instrumental: PropTypes.bool,
-  tags: PropTypes.arrayOf(songTagPropType).isRequired,
+  tags: PropTypes.arrayOf(songTagPropType),
 })

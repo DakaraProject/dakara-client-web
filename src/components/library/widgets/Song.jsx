@@ -1,6 +1,5 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { Component } from 'react'
 
 import HighlighterQuery from 'components/generics/HighlighterQuery'
 import SongTagList from 'components/library/SongTagList'
@@ -9,97 +8,92 @@ import WorkLinkWidget from 'components/library/widgets/WorkLink'
 import { songPropType } from 'serverPropTypes/library'
 import { formatDuration, isDisplayable } from 'utils'
 
-export default class SongWidget extends Component {
-  static propTypes = {
-    noRelations: PropTypes.bool,
-    noDuration: PropTypes.bool,
-    noTags: PropTypes.bool,
-    query: PropTypes.object,
-    song: songPropType.isRequired,
-    truncatable: PropTypes.bool,
+export default function SongWidget({
+  song,
+  query,
+  noRelations,
+  noDuration,
+  noTags,
+  truncatable,
+  workLinkProps,
+  artistProps,
+}) {
+  /**
+   * Song version
+   */
+
+  let version
+  if (song.version) {
+    version = (
+      <HighlighterQuery
+        query={query}
+        className="version"
+        searchWords={(q) => q.remaining}
+        textToHighlight={song.version}
+      />
+    )
   }
 
-  render() {
-    const { song, query, noRelations, noDuration, noTags, truncatable } =
-      this.props
+  /**
+   * Relations
+   * (artists and works)
+   */
 
-    /**
-     * Song version
-     */
+  let relations
+  if (!noRelations) {
+    const works = song.works.map((work) => (
+      <WorkLinkWidget
+        key={work.id}
+        workLink={work}
+        query={query}
+        noEpisodes
+        truncatable={truncatable}
+        {...workLinkProps}
+      />
+    ))
 
-    let version
-    if (song.version) {
-      version = (
-        <HighlighterQuery
-          query={query}
-          className="version"
-          searchWords={(q) => q.remaining}
-          textToHighlight={song.version}
-        />
+    const artists = song.artists.map((artist) => (
+      <ArtistWidget
+        artist={artist}
+        query={query}
+        key={artist.id}
+        noCount
+        truncatable={truncatable}
+        {...artistProps}
+      />
+    ))
+
+    if (isDisplayable(artists) || isDisplayable(works)) {
+      relations = (
+        <span className="relations">
+          {isDisplayable(artists) && <span className="artists">{artists}</span>}
+          {isDisplayable(works) && <span className="works">{works}</span>}
+        </span>
       )
     }
+  }
 
-    /**
-     * Relations
-     * (artists and works)
-     */
+  /**
+   * Song duration
+   */
 
-    let relations
-    if (!noRelations) {
-      const works = song.works.map((work) => (
-        <WorkLinkWidget
-          key={work.id}
-          workLink={work}
-          query={query}
-          noEpisodes
-          truncatable={truncatable}
-        />
-      ))
+  let duration
+  if (!noDuration) {
+    duration = <span className="duration">{formatDuration(song.duration)}</span>
+  }
 
-      const artists = song.artists.map((artist) => (
-        <ArtistWidget
-          artist={artist}
-          query={query}
-          key={artist.id}
-          noCount
-          truncatable={truncatable}
-        />
-      ))
+  /**
+   * Song tags
+   */
 
-      if (isDisplayable(artists) || isDisplayable(works)) {
-        relations = (
-          <span className="relations">
-            {isDisplayable(artists) && (
-              <span className="artists">{artists}</span>
-            )}
-            {isDisplayable(works) && <span className="works">{works}</span>}
-          </span>
-        )
-      }
-    }
+  let tags
+  if (!noTags && song.tags.length > 0) {
+    tags = <SongTagList tags={song.tags} query={query} noClick />
+  }
 
-    /**
-     * Song duration
-     */
-
-    let duration
-    if (!noDuration) {
-      duration = (
-        <span className="duration">{formatDuration(song.duration)}</span>
-      )
-    }
-
-    /**
-     * Song tags
-     */
-
-    let tags
-    if (!noTags && song.tags.length > 0) {
-      tags = <SongTagList tags={song.tags} query={query} noClick />
-    }
-
-    return (
-      <div className={classNames('song-widget', { truncatable })}>
+  return (
+    <div className={classNames('song-widget', { truncatable })}>
+      <span className="titling">
         <HighlighterQuery
           query={query}
           className="title"
@@ -107,10 +101,21 @@ export default class SongWidget extends Component {
           textToHighlight={song.title}
         />
         {version}
-        {relations}
-        {duration}
-        {tags}
-      </div>
-    )
-  }
+      </span>
+      {relations}
+      {duration}
+      {tags}
+    </div>
+  )
+}
+
+SongWidget.propTypes = {
+  noRelations: PropTypes.bool,
+  noDuration: PropTypes.bool,
+  noTags: PropTypes.bool,
+  query: PropTypes.object,
+  song: songPropType.isRequired,
+  truncatable: PropTypes.bool,
+  workLinkProps: PropTypes.object,
+  artistProps: PropTypes.object,
 }

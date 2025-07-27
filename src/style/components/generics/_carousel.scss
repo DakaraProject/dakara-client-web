@@ -1,0 +1,55 @@
+//
+// Dakara Project
+//
+// Carousel style file
+//
+
+@use '~/abstracts/sizes';
+@use '~/abstracts/support';
+
+.carousel {
+  overflow: hidden;
+
+  .viewport {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .carousel-entry {
+    @include sizes.make-gap(padding, horizontal);
+
+    & {
+      box-sizing: border-box;
+      column-gap: 0.5em;
+      display: flex;
+      flex: 0 0 100%;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    a {
+      color: unset;
+      text-decoration: unset;
+    }
+
+    .content {
+      flex-grow: 1;
+      overflow: hidden;
+    }
+
+    .jumbo {
+      font-size: 3rem;
+      font-weight: 200;
+
+      @include support.make-smartphone {
+        font-size: 2.2rem;
+        font-weight: 300;
+      }
+
+      & + .content {
+        text-align: right;
+      }
+    }
+  }
+}

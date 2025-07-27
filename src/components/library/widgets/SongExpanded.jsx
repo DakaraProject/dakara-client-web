@@ -73,7 +73,9 @@ class SongExpanded extends Component {
                 workLink={workLink}
                 query={query}
                 longLinkType
-                noIcon
+                workProps={{
+                  noIcon: true,
+                }}
               />
             </ListingEntry>
           )

@@ -130,22 +130,24 @@ export default class PlayerNotification extends Component {
     if (message) {
       notification = (
         <CSSTransition
-          classNames="notified"
+          classNames="player-notified"
           timeout={{
             enter: 300,
             exit: 150,
           }}
           key={key}
         >
-          <div className="notified">
-            <div className="notification danger">
-              <div className="message">{message}</div>
-            </div>
+          <div className="player-notified">
+            <div className="notification listable danger error">{message}</div>
           </div>
         </CSSTransition>
       )
     }
 
-    return <TransitionGroup>{notification}</TransitionGroup>
+    return (
+      <TransitionGroup className="player-notification">
+        {notification}
+      </TransitionGroup>
+    )
   }
 }

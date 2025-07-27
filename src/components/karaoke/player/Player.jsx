@@ -5,11 +5,14 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { sendPlayerCommand } from 'actions/playlist'
+import { Carousel } from 'components/generics/Carousel'
+import {
+  CarouselEntryCurrentSong,
+  CarouselEntryNextSong,
+  CarouselEntryStats,
+} from 'components/karaoke/player/Carousel'
 import ManageButton from 'components/karaoke/player/ManageButton'
 import PlayerNotification from 'components/karaoke/player/Notification'
-import ArtistWidget from 'components/library/widgets/Artist'
-import WorkLinkWidget from 'components/library/widgets/WorkLink'
-import UserWidget from 'components/user/widgets/User'
 import { IsPlaylistManagerOrOwner } from 'permissions/Playlist'
 import {
   alterationResponsePropType,
@@ -20,7 +23,6 @@ import { playerErrorsDigestStatePropType } from 'reducers/playlistDigest'
 import { userPropType } from 'serverPropTypes/users'
 import { withNavigate } from 'thirdpartyExtensions/ReactRouterDom'
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
-import { formatDuration } from 'utils'
 
 class Player extends Component {
   static propTypes = {
@@ -30,7 +32,6 @@ class Player extends Component {
       alterationResponsePropType
     ),
     sendPlayerCommand: PropTypes.func.isRequired,
-    setWithControls: PropTypes.func.isRequired,
     user: userPropType.isRequired,
     navigate: PropTypes.func.isRequired,
   }
@@ -50,7 +51,6 @@ class Player extends Component {
 
     if (withControls) {
       this.setState({ withControls })
-      this.props.setWithControls(withControls)
     }
   }
 
@@ -70,7 +70,6 @@ class Player extends Component {
 
       if (withControls !== prevWithControls) {
         this.setState({ withControls, animationsEnabled: true })
-        this.props.setWithControls(withControls)
       }
     }
   }
@@ -110,113 +109,33 @@ class Player extends Component {
     }
 
     /**
-     * Server lost widget
-     */
-    const serverLost = (
-      <CSSTransitionLazy
-        in={fetchError}
-        classNames="notified"
-        timeout={{
-          enter: 300,
-          exit: 150,
-        }}
-      >
-        <ServerLost />
-      </CSSTransitionLazy>
-    )
-
-    /**
      * Display playlist entry if any song is currently playing
      */
 
-    let progress
-    let info
+    let progress = 0
     if (isPlaying) {
-      const { song, owner, use_instrumental } = playerStatus.playlist_entry
-
-      /**
-       * Manage instrumental playlist entry
-       */
-      let useInstrumental
-      if (use_instrumental) {
-        useInstrumental = (
-          <div className="use-instrumental">
-            <span className="icon">
-              <i className="las la-microphone-slash"></i>
-            </span>
-          </div>
-        )
-      }
-
-      // the progress is displayed only when the song has really started
-      // and only if the song has a known duration
+      const { song } = playerStatus.playlist_entry
       if (!playerStatus.in_transition && song.duration > 0) {
-        progress = Math.min((playerStatus.timing * 100) / song.duration, 100)
+        progress = Math.min(playerStatus.timing / song.duration, 1)
+      } else {
+        progress = undefined
       }
-
-      info = (
-        <div className="player-info">
-          <div className="playlist-entry">
-            {useInstrumental}
-            <button
-              className="entry-info transparent"
-              onClick={() => {
-                this.handleSearch(song)
-              }}
-            >
-              <div className="song-title">{song.title}</div>
-              <div className="song-artists">
-                {song.artists.map((a) => (
-                  <ArtistWidget artist={a} key={a.id} truncatable />
-                ))}
-              </div>
-              <div className="song-works">
-                {song.works.map((w) => (
-                  <WorkLinkWidget
-                    workLink={w}
-                    key={w.id}
-                    noEpisodes
-                    truncatable
-                  />
-                ))}
-              </div>
-              <UserWidget user={owner} noResize />
-            </button>
-          </div>
-          <div className="timing">
-            <div className="current">{formatDuration(playerStatus.timing)}</div>
-            <div className="duration">{formatDuration(song.duration)}</div>
-          </div>
-        </div>
-      )
-    } else {
-      progress = 0
-      info = (
-        <div className="player-info">
-          <div className="playlist-entry"></div>
-          <div className="timing">
-            <div className="current">{formatDuration(0)}</div>
-            <div className="duration">{formatDuration(0)}</div>
-          </div>
-        </div>
-      )
     }
 
     return (
       <div
         id="player"
-        className={classNames({ 'with-controls': withControls })}
+        className={classNames('box', fetchError ? 'danger' : 'primary')}
       >
-        <div className="player-sticky primary">
-          <div className="notifiable">
-            {info}
-            <PlayerNotification
-              alterationsResponse={responseOfSendPlayerCommandsSafe}
-              playerErrors={playerErrors}
-            />
-            {serverLost}
-          </div>
-        </div>
+        {fetchError ? (
+          <ServerLost />
+        ) : (
+          <Carousel className={fetchError ? 'danger' : 'primary'}>
+            <CarouselEntryCurrentSong />
+            <CarouselEntryNextSong />
+            <CarouselEntryStats />
+          </Carousel>
+        )}
         <CSSTransitionLazy
           in={withControls}
           classNames="expand"
@@ -232,12 +151,14 @@ class Player extends Component {
               responseOfManage={responseOfSendPlayerCommandsSafe.restart}
               onClick={() => this.props.sendPlayerCommand('restart')}
               disabled={controlDisabled}
+              error={fetchError}
               icon="step-backward"
             />
             <ManageButton
               responseOfManage={responseOfSendPlayerCommandsSafe.rewind}
               onClick={() => this.props.sendPlayerCommand('rewind')}
               disabled={controlDisabled}
+              error={fetchError}
               icon="backward"
             />
             <ManageButton
@@ -256,6 +177,7 @@ class Player extends Component {
                 }
               }}
               disabled={controlDisabled}
+              error={fetchError}
               icon={
                 isPlaying ? (playerStatus.paused ? 'play' : 'pause') : 'stop'
               }
@@ -264,35 +186,43 @@ class Player extends Component {
               responseOfManage={responseOfSendPlayerCommandsSafe.fast_forward}
               onClick={() => this.props.sendPlayerCommand('fast_forward')}
               disabled={controlDisabled}
+              error={fetchError}
               icon="forward"
             />
             <ManageButton
               responseOfManage={responseOfSendPlayerCommandsSafe.skip}
               onClick={() => this.props.sendPlayerCommand('skip', true)}
               disabled={controlDisabled}
+              error={fetchError}
               icon="step-forward"
             />
           </div>
         </CSSTransitionLazy>
-        <progress className="progressbar" max="100" value={progress}>
-          <div className="bar">
-            <div className="value" style={{ width: `${progress}%` }}></div>
-          </div>
+        <progress
+          className={classNames(
+            'progressbar',
+            fetchError ? 'danger' : 'primary'
+          )}
+          value={progress}
+        >
+          {progress}
         </progress>
+        <PlayerNotification
+          alterationsResponse={responseOfSendPlayerCommandsSafe}
+          playerErrors={playerErrors}
+        />
       </div>
     )
   }
 }
 
 const ServerLost = () => (
-  <div className="notified">
-    <div className="notification danger">
-      <div className="message">Unable to get status from server</div>
-      <div className="animation pending">
-        <span className="point">·</span>
-        <span className="point">·</span>
-        <span className="point">·</span>
-      </div>
+  <div className="server-lost danger">
+    <div className="message">Unable to get status from server</div>
+    <div className="pending">
+      <span className="point">·</span>
+      <span className="point">·</span>
+      <span className="point">·</span>
     </div>
   </div>
 )

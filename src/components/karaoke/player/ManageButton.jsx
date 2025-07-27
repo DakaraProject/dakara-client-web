@@ -38,6 +38,7 @@ export default class ManageButton extends Component {
     onClick: PropTypes.func.isRequired,
     responseOfManage: alterationResponsePropType.isRequired,
     timeout: PropTypes.number,
+    error: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -120,7 +121,8 @@ export default class ManageButton extends Component {
   }
 
   render() {
-    const { onClick, disabled, className, timeout, iconDisabled } = this.props
+    const { onClick, disabled, className, timeout, iconDisabled, error } =
+      this.props
 
     const onClickControlled = (e) => {
       // do not manage any other click during the transition
@@ -137,9 +139,14 @@ export default class ManageButton extends Component {
 
     return (
       <button
-        className={classNames('control', 'square', 'primary', className, {
-          'managed-error': this.state.error,
-        })}
+        className={classNames(
+          'control square managed-button',
+          error ? 'danger' : 'primary',
+          className,
+          {
+            'managed-error': this.state.error,
+          }
+        )}
         onClick={onClickControlled}
         disabled={disabled}
       >

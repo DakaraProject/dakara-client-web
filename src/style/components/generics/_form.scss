@@ -159,6 +159,7 @@ $form-field-height: sizes.$row-height;
 
             &.error-container-enter {
               max-height: 0;
+              overflow-y: hidden;
 
               &.error-container-enter-active {
                 max-height: calc(1em + #{sizes.$gap-vertical} * 2);
@@ -172,6 +173,7 @@ $form-field-height: sizes.$row-height;
 
               &.error-container-exit-active {
                 max-height: 0;
+                overflow-y: hidden;
                 transition: max-height 100ms ease-out;
               }
             }
