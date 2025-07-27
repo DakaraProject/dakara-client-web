@@ -240,6 +240,10 @@ $player-progressbar-height: 0.4rem;
         }
       }
     }
+
+    .relative-date .date {
+      @include preboot.text-truncate();
+    }
   }
 
   .carousel {
@@ -315,10 +319,13 @@ $player-progressbar-height: 0.4rem;
       .stats {
         ul {
           list-style-type: none;
+          overflow: hidden;
           padding: 0;
         }
 
         li {
+          @include preboot.text-truncate();
+
           line-height: 2rem;
         }
 
