@@ -144,17 +144,21 @@ export function isDisplayable(item) {
 /**
  * Differentiate played, playing, and queuing entries.
  * @param entries Array of entries of any sort.
- * @returns Array of 3 elements, contaning the array of played entries, the
- * array of playing entries (expected to contain 0 or 1 item), and the array of
- * queuing entries.
+ * @returns Object of played entries, playing entries (expected to contain 0 or
+ * 1 item), and queuing entries.
  */
 export function differentiateEntries(entries) {
-  // TODO improve with `Object.groupBy`
-  const playedEntries = entries.filter((e) => e.was_played)
-  const playingEntries = entries.filter((e) => e.date_play && !e.was_played)
-  const queuingEntries = entries.filter((e) => !(e.was_played || e.date_play))
+  return Object.groupBy(entries, (e) => {
+    if (e.was_played) {
+      return 'playedEntries'
+    }
 
-  return [playedEntries, playingEntries, queuingEntries]
+    if (e.date_play) {
+      return 'playingEntries'
+    }
+
+    return 'queuingEntries'
+  })
 }
 
 /**

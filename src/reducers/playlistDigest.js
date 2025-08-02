@@ -72,7 +72,7 @@ function entries(state = defaultEntries, action) {
       }
 
       // differentiate playlist entries
-      const [playedEntries, playingEntries, queuingEntries] =
+      const { playedEntries, playingEntries, queuingEntries } =
         differentiateEntries(entries)
 
       // update queuing entries with estimated date of play

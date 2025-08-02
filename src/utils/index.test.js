@@ -127,7 +127,7 @@ describe('differentiate entries', () => {
     { id: 3, date_play: null, was_played: false },
   ]
 
-  const [playedEntries, playingEntries, queuingEntries] =
+  const { playedEntries, playingEntries, queuingEntries } =
     differentiateEntries(entries)
 
   test('get played', () => {
