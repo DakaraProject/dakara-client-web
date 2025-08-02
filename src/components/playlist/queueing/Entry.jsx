@@ -32,7 +32,7 @@ class Entry extends Component {
     entry: playlistEntryPropType.isRequired,
     navigate: PropTypes.func.isRequired,
     reorderPlaylistEntry: PropTypes.func.isRequired,
-    playlistEntriesDigest: PropTypes.arrayOf(playlistEntryPropType).isRequired,
+    queuingEntriesDigest: PropTypes.arrayOf(playlistEntryPropType).isRequired,
     positions: PropTypes.shape({
       position: PropTypes.number.isRequired,
       firstId: PropTypes.number,
@@ -162,7 +162,7 @@ class Entry extends Component {
   }
 
   render() {
-    const { entry, positions, playlistEntriesDigest, searchParams } = this.props
+    const { entry, positions, queuingEntriesDigest, searchParams } = this.props
 
     /**
      * Reorder buttons
@@ -311,7 +311,7 @@ class Entry extends Component {
       />,
     ]
 
-    const playlistEntryDigest = playlistEntriesDigest.find(
+    const queuingEntryDigest = queuingEntriesDigest.find(
       (e) => e.id === entry.id
     )
 
@@ -332,9 +332,9 @@ class Entry extends Component {
           <DetailText icon="la-clock" name="Requested at">
             {formatDateLong(entry.date_created)}
           </DetailText>
-          {playlistEntryDigest && (
+          {queuingEntryDigest && (
             <DetailText icon="la-clock" name="Should play at">
-              {formatDateLong(playlistEntryDigest.date_play)}
+              {formatDateLong(queuingEntryDigest.date_play)}
             </DetailText>
           )}
         </Details>
@@ -365,7 +365,7 @@ class Entry extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  playlistEntriesDigest: state.playlist.digest.entries.data.playlistEntries,
+  queuingEntriesDigest: state.playlist.digest.entries.data.queuingEntries,
   responseOfRemoveEntry:
     state.alterationsResponse.multiple.removeEntryFromPlaylist?.[
       ownProps.entry.id

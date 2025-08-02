@@ -48,12 +48,13 @@ export function CarouselEntryCurrentSong() {
 }
 
 export function CarouselEntryNextSong() {
-  const { playlistEntries } = useSelector(
+  const { queuingEntries } = useSelector(
     (state) => state.playlist.digest.entries.data
   )
-  const entry = playlistEntries.find((e) => e.will_play)
 
-  if (!entry) {
+  const queuingEntryNext = queuingEntries?.[0]
+
+  if (!queuingEntryNext) {
     return null
   }
 
@@ -64,19 +65,19 @@ export function CarouselEntryNextSong() {
         to={{
           pathname: '/library/song',
           search: queryString.stringify({
-            query: `title:""${entry.song.title}""`,
-            expanded: entry.song.id,
+            query: `title:""${queuingEntryNext.song.title}""`,
+            expanded: queuingEntryNext.song.id,
           }),
         }}
       >
-        <PlaylistEntryWidget entry={entry} truncatable />
+        <PlaylistEntryWidget entry={queuingEntryNext} truncatable />
       </Link>
     </CarouselEntry>
   )
 }
 
 export function CarouselEntryStats() {
-  const { playlistEntries, dateEnd } = useSelector(
+  const { queuingEntries, playedEntries, dateEnd } = useSelector(
     (state) => state.playlist.digest.entries.data
   )
   const { data: playerStatus } = useSelector(
@@ -85,25 +86,25 @@ export function CarouselEntryStats() {
   const { date_stop: karaokeDateStop } = useSelector(
     (state) => state.playlist.karaoke.data
   )
-  const countPlayed = playlistEntries.filter((e) => e.was_played).length
-  const countQueueing = playlistEntries.filter((e) => e.will_play).length
+  const countPlayedEntries = playedEntries.length
+  const countQueueingEntries = queuingEntries.length
 
   /**
    * Played songs
    */
 
-  let played
-  switch (countPlayed) {
+  let playedStats
+  switch (countPlayedEntries) {
     case 0:
-      played = <li>The karaoke has just started!</li>
+      playedStats = <li>The karaoke has just started!</li>
       break
     case 1:
-      played = <li>One song played, keep going!</li>
+      playedStats = <li>One song played, keep going!</li>
       break
     default:
-      played = (
+      playedStats = (
         <li>
-          <q>{countPlayed}</q> songs played so far
+          <q>{countPlayedEntries}</q> songs played so far
         </li>
       )
   }
@@ -112,18 +113,18 @@ export function CarouselEntryStats() {
    * Queuing songs
    */
 
-  let queuing
-  switch (countQueueing) {
+  let queuingStats
+  switch (countQueueingEntries) {
     case 0:
-      queuing = <li>No songs queued in playlist yet</li>
+      queuingStats = <li>No songs queued in playlist yet</li>
       break
     case 1:
-      queuing = <li>One song queued in playlist, add more!</li>
+      queuingStats = <li>One song queued in playlist, add more!</li>
       break
     default:
-      queuing = (
+      queuingStats = (
         <li>
-          <q>{countQueueing}</q> songs queued in playlist
+          <q>{countQueueingEntries}</q> songs queued in playlist
         </li>
       )
   }
@@ -136,7 +137,7 @@ export function CarouselEntryStats() {
    */
 
   const playlistEndDate =
-    dateEnd && (countQueueing || playerStatus.playlist_entry)
+    dateEnd && (countQueueingEntries || playerStatus.playlist_entry)
       ? dayjs(dateEnd)
       : null
   const karaokeEndDate = karaokeDateStop ? dayjs(karaokeDateStop) : null
@@ -196,8 +197,8 @@ export function CarouselEntryStats() {
   return (
     <CarouselEntry jumbo="Playlist" className="stats">
       <ul>
-        {played}
-        {queuing}
+        {playedStats}
+        {queuingStats}
         {end}
       </ul>
     </CarouselEntry>

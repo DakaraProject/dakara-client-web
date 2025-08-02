@@ -12,6 +12,7 @@ import {
   playerErrorPropType,
   playlistEntryPropType,
 } from 'serverPropTypes/playlist'
+import { differentiateEntries } from 'utils'
 
 /**
  * This reducer contains playlist digest data related state
@@ -22,19 +23,25 @@ import {
  * Minimal information is stored
  */
 
+export const playlistEntriesDigestStateDataPropType = PropTypes.shape({
+  dateEnd: PropTypes.string.isRequired,
+  playedEntries: PropTypes.arrayOf(playlistEntryPropType).isRequired,
+  playingEntries: PropTypes.arrayOf(playlistEntryPropType).isRequired,
+  queuingEntries: PropTypes.arrayOf(playlistEntryPropType).isRequired,
+})
+
 export const playlistEntriesDigestStatePropType = PropTypes.shape({
   status: PropTypes.symbol,
-  data: PropTypes.shape({
-    dateEnd: PropTypes.string.isRequired,
-    playlistEntries: PropTypes.arrayOf(playlistEntryPropType).isRequired,
-  }).isRequired,
+  data: playlistEntriesDigestStateDataPropType.isRequired,
 })
 
 const defaultEntries = {
   status: null,
   data: {
     dateEnd: '',
-    playlistEntries: [],
+    playedEntries: [],
+    playingEntries: [],
+    queuingEntries: [],
   },
 }
 
@@ -54,6 +61,7 @@ function entries(state = defaultEntries, action) {
 
       const entries = action.response.playlist_entries
 
+      // update current date to when the playing playlist entry ends
       let date = dayjs()
       if (action.response.player_status.playlist_entry) {
         date = date.add(
@@ -63,23 +71,23 @@ function entries(state = defaultEntries, action) {
         )
       }
 
-      entries.forEach((e) => {
-        // eliminate played and current entries
-        if (e.was_played || e.date_play) return
+      // differentiate playlist entries
+      const [playedEntries, playingEntries, queuingEntries] =
+        differentiateEntries(entries)
 
-        // estimate when the entry will play
+      // update queuing entries with estimated date of play
+      queuingEntries.forEach((e) => {
         e.date_play = date.toISOString()
         date = date.add(e.song.duration, 's')
-
-        // mark the entry as will play
-        e.will_play = true
       })
 
       return {
         status: Status.successful,
         data: {
           dateEnd: date.toISOString(),
-          playlistEntries: entries,
+          playedEntries,
+          playingEntries,
+          queuingEntries,
         },
       }
     }

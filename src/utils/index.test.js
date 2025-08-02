@@ -1,15 +1,13 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import {
+  differentiateEntries,
   formatDate,
   formatDateLong,
   formatDateRelative,
   formatDuration,
   getEntriesHash,
   getEntry,
-  getEntryPlayed,
-  getEntryPlaying,
-  getEntryQueuing,
 } from '.'
 
 describe('format duration', () => {
@@ -122,102 +120,59 @@ describe('format date relative', () => {
   })
 })
 
-describe('get playing', () => {
-  test('nothing if no status', () => {
-    expect(getEntryPlaying([{ id: 1 }], { playlist_entry: null })).toBeFalsy()
+describe('differentiate entries', () => {
+  const entries = [
+    { id: 1, date_play: '1970-01-01T00:00', was_played: true },
+    { id: 2, date_play: '1970-01-01T00:05', was_played: false },
+    { id: 3, date_play: null, was_played: false },
+  ]
+
+  const [playedEntries, playingEntries, queuingEntries] =
+    differentiateEntries(entries)
+
+  test('get played', () => {
+    expect(playedEntries[0]).toStrictEqual(entries[0])
   })
 
-  test('entry if found', () => {
-    expect(
-      getEntryPlaying([{ id: 1 }, { id: 2 }, { id: 3 }], {
-        playlist_entry: { id: 2 },
-      })
-    ).toStrictEqual({ id: 2 })
+  test('get playing', () => {
+    expect(playingEntries[0]).toStrictEqual(entries[1])
   })
 
-  test('nothing if not found', () => {
-    expect(
-      getEntryPlaying([{ id: 1 }, { id: 2 }, { id: 3 }], {
-        playlist_entry: { id: 4 },
-      })
-    ).toBeFalsy()
-  })
-})
-
-describe('get queuing', () => {
-  test('entry if found', () => {
-    expect(
-      getEntryQueuing([
-        { id: 1, will_play: false },
-        { id: 2, will_play: true },
-        { id: 3, will_play: false },
-      ])
-    ).toStrictEqual({ id: 2, will_play: true })
-  })
-
-  test('nothing if not found', () => {
-    expect(
-      getEntryQueuing([
-        { id: 1, will_play: false },
-        { id: 2, will_play: false },
-        { id: 3, will_play: false },
-      ])
-    ).toBeFalsy()
-  })
-})
-
-describe('get played', () => {
-  test('entry if found', () => {
-    expect(
-      getEntryPlayed([
-        { id: 1, was_played: false },
-        { id: 2, was_played: true },
-        { id: 3, was_played: false },
-      ])
-    ).toStrictEqual({ id: 2, was_played: true })
-  })
-
-  test('nothing if not found', () => {
-    expect(
-      getEntryPlayed([
-        { id: 1, was_played: false },
-        { id: 2, was_played: false },
-        { id: 3, was_played: false },
-      ])
-    ).toBeFalsy()
+  test('get queuing', () => {
+    expect(queuingEntries[0]).toStrictEqual(entries[2])
   })
 })
 
 describe('get entry', () => {
-  const entries = [
-    { id: 1, will_play: false, was_played: true },
-    { id: 2, will_play: true, was_played: false },
-    { id: 3, will_play: true, was_played: false },
-  ]
+  const entries = [{ id: 1 }, { id: 2 }, { id: 3 }]
+
+  test('get played', () => {
+    expect(
+      getEntry([entries[0]], [], [], { playlist_entry: { id: 99 } })
+    ).toStrictEqual({
+      entry: entries[0],
+      position: 'played',
+    })
+  })
 
   test('get playing', () => {
-    expect(getEntry(entries, { playlist_entry: { id: 3 } })).toStrictEqual({
-      entry: entries[2],
+    expect(
+      getEntry([entries[0]], [entries[1]], [entries[2]], {
+        playlist_entry: { id: 2 },
+      })
+    ).toStrictEqual({
+      entry: entries[1],
       position: 'playing',
     })
   })
 
   test('get queuing', () => {
     expect(
-      getEntry([entries[0], entries[1]], { playlist_entry: { id: 3 } })
+      getEntry([entries[0]], [], [entries[2]], { playlist_entry: { id: 99 } })
     ).toStrictEqual({
-      entry: entries[1],
+      entry: entries[2],
       position: 'queuing',
     })
-  })
-
-  test('get played', () => {
-    expect(getEntry([entries[0]], { playlist_entry: { id: 3 } })).toStrictEqual(
-      {
-        entry: entries[0],
-        position: 'played',
-      }
-    )
   })
 })
 

@@ -57,9 +57,9 @@ Played.propTypes = {
   entry: playlistEntryPropType,
 }
 
-export default function InPlaylist({ entries, expanded }) {
+export default function InPlaylist({ played, playing, queuing, expanded }) {
   const playerStatus = useSelector((state) => state.playlist.playerStatus.data)
-  const { entry, position } = getEntry(entries, playerStatus)
+  const { entry, position } = getEntry(played, playing, queuing, playerStatus)
 
   let main
   let message
@@ -122,6 +122,8 @@ export default function InPlaylist({ entries, expanded }) {
 }
 
 InPlaylist.propTypes = {
-  entries: PropTypes.arrayOf(playlistEntryPropType),
+  played: PropTypes.arrayOf(playlistEntryPropType),
+  playing: PropTypes.arrayOf(playlistEntryPropType),
+  queuing: PropTypes.arrayOf(playlistEntryPropType),
   expanded: PropTypes.bool,
 }
