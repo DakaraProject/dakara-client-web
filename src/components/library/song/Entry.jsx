@@ -33,7 +33,8 @@ class SongEntry extends Component {
     addSongToPlaylist: PropTypes.func.isRequired,
     clearAlteration: PropTypes.func.isRequired,
     karaokeRemainingSeconds: PropTypes.number,
-    playlistEntriesDigest: playlistEntriesDigestStateDataPropType.isRequired,
+    playlistEntriesDigestData:
+      playlistEntriesDigestStateDataPropType.isRequired,
     query: PropTypes.object,
     responseOfAddSong: alterationResponsePropType,
     song: songPropType.isRequired,
@@ -58,7 +59,7 @@ class SongEntry extends Component {
       query,
       song,
       user,
-      playlistEntriesDigest,
+      playlistEntriesDigestData,
       searchParams,
     } = this.props
     const exceeding =
@@ -94,13 +95,18 @@ class SongEntry extends Component {
      * Play queue info
      */
 
-    const playedEntriesCurrentSong = playlistEntriesDigest.playedEntries.filter(
-      (e) => e.song.id === song.id
-    )
+    const playedEntriesCurrentSong =
+      playlistEntriesDigestData.playedEntries.filter(
+        (e) => e.song.id === song.id
+      )
     const playingEntriesCurrentSong =
-      playlistEntriesDigest.playingEntries.filter((e) => e.song.id === song.id)
+      playlistEntriesDigestData.playingEntries.filter(
+        (e) => e.song.id === song.id
+      )
     const queuingEntriesCurrentSong =
-      playlistEntriesDigest.queuingEntries.filter((e) => e.song.id === song.id)
+      playlistEntriesDigestData.queuingEntries.filter(
+        (e) => e.song.id === song.id
+      )
     if (
       playedEntriesCurrentSong.length > 0 ||
       playingEntriesCurrentSong.length > 0 ||
@@ -241,7 +247,7 @@ const mapStateToProps = (state, ownProps) => ({
     state.alterationsResponse.multiple.addSongToPlaylistWithOptions?.[
       ownProps.song.id
     ],
-  playlistEntriesDigest: state.playlist.digest.entries.data,
+  playlistEntriesDigestData: state.playlist.digest.entries.data,
   user: state.authenticatedUser,
 })
 

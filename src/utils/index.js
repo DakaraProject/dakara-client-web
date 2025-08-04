@@ -148,7 +148,7 @@ export function isDisplayable(item) {
  * 1 item), and queuing entries.
  */
 export function differentiateEntries(entries) {
-  return Object.groupBy(entries, (e) => {
+  const differentiated = Object.groupBy(entries, (e) => {
     if (e.was_played) {
       return 'playedEntries'
     }
@@ -159,6 +159,11 @@ export function differentiateEntries(entries) {
 
     return 'queuingEntries'
   })
+
+  return {
+    ...{ playedEntries: [], playingEntries: [], queuingEntries: [] },
+    ...differentiated,
+  }
 }
 
 /**
