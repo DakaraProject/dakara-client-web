@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 
 import UserWidget from 'components/user/widgets/User'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
-import { formatDate, formatDateRelative, getEntry } from 'utils'
+import { formatDate, formatDateRelative, getMostPertinentEntry } from 'utils'
 
 function Playing({ entry }) {
   const playerStatus = useSelector((state) => state.playlist.playerStatus.data)
@@ -59,7 +59,12 @@ Played.propTypes = {
 
 export default function InPlaylist({ played, playing, queuing, expanded }) {
   const playerStatus = useSelector((state) => state.playlist.playerStatus.data)
-  const { entry, position } = getEntry(played, playing, queuing, playerStatus)
+  const { entry, position } = getMostPertinentEntry(
+    played,
+    playing,
+    queuing,
+    playerStatus
+  )
 
   let main
   let message

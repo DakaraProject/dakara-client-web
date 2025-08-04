@@ -7,7 +7,7 @@ import {
   formatDateRelative,
   formatDuration,
   getEntriesHash,
-  getEntry,
+  getMostPertinentEntry,
 } from '.'
 
 describe('format duration', () => {
@@ -143,12 +143,14 @@ describe('differentiate entries', () => {
   })
 })
 
-describe('get entry', () => {
+describe('get most pertinent entry', () => {
   const entries = [{ id: 1 }, { id: 2 }, { id: 3 }]
 
   test('get played', () => {
     expect(
-      getEntry([entries[0]], [], [], { playlist_entry: { id: 99 } })
+      getMostPertinentEntry([entries[0]], [], [], {
+        playlist_entry: { id: 99 },
+      })
     ).toStrictEqual({
       entry: entries[0],
       position: 'played',
@@ -157,7 +159,7 @@ describe('get entry', () => {
 
   test('get playing', () => {
     expect(
-      getEntry([entries[0]], [entries[1]], [entries[2]], {
+      getMostPertinentEntry([entries[0]], [entries[1]], [entries[2]], {
         playlist_entry: { id: 2 },
       })
     ).toStrictEqual({
@@ -168,7 +170,9 @@ describe('get entry', () => {
 
   test('get queuing', () => {
     expect(
-      getEntry([entries[0]], [], [entries[2]], { playlist_entry: { id: 99 } })
+      getMostPertinentEntry([entries[0]], [], [entries[2]], {
+        playlist_entry: { id: 99 },
+      })
     ).toStrictEqual({
       entry: entries[2],
       position: 'queuing',

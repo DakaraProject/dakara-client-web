@@ -179,7 +179,7 @@ export function differentiateEntries(entries) {
  * `position` (`played`, `playing`, or `queuing`) as a string. Both default to
  * `null`.
  */
-export function getEntry(
+export function getMostPertinentEntry(
   playedEntries,
   playingEntries,
   queuingEntries,
