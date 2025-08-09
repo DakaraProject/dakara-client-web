@@ -95,37 +95,37 @@ class SongEntry extends Component {
      * Play queue info
      */
 
-    const playedEntriesCurrentSong =
+    const playedEntriesThisSong =
       playlistEntriesDigestData.playedEntries.filter(
         (e) => e.song.id === song.id
       )
-    const playingEntriesCurrentSong =
+    const playingEntriesThisSong =
       playlistEntriesDigestData.playingEntries.filter(
         (e) => e.song.id === song.id
       )
-    const queuingEntriesCurrentSong =
+    const queuingEntriesThisSong =
       playlistEntriesDigestData.queuingEntries.filter(
         (e) => e.song.id === song.id
       )
     if (
-      playedEntriesCurrentSong.length > 0 ||
-      playingEntriesCurrentSong.length > 0 ||
-      queuingEntriesCurrentSong.length > 0
+      playedEntriesThisSong.length > 0 ||
+      playingEntriesThisSong.length > 0 ||
+      queuingEntriesThisSong.length > 0
     ) {
       extra.push(
         <InPlaylist
           key="in-playlist"
-          played={playedEntriesCurrentSong}
-          playing={playingEntriesCurrentSong}
-          queuing={queuingEntriesCurrentSong}
+          played={playedEntriesThisSong}
+          playing={playingEntriesThisSong}
+          queuing={queuingEntriesThisSong}
         />
       )
       extraExpanded.push(
         <InPlaylist
           key="in-playlist"
-          played={playedEntriesCurrentSong}
-          playing={playingEntriesCurrentSong}
-          queuing={queuingEntriesCurrentSong}
+          played={playedEntriesThisSong}
+          playing={playingEntriesThisSong}
+          queuing={queuingEntriesThisSong}
           expanded
         />
       )
