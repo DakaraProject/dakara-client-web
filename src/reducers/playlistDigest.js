@@ -12,7 +12,7 @@ import {
   playerErrorPropType,
   playlistEntryPropType,
 } from 'serverPropTypes/playlist'
-import { differentiateEntries } from 'utils'
+import { differentiateEntries, getEntriesHash } from 'utils'
 
 /**
  * This reducer contains playlist digest data related state
@@ -26,8 +26,11 @@ import { differentiateEntries } from 'utils'
 export const playlistEntriesDigestStateDataPropType = PropTypes.shape({
   dateEnd: PropTypes.string.isRequired,
   playedEntries: PropTypes.arrayOf(playlistEntryPropType).isRequired,
+  playedEntriesHash: PropTypes.number.isRequired,
   playingEntries: PropTypes.arrayOf(playlistEntryPropType).isRequired,
+  playingEntriesHash: PropTypes.number.isRequired,
   queuingEntries: PropTypes.arrayOf(playlistEntryPropType).isRequired,
+  queuingEntriesHash: PropTypes.number.isRequired,
 })
 
 export const playlistEntriesDigestStatePropType = PropTypes.shape({
@@ -40,8 +43,11 @@ const defaultEntries = {
   data: {
     dateEnd: '',
     playedEntries: [],
+    playedEntriesHash: 0,
     playingEntries: [],
+    playingEntriesHash: 0,
     queuingEntries: [],
+    queuingEntriesHash: 0,
   },
 }
 
@@ -86,8 +92,11 @@ function entries(state = defaultEntries, action) {
         data: {
           dateEnd: date.toISOString(),
           playedEntries,
+          playedEntriesHash: getEntriesHash(playedEntries),
           playingEntries,
+          playingEntriesHash: getEntriesHash(playingEntries),
           queuingEntries,
+          queuingEntriesHash: getEntriesHash(queuingEntries),
         },
       }
     }
@@ -125,6 +134,7 @@ export const playerErrorsDigestStatePropType = PropTypes.shape({
   status: PropTypes.symbol,
   data: PropTypes.shape({
     playerErrors: PropTypes.arrayOf(playerErrorPropType).isRequired,
+    playerErrorsHash: PropTypes.number.isRequired,
   }),
 })
 
@@ -132,6 +142,7 @@ const defaultPlayerErrors = {
   status: null,
   data: {
     playerErrors: [],
+    playerErrorsHash: 0,
   },
 }
 
@@ -143,13 +154,16 @@ function playerErrors(state = defaultPlayerErrors, action) {
         status: state.status || Status.pending,
       }
 
-    case PLAYLIST_DIGEST_SUCCESS:
+    case PLAYLIST_DIGEST_SUCCESS: {
+      const playerErrors = action.response.player_errors
       return {
         status: Status.successful,
         data: {
-          playerErrors: action.response.player_errors,
+          playerErrors,
+          playerErrorsHash: getEntriesHash(playerErrors),
         },
       }
+    }
 
     case PLAYLIST_DIGEST_FAILURE:
       return {
