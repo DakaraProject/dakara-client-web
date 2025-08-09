@@ -57,9 +57,18 @@ Played.propTypes = {
   entry: playlistEntryPropType,
 }
 
-export default function InPlaylist({ played, playing, queuing, expanded }) {
+export default function InPlaylist({
+  playedEntries,
+  playingEntries,
+  queuingEntries,
+  expanded,
+}) {
   const playerStatus = useSelector((state) => state.playlist.playerStatus.data)
-  const { entry, position } = getMostPertinentEntry(played, playing, queuing)
+  const { entry, position } = getMostPertinentEntry(
+    playedEntries,
+    playingEntries,
+    queuingEntries
+  )
 
   let main
   let message
@@ -122,8 +131,8 @@ export default function InPlaylist({ played, playing, queuing, expanded }) {
 }
 
 InPlaylist.propTypes = {
-  played: PropTypes.arrayOf(playlistEntryPropType),
-  playing: PropTypes.arrayOf(playlistEntryPropType),
-  queuing: PropTypes.arrayOf(playlistEntryPropType),
+  playedEntries: PropTypes.arrayOf(playlistEntryPropType),
+  playingEntries: PropTypes.arrayOf(playlistEntryPropType),
+  queuingEntries: PropTypes.arrayOf(playlistEntryPropType),
   expanded: PropTypes.bool,
 }

@@ -115,17 +115,17 @@ class SongEntry extends Component {
       extra.push(
         <InPlaylist
           key="in-playlist"
-          played={playedEntriesThisSong}
-          playing={playingEntriesThisSong}
-          queuing={queuingEntriesThisSong}
+          playedEntries={playedEntriesThisSong}
+          playingEntries={playingEntriesThisSong}
+          queuingEntries={queuingEntriesThisSong}
         />
       )
       extraExpanded.push(
         <InPlaylist
           key="in-playlist"
-          played={playedEntriesThisSong}
-          playing={playingEntriesThisSong}
-          queuing={queuingEntriesThisSong}
+          playedEntries={playedEntriesThisSong}
+          playingEntries={playingEntriesThisSong}
+          queuingEntries={queuingEntriesThisSong}
           expanded
         />
       )
