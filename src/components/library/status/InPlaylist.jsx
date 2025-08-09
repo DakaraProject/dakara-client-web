@@ -59,12 +59,7 @@ Played.propTypes = {
 
 export default function InPlaylist({ played, playing, queuing, expanded }) {
   const playerStatus = useSelector((state) => state.playlist.playerStatus.data)
-  const { entry, position } = getMostPertinentEntry(
-    played,
-    playing,
-    queuing,
-    playerStatus
-  )
+  const { entry, position } = getMostPertinentEntry(played, playing, queuing)
 
   let main
   let message

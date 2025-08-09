@@ -172,8 +172,6 @@ export function differentiateEntries(entries) {
  * @param playedEntries Array of played entries.
  * @param playingEntries Array of currently playing entries (should be one or 0).
  * @param queuingEntries Array of queuing entries.
- * @param playerStatus Status of the player (NOTE I'm not sure why we need
- * this).
  * @returns Object containing the `entry` which is currently playing, or the
  * first entry which is queuing, or the last entry which was played, with the
  * `position` (`played`, `playing`, or `queuing`) as a string. Both default to
@@ -182,16 +180,10 @@ export function differentiateEntries(entries) {
 export function getMostPertinentEntry(
   playedEntries,
   playingEntries,
-  queuingEntries,
-  playerStatus
+  queuingEntries
 ) {
   let entry
-  if (
-    playingEntries &&
-    (entry = playingEntries[0]) &&
-    playerStatus?.playlist_entry &&
-    entry.id === playerStatus.playlist_entry.id
-  ) {
+  if (playingEntries && (entry = playingEntries[0])) {
     return { entry, position: 'playing' }
   }
 
