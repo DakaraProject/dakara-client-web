@@ -36,10 +36,10 @@ export default function PlaylistEntryWidget({
 
   let relativeDate
   const playlistEntriesDigest = useSelector(
-    (state) => state.playlist.digest.entries.data.playlistEntries
+    (state) => state.playlist.digest.entries.data
   )
   if (!noRelativeDate) {
-    const playlistEntry = playlistEntriesDigest.find((e) => e.id === entry.id)
+    const playlistEntry = getEntry(playlistEntriesDigest, entry.id)
     relativeDate = (
       <span className="relative-date">
         <span className="icon">
@@ -79,4 +79,27 @@ PlaylistEntryWidget.propTypes = {
   noRelativeDate: PropTypes.bool,
   songProps: PropTypes.object,
   userProps: PropTypes.object,
+}
+
+/**
+ * Get a playlist entry digest for the given playlist entry ID.
+ * @param digest Digest playlist entries.
+ * @param id ID of the playlist entry of interest.
+ * @returns Playlist entry digest with the same ID.
+ */
+function getEntry(digest, id) {
+  let entry
+  if ((entry = digest.queuingEntries.find((e) => e.id == id))) {
+    return entry
+  }
+
+  if ((entry = digest.playedEntries.find((e) => e.id == id))) {
+    return entry
+  }
+
+  if ((entry = digest.playingEntries.find((e) => e.id == id))) {
+    return entry
+  }
+
+  return null
 }

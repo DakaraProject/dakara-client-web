@@ -23,8 +23,8 @@ import {
   IsPlaylistUser,
 } from 'permissions/Playlist'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
+import { playlistEntriesDigestStateDataPropType } from 'reducers/playlistDigest'
 import { songPropType } from 'serverPropTypes/library'
-import { playlistEntryPropType } from 'serverPropTypes/playlist'
 import { userPropType } from 'serverPropTypes/users'
 import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 
@@ -33,7 +33,8 @@ class SongEntry extends Component {
     addSongToPlaylist: PropTypes.func.isRequired,
     clearAlteration: PropTypes.func.isRequired,
     karaokeRemainingSeconds: PropTypes.number,
-    playlistEntriesDigest: PropTypes.arrayOf(playlistEntryPropType).isRequired,
+    playlistEntriesDigestData:
+      playlistEntriesDigestStateDataPropType.isRequired,
     query: PropTypes.object,
     responseOfAddSong: alterationResponsePropType,
     song: songPropType.isRequired,
@@ -58,7 +59,7 @@ class SongEntry extends Component {
       query,
       song,
       user,
-      playlistEntriesDigest,
+      playlistEntriesDigestData,
       searchParams,
     } = this.props
     const exceeding =
@@ -94,11 +95,39 @@ class SongEntry extends Component {
      * Play queue info
      */
 
-    const entries = playlistEntriesDigest.filter((e) => e.song.id === song.id)
-    if (entries.length > 0) {
-      extra.push(<InPlaylist key="in-playlist" entries={entries} />)
+    const playedEntriesThisSong =
+      playlistEntriesDigestData.playedEntries.filter(
+        (e) => e.song.id === song.id
+      )
+    const playingEntriesThisSong =
+      playlistEntriesDigestData.playingEntries.filter(
+        (e) => e.song.id === song.id
+      )
+    const queuingEntriesThisSong =
+      playlistEntriesDigestData.queuingEntries.filter(
+        (e) => e.song.id === song.id
+      )
+    if (
+      playedEntriesThisSong.length > 0 ||
+      playingEntriesThisSong.length > 0 ||
+      queuingEntriesThisSong.length > 0
+    ) {
+      extra.push(
+        <InPlaylist
+          key="in-playlist"
+          playedEntries={playedEntriesThisSong}
+          playingEntries={playingEntriesThisSong}
+          queuingEntries={queuingEntriesThisSong}
+        />
+      )
       extraExpanded.push(
-        <InPlaylist key="in-playlist" entries={entries} expanded />
+        <InPlaylist
+          key="in-playlist"
+          playedEntries={playedEntriesThisSong}
+          playingEntries={playingEntriesThisSong}
+          queuingEntries={queuingEntriesThisSong}
+          expanded
+        />
       )
     }
 
@@ -218,7 +247,7 @@ const mapStateToProps = (state, ownProps) => ({
     state.alterationsResponse.multiple.addSongToPlaylistWithOptions?.[
       ownProps.song.id
     ],
-  playlistEntriesDigest: state.playlist.digest.entries.data.playlistEntries,
+  playlistEntriesDigestData: state.playlist.digest.entries.data,
   user: state.authenticatedUser,
 })
 

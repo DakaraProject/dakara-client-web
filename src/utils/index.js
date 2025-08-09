@@ -142,54 +142,56 @@ export function isDisplayable(item) {
 }
 
 /**
- * Return the current playing entry.
- * @param entries Array of entries.
- * @param playerStatus Status of the player.
- * @returns Entry being currently played, or `undefined`.
+ * Differentiate played, playing, and queuing entries.
+ * @param entries Array of entries of any sort.
+ * @returns Object of played entries, playing entries (expected to contain 0 or
+ * 1 item), and queuing entries.
  */
-export function getEntryPlaying(entries, playerStatus) {
-  if (!playerStatus.playlist_entry) return null
+export function differentiateEntries(entries) {
+  const differentiated = Object.groupBy(entries, (e) => {
+    if (e.was_played) {
+      return 'playedEntries'
+    }
 
-  return entries.find((e) => e.id === playerStatus.playlist_entry.id)
+    if (e.date_play) {
+      return 'playingEntries'
+    }
+
+    return 'queuingEntries'
+  })
+
+  return {
+    ...{ playedEntries: [], playingEntries: [], queuingEntries: [] },
+    ...differentiated,
+  }
 }
 
 /**
- * Return the first queuing entry.
- * @param entries Array of entries.
- * @returns First entry which is queuing.
- */
-export function getEntryQueuing(entries) {
-  return entries.find((e) => e.will_play)
-}
-
-/**
- * Return the last played entry.
- * @param entries Array of entries.
- * @returns Last entry which was played.
- */
-export function getEntryPlayed(entries) {
-  return entries.findLast((e) => e.was_played)
-}
-
-/**
- * Return the most pertinent entry of a list of entries.
- * @param entries Array of entries.
- * @param playerStatus Status of the player.
- * @returns Object containing the entry which is currently playing, or the
+ * Return the most pertinent entry of a list of played, playing, and queuing
+ * entries.
+ * @param playedEntries Array of played entries.
+ * @param playingEntries Array of currently playing entries (should be one or 0).
+ * @param queuingEntries Array of queuing entries.
+ * @returns Object containing the `entry` which is currently playing, or the
  * first entry which is queuing, or the last entry which was played, with the
- * position as a string. Both default to `null`.
+ * `position` (`played`, `playing`, or `queuing`) as a string. Both default to
+ * `null`.
  */
-export function getEntry(entries, playerStatus) {
+export function getMostPertinentEntry(
+  playedEntries,
+  playingEntries,
+  queuingEntries
+) {
   let entry
-  if (playerStatus && (entry = getEntryPlaying(entries, playerStatus))) {
+  if (playingEntries && (entry = playingEntries[0])) {
     return { entry, position: 'playing' }
   }
 
-  if ((entry = getEntryQueuing(entries))) {
+  if (queuingEntries && (entry = queuingEntries[0])) {
     return { entry, position: 'queuing' }
   }
 
-  if ((entry = getEntryPlayed(entries))) {
+  if (playedEntries && (entry = playedEntries.slice(-1)[0])) {
     return { entry, position: 'played' }
   }
 

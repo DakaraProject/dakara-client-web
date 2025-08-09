@@ -34,14 +34,8 @@ class Played extends Component {
       this.props.playlistEntriesDigestState !==
       prevProps.playlistEntriesDigestState
     ) {
-      const played =
-        this.props.playlistEntriesDigestState.data.playlistEntries.filter(
-          (e) => e.was_played
-        )
-      const prevPlayed =
-        prevProps.playlistEntriesDigestState.data.playlistEntries.filter(
-          (e) => e.was_played
-        )
+      const played = this.props.playlistEntriesDigestState.data.playedEntries
+      const prevPlayed = prevProps.playlistEntriesDigestState.data.playedEntries
       if (played.length !== prevPlayed.length) {
         this.refreshEntries()
       }
@@ -60,7 +54,7 @@ class Played extends Component {
   render() {
     const { played, count, pagination } = this.props.playlistPlayedState.data
     const { status } = this.props.playlistPlayedState
-    const { playlistEntries } = this.props.playlistEntriesDigestState.data
+    const { playedEntries } = this.props.playlistEntriesDigestState.data
 
     const playedComponent = played.map((entry) => (
       <PlayedEntry key={entry.id} entry={entry} />
@@ -70,9 +64,7 @@ class Played extends Component {
       <div id="played">
         <ListingList
           fetchStatus={status}
-          transitionObservable={getEntriesHash(
-            playlistEntries.filter((e) => e.was_played)
-          )}
+          transitionObservable={getEntriesHash(playedEntries)}
         >
           {playedComponent}
         </ListingList>

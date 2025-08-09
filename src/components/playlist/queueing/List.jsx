@@ -41,13 +41,13 @@ class Queueing extends Component {
       this.props.playlistQueuingState.status !== Status.pending
     ) {
       const queuingId =
-        this.props.playlistEntriesDigestState.data.playlistEntries
-          .filter((e) => !e.was_played)
-          .map((e) => e.id)
+        this.props.playlistEntriesDigestState.data.queuingEntries.map(
+          (e) => e.id
+        )
       const prevQueuingId =
-        prevProps.playlistEntriesDigestState.data.playlistEntries
-          .filter((e) => !e.was_played)
-          .map((e) => e.id)
+        prevProps.playlistEntriesDigestState.data.queuingEntries.map(
+          (e) => e.id
+        )
       if (
         queuingId.length !== prevQueuingId.length ||
         !queuingId.every((e, i) => e === prevQueuingId[i])
@@ -81,10 +81,10 @@ class Queueing extends Component {
   render() {
     const { queuing, count, pagination } = this.props.playlistQueuingState.data
     const { status } = this.props.playlistQueuingState
-    const { playlistEntries } = this.props.playlistEntriesDigestState.data
+    const { queuingEntries } = this.props.playlistEntriesDigestState.data
 
-    const firstId = playlistEntries.find((e) => e.will_play)?.id
-    const lastId = playlistEntries.findLast((e) => e.will_play)?.id
+    const firstId = queuingEntries?.[0]?.id
+    const lastId = queuingEntries.slice(-1)?.[0]?.id
     const page = parseInt(this.props.searchParams.get('page')) || 1
     const isFirstPage = page === 1
     const isLastPage = page === pagination.last
@@ -108,9 +108,7 @@ class Queueing extends Component {
       <div id="queuing">
         <ListingList
           fetchStatus={status}
-          transitionObservable={getEntriesHash(
-            playlistEntries.filter((e) => !e.was_played)
-          )}
+          transitionObservable={getEntriesHash(queuingEntries)}
         >
           {queuingComponents}
         </ListingList>
