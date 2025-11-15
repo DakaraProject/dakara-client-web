@@ -30,8 +30,7 @@ class Played extends Component {
     }
 
     // refresh if the playlist changed
-    const { playlistPlayedState } = this.props
-    const { playlistEntriesDigestState } = this.props
+    const { playlistPlayedState, playlistEntriesDigestState } = this.props
     const { playlistEntriesDigestState: prevPlaylistEntriesDigestState } =
       prevProps
     if (
