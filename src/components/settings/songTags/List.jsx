@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-import queryString from 'query-string'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 
@@ -11,7 +10,7 @@ import SettingsSongTagsEntry from 'components/settings/songTags/Entry'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
 import { songTagsStatePropType } from 'reducers/songTags'
 import { userPropType } from 'serverPropTypes/users'
-import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
+import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 
 class SongTagsList extends Component {
   static propTypes = {
@@ -19,10 +18,10 @@ class SongTagsList extends Component {
     clearAlteration: PropTypes.func.isRequired,
     editSongTag: PropTypes.func.isRequired,
     getSongTagList: PropTypes.func.isRequired,
-    location: PropTypes.object.isRequired,
     responseOfMultipleEdit: PropTypes.objectOf(alterationResponsePropType),
     responseOfMultipleEditColor: PropTypes.objectOf(alterationResponsePropType),
     songTagsState: songTagsStatePropType.isRequired,
+    searchParams: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
@@ -30,24 +29,25 @@ class SongTagsList extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const queryObj = queryString.parse(this.props.location.search)
-    const prevqueryObj = queryString.parse(prevProps.location.search)
-    if (queryObj.page !== prevqueryObj.page) {
+    const { searchParams } = this.props
+    const { searchParams: prevSearchParams } = prevProps
+
+    // refresh if moved to a different page
+    const page = searchParams.get('page')
+    const prevPage = prevSearchParams.get('page')
+    if (page !== prevPage) {
       this.refreshEntries()
     }
   }
 
   refreshEntries = () => {
-    const queryObj = queryString.parse(this.props.location.search)
-    const pageNumber = queryObj.page
-    this.props.getSongTagList(pageNumber)
+    this.props.getSongTagList(this.props.searchParams.get('page') || 1)
   }
 
   render() {
     const {
       editSongTag,
       clearAlteration,
-      location,
       authenticatedUser,
       responseOfMultipleEdit,
       responseOfMultipleEditColor,
@@ -83,7 +83,14 @@ class SongTagsList extends Component {
             </table>
           </div>
         </ListingFetchWrapper>
-        <Navigator pagination={pagination} location={location} />
+        <Navigator
+          count={songTags.length}
+          pagination={pagination}
+          names={{
+            singular: 'tag',
+            plural: 'tags',
+          }}
+        />
       </div>
     )
   }
@@ -98,7 +105,7 @@ const mapStateToProps = (state) => ({
   authenticatedUser: state.authenticatedUser,
 })
 
-SongTagsList = withLocation(
+SongTagsList = withSearchParams(
   connect(mapStateToProps, {
     getSongTagList,
     editSongTag,
