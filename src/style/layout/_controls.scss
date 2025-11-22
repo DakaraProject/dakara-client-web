@@ -66,6 +66,7 @@
       &[disabled] {
         background: $background-disabled;
         cursor: default;
+        pointer-events: none;
       }
 
       &:not(.disabled):not([disabled]) {

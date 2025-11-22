@@ -1,8 +1,4 @@
-import PropTypes from 'prop-types'
-import queryString from 'query-string'
-import { Component } from 'react'
 import {
-  Link as OldLink,
   useLocation,
   useNavigate,
   useParams,
@@ -46,32 +42,4 @@ export const withSearchParams = (Component) => (props) => {
       {...props}
     />
   )
-}
-
-/**
- * Link that accepts an object as query string
- */
-export default class Link extends Component {
-  static propTypes = {
-    to: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
-    children: PropTypes.node,
-  }
-
-  render() {
-    const { to, ...rest } = this.props
-
-    // to can be a string or an object
-    let newTo
-    if (typeof to === 'object') {
-      newTo = { ...to, search: queryString.stringify(to.queryObj) }
-    } else {
-      newTo = to
-    }
-
-    return (
-      <OldLink {...rest} to={newTo}>
-        {this.props.children}
-      </OldLink>
-    )
-  }
 }

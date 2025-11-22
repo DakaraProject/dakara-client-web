@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import { Component } from 'react'
+import { Link } from 'react-router'
 
 import ConfirmationBar from 'components/generics/ConfirmationBar'
-import ControlLink from 'components/generics/ControlLink'
 import Notification, {
   NotifiableForTable,
 } from 'components/generics/Notification'
@@ -94,11 +94,11 @@ export default class SettingsUsersEntry extends Component {
           <IsUserManager>
             <div className="controls compact">
               <IsNotSelf object={user} disable>
-                <ControlLink to={`${user.id}`} className="control square info">
+                <Link to={`${user.id}`} className="control square info">
                   <span className="icon">
                     <i className="las la-pen"></i>
                   </span>
-                </ControlLink>
+                </Link>
                 <button
                   className="control square danger"
                   onClick={() => {

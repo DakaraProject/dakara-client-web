@@ -1,9 +1,24 @@
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import queryString from 'query-string'
 import { Component } from 'react'
+import { Link } from 'react-router'
 
-import ControlLink from 'components/generics/ControlLink'
 import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
+
+function LinkWithQuery({ to, children, ...rest }) {
+  const newTo = { ...to, search: queryString.stringify(to.query) }
+  return (
+    <Link {...rest} to={newTo}>
+      {children}
+    </Link>
+  )
+}
+
+LinkWithQuery.propTypes = {
+  to: PropTypes.object,
+  children: PropTypes.node,
+}
 
 class Navigator extends Component {
   static propTypes = {
@@ -33,46 +48,50 @@ class Navigator extends Component {
       const hasNext = current !== last
       const hasPrevious = current !== 1
       const pathname = location.pathname
-      const queryObj = queryString.parse(location.search)
+      const query = queryString.parse(location.search)
 
       paginator = (
         <nav className="paginator controls">
-          <ControlLink
-            to={{ pathname, queryObj: { ...queryObj, page: 1 } }}
-            disabled={!hasPrevious}
-            className="square primary"
+          <LinkWithQuery
+            to={{ pathname, query: { ...query, page: 1 } }}
+            className={classNames('control', 'square', 'primary', {
+              disabled: !hasPrevious,
+            })}
           >
             <span className="icon">
               <i className="las la-angle-double-left"></i>
             </span>
-          </ControlLink>
-          <ControlLink
-            to={{ pathname, queryObj: { ...queryObj, page: current - 1 } }}
-            disabled={!hasPrevious}
-            className="square primary"
+          </LinkWithQuery>
+          <LinkWithQuery
+            to={{ pathname, query: { ...query, page: current - 1 } }}
+            className={classNames('control', 'square', 'primary', {
+              disabled: !hasPrevious,
+            })}
           >
             <span className="icon">
               <i className="las la-angle-left"></i>
             </span>
-          </ControlLink>
-          <ControlLink
-            to={{ pathname, queryObj: { ...queryObj, page: current + 1 } }}
-            disabled={!hasNext}
-            className="square primary"
+          </LinkWithQuery>
+          <LinkWithQuery
+            to={{ pathname, query: { ...query, page: current + 1 } }}
+            className={classNames('control', 'square', 'primary', {
+              disabled: !hasNext,
+            })}
           >
             <span className="icon">
               <i className="las la-angle-right"></i>
             </span>
-          </ControlLink>
-          <ControlLink
-            to={{ pathname, queryObj: { ...queryObj, page: last } }}
-            disabled={!hasNext}
-            className="square primary"
+          </LinkWithQuery>
+          <LinkWithQuery
+            to={{ pathname, query: { ...query, page: last } }}
+            className={classNames('control', 'square', 'primary', {
+              disabled: !hasNext,
+            })}
           >
             <span className="icon">
               <i className="las la-angle-double-right"></i>
             </span>
-          </ControlLink>
+          </LinkWithQuery>
         </nav>
       )
     }
