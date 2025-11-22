@@ -1,91 +1,53 @@
-import PropTypes from 'prop-types'
-import { Component } from 'react'
-import { connect } from 'react-redux'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useSearchParams } from 'react-router'
 
 import { loadLibraryEntries } from 'actions/library'
 import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
 import ArtistEntry from 'components/library/artist/Entry'
 import SearchBox from 'components/library/SearchBox'
-import { artistStatePropType } from 'reducers/library'
-import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 
-class ArtistList extends Component {
-  static propTypes = {
-    artistState: artistStatePropType.isRequired,
-    searchParams: PropTypes.object.isRequired,
-    loadLibraryEntries: PropTypes.func.isRequired,
-  }
+export default function ArtistList() {
+  const artistState = useSelector((state) => state.library.artist)
 
-  /**
-   * Fetch artists from server
-   */
-  refreshEntries = () => {
-    this.props.loadLibraryEntries('artists', {
-      page: this.props.searchParams.get('page'),
-      query: this.props.searchParams.get('query'),
-    })
-  }
+  const [searchParams, _] = useSearchParams()
+  const dispatch = useDispatch()
 
-  componentDidMount() {
-    this.refreshEntries()
-  }
-
-  componentDidUpdate(prevProps) {
-    const { searchParams } = this.props
-    const { searchParams: prevSearchParams } = prevProps
-
-    // refresh if moved to a different page
-    const page = searchParams.get('page')
-    const prevPage = prevSearchParams.get('page')
-    if (page !== prevPage) {
-      this.refreshEntries()
-    }
-
-    // refresh if search changed
-    const query = searchParams.get('query')
-    const prevQuery = prevSearchParams.get('query')
-    if (query !== prevQuery) {
-      this.refreshEntries()
-    }
-  }
-
-  render() {
-    const { artists, query, count, pagination } = this.props.artistState.data
-
-    /**
-     * Create ArtistEntry for each artist
-     */
-
-    const libraryEntryArtistList = artists.map((artist) => (
-      <ArtistEntry key={artist.id} artist={artist} query={query} />
-    ))
-
-    return (
-      <div id="artist-library">
-        <SearchBox placeholder="Who are you looking for?" />
-        <ListingList fetchStatus={this.props.artistState.status} noTransition>
-          {libraryEntryArtistList}
-        </ListingList>
-        <Navigator
-          count={count}
-          pagination={pagination}
-          names={{
-            singular: 'artist found',
-            plural: 'artists found',
-          }}
-        />
-      </div>
+  const page = searchParams.get('page')
+  const query = searchParams.get('query')
+  useEffect(() => {
+    // refresh immediately, or if moved to a different page, or if the search query
+    // changed
+    dispatch(
+      loadLibraryEntries('artists', {
+        page,
+        query,
+      })
     )
-  }
+  }, [page, query, dispatch])
+
+  const { artists, query: queryParsed, count, pagination } = artistState.data
+
+  // ArtistEntry for each artist
+  const libraryEntryArtistList = artists.map((artist) => (
+    <ArtistEntry key={artist.id} artist={artist} query={queryParsed} />
+  ))
+
+  return (
+    <div id="artist-library">
+      <SearchBox placeholder="Who are you looking for?" />
+      <ListingList fetchStatus={artistState.status} noTransition>
+        {libraryEntryArtistList}
+      </ListingList>
+      <Navigator
+        count={count}
+        pagination={pagination}
+        names={{
+          singular: 'artist found',
+          plural: 'artists found',
+        }}
+      />
+    </div>
+  )
 }
-
-const mapStateToProps = (state) => ({
-  artistState: state.library.artist,
-})
-
-ArtistList = withSearchParams(
-  connect(mapStateToProps, { loadLibraryEntries })(ArtistList)
-)
-
-export default ArtistList
