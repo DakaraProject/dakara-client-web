@@ -71,7 +71,7 @@ class PlayerErrorsList extends Component {
     ))
 
     return (
-      <div id="player-errors-list">
+      <div id="player-errors">
         <ListingList status={status} transitionObservable={playerErrorsHash}>
           {errorsList}
         </ListingList>

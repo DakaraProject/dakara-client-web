@@ -112,19 +112,17 @@ class WorkList extends Component {
         <SearchBox
           placeholder={`What ${workType.name.toLowerCase()} do you want?`}
         />
-        <div className="work-list">
-          <ListingList fetchStatus={this.props.workState.status} noTransition>
-            {libraryEntryWorkList}
-          </ListingList>
-          <Navigator
-            count={count}
-            pagination={pagination}
-            names={{
-              singular: `${workType.name.toLowerCase()} found`,
-              plural: `${workType.name_plural.toLowerCase()} found`,
-            }}
-          />
-        </div>
+        <ListingList fetchStatus={this.props.workState.status} noTransition>
+          {libraryEntryWorkList}
+        </ListingList>
+        <Navigator
+          count={count}
+          pagination={pagination}
+          names={{
+            singular: `${workType.name.toLowerCase()} found`,
+            plural: `${workType.name_plural.toLowerCase()} found`,
+          }}
+        />
       </div>
     )
   }

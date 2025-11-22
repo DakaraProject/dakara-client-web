@@ -113,19 +113,17 @@ class SongList extends Component {
             </>
           }
         />
-        <div className="song-list">
-          <ListingList fetchStatus={this.props.songState.status} noTransition>
-            {libraryEntrySongList}
-          </ListingList>
-          <Navigator
-            count={count}
-            pagination={pagination}
-            names={{
-              singular: 'song found',
-              plural: 'songs found',
-            }}
-          />
-        </div>
+        <ListingList fetchStatus={this.props.songState.status} noTransition>
+          {libraryEntrySongList}
+        </ListingList>
+        <Navigator
+          count={count}
+          pagination={pagination}
+          names={{
+            singular: 'song found',
+            plural: 'songs found',
+          }}
+        />
       </div>
     )
   }

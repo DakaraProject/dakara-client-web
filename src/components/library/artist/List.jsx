@@ -64,19 +64,17 @@ class ArtistList extends Component {
     return (
       <div id="artist-library">
         <SearchBox placeholder="Who are you looking for?" />
-        <div className="artist-list">
-          <ListingList fetchStatus={this.props.artistState.status} noTransition>
-            {libraryEntryArtistList}
-          </ListingList>
-          <Navigator
-            count={count}
-            pagination={pagination}
-            names={{
-              singular: 'artist found',
-              plural: 'artists found',
-            }}
-          />
-        </div>
+        <ListingList fetchStatus={this.props.artistState.status} noTransition>
+          {libraryEntryArtistList}
+        </ListingList>
+        <Navigator
+          count={count}
+          pagination={pagination}
+          names={{
+            singular: 'artist found',
+            plural: 'artists found',
+          }}
+        />
       </div>
     )
   }
