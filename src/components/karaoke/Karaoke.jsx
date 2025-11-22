@@ -1,65 +1,41 @@
-import PropTypes from 'prop-types'
-import { Component } from 'react'
-import { connect } from 'react-redux'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { loadPlaylistDigest } from 'actions/playlistDigest'
 import KaraStatusNotification from 'components/karaoke/KaraStatusNotification'
 import Player from 'components/karaoke/player/Player'
 import { IsPlaylistManager } from 'permissions/Playlist'
 import { Status } from 'reducers/alterationsResponse'
-import { karaokeStatePropType } from 'reducers/playlist'
-import { userPropType } from 'serverPropTypes/users'
 import { params } from 'utils'
 
-class Karaoke extends Component {
-  static propTypes = {
-    loadPlaylistDigest: PropTypes.func.isRequired,
-    karaokeState: karaokeStatePropType.isRequired,
-    user: userPropType.isRequired,
-  }
+export default function Karaoke() {
+  const karaokeState = useSelector((state) => state.playlist.karaoke)
+  const user = useSelector((state) => state.authenticatedUser)
 
-  /**
-   * Get evolution of the playlist periodically
-   */
-  pollPlaylistDigest = () => {
-    if (this.props.karaokeState.status !== Status.pending) {
-      this.props.loadPlaylistDigest()
-    }
-    this.timeout = setTimeout(this.pollPlaylistDigest, params.pollInterval)
-  }
+  const dispatch = useDispatch()
 
-  componentDidMount() {
-    // start polling server
-    this.pollPlaylistDigest()
-  }
-
-  componentWillUnmount() {
-    // Stop polling server
-    clearTimeout(this.timeout)
-  }
-
-  render() {
-    const { data: karaoke } = this.props.karaokeState
-
-    if (!karaoke.ongoing) {
-      if (IsPlaylistManager.hasPermission(this.props.user)) {
-        return <KaraStatusNotification />
+  useEffect(() => {
+    // get evolution of the playlist periodically
+    const interval = setInterval(() => {
+      if (karaokeState.status !== Status.pending) {
+        dispatch(loadPlaylistDigest())
       }
+    }, params.pollInterval)
 
-      return null
+    return () => {
+      clearInterval(interval)
+    }
+  }, [dispatch, karaokeState.status])
+
+  const { data: karaoke } = karaokeState
+
+  if (!karaoke.ongoing) {
+    if (IsPlaylistManager.hasPermission(user)) {
+      return <KaraStatusNotification />
     }
 
-    return <Player />
+    return null
   }
+
+  return <Player />
 }
-
-const mapStateToProps = (state) => ({
-  karaokeState: state.playlist.karaoke,
-  user: state.authenticatedUser,
-})
-
-Karaoke = connect(mapStateToProps, {
-  loadPlaylistDigest,
-})(Karaoke)
-
-export default Karaoke
