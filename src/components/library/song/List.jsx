@@ -37,7 +37,20 @@ class SongList extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.searchParams !== prevProps.searchParams) {
+    const { searchParams } = this.props
+    const { searchParams: prevSearchParams } = prevProps
+
+    // refresh if moved to a different page
+    const page = searchParams.get('page')
+    const prevPage = prevSearchParams.get('page')
+    if (page !== prevPage) {
+      this.refreshEntries()
+    }
+
+    // refresh if search changed
+    const query = searchParams.get('query')
+    const prevQuery = prevSearchParams.get('query')
+    if (query !== prevQuery) {
       this.refreshEntries()
     }
   }

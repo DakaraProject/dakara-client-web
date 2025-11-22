@@ -28,14 +28,25 @@ class Queueing extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    const { searchParams, setSearchParams } = this.props
+    const { searchParams: prevSearchParams } = prevProps
+
     // refresh if moved to a different page
-    if (this.props.searchParams !== prevProps.searchParams) {
+    const page = searchParams.get('page')
+    const prevPage = prevSearchParams.get('page')
+    if (page !== prevPage) {
+      this.refreshEntries()
+    }
+
+    // refresh if search changed
+    const query = searchParams.get('query')
+    const prevQuery = prevSearchParams.get('query')
+    if (query !== prevQuery) {
       this.refreshEntries()
     }
 
     // refresh if the playlist changed
-    const { playlistQueuingState } = this.props
-    const { playlistEntriesDigestState } = this.props
+    const { playlistQueuingState, playlistEntriesDigestState } = this.props
     const { playlistEntriesDigestState: prevPlaylistEntriesDigestState } =
       prevProps
     if (
@@ -49,14 +60,10 @@ class Queueing extends Component {
 
     // if the page of entries could not be obtained, request the previous
     // page
-    if (
-      this.props.playlistQueuingState.status === Status.failed &&
-      this.props.searchParams.get('page') > 1
-    ) {
-      const page = this.props.searchParams.get('page')
-      this.props.searchParams.delete('page')
-      this.props.searchParams.append('page', page - 1)
-      this.props.setSearchParams(this.props.searchParams)
+    if (playlistQueuingState.status === Status.failed && page > 1) {
+      searchParams.delete('page')
+      searchParams.append('page', page - 1)
+      setSearchParams(searchParams)
     }
   }
 
@@ -65,7 +72,7 @@ class Queueing extends Component {
    */
   refreshEntries = () => {
     this.props.loadPlaylistEntries('queuing', {
-      page: this.props.searchParams.get('page'),
+      page: this.props.searchParams.get('page') || 1,
     })
   }
 
