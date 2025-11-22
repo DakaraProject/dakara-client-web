@@ -24,14 +24,25 @@ class PlayerErrorsList extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    const { searchParams } = this.props
+    const { searchParams: prevSearchParams } = prevProps
+
     // refresh if moved to a different page
-    if (this.props.searchParams !== prevProps.searchParams) {
+    const page = searchParams.get('page')
+    const prevPage = prevSearchParams.get('page')
+    if (page !== prevPage) {
+      this.refreshEntries()
+    }
+
+    // refresh if search changed
+    const query = searchParams.get('query')
+    const prevQuery = prevSearchParams.get('query')
+    if (query !== prevQuery) {
       this.refreshEntries()
     }
 
     // refresh if the digest player errors changed
-    const { playerErrorsState } = this.props
-    const { playerErrorsDigestState } = this.props
+    const { playerErrorsState, playerErrorsDigestState } = this.props
     const { playerErrorsDigestState: prevPlayerErrorsDigestState } = prevProps
     if (
       playerErrorsDigestState !== prevPlayerErrorsDigestState &&
@@ -60,7 +71,7 @@ class PlayerErrorsList extends Component {
     ))
 
     return (
-      <div id="player-errors-list">
+      <div id="player-errors">
         <ListingList status={status} transitionObservable={playerErrorsHash}>
           {errorsList}
         </ListingList>

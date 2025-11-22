@@ -20,10 +20,11 @@ export default function ListingList({
   const [transitionObservableInitial, _] = useState(transitionObservable)
   const [searchParams, __] = useSearchParams()
 
-  // disable transition if search params changed
+  // disable transition if the page changed
+  const page = searchParams.get('page')
   useEffect(() => {
     setTransition(false)
-  }, [searchParams])
+  }, [page])
 
   // enable transition if a given observable changed, and is different from its
   // initial value when mounted

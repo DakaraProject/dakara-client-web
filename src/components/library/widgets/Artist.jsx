@@ -52,7 +52,16 @@ export default class ArtistWidget extends Component {
         <HighlighterQuery
           className="name"
           query={query}
-          searchWords={(q) => q.artist.contains.concat(q.remaining)}
+          searchWords={(q) => {
+            let words = q.remaining
+
+            // add artist query values if available
+            if (q.artist) {
+              words = words.concat(q.artist.contains)
+            }
+
+            return words
+          }}
           textToHighlight={artist.name}
         />
         {count}

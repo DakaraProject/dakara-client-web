@@ -49,9 +49,26 @@ class WorkList extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    const { searchParams } = this.props
+    const { searchParams: prevSearchParams } = prevProps
+
+    // refresh if moved to a different page
+    const page = searchParams.get('page')
+    const prevPage = prevSearchParams.get('page')
+    if (page !== prevPage) {
+      this.refreshEntries()
+    }
+
+    // refresh if search changed
+    const query = searchParams.get('query')
+    const prevQuery = prevSearchParams.get('query')
+    if (query !== prevQuery) {
+      this.refreshEntries()
+    }
+
+    // refresh if work type is different
     if (
       this.props.workTypeState !== prevProps.workTypeState ||
-      this.props.searchParams !== prevProps.searchParams ||
       this.props.params !== prevProps.params
     ) {
       this.refreshEntries()
@@ -95,19 +112,17 @@ class WorkList extends Component {
         <SearchBox
           placeholder={`What ${workType.name.toLowerCase()} do you want?`}
         />
-        <div className="work-list">
-          <ListingList fetchStatus={this.props.workState.status} noTransition>
-            {libraryEntryWorkList}
-          </ListingList>
-          <Navigator
-            count={count}
-            pagination={pagination}
-            names={{
-              singular: `${workType.name.toLowerCase()} found`,
-              plural: `${workType.name_plural.toLowerCase()} found`,
-            }}
-          />
-        </div>
+        <ListingList fetchStatus={this.props.workState.status} noTransition>
+          {libraryEntryWorkList}
+        </ListingList>
+        <Navigator
+          count={count}
+          pagination={pagination}
+          names={{
+            singular: `${workType.name.toLowerCase()} found`,
+            plural: `${workType.name_plural.toLowerCase()} found`,
+          }}
+        />
       </div>
     )
   }

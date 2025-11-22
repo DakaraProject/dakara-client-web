@@ -32,7 +32,20 @@ class ArtistList extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.searchParams !== prevProps.searchParams) {
+    const { searchParams } = this.props
+    const { searchParams: prevSearchParams } = prevProps
+
+    // refresh if moved to a different page
+    const page = searchParams.get('page')
+    const prevPage = prevSearchParams.get('page')
+    if (page !== prevPage) {
+      this.refreshEntries()
+    }
+
+    // refresh if search changed
+    const query = searchParams.get('query')
+    const prevQuery = prevSearchParams.get('query')
+    if (query !== prevQuery) {
       this.refreshEntries()
     }
   }
@@ -51,19 +64,17 @@ class ArtistList extends Component {
     return (
       <div id="artist-library">
         <SearchBox placeholder="Who are you looking for?" />
-        <div className="artist-list">
-          <ListingList fetchStatus={this.props.artistState.status} noTransition>
-            {libraryEntryArtistList}
-          </ListingList>
-          <Navigator
-            count={count}
-            pagination={pagination}
-            names={{
-              singular: 'artist found',
-              plural: 'artists found',
-            }}
-          />
-        </div>
+        <ListingList fetchStatus={this.props.artistState.status} noTransition>
+          {libraryEntryArtistList}
+        </ListingList>
+        <Navigator
+          count={count}
+          pagination={pagination}
+          names={{
+            singular: 'artist found',
+            plural: 'artists found',
+          }}
+        />
       </div>
     )
   }

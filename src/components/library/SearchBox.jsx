@@ -1,19 +1,14 @@
 import PropTypes from 'prop-types'
-import queryString from 'query-string'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { storeSearchBox } from 'actions/library'
-import {
-  withLocation,
-  withSearchParams,
-} from 'thirdpartyExtensions/ReactRouterDom'
+import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
 class SearchBox extends Component {
   static propTypes = {
     help: PropTypes.element,
-    location: PropTypes.object.isRequired,
     placeholder: PropTypes.string.isRequired,
     searchParams: PropTypes.object.isRequired,
     setSearchParams: PropTypes.func.isRequired,
@@ -28,20 +23,24 @@ class SearchBox extends Component {
 
   componentDidMount() {
     this.updateQueryFromStore()
-    this.updateQueryFromLocation()
+    this.updateQueryFromSearchParams()
   }
 
   componentDidUpdate(prevProps) {
-    const newQueryStore = this.props.searchBox.query
-    if (newQueryStore !== prevProps.searchBox.query) {
+    // update query if the stored query changed
+    const { query } = this.props.searchBox
+    const { query: prevQuery } = prevProps.searchBox
+    if (query !== prevQuery) {
       this.updateQueryFromStore()
     }
 
-    const newQueryLocation = queryString.parse(this.props.location.search).query
-    if (
-      newQueryLocation !== queryString.parse(prevProps.location.search).query
-    ) {
-      this.updateQueryFromLocation()
+    // update query if the URL query changed
+    const { searchParams } = this.props
+    const { searchParams: prevSearchParams } = prevProps
+    const queryUrl = searchParams.get('query')
+    const prevQueryUrl = prevSearchParams.get('query')
+    if (queryUrl !== prevQueryUrl) {
+      this.updateQueryFromSearchParams()
     }
   }
 
@@ -49,8 +48,9 @@ class SearchBox extends Component {
     this.props.storeSearchBox(this.state)
   }
 
-  updateQueryFromLocation = () => {
-    const query = queryString.parse(this.props.location.search).query
+  updateQueryFromSearchParams = () => {
+    const { searchParams } = this.props
+    const query = searchParams.get('query')
     if (query && query.length > 0) {
       this.setState({ query })
     }
@@ -178,7 +178,7 @@ const mapStateToProps = (state) => ({
 })
 
 SearchBox = withSearchParams(
-  withLocation(connect(mapStateToProps, { storeSearchBox })(SearchBox))
+  connect(mapStateToProps, { storeSearchBox })(SearchBox)
 )
 
 export default SearchBox

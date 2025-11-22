@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-import queryString from 'query-string'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 
@@ -11,7 +10,7 @@ import Navigator from 'components/generics/Navigator'
 import SettingsUserEntry from 'components/settings/users/Entry'
 import { IsUserManager } from 'permissions/Users'
 import { listUsersStatePropType } from 'reducers/users'
-import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
+import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 
 class UsersList extends Component {
   static propTypes = {
@@ -19,8 +18,8 @@ class UsersList extends Component {
     deleteUser: PropTypes.func.isRequired,
     getUsers: PropTypes.func.isRequired,
     listUsersState: listUsersStatePropType.isRequired,
-    location: PropTypes.object.isRequired,
     responseOfMultipleDeleteUser: PropTypes.object,
+    searchParams: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
@@ -28,26 +27,24 @@ class UsersList extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const queryObj = queryString.parse(this.props.location.search)
-    const prevQueryObj = queryString.parse(prevProps.location.search)
-    if (queryObj.page !== prevQueryObj.page) {
+    const { searchParams } = this.props
+    const { searchParams: prevSearchParams } = prevProps
+
+    // refresh if moved to a different page
+    const page = searchParams.get('page')
+    const prevPage = prevSearchParams.get('page')
+    if (page !== prevPage) {
       this.refreshEntries()
     }
   }
 
   refreshEntries = () => {
-    const queryObj = queryString.parse(this.props.location.search)
-    const pageNumber = queryObj.page
-    this.props.getUsers(pageNumber)
+    this.props.getUsers(this.props.searchParams.get('page') || 1)
   }
 
   render() {
-    const {
-      deleteUser,
-      clearAlteration,
-      location,
-      responseOfMultipleDeleteUser,
-    } = this.props
+    const { deleteUser, clearAlteration, responseOfMultipleDeleteUser } =
+      this.props
     const { users, pagination } = this.props.listUsersState.data
 
     const userList = users.map((user) => (
@@ -84,7 +81,14 @@ class UsersList extends Component {
             </table>
           </div>
         </ListingFetchWrapper>
-        <Navigator pagination={pagination} location={location} />
+        <Navigator
+          count={users.length}
+          pagination={pagination}
+          names={{
+            singular: 'user',
+            plural: 'users',
+          }}
+        />
         <IsUserManager>
           <div className="create-user flow">
             <FormBlock
@@ -138,7 +142,7 @@ const mapStateToProps = (state) => ({
     state.alterationsResponse.multiple.deleteUser || {},
 })
 
-UsersList = withLocation(
+UsersList = withSearchParams(
   connect(mapStateToProps, {
     deleteUser,
     getUsers,

@@ -56,14 +56,23 @@ export default function WorkWidget({
         query={query}
         className="title"
         searchWords={(q) => {
-          let searchWords = q.work.contains.concat(q.remaining)
-          const workTypeQuery = q.work_type[work.work_type.query_name]
-          if (workTypeQuery) {
-            // Add keyword for specific worktype if it exists
-            searchWords = searchWords.concat(workTypeQuery.contains)
+          let words = q.remaining
+
+          // add work query values if available
+          if (q.work) {
+            words = words.concat(q.work.contains)
           }
 
-          return searchWords
+          // add work_type query values if available
+          if (q.work_type) {
+            const workTypeQuery = q.work_type[work.work_type.query_name]
+            if (workTypeQuery) {
+              // add keyword for specific worktype if it exists
+              words = words.concat(workTypeQuery.contains)
+            }
+          }
+
+          return words
         }}
         textToHighlight={work.title}
       />

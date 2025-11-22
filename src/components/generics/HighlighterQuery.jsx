@@ -13,7 +13,7 @@ import Highlighter from 'react-highlight-words'
  *        rendered.
  *    className <string>: CSS class applied to the `Highlighter` and the `span`.
  *    searchWords <array/function>: if provided as an array, it has the same
- *        behavior as in `Highlighter`. If provided as a fanction, it takes the
+ *        behavior as in `Highlighter`. If provided as a function, it takes the
  *        query as argument and must return an array, which is passed to
  *        `Highlighter`.
  *
