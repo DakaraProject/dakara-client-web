@@ -1,126 +1,103 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import queryString from 'query-string'
-import { Component } from 'react'
-import { Link } from 'react-router'
+import { Link, useSearchParams } from 'react-router'
 
-import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
+const namesType = PropTypes.shape({
+  plural: PropTypes.string.isRequired,
+  singular: PropTypes.string.isRequired,
+})
+const paginationType = PropTypes.shape({
+  current: PropTypes.number.isRequired,
+  last: PropTypes.number.isRequired,
+})
 
-function LinkWithQuery({ to, children, ...rest }) {
-  const newTo = { ...to, search: queryString.stringify(to.query) }
+function PaginatorLink({ page, icon, disabled }) {
+  const [searchParams, _] = useSearchParams()
+  searchParams.set('page', page)
+
   return (
-    <Link {...rest} to={newTo}>
-      {children}
+    <Link
+      to={{ search: searchParams.toString() }}
+      className={classNames('control', 'square', 'primary', {
+        disabled,
+      })}
+    >
+      <span className="icon">
+        <i className={icon}></i>
+      </span>
     </Link>
   )
 }
 
-LinkWithQuery.propTypes = {
-  to: PropTypes.object,
-  children: PropTypes.node,
+PaginatorLink.propTypes = {
+  page: PropTypes.number.isRequired,
+  icon: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
 }
 
-class Navigator extends Component {
-  static propTypes = {
-    count: PropTypes.number,
-    location: PropTypes.object.isRequired,
-    names: PropTypes.shape({
-      plural: PropTypes.string.isRequired,
-      singular: PropTypes.string.isRequired,
-    }),
-    pagination: PropTypes.shape({
-      current: PropTypes.number.isRequired,
-      last: PropTypes.number.isRequired,
-    }),
-  }
+function Paginator({ pagination }) {
+  const { current, last } = pagination
 
-  render() {
-    const { location, names, count, pagination } = this.props
+  const hasNext = current < last
+  const hasPrevious = current > 1
 
-    /**
-     * paginator
-     */
-
-    let paginator
-    if (pagination) {
-      const { current, last } = pagination
-
-      const hasNext = current !== last
-      const hasPrevious = current !== 1
-      const pathname = location.pathname
-      const query = queryString.parse(location.search)
-
-      paginator = (
-        <nav className="paginator controls">
-          <LinkWithQuery
-            to={{ pathname, query: { ...query, page: 1 } }}
-            className={classNames('control', 'square', 'primary', {
-              disabled: !hasPrevious,
-            })}
-          >
-            <span className="icon">
-              <i className="las la-angle-double-left"></i>
-            </span>
-          </LinkWithQuery>
-          <LinkWithQuery
-            to={{ pathname, query: { ...query, page: current - 1 } }}
-            className={classNames('control', 'square', 'primary', {
-              disabled: !hasPrevious,
-            })}
-          >
-            <span className="icon">
-              <i className="las la-angle-left"></i>
-            </span>
-          </LinkWithQuery>
-          <LinkWithQuery
-            to={{ pathname, query: { ...query, page: current + 1 } }}
-            className={classNames('control', 'square', 'primary', {
-              disabled: !hasNext,
-            })}
-          >
-            <span className="icon">
-              <i className="las la-angle-right"></i>
-            </span>
-          </LinkWithQuery>
-          <LinkWithQuery
-            to={{ pathname, query: { ...query, page: last } }}
-            className={classNames('control', 'square', 'primary', {
-              disabled: !hasNext,
-            })}
-          >
-            <span className="icon">
-              <i className="las la-angle-double-right"></i>
-            </span>
-          </LinkWithQuery>
-        </nav>
-      )
-    }
-
-    /**
-     * items counter
-     */
-
-    let counter
-    if (names && typeof count !== 'undefined') {
-      counter = (
-        <div className="counter">
-          <span className="figure">{count}</span>
-          <span className="text">
-            {count === 1 ? names.singular : names.plural}
-          </span>
-        </div>
-      )
-    }
-
-    return (
-      <div className="navigator">
-        {paginator}
-        {counter}
-      </div>
-    )
-  }
+  return (
+    <nav className="paginator controls">
+      <PaginatorLink
+        page={1}
+        icon="las la-angle-double-left"
+        disabled={!hasPrevious}
+      />
+      <PaginatorLink
+        page={current - 1}
+        icon="las la-angle-left"
+        disabled={!hasPrevious}
+      />
+      <PaginatorLink
+        page={current + 1}
+        icon="las la-angle-right"
+        disabled={!hasNext}
+      />
+      <PaginatorLink
+        page={last}
+        icon="las la-angle-double-right"
+        disabled={!hasNext}
+      />
+    </nav>
+  )
 }
 
-Navigator = withLocation(Navigator)
+Paginator.propTypes = {
+  pagination: paginationType.isRequired,
+}
 
-export default Navigator
+function Counter({ names, count }) {
+  return (
+    <div className="counter">
+      <span className="figure">{count}</span>
+      <span className="text">
+        {count === 1 ? names.singular : names.plural}
+      </span>
+    </div>
+  )
+}
+
+Counter.propTypes = {
+  names: namesType.isRequired,
+  count: PropTypes.number.isRequired,
+}
+
+export default function Navigator({ count, names, pagination }) {
+  return (
+    <div className="navigator">
+      {pagination && <Paginator pagination={pagination} />}
+      {names && count >= 0 && <Counter names={names} count={count} />}
+    </div>
+  )
+}
+
+Navigator.propTypes = {
+  count: PropTypes.number,
+  names: namesType,
+  pagination: paginationType,
+}
