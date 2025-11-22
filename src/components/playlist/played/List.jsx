@@ -6,10 +6,10 @@ import { loadPlaylistEntries } from 'actions/playlist'
 import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
 import PlayedEntry from 'components/playlist/played/Entry'
+import { Status } from 'reducers/alterationsResponse'
 import { playedStatePropType } from 'reducers/playlist'
 import { playlistEntriesDigestStatePropType } from 'reducers/playlistDigest'
 import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
-import { getEntriesHash } from 'utils'
 
 class Played extends Component {
   static propTypes = {
@@ -30,15 +30,16 @@ class Played extends Component {
     }
 
     // refresh if the playlist changed
+    const { playlistPlayedState, playlistEntriesDigestState } = this.props
+    const { playlistEntriesDigestState: prevPlaylistEntriesDigestState } =
+      prevProps
     if (
-      this.props.playlistEntriesDigestState !==
-      prevProps.playlistEntriesDigestState
+      playlistEntriesDigestState !== prevPlaylistEntriesDigestState &&
+      playlistPlayedState.status !== Status.pending &&
+      playlistEntriesDigestState.data.playedEntriesHash !==
+        prevPlaylistEntriesDigestState.data.playedEntriesHash
     ) {
-      const played = this.props.playlistEntriesDigestState.data.playedEntries
-      const prevPlayed = prevProps.playlistEntriesDigestState.data.playedEntries
-      if (played.length !== prevPlayed.length) {
-        this.refreshEntries()
-      }
+      this.refreshEntries()
     }
   }
 
@@ -54,7 +55,7 @@ class Played extends Component {
   render() {
     const { played, count, pagination } = this.props.playlistPlayedState.data
     const { status } = this.props.playlistPlayedState
-    const { playedEntries } = this.props.playlistEntriesDigestState.data
+    const { playedEntriesHash } = this.props.playlistEntriesDigestState.data
 
     const playedComponent = played.map((entry) => (
       <PlayedEntry key={entry.id} entry={entry} />
@@ -64,7 +65,7 @@ class Played extends Component {
       <div id="played">
         <ListingList
           fetchStatus={status}
-          transitionObservable={getEntriesHash(playedEntries)}
+          transitionObservable={playedEntriesHash}
         >
           {playedComponent}
         </ListingList>

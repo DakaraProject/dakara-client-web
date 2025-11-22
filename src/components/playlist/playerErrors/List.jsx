@@ -10,7 +10,6 @@ import { Status } from 'reducers/alterationsResponse'
 import { playerErrorsStatePropType } from 'reducers/playlist'
 import { playerErrorsDigestStatePropType } from 'reducers/playlistDigest'
 import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
-import { getEntriesHash } from 'utils'
 
 class PlayerErrorsList extends Component {
   static propTypes = {
@@ -36,17 +35,11 @@ class PlayerErrorsList extends Component {
     const { playerErrorsDigestState: prevPlayerErrorsDigestState } = prevProps
     if (
       playerErrorsDigestState !== prevPlayerErrorsDigestState &&
-      playerErrorsState.status !== Status.pending
+      playerErrorsState.status !== Status.pending &&
+      playerErrorsDigestState.data.playerErrorsHash !==
+        prevPlayerErrorsDigestState.data.playerErrorsHash
     ) {
-      const errorIds = playerErrorsDigestState.data.playerErrors.map(
-        (e) => e.id
-      )
-      const prevErrorIds = prevPlayerErrorsDigestState.data.playerErrors.map(
-        (e) => e.id
-      )
-      if (errorIds.length !== prevErrorIds.length) {
-        this.refreshEntries()
-      }
+      this.refreshEntries()
     }
   }
 
@@ -57,24 +50,18 @@ class PlayerErrorsList extends Component {
   }
 
   render() {
-    const {
-      playerErrors: errors,
-      count,
-      pagination,
-    } = this.props.playerErrorsState.data
+    const { playerErrors, count, pagination } =
+      this.props.playerErrorsState.data
     const { status } = this.props.playerErrorsState
-    const { playerErrors } = this.props.playerErrorsDigestState.data
+    const { playerErrorsHash } = this.props.playerErrorsDigestState.data
 
-    const errorsList = errors.map((playerError) => (
+    const errorsList = playerErrors.map((playerError) => (
       <PlayerErrorsEntry key={playerError.id} playerError={playerError} />
     ))
 
     return (
       <div id="player-errors-list">
-        <ListingList
-          status={status}
-          transitionObservable={getEntriesHash(playerErrors)}
-        >
+        <ListingList status={status} transitionObservable={playerErrorsHash}>
           {errorsList}
         </ListingList>
         <Navigator

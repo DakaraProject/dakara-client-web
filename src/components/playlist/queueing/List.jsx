@@ -11,7 +11,6 @@ import { Status } from 'reducers/alterationsResponse'
 import { queuingStatePropType } from 'reducers/playlist'
 import { playlistEntriesDigestStatePropType } from 'reducers/playlistDigest'
 import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
-import { getEntriesHash } from 'utils'
 
 class Queueing extends Component {
   static propTypes = {
@@ -28,32 +27,24 @@ class Queueing extends Component {
     this.refreshEntries()
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     // refresh if moved to a different page
     if (this.props.searchParams !== prevProps.searchParams) {
       this.refreshEntries()
     }
 
     // refresh if the playlist changed
+    const { playlistQueuingState } = this.props
+    const { playlistEntriesDigestState } = this.props
+    const { playlistEntriesDigestState: prevPlaylistEntriesDigestState } =
+      prevProps
     if (
-      this.props.playlistEntriesDigestState !==
-        prevProps.playlistEntriesDigestState &&
-      this.props.playlistQueuingState.status !== Status.pending
+      playlistEntriesDigestState !== prevPlaylistEntriesDigestState &&
+      playlistQueuingState.status !== Status.pending &&
+      playlistEntriesDigestState.data.queuingEntriesHash !==
+        prevPlaylistEntriesDigestState.data.queuingEntriesHash
     ) {
-      const queuingId =
-        this.props.playlistEntriesDigestState.data.queuingEntries.map(
-          (e) => e.id
-        )
-      const prevQueuingId =
-        prevProps.playlistEntriesDigestState.data.queuingEntries.map(
-          (e) => e.id
-        )
-      if (
-        queuingId.length !== prevQueuingId.length ||
-        !queuingId.every((e, i) => e === prevQueuingId[i])
-      ) {
-        this.refreshEntries()
-      }
+      this.refreshEntries()
     }
 
     // if the page of entries could not be obtained, request the previous
@@ -81,7 +72,8 @@ class Queueing extends Component {
   render() {
     const { queuing, count, pagination } = this.props.playlistQueuingState.data
     const { status } = this.props.playlistQueuingState
-    const { queuingEntries } = this.props.playlistEntriesDigestState.data
+    const { queuingEntries, queuingEntriesHash } =
+      this.props.playlistEntriesDigestState.data
 
     const firstId = queuingEntries?.[0]?.id
     const lastId = queuingEntries.slice(-1)?.[0]?.id
@@ -108,7 +100,7 @@ class Queueing extends Component {
       <div id="queuing">
         <ListingList
           fetchStatus={status}
-          transitionObservable={getEntriesHash(queuingEntries)}
+          transitionObservable={queuingEntriesHash}
         >
           {queuingComponents}
         </ListingList>
