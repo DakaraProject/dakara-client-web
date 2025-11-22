@@ -8,7 +8,7 @@ import { applyMiddleware, compose, createStore } from 'redux'
 import persistState from 'redux-localstorage'
 import { thunk } from 'redux-thunk'
 
-import ProtectedRoute from 'components/generics/Router'
+import ProtectedRoute from 'components/generics/ProtectedRoute'
 import Colors from 'components/lab/Colors'
 import Fields from 'components/lab/Fields'
 import Lab from 'components/lab/Lab'
