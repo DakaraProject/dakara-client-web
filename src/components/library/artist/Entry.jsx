@@ -1,54 +1,39 @@
 import PropTypes from 'prop-types'
 import queryString from 'query-string'
-import { Component } from 'react'
+import { useNavigate } from 'react-router'
 
 import { ListingEntry } from 'components/generics/listing/Entry'
 import ArtistWidget from 'components/library/widgets/Artist'
 import { artistPropType } from 'serverPropTypes/library'
-import { withNavigate } from 'thirdpartyExtensions/ReactRouterDom'
 
-class ArtistEntry extends Component {
-  static propTypes = {
-    artist: artistPropType.isRequired,
-    navigate: PropTypes.func.isRequired,
-    query: PropTypes.object,
-  }
+export default function ArtistEntry({ artist, query }) {
+  const navigate = useNavigate()
 
-  /**
-   * Search songs associated with the artist
-   */
-  handleSearch = () => {
-    const newQuery = `artist:""${this.props.artist.name}""`
-    this.props.navigate({
-      pathname: '/library/song',
-      search: queryString.stringify({ query: newQuery }),
-    })
-  }
+  const controls = (
+    <button
+      className="control square primary"
+      onClick={() => {
+        // search songs associated to the artist
+        navigate({
+          pathname: '/library/song',
+          search: queryString.stringify({ query: `artist:""${artist.name}""` }),
+        })
+      }}
+    >
+      <span className="icon">
+        <i className="las la-search"></i>
+      </span>
+    </button>
+  )
 
-  render() {
-    const { artist, query } = this.props
-
-    const controls = (
-      <button
-        className="control square primary"
-        onClick={() => {
-          this.handleSearch()
-        }}
-      >
-        <span className="icon">
-          <i className="las la-search"></i>
-        </span>
-      </button>
-    )
-
-    return (
-      <ListingEntry id={artist.id} controls={controls}>
-        <ArtistWidget artist={artist} query={query} noIcon truncatable />
-      </ListingEntry>
-    )
-  }
+  return (
+    <ListingEntry id={artist.id} controls={controls}>
+      <ArtistWidget artist={artist} query={query} noIcon truncatable />
+    </ListingEntry>
+  )
 }
 
-ArtistEntry = withNavigate(ArtistEntry)
-
-export default ArtistEntry
+ArtistEntry.propTypes = {
+  artist: artistPropType.isRequired,
+  query: PropTypes.object,
+}
