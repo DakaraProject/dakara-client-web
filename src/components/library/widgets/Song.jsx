@@ -18,10 +18,7 @@ export default function SongWidget({
   workLinkProps,
   artistProps,
 }) {
-  /**
-   * Song version
-   */
-
+  // song version
   let version
   if (song.version) {
     version = (
@@ -34,11 +31,7 @@ export default function SongWidget({
     )
   }
 
-  /**
-   * Relations
-   * (artists and works)
-   */
-
+  // relations (artists and works)
   let relations
   if (!noRelations) {
     const works = song.works.map((work) => (
@@ -73,19 +66,13 @@ export default function SongWidget({
     }
   }
 
-  /**
-   * Song duration
-   */
-
+  // song duration
   let duration
   if (!noDuration) {
     duration = <span className="duration">{formatDuration(song.duration)}</span>
   }
 
-  /**
-   * Song tags
-   */
-
+  // song tags
   let tags
   if (!noTags && song.tags.length > 0) {
     tags = <SongTagList tags={song.tags} query={query} noClick />
