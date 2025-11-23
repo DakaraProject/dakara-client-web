@@ -1,110 +1,68 @@
-import PropTypes from 'prop-types'
-import { Component } from 'react'
-import { connect } from 'react-redux'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useSearchParams } from 'react-router'
 
 import { getSongTagList } from 'actions/songTags'
 import ListingFetchWrapper from 'components/generics/listing/FetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import SettingsSongTagsEntry from 'components/settings/songTags/Entry'
 import { IsLibraryManager } from 'permissions/Library'
-import { alterationResponsePropType } from 'reducers/alterationsResponse'
-import { songTagsStatePropType } from 'reducers/songTags'
-import { userPropType } from 'serverPropTypes/users'
-import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
+import { Status } from 'reducers/alterationsResponse'
 
-class SongTagsList extends Component {
-  static propTypes = {
-    authenticatedUser: userPropType.isRequired,
-    getSongTagList: PropTypes.func.isRequired,
-    responseOfMultipleEdit: PropTypes.objectOf(alterationResponsePropType),
-    responseOfMultipleEditColor: PropTypes.objectOf(alterationResponsePropType),
-    songTagsState: songTagsStatePropType.isRequired,
-    searchParams: PropTypes.object.isRequired,
-  }
+export default function SongTagsList() {
+  const songTagsState = useSelector((state) => state.settings.songTags)
+  const authenticatedUser = useSelector((state) => state.authenticatedUser)
+  const { status: songTagsStatus } = songTagsState
 
-  componentDidMount() {
-    this.refreshEntries()
-  }
+  const [searchParams, _] = useSearchParams()
+  const { page } = Object.fromEntries(searchParams.entries())
 
-  componentDidUpdate(prevProps) {
-    const { searchParams } = this.props
-    const { searchParams: prevSearchParams } = prevProps
+  const dispatch = useDispatch()
 
-    // refresh if moved to a different page
-    const page = searchParams.get('page')
-    const prevPage = prevSearchParams.get('page')
-    if (page !== prevPage) {
-      this.refreshEntries()
-    }
-  }
+  useEffect(
+    () => {
+      // refresh song tags immediately and if the page changes
+      if (songTagsStatus !== Status.pending) {
+        dispatch(getSongTagList(page))
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [page]
+  )
 
-  refreshEntries = () => {
-    this.props.getSongTagList(this.props.searchParams.get('page') || 1)
-  }
+  const { songTags, pagination } = songTagsState.data
 
-  render() {
-    const {
-      authenticatedUser,
-      responseOfMultipleEdit,
-      responseOfMultipleEditColor,
-    } = this.props
-    const { songTags, pagination } = this.props.songTagsState.data
+  const isManager = IsLibraryManager.hasPermission(authenticatedUser)
 
-    const isManager = IsLibraryManager.hasPermission(authenticatedUser)
+  const tagList = songTags.map((tag) => (
+    <SettingsSongTagsEntry key={tag.id} tag={tag} editable={isManager} />
+  ))
 
-    const tagList = songTags.map((tag) => (
-      <SettingsSongTagsEntry
-        key={tag.id}
-        tag={tag}
-        responseOfEdit={responseOfMultipleEdit[tag.id]}
-        responseOfEditColor={responseOfMultipleEditColor[tag.id]}
-        editable={isManager}
+  return (
+    <div id="song-tag-list">
+      <ListingFetchWrapper status={songTagsState.status}>
+        <div className="listing-table-container">
+          <table className="listing song-tag-list-listing">
+            <thead>
+              <tr className="listing-header">
+                <th className="notification-col"></th>
+                <th className="name">Name</th>
+                <th className="enabled">Enabled</th>
+                <th className="color">Color</th>
+              </tr>
+            </thead>
+            <tbody>{tagList}</tbody>
+          </table>
+        </div>
+      </ListingFetchWrapper>
+      <Navigator
+        count={songTags.length}
+        pagination={pagination}
+        names={{
+          singular: 'tag',
+          plural: 'tags',
+        }}
       />
-    ))
-
-    return (
-      <div id="song-tag-list">
-        <ListingFetchWrapper status={this.props.songTagsState.status}>
-          <div className="listing-table-container">
-            <table className="listing song-tag-list-listing">
-              <thead>
-                <tr className="listing-header">
-                  <th className="notification-col"></th>
-                  <th className="name">Name</th>
-                  <th className="enabled">Enabled</th>
-                  <th className="color">Color</th>
-                </tr>
-              </thead>
-              <tbody>{tagList}</tbody>
-            </table>
-          </div>
-        </ListingFetchWrapper>
-        <Navigator
-          count={songTags.length}
-          pagination={pagination}
-          names={{
-            singular: 'tag',
-            plural: 'tags',
-          }}
-        />
-      </div>
-    )
-  }
+    </div>
+  )
 }
-
-const mapStateToProps = (state) => ({
-  songTagsState: state.settings.songTags,
-  responseOfMultipleEdit: state.alterationsResponse.multiple.editSongTag || {},
-
-  responseOfMultipleEditColor:
-    state.alterationsResponse.multiple.editSongTagColor || {},
-  authenticatedUser: state.authenticatedUser,
-})
-
-SongTagsList = withSearchParams(
-  connect(mapStateToProps, {
-    getSongTagList,
-  })(SongTagsList)
-)
-
-export default SongTagsList
