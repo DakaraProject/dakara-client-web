@@ -24,25 +24,29 @@ export default function PlayerErrorsList() {
   const dispatch = useDispatch()
 
   // fetch player errors from server
-  const refreshEntries = useCallback(() => {
-    dispatch(
-      loadPlayerErrors({
-        page,
-      })
-    )
-  }, [dispatch, page])
+  const refreshEntries = useCallback(
+    () => {
+      dispatch(
+        loadPlayerErrors({
+          page,
+        })
+      )
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [page]
+  )
 
-  useEffect(() => {
-    // refresh the player errors immediately and if the page or the query changes
-    refreshEntries()
-  }, [refreshEntries, page, query])
-
-  useEffect(() => {
-    // refresh the player errors if the player errors hash changes
-    if (playerErrorsStatus !== Status.pending) {
-      refreshEntries()
-    }
-  }, [refreshEntries, playerErrorsHash, playerErrorsStatus])
+  useEffect(
+    () => {
+      // refresh the player errors immediately and if the page, the query, or
+      // the hash changes
+      if (playerErrorsStatus !== Status.pending) {
+        refreshEntries()
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [page, query, playerErrorsHash]
+  )
 
   const { playerErrors, count, pagination } = playerErrorsState.data
 

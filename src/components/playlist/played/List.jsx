@@ -22,25 +22,29 @@ export default function PlayedList() {
   const dispatch = useDispatch()
 
   // fetch played playlist entries from server
-  const refreshEntries = useCallback(() => {
-    dispatch(
-      loadPlaylistEntries('played', {
-        page,
-      })
-    )
-  }, [dispatch, page])
+  const refreshEntries = useCallback(
+    () => {
+      dispatch(
+        loadPlaylistEntries('played', {
+          page,
+        })
+      )
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [page]
+  )
 
-  useEffect(() => {
-    // refresh the played playlist immediately and if the page or the query changes
-    refreshEntries()
-  }, [refreshEntries, page, query])
-
-  useEffect(() => {
-    // refresh the played playlist if the playlist hash changes
-    if (playlistPlayedStatus !== Status.pending) {
-      refreshEntries()
-    }
-  }, [refreshEntries, playedEntriesHash, playlistPlayedStatus])
+  useEffect(
+    () => {
+      // refresh the played playlist immediately and if the page, the query
+      // changes, or the hash changes
+      if (playlistPlayedStatus !== Status.pending) {
+        refreshEntries()
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [page, query, playedEntriesHash]
+  )
 
   const { played, count, pagination } = playlistPlayedState.data
 

@@ -1,140 +1,101 @@
-import PropTypes from 'prop-types'
-import { Component } from 'react'
-import { connect } from 'react-redux'
+import { useCallback, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useSearchParams } from 'react-router'
 
-import { clearAlteration } from 'actions/alterations'
-import { loadPlaylistEntries, reorderPlaylistEntry } from 'actions/playlist'
+import { loadPlaylistEntries } from 'actions/playlist'
 import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
 import QueuingEntry from 'components/playlist/queueing/Entry'
 import { Status } from 'reducers/alterationsResponse'
-import { queuingStatePropType } from 'reducers/playlist'
-import { playlistEntriesDigestStatePropType } from 'reducers/playlistDigest'
-import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 
-class Queueing extends Component {
-  static propTypes = {
-    clearAlteration: PropTypes.func.isRequired,
-    loadPlaylistEntries: PropTypes.func.isRequired,
-    playlistEntriesDigestState: playlistEntriesDigestStatePropType.isRequired,
-    playlistQueuingState: queuingStatePropType.isRequired,
-    reorderPlaylistEntry: PropTypes.func.isRequired,
-    searchParams: PropTypes.object.isRequired,
-    setSearchParams: PropTypes.func.isRequired,
-  }
+export default function QueuingList() {
+  const playlistEntriesDigestState = useSelector(
+    (state) => state.playlist.digest.entries
+  )
+  const playlistQueuingState = useSelector((state) => state.playlist.queuing)
+  const { queuingEntriesHash, queuingEntries } = playlistEntriesDigestState.data
+  const { status: playlistQueuingStatus } = playlistQueuingState
 
-  componentDidMount() {
-    this.refreshEntries()
-  }
+  const [searchParams, setSearchParams] = useSearchParams()
+  const { page, query } = Object.fromEntries(searchParams.entries())
 
-  componentDidUpdate(prevProps) {
-    const { searchParams, setSearchParams } = this.props
-    const { searchParams: prevSearchParams } = prevProps
+  const dispatch = useDispatch()
 
-    // refresh if moved to a different page
-    const page = searchParams.get('page')
-    const prevPage = prevSearchParams.get('page')
-    if (page !== prevPage) {
-      this.refreshEntries()
-    }
+  // fetch queuing playlist entries from server
+  const refreshEntries = useCallback(
+    () => {
+      dispatch(
+        loadPlaylistEntries('queuing', {
+          page,
+        })
+      )
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [page]
+  )
 
-    // refresh if search changed
-    const query = searchParams.get('query')
-    const prevQuery = prevSearchParams.get('query')
-    if (query !== prevQuery) {
-      this.refreshEntries()
-    }
+  useEffect(
+    () => {
+      // refresh the queuing playlist immediately and if the page, the query,
+      // or the hash changes
+      if (playlistQueuingStatus !== Status.pending) {
+        refreshEntries()
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [page, query, queuingEntriesHash]
+  )
 
-    // refresh if the playlist changed
-    const { playlistQueuingState, playlistEntriesDigestState } = this.props
-    const { playlistEntriesDigestState: prevPlaylistEntriesDigestState } =
-      prevProps
-    if (
-      playlistEntriesDigestState !== prevPlaylistEntriesDigestState &&
-      playlistQueuingState.status !== Status.pending &&
-      playlistEntriesDigestState.data.queuingEntriesHash !==
-        prevPlaylistEntriesDigestState.data.queuingEntriesHash
-    ) {
-      this.refreshEntries()
-    }
+  useEffect(
+    () => {
+      // if the page of entries could not be obtained, request the previous
+      // page
+      if (playlistQueuingState.status === Status.failed && page > 1) {
+        searchParams.set('page', page - 1)
+        setSearchParams(searchParams)
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [playlistQueuingStatus, page, searchParams]
+  )
 
-    // if the page of entries could not be obtained, request the previous
-    // page
-    if (playlistQueuingState.status === Status.failed && page > 1) {
-      searchParams.delete('page')
-      searchParams.append('page', page - 1)
-      setSearchParams(searchParams)
-    }
-  }
+  const { queuing, count, pagination } = playlistQueuingState.data
 
-  /**
-   * Fetch queuing playlist entries from server
-   */
-  refreshEntries = () => {
-    this.props.loadPlaylistEntries('queuing', {
-      page: this.props.searchParams.get('page') || 1,
-    })
-  }
+  const firstId = queuingEntries?.[0]?.id
+  const lastId = queuingEntries.slice(-1)?.[0]?.id
+  const isFirstPage = page === 1
+  const isLastPage = page === pagination.last
 
-  render() {
-    const { queuing, count, pagination } = this.props.playlistQueuingState.data
-    const { status } = this.props.playlistQueuingState
-    const { queuingEntries, queuingEntriesHash } =
-      this.props.playlistEntriesDigestState.data
+  const queuingComponents = queuing.map((entry, position) => (
+    <QueuingEntry
+      key={entry.id}
+      entry={entry}
+      positions={{
+        position,
+        firstId,
+        lastId,
+        isFirstPage,
+        isLastPage,
+      }}
+    />
+  ))
 
-    const firstId = queuingEntries?.[0]?.id
-    const lastId = queuingEntries.slice(-1)?.[0]?.id
-    const page = parseInt(this.props.searchParams.get('page')) || 1
-    const isFirstPage = page === 1
-    const isLastPage = page === pagination.last
-
-    const queuingComponents = queuing.map((entry, position) => (
-      <QueuingEntry
-        key={entry.id}
-        entry={entry}
-        clearAlteration={this.props.clearAlteration}
-        positions={{
-          position,
-          firstId,
-          lastId,
-          isFirstPage,
-          isLastPage,
+  return (
+    <div id="queuing">
+      <ListingList
+        fetchStatus={playlistQueuingStatus}
+        transitionObservable={queuingEntriesHash}
+      >
+        {queuingComponents}
+      </ListingList>
+      <Navigator
+        count={count}
+        pagination={pagination}
+        names={{
+          singular: 'entry',
+          plural: 'entries',
         }}
       />
-    ))
-
-    return (
-      <div id="queuing">
-        <ListingList
-          fetchStatus={status}
-          transitionObservable={queuingEntriesHash}
-        >
-          {queuingComponents}
-        </ListingList>
-        <Navigator
-          count={count}
-          pagination={pagination}
-          names={{
-            singular: 'entry',
-            plural: 'entries',
-          }}
-        />
-      </div>
-    )
-  }
+    </div>
+  )
 }
-
-const mapStateToProps = (state) => ({
-  playlistEntriesDigestState: state.playlist.digest.entries,
-  playlistQueuingState: state.playlist.queuing,
-})
-
-Queueing = withSearchParams(
-  connect(mapStateToProps, {
-    clearAlteration,
-    loadPlaylistEntries,
-    reorderPlaylistEntry,
-  })(Queueing)
-)
-
-export default Queueing
