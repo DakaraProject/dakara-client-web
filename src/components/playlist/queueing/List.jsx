@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useSearchParams } from 'react-router'
 
@@ -21,25 +21,16 @@ export default function QueuingList() {
 
   const dispatch = useDispatch()
 
-  // fetch queuing playlist entries from server
-  const refreshEntries = useCallback(
-    () => {
-      dispatch(
-        loadPlaylistEntries('queuing', {
-          page,
-        })
-      )
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page]
-  )
-
   useEffect(
     () => {
       // refresh the queuing playlist immediately and if the page, the query,
       // or the hash changes
       if (playlistQueuingStatus !== Status.pending) {
-        refreshEntries()
+        dispatch(
+          loadPlaylistEntries('queuing', {
+            page,
+          })
+        )
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useSearchParams } from 'react-router'
 
@@ -23,25 +23,16 @@ export default function PlayerErrorsList() {
 
   const dispatch = useDispatch()
 
-  // fetch player errors from server
-  const refreshEntries = useCallback(
-    () => {
-      dispatch(
-        loadPlayerErrors({
-          page,
-        })
-      )
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page]
-  )
-
   useEffect(
     () => {
       // refresh the player errors immediately and if the page, the query, or
       // the hash changes
       if (playerErrorsStatus !== Status.pending) {
-        refreshEntries()
+        dispatch(
+          loadPlayerErrors({
+            page,
+          })
+        )
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

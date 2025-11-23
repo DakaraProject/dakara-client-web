@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useSearchParams } from 'react-router'
 
@@ -21,25 +21,16 @@ export default function PlayedList() {
 
   const dispatch = useDispatch()
 
-  // fetch played playlist entries from server
-  const refreshEntries = useCallback(
-    () => {
-      dispatch(
-        loadPlaylistEntries('played', {
-          page,
-        })
-      )
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page]
-  )
-
   useEffect(
     () => {
       // refresh the played playlist immediately and if the page, the query
       // changes, or the hash changes
       if (playlistPlayedStatus !== Status.pending) {
-        refreshEntries()
+        dispatch(
+          loadPlaylistEntries('played', {
+            page,
+          })
+        )
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
