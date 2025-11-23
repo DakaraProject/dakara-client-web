@@ -1,96 +1,76 @@
 import classNames from 'classnames'
-import PropTypes from 'prop-types'
-import queryString from 'query-string'
-import { Component } from 'react'
-import { connect } from 'react-redux'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useSearchParams } from 'react-router'
 
 import { verifyRegistration } from 'actions/users'
-import {
-  alterationResponsePropType,
-  Status,
-} from 'reducers/alterationsResponse'
-import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
+import { Status } from 'reducers/alterationsResponse'
 
-class VerifyRegistration extends Component {
-  static propTypes = {
-    location: PropTypes.object.isRequired,
-    responseOfVerifyRegistration: alterationResponsePropType,
-    verifyRegistration: PropTypes.func.isRequired,
-  }
+export default function VerifyRegistration() {
+  const responseOfVerifyRegistration = useSelector(
+    (state) => state.alterationsResponse.unique.verifyRegistration || {}
+  )
 
-  componentDidMount() {
-    const queryObj = queryString.parse(this.props.location.search)
+  const dispatch = useDispatch()
 
-    const { user_id, timestamp, signature } = queryObj
+  const [searchParams, _] = useSearchParams()
 
-    // Send verify request to server
-    this.props.verifyRegistration(user_id, timestamp, signature)
-  }
+  const { user_id, timestamp, signature } = Object.fromEntries(
+    searchParams.entries()
+  )
 
-  render() {
-    const { responseOfVerifyRegistration } = this.props
-    let content
-    let className
+  useEffect(() => {
+    // send verify registration immediately
+    dispatch(verifyRegistration(user_id, timestamp, signature))
+  }, [dispatch, user_id, timestamp, signature])
 
-    switch (responseOfVerifyRegistration.status) {
-      case Status.successful:
-        content = (
-          <div className="flow">
-            <p>Email successfuly validated.</p>
-            <p>
-              A manager will validate your account, you&apos;ll be notified by
-              email.
-            </p>
-          </div>
-        )
-        className = 'success'
-        break
+  let content
+  let className
+  switch (responseOfVerifyRegistration.status) {
+    case Status.successful:
+      content = (
+        <div className="flow">
+          <p>Email successfuly validated.</p>
+          <p>
+            A manager will validate your account, you&apos;ll be notified by
+            email.
+          </p>
+        </div>
+      )
+      className = 'success'
+      break
 
-      case Status.failed: {
-        let message
-        if (responseOfVerifyRegistration.message) {
-          message = <p>Reason: {responseOfVerifyRegistration.message}</p>
-        }
-
-        content = (
-          <div className="flow">
-            <p>Error validating email.</p>
-            {message}
-          </div>
-        )
-        className = 'danger'
-        break
+    case Status.failed: {
+      let message
+      if (responseOfVerifyRegistration.message) {
+        message = <p>Reason: {responseOfVerifyRegistration.message}</p>
       }
 
-      default:
-        content = (
-          <div className="flow">
-            <p>Validating...</p>
-          </div>
-        )
-        className = 'success'
+      content = (
+        <div className="flow">
+          <p>Error validating email.</p>
+          {message}
+        </div>
+      )
+      className = 'danger'
+      break
     }
 
-    return (
-      <div id="verify-registration" className={classNames('box', className)}>
-        <div className="header">
-          <h2>Email verification</h2>
+    default:
+      content = (
+        <div className="flow">
+          <p>Validating...</p>
         </div>
-        {content}
-      </div>
-    )
+      )
+      className = 'success'
   }
+
+  return (
+    <div id="verify-registration" className={classNames('box', className)}>
+      <div className="header">
+        <h2>Email verification</h2>
+      </div>
+      {content}
+    </div>
+  )
 }
-
-const mapStateToProps = (state) => ({
-  responseOfVerifyRegistration:
-    state.alterationsResponse.unique.verifyRegistration || {},
-})
-
-VerifyRegistration = withLocation(
-  connect(mapStateToProps, {
-    verifyRegistration,
-  })(VerifyRegistration)
-)
-
-export default VerifyRegistration
