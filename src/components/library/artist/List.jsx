@@ -44,8 +44,8 @@ export default function ArtistList() {
         count={count}
         pagination={pagination}
         names={{
-          singular: 'artist found',
-          plural: 'artists found',
+          singular: 'artist',
+          plural: 'artists',
         }}
       />
     </div>
