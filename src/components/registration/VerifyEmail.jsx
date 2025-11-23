@@ -19,10 +19,14 @@ export default function VerifyEmail() {
     searchParams.entries()
   )
 
-  useEffect(() => {
-    // send verify requerst immediately
-    dispatch(verifyEmail(user_id, email, timestamp, signature))
-  }, [dispatch, user_id, email, timestamp, signature])
+  useEffect(
+    () => {
+      // send verify requerst immediately
+      dispatch(verifyEmail(user_id, email, timestamp, signature))
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [user_id, email, timestamp, signature]
+  )
 
   let content
   let className

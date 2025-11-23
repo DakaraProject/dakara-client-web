@@ -11,10 +11,14 @@ export default function Library() {
 
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    // load work types on mount
-    dispatch(loadWorkTypes())
-  }, [dispatch])
+  useEffect(
+    () => {
+      // load work types on mount
+      dispatch(loadWorkTypes())
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
 
   // work types links
   let workTypesTabs

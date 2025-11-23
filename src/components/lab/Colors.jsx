@@ -68,10 +68,12 @@ function MosaicTile({ color, space, refresher }) {
   // get the color of the div and convert it to HSL space
   const ref = useRef(null)
   const [text, setText] = useState('')
+
   useEffect(() => {
     const [fromSpace, color] = getColor(ref, 'background')
     setText(convertFormatColor(color, fromSpace, space))
   }, [space, refresher])
+
   return (
     <td className={classNames('tile', color)} ref={ref}>
       {text}
@@ -201,6 +203,7 @@ function Mosaic() {
 function SamplerTile({ background, foreground, refresher }) {
   const ref = useRef(null)
   const [text, setText] = useState('')
+
   useEffect(() => {
     const [backgroundSpace, background] = getColor(ref, 'background')
     const [colorSpace, color] = getColor(ref, 'color')
@@ -211,6 +214,7 @@ function SamplerTile({ background, foreground, refresher }) {
       ).toFixed(2)
     )
   }, [refresher])
+
   return (
     <td
       className={classNames('tile', background, `fg-${foreground}`)}

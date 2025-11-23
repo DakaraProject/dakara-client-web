@@ -47,7 +47,7 @@ export default function QueuingList() {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [playlistQueuingStatus, page, searchParams]
+    [playlistQueuingStatus, page]
   )
 
   const { queuing, count, pagination } = playlistQueuingState.data

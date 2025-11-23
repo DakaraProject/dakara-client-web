@@ -22,15 +22,19 @@ export default function SongList() {
 
   const { page, query } = Object.fromEntries(searchParams.entries())
 
-  useEffect(() => {
-    // fetch songs from server immediately, and if the page or if the query changes
-    dispatch(
-      loadLibraryEntries('songs', {
-        page,
-        query,
-      })
-    )
-  }, [page, query, dispatch])
+  useEffect(
+    () => {
+      // fetch songs from server immediately, and if the page or if the query changes
+      dispatch(
+        loadLibraryEntries('songs', {
+          page,
+          query,
+        })
+      )
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [page, query]
+  )
 
   const { songs, count, pagination } = songState.data
   const { date_stop: karaokeDateStop } = karaokeState.data

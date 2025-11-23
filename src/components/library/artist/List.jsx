@@ -16,16 +16,20 @@ export default function ArtistList() {
 
   const page = searchParams.get('page')
   const query = searchParams.get('query')
-  useEffect(() => {
-    // refresh immediately, or if moved to a different page, or if the search query
-    // changed
-    dispatch(
-      loadLibraryEntries('artists', {
-        page,
-        query,
-      })
-    )
-  }, [page, query, dispatch])
+  useEffect(
+    () => {
+      // refresh immediately, or if moved to a different page, or if the search query
+      // changed
+      dispatch(
+        loadLibraryEntries('artists', {
+          page,
+          query,
+        })
+      )
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [page, query]
+  )
 
   const { artists, query: queryParsed, count, pagination } = artistState.data
 

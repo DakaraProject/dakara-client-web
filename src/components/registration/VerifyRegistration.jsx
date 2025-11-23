@@ -19,10 +19,14 @@ export default function VerifyRegistration() {
     searchParams.entries()
   )
 
-  useEffect(() => {
-    // send verify registration immediately
-    dispatch(verifyRegistration(user_id, timestamp, signature))
-  }, [dispatch, user_id, timestamp, signature])
+  useEffect(
+    () => {
+      // send verify registration immediately
+      dispatch(verifyRegistration(user_id, timestamp, signature))
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [user_id, timestamp, signature]
+  )
 
   let content
   let className

@@ -20,6 +20,7 @@ export default function SearchBox({ help, placeholder }) {
   const queryStore = searchBox.query
   const queryParams = searchParams.get('query')
 
+  // FIXME not working as intended
   useEffect(() => {
     queryRef.current = query
   }, [query])

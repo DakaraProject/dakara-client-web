@@ -33,19 +33,25 @@ export default function WorkList() {
     [workTypeStatus]
   )
 
-  useEffect(() => {
-    if (!isReady()) {
-      return
-    }
+  useEffect(
+    () => {
+      // do not load if not ready
+      if (!isReady()) {
+        return
+      }
 
-    dispatch(
-      loadLibraryEntries('works', {
-        page,
-        query,
-        type: workTypeQueryName,
-      })
-    )
-  }, [dispatch, isReady, page, query, workTypeQueryName, workTypeStatus])
+      // load entries if the page, the query, the work type, or the work thype status changes
+      dispatch(
+        loadLibraryEntries('works', {
+          page,
+          query,
+          type: workTypeQueryName,
+        })
+      )
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [page, query, workTypeQueryName, workTypeStatus]
+  )
 
   // do not render anything if not ready
   if (!isReady()) {

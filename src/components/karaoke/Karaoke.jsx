@@ -11,21 +11,26 @@ import { params } from 'utils'
 export default function Karaoke() {
   const karaokeState = useSelector((state) => state.playlist.karaoke)
   const user = useSelector((state) => state.authenticatedUser)
+  const { status: karaokeStatus } = karaokeState
 
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    // get evolution of the playlist periodically
-    const interval = setInterval(() => {
-      if (karaokeState.status !== Status.pending) {
-        dispatch(loadPlaylistDigest())
-      }
-    }, params.pollInterval)
+  useEffect(
+    () => {
+      // get evolution of the playlist periodically
+      const interval = setInterval(() => {
+        if (karaokeStatus !== Status.pending) {
+          dispatch(loadPlaylistDigest())
+        }
+      }, params.pollInterval)
 
-    return () => {
-      clearInterval(interval)
-    }
-  }, [dispatch, karaokeState.status])
+      return () => {
+        clearInterval(interval)
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [karaokeStatus]
+  )
 
   const { data: karaoke } = karaokeState
 

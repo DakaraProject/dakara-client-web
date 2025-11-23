@@ -15,17 +15,25 @@ export default function Main({ children }) {
 
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    // load server settings immediately
-    dispatch(loadServerSettings())
-  }, [dispatch])
+  useEffect(
+    () => {
+      // load server settings immediately
+      dispatch(loadServerSettings())
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
 
-  useEffect(() => {
-    // load current user immediately and if the logging status changes
-    if (isLoggedIn) {
-      dispatch(loadCurrentUser())
-    }
-  }, [isLoggedIn, dispatch])
+  useEffect(
+    () => {
+      // load current user immediately and if the logging status changes
+      if (isLoggedIn) {
+        dispatch(loadCurrentUser())
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isLoggedIn]
+  )
 
   return (
     <div id="main">
