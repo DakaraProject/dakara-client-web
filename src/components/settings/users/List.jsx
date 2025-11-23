@@ -2,8 +2,7 @@ import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { clearAlteration } from 'actions/alterations'
-import { deleteUser, getUsers } from 'actions/users'
+import { getUsers } from 'actions/users'
 import { FormBlock, InputField } from 'components/generics/Form'
 import ListingFetchWrapper from 'components/generics/listing/FetchWrapper'
 import Navigator from 'components/generics/Navigator'
@@ -14,11 +13,8 @@ import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 
 class UsersList extends Component {
   static propTypes = {
-    clearAlteration: PropTypes.func.isRequired,
-    deleteUser: PropTypes.func.isRequired,
     getUsers: PropTypes.func.isRequired,
     listUsersState: listUsersStatePropType.isRequired,
-    responseOfMultipleDeleteUser: PropTypes.object,
     searchParams: PropTypes.object.isRequired,
   }
 
@@ -43,18 +39,10 @@ class UsersList extends Component {
   }
 
   render() {
-    const { deleteUser, clearAlteration, responseOfMultipleDeleteUser } =
-      this.props
     const { users, pagination } = this.props.listUsersState.data
 
     const userList = users.map((user) => (
-      <SettingsUserEntry
-        key={user.id}
-        user={user}
-        responseOfDelete={responseOfMultipleDeleteUser[user.id]}
-        deleteUser={deleteUser}
-        clearAlteration={clearAlteration}
-      />
+      <SettingsUserEntry key={user.id} user={user} />
     ))
 
     return (
@@ -138,15 +126,11 @@ class UsersList extends Component {
 
 const mapStateToProps = (state) => ({
   listUsersState: state.settings.users.list,
-  responseOfMultipleDeleteUser:
-    state.alterationsResponse.multiple.deleteUser || {},
 })
 
 UsersList = withSearchParams(
   connect(mapStateToProps, {
-    deleteUser,
     getUsers,
-    clearAlteration,
   })(UsersList)
 )
 
