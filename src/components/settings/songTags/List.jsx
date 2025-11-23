@@ -2,11 +2,11 @@ import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { clearAlteration } from 'actions/alterations'
-import { editSongTag, getSongTagList } from 'actions/songTags'
+import { getSongTagList } from 'actions/songTags'
 import ListingFetchWrapper from 'components/generics/listing/FetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import SettingsSongTagsEntry from 'components/settings/songTags/Entry'
+import { IsLibraryManager } from 'permissions/Library'
 import { alterationResponsePropType } from 'reducers/alterationsResponse'
 import { songTagsStatePropType } from 'reducers/songTags'
 import { userPropType } from 'serverPropTypes/users'
@@ -15,8 +15,6 @@ import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 class SongTagsList extends Component {
   static propTypes = {
     authenticatedUser: userPropType.isRequired,
-    clearAlteration: PropTypes.func.isRequired,
-    editSongTag: PropTypes.func.isRequired,
     getSongTagList: PropTypes.func.isRequired,
     responseOfMultipleEdit: PropTypes.objectOf(alterationResponsePropType),
     responseOfMultipleEditColor: PropTypes.objectOf(alterationResponsePropType),
@@ -46,13 +44,13 @@ class SongTagsList extends Component {
 
   render() {
     const {
-      editSongTag,
-      clearAlteration,
       authenticatedUser,
       responseOfMultipleEdit,
       responseOfMultipleEditColor,
     } = this.props
     const { songTags, pagination } = this.props.songTagsState.data
+
+    const isManager = IsLibraryManager.hasPermission(authenticatedUser)
 
     const tagList = songTags.map((tag) => (
       <SettingsSongTagsEntry
@@ -60,9 +58,7 @@ class SongTagsList extends Component {
         tag={tag}
         responseOfEdit={responseOfMultipleEdit[tag.id]}
         responseOfEditColor={responseOfMultipleEditColor[tag.id]}
-        editSongTag={editSongTag}
-        clearAlteration={clearAlteration}
-        authenticatedUser={authenticatedUser}
+        editable={isManager}
       />
     ))
 
@@ -108,8 +104,6 @@ const mapStateToProps = (state) => ({
 SongTagsList = withSearchParams(
   connect(mapStateToProps, {
     getSongTagList,
-    editSongTag,
-    clearAlteration,
   })(SongTagsList)
 )
 
