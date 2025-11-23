@@ -89,7 +89,7 @@ export default function SongExpanded({ query, song }) {
         <button
           className="control square primary"
           onClick={() => {
-            this.setQuery(`artist:""${artist.name}""`)
+            setQuery(`artist:""${artist.name}""`)
           }}
         >
           <span className="icon">
@@ -168,7 +168,7 @@ export default function SongExpanded({ query, song }) {
   if (song.tags.length > 0) {
     tags = (
       <DetailAny icon="la-tags" name="Tags">
-        <SongTagList tags={song.tags} setQuery={this.setQuery} />
+        <SongTagList tags={song.tags} setQuery={setQuery} />
       </DetailAny>
     )
   }
