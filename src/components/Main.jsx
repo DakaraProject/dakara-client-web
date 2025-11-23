@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import { Component } from 'react'
-import { connect } from 'react-redux'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { loadCurrentUser } from 'actions/authenticatedUser'
 import { loadServerSettings } from 'actions/internal'
@@ -10,52 +10,38 @@ import Header from 'components/Header'
 import Karaoke from 'components/karaoke/Karaoke'
 import { IsAuthenticated } from 'permissions/Base'
 
-class Main extends Component {
-  static propTypes = {
-    isLoggedIn: PropTypes.bool.isRequired,
-    loadCurrentUser: PropTypes.func.isRequired,
-    loadServerSettings: PropTypes.func.isRequired,
-    children: PropTypes.node,
-  }
+export default function Main({ children }) {
+  const isLoggedIn = useSelector((state) => !!state.token)
 
-  componentDidMount() {
-    this.props.loadServerSettings()
+  const dispatch = useDispatch()
 
-    if (this.props.isLoggedIn) {
-      this.props.loadCurrentUser()
+  useEffect(() => {
+    // load server settings immediately
+    dispatch(loadServerSettings())
+  }, [dispatch])
+
+  useEffect(() => {
+    // load current user immediately and if the logging status changes
+    if (isLoggedIn) {
+      dispatch(loadCurrentUser())
     }
-  }
+  }, [isLoggedIn, dispatch])
 
-  componentDidUpdate(prevProps) {
-    if (this.props.isLoggedIn && !prevProps.isLoggedIn) {
-      this.props.loadCurrentUser()
-    }
-  }
-
-  render() {
-    return (
-      <div id="main">
-        <DevWarning />
-        <div className="column">
-          <Header />
-          <IsAuthenticated>
-            <Karaoke />
-          </IsAuthenticated>
-          {this.props.children}
-          <Footer />
-        </div>
+  return (
+    <div id="main">
+      <DevWarning />
+      <div className="column">
+        <Header />
+        <IsAuthenticated>
+          <Karaoke />
+        </IsAuthenticated>
+        {children}
+        <Footer />
       </div>
-    )
-  }
+    </div>
+  )
 }
 
-const mapStateToProps = (state) => ({
-  isLoggedIn: !!state.token,
-})
-
-Main = connect(mapStateToProps, {
-  loadCurrentUser,
-  loadServerSettings,
-})(Main)
-
-export default Main
+Main.propTypes = {
+  children: PropTypes.node,
+}
