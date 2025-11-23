@@ -1,9 +1,11 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import queryString from 'query-string'
-import { Component } from 'react'
-import { connect } from 'react-redux'
+import { useCallback, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useSearchParams } from 'react-router'
 
+import { clearAlteration } from 'actions/alterations'
 import { removeEntryFromPlaylist, reorderPlaylistEntry } from 'actions/playlist'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import { Details, DetailText } from 'components/generics/Details'
@@ -17,372 +19,381 @@ import {
   IsPlaylistManager,
   IsPlaylistManagerOrOwner,
 } from 'permissions/Playlist'
-import { alterationResponsePropType } from 'reducers/alterationsResponse'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
-import {
-  withNavigate,
-  withSearchParams,
-} from 'thirdpartyExtensions/ReactRouterDom'
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 import { formatDateLong } from 'utils'
 
-class Entry extends Component {
-  static propTypes = {
-    clearAlteration: PropTypes.func.isRequired,
-    entry: playlistEntryPropType.isRequired,
-    navigate: PropTypes.func.isRequired,
-    reorderPlaylistEntry: PropTypes.func.isRequired,
-    queuingEntriesDigest: PropTypes.arrayOf(playlistEntryPropType).isRequired,
-    positions: PropTypes.shape({
-      position: PropTypes.number.isRequired,
-      firstId: PropTypes.number,
-      lastId: PropTypes.number,
-      isFirstPage: PropTypes.bool,
-      isLastPage: PropTypes.bool,
-    }).isRequired,
-    removeEntryFromPlaylist: PropTypes.func.isRequired,
-    responseOfRemoveEntry: alterationResponsePropType,
-    responseOfReorderPlaylistEntry: alterationResponsePropType,
-    searchParams: PropTypes.object.isRequired,
-    setSearchParams: PropTypes.func.isRequired,
-  }
+function ReorderButton({ handleReorder, className, id }) {
+  return (
+    <button
+      className="control square primary"
+      onClick={() => {
+        handleReorder(id)
+      }}
+    >
+      <span className="icon">
+        <i className={classNames('las', className)}></i>
+      </span>
+    </button>
+  )
+}
 
-  state = {
-    confirmDisplayed: false,
-  }
+ReorderButton.propTypes = {
+  handleReorder: PropTypes.func.isRequired,
+  className: PropTypes.string.isRequired,
+  id: PropTypes.number,
+}
 
-  componentWillUnmount() {
-    this.props.clearAlteration('removeEntryFromPlaylist', this.props.entry.id)
-    this.props.clearAlteration('reorderPlaylistEntry', this.props.entry.id)
-  }
+export default function QueuingEntry({ entry, positions }) {
+  const queuingEntriesDigest = useSelector(
+    (state) => state.playlist.digest.entries.data.queuingEntries
+  )
+  const responseOfRemoveEntry = useSelector(
+    (state) =>
+      state.alterationsResponse.multiple.removeEntryFromPlaylist?.[entry.id]
+  )
+  const responseOfReorderPlaylistEntry = useSelector(
+    (state) =>
+      state.alterationsResponse.multiple.reorderPlaylistEntry?.[entry.id]
+  )
 
-  displayConfirm = () => {
-    this.setState({ confirmDisplayed: true })
-  }
+  const [searchParams, setSearchParams] = useSearchParams()
 
-  clearConfirm = () => {
-    this.setState({ confirmDisplayed: false })
-  }
+  const dispatch = useDispatch()
 
-  handleSearch = () => {
-    const song = this.props.entry.song
-    const query = `title:""${song.title}""`
-    this.props.navigate({
-      pathname: '/library/song',
-      search: queryString.stringify({
-        query,
-        expanded: song.id,
-      }),
-    })
-  }
+  const navigate = useNavigate()
 
-  handleReorderUp = (reorderId) => {
-    const currentId = this.props.entry.id
+  const [confirmDisplayed, setConfirmDisplayed] = useState(false)
 
-    // return early if missing data
-    if (isNaN(reorderId)) {
-      return
-    }
+  useEffect(
+    () => () => {
+      // clear alterations when component unmounts
+      dispatch(clearAlteration('removeEntryFromPlaylist', entry.id))
+      dispatch(clearAlteration('reorderPlaylistEntry', entry.id))
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
 
-    // reorder up
-    this.props.reorderPlaylistEntry({
-      playlistEntryId: reorderId,
-      beforeId: currentId,
-    })
+  const handleSearch = useCallback(
+    () => {
+      navigate({
+        pathname: '/library/song',
+        search: queryString.stringify({
+          query: `title:""${entry.song.title}""`,
+          expanded: entry.song.id,
+        }),
+      })
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [entry]
+  )
 
-    // clean reorder mode
-    this.cancelReorder()
-  }
+  const cancelReorder = useCallback(
+    () => {
+      if (searchParams.has('reorder')) {
+        searchParams.delete('reorder')
+        setSearchParams(searchParams)
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [searchParams]
+  )
 
-  handleReorderDown = (reorderId) => {
-    const currentId = this.props.entry.id
+  const handleReorderUp = useCallback(
+    (reorderId) => {
+      const currentId = entry.id
 
-    // return early if missing data
-    if (isNaN(reorderId)) {
-      return
-    }
+      // return early if missing data
+      if (isNaN(reorderId)) {
+        return
+      }
 
-    // reorder down
-    this.props.reorderPlaylistEntry({
-      playlistEntryId: reorderId,
-      afterId: currentId,
-    })
+      // reorder up
+      dispatch(
+        reorderPlaylistEntry({
+          playlistEntryId: reorderId,
+          beforeId: currentId,
+        })
+      )
 
-    // clean reorder mode
-    this.cancelReorder()
-  }
+      // clean reorder mode
+      cancelReorder()
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [entry]
+  )
 
-  handleReorderFirst = () => {
-    // reorder on top of playlist
-    this.props.reorderPlaylistEntry({
-      playlistEntryId: this.props.entry.id,
-      beforeId: this.props.positions.firstId,
-    })
+  const handleReorderDown = useCallback(
+    (reorderId) => {
+      const currentId = entry.id
 
-    // clean reorder mode
-    this.cancelReorder()
-  }
+      // return early if missing data
+      if (isNaN(reorderId)) {
+        return
+      }
 
-  handleReorderLast = () => {
-    // reorder on bottom of playlist
-    this.props.reorderPlaylistEntry({
-      playlistEntryId: this.props.entry.id,
-      afterId: this.props.positions.lastId,
-    })
+      // reorder down
+      dispatch(
+        reorderPlaylistEntry({
+          playlistEntryId: reorderId,
+          afterId: currentId,
+        })
+      )
 
-    // clean reorder mode
-    this.cancelReorder()
-  }
+      // clean reorder mode
+      cancelReorder()
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [entry]
+  )
 
-  handleReorderToggle = () => {
-    // if called in reorder mode, clean reorder mode
-    if (this.props.searchParams.has('reorder')) {
-      this.cancelReorder()
+  const handleReorderFirst = useCallback(
+    () => {
+      // reorder on top of playlist
+      dispatch(
+        reorderPlaylistEntry({
+          playlistEntryId: entry.id,
+          beforeId: positions.firstId,
+        })
+      )
 
-      return
-    }
+      // clean reorder mode
+      cancelReorder()
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [entry, positions]
+  )
 
-    // otherwise, enter reorder mode
-    this.props.searchParams.append('reorder', this.props.positions.position)
-    this.props.setSearchParams(this.props.searchParams)
-  }
+  const handleReorderLast = useCallback(
+    () => {
+      // reorder on bottom of playlist
+      dispatch(
+        reorderPlaylistEntry({
+          playlistEntryId: entry.id,
+          afterId: positions.lastId,
+        })
+      )
 
-  cancelReorder = () => {
-    if (this.props.searchParams.has('reorder')) {
-      this.props.searchParams.delete('reorder')
-      this.props.setSearchParams(this.props.searchParams)
-    }
-  }
+      // clean reorder mode
+      cancelReorder()
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [entry, positions]
+  )
 
-  handleExpanded = (expanded) => {
-    // TODO use `searchParams` instead
-    if (!expanded) {
-      this.cancelReorder()
-    }
-  }
+  const handleReorderToggle = useCallback(
+    () => {
+      // if called in reorder mode, clean reorder mode
+      if (searchParams.has('reorder')) {
+        cancelReorder()
 
-  render() {
-    const { entry, positions, queuingEntriesDigest, searchParams } = this.props
+        return
+      }
 
-    /**
-     * Reorder buttons
-     */
-    const createReorderButton = (handleReorder, className, id) => (
+      // otherwise, enter reorder mode
+      searchParams.append('reorder', positions.position)
+      setSearchParams(searchParams)
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [searchParams, positions]
+  )
+
+  // reorder buttons
+  const reorderId = parseInt(searchParams.get('expanded'))
+  const reorderIndex = parseInt(searchParams.get('reorder'))
+
+  const expanded = reorderId === entry.id
+  const inReorder = !(isNaN(reorderId) || isNaN(reorderIndex))
+
+  const controlsExpanded = [
+    <IsPlaylistManager key="reorder">
+      <CSSTransitionLazy
+        in={inReorder}
+        classNames="show-hide"
+        timeout={{
+          enter: 3000,
+          exit: 1500,
+        }}
+      >
+        <div className="reorder">
+          {!positions.isFirstPage && (
+            <ReorderButton
+              handleReorder={handleReorderFirst}
+              className="la-arrow-up overbar"
+            />
+          )}
+          {!positions.isLastPage && (
+            <ReorderButton
+              handleReorder={handleReorderLast}
+              className="la-arrow-down underbar"
+            />
+          )}
+        </div>
+      </CSSTransitionLazy>
+      <ReorderButton
+        handleReorder={handleReorderToggle}
+        className={inReorder ? 'la-ban' : 'la-arrows-alt-v'}
+      />
+    </IsPlaylistManager>,
+    <button
+      key="search"
+      className="control square primary"
+      onClick={() => {
+        handleSearch()
+      }}
+    >
+      <span className="icon">
+        <i className="las la-search"></i>
+      </span>
+    </button>,
+    <IsPlaylistManagerOrOwner key="remove" object={entry}>
       <button
-        className="control square primary"
+        className="control square danger"
         onClick={() => {
-          handleReorder(id)
+          setConfirmDisplayed(true)
         }}
       >
         <span className="icon">
-          <i className={classNames('las', className)}></i>
+          <i className="las la-trash"></i>
         </span>
       </button>
-    )
+    </IsPlaylistManagerOrOwner>,
+  ]
 
-    const reorderId = parseInt(searchParams.get('expanded'))
-    const reorderIndex = parseInt(searchParams.get('reorder'))
-
-    const expanded = reorderId === entry.id
-    const inReorder = !(isNaN(reorderId) || isNaN(reorderIndex))
-
-    const controlsExpanded = [
-      <IsPlaylistManager key="reorder">
-        <CSSTransitionLazy
-          in={inReorder}
-          classNames="show-hide"
-          timeout={{
-            enter: 3000,
-            exit: 1500,
-          }}
-        >
-          <div className="reorder">
-            {!positions.isFirstPage &&
-              createReorderButton(
-                this.handleReorderFirst,
-                'la-arrow-up overbar'
-              )}
-            {!positions.isLastPage &&
-              createReorderButton(
-                this.handleReorderLast,
-                'la-arrow-down underbar'
-              )}
-          </div>
-        </CSSTransitionLazy>
-        {createReorderButton(
-          this.handleReorderToggle,
-          inReorder ? 'la-ban' : 'la-arrows-alt-v'
-        )}
-      </IsPlaylistManager>,
-      <button
-        key="search"
-        className="control square primary"
-        onClick={() => {
-          this.handleSearch()
-        }}
-      >
-        <span className="icon">
-          <i className="las la-search"></i>
-        </span>
-      </button>,
-      <IsPlaylistManagerOrOwner key="remove" object={entry}>
-        <button
-          className="control square danger"
-          onClick={() => {
-            this.displayConfirm()
-          }}
-        >
-          <span className="icon">
-            <i className="las la-trash"></i>
-          </span>
-        </button>
-      </IsPlaylistManagerOrOwner>,
-    ]
-
-    const controls = [
-      <IsPlaylistManager key="reorder">
-        <CSSTransitionLazy
-          in={inReorder}
-          classNames="show-hide"
-          timeout={{
-            enter: 300,
-            exit: 150,
-          }}
-        >
-          <div className="reorder">
-            {reorderIndex > positions.position
-              ? createReorderButton(
-                  this.handleReorderUp,
-                  inReorder ? 'la-arrow-up' : 'la-arrows-alt-v',
-                  reorderId
-                )
-              : createReorderButton(
-                  this.handleReorderDown,
-                  inReorder ? 'la-arrow-down' : 'la-arrows-alt-v',
-                  reorderId
-                )}
-          </div>
-        </CSSTransitionLazy>
-      </IsPlaylistManager>,
-      <button
-        key="search"
-        className="control square primary"
-        onClick={() => {
-          this.handleSearch()
-        }}
-      >
-        <span className="icon">
-          <i className="las la-search"></i>
-        </span>
-      </button>,
-    ]
-
-    const notifications = [
+  const controls = [
+    <IsPlaylistManager key="reorder">
       <CSSTransitionLazy
-        key="remove"
-        in={this.state.confirmDisplayed}
-        classNames="notified"
+        in={inReorder}
+        classNames="show-hide"
         timeout={{
           enter: 300,
           exit: 150,
         }}
       >
-        <ConfirmationBar
-          onConfirm={() => {
-            this.props.removeEntryFromPlaylist(entry.id)
-          }}
-          onCancel={this.clearConfirm}
-        />
-      </CSSTransitionLazy>,
-      <Notification
-        key="response-of-remove-entry"
-        alterationResponse={this.props.responseOfRemoveEntry}
-        pendingMessage="Removing…"
-        successfulMessage="Successfuly removed!"
-        successfulDuration={null}
-        failedMessage="Error attempting to remove song from playlist"
-      />,
-      <Notification
-        key="response-of-reorder-playlist-entry"
-        alterationResponse={this.props.responseOfReorderPlaylistEntry}
-        pendingMessage={false}
-        successfulMessage={false}
-        failedMessage="Error attempting to reorder playlist"
-      />,
-    ]
-
-    const queuingEntryDigest = queuingEntriesDigest.find(
-      (e) => e.id === entry.id
-    )
-
-    const entryExpanded = (
-      <ListingEntryExpanded
-        controls={controlsExpanded}
-        notifications={notifications}
-      >
-        <Details>
-          <DetailText icon="la-user" name="For">
-            {entry.owner.username}
-          </DetailText>
-          {entry.use_instrumental && (
-            <DetailText icon="la-microphone-slash" name="Instrumental">
-              Uses the instrumental version
-            </DetailText>
+        <div className="reorder">
+          {reorderIndex > positions.position ? (
+            <ReorderButton
+              handleReorder={handleReorderUp}
+              className={inReorder ? 'la-arrow-up' : 'la-arrows-alt-v'}
+              id={reorderId}
+            />
+          ) : (
+            <ReorderButton
+              handleReorder={handleReorderDown}
+              className={inReorder ? 'la-arrow-down' : 'la-arrows-alt-v'}
+              id={reorderId}
+            />
           )}
-          <DetailText icon="la-clock" name="Requested at">
-            {formatDateLong(entry.date_created)}
-          </DetailText>
-          {queuingEntryDigest && (
-            <DetailText icon="la-clock" name="Should play at">
-              {formatDateLong(queuingEntryDigest.date_play)}
-            </DetailText>
-          )}
-        </Details>
-      </ListingEntryExpanded>
-    )
+        </div>
+      </CSSTransitionLazy>
+    </IsPlaylistManager>,
+    <button
+      key="search"
+      className="control square primary"
+      onClick={() => {
+        handleSearch()
+      }}
+    >
+      <span className="icon">
+        <i className="las la-search"></i>
+      </span>
+    </button>,
+  ]
 
-    return (
-      <ListingEntry
-        id={entry.id}
-        controls={controls}
-        notifications={notifications}
-        entryExpanded={entryExpanded}
-        onExpanded={this.handleExpanded}
-      >
-        {expanded ? (
-          <PlaylistEntryWidget
-            entry={entry}
-            noOwner
-            noInstrumental
-            truncatable
-          />
-        ) : (
-          <PlaylistEntryWidget entry={entry} truncatable />
+  const notifications = [
+    <CSSTransitionLazy
+      key="remove"
+      in={confirmDisplayed}
+      classNames="notified"
+      timeout={{
+        enter: 300,
+        exit: 150,
+      }}
+    >
+      <ConfirmationBar
+        onConfirm={() => {
+          dispatch(removeEntryFromPlaylist(entry.id))
+        }}
+        onCancel={() => {
+          setConfirmDisplayed(false)
+        }}
+      />
+    </CSSTransitionLazy>,
+    <Notification
+      key="response-of-remove-entry"
+      alterationResponse={responseOfRemoveEntry}
+      pendingMessage="Removing…"
+      successfulMessage="Successfuly removed!"
+      successfulDuration={null}
+      failedMessage="Error attempting to remove song from playlist"
+    />,
+    <Notification
+      key="response-of-reorder-playlist-entry"
+      alterationResponse={responseOfReorderPlaylistEntry}
+      pendingMessage={false}
+      successfulMessage={false}
+      failedMessage="Error attempting to reorder playlist"
+    />,
+  ]
+
+  const queuingEntryDigest = queuingEntriesDigest.find((e) => e.id === entry.id)
+
+  const entryExpanded = (
+    <ListingEntryExpanded
+      controls={controlsExpanded}
+      notifications={notifications}
+    >
+      <Details>
+        <DetailText icon="la-user" name="For">
+          {entry.owner.username}
+        </DetailText>
+        {entry.use_instrumental && (
+          <DetailText icon="la-microphone-slash" name="Instrumental">
+            Uses the instrumental version
+          </DetailText>
         )}
-      </ListingEntry>
-    )
-  }
+        <DetailText icon="la-clock" name="Requested at">
+          {formatDateLong(entry.date_created)}
+        </DetailText>
+        {queuingEntryDigest && (
+          <DetailText icon="la-clock" name="Should play at">
+            {formatDateLong(queuingEntryDigest.date_play)}
+          </DetailText>
+        )}
+      </Details>
+    </ListingEntryExpanded>
+  )
+
+  return (
+    <ListingEntry
+      id={entry.id}
+      controls={controls}
+      notifications={notifications}
+      entryExpanded={entryExpanded}
+      onExpanded={(expanded) => {
+        // TODO use `searchParams` instead
+        if (!expanded) {
+          cancelReorder()
+        }
+      }}
+    >
+      {expanded ? (
+        <PlaylistEntryWidget entry={entry} noOwner noInstrumental truncatable />
+      ) : (
+        <PlaylistEntryWidget entry={entry} truncatable />
+      )}
+    </ListingEntry>
+  )
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  queuingEntriesDigest: state.playlist.digest.entries.data.queuingEntries,
-  responseOfRemoveEntry:
-    state.alterationsResponse.multiple.removeEntryFromPlaylist?.[
-      ownProps.entry.id
-    ],
-  responseOfReorderPlaylistEntry:
-    state.alterationsResponse.multiple.reorderPlaylistEntry?.[
-      ownProps.entry.id
-    ],
-})
-
-Entry = withSearchParams(
-  withNavigate(
-    connect(mapStateToProps, {
-      removeEntryFromPlaylist,
-      reorderPlaylistEntry,
-    })(Entry)
-  )
-)
-
-export default Entry
+QueuingEntry.propTypes = {
+  entry: playlistEntryPropType.isRequired,
+  positions: PropTypes.shape({
+    position: PropTypes.number.isRequired,
+    firstId: PropTypes.number,
+    lastId: PropTypes.number,
+    isFirstPage: PropTypes.bool,
+    isLastPage: PropTypes.bool,
+  }).isRequired,
+}

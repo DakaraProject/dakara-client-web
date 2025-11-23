@@ -24,11 +24,15 @@ export function ListingEntry({
   // component
   const expanded = expandable && parseInt(searchParams.get('expanded')) === id
 
-  useEffect(() => {
-    if (onExpanded) {
-      onExpanded(expanded)
-    }
-  }, [expanded, onExpanded])
+  useEffect(
+    () => {
+      if (onExpanded) {
+        onExpanded(expanded)
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [expanded]
+  )
 
   const setExpanded = () => {
     // called when clicking the expand button, so it means the expanded
