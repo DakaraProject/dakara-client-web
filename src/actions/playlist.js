@@ -31,6 +31,7 @@ export const removeEntryFromPlaylist = (entryId) => ({
   },
   alterationName: 'removeEntryFromPlaylist',
   elementId: entryId,
+  alterationDate: Date.now(),
 })
 
 /**
@@ -105,6 +106,7 @@ export const addSongToPlaylist = (songId) => ({
   },
   alterationName: 'addSongToPlaylist',
   elementId: songId,
+  alterationDate: Date.now(),
 })
 
 /**
@@ -128,6 +130,7 @@ export const addSongToPlaylistWithOptions = (
   },
   alterationName: 'addSongToPlaylistWithOptions',
   elementId: songId,
+  alterationDate: Date.now(),
 })
 
 /**
@@ -172,6 +175,7 @@ export const reorderPlaylistEntry = ({
     },
     alterationName: 'reorderPlaylistEntry',
     elementId: targetId,
+    alterationDate: Date.now(),
   }
 }
 
@@ -193,6 +197,7 @@ export const sendPlayerCommand = (command) => ({
   },
   alterationName: 'sendPlayerCommands',
   elementId: command,
+  alterationDate: Date.now(),
 })
 
 /**
@@ -228,6 +233,7 @@ export const createPlayerToken = (karaokeId) => ({
     onSuccess: loadPlayerToken(karaokeId),
   },
   alterationName: 'createPlayerToken',
+  alterationDate: Date.now(),
 })
 
 /**
@@ -241,6 +247,7 @@ export const revokePlayerToken = (karaokeId) => ({
     types: [ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE],
   },
   alterationName: 'revokePlayerToken',
+  alterationDate: Date.now(),
 })
 
 /**

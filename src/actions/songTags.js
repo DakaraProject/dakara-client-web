@@ -45,4 +45,5 @@ export const editSongTag = (tagId, disabled) => ({
   },
   alterationName: 'editSongTag',
   elementId: tagId,
+  alterationDate: Date.now(),
 })

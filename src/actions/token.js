@@ -49,4 +49,5 @@ export const revokeToken = () => ({
     onSuccess: logout(),
   },
   alterationName: 'revokeToken',
+  alterationDate: Date.now(),
 })

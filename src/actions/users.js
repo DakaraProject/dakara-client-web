@@ -58,6 +58,7 @@ export const deleteUser = (userId) => ({
   },
   alterationName: 'deleteUser',
   elementId: userId,
+  alterationDate: Date.now(),
 })
 
 /**
@@ -103,6 +104,7 @@ export const verifyRegistration = (userId, timestamp, signature) => ({
     types: [ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE],
   },
   alterationName: 'verifyRegistration',
+  alterationDate: Date.now(),
 })
 
 /**
@@ -125,4 +127,5 @@ export const verifyEmail = (userId, email, timestamp, signature) => ({
     types: [ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE],
   },
   alterationName: 'verifyEmail',
+  alterationDate: Date.now(),
 })
