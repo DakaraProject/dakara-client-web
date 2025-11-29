@@ -217,3 +217,18 @@ export function getEntriesHash(entries) {
     ) + entries.length
   )
 }
+
+/**
+ * Get parent URL.
+ * @param url Current URL.
+ * @returns URL without the last term.
+ */
+export function getParentURL(url) {
+  // remove trailing `/`
+  if (url.endsWith('/')) {
+    url = url.slice(0, -1)
+  }
+  // remove last term
+  // ensure empty string would still be `/`
+  return url.substring(0, url.lastIndexOf('/')) || '/'
+}

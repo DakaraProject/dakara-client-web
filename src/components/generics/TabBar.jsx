@@ -2,21 +2,14 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { NavLink, useMatch } from 'react-router'
 
+import { getParentURL } from 'utils'
+
 export function TabBar({ children }) {
   return <nav className="tab-bar controls compact">{children}</nav>
 }
 
 TabBar.propTypes = {
   children: PropTypes.node,
-}
-
-/**
- * Get parent URL.
- * @param[in] url Current URL.
- * @returns URL without the last term.
- */
-function getParentURL(url) {
-  return url.substring(0, url.lastIndexOf('/'))
 }
 
 export function Tab({
