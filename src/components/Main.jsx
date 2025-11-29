@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { loadCurrentUser } from 'actions/authenticatedUser'
 import { loadServerSettings } from 'actions/internal'
+import { loadWorkTypes } from 'actions/library'
 import DevWarning from 'components/DevWarning'
 import Footer from 'components/Footer'
 import Header from 'components/Header'
@@ -29,6 +30,7 @@ export default function Main({ children }) {
       // load current user immediately and if the logging status changes
       if (isLoggedIn) {
         dispatch(loadCurrentUser())
+        dispatch(loadWorkTypes())
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

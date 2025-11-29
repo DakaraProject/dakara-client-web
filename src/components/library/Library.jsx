@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Outlet } from 'react-router'
 
-import { loadWorkTypes } from 'actions/library'
 import { Tab, TabBar } from 'components/generics/TabBar'
 import { Status } from 'reducers/alterationsResponse'
 
@@ -10,17 +9,6 @@ export default function Library() {
   const workTypeState = useSelector((state) => state.library.workType)
 
   const [searchBoxQuery, setSearchBoxQuery] = useState('')
-
-  const dispatch = useDispatch()
-
-  useEffect(
-    () => {
-      // load work types on mount
-      dispatch(loadWorkTypes())
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
 
   // work types links
   let workTypesTabs
