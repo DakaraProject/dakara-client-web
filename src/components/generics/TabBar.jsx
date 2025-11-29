@@ -10,7 +10,7 @@ TabBar.propTypes = {
   children: PropTypes.node,
 }
 
-export function Tab({ extraClassName, iconName, name, to }) {
+export function Tab({ extraClassName, iconName, name, ...rest }) {
   let tabName
   if (name) {
     tabName = <span className="name">{name}</span>
@@ -22,7 +22,7 @@ export function Tab({ extraClassName, iconName, name, to }) {
   })
 
   return (
-    <NavLink to={to} className={linkClass}>
+    <NavLink className={linkClass} {...rest}>
       <span className="icon">
         <i className={`las la-${iconName}`}></i>
       </span>

@@ -1,32 +1,20 @@
 import PropTypes from 'prop-types'
-import { useCallback, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router'
 
-import { storeSearchBox } from 'actions/library'
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
-export default function SearchBox({ help, placeholder }) {
-  const searchBox = useSelector((state) => state.library.searchBox)
-
+/**
+ * Search box
+ *
+ * Note that the query and its setter are owned by a parent component.
+ */
+export default function SearchBox({ help, placeholder, query, setQuery }) {
   const [displayHelp, setDisplayHelp] = useState(false)
 
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const dispatch = useDispatch()
-
-  const { query } = searchBox
   const queryFromParams = searchParams.get('query')
-
-  // save the query in the store
-  // NOTE This may not be optimal, but other optimized ways failed.
-  const setQuery = useCallback(
-    (query) => {
-      dispatch(storeSearchBox({ query }))
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
 
   useEffect(
     () => {
@@ -136,4 +124,6 @@ export default function SearchBox({ help, placeholder }) {
 SearchBox.propTypes = {
   help: PropTypes.element,
   placeholder: PropTypes.string.isRequired,
+  query: PropTypes.string.isRequired,
+  setQuery: PropTypes.func.isRequired,
 }

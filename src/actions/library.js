@@ -58,17 +58,3 @@ export const loadWorkTypes = () => ({
     types: [WORK_TYPES_REQUEST, WORK_TYPES_SUCCESS, WORK_TYPES_FAILURE],
   },
 })
-
-/**
- * Search box query
- */
-
-export const STORE_SEARCH_BOX = 'STORE_SEARCH_BOX'
-
-/**
- * Store search box query
- */
-export const storeSearchBox = (searchBox) => ({
-  type: STORE_SEARCH_BOX,
-  searchBox,
-})

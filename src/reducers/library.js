@@ -5,7 +5,6 @@ import {
   LIBRARY_FAILURE,
   LIBRARY_REQUEST,
   LIBRARY_SUCCESS,
-  STORE_SEARCH_BOX,
   WORK_TYPES_FAILURE,
   WORK_TYPES_REQUEST,
   WORK_TYPES_SUCCESS,
@@ -219,22 +218,6 @@ function workType(state = defaultWorkType, action) {
 }
 
 /**
- * Search box
- */
-
-function searchBox(state = { query: '' }, action) {
-  switch (action.type) {
-    case STORE_SEARCH_BOX:
-      return {
-        ...action.searchBox,
-      }
-
-    default:
-      return state
-  }
-}
-
-/**
  * Library
  */
 
@@ -243,5 +226,4 @@ export default combineReducers({
   artist,
   works,
   workType,
-  searchBox,
 })

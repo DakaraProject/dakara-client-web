@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams, useSearchParams } from 'react-router'
+import { useOutletContext, useParams, useSearchParams } from 'react-router'
 
 import { loadLibraryEntries } from 'actions/library'
 import ListingList from 'components/generics/listing/List'
@@ -20,9 +20,11 @@ export default function WorkList() {
   )
   const workTypeState = useSelector((state) => state.library.workType)
 
-  const [searchParams, _] = useSearchParams()
-
   const dispatch = useDispatch()
+
+  const [searchBoxQuery, setSearchBoxQuery] = useOutletContext()
+
+  const [searchParams, _] = useSearchParams()
 
   const { page, query } = Object.fromEntries(searchParams.entries())
   const { status: workTypeStatus } = workTypeState
@@ -83,6 +85,8 @@ export default function WorkList() {
     <div id="work-library">
       <SearchBox
         placeholder={`What ${workType.name.toLowerCase()} do you want?`}
+        query={searchBoxQuery}
+        setQuery={setSearchBoxQuery}
       />
       <ListingList fetchStatus={workState.status} noTransition>
         {libraryEntryWorkList}

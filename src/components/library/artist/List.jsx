@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useSearchParams } from 'react-router'
+import { useOutletContext, useSearchParams } from 'react-router'
 
 import { loadLibraryEntries } from 'actions/library'
 import ListingList from 'components/generics/listing/List'
@@ -11,8 +11,11 @@ import SearchBox from 'components/library/SearchBox'
 export default function ArtistList() {
   const artistState = useSelector((state) => state.library.artist)
 
-  const [searchParams, _] = useSearchParams()
   const dispatch = useDispatch()
+
+  const [searchBoxQuery, setSearchBoxQuery] = useOutletContext()
+
+  const [searchParams, _] = useSearchParams()
 
   const page = searchParams.get('page')
   const query = searchParams.get('query')
@@ -40,7 +43,11 @@ export default function ArtistList() {
 
   return (
     <div id="artist-library">
-      <SearchBox placeholder="Who are you looking for?" />
+      <SearchBox
+        placeholder="Who are you looking for?"
+        query={searchBoxQuery}
+        setQuery={setSearchBoxQuery}
+      />
       <ListingList fetchStatus={artistState.status} noTransition>
         {libraryEntryArtistList}
       </ListingList>

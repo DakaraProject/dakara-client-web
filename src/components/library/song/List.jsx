@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useSearchParams } from 'react-router'
+import { useOutletContext, useSearchParams } from 'react-router'
 
 import { loadLibraryEntries } from 'actions/library'
 import ListingList from 'components/generics/listing/List'
@@ -17,6 +17,8 @@ export default function SongList() {
   const karaokeState = useSelector((state) => state.playlist.karaoke)
 
   const dispatch = useDispatch()
+
+  const [searchBoxQuery, setSearchBoxQuery] = useOutletContext()
 
   const [searchParams, _] = useSearchParams()
 
@@ -61,6 +63,8 @@ export default function SongList() {
     <div id="song-library">
       <SearchBox
         placeholder="What will you sing?"
+        query={searchBoxQuery}
+        setQuery={setSearchBoxQuery}
         help={
           <>
             <p>
