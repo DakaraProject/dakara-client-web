@@ -6,7 +6,7 @@ export default function Lab() {
   return (
     <div id="lab" className="box neutral">
       <TabBar>
-        <Tab to="/lab/colors" iconName="palette" name="Colors" />
+        <Tab to="/lab/colors" iconName="palette" name="Colors" defaultRoute />
         <Tab to="/lab/fields" iconName="pencil-ruler" name="Fields" />
       </TabBar>
       <Outlet />

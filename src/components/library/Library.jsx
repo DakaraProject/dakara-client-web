@@ -26,7 +26,12 @@ export default function Library() {
   return (
     <div id="library" className="box neutral">
       <TabBar>
-        <Tab to="/library/song" iconName="music" extraClassName="home" />
+        <Tab
+          to="/library/song"
+          iconName="music"
+          extraClassName="home"
+          defaultRoute
+        />
         <Tab to="/library/artist" iconName="microphone-alt" name="Artists" />
         {workTypesTabs}
       </TabBar>

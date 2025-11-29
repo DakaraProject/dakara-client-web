@@ -6,7 +6,12 @@ export default function Playlist() {
   return (
     <div id="playlist" className="box neutral">
       <TabBar>
-        <Tab to="/playlist/queuing" iconName="chevron-right" name="Queuing" />
+        <Tab
+          to="/playlist/queuing"
+          iconName="chevron-right"
+          name="Queuing"
+          defaultRoute
+        />
         <Tab to="/playlist/played" iconName="chevron-left" name="Played" />
         <Tab
           to="/playlist/player-errors"
