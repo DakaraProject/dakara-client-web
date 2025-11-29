@@ -29,7 +29,7 @@ Playing.propTypes = {
 
 function Queuing({ entry }) {
   return (
-    <div className="position queueing">
+    <div className="position queuing">
       <span className="icon">
         <i className="las la-chevron-right"></i>
       </span>

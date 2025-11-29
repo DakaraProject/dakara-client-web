@@ -21,7 +21,7 @@ import NotFound from 'components/navigation/NotFound'
 import PlaylistPlayed from 'components/playlist/played/List'
 import PlayerErrors from 'components/playlist/playerErrors/List'
 import Playlist from 'components/playlist/Playlist'
-import PlaylistQueueing from 'components/playlist/queueing/List'
+import PlaylistQueuing from 'components/playlist/queuing/List'
 import Login from 'components/registration/Login'
 import Logout from 'components/registration/Logout'
 import Register from 'components/registration/Register'
@@ -84,8 +84,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <Route path=":workType" element={<LibraryWork />} />
               </Route>
               <Route path="playlist" element={<Playlist />}>
-                <Route index element={<Navigate to="queueing" replace />} />
-                <Route path="queueing" element={<PlaylistQueueing />} />
+                <Route index element={<Navigate to="queuing" replace />} />
+                <Route path="queuing" element={<PlaylistQueuing />} />
                 <Route path="played" element={<PlaylistPlayed />} />
                 <Route path="player-errors" element={<PlayerErrors />} />
               </Route>

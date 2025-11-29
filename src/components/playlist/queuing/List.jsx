@@ -5,7 +5,7 @@ import { useSearchParams } from 'react-router'
 import { loadPlaylistEntries } from 'actions/playlist'
 import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
-import QueuingEntry from 'components/playlist/queueing/Entry'
+import QueuingEntry from 'components/playlist/queuing/Entry'
 import { Status } from 'reducers/alterationsResponse'
 
 export default function QueuingList() {

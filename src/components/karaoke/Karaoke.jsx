@@ -34,6 +34,11 @@ export default function Karaoke() {
 
   const { data: karaoke } = karaokeState
 
+  // do not display anything until first load of digest
+  if (!karaokeStatus) {
+    return null
+  }
+
   if (!karaoke.ongoing) {
     if (IsPlaylistManager.hasPermission(user)) {
       return <KaraStatusNotification />
