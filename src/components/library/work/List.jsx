@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useOutletContext, useParams, useSearchParams } from 'react-router'
@@ -101,8 +100,4 @@ export default function WorkList() {
       />
     </div>
   )
-}
-
-WorkList.propTypes = {
-  params: PropTypes.object.isRequired,
 }

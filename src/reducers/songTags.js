@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types'
-
 import {
   ALTERATION_FAILURE,
   ALTERATION_REQUEST,
@@ -11,7 +9,6 @@ import {
   TAG_LIST_SUCCESS,
 } from 'actions/songTags'
 import { Status } from 'reducers/alterationsResponse'
-import { songTagPropType } from 'serverPropTypes/library'
 import { updateData } from 'utils'
 
 /**
@@ -46,18 +43,6 @@ function updateTagInState(tagId, state, valueDict) {
 /**
  * Tag entries
  */
-
-export const songTagsStatePropType = PropTypes.shape({
-  status: PropTypes.symbol,
-  data: PropTypes.shape({
-    pagination: PropTypes.shape({
-      current: PropTypes.number.isRequired,
-      last: PropTypes.number.isRequired,
-    }).isRequired,
-    count: PropTypes.number.isRequired,
-    songTags: PropTypes.arrayOf(songTagPropType).isRequired,
-  }).isRequired,
-})
 
 const defaultSongTagsSettings = {
   status: null,

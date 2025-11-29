@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { combineReducers } from 'redux'
 
 import {
@@ -11,24 +10,11 @@ import {
   USER_LIST_SUCCESS,
 } from 'actions/users'
 import { Status } from 'reducers/alterationsResponse'
-import { userPropType } from 'serverPropTypes/users'
 import { updateData } from 'utils'
 
 /**
  * List of users
  */
-
-export const listUsersStatePropType = PropTypes.shape({
-  status: PropTypes.symbol,
-  data: PropTypes.shape({
-    pagination: PropTypes.shape({
-      current: PropTypes.number.isRequired,
-      last: PropTypes.number.isRequired,
-    }).isRequired,
-    count: PropTypes.number.isRequired,
-    users: PropTypes.arrayOf(userPropType).isRequired,
-  }).isRequired,
-})
 
 const defaultList = {
   status: null,
@@ -70,13 +56,6 @@ function list(state = defaultList, action) {
 /**
  * Edit one user
  */
-
-export const editUsersStatePropType = PropTypes.shape({
-  status: PropTypes.symbol,
-  data: PropTypes.shape({
-    user: userPropType,
-  }).isRequired,
-})
 
 const defaultEdit = {
   status: null,

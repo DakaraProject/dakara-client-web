@@ -7,8 +7,6 @@ import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
 import PlayerErrorsEntry from 'components/playlist/playerErrors/Entry'
 import { Status } from 'reducers/alterationsResponse'
-import { playerErrorsStatePropType } from 'reducers/playlist'
-import { playerErrorsDigestStatePropType } from 'reducers/playlistDigest'
 
 export default function PlayerErrorsList() {
   const playerErrorsDigestState = useSelector(
@@ -63,9 +61,4 @@ export default function PlayerErrorsList() {
       />
     </div>
   )
-}
-
-PlayerErrorsList.propTypes = {
-  playerErrorsDigestState: playerErrorsDigestStatePropType.isRequired,
-  playerErrorsState: playerErrorsStatePropType.isRequired,
 }

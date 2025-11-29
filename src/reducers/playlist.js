@@ -20,13 +20,7 @@ import {
 } from 'actions/playlistDigest'
 import { Status } from 'reducers/alterationsResponse'
 import digest from 'reducers/playlistDigest'
-import {
-  karaokePropType,
-  playerErrorPropType,
-  playerStatusPropType,
-  playerTokenPropType,
-  playlistEntryPropType,
-} from 'serverPropTypes/playlist'
+import { karaokePropType } from 'serverPropTypes/playlist'
 import { updateData } from 'utils'
 
 /**
@@ -36,23 +30,6 @@ import { updateData } from 'utils'
 /**
  * Generators for playlist entries
  */
-
-const generatePlaylistEntriesPropType = (
-  playlistEntriesPropType,
-  playlistEntriesKey
-) =>
-  PropTypes.shape({
-    status: PropTypes.symbol,
-    data: PropTypes.shape({
-      pagination: PropTypes.shape({
-        current: PropTypes.number.isRequired,
-        last: PropTypes.number.isRequired,
-      }).isRequired,
-      count: PropTypes.number.isRequired,
-      [playlistEntriesKey]: PropTypes.arrayOf(playlistEntriesPropType)
-        .isRequired,
-    }),
-  })
 
 const generateDefaultPlaylistEntries = (playlistEntriesKey) => ({
   status: null,
@@ -104,30 +81,17 @@ const generatePlaylistEntriesReducer = (playlistEntriesType) => {
  * Playlist of queuing entries
  */
 
-export const queuingStatePropType = generatePlaylistEntriesPropType(
-  playlistEntryPropType,
-  'queuing'
-)
 const queuing = generatePlaylistEntriesReducer('queuing')
 
 /**
  * playlist of played entries
  */
 
-export const playedStatePropType = generatePlaylistEntriesPropType(
-  playlistEntryPropType,
-  'played'
-)
 const played = generatePlaylistEntriesReducer('played')
 
 /**
  * Player information from server
  */
-
-export const playerStatusStatePropType = PropTypes.shape({
-  status: PropTypes.symbol,
-  data: playerStatusPropType.isRequired,
-})
 
 const defaultPlayerStatus = {
   status: null,
@@ -198,18 +162,6 @@ function playerStatus(state = defaultPlayerStatus, action) {
 /**
  * Player errors reported from device
  */
-
-export const playerErrorsStatePropType = PropTypes.shape({
-  status: PropTypes.symbol,
-  data: PropTypes.shape({
-    pagination: PropTypes.shape({
-      current: PropTypes.number.isRequired,
-      last: PropTypes.number.isRequired,
-    }).isRequired,
-    count: PropTypes.number.isRequired,
-    playerErrors: PropTypes.arrayOf(playerErrorPropType).isRequired,
-  }),
-})
 
 const defaultPlayerErrors = {
   status: null,
@@ -296,11 +248,6 @@ function karaoke(state = defaultKaraoke, action) {
 /**
  * Player token
  */
-
-export const playerTokenStatePropType = PropTypes.shape({
-  status: PropTypes.symbol,
-  data: playerTokenPropType.isRequired,
-})
 
 const defaultPlayerToken = {
   status: null,

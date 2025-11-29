@@ -1,5 +1,4 @@
 import dayjs from 'dayjs'
-import PropTypes from 'prop-types'
 import { combineReducers } from 'redux'
 
 import {
@@ -8,10 +7,6 @@ import {
   PLAYLIST_DIGEST_SUCCESS,
 } from 'actions/playlistDigest'
 import { Status } from 'reducers/alterationsResponse'
-import {
-  playerErrorPropType,
-  playlistEntryPropType,
-} from 'serverPropTypes/playlist'
 import { differentiateEntries, getEntriesHash } from 'utils'
 
 /**
@@ -22,21 +17,6 @@ import { differentiateEntries, getEntriesHash } from 'utils'
  * Playlist of all entries on server
  * Minimal information is stored
  */
-
-export const playlistEntriesDigestStateDataPropType = PropTypes.shape({
-  dateEnd: PropTypes.string.isRequired,
-  playedEntries: PropTypes.arrayOf(playlistEntryPropType).isRequired,
-  playedEntriesHash: PropTypes.number.isRequired,
-  playingEntries: PropTypes.arrayOf(playlistEntryPropType).isRequired,
-  playingEntriesHash: PropTypes.number.isRequired,
-  queuingEntries: PropTypes.arrayOf(playlistEntryPropType).isRequired,
-  queuingEntriesHash: PropTypes.number.isRequired,
-})
-
-export const playlistEntriesDigestStatePropType = PropTypes.shape({
-  status: PropTypes.symbol,
-  data: playlistEntriesDigestStateDataPropType.isRequired,
-})
 
 const defaultEntries = {
   status: null,
@@ -129,14 +109,6 @@ function entries(state = defaultEntries, action) {
 /**
  * Player errors reported from device
  */
-
-export const playerErrorsDigestStatePropType = PropTypes.shape({
-  status: PropTypes.symbol,
-  data: PropTypes.shape({
-    playerErrors: PropTypes.arrayOf(playerErrorPropType).isRequired,
-    playerErrorsHash: PropTypes.number.isRequired,
-  }),
-})
 
 const defaultPlayerErrors = {
   status: null,
