@@ -27,7 +27,8 @@ export default function Main({ children }) {
 
   useEffect(
     () => {
-      // load current user immediately and if the logging status changes
+      // load current user and work types immediately and if the logging status
+      // changes
       if (isLoggedIn) {
         dispatch(loadCurrentUser())
         dispatch(loadWorkTypes())
