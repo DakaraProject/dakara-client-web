@@ -94,7 +94,10 @@ export default function Notification({
         >
           <div className="notified">
             <div
-              className={classNames('notification', notificationTypes[status])}
+              className={classNames(
+                'notification non-hoverizable',
+                notificationTypes[status]
+              )}
             >
               <div className="message">{message}</div>
             </div>

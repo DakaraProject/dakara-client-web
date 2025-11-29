@@ -97,27 +97,27 @@
 // hover
 .hoverizable:hover {
   &.primary,
-  &:not(:has(.hoverizable)) .primary {
+  &:not(:has(.hoverizable)) :not(.non-hoverizable).primary {
     @include colors.make-color(colors.$primary-102);
   }
 
   &.succees,
-  &:not(:has(.hoverizable)) .success {
+  &:not(:has(.hoverizable)) :not(.non-hoverizable).success {
     @include colors.make-color(colors.$success-102);
   }
 
   &.warning,
-  &:not(:has(.hoverizable)) .warning {
+  &:not(:has(.hoverizable)) :not(.non-hoverizable).warning {
     @include colors.make-color(colors.$warning-102);
   }
 
   &.danger,
-  &:not(:has(.hoverizable)) .danger {
+  &:not(:has(.hoverizable)) :not(.non-hoverizable).danger {
     @include colors.make-color(colors.$danger-102);
   }
 
   &.info,
-  &:not(:has(.hoverizable)) .info {
+  &:not(:has(.hoverizable)) :not(.non-hoverizable).info {
     @include colors.make-color(colors.$info-102);
   }
 }
