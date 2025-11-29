@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useSearchParams } from 'react-router'
 
@@ -10,28 +10,19 @@ export default function SearchBox({ help, placeholder }) {
   const searchBox = useSelector((state) => state.library.searchBox)
 
   const [displayHelp, setDisplayHelp] = useState(false)
-  const [query, setQuery] = useState('')
-  const queryRef = useRef()
 
   const [searchParams, setSearchParams] = useSearchParams()
 
   const dispatch = useDispatch()
 
-  const queryStore = searchBox.query
-  const queryParams = searchParams.get('query')
+  const { query } = searchBox
+  const queryFromParams = searchParams.get('query')
 
-  // FIXME not working as intended
-  useEffect(() => {
-    queryRef.current = query
-  }, [query])
-
-  useEffect(
-    () => {
-      // update query from store immediately
-      if (queryStore !== null) {
-        setQuery(queryStore)
-        queryRef.current = queryStore
-      }
+  // save the query in the store
+  // NOTE This may not be optimal, but other optimized ways failed.
+  const setQuery = useCallback(
+    (query) => {
+      dispatch(storeSearchBox({ query }))
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
@@ -40,20 +31,8 @@ export default function SearchBox({ help, placeholder }) {
   useEffect(
     () => {
       // update query from URL immediately
-      if (queryParams !== null) {
-        setQuery(queryParams)
-        queryRef.current = queryParams
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
-
-  useEffect(
-    () => () => {
-      // update store when component unmounts
-      if (queryRef.current !== null) {
-        dispatch(storeSearchBox({ query: queryRef.current }))
+      if (queryFromParams !== null) {
+        setQuery(queryFromParams)
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -130,7 +109,7 @@ export default function SearchBox({ help, placeholder }) {
                   onClick={() => {
                     setQuery('')
                     // clear query string
-                    // this.props.setSearchParams({})
+                    setSearchParams({})
                   }}
                 >
                   <span className="icon">

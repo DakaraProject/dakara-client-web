@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Outlet } from 'react-router'
 
-import { loadWorkTypes } from 'actions/library'
+import { loadWorkTypes, storeSearchBox } from 'actions/library'
 import { Tab, TabBar } from 'components/generics/TabBar'
 import { Status } from 'reducers/alterationsResponse'
 
@@ -15,6 +15,11 @@ export default function Library() {
     () => {
       // load work types on mount
       dispatch(loadWorkTypes())
+
+      // reseat library search box
+      return () => {
+        dispatch(storeSearchBox({ query: '' }))
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
