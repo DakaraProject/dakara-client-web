@@ -46,7 +46,10 @@ const store = createStore(
   reducer,
   compose(
     applyMiddleware(fetchApiMiddleware, thunk, delayMiddleware),
-    persistState('token')
+    persistState('token'),
+    // #if DEV
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    // #endif
   )
 )
 
