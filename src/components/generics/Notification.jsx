@@ -18,7 +18,6 @@ export default function Notification({
   alterationResponse,
   failedDuration = 5000,
   failedMessage = 'Failure',
-  pendingDuration = null,
   pendingMessage = 'Pending…',
   successfulDuration = 3000,
   successfulMessage = 'Success',
@@ -28,11 +27,10 @@ export default function Notification({
 
   const durations = useMemo(
     () => ({
-      [Status.pending]: pendingDuration,
       [Status.successful]: successfulDuration,
       [Status.failed]: failedDuration,
     }),
-    [pendingDuration, successfulDuration, failedDuration]
+    [successfulDuration, failedDuration]
   )
   const messages = {
     [Status.pending]: pendingMessage,
@@ -50,15 +48,21 @@ export default function Notification({
     // display immediately or if status and date changed
     setDisplay(true)
 
-    // request to hide after a certain time
-    const timeout = setTimeout(() => {
-      setDisplay(false)
-    }, durations[status])
+    // request to hide success or failure message only after a certain time
+    let timeout
+    if (status !== Status.pending && durations[status]) {
+      timeout = setTimeout(() => {
+        setDisplay(false)
+      }, durations[status])
+    }
 
     return () => {
-      clearTimeout(timeout)
+      if (timeout) {
+        clearTimeout(timeout)
+      }
     }
-  }, [status, date, durations])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, date])
 
   let notification
   if (display && alterationResponse) {
@@ -107,7 +111,6 @@ Notification.propTypes = {
   alterationResponse: alterationResponsePropType,
   failedDuration: PropTypes.number,
   failedMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  pendingDuration: PropTypes.number,
   pendingMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   successfulDuration: PropTypes.number,
   successfulMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
