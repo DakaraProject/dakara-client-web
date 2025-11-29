@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useSearchParams } from 'react-router'
 
@@ -43,11 +43,19 @@ export default function SongEntry({ song, karaokeRemainingSeconds }) {
 
   const dispatch = useDispatch()
 
+  const clearNotificationAlterations = useCallback(
+    () => {
+      dispatch(clearAlteration('addSongToPlaylist', song.id))
+      dispatch(clearAlteration('addSongToPlaylistWithOptions', song.id))
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [song.id]
+  )
+
   useEffect(
     () => () => {
       // clear alterations when component unmounts
-      dispatch(clearAlteration('addSongToPlaylist', song.id))
-      dispatch(clearAlteration('addSongToPlaylistWithOptions', song.id))
+      clearNotificationAlterations()
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
@@ -202,6 +210,7 @@ export default function SongEntry({ song, karaokeRemainingSeconds }) {
       controls={controls}
       notifications={notifications}
       entryExpanded={entryExpanded}
+      onToggle={clearNotificationAlterations}
     >
       {expanded ? (
         <SongWidget song={song} query={query} noRelations noTags truncatable />

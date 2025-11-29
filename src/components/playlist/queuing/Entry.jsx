@@ -371,7 +371,7 @@ export default function QueuingEntry({ entry, positions }) {
       controls={controls}
       notifications={notifications}
       entryExpanded={entryExpanded}
-      onExpanded={(expanded) => {
+      onToggle={(expanded) => {
         // TODO use `searchParams` instead
         if (!expanded) {
           cancelReorder()

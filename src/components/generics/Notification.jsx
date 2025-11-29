@@ -45,7 +45,11 @@ export default function Notification({
     fields: fieldsInState,
   } = alterationResponse || {}
   useEffect(() => {
-    // display immediately or if status and date changed
+    if (!status || !date) {
+      return
+    }
+
+    // display if status and date changed and have a valid value
     setDisplay(true)
 
     // request to hide success or failure message only after a certain time

@@ -14,7 +14,7 @@ export function ListingEntry({
   controls,
   notifications,
   id,
-  onExpanded,
+  onToggle,
   noHoverizable,
 }) {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -26,8 +26,8 @@ export function ListingEntry({
 
   useEffect(
     () => {
-      if (onExpanded) {
-        onExpanded(expanded)
+      if (onToggle) {
+        onToggle(expanded)
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -123,7 +123,7 @@ ListingEntry.propTypes = {
     PropTypes.element,
   ]),
   id: PropTypes.any,
-  onExpanded: PropTypes.func,
+  onToggle: PropTypes.func,
   noHoverizable: PropTypes.bool,
 }
 
