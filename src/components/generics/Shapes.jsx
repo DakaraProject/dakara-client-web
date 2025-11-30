@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export default function Checkmark({ enabled }) {
+export function Checkmark({ enabled }) {
   if (!enabled) {
     return null
   }

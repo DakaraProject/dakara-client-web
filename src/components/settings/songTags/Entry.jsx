@@ -5,11 +5,11 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { clearAlteration } from 'actions/alterations'
 import { editSongTag } from 'actions/songTags'
-import Checkmark from 'components/generics/Checkmark'
 import { CheckboxField, FormInline, HueField } from 'components/generics/Form'
 import Notification, {
   NotifiableForTable,
 } from 'components/generics/Notification'
+import { Checkmark } from 'components/generics/Shapes'
 import { Status } from 'reducers/alterationsResponse'
 import { songTagPropType } from 'serverPropTypes/library'
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'

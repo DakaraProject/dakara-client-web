@@ -4,12 +4,12 @@ import { Link } from 'react-router'
 
 import { clearAlteration } from 'actions/alterations'
 import { deleteUser } from 'actions/users'
-import Checkmark from 'components/generics/Checkmark'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification, {
   NotifiableForTable,
 } from 'components/generics/Notification'
 import PermissionText from 'components/generics/PermissionText'
+import { Checkmark } from 'components/generics/Shapes'
 import { IsNotSelf, IsUsersManager } from 'permissions/components/Users'
 import { userPropType } from 'serverPropTypes/users'
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
