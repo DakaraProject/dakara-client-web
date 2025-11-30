@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { loadPlaylistDigest } from 'actions/playlistDigest'
@@ -33,11 +33,18 @@ export default function Karaoke() {
   )
 
   const { data: karaoke } = karaokeState
+  const displayIsBlocked = useRef(true)
 
   // do not display anything until first load of digest
   if (!karaokeStatus) {
     return null
   }
+
+  // do not display anything until the digest has been loaded at least once
+  if (displayIsBlocked.current && karaokeStatus === Status.pending) {
+    return null
+  }
+  displayIsBlocked.current = false
 
   if (!karaoke.ongoing) {
     if (isPlaylistManager(user)) {
