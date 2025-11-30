@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import {
@@ -14,135 +14,117 @@ const notificationTypes = {
   [Status.failed]: 'danger',
 }
 
-/**
- * Notification message
- */
-export default class Notification extends Component {
-  static propTypes = {
-    alterationResponse: alterationResponsePropType,
-    failedDuration: PropTypes.number,
-    failedMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-    pendingDuration: PropTypes.number,
-    pendingMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-    successfulDuration: PropTypes.number,
-    successfulMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-    noDisplayOnMount: PropTypes.bool,
-  }
+export default function Notification({
+  alterationResponse,
+  failedDuration = 5000,
+  failedMessage = 'Failure',
+  pendingMessage = 'Pending…',
+  successfulDuration = 3000,
+  successfulMessage = 'Success',
+  noDisplayOnMount = false,
+}) {
+  const [display, setDisplay] = useState(!noDisplayOnMount)
 
-  static defaultProps = {
-    pendingMessage: 'Pending…',
-    successfulMessage: 'Success',
-    failedMessage: 'Failure',
-    pendingDuration: null,
-    successfulDuration: 3000,
-    failedDuration: 5000,
-    noDisplayOnMount: false,
-  }
+  const durations = useMemo(
+    () => ({
+      [Status.successful]: successfulDuration,
+      [Status.failed]: failedDuration,
+    }),
+    [successfulDuration, failedDuration]
+  )
+  const messages = useMemo(
+    () => ({
+      [Status.pending]: pendingMessage,
+      [Status.successful]: successfulMessage,
+      [Status.failed]: failedMessage,
+    }),
+    [pendingMessage, successfulMessage, failedMessage]
+  )
 
-  state = { display: !this.props.noDisplayOnMount }
+  const {
+    status,
+    date,
+    message: messageInState,
+    fields: fieldsInState,
+  } = alterationResponse || {}
+  useEffect(() => {
+    if (!status || !date) {
+      return
+    }
 
-  componentDidMount() {
-    this.setNotificationClearTimeout()
-  }
+    // display if status and date changed and have a valid value
+    setDisplay(true)
 
-  componentDidUpdate(prevProps) {
-    const alterationResponse = this.props.alterationResponse
-    const prevAlterationResponse = prevProps.alterationResponse
+    // request to hide success or failure message only after a certain time
+    let timeout
+    if (status !== Status.pending && durations[status]) {
+      timeout = setTimeout(() => {
+        setDisplay(false)
+      }, durations[status])
+    }
 
-    const status = alterationResponse?.status
-    const prevStatus = prevAlterationResponse?.status
-    const date = alterationResponse?.date
-    const prevDate = prevAlterationResponse?.date
-    if (status !== prevStatus || date !== prevDate) {
-      if (this.timeout) {
-        clearTimeout(this.timeout)
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout)
       }
-
-      this.setState({ display: true })
-      this.setNotificationClearTimeout()
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, date])
 
-  componentWillUnmount() {
-    clearTimeout(this.timeout)
-  }
-
-  setNotificationClearTimeout = () => {
-    const alterationResponse = this.props.alterationResponse
-    const status = alterationResponse?.status
-    const durations = {
-      [Status.pending]: this.props.pendingDuration,
-      [Status.successful]: this.props.successfulDuration,
-      [Status.failed]: this.props.failedDuration,
+  let notification
+  if (display && alterationResponse) {
+    // if there is a message in the state, keep it
+    // if there is a field in the state, consider there was an error with fields
+    // otherwise, use the messages passed to the compenent
+    let message
+    if (messageInState) {
+      message = messageInState
+    } else if (fieldsInState && Object.keys(fieldsInState).length > 0) {
+      message = 'There are field errors.'
+    } else {
+      message = messages[status]
     }
-    const duration = durations[status]
 
-    if (duration) {
-      this.timeout = setTimeout(() => {
-        this.setState({ display: false })
-      }, duration)
-    }
-  }
-
-  render() {
-    let notification
-    if (this.state.display && this.props.alterationResponse) {
-      const {
-        status,
-        message: messageInState,
-        fields: fieldsInState,
-      } = this.props.alterationResponse
-
-      let message
-
-      // if there is a message in the state, keep it
-      // if there is a field in the state, consider there was an error with fields
-      // otherwise, use the messages passed to the compenent
-      if (messageInState) {
-        message = messageInState
-      } else if (fieldsInState && Object.keys(fieldsInState).length > 0) {
-        message = 'There are field errors.'
-      } else {
-        const messages = {
-          [Status.pending]: this.props.pendingMessage,
-          [Status.successful]: this.props.successfulMessage,
-          [Status.failed]: this.props.failedMessage,
-        }
-
-        message = messages[status]
-      }
-
-      // if there is no message to display, do not show any notification
-      if (message) {
-        notification = (
-          <CSSTransition
-            classNames="notified"
-            timeout={{
-              enter: 300,
-              exit: 150,
-            }}
-          >
-            <div className="notified">
-              <div
-                className={classNames(
-                  'notification',
-                  notificationTypes[status]
-                )}
-              >
-                <div className="message">{message}</div>
-              </div>
+    // if there is no message to display, do not show any notification
+    if (message) {
+      notification = (
+        <CSSTransition
+          classNames="notified"
+          timeout={{
+            enter: 300,
+            exit: 150,
+          }}
+        >
+          <div className="notified">
+            <div
+              className={classNames(
+                'notification non-hoverizable',
+                notificationTypes[status]
+              )}
+            >
+              <div className="message">{message}</div>
             </div>
-          </CSSTransition>
-        )
-      }
+          </div>
+        </CSSTransition>
+      )
     }
-
-    return (
-      <TransitionGroup className="notification-wrapper">
-        {notification}
-      </TransitionGroup>
-    )
   }
+
+  return (
+    <TransitionGroup className="notification-wrapper">
+      {notification}
+    </TransitionGroup>
+  )
+}
+
+Notification.propTypes = {
+  alterationResponse: alterationResponsePropType,
+  failedDuration: PropTypes.number,
+  failedMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  pendingMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  successfulDuration: PropTypes.number,
+  successfulMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  noDisplayOnMount: PropTypes.bool,
 }
 
 /**
@@ -150,37 +132,30 @@ export default class Notification extends Component {
  *
  * Must be used on the cell of the first column.
  */
-export class NotifiableForTable extends Component {
-  static propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string,
-  }
+export function NotifiableForTable({ className, children }) {
+  const elementRef = useRef()
 
-  elementRef = React.createRef()
+  const [parentTableElement, setParentTableElement] = useState(null)
 
-  state = {
-    parentTableElement: null,
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     // find parent table DOM node
-    const element = this.elementRef.current
-    this.setState({ parentTableElement: element.closest('table') })
-  }
+    const element = elementRef.current
+    setParentTableElement(element.closest('table'))
+  }, [])
 
-  render() {
-    const { children, className } = this.props
-    const { parentTableElement } = this.state
+  // get the width of the element with the width of the closest table
+  const width = parentTableElement?.clientWidth
 
-    // get the width of the element with the width of the closest table
-    const width = parentTableElement?.clientWidth
-
-    return (
-      <div className="notifiable-for-table" ref={this.elementRef}>
-        <div className={classNames('notifiable', className)} style={{ width }}>
-          {children}
-        </div>
+  return (
+    <div className="notifiable-for-table" ref={elementRef}>
+      <div className={classNames('notifiable', className)} style={{ width }}>
+        {children}
       </div>
-    )
-  }
+    </div>
+  )
+}
+
+NotifiableForTable.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
 }

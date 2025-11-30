@@ -63,6 +63,7 @@ export const clearAlteration = (alterationName, elementId) => ({
   type: ALTERATION_RESPONSE_CLEAR,
   alterationName,
   elementId,
+  alterationDate: Date.now(),
 })
 
 /**

@@ -1,100 +1,64 @@
-import PropTypes from 'prop-types'
-import { Component } from 'react'
-import { connect } from 'react-redux'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useSearchParams } from 'react-router'
 
 import { loadPlayerErrors } from 'actions/playlist'
 import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
 import PlayerErrorsEntry from 'components/playlist/playerErrors/Entry'
 import { Status } from 'reducers/alterationsResponse'
-import { playerErrorsStatePropType } from 'reducers/playlist'
-import { playerErrorsDigestStatePropType } from 'reducers/playlistDigest'
-import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 
-class PlayerErrorsList extends Component {
-  static propTypes = {
-    playerErrorsDigestState: playerErrorsDigestStatePropType.isRequired,
-    playerErrorsState: playerErrorsStatePropType.isRequired,
-    loadPlayerErrors: PropTypes.func.isRequired,
-    searchParams: PropTypes.object.isRequired,
-  }
+export default function PlayerErrorsList() {
+  const playerErrorsDigestState = useSelector(
+    (state) => state.playlist.digest.playerErrors
+  )
+  const playerErrorsState = useSelector((state) => state.playlist.playerErrors)
+  const { playerErrorsHash } = playerErrorsDigestState.data
+  const { status: playerErrorsStatus } = playerErrorsState
 
-  componentDidMount() {
-    this.refreshEntries()
-  }
+  const [searchParams, _] = useSearchParams()
+  const { page, query } = Object.fromEntries(searchParams.entries())
 
-  componentDidUpdate(prevProps) {
-    const { searchParams } = this.props
-    const { searchParams: prevSearchParams } = prevProps
+  const dispatch = useDispatch()
 
-    // refresh if moved to a different page
-    const page = searchParams.get('page')
-    const prevPage = prevSearchParams.get('page')
-    if (page !== prevPage) {
-      this.refreshEntries()
-    }
+  useEffect(
+    () => {
+      // refresh the player errors immediately and if the page, the query, or
+      // the hash changes
+      if (playerErrorsStatus !== Status.pending) {
+        dispatch(
+          loadPlayerErrors({
+            page,
+          })
+        )
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [page, query, playerErrorsHash]
+  )
 
-    // refresh if search changed
-    const query = searchParams.get('query')
-    const prevQuery = prevSearchParams.get('query')
-    if (query !== prevQuery) {
-      this.refreshEntries()
-    }
+  const { playerErrors, count, pagination } = playerErrorsState.data
 
-    // refresh if the digest player errors changed
-    const { playerErrorsState, playerErrorsDigestState } = this.props
-    const { playerErrorsDigestState: prevPlayerErrorsDigestState } = prevProps
-    if (
-      playerErrorsDigestState !== prevPlayerErrorsDigestState &&
-      playerErrorsState.status !== Status.pending &&
-      playerErrorsDigestState.data.playerErrorsHash !==
-        prevPlayerErrorsDigestState.data.playerErrorsHash
-    ) {
-      this.refreshEntries()
-    }
-  }
+  const errorsList = playerErrors.map((playerError) => (
+    <PlayerErrorsEntry key={playerError.id} playerError={playerError} />
+  ))
 
-  refreshEntries = () => {
-    this.props.loadPlayerErrors({
-      page: this.props.searchParams.get('page') || 1,
-    })
-  }
-
-  render() {
-    const { playerErrors, count, pagination } =
-      this.props.playerErrorsState.data
-    const { status } = this.props.playerErrorsState
-    const { playerErrorsHash } = this.props.playerErrorsDigestState.data
-
-    const errorsList = playerErrors.map((playerError) => (
-      <PlayerErrorsEntry key={playerError.id} playerError={playerError} />
-    ))
-
-    return (
-      <div id="player-errors">
-        <ListingList status={status} transitionObservable={playerErrorsHash}>
-          {errorsList}
-        </ListingList>
-        <Navigator
-          count={count}
-          pagination={pagination}
-          names={{
-            singular: 'error',
-            plural: 'errors',
-          }}
-        />
-      </div>
-    )
-  }
+  return (
+    <div id="player-errors">
+      <ListingList
+        status={playerErrorsStatus}
+        transitionObservable={playerErrorsHash}
+      >
+        {errorsList}
+      </ListingList>
+      <Navigator
+        count={count}
+        pagination={pagination}
+        names={{
+          singular: 'error',
+          plural: 'errors',
+        }}
+      />
+    </div>
+  )
 }
-
-const mapStateToProps = (state) => ({
-  playerErrorsDigestState: state.playlist.digest.playerErrors,
-  playerErrorsState: state.playlist.playerErrors,
-})
-
-PlayerErrorsList = withSearchParams(
-  connect(mapStateToProps, { loadPlayerErrors })(PlayerErrorsList)
-)
-
-export default PlayerErrorsList

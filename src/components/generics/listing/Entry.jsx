@@ -14,7 +14,7 @@ export function ListingEntry({
   controls,
   notifications,
   id,
-  onExpanded,
+  onToggle,
   noHoverizable,
 }) {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -24,11 +24,15 @@ export function ListingEntry({
   // component
   const expanded = expandable && parseInt(searchParams.get('expanded')) === id
 
-  useEffect(() => {
-    if (onExpanded) {
-      onExpanded(expanded)
-    }
-  }, [expanded, onExpanded])
+  useEffect(
+    () => {
+      if (onToggle) {
+        onToggle(expanded)
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [expanded]
+  )
 
   const setExpanded = () => {
     // called when clicking the expand button, so it means the expanded
@@ -119,7 +123,7 @@ ListingEntry.propTypes = {
     PropTypes.element,
   ]),
   id: PropTypes.any,
-  onExpanded: PropTypes.func,
+  onToggle: PropTypes.func,
   noHoverizable: PropTypes.bool,
 }
 

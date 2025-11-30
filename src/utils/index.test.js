@@ -8,6 +8,7 @@ import {
   formatDuration,
   getEntriesHash,
   getMostPertinentEntry,
+  getParentURL,
 } from '.'
 
 describe('format duration', () => {
@@ -214,5 +215,19 @@ describe('get entries hash', () => {
     const hash1 = getEntriesHash([{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }])
     const hash2 = getEntriesHash([{ id: 1 }, { id: 2 }, { id: 4 }, { id: 3 }])
     expect(hash1).not.toBe(hash2)
+  })
+})
+
+describe('get parent URL', () => {
+  test('regular URL', () => {
+    expect(getParentURL('/aa/bb/cc')).toBe('/aa/bb')
+  })
+
+  test('slash trailing URL', () => {
+    expect(getParentURL('/aa/bb/cc/')).toBe('/aa/bb')
+  })
+
+  test('root URL', () => {
+    expect(getParentURL('/')).toBe('/')
   })
 })

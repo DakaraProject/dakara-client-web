@@ -40,16 +40,6 @@
 
       .permission {
         text-align: center;
-
-        @include support.make-smartphone {
-          .permission-text {
-            text-transform: uppercase;
-
-            .hideable {
-              display: none;
-            }
-          }
-        }
       }
 
       .superuser,

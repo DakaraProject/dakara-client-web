@@ -1,63 +1,41 @@
-import PropTypes from 'prop-types'
-import { Component } from 'react'
-import { connect } from 'react-redux'
+import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Outlet } from 'react-router'
 
-import { loadWorkTypes } from 'actions/library'
 import { Tab, TabBar } from 'components/generics/TabBar'
 import { Status } from 'reducers/alterationsResponse'
-import { workTypeStatePropType } from 'reducers/library'
 
-class Library extends Component {
-  static propTypes = {
-    loadWorkTypes: PropTypes.func.isRequired,
-    workTypeState: workTypeStatePropType.isRequired,
+export default function Library() {
+  const workTypeState = useSelector((state) => state.library.workType)
+
+  const [searchBoxQuery, setSearchBoxQuery] = useState('')
+
+  // work types links
+  let workTypesTabs
+  if (workTypeState.status === Status.successful) {
+    workTypesTabs = workTypeState.data.workTypes.map((workType) => (
+      <Tab
+        key={workType.query_name}
+        to={`/library/${workType.query_name}`}
+        iconName={workType.icon_name}
+        name={workType.name_plural}
+      />
+    ))
   }
 
-  componentDidMount() {
-    this.props.loadWorkTypes()
-  }
-
-  render() {
-    const { workTypeState } = this.props
-
-    /**
-     * Work Types links
-     */
-
-    let workTypesTabs
-    if (workTypeState.status === Status.successful) {
-      workTypesTabs = this.props.workTypeState.data.workTypes.map(
-        (workType) => (
-          <Tab
-            key={workType.query_name}
-            to={`/library/${workType.query_name}`}
-            iconName={workType.icon_name}
-            name={workType.name_plural}
-          />
-        )
-      )
-    }
-
-    return (
-      <div id="library" className="box neutral">
-        <TabBar>
-          <Tab to="/library/song" iconName="music" extraClassName="home" />
-          <Tab to="/library/artist" iconName="microphone-alt" name="Artists" />
-          {workTypesTabs}
-        </TabBar>
-        <Outlet />
-      </div>
-    )
-  }
+  return (
+    <div id="library" className="box neutral">
+      <TabBar>
+        <Tab
+          to="/library/song"
+          iconName="music"
+          extraClassName="home"
+          isDefault
+        />
+        <Tab to="/library/artist" iconName="microphone-alt" name="Artists" />
+        {workTypesTabs}
+      </TabBar>
+      <Outlet context={[searchBoxQuery, setSearchBoxQuery]} />
+    </div>
+  )
 }
-
-const mapStateToProps = (state) => ({
-  workTypeState: state.library.workType,
-})
-
-Library = connect(mapStateToProps, {
-  loadWorkTypes,
-})(Library)
-
-export default Library

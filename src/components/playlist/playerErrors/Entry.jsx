@@ -1,8 +1,7 @@
 import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
-import PropTypes from 'prop-types'
 import queryString from 'query-string'
-import { Component } from 'react'
+import { useNavigate } from 'react-router'
 
 import {
   DetailLongText,
@@ -15,77 +14,61 @@ import {
 } from 'components/generics/listing/Entry'
 import PlaylistEntryWidget from 'components/playlist/widgets/PlaylistEntry'
 import { playerErrorPropType } from 'serverPropTypes/playlist'
-import { withNavigate } from 'thirdpartyExtensions/ReactRouterDom'
 
 dayjs.extend(localizedFormat)
 
-class PlayerErrorsEntry extends Component {
-  static propTypes = {
-    playerError: playerErrorPropType.isRequired,
-    navigate: PropTypes.func.isRequired,
-  }
+export default function PlayerErrorsEntry({ playerError }) {
+  const navigate = useNavigate()
 
-  /**
-   * Search song associated to error playlist
-   */
-  handleSearch = () => {
-    const { song } = this.props.playerError.playlist_entry
-    const query = `title:""${song.title}""`
-    this.props.navigate({
-      pathname: '/library/song',
-      search: queryString.stringify({
-        query,
-        expanded: song.id,
-      }),
-    })
-  }
+  const {
+    playlist_entry: entry,
+    error_message: message,
+    date_created: date,
+  } = playerError
 
-  render() {
-    const { playerError } = this.props
-    const {
-      playlist_entry: entry,
-      error_message: message,
-      date_created: date,
-    } = playerError
+  const controls = (
+    <button
+      className="control square primary"
+      onClick={() => {
+        navigate({
+          pathname: '/library/song',
+          search: queryString.stringify({
+            query: `title:""${entry.song.title}""`,
+            expanded: entry.song.id,
+          }),
+        })
+      }}
+    >
+      <span className="icon">
+        <i className="las la-search"></i>
+      </span>
+    </button>
+  )
 
-    const controls = (
-      <button
-        className="control square primary"
-        onClick={() => {
-          this.handleSearch()
-        }}
-      >
-        <span className="icon">
-          <i className="las la-search"></i>
-        </span>
-      </button>
-    )
+  const entryExpanded = (
+    <ListingEntryExpanded controls={controls}>
+      <Details>
+        <DetailText icon="la-clock" name="Error at">
+          {dayjs(date).format('L LTS')}
+        </DetailText>
+        <DetailLongText icon="la-file-alt" name="Error message">
+          {message}
+        </DetailLongText>
+      </Details>
+    </ListingEntryExpanded>
+  )
 
-    const entryExpanded = (
-      <ListingEntryExpanded controls={controls}>
-        <Details>
-          <DetailText icon="la-clock" name="Error at">
-            {dayjs(date).format('L LTS')}
-          </DetailText>
-          <DetailLongText icon="la-file-alt" name="Error message">
-            {message}
-          </DetailLongText>
-        </Details>
-      </ListingEntryExpanded>
-    )
-
-    return (
-      <ListingEntry
-        id={playerError.id}
-        controls={controls}
-        entryExpanded={entryExpanded}
-      >
-        <PlaylistEntryWidget entry={entry} truncatable />
-      </ListingEntry>
-    )
-  }
+  return (
+    <ListingEntry
+      id={playerError.id}
+      controls={controls}
+      entryExpanded={entryExpanded}
+    >
+      <PlaylistEntryWidget entry={entry} truncatable />
+    </ListingEntry>
+  )
 }
 
-PlayerErrorsEntry = withNavigate(PlayerErrorsEntry)
-
-export default PlayerErrorsEntry
+PlayerErrorsEntry.propTypes = {
+  playerError: playerErrorPropType.isRequired,
+}

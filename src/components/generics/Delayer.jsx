@@ -1,29 +1,28 @@
 import PropTypes from 'prop-types'
-import { Component } from 'react'
+import { useEffect, useState } from 'react'
 
-export default class Delayer extends Component {
-  static propTypes = {
-    delay: PropTypes.number.isRequired,
-    children: PropTypes.node,
-  }
+export default function Delayer({ delay, children }) {
+  const [display, setDisplay] = useState(false)
 
-  state = { display: false }
+  // display content after a delay starting from when the component is mounted
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDisplay(true)
+    }, delay)
 
-  componentDidMount() {
-    this.timeout = setTimeout(() => {
-      this.setState({ display: true })
-    }, this.props.delay)
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.timeout)
-  }
-
-  render() {
-    if (this.state.display) {
-      return this.props.children
+    return () => {
+      clearTimeout(timeout)
     }
+  }, [delay])
 
-    return null
+  if (display) {
+    return children
   }
+
+  return null
+}
+
+Delayer.propTypes = {
+  delay: PropTypes.number.isRequired,
+  children: PropTypes.node,
 }

@@ -217,3 +217,29 @@ export function getEntriesHash(entries) {
     ) + entries.length
   )
 }
+
+/**
+ * Get parent URL.
+ * @param url Current URL.
+ * @returns URL without the last term.
+ */
+export function getParentURL(url) {
+  // remove trailing `/`
+  if (url.endsWith('/')) {
+    url = url.slice(0, -1)
+  }
+  // remove last term
+  // ensure empty string would still be `/`
+  return url.substring(0, url.lastIndexOf('/')) || '/'
+}
+
+/**
+ * Call a function repeatedly and start its first call now.
+ * @param func Function to execute.
+ * @param rest All other parameters are directly passed to `setInterval`.
+ * @returns Unique identifier of the interval timer.
+ */
+export function setIntervalNow(func, ...rest) {
+  func()
+  return setInterval(func, ...rest)
+}

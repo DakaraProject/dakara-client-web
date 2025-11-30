@@ -1,24 +1,20 @@
-import PropTypes from 'prop-types'
-import { Component } from 'react'
-import { connect } from 'react-redux'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { Navigate } from 'react-router'
 
 import { logout } from 'actions/token'
 
-class Logout extends Component {
-  static propTypes = {
-    logout: PropTypes.func.isRequired,
-  }
+export default function Logout() {
+  const dispatch = useDispatch()
 
-  componentDidMount() {
-    this.props.logout()
-  }
+  useEffect(
+    () => {
+      // logout immediately
+      dispatch(logout())
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
 
-  render() {
-    return <Navigate to="/login" />
-  }
+  return <Navigate to="/login" />
 }
-
-Logout = connect(() => ({}), { logout })(Logout)
-
-export default Logout

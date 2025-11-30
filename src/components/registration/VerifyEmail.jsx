@@ -1,91 +1,76 @@
 import classNames from 'classnames'
-import PropTypes from 'prop-types'
-import queryString from 'query-string'
-import { Component } from 'react'
-import { connect } from 'react-redux'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useSearchParams } from 'react-router'
 
 import { verifyEmail } from 'actions/users'
-import {
-  alterationResponsePropType,
-  Status,
-} from 'reducers/alterationsResponse'
-import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
+import { Status } from 'reducers/alterationsResponse'
 
-class VerifyEmail extends Component {
-  static propTypes = {
-    location: PropTypes.object.isRequired,
-    responseOfVerifyEmail: alterationResponsePropType,
-    verifyEmail: PropTypes.func.isRequired,
-  }
+export default function VerifyEmail() {
+  const responseOfVerifyEmail = useSelector(
+    (state) => state.alterationsResponse.unique.verifyEmail || {}
+  )
 
-  componentDidMount() {
-    const queryObj = queryString.parse(this.props.location.search)
+  const dispatch = useDispatch()
 
-    const { user_id, email, timestamp, signature } = queryObj
+  const [searchParams, _] = useSearchParams()
 
-    // Send verify request to server
-    this.props.verifyEmail(user_id, email, timestamp, signature)
-  }
+  const { user_id, email, timestamp, signature } = Object.fromEntries(
+    searchParams.entries()
+  )
 
-  render() {
-    const { responseOfVerifyEmail } = this.props
-    let content
-    let className
+  useEffect(
+    () => {
+      // send verify requerst immediately
+      dispatch(verifyEmail(user_id, email, timestamp, signature))
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [user_id, email, timestamp, signature]
+  )
 
-    switch (responseOfVerifyEmail.status) {
-      case Status.successful:
-        content = (
-          <div className="flow">
-            <p>Email successfuly validated.</p>
-          </div>
-        )
-        className = 'success'
-        break
+  let content
+  let className
+  switch (responseOfVerifyEmail.status) {
+    case Status.successful:
+      content = (
+        <div className="flow">
+          <p>Email successfuly validated.</p>
+        </div>
+      )
+      className = 'success'
+      break
 
-      case Status.failed: {
-        let message
-        if (responseOfVerifyEmail.message) {
-          message = <p>Reason: {responseOfVerifyEmail.message}</p>
-        }
-
-        content = (
-          <div className="flow">
-            <p>Error validating email.</p>
-            {message}
-          </div>
-        )
-        className = 'danger'
-        break
+    case Status.failed: {
+      let message
+      if (responseOfVerifyEmail.message) {
+        message = <p>Reason: {responseOfVerifyEmail.message}</p>
       }
 
-      default:
-        content = (
-          <div className="flow">
-            <p>Validating...</p>
-          </div>
-        )
-        className = 'success'
+      content = (
+        <div className="flow">
+          <p>Error validating email.</p>
+          {message}
+        </div>
+      )
+      className = 'danger'
+      break
     }
 
-    return (
-      <div id="verify-email" className={classNames('box', className)}>
-        <div className="header">
-          <h2>Email verification</h2>
+    default:
+      content = (
+        <div className="flow">
+          <p>Validating...</p>
         </div>
-        {content}
-      </div>
-    )
+      )
+      className = 'success'
   }
+
+  return (
+    <div id="verify-email" className={classNames('box', className)}>
+      <div className="header">
+        <h2>Email verification</h2>
+      </div>
+      {content}
+    </div>
+  )
 }
-
-const mapStateToProps = (state) => ({
-  responseOfVerifyEmail: state.alterationsResponse.unique.verifyEmail || {},
-})
-
-VerifyEmail = withLocation(
-  connect(mapStateToProps, {
-    verifyEmail,
-  })(VerifyEmail)
-)
-
-export default VerifyEmail

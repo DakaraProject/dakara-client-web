@@ -1,65 +1,58 @@
-import PropTypes from 'prop-types'
-import { Component } from 'react'
-import { connect } from 'react-redux'
+import { useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { loadPlaylistDigest } from 'actions/playlistDigest'
 import KaraStatusNotification from 'components/karaoke/KaraStatusNotification'
 import Player from 'components/karaoke/player/Player'
-import { IsPlaylistManager } from 'permissions/Playlist'
+import { isPlaylistManager } from 'permissions/playlist'
 import { Status } from 'reducers/alterationsResponse'
-import { karaokeStatePropType } from 'reducers/playlist'
-import { userPropType } from 'serverPropTypes/users'
-import { params } from 'utils'
+import { params, setIntervalNow } from 'utils'
 
-class Karaoke extends Component {
-  static propTypes = {
-    loadPlaylistDigest: PropTypes.func.isRequired,
-    karaokeState: karaokeStatePropType.isRequired,
-    user: userPropType.isRequired,
-  }
+export default function Karaoke() {
+  const karaokeState = useSelector((state) => state.playlist.karaoke)
+  const user = useSelector((state) => state.authenticatedUser)
+  const { status: karaokeStatus } = karaokeState
 
-  /**
-   * Get evolution of the playlist periodically
-   */
-  pollPlaylistDigest = () => {
-    if (this.props.karaokeState.status !== Status.pending) {
-      this.props.loadPlaylistDigest()
-    }
-    this.timeout = setTimeout(this.pollPlaylistDigest, params.pollInterval)
-  }
+  const dispatch = useDispatch()
 
-  componentDidMount() {
-    // start polling server
-    this.pollPlaylistDigest()
-  }
+  useEffect(
+    () => {
+      // get evolution of the playlist periodically
+      const interval = setIntervalNow(() => {
+        if (karaokeStatus !== Status.pending) {
+          dispatch(loadPlaylistDigest())
+        }
+      }, params.pollInterval)
 
-  componentWillUnmount() {
-    // Stop polling server
-    clearTimeout(this.timeout)
-  }
-
-  render() {
-    const { data: karaoke } = this.props.karaokeState
-
-    if (!karaoke.ongoing) {
-      if (IsPlaylistManager.hasPermission(this.props.user)) {
-        return <KaraStatusNotification />
+      return () => {
+        clearInterval(interval)
       }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [karaokeStatus]
+  )
 
-      return null
+  const { data: karaoke } = karaokeState
+  const displayIsBlocked = useRef(true)
+
+  // do not display anything until first load of digest
+  if (!karaokeStatus) {
+    return null
+  }
+
+  // do not display anything until the digest has been loaded at least once
+  if (displayIsBlocked.current && karaokeStatus === Status.pending) {
+    return null
+  }
+  displayIsBlocked.current = false
+
+  if (!karaoke.ongoing) {
+    if (isPlaylistManager(user)) {
+      return <KaraStatusNotification />
     }
 
-    return <Player />
+    return null
   }
+
+  return <Player />
 }
-
-const mapStateToProps = (state) => ({
-  karaokeState: state.playlist.karaoke,
-  user: state.authenticatedUser,
-})
-
-Karaoke = connect(mapStateToProps, {
-  loadPlaylistDigest,
-})(Karaoke)
-
-export default Karaoke

@@ -87,7 +87,7 @@ export function CarouselEntryStats() {
     (state) => state.playlist.karaoke.data
   )
   const countPlayedEntries = playedEntries.length
-  const countQueueingEntries = queuingEntries.length
+  const countQueuingEntries = queuingEntries.length
 
   /**
    * Played songs
@@ -114,7 +114,7 @@ export function CarouselEntryStats() {
    */
 
   let queuingStats
-  switch (countQueueingEntries) {
+  switch (countQueuingEntries) {
     case 0:
       queuingStats = <li>No songs queued in playlist yet</li>
       break
@@ -124,7 +124,7 @@ export function CarouselEntryStats() {
     default:
       queuingStats = (
         <li>
-          <q>{countQueueingEntries}</q> songs queued in playlist
+          <q>{countQueuingEntries}</q> songs queued in playlist
         </li>
       )
   }
@@ -137,7 +137,7 @@ export function CarouselEntryStats() {
    */
 
   const playlistEndDate =
-    dateEnd && (countQueueingEntries || playerStatus.playlist_entry)
+    dateEnd && (countQueuingEntries || playerStatus.playlist_entry)
       ? dayjs(dateEnd)
       : null
   const karaokeEndDate = karaokeDateStop ? dayjs(karaokeDateStop) : null

@@ -1,142 +1,105 @@
 import dayjs from 'dayjs'
-import PropTypes from 'prop-types'
-import { Component } from 'react'
-import { connect } from 'react-redux'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useOutletContext, useSearchParams } from 'react-router'
 
 import { loadLibraryEntries } from 'actions/library'
 import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
 import SearchBox from 'components/library/SearchBox'
 import SongEntry from 'components/library/song/Entry'
-import { songStatePropType } from 'reducers/library'
-import { karaokeStatePropType } from 'reducers/playlist'
-import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
 
-class SongList extends Component {
-  static propTypes = {
-    karaokeState: karaokeStatePropType.isRequired,
-    playlistDateEnd: PropTypes.string.isRequired,
-    searchParams: PropTypes.object.isRequired,
-    setSearchParams: PropTypes.func.isRequired,
-    songState: songStatePropType.isRequired,
-    loadLibraryEntries: PropTypes.func.isRequired,
-  }
+export default function SongList() {
+  const songState = useSelector((state) => state.library.song)
+  const playlistDateEnd = useSelector(
+    (state) => state.playlist.digest.entries.data.dateEnd
+  )
+  const karaokeState = useSelector((state) => state.playlist.karaoke)
 
-  /**
-   * Fetch songs from server
-   */
-  refreshEntries = () => {
-    this.props.loadLibraryEntries('songs', {
-      page: this.props.searchParams.get('page'),
-      query: this.props.searchParams.get('query'),
-    })
-  }
+  const dispatch = useDispatch()
 
-  componentDidMount() {
-    this.refreshEntries()
-  }
+  const [searchBoxQuery, setSearchBoxQuery] = useOutletContext()
 
-  componentDidUpdate(prevProps) {
-    const { searchParams } = this.props
-    const { searchParams: prevSearchParams } = prevProps
+  const [searchParams, _] = useSearchParams()
 
-    // refresh if moved to a different page
-    const page = searchParams.get('page')
-    const prevPage = prevSearchParams.get('page')
-    if (page !== prevPage) {
-      this.refreshEntries()
-    }
+  const { page, query } = Object.fromEntries(searchParams.entries())
 
-    // refresh if search changed
-    const query = searchParams.get('query')
-    const prevQuery = prevSearchParams.get('query')
-    if (query !== prevQuery) {
-      this.refreshEntries()
-    }
-  }
-
-  render() {
-    const { songs, count, pagination } = this.props.songState.data
-    const { date_stop: karaokeDateStop } = this.props.karaokeState.data
-    const { playlistDateEnd } = this.props
-
-    /**
-     * Compute remaining karoke time
-     */
-
-    let karaokeRemainingSeconds
-    if (karaokeDateStop) {
-      karaokeRemainingSeconds = dayjs(karaokeDateStop).diff(
-        playlistDateEnd,
-        'seconds'
+  useEffect(
+    () => {
+      // fetch songs from server immediately, and if the page or if the query changes
+      dispatch(
+        loadLibraryEntries('songs', {
+          page,
+          query,
+        })
       )
-    }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [page, query]
+  )
 
-    /**
-     * Create SongEntry for each song
-     */
+  const { songs, count, pagination } = songState.data
+  const { date_stop: karaokeDateStop } = karaokeState.data
 
-    const libraryEntrySongList = songs.map((song) => (
-      <SongEntry
-        key={song.id}
-        song={song}
-        karaokeRemainingSeconds={karaokeRemainingSeconds}
-      />
-    ))
-
-    return (
-      <div id="song-library">
-        <SearchBox
-          placeholder="What will you sing?"
-          help={
-            <>
-              <p>
-                You can obtain better results with the query search
-                mini-language:
-              </p>
-              <ul>
-                <li>
-                  Quotes to group words: <q>&quot;my artist&quot;</q>
-                </li>
-                <li>
-                  Prefix and quotes to search in a specific field:{' '}
-                  <q>artist:&quot;my artist&quot;</q>
-                </li>
-                <li>
-                  Prefix and doubled quotes to search a specific field exactly:{' '}
-                  <q>artist:&quot;&quot;my artist name&quot;&quot;</q>
-                </li>
-                <li>
-                  Hash tag to target tags: <q>#tag</q>
-                </li>
-              </ul>
-            </>
-          }
-        />
-        <ListingList fetchStatus={this.props.songState.status} noTransition>
-          {libraryEntrySongList}
-        </ListingList>
-        <Navigator
-          count={count}
-          pagination={pagination}
-          names={{
-            singular: 'song found',
-            plural: 'songs found',
-          }}
-        />
-      </div>
+  // compute remaining karoke time
+  let karaokeRemainingSeconds
+  if (karaokeDateStop) {
+    karaokeRemainingSeconds = dayjs(karaokeDateStop).diff(
+      playlistDateEnd,
+      'seconds'
     )
   }
+
+  // create SongEntry for each song
+  const libraryEntrySongList = songs.map((song) => (
+    <SongEntry
+      key={song.id}
+      song={song}
+      karaokeRemainingSeconds={karaokeRemainingSeconds}
+    />
+  ))
+
+  return (
+    <div id="song-library">
+      <SearchBox
+        placeholder="What will you sing?"
+        query={searchBoxQuery}
+        setQuery={setSearchBoxQuery}
+        help={
+          <>
+            <p>
+              You can obtain better results with the query search mini-language:
+            </p>
+            <ul>
+              <li>
+                Quotes to group words: <q>&quot;my artist&quot;</q>
+              </li>
+              <li>
+                Prefix and quotes to search in a specific field:{' '}
+                <q>artist:&quot;my artist&quot;</q>
+              </li>
+              <li>
+                Prefix and doubled quotes to search a specific field exactly:{' '}
+                <q>artist:&quot;&quot;my artist name&quot;&quot;</q>
+              </li>
+              <li>
+                Hash tag to target tags: <q>#tag</q>
+              </li>
+            </ul>
+          </>
+        }
+      />
+      <ListingList fetchStatus={songState.status} noTransition>
+        {libraryEntrySongList}
+      </ListingList>
+      <Navigator
+        count={count}
+        pagination={pagination}
+        names={{
+          singular: 'song',
+          plural: 'songs',
+        }}
+      />
+    </div>
+  )
 }
-
-const mapStateToProps = (state) => ({
-  songState: state.library.song,
-  playlistDateEnd: state.playlist.digest.entries.data.dateEnd,
-  karaokeState: state.playlist.karaoke,
-})
-
-SongList = withSearchParams(
-  connect(mapStateToProps, { loadLibraryEntries })(SongList)
-)
-
-export default SongList

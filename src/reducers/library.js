@@ -1,22 +1,14 @@
-import PropTypes from 'prop-types'
 import { combineReducers } from 'redux'
 
 import {
   LIBRARY_FAILURE,
   LIBRARY_REQUEST,
   LIBRARY_SUCCESS,
-  STORE_SEARCH_BOX,
   WORK_TYPES_FAILURE,
   WORK_TYPES_REQUEST,
   WORK_TYPES_SUCCESS,
 } from 'actions/library'
 import { Status } from 'reducers/alterationsResponse'
-import {
-  artistPropType,
-  songPropType,
-  workPropType,
-  workTypePropType,
-} from 'serverPropTypes/library'
 import { updateData } from 'utils'
 
 /**
@@ -37,20 +29,6 @@ export const WorkLinkName = Object.freeze({
 /**
  * Generators for library content
  */
-
-const generateLibraryPropType = (libraryEntryPropType, libraryKey) =>
-  PropTypes.shape({
-    status: PropTypes.symbol,
-    data: PropTypes.shape({
-      pagination: PropTypes.shape({
-        current: PropTypes.number.isRequired,
-        last: PropTypes.number.isRequired,
-      }).isRequired,
-      count: PropTypes.number.isRequired,
-      query: PropTypes.object,
-      [libraryKey]: PropTypes.arrayOf(libraryEntryPropType).isRequired,
-    }),
-  })
 
 const generateDefaultLibrary = (libraryKey) => ({
   status: null,
@@ -102,24 +80,18 @@ const generateLibraryReducer = (libraryType) => {
  * Song library
  */
 
-export const songStatePropType = generateLibraryPropType(songPropType, 'songs')
 const song = generateLibraryReducer('songs')
 
 /**
  * Artist library
  */
 
-export const artistStatePropType = generateLibraryPropType(
-  artistPropType,
-  'artists'
-)
 const artist = generateLibraryReducer('artists')
 
 /**
  * Work library
  */
 
-export const workStatePropType = generateLibraryPropType(workPropType, 'works')
 const defaultWork = generateDefaultLibrary('works')
 
 function works(state = {}, action) {
@@ -179,13 +151,6 @@ function works(state = {}, action) {
  * Work Types
  */
 
-export const workTypeStatePropType = PropTypes.shape({
-  status: PropTypes.symbol,
-  data: PropTypes.shape({
-    workTypes: PropTypes.arrayOf(workTypePropType).isRequired,
-  }).isRequired,
-})
-
 const defaultWorkType = {
   status: null,
   data: {
@@ -219,22 +184,6 @@ function workType(state = defaultWorkType, action) {
 }
 
 /**
- * Search box
- */
-
-function searchBox(state = { query: '' }, action) {
-  switch (action.type) {
-    case STORE_SEARCH_BOX:
-      return {
-        ...action.searchBox,
-      }
-
-    default:
-      return state
-  }
-}
-
-/**
  * Library
  */
 
@@ -243,5 +192,4 @@ export default combineReducers({
   artist,
   works,
   workType,
-  searchBox,
 })

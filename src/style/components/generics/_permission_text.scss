@@ -1,0 +1,30 @@
+//
+// Dakara Project
+//
+// Permession text style file
+//
+
+@use '~/abstracts/support';
+
+.permission-text {
+  column-gap: 0.5em;
+  display: inline-flex;
+  overflow: hidden;
+  white-space: nowrap;
+
+  .text {
+    // very easily shrinkable
+    flex-shrink: 10000;
+    overflow: hidden;
+    text-overflow: '';
+    white-space: nowrap;
+  }
+
+  &.truncatable {
+    .text {
+      @include support.make-smartphone {
+        display: none;
+      }
+    }
+  }
+}
