@@ -7,11 +7,12 @@ import { FormBlock, InputField } from 'components/generics/Form'
 import ListingFetchWrapper from 'components/generics/listing/FetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import UserEntry from 'components/settings/users/Entry'
-import { IsUserManager } from 'permissions/Users'
+import { IsUserManager } from 'permissions/components/Users'
 import { Status } from 'reducers/alterationsResponse'
 
 export default function UsersList() {
   const listUsersState = useSelector((state) => state.settings.users.list)
+  const user = useSelector((state) => state.authenticatedUser)
   const { status: listUsersStatus } = listUsersState
 
   const [searchParams, _] = useSearchParams()
@@ -51,7 +52,7 @@ export default function UsersList() {
               <tr className="listing-header">
                 <th className="notification-col"></th>
                 <th className="username">User&shy;name</th>
-                <IsUserManager>
+                <IsUserManager user={user}>
                   <th className="validated">Email check</th>
                   <th className="validated">Manager check</th>
                 </IsUserManager>
@@ -74,7 +75,7 @@ export default function UsersList() {
           plural: 'users',
         }}
       />
-      <IsUserManager>
+      <IsUserManager user={user}>
         <div className="create-user flow">
           <FormBlock
             title="Create user"

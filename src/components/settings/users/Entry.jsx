@@ -8,7 +8,7 @@ import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification, {
   NotifiableForTable,
 } from 'components/generics/Notification'
-import { IsNotSelf, IsUserManager } from 'permissions/Users'
+import { IsNotSelf, IsUserManager } from 'permissions/components/Users'
 import { userPropType } from 'serverPropTypes/users'
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
@@ -19,6 +19,7 @@ export default function UsersEntry({ user }) {
   const responseOfDelete = useSelector(
     (state) => state.alterationsResponse.multiple.deleteUser?.[user.id]
   )
+  const authenticatedUser = useSelector((state) => state.authenticatedUser)
 
   const [confirmDisplayed, setConfirmDisplayed] = useState(false)
 
@@ -64,7 +65,7 @@ export default function UsersEntry({ user }) {
         </NotifiableForTable>
       </td>
       <td className="username">{user.username}</td>
-      <IsUserManager>
+      <IsUserManager user={authenticatedUser}>
         <td className="validated">
           <Marked marked={user.validated_by_email} />
         </td>
@@ -85,9 +86,9 @@ export default function UsersEntry({ user }) {
         <PermissionText level={user.playlist_permission_level} />
       </td>
       <td className="controls-col">
-        <IsUserManager>
+        <IsUserManager user={authenticatedUser}>
           <div className="controls compact">
-            <IsNotSelf object={user} disable>
+            <IsNotSelf user={authenticatedUser} other={user} disable>
               <Link to={`${user.id}`} className="control square info">
                 <span className="icon">
                   <i className="las la-pen"></i>

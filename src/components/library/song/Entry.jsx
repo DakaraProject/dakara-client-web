@@ -18,11 +18,8 @@ import InPlaylist from 'components/library/status/InPlaylist'
 import MaskedByTag from 'components/library/status/MaskedByTag'
 import SongWidget from 'components/library/widgets/Song'
 import SongExpandedWidget from 'components/library/widgets/SongExpanded'
-import {
-  CanAddToPlaylist,
-  IsPlaylistManager,
-  IsPlaylistUser,
-} from 'permissions/Playlist'
+import { CanAddToPlaylist } from 'permissions/components/Playlist'
+import { useIsPlaylistManager } from 'permissions/playlist'
 import { songPropType } from 'serverPropTypes/library'
 
 export default function SongEntry({ song, karaokeRemainingSeconds }) {
@@ -38,10 +35,13 @@ export default function SongEntry({ song, karaokeRemainingSeconds }) {
     (state) => state.playlist.digest.entries.data
   )
   const user = useSelector((state) => state.authenticatedUser)
+  const karaoke = useSelector((state) => state.playlist.karaoke.data)
 
   const [searchParams, _] = useSearchParams()
 
   const dispatch = useDispatch()
+
+  const isPlaylistManager = useIsPlaylistManager()
 
   const clearNotificationAlterations = useCallback(
     () => {
@@ -63,7 +63,7 @@ export default function SongEntry({ song, karaokeRemainingSeconds }) {
 
   const exceeding =
     karaokeRemainingSeconds && karaokeRemainingSeconds < song.duration
-  const canAdd = !exceeding || IsPlaylistManager.hasPermission(user)
+  const canAdd = !exceeding || isPlaylistManager(user)
 
   const expanded = parseInt(searchParams.get('expanded')) === song.id
 
@@ -121,56 +121,52 @@ export default function SongEntry({ song, karaokeRemainingSeconds }) {
   }
 
   const controls = (
-    <CanAddToPlaylist>
-      <IsPlaylistUser>
-        <button
-          disabled={!canAdd}
-          className="control square primary"
-          onClick={() => {
-            dispatch(addSongToPlaylist(song.id))
-          }}
-        >
-          <span className="icon">
-            <i className="las la-plus"></i>
-          </span>
-        </button>
-      </IsPlaylistUser>
+    <CanAddToPlaylist user={user} karaoke={karaoke}>
+      <button
+        disabled={!canAdd}
+        className="control square primary"
+        onClick={() => {
+          dispatch(addSongToPlaylist(song.id))
+        }}
+      >
+        <span className="icon">
+          <i className="las la-plus"></i>
+        </span>
+      </button>
     </CanAddToPlaylist>
   )
 
   const controlsExpanded = (
-    <CanAddToPlaylist key="add-to-playlist">
-      <IsPlaylistUser>
-        {song.has_instrumental && (
-          <button
-            disabled={!canAdd}
-            className="control square primary"
-            onClick={() => {
-              dispatch(
-                addSongToPlaylistWithOptions(song.id, /* instrumental = */ true)
-              )
-            }}
-          >
-            <span className="icon with-sub-icon">
-              <i className="las la-plus"></i>
-              <span className="sub-icon top-right">
-                <i className="las la-microphone-slash"></i>
-              </span>
-            </span>
-          </button>
-        )}
+    <CanAddToPlaylist user={user} karaoke={karaoke} key="add-to-playlist">
+      {song.has_instrumental && (
         <button
           disabled={!canAdd}
           className="control square primary"
           onClick={() => {
-            dispatch(addSongToPlaylist(song.id))
+            dispatch(
+              addSongToPlaylistWithOptions(song.id, /* instrumental = */ true)
+            )
           }}
         >
-          <span className="icon">
+          <span className="icon with-sub-icon">
             <i className="las la-plus"></i>
+            <span className="sub-icon top-right">
+              <i className="las la-microphone-slash"></i>
+            </span>
           </span>
         </button>
-      </IsPlaylistUser>
+      )}
+      <button
+        disabled={!canAdd}
+        className="control square primary"
+        onClick={() => {
+          dispatch(addSongToPlaylist(song.id))
+        }}
+      >
+        <span className="icon">
+          <i className="las la-plus"></i>
+        </span>
+      </button>
     </CanAddToPlaylist>
   )
 

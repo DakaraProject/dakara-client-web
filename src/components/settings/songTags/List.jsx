@@ -6,18 +6,20 @@ import { getSongTagList } from 'actions/songTags'
 import ListingFetchWrapper from 'components/generics/listing/FetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import SettingsSongTagsEntry from 'components/settings/songTags/Entry'
-import { IsLibraryManager } from 'permissions/Library'
+import { useIsLibraryManager } from 'permissions/library'
 import { Status } from 'reducers/alterationsResponse'
 
 export default function SongTagsList() {
   const songTagsState = useSelector((state) => state.settings.songTags)
-  const authenticatedUser = useSelector((state) => state.authenticatedUser)
+  const user = useSelector((state) => state.authenticatedUser)
   const { status: songTagsStatus } = songTagsState
 
   const [searchParams, _] = useSearchParams()
   const { page } = Object.fromEntries(searchParams.entries())
 
   const dispatch = useDispatch()
+
+  const isLibraryManager = useIsLibraryManager()
 
   useEffect(
     () => {
@@ -32,10 +34,12 @@ export default function SongTagsList() {
 
   const { songTags, pagination } = songTagsState.data
 
-  const isManager = IsLibraryManager.hasPermission(authenticatedUser)
-
   const tagList = songTags.map((tag) => (
-    <SettingsSongTagsEntry key={tag.id} tag={tag} editable={isManager} />
+    <SettingsSongTagsEntry
+      key={tag.id}
+      tag={tag}
+      editable={isLibraryManager(user)}
+    />
   ))
 
   return (

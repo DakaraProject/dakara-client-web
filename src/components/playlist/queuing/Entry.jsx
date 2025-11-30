@@ -18,7 +18,7 @@ import PlaylistEntryWidget from 'components/playlist/widgets/PlaylistEntry'
 import {
   IsPlaylistManager,
   IsPlaylistManagerOrOwner,
-} from 'permissions/Playlist'
+} from 'permissions/components/Playlist'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 import { formatDateLong } from 'utils'
@@ -56,6 +56,7 @@ export default function QueuingEntry({ entry, positions }) {
     (state) =>
       state.alterationsResponse.multiple.reorderPlaylistEntry?.[entry.id]
   )
+  const user = useSelector((state) => state.authenticatedUser)
 
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -207,7 +208,7 @@ export default function QueuingEntry({ entry, positions }) {
   const inReorder = !(isNaN(reorderId) || isNaN(reorderIndex))
 
   const controlsExpanded = [
-    <IsPlaylistManager key="reorder">
+    <IsPlaylistManager user={user} key="reorder">
       <CSSTransitionLazy
         in={inReorder}
         classNames="show-hide"
@@ -247,7 +248,7 @@ export default function QueuingEntry({ entry, positions }) {
         <i className="las la-search"></i>
       </span>
     </button>,
-    <IsPlaylistManagerOrOwner key="remove" object={entry}>
+    <IsPlaylistManagerOrOwner user={user} object={entry} key="remove">
       <button
         className="control square danger"
         onClick={() => {
@@ -262,7 +263,7 @@ export default function QueuingEntry({ entry, positions }) {
   ]
 
   const controls = [
-    <IsPlaylistManager key="reorder">
+    <IsPlaylistManager user={user} key="reorder">
       <CSSTransitionLazy
         in={inReorder}
         classNames="show-hide"

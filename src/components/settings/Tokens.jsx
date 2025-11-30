@@ -11,8 +11,8 @@ import { revokeToken } from 'actions/token'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
 import TokenWidget from 'components/generics/TokenWidget'
-import { IsLibraryManager } from 'permissions/Library'
-import { IsPlaylistManager } from 'permissions/Playlist'
+import { IsLibraryManager } from 'permissions/components/Library'
+import { IsPlaylistManager } from 'permissions/components/Playlist'
 import { Status } from 'reducers/alterationsResponse'
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
@@ -157,6 +157,7 @@ function PlayerTokenBox() {
 
 export default function Tokens() {
   const userToken = useSelector((state) => state.token)
+  const user = useSelector((state) => state.authenticatedUser)
   const responseOfRevokeToken = useSelector(
     (state) => state.alterationsResponse.unique.revokeToken
   )
@@ -178,7 +179,7 @@ export default function Tokens() {
       <div className="token-box user flow">
         <h3>User token</h3>
         <TokenWidget token={userToken} />
-        <IsLibraryManager>
+        <IsLibraryManager user={user}>
           <div className="ribbon info copy-help">
             <p className="message">
               You can use this token to authenticate the feeder.
@@ -214,7 +215,7 @@ export default function Tokens() {
           failedMessage="Unable to revoke token"
         />
       </div>
-      <IsPlaylistManager>
+      <IsPlaylistManager user={user}>
         <PlayerTokenBox />
       </IsPlaylistManager>
     </div>

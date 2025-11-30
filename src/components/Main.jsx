@@ -9,10 +9,11 @@ import DevWarning from 'components/DevWarning'
 import Footer from 'components/Footer'
 import Header from 'components/Header'
 import Karaoke from 'components/karaoke/Karaoke'
-import { IsAuthenticated } from 'permissions/Base'
+import { IsAuthenticated } from 'permissions/components/Base'
 
 export default function Main({ children }) {
   const isLoggedIn = useSelector((state) => !!state.token)
+  const user = useSelector((state) => state.authenticatedUser)
 
   const dispatch = useDispatch()
 
@@ -43,7 +44,7 @@ export default function Main({ children }) {
       <DevWarning />
       <div className="column">
         <Header />
-        <IsAuthenticated>
+        <IsAuthenticated user={user}>
           <Karaoke />
         </IsAuthenticated>
         {children}
