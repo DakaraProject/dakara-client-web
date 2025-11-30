@@ -59,11 +59,11 @@ export default function SongEntry({ song, karaokeRemainingSeconds }) {
     []
   )
 
-  const exceeding =
+  const isExceeding =
     karaokeRemainingSeconds && karaokeRemainingSeconds < song.duration
-  const canAdd = !exceeding || isPlaylistManager(user)
+  const canAdd = !isExceeding || isPlaylistManager(user)
 
-  const expanded = parseInt(searchParams.get('expanded')) === song.id
+  const isExpanded = parseInt(searchParams.get('expanded')) === song.id
 
   const extra = []
   const extraExpanded = []
@@ -75,7 +75,7 @@ export default function SongEntry({ song, karaokeRemainingSeconds }) {
   }
 
   // song exceeds kara stop date
-  if (karaokeRemainingSeconds && karaokeRemainingSeconds < song.duration) {
+  if (isExceeding) {
     extra.push(<ExceedsKaraStopTime key="karaoke-remaining-seconds" />)
     extraExpanded.push(
       <ExceedsKaraStopTime key="karaoke-remaining-seconds" expanded />
@@ -206,7 +206,7 @@ export default function SongEntry({ song, karaokeRemainingSeconds }) {
       entryExpanded={entryExpanded}
       onToggle={clearNotificationAlterations}
     >
-      {expanded ? (
+      {isExpanded ? (
         <SongWidget song={song} query={query} noRelations noTags truncatable />
       ) : (
         <SongWidget song={song} query={query} truncatable />
