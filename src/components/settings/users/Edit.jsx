@@ -51,7 +51,7 @@ export default function UsersEdit() {
   const fakeUser = { id: userId }
   if (
     !(
-      isUsersManager(authenticatedUser, fakeUser) &&
+      isUsersManager(authenticatedUser) &&
       isNotSelf(authenticatedUser, fakeUser)
     )
   ) {
