@@ -11,6 +11,7 @@
 @use '~/abstracts/colors';
 @use '~/abstracts/controls';
 @use '~/abstracts/fonts';
+@use '~/abstracts/shapes';
 @use '~/abstracts/sizes';
 @use '~/abstracts/support';
 
@@ -537,29 +538,9 @@ $form-field-height: sizes.$row-height;
       // add style to marker when checked
       input:checked + label.marker::after {
         @include preboot.square($field-height * 0.3);
+        @include shapes.make-checkmark(colors.$neutral-000);
 
-        background: colors.$neutral-000;
-        clip-path: polygon(
-          0% 0%,
-          30% 0%,
-          50% 20%,
-          70% 0%,
-          100% 0%,
-          100% 30%,
-          80% 50%,
-          100% 70%,
-          100% 100%,
-          70% 100%,
-          50% 80%,
-          30% 100%,
-          0% 100%,
-          0% 70%,
-          20% 50%,
-          0% 30%
-        );
-        content: '';
         left: $field-height * 0.1;
-        position: absolute;
         top: $field-height * 0.1;
       }
     }
