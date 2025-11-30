@@ -25,9 +25,9 @@ describe('is not self', () => {
     expect(isNotSelf(null, null)).toBeFalsy()
   })
 
-  // test('non null user', () => {
-  //   expect(isNotSelf({}, null)).toBeFalsy()
-  // })
+  test('non null user', () => {
+    expect(isNotSelf({}, null)).toBeFalsy()
+  })
 
   test('super user', () => {
     expect(isNotSelf({ is_superuser: true }, null)).toBeTruthy()

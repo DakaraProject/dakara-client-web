@@ -1,44 +1,41 @@
-import { determineToFalse, isDeterminated } from 'permissions'
-import { isSuperUser } from 'permissions/base'
+import { isAuthenticated, isSuperUser } from 'permissions/base'
 
 /**
  * Users manager
  */
 
 export function isUserManager(user) {
-  const superUser = isSuperUser(user)
-
-  if (isDeterminated(superUser)) {
-    return superUser
+  if (!isAuthenticated(user)) {
+    return false
   }
 
-  if (user.users_permission_level === 'm') {
+  if (isSuperUser(user)) {
     return true
   }
 
-  return undefined
+  return user.users_permission_level === 'm'
 }
 
-export const useIsUserManager = () => (user) =>
-  determineToFalse(isUserManager(user))
+export const useIsUserManager = () => (user) => isUserManager(user)
 
 /**
  * Not self
  */
 
 export function isNotSelf(user, other) {
-  const superUser = isSuperUser(user)
-
-  if (isDeterminated(superUser)) {
-    return superUser
+  if (!isAuthenticated(user)) {
+    return false
   }
 
-  if (user.id !== other.id) {
+  if (isSuperUser(user)) {
     return true
   }
 
-  return undefined
+  if (!other) {
+    return false
+  }
+
+  return user.id !== other.id
 }
 
-export const useIsNotSelf = () => (user, other) =>
-  determineToFalse(isNotSelf(user, other))
+export const useIsNotSelf = () => (user, other) => isNotSelf(user, other)

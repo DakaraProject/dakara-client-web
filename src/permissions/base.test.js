@@ -8,7 +8,7 @@ describe('is authenticated', () => {
   })
 
   test('non null user', () => {
-    expect(isAuthenticated({})).toBeUndefined() // incorrect
+    expect(isAuthenticated({})).toBeTruthy()
   })
 })
 

@@ -1,39 +1,23 @@
-import { determineToFalse, determineToTrue, isDeterminated } from 'permissions'
-
 /**
  * Is authenticated
  */
 
 export function isAuthenticated(user) {
-  // if the user is not connected, access denied
-  if (!user) {
-    return false
-  }
-
-  return undefined
+  return !!user
 }
 
-export const useIsAuthenticated = () => (user) =>
-  determineToTrue(isAuthenticated(user))
+export const useIsAuthenticated = () => (user) => isAuthenticated(user)
 
 /**
  * Is superuser
  */
 
 export function isSuperUser(user) {
-  const authenticated = isAuthenticated(user)
-
-  if (isDeterminated(authenticated)) {
-    return authenticated
+  if (!isAuthenticated(user)) {
+    return false
   }
 
-  // if the user is the superuser, all access granted
-  if (user.is_superuser) {
-    return true
-  }
-
-  return undefined
+  return user.is_superuser
 }
 
-export const useIsSuperUser = () => (user) =>
-  determineToFalse(isSuperUser(user))
+export const useIsSuperUser = () => (user) => isSuperUser(user)

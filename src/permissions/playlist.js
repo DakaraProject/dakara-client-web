@@ -1,47 +1,41 @@
-import { determineToFalse, isDeterminated } from 'permissions'
-import { isSuperUser } from 'permissions/base'
+import { isAuthenticated, isSuperUser } from 'permissions/base'
 
 /**
  * Playlist manager
  */
 
 export function isPlaylistManager(user) {
-  const superUser = isSuperUser(user)
-
-  if (isDeterminated(superUser)) {
-    return superUser
+  if (!isAuthenticated(user)) {
+    return false
   }
 
-  if (user.playlist_permission_level === 'm') {
+  if (isSuperUser(user)) {
     return true
   }
 
-  return undefined
+  return user.playlist_permission_level === 'm'
 }
 
-export const useIsPlaylistManager = () => (user) =>
-  determineToFalse(isPlaylistManager(user))
+export const useIsPlaylistManager = () => (user) => isPlaylistManager(user)
 
 /**
  * Playlist manager or Owner of the object
  */
 
 export function isPlaylistManagerOrOwner(user, object) {
-  const playlistManager = isPlaylistManager(user)
+  if (!isAuthenticated(user)) {
+    return false
+  }
 
-  if (isDeterminated(playlistManager)) {
-    return playlistManager
+  if (isPlaylistManager(user)) {
+    return true
   }
 
   if (!object) {
     return false
   }
 
-  if (user.id === object.owner.id) {
-    return true
-  }
-
-  return undefined
+  return user.id === object.owner.id
 }
 
 export const useIsPlaylistManagerOrOwner = () => (user, object) =>
@@ -52,21 +46,18 @@ export const useIsPlaylistManagerOrOwner = () => (user, object) =>
  */
 
 export function isPlaylistUser(user) {
-  const playlistManager = isPlaylistManager(user)
-
-  if (isDeterminated(playlistManager)) {
-    return playlistManager
+  if (!isAuthenticated(user)) {
+    return false
   }
 
-  if (user.playlist_permission_level === 'u') {
+  if (isPlaylistManager(user)) {
     return true
   }
 
-  return undefined
+  return user.playlist_permission_level === 'u'
 }
 
-export const useIsPlaylistUser = () => (user) =>
-  determineToFalse(isPlaylistUser(user))
+export const useIsPlaylistUser = () => (user) => isPlaylistUser(user)
 
 /**
  * Can add to playlist
@@ -77,22 +68,20 @@ export function canAddToPlaylist(user, karaoke) {
     return false
   }
 
-  const playlistManager = isPlaylistManager(user)
-  if (isDeterminated(playlistManager)) {
-    return playlistManager
+  if (!isAuthenticated(user)) {
+    return false
+  }
+
+  if (isPlaylistManager(user)) {
+    return true
   }
 
   if (!karaoke.can_add_to_playlist) {
     return false
   }
 
-  const playlistUser = isPlaylistUser(user)
-  if (isDeterminated(playlistUser)) {
-    return isPlaylistUser
-  }
-
-  return undefined
+  return isPlaylistUser(user)
 }
 
 export const useCanAddToPlaylist = () => (user, karaoke) =>
-  determineToFalse(canAddToPlaylist(user, karaoke))
+  canAddToPlaylist(user, karaoke)

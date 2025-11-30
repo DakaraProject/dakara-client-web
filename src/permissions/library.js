@@ -1,23 +1,19 @@
-import { determineToFalse, isDeterminated } from 'permissions'
-import { isSuperUser } from 'permissions/base'
+import { isAuthenticated, isSuperUser } from 'permissions/base'
 
 /**
  * Library manager
  */
 
 export function isLibraryManager(user) {
-  const superUser = isSuperUser(user)
-
-  if (isDeterminated(superUser)) {
-    return superUser
+  if (!isAuthenticated(user)) {
+    return false
   }
 
-  if (user.library_permission_level === 'm') {
+  if (isSuperUser(user)) {
     return true
   }
 
-  return undefined
+  return user.library_permission_level === 'm'
 }
 
-export const useIsLibraryManager = () => (user) =>
-  determineToFalse(isLibraryManager(user))
+export const useIsLibraryManager = () => (user) => isLibraryManager(user)
