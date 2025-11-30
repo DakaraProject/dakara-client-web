@@ -6,7 +6,7 @@ import KaraStatusNotification from 'components/karaoke/KaraStatusNotification'
 import Player from 'components/karaoke/player/Player'
 import { isPlaylistManager } from 'permissions/playlist'
 import { Status } from 'reducers/alterationsResponse'
-import { params } from 'utils'
+import { params, setIntervalNow } from 'utils'
 
 export default function Karaoke() {
   const karaokeState = useSelector((state) => state.playlist.karaoke)
@@ -18,7 +18,7 @@ export default function Karaoke() {
   useEffect(
     () => {
       // get evolution of the playlist periodically
-      const interval = setInterval(() => {
+      const interval = setIntervalNow(() => {
         if (karaokeStatus !== Status.pending) {
           dispatch(loadPlaylistDigest())
         }

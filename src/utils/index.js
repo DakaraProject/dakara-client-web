@@ -232,3 +232,14 @@ export function getParentURL(url) {
   // ensure empty string would still be `/`
   return url.substring(0, url.lastIndexOf('/')) || '/'
 }
+
+/**
+ * Call a function repeatedly and start its first call now.
+ * @param func Function to execute.
+ * @param rest All other parameters are directly passed to `setInterval`.
+ * @returns Unique identifier of the interval timer.
+ */
+export function setIntervalNow(func, ...rest) {
+  func()
+  return setInterval(func, ...rest)
+}
