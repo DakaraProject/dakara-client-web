@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { combineReducers } from 'redux'
 
 import { ALTERATION_SUCCESS } from 'actions/alterations'
@@ -20,7 +19,6 @@ import {
 } from 'actions/playlistDigest'
 import { Status } from 'reducers/alterationsResponse'
 import digest from 'reducers/playlistDigest'
-import { karaokePropType } from 'serverPropTypes/playlist'
 import { updateData } from 'utils'
 
 /**
@@ -203,11 +201,6 @@ function playerErrors(state = defaultPlayerErrors, action) {
 /**
  * Karaoke information
  */
-
-export const karaokeStatePropType = PropTypes.shape({
-  status: PropTypes.symbol,
-  data: karaokePropType.isRequired,
-})
 
 const defaultKaraoke = {
   status: null,

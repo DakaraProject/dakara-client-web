@@ -13,8 +13,7 @@ import { playerErrorPropType } from 'serverPropTypes/playlist'
  */
 export default class PlayerNotification extends Component {
   static propTypes = {
-    alterationsResponse: PropTypes.objectOf(alterationResponsePropType)
-      .isRequired,
+    alterationsResponse: alterationResponsePropType.isRequired,
     playerErrors: PropTypes.arrayOf(playerErrorPropType).isRequired,
   }
 
