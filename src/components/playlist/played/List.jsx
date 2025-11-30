@@ -23,8 +23,8 @@ export default function PlayedList() {
 
   useEffect(
     () => {
-      // refresh the played playlist immediately and if the page, the query
-      // changes, or the hash changes
+      // refresh the played playlist immediately and if the page, the query, or
+      // the hash changes
       if (playlistPlayedStatus !== Status.pending) {
         dispatch(
           loadPlaylistEntries('played', {
