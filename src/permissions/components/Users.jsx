@@ -1,40 +1,28 @@
-import PropTypes from 'prop-types'
-
 import { PermissionBase } from 'permissions/components/Base'
-import { isNotSelf, isUserManager } from 'permissions/users'
+import { isNotSelf, isUsersManager } from 'permissions/users'
 import { userPropType } from 'serverPropTypes/users'
 
 /**
  * Users manager
  */
 
-export function IsUserManager({ user, children, ...rest }) {
-  return (
-    <PermissionBase hasPermission={isUserManager(user)} {...rest}>
-      {children}
-    </PermissionBase>
-  )
+export function IsUsersManager({ user, ...rest }) {
+  return <PermissionBase hasPermission={isUsersManager(user)} {...rest} />
 }
 
-IsUserManager.propTypes = {
+IsUsersManager.propTypes = {
   user: userPropType,
-  children: PropTypes.node,
 }
 
 /**
  * Not self
  */
 
-export function IsNotSelf({ user, other, children, ...rest }) {
-  return (
-    <PermissionBase hasPermission={isNotSelf(user, other)} {...rest}>
-      {children}
-    </PermissionBase>
-  )
+export function IsNotSelf({ user, other, ...rest }) {
+  return <PermissionBase hasPermission={isNotSelf(user, other)} {...rest} />
 }
 
 IsNotSelf.propTypes = {
   user: userPropType,
   other: userPropType,
-  children: PropTypes.node,
 }

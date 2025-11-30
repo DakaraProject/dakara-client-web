@@ -4,7 +4,7 @@ import { isAuthenticated, isSuperUser } from 'permissions/base'
  * Users manager
  */
 
-export function isUserManager(user) {
+export function isUsersManager(user) {
   if (!isAuthenticated(user)) {
     return false
   }

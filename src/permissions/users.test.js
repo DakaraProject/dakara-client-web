@@ -1,22 +1,22 @@
 import { describe, expect, test } from 'vitest'
 
-import { isNotSelf, isUserManager } from './users'
+import { isNotSelf, isUsersManager } from './users'
 
 describe('is users manager', () => {
   test('null user', () => {
-    expect(isUserManager(null)).toBeFalsy()
+    expect(isUsersManager(null)).toBeFalsy()
   })
 
   test('non null user', () => {
-    expect(isUserManager({})).toBeFalsy()
+    expect(isUsersManager({})).toBeFalsy()
   })
 
   test('super user', () => {
-    expect(isUserManager({ is_superuser: true })).toBeTruthy()
+    expect(isUsersManager({ is_superuser: true })).toBeTruthy()
   })
 
   test('library manager', () => {
-    expect(isUserManager({ users_permission_level: 'm' })).toBeTruthy()
+    expect(isUsersManager({ users_permission_level: 'm' })).toBeTruthy()
   })
 })
 

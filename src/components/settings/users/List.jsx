@@ -7,7 +7,7 @@ import { FormBlock, InputField } from 'components/generics/Form'
 import ListingFetchWrapper from 'components/generics/listing/FetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import UserEntry from 'components/settings/users/Entry'
-import { IsUserManager } from 'permissions/components/Users'
+import { IsUsersManager } from 'permissions/components/Users'
 import { Status } from 'reducers/alterationsResponse'
 
 export default function UsersList() {
@@ -52,10 +52,10 @@ export default function UsersList() {
               <tr className="listing-header">
                 <th className="notification-col"></th>
                 <th className="username">User&shy;name</th>
-                <IsUserManager user={user}>
+                <IsUsersManager user={user}>
                   <th className="validated">Email check</th>
                   <th className="validated">Manager check</th>
-                </IsUserManager>
+                </IsUsersManager>
                 <th className="superuser">Super&shy;user</th>
                 <th className="permission">Users rights</th>
                 <th className="permission">Library rights</th>
@@ -75,7 +75,7 @@ export default function UsersList() {
           plural: 'users',
         }}
       />
-      <IsUserManager user={user}>
+      <IsUsersManager user={user}>
         <div className="create-user flow">
           <FormBlock
             title="Create user"
@@ -118,7 +118,7 @@ export default function UsersList() {
             />
           </FormBlock>
         </div>
-      </IsUserManager>
+      </IsUsersManager>
     </div>
   )
 }

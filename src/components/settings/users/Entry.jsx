@@ -9,7 +9,7 @@ import Notification, {
   NotifiableForTable,
 } from 'components/generics/Notification'
 import PermissionText from 'components/generics/PermissionText'
-import { IsNotSelf, IsUserManager } from 'permissions/components/Users'
+import { IsNotSelf, IsUsersManager } from 'permissions/components/Users'
 import { userPropType } from 'serverPropTypes/users'
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
@@ -65,14 +65,14 @@ export default function UsersEntry({ user }) {
         </NotifiableForTable>
       </td>
       <td className="username">{user.username}</td>
-      <IsUserManager user={authenticatedUser}>
+      <IsUsersManager user={authenticatedUser}>
         <td className="validated">
           <Marked marked={user.validated_by_email} />
         </td>
         <td className="validated">
           <Marked marked={user.validated_by_manager} />
         </td>
-      </IsUserManager>
+      </IsUsersManager>
       <td className="superuser">
         <Marked marked={user.is_superuser} />
       </td>
@@ -86,7 +86,7 @@ export default function UsersEntry({ user }) {
         <PermissionText level={user.playlist_permission_level} truncatable />
       </td>
       <td className="controls-col">
-        <IsUserManager user={authenticatedUser}>
+        <IsUsersManager user={authenticatedUser}>
           <div className="controls compact">
             <IsNotSelf user={authenticatedUser} other={user} disable>
               <Link to={`${user.id}`} className="control square info">
@@ -106,7 +106,7 @@ export default function UsersEntry({ user }) {
               </button>
             </IsNotSelf>
           </div>
-        </IsUserManager>
+        </IsUsersManager>
       </td>
     </tr>
   )

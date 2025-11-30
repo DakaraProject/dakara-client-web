@@ -38,15 +38,10 @@ PermissionBase.propTypes = {
  * Is authenticated.
  */
 
-export function IsAuthenticated({ user, children, ...rest }) {
-  return (
-    <PermissionBase hasPermission={isAuthenticated(user)} {...rest}>
-      {children}
-    </PermissionBase>
-  )
+export function IsAuthenticated({ user, ...rest }) {
+  return <PermissionBase hasPermission={isAuthenticated(user)} {...rest} />
 }
 
 IsAuthenticated.propTypes = {
   user: userPropType,
-  children: PropTypes.node,
 }
