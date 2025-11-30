@@ -30,7 +30,7 @@ export default function Library() {
           to="/library/song"
           iconName="music"
           extraClassName="home"
-          defaultRoute
+          isDefault
         />
         <Tab to="/library/artist" iconName="microphone-alt" name="Artists" />
         {workTypesTabs}

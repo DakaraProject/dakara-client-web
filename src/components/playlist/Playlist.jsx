@@ -10,7 +10,7 @@ export default function Playlist() {
           to="/playlist/queuing"
           iconName="chevron-right"
           name="Queuing"
-          defaultRoute
+          isDefault
         />
         <Tab to="/playlist/played" iconName="chevron-left" name="Played" />
         <Tab

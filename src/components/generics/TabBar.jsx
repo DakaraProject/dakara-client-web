@@ -16,7 +16,7 @@ export function Tab({
   extraClassName,
   iconName,
   name,
-  defaultRoute,
+  isDefault,
   to,
   ...rest
 }) {
@@ -26,13 +26,13 @@ export function Tab({
   }
 
   // active if the parent is active
-  const toParent = defaultRoute ? getParentURL(to) : ''
-  const active = useMatch(toParent) && defaultRoute
+  const toParent = isDefault ? getParentURL(to) : ''
+  const isActive = useMatch(toParent) && isDefault
 
   // classes
   const linkClass = classNames('tab control neutral listable', extraClassName, {
     square: !name,
-    active,
+    active: isActive,
   })
 
   return (
@@ -50,5 +50,5 @@ Tab.propTypes = {
   iconName: PropTypes.string,
   name: PropTypes.string,
   to: PropTypes.string,
-  defaultRoute: PropTypes.bool,
+  isDefault: PropTypes.bool,
 }
