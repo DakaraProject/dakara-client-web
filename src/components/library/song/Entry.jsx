@@ -19,7 +19,7 @@ import MaskedByTag from 'components/library/status/MaskedByTag'
 import SongWidget from 'components/library/widgets/Song'
 import SongExpandedWidget from 'components/library/widgets/SongExpanded'
 import { CanAddToPlaylist } from 'permissions/components/Playlist'
-import { useIsPlaylistManager } from 'permissions/playlist'
+import { isPlaylistManager } from 'permissions/playlist'
 import { songPropType } from 'serverPropTypes/library'
 
 export default function SongEntry({ song, karaokeRemainingSeconds }) {
@@ -40,8 +40,6 @@ export default function SongEntry({ song, karaokeRemainingSeconds }) {
   const [searchParams, _] = useSearchParams()
 
   const dispatch = useDispatch()
-
-  const isPlaylistManager = useIsPlaylistManager()
 
   const clearNotificationAlterations = useCallback(
     () => {

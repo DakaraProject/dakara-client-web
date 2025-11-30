@@ -16,8 +16,6 @@ export function isPlaylistManager(user) {
   return user.playlist_permission_level === 'm'
 }
 
-export const useIsPlaylistManager = () => (user) => isPlaylistManager(user)
-
 /**
  * Playlist manager or Owner of the object
  */
@@ -38,9 +36,6 @@ export function isPlaylistManagerOrOwner(user, object) {
   return user.id === object.owner.id
 }
 
-export const useIsPlaylistManagerOrOwner = () => (user, object) =>
-  isPlaylistManagerOrOwner(user, object)
-
 /**
  * Playlist user
  */
@@ -56,8 +51,6 @@ export function isPlaylistUser(user) {
 
   return user.playlist_permission_level === 'u'
 }
-
-export const useIsPlaylistUser = () => (user) => isPlaylistUser(user)
 
 /**
  * Can add to playlist
@@ -82,6 +75,3 @@ export function canAddToPlaylist(user, karaoke) {
 
   return isPlaylistUser(user)
 }
-
-export const useCanAddToPlaylist = () => (user, karaoke) =>
-  canAddToPlaylist(user, karaoke)

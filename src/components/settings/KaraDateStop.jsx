@@ -3,7 +3,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { useSelector } from 'react-redux'
 
 import { CheckboxField, FormBlock, InputField } from 'components/generics/Form'
-import { useIsPlaylistManager } from 'permissions/playlist'
+import { isPlaylistManager } from 'permissions/playlist'
 import { Status } from 'reducers/alterationsResponse'
 
 dayjs.extend(customParseFormat)
@@ -11,8 +11,6 @@ dayjs.extend(customParseFormat)
 export default function KaraDateStop() {
   const karaokeState = useSelector((state) => state.playlist.karaoke)
   const user = useSelector((state) => state.authenticatedUser)
-
-  const isPlaylistManager = useIsPlaylistManager()
 
   // render nothing if the karaoke is being fetched
   if (karaokeState.status === Status.pending || karaokeState.status === null)

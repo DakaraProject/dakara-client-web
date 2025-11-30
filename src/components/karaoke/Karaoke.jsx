@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { loadPlaylistDigest } from 'actions/playlistDigest'
 import KaraStatusNotification from 'components/karaoke/KaraStatusNotification'
 import Player from 'components/karaoke/player/Player'
-import { useIsPlaylistManager } from 'permissions/playlist'
+import { isPlaylistManager } from 'permissions/playlist'
 import { Status } from 'reducers/alterationsResponse'
 import { params } from 'utils'
 
@@ -14,8 +14,6 @@ export default function Karaoke() {
   const { status: karaokeStatus } = karaokeState
 
   const dispatch = useDispatch()
-
-  const isPlaylistManager = useIsPlaylistManager()
 
   useEffect(
     () => {

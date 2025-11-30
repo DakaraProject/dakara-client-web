@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
-import { useIsAuthenticated } from 'permissions/base'
+import { isAuthenticated } from 'permissions/base'
 import { userPropType } from 'serverPropTypes/users'
 
 /**
@@ -39,7 +39,6 @@ PermissionBase.propTypes = {
  */
 
 export function IsAuthenticated({ user, children, ...rest }) {
-  const isAuthenticated = useIsAuthenticated()
   return (
     <PermissionBase hasPermission={isAuthenticated(user)} {...rest}>
       {children}

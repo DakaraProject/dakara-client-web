@@ -11,7 +11,7 @@ import {
 } from 'components/karaoke/player/Carousel'
 import ManageButton from 'components/karaoke/player/ManageButton'
 import PlayerNotification from 'components/karaoke/player/Notification'
-import { useIsPlaylistManagerOrOwner } from 'permissions/playlist'
+import { isPlaylistManagerOrOwner } from 'permissions/playlist'
 import { Status } from 'reducers/alterationsResponse'
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
@@ -28,8 +28,6 @@ export default function Player() {
   const [animationsEnabled, setAnimationsEnabled] = useState(false)
 
   const dispatch = useDispatch()
-
-  const isPlaylistManagerOrOwner = useIsPlaylistManagerOrOwner()
 
   const { data: playerStatus } = playerStatusState
   const withControls = isPlaylistManagerOrOwner(

@@ -2,10 +2,10 @@ import PropTypes from 'prop-types'
 
 import { PermissionBase } from 'permissions/components/Base'
 import {
-  useCanAddToPlaylist,
-  useIsPlaylistManager,
-  useIsPlaylistManagerOrOwner,
-  useIsPlaylistUser,
+  canAddToPlaylist,
+  isPlaylistManager,
+  isPlaylistManagerOrOwner,
+  isPlaylistUser,
 } from 'permissions/playlist'
 import { karaokePropType } from 'serverPropTypes/playlist'
 import { userPropType } from 'serverPropTypes/users'
@@ -15,7 +15,6 @@ import { userPropType } from 'serverPropTypes/users'
  */
 
 export function IsPlaylistManager({ user, children, ...rest }) {
-  const isPlaylistManager = useIsPlaylistManager()
   return (
     <PermissionBase hasPermission={isPlaylistManager(user)} {...rest}>
       {children}
@@ -33,7 +32,6 @@ IsPlaylistManager.propTypes = {
  */
 
 export function IsPlaylistManagerOrOwner({ user, object, children, ...rest }) {
-  const isPlaylistManagerOrOwner = useIsPlaylistManagerOrOwner()
   return (
     <PermissionBase
       hasPermission={isPlaylistManagerOrOwner(user, object)}
@@ -57,7 +55,6 @@ IsPlaylistManagerOrOwner.propTypes = {
  */
 
 export function IsPlaylistUser({ user, children, ...rest }) {
-  const isPlaylistUser = useIsPlaylistUser()
   return (
     <PermissionBase hasPermission={isPlaylistUser(user)} {...rest}>
       {children}
@@ -75,7 +72,6 @@ IsPlaylistUser.propTypes = {
  */
 
 export function CanAddToPlaylist({ user, karaoke, children, ...rest }) {
-  const canAddToPlaylist = useCanAddToPlaylist()
   return (
     <PermissionBase hasPermission={canAddToPlaylist(user, karaoke)} {...rest}>
       {children}

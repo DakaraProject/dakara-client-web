@@ -1,14 +1,12 @@
 import { useSelector } from 'react-redux'
 
 import { CheckboxField, FormBlock } from 'components/generics/Form'
-import { useIsPlaylistManager } from 'permissions/playlist'
+import { isPlaylistManager } from 'permissions/playlist'
 import { Status } from 'reducers/alterationsResponse'
 
 export default function KaraStatus() {
   const karaokeState = useSelector((state) => state.playlist.karaoke)
   const user = useSelector((state) => state.authenticatedUser)
-
-  const isPlaylistManager = useIsPlaylistManager()
 
   // render nothing if the kara status is being fetched
   if (karaokeState.status === Status.pending || karaokeState.Status === null)

@@ -15,5 +15,3 @@ export function isLibraryManager(user) {
 
   return user.library_permission_level === 'm'
 }
-
-export const useIsLibraryManager = () => (user) => isLibraryManager(user)

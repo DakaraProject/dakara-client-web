@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 
 import { PermissionBase } from 'permissions/components/Base'
-import { useIsLibraryManager } from 'permissions/library'
+import { isLibraryManager } from 'permissions/library'
 import { userPropType } from 'serverPropTypes/users'
 
 /**
@@ -9,7 +9,6 @@ import { userPropType } from 'serverPropTypes/users'
  */
 
 export function IsLibraryManager({ user, children, ...rest }) {
-  const isLibraryManager = useIsLibraryManager()
   return (
     <PermissionBase hasPermission={isLibraryManager(user)} {...rest}>
       {children}

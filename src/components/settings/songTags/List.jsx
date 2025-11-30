@@ -6,7 +6,7 @@ import { getSongTagList } from 'actions/songTags'
 import ListingFetchWrapper from 'components/generics/listing/FetchWrapper'
 import Navigator from 'components/generics/Navigator'
 import SettingsSongTagsEntry from 'components/settings/songTags/Entry'
-import { useIsLibraryManager } from 'permissions/library'
+import { isLibraryManager } from 'permissions/library'
 import { Status } from 'reducers/alterationsResponse'
 
 export default function SongTagsList() {
@@ -18,8 +18,6 @@ export default function SongTagsList() {
   const { page } = Object.fromEntries(searchParams.entries())
 
   const dispatch = useDispatch()
-
-  const isLibraryManager = useIsLibraryManager()
 
   useEffect(
     () => {

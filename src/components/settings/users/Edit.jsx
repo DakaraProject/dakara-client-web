@@ -11,7 +11,7 @@ import {
 } from 'components/generics/Form'
 import Forbidden from 'components/navigation/Forbidden'
 import NotFound from 'components/navigation/NotFound'
-import { useIsNotSelf, useIsUserManager } from 'permissions/users'
+import { isNotSelf, isUserManager } from 'permissions/users'
 import { Status } from 'reducers/alterationsResponse'
 
 export default function UsersEdit() {
@@ -25,9 +25,6 @@ export default function UsersEdit() {
   const location = useLocation()
 
   const dispatch = useDispatch()
-
-  const isNotSelf = useIsNotSelf()
-  const isUserManager = useIsUserManager()
 
   useEffect(
     () => {

@@ -16,8 +16,6 @@ export function isUserManager(user) {
   return user.users_permission_level === 'm'
 }
 
-export const useIsUserManager = () => (user) => isUserManager(user)
-
 /**
  * Not self
  */
@@ -37,5 +35,3 @@ export function isNotSelf(user, other) {
 
   return user.id !== other.id
 }
-
-export const useIsNotSelf = () => (user, other) => isNotSelf(user, other)
