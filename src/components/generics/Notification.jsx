@@ -32,11 +32,14 @@ export default function Notification({
     }),
     [successfulDuration, failedDuration]
   )
-  const messages = {
-    [Status.pending]: pendingMessage,
-    [Status.successful]: successfulMessage,
-    [Status.failed]: failedMessage,
-  }
+  const messages = useMemo(
+    () => ({
+      [Status.pending]: pendingMessage,
+      [Status.successful]: successfulMessage,
+      [Status.failed]: failedMessage,
+    }),
+    [pendingMessage, successfulMessage, failedMessage]
+  )
 
   const {
     status,
