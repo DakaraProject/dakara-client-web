@@ -5,11 +5,7 @@ export function Checkmark({ enabled }) {
     return null
   }
 
-  return (
-    <span className="icon">
-      <i className="shapes checkmark"></i>
-    </span>
-  )
+  return <i className="shapes checkmark"></i>
 }
 Checkmark.propTypes = {
   enabled: PropTypes.bool,

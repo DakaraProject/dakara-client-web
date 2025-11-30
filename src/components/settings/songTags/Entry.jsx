@@ -73,11 +73,7 @@ export default function SongTagsEntry({ tag, editable }) {
       </div>
     )
   } else {
-    enablenessWidget = (
-      <span className="icon">
-        <Checkmark enabled={!tag.disabled} />
-      </span>
-    )
+    enablenessWidget = <Checkmark enabled={!tag.disabled} />
   }
 
   // color
