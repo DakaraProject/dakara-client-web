@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { clearAlteration } from 'actions/alterations'
 import { editSongTag } from 'actions/songTags'
+import Checkmark from 'components/generics/Checkmark'
 import { CheckboxField, FormInline, HueField } from 'components/generics/Form'
 import Notification, {
   NotifiableForTable,
@@ -74,7 +75,7 @@ export default function SongTagsEntry({ tag, editable }) {
   } else {
     enablenessWidget = (
       <span className="icon">
-        <i className="las la-check"></i>
+        <Checkmark enabled={!tag.disabled} />
       </span>
     )
   }
