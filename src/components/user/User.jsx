@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 
 import { FormBlock, InputField } from 'components/generics/Form'
-import { permissionLevels } from 'utils/permissions'
+import PermissionText from 'components/generics/PermissionText'
 
 export default function User() {
   const user = useSelector((state) => state.authenticatedUser)
@@ -18,7 +18,7 @@ export default function User() {
   if (user.users_permission_level) {
     permissions.push(
       <p key="users">
-        You are users {permissionLevels[user.users_permission_level]}.
+        You are users <PermissionText level={user.users_permission_level} />.
       </p>
     )
   }
@@ -27,7 +27,8 @@ export default function User() {
   if (user.library_permission_level) {
     permissions.push(
       <p key="library">
-        You are library {permissionLevels[user.library_permission_level]}.
+        You are library <PermissionText level={user.library_permission_level} />
+        .
       </p>
     )
   }
@@ -36,7 +37,8 @@ export default function User() {
   if (user.playlist_permission_level) {
     permissions.push(
       <p key="playlist">
-        You are playlist {permissionLevels[user.playlist_permission_level]}.
+        You are playlist{' '}
+        <PermissionText level={user.playlist_permission_level} />.
       </p>
     )
   }

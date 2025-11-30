@@ -8,12 +8,12 @@ import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification, {
   NotifiableForTable,
 } from 'components/generics/Notification'
+import PermissionText from 'components/generics/PermissionText'
 import { IsNotSelf, IsUserManager } from 'permissions/components/Users'
 import { userPropType } from 'serverPropTypes/users'
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
 import Marked from './Marked'
-import PermissionText from './PermissionText'
 
 export default function UsersEntry({ user }) {
   const responseOfDelete = useSelector(
@@ -77,13 +77,13 @@ export default function UsersEntry({ user }) {
         <Marked marked={user.is_superuser} />
       </td>
       <td className="permission">
-        <PermissionText level={user.users_permission_level} />
+        <PermissionText level={user.users_permission_level} truncatable />
       </td>
       <td className="permission">
-        <PermissionText level={user.library_permission_level} />
+        <PermissionText level={user.library_permission_level} truncatable />
       </td>
       <td className="permission last">
-        <PermissionText level={user.playlist_permission_level} />
+        <PermissionText level={user.playlist_permission_level} truncatable />
       </td>
       <td className="controls-col">
         <IsUserManager user={authenticatedUser}>
