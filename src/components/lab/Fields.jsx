@@ -59,10 +59,10 @@ export default function Fields() {
           id="toggle-disabled-true"
           label="Toggle disabled true"
         />
-        <HueField defaultValue="10" id="hue" label="Hue" />
+        <HueField defaultValue={10} id="hue" label="Hue" />
         <HueField
           disabled
-          defaultValue="10"
+          defaultValue={10}
           id="hue-disabled"
           label="Hue disabled"
         />
