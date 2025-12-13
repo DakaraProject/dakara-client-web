@@ -4,17 +4,12 @@
 // Shapes style file
 //
 
-@use '~/thirdparty/preboot';
-
 @use '~/abstracts/colors';
 @use '~/abstracts/shapes';
 
 .shapes {
   &.checkmark::after {
-    $width: 1rem;
-    @include preboot.square($width);
     @include shapes.make-checkmark(colors.$neutral-400);
-
-    transform: translateX(-$width * 0.5) translateY(-$width * 0.5);
+    @include shapes.make-shape(1rem);
   }
 }

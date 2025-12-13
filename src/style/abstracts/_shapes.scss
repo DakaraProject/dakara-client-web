@@ -4,6 +4,14 @@
 // Shapes style file
 //
 
+@use '~/thirdparty/preboot';
+
+@mixin make-shape($width) {
+  @include preboot.square($width);
+
+  transform: translateX(-$width * 0.5) translateY(-$width * 0.5);
+}
+
 @mixin make-checkmark($background) {
   background: $background;
   clip-path: polygon(
