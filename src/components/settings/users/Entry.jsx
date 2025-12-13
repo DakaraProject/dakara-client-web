@@ -9,11 +9,10 @@ import Notification, {
   NotifiableForTable,
 } from 'components/generics/Notification'
 import PermissionText from 'components/generics/PermissionText'
+import { Checkmark } from 'components/generics/Shapes'
 import { IsNotSelf, IsUsersManager } from 'permissions/components/Users'
 import { userPropType } from 'serverPropTypes/users'
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
-
-import Marked from './Marked'
 
 export default function UsersEntry({ user }) {
   const responseOfDelete = useSelector(
@@ -67,14 +66,14 @@ export default function UsersEntry({ user }) {
       <td className="username">{user.username}</td>
       <IsUsersManager user={authenticatedUser}>
         <td className="validated">
-          <Marked marked={user.validated_by_email} />
+          <Checkmark enabled={user.validated_by_email} />
         </td>
         <td className="validated">
-          <Marked marked={user.validated_by_manager} />
+          <Checkmark enabled={user.validated_by_manager} />
         </td>
       </IsUsersManager>
       <td className="superuser">
-        <Marked marked={user.is_superuser} />
+        <Checkmark enabled={user.is_superuser} />
       </td>
       <td className="permission">
         <PermissionText level={user.users_permission_level} truncatable />

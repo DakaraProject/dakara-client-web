@@ -1,0 +1,27 @@
+//
+// Dakara Project
+//
+// Lab shapes style file
+//
+
+@use '~/abstracts/shapes';
+
+#shapes {
+  .shape {
+    text-align: center;
+
+    @mixin make-shape($name, $width) {
+      &.#{$name} {
+        height: $width + 1rem;
+
+        .shapes::after {
+          @include shapes.make-shape($width);
+        }
+      }
+    }
+
+    @include make-shape('x2', 2rem);
+    @include make-shape('x5', 5rem);
+    @include make-shape('x10', 10rem);
+  }
+}

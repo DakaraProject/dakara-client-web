@@ -8,6 +8,7 @@ export default function Lab() {
       <TabBar>
         <Tab to="/lab/colors" iconName="palette" name="Colors" isDefault />
         <Tab to="/lab/fields" iconName="pencil-ruler" name="Fields" />
+        <Tab to="/lab/shapes" iconName="shapes" name="Shapes" />
       </TabBar>
       <Outlet />
     </div>

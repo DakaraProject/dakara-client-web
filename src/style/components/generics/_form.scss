@@ -11,6 +11,7 @@
 @use '~/abstracts/colors';
 @use '~/abstracts/controls';
 @use '~/abstracts/fonts';
+@use '~/abstracts/shapes';
 @use '~/abstracts/sizes';
 @use '~/abstracts/support';
 
@@ -382,13 +383,6 @@ $form-field-height: sizes.$row-height;
           min-height: $field-height;
         }
 
-        & {
-          // Firefox adds an ugly triangle that can't be stylized
-          // here is a hack: https://gist.github.com/joaocunha/6273016/
-          text-indent: 0.01px;
-          text-overflow: '';
-        }
-
         // add space for marker
         &:not([multiple]) {
           padding-right: $field-height;
@@ -401,20 +395,14 @@ $form-field-height: sizes.$row-height;
 
       // create the marker
       &:not(.multiple)::after {
-        // square shape
-        @include preboot.square($field-height);
+        $size: 1.5rem;
 
-        // attached to the top right
-        // no pointer effect
-        color: colors.$neutral-000;
-        content: '▼';
-        font-size: 1.5em;
-        line-height: $field-height;
+        @include preboot.square($size);
+        @include shapes.make-triangle-down(colors.$neutral-000);
+
         pointer-events: none;
-        position: absolute;
-        right: 0;
-        text-align: center;
-        top: 0;
+        right: ($field-height - $size) * 0.5;
+        top: ($field-height - $size) * 0.5;
       }
     }
 
@@ -537,29 +525,9 @@ $form-field-height: sizes.$row-height;
       // add style to marker when checked
       input:checked + label.marker::after {
         @include preboot.square($field-height * 0.3);
+        @include shapes.make-checkmark(colors.$neutral-000);
 
-        background: colors.$neutral-000;
-        clip-path: polygon(
-          0% 0%,
-          30% 0%,
-          50% 20%,
-          70% 0%,
-          100% 0%,
-          100% 30%,
-          80% 50%,
-          100% 70%,
-          100% 100%,
-          70% 100%,
-          50% 80%,
-          30% 100%,
-          0% 100%,
-          0% 70%,
-          20% 50%,
-          0% 30%
-        );
-        content: '';
         left: $field-height * 0.1;
-        position: absolute;
         top: $field-height * 0.1;
       }
     }

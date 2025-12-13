@@ -9,6 +9,7 @@ import { CheckboxField, FormInline, HueField } from 'components/generics/Form'
 import Notification, {
   NotifiableForTable,
 } from 'components/generics/Notification'
+import { Checkmark } from 'components/generics/Shapes'
 import { Status } from 'reducers/alterationsResponse'
 import { songTagPropType } from 'serverPropTypes/library'
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
@@ -72,11 +73,7 @@ export default function SongTagsEntry({ tag, editable }) {
       </div>
     )
   } else {
-    enablenessWidget = (
-      <span className="icon">
-        <i className="las la-check"></i>
-      </span>
-    )
+    enablenessWidget = <Checkmark enabled={!tag.disabled} />
   }
 
   // color
