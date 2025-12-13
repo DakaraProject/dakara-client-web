@@ -10,7 +10,7 @@ import {
 export default function Fields() {
   return (
     <div className="fields flow">
-      <FormBlock action={null} alterationName="">
+      <FormBlock action="" alterationName="" noSubmit>
         <CheckboxField
           defaultValue={false}
           id="checkbox-false"
@@ -59,10 +59,10 @@ export default function Fields() {
           id="toggle-disabled-true"
           label="Toggle disabled true"
         />
-        <HueField defaultValue="10" id="hue" label="Hue" />
+        <HueField defaultValue={10} id="hue" label="Hue" />
         <HueField
           disabled
-          defaultValue="10"
+          defaultValue={10}
           id="hue-disabled"
           label="Hue disabled"
         />

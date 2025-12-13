@@ -25,6 +25,7 @@ class Form extends Component {
     formatValues: PropTypes.func,
     method: PropTypes.string,
     noClearOnSuccess: PropTypes.bool,
+    noSubmit: PropTypes.bool,
     onSuccess: PropTypes.func,
     setAlterationValidationErrors: PropTypes.func.isRequired,
     submitAlteration: PropTypes.func.isRequired,
@@ -259,7 +260,12 @@ class Form extends Component {
   }
 
   renderSubmit = () => {
-    const { submitText, submitClass } = this.props
+    const { submitText, submitClass, noSubmit } = this.props
+
+    if (noSubmit) {
+      return null
+    }
+
     const controlClass = classNames('control', submitClass)
 
     return (
