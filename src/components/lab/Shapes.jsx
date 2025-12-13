@@ -31,7 +31,7 @@ export default function Shapes() {
           </thead>
           <tbody>
             {shapes.map((shape) => (
-              <tr className="listing-entry listable" key={shape}>
+              <tr className="listing-entry listable" key={shape.name}>
                 <td className="name">{shape.name}</td>
                 <td className={classNames('shape', factor)}>{shape.shape}</td>
               </tr>
