@@ -10,3 +10,7 @@ export function Checkmark({ enabled }) {
 Checkmark.propTypes = {
   enabled: PropTypes.bool,
 }
+
+export function TriangleDown() {
+  return <i className="shapes triangle-down"></i>
+}

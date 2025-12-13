@@ -383,13 +383,6 @@ $form-field-height: sizes.$row-height;
           min-height: $field-height;
         }
 
-        & {
-          // Firefox adds an ugly triangle that can't be stylized
-          // here is a hack: https://gist.github.com/joaocunha/6273016/
-          text-indent: 0.01px;
-          text-overflow: '';
-        }
-
         // add space for marker
         &:not([multiple]) {
           padding-right: $field-height;
@@ -403,19 +396,14 @@ $form-field-height: sizes.$row-height;
       // create the marker
       &:not(.multiple)::after {
         // square shape
-        @include preboot.square($field-height);
+        @include preboot.square(2rem);
+        @include shapes.make-triangle-down(colors.$neutral-000);
 
         // attached to the top right
         // no pointer effect
-        color: colors.$neutral-000;
-        content: '▼';
-        font-size: 1.5em;
-        line-height: $field-height;
         pointer-events: none;
-        position: absolute;
-        right: 0;
-        text-align: center;
-        top: 0;
+        right: $field-height * 0.25;
+        top: $field-height * 0.31;
       }
     }
 

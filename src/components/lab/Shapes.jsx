@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import { useState } from 'react'
 
 import { SelectField } from 'components/generics/Form'
-import { Checkmark } from 'components/generics/Shapes'
+import { Checkmark, TriangleDown } from 'components/generics/Shapes'
 
 const factors = Object.freeze([
   { value: 'x1', name: '× 1' },
@@ -14,7 +14,10 @@ const factors = Object.freeze([
 export default function Shapes() {
   const [factor, setFactor] = useState('1')
 
-  const shapes = [{ name: 'Checkmark', shape: <Checkmark enabled /> }]
+  const shapes = [
+    { name: 'Checkmark', shape: <Checkmark enabled /> },
+    { name: 'Triangle down', shape: <TriangleDown /> },
+  ]
 
   return (
     <div id="shapes" className="flow">

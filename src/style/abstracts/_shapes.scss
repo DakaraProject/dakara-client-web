@@ -35,3 +35,10 @@
   content: '';
   position: absolute;
 }
+
+@mixin make-triangle-down($background) {
+  background: $background;
+  clip-path: polygon(0% 6.7%, 100% 6.7%, 50% 93.3%);
+  content: '';
+  position: absolute;
+}

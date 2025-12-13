@@ -8,8 +8,15 @@
 @use '~/abstracts/shapes';
 
 .shapes {
+  &::after {
+    @include shapes.make-shape(1rem);
+  }
+
   &.checkmark::after {
     @include shapes.make-checkmark(colors.$neutral-400);
-    @include shapes.make-shape(1rem);
+  }
+
+  &.triangle-down::after {
+    @include shapes.make-triangle-down(colors.$neutral-400);
   }
 }
