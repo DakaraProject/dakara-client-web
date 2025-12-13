@@ -395,15 +395,14 @@ $form-field-height: sizes.$row-height;
 
       // create the marker
       &:not(.multiple)::after {
-        // square shape
-        @include preboot.square(2rem);
+        $size: 1.5rem;
+
+        @include preboot.square($size);
         @include shapes.make-triangle-down(colors.$neutral-000);
 
-        // attached to the top right
-        // no pointer effect
         pointer-events: none;
-        right: $field-height * 0.25;
-        top: $field-height * 0.31;
+        right: ($field-height - $size) * 0.5;
+        top: ($field-height - $size) * 0.5;
       }
     }
 
