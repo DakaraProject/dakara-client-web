@@ -29,12 +29,7 @@ export default function PlayerErrorsList() {
       // refresh the player errors immediately and if the page, the query, or
       // the hash changes
       if (playerErrorsStatus !== Status.pending) {
-        dispatch(
-          loadPlayerErrors({
-            page,
-            query,
-          })
-        )
+        dispatch(loadPlayerErrors(page, query))
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -42,13 +42,7 @@ export default function WorkList() {
       }
 
       // load entries if the page, the query, the work type, or the work thype status changes
-      dispatch(
-        loadLibraryEntries('works', {
-          page,
-          query,
-          type: workTypeQueryName,
-        })
-      )
+      dispatch(loadLibraryEntries('works', page, query, workTypeQueryName))
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [page, query, workTypeQueryName, workTypeStatus]

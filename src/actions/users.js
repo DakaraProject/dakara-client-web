@@ -35,7 +35,7 @@ const refreshUsersDelayed = (dispatch, getState) => {
  * Request to retrieve user list
  * @param page page to display
  */
-export const loadUsers = ({ page = 1, query }) => {
+export const loadUsers = (page = 1, query) => {
   const queryStr = queryString.stringify({
     page,
     ...(query && { query }),

@@ -22,7 +22,7 @@ export const TAG_LIST_FAILURE = 'TAG_LIST_FAILURE'
  * Request to retrieve song tag list
  * @param page page to display
  */
-export const loadSongTags = ({ page = 1, query }) => {
+export const loadSongTags = (page = 1, query) => {
   const queryStr = queryString.stringify({
     page,
     ...(query && { query }),

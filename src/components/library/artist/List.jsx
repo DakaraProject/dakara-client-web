@@ -23,12 +23,7 @@ export default function ArtistList() {
     () => {
       // refresh immediately, or if moved to a different page, or if the search query
       // changed
-      dispatch(
-        loadLibraryEntries('artists', {
-          page,
-          query,
-        })
-      )
+      dispatch(loadLibraryEntries('artists', page, query))
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [page, query]

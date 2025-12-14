@@ -29,12 +29,7 @@ export default function PlayedList() {
       // refresh the played playlist immediately and if the page, the query, or
       // the hash changes
       if (playlistPlayedStatus !== Status.pending) {
-        dispatch(
-          loadPlaylistEntries('played', {
-            page,
-            query,
-          })
-        )
+        dispatch(loadPlaylistEntries('played', page, query))
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

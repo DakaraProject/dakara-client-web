@@ -29,12 +29,7 @@ export default function QueuingList() {
       // refresh the queuing playlist immediately and if the page, the query,
       // or the hash changes
       if (playlistQueuingStatus !== Status.pending) {
-        dispatch(
-          loadPlaylistEntries('queuing', {
-            page,
-            query,
-          })
-        )
+        dispatch(loadPlaylistEntries('queuing', page, query))
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

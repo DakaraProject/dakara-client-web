@@ -46,10 +46,7 @@ export const PLAYLIST_ENTRIES_FAILURE = 'PLAYLIST_ENTRIES_FAILURE'
  * Request playlist entries
  * @param type Type of the playlist requested.
  */
-export const loadPlaylistEntries = (
-  playlistEntriesType,
-  { page = 1, query } = {}
-) => {
+export const loadPlaylistEntries = (playlistEntriesType, page = 1, query) => {
   const queryStr = queryString.stringify({
     page,
     ...(query && { query }),
@@ -266,7 +263,7 @@ export const PLAYER_ERRORS_FAILURE = 'PLAYER_ERRORS_FAILURE'
  * Load player token
  * @param karaokeId ID of the karaoke object
  */
-export const loadPlayerErrors = ({ page = 1, query } = {}) => {
+export const loadPlayerErrors = (page = 1, query) => {
   const queryStr = queryString.stringify({
     page,
     ...(query && { query }),

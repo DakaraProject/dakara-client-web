@@ -25,7 +25,7 @@ export default function UsersList() {
 
   const refreshEntries = useCallback(
     () => {
-      dispatch(loadUsers({ page, query }))
+      dispatch(loadUsers(page, query))
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [page, query]
