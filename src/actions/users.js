@@ -1,3 +1,5 @@
+import queryString from 'query-string'
+
 import {
   ALTERATION_FAILURE,
   ALTERATION_REQUEST,
@@ -26,20 +28,26 @@ export const USER_LIST_FAILURE = 'USER_LIST_FAILURE'
  */
 const refreshUsersDelayed = (dispatch, getState) => {
   const page = getState().settings.users.list.data.pagination.current
-  return dispatch(delay(getUsers(page), 3000))
+  return dispatch(delay(loadUsers({ page }), 3000))
 }
 
 /**
  * Request to retrieve user list
  * @param page page to display
  */
-export const getUsers = (page = 1) => ({
-  [FETCH_API]: {
-    endpoint: `${baseUrl}/users/?page=${page}`,
-    method: 'GET',
-    types: [USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LIST_FAILURE],
-  },
-})
+export const loadUsers = ({ page = 1, query }) => {
+  const queryStr = queryString.stringify({
+    page,
+    ...(query && { query }),
+  })
+  return {
+    [FETCH_API]: {
+      endpoint: `${baseUrl}/users/?${queryStr}`,
+      method: 'GET',
+      types: [USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LIST_FAILURE],
+    },
+  }
+}
 
 /**
  * Delete user

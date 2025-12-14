@@ -1,11 +1,12 @@
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useSearchParams } from 'react-router'
+import { useOutletContext, useSearchParams } from 'react-router'
 
-import { getUsers } from 'actions/users'
+import { loadUsers } from 'actions/users'
 import { FormBlock, InputField } from 'components/generics/Form'
 import ListingFetchWrapper from 'components/generics/listing/FetchWrapper'
 import Navigator from 'components/generics/Navigator'
+import SearchBox from 'components/generics/SearchBox'
 import UserEntry from 'components/settings/users/Entry'
 import { IsUsersManager } from 'permissions/components/Users'
 import { Status } from 'reducers/alterationsResponse'
@@ -16,16 +17,18 @@ export default function UsersList() {
   const { status: listUsersStatus } = listUsersState
 
   const [searchParams, _] = useSearchParams()
-  const { page } = Object.fromEntries(searchParams.entries())
+  const { page, query } = Object.fromEntries(searchParams.entries())
 
   const dispatch = useDispatch()
 
+  const [searchBoxQuery, setSearchBoxQuery] = useOutletContext()
+
   const refreshEntries = useCallback(
     () => {
-      dispatch(getUsers(page))
+      dispatch(loadUsers({ page, query }))
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page]
+    [page, query]
   )
 
   useEffect(
@@ -36,7 +39,7 @@ export default function UsersList() {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page]
+    [page, query]
   )
 
   const { users, pagination } = listUsersState.data
@@ -45,6 +48,14 @@ export default function UsersList() {
 
   return (
     <div id="users-list">
+      <SearchBox
+        placeholder="Search a user"
+        query={searchBoxQuery}
+        setQuery={setSearchBoxQuery}
+        help={{
+          example: 'user',
+        }}
+      />
       <ListingFetchWrapper status={listUsersStatus}>
         <div className="listing-table-container">
           <table className="listing users-list notifiable">

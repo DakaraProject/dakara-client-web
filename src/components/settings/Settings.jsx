@@ -1,8 +1,11 @@
+import { useState } from 'react'
 import { Outlet } from 'react-router'
 
 import { Tab, TabBar } from 'components/generics/TabBar'
 
 export default function Settings() {
+  const [searchBoxQuery, setSearchBoxQuery] = useState('')
+
   return (
     <div id="settings" className="box neutral">
       <TabBar>
@@ -16,7 +19,7 @@ export default function Settings() {
         />
         <Tab to="/settings/tokens" iconName="user-circle" name="Tokens" />
       </TabBar>
-      <Outlet />
+      <Outlet context={[searchBoxQuery, setSearchBoxQuery]} />
     </div>
   )
 }
