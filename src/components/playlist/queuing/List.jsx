@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useSearchParams } from 'react-router'
+import { useOutletContext, useSearchParams } from 'react-router'
 
 import { loadPlaylistEntries } from 'actions/playlist'
 import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
+import SearchBox from 'components/generics/SearchBox'
 import QueuingEntry from 'components/playlist/queuing/Entry'
 import { Status } from 'reducers/alterationsResponse'
 
@@ -21,16 +22,14 @@ export default function QueuingList() {
 
   const dispatch = useDispatch()
 
+  const [searchBoxQuery, setSearchBoxQuery] = useOutletContext()
+
   useEffect(
     () => {
       // refresh the queuing playlist immediately and if the page, the query,
       // or the hash changes
       if (playlistQueuingStatus !== Status.pending) {
-        dispatch(
-          loadPlaylistEntries('queuing', {
-            page,
-          })
-        )
+        dispatch(loadPlaylistEntries('queuing', page, query))
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -73,6 +72,16 @@ export default function QueuingList() {
 
   return (
     <div id="queuing">
+      <SearchBox
+        placeholder="Search a song queued in the playlist"
+        query={searchBoxQuery}
+        setQuery={setSearchBoxQuery}
+        help={{
+          example: 'title',
+          fields: 'title, artist, work, owner',
+          withHash: true,
+        }}
+      />
       <ListingList
         fetchStatus={playlistQueuingStatus}
         transitionObservable={queuingEntriesHash}

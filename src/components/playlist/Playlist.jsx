@@ -1,8 +1,11 @@
+import { useState } from 'react'
 import { Outlet } from 'react-router'
 
 import { Tab, TabBar } from 'components/generics/TabBar'
 
 export default function Playlist() {
+  const [searchBoxQuery, setSearchBoxQuery] = useState('')
+
   return (
     <div id="playlist" className="box neutral">
       <TabBar>
@@ -19,7 +22,7 @@ export default function Playlist() {
           name="Errors"
         />
       </TabBar>
-      <Outlet />
+      <Outlet context={[searchBoxQuery, setSearchBoxQuery]} />
     </div>
   )
 }

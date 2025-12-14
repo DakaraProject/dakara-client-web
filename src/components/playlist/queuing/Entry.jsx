@@ -45,6 +45,7 @@ ReorderButton.propTypes = {
 }
 
 export default function QueuingEntry({ entry, positions }) {
+  const query = useSelector((state) => state.playlist.queuing.data.query)
   const queuingEntriesDigest = useSelector(
     (state) => state.playlist.digest.entries.data.queuingEntries
   )
@@ -380,9 +381,15 @@ export default function QueuingEntry({ entry, positions }) {
       }}
     >
       {expanded ? (
-        <PlaylistEntryWidget entry={entry} noOwner noInstrumental truncatable />
+        <PlaylistEntryWidget
+          entry={entry}
+          query={query}
+          noOwner
+          noInstrumental
+          truncatable
+        />
       ) : (
-        <PlaylistEntryWidget entry={entry} truncatable />
+        <PlaylistEntryWidget entry={entry} query={query} truncatable />
       )}
     </ListingEntry>
   )

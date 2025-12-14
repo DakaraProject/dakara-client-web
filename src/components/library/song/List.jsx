@@ -6,7 +6,7 @@ import { useOutletContext, useSearchParams } from 'react-router'
 import { loadLibraryEntries } from 'actions/library'
 import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
-import SearchBox from 'components/library/SearchBox'
+import SearchBox from 'components/generics/SearchBox'
 import SongEntry from 'components/library/song/Entry'
 
 export default function SongList() {
@@ -27,12 +27,7 @@ export default function SongList() {
   useEffect(
     () => {
       // fetch songs from server immediately, and if the page or if the query changes
-      dispatch(
-        loadLibraryEntries('songs', {
-          page,
-          query,
-        })
-      )
+      dispatch(loadLibraryEntries('songs', page, query))
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [page, query]
@@ -65,29 +60,11 @@ export default function SongList() {
         placeholder="What will you sing?"
         query={searchBoxQuery}
         setQuery={setSearchBoxQuery}
-        help={
-          <>
-            <p>
-              You can obtain better results with the query search mini-language:
-            </p>
-            <ul>
-              <li>
-                Quotes to group words: <q>&quot;my artist&quot;</q>
-              </li>
-              <li>
-                Prefix and quotes to search in a specific field:{' '}
-                <q>artist:&quot;my artist&quot;</q>
-              </li>
-              <li>
-                Prefix and doubled quotes to search a specific field exactly:{' '}
-                <q>artist:&quot;&quot;my artist name&quot;&quot;</q>
-              </li>
-              <li>
-                Hash tag to target tags: <q>#tag</q>
-              </li>
-            </ul>
-          </>
-        }
+        help={{
+          example: 'title',
+          fields: 'title, artist, work',
+          withHash: true,
+        }}
       />
       <ListingList fetchStatus={songState.status} noTransition>
         {libraryEntrySongList}

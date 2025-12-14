@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useSearchParams } from 'react-router'
+import { useOutletContext, useSearchParams } from 'react-router'
 
-import { getSongTagList } from 'actions/songTags'
+import { loadSongTags } from 'actions/songTags'
 import ListingFetchWrapper from 'components/generics/listing/FetchWrapper'
 import Navigator from 'components/generics/Navigator'
+import SearchBox from 'components/generics/SearchBox'
 import SettingsSongTagsEntry from 'components/settings/songTags/Entry'
 import { isLibraryManager } from 'permissions/library'
 import { Status } from 'reducers/alterationsResponse'
@@ -15,19 +16,21 @@ export default function SongTagsList() {
   const { status: songTagsStatus } = songTagsState
 
   const [searchParams, _] = useSearchParams()
-  const { page } = Object.fromEntries(searchParams.entries())
+  const { page, query } = Object.fromEntries(searchParams.entries())
 
   const dispatch = useDispatch()
+
+  const [searchBoxQuery, setSearchBoxQuery] = useOutletContext()
 
   useEffect(
     () => {
       // refresh song tags immediately and if the page changes
       if (songTagsStatus !== Status.pending) {
-        dispatch(getSongTagList(page))
+        dispatch(loadSongTags(page, query))
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page]
+    [page, query]
   )
 
   const { songTags, pagination } = songTagsState.data
@@ -42,6 +45,14 @@ export default function SongTagsList() {
 
   return (
     <div id="song-tag-list">
+      <SearchBox
+        placeholder="Search a song tag"
+        query={searchBoxQuery}
+        setQuery={setSearchBoxQuery}
+        help={{
+          example: 'tag',
+        }}
+      />
       <ListingFetchWrapper status={songTagsState.status}>
         <div className="listing-table-container">
           <table className="listing song-tag-list-listing">

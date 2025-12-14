@@ -5,7 +5,7 @@ import { useOutletContext, useParams, useSearchParams } from 'react-router'
 import { loadLibraryEntries } from 'actions/library'
 import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
-import SearchBox from 'components/library/SearchBox'
+import SearchBox from 'components/generics/SearchBox'
 import WorkEntry from 'components/library/work/Entry'
 import NotFound from 'components/navigation/NotFound'
 import { Status } from 'reducers/alterationsResponse'
@@ -42,13 +42,7 @@ export default function WorkList() {
       }
 
       // load entries if the page, the query, the work type, or the work thype status changes
-      dispatch(
-        loadLibraryEntries('works', {
-          page,
-          query,
-          type: workTypeQueryName,
-        })
-      )
+      dispatch(loadLibraryEntries('works', page, query, workTypeQueryName))
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [page, query, workTypeQueryName, workTypeStatus]
@@ -86,6 +80,9 @@ export default function WorkList() {
         placeholder={`What ${workType.name.toLowerCase()} do you want?`}
         query={searchBoxQuery}
         setQuery={setSearchBoxQuery}
+        help={{
+          example: workType.name.toLowerCase(),
+        }}
       />
       <ListingList fetchStatus={workState.status} noTransition>
         {libraryEntryWorkList}

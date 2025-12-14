@@ -28,9 +28,9 @@ const fetchLibraryEntries = (url, libraryType, workType) => ({
  * @param libraryType precise type of library entries
  * @param params contains query and page number
  */
-export const loadLibraryEntries = (library, { query, page = 1, type } = {}) => {
+export const loadLibraryEntries = (library, page = 1, query, type) => {
   const queryStr = queryString.stringify({
-    ...(page && { page }),
+    page,
     ...(query && { query }),
     ...(type && { type }),
   })

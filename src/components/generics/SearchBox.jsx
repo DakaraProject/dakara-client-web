@@ -4,6 +4,49 @@ import { useSearchParams } from 'react-router'
 
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
+function SearchBoxHelp({ example, fields, withHash }) {
+  return (
+    <div className="help">
+      <p>You can obtain better results with the query search mini-language:</p>
+      <ul>
+        <li>
+          Quotes to group words: <q>&quot;my {example}&quot;</q>
+        </li>
+        {fields && (
+          <>
+            <li>
+              Prefix and quotes to search in a specific field:{' '}
+              <q>
+                {example}:&quot;my {example}&quot;
+              </q>
+            </li>
+            <li>
+              Prefix and doubled quotes to search a specific field exactly:{' '}
+              <q>
+                {example}:&quot;&quot;my {example} exact&quot;&quot;
+              </q>
+            </li>
+            <li>
+              List of accepted fields: <q>{fields}</q>
+            </li>
+          </>
+        )}
+        {withHash && (
+          <li>
+            Hash tag to target tags: <q>#tag</q>
+          </li>
+        )}
+      </ul>
+    </div>
+  )
+}
+
+SearchBoxHelp.propTypes = {
+  example: PropTypes.string.isRequired,
+  fields: PropTypes.string,
+  withHash: PropTypes.bool,
+}
+
 /**
  * Search box
  *
@@ -54,7 +97,7 @@ export default function SearchBox({ help, placeholder, query, setQuery }) {
           exit: 150,
         }}
       >
-        <div className="help">{help}</div>
+        <SearchBoxHelp {...help} />
       </CSSTransitionLazy>
     )
   }
@@ -122,7 +165,7 @@ export default function SearchBox({ help, placeholder, query, setQuery }) {
 }
 
 SearchBox.propTypes = {
-  help: PropTypes.element,
+  help: PropTypes.shape(SearchBoxHelp.propTypes),
   placeholder: PropTypes.string.isRequired,
   query: PropTypes.string.isRequired,
   setQuery: PropTypes.func.isRequired,

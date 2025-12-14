@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useSearchParams } from 'react-router'
+import { useOutletContext, useSearchParams } from 'react-router'
 
 import { loadPlayerErrors } from 'actions/playlist'
 import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
+import SearchBox from 'components/generics/SearchBox'
 import PlayerErrorsEntry from 'components/playlist/playerErrors/Entry'
 import { Status } from 'reducers/alterationsResponse'
 
@@ -21,16 +22,14 @@ export default function PlayerErrorsList() {
 
   const dispatch = useDispatch()
 
+  const [searchBoxQuery, setSearchBoxQuery] = useOutletContext()
+
   useEffect(
     () => {
       // refresh the player errors immediately and if the page, the query, or
       // the hash changes
       if (playerErrorsStatus !== Status.pending) {
-        dispatch(
-          loadPlayerErrors({
-            page,
-          })
-        )
+        dispatch(loadPlayerErrors(page, query))
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -45,6 +44,16 @@ export default function PlayerErrorsList() {
 
   return (
     <div id="player-errors">
+      <SearchBox
+        placeholder="Search a song that failed to play"
+        query={searchBoxQuery}
+        setQuery={setSearchBoxQuery}
+        help={{
+          example: 'title',
+          fields: 'title, artist, work, owner, message',
+          withHash: true,
+        }}
+      />
       <ListingList
         status={playerErrorsStatus}
         transitionObservable={playerErrorsHash}

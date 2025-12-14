@@ -5,6 +5,7 @@ import { Link } from 'react-router'
 import { clearAlteration } from 'actions/alterations'
 import { deleteUser } from 'actions/users'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
+import HighlighterQuery from 'components/generics/HighlighterQuery'
 import Notification, {
   NotifiableForTable,
 } from 'components/generics/Notification'
@@ -15,6 +16,7 @@ import { userPropType } from 'serverPropTypes/users'
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
 export default function UsersEntry({ user }) {
+  const query = useSelector((state) => state.settings.users.list.data.query)
   const responseOfDelete = useSelector(
     (state) => state.alterationsResponse.multiple.deleteUser?.[user.id]
   )
@@ -63,7 +65,13 @@ export default function UsersEntry({ user }) {
           />
         </NotifiableForTable>
       </td>
-      <td className="username">{user.username}</td>
+      <td className="username">
+        <HighlighterQuery
+          query={query}
+          searchWords={(q) => q.remaining}
+          textToHighlight={user.username}
+        />
+      </td>
       <IsUsersManager user={authenticatedUser}>
         <td className="validated">
           <Checkmark enabled={user.validated_by_email} />

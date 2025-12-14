@@ -5,8 +5,8 @@ import { useOutletContext, useSearchParams } from 'react-router'
 import { loadLibraryEntries } from 'actions/library'
 import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
+import SearchBox from 'components/generics/SearchBox'
 import ArtistEntry from 'components/library/artist/Entry'
-import SearchBox from 'components/library/SearchBox'
 
 export default function ArtistList() {
   const artistState = useSelector((state) => state.library.artist)
@@ -23,12 +23,7 @@ export default function ArtistList() {
     () => {
       // refresh immediately, or if moved to a different page, or if the search query
       // changed
-      dispatch(
-        loadLibraryEntries('artists', {
-          page,
-          query,
-        })
-      )
+      dispatch(loadLibraryEntries('artists', page, query))
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [page, query]
@@ -47,6 +42,9 @@ export default function ArtistList() {
         placeholder="Who are you looking for?"
         query={searchBoxQuery}
         setQuery={setSearchBoxQuery}
+        help={{
+          example: 'artist',
+        }}
       />
       <ListingList fetchStatus={artistState.status} noTransition>
         {libraryEntryArtistList}
