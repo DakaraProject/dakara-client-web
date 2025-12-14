@@ -47,6 +47,9 @@ export default function ArtistList() {
         placeholder="Who are you looking for?"
         query={searchBoxQuery}
         setQuery={setSearchBoxQuery}
+        help={{
+          example: 'artist',
+        }}
       />
       <ListingList fetchStatus={artistState.status} noTransition>
         {libraryEntryArtistList}

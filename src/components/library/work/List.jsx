@@ -86,6 +86,9 @@ export default function WorkList() {
         placeholder={`What ${workType.name.toLowerCase()} do you want?`}
         query={searchBoxQuery}
         setQuery={setSearchBoxQuery}
+        help={{
+          example: workType.name.toLowerCase(),
+        }}
       />
       <ListingList fetchStatus={workState.status} noTransition>
         {libraryEntryWorkList}

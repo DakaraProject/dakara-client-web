@@ -65,29 +65,11 @@ export default function SongList() {
         placeholder="What will you sing?"
         query={searchBoxQuery}
         setQuery={setSearchBoxQuery}
-        help={
-          <>
-            <p>
-              You can obtain better results with the query search mini-language:
-            </p>
-            <ul>
-              <li>
-                Quotes to group words: <q>&quot;my artist&quot;</q>
-              </li>
-              <li>
-                Prefix and quotes to search in a specific field:{' '}
-                <q>artist:&quot;my artist&quot;</q>
-              </li>
-              <li>
-                Prefix and doubled quotes to search a specific field exactly:{' '}
-                <q>artist:&quot;&quot;my artist name&quot;&quot;</q>
-              </li>
-              <li>
-                Hash tag to target tags: <q>#tag</q>
-              </li>
-            </ul>
-          </>
-        }
+        help={{
+          example: 'title',
+          fields: 'title, artist, work',
+          withHash: true,
+        }}
       />
       <ListingList fetchStatus={songState.status} noTransition>
         {libraryEntrySongList}

@@ -53,6 +53,11 @@ export default function PlayerErrorsList() {
         placeholder="Search a song that failed to play"
         query={searchBoxQuery}
         setQuery={setSearchBoxQuery}
+        help={{
+          example: 'title',
+          fields: 'title, artist, work, owner, message',
+          withHash: true,
+        }}
       />
       <ListingList
         status={playerErrorsStatus}

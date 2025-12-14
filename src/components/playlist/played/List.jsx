@@ -53,6 +53,11 @@ export default function PlayedList() {
         placeholder="Search a song in passed playlist"
         query={searchBoxQuery}
         setQuery={setSearchBoxQuery}
+        help={{
+          example: 'title',
+          fields: 'title, artist, work, owner',
+          withHash: true,
+        }}
       />
       <ListingList
         fetchStatus={playlistPlayedStatus}

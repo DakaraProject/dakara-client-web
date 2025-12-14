@@ -81,6 +81,11 @@ export default function QueuingList() {
         placeholder="Search a song in playlist"
         query={searchBoxQuery}
         setQuery={setSearchBoxQuery}
+        help={{
+          example: 'title',
+          fields: 'title, artist, work, owner',
+          withHash: true,
+        }}
       />
       <ListingList
         fetchStatus={playlistQueuingStatus}
