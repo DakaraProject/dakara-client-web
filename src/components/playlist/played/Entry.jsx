@@ -13,6 +13,7 @@ import { playlistEntryPropType } from 'serverPropTypes/playlist'
 import { formatDateLong } from 'utils'
 
 export default function PlayedEntry({ entry }) {
+  const query = useSelector((state) => state.playlist.played.data.query)
   const playerErrorsDigestState = useSelector(
     (state) => state.playlist.digest.playerErrors
   )
@@ -83,9 +84,15 @@ export default function PlayedEntry({ entry }) {
       entryExpanded={entryExpanded}
     >
       {expanded ? (
-        <PlaylistEntryWidget entry={entry} noOwner noInstrumental truncatable />
+        <PlaylistEntryWidget
+          entry={entry}
+          query={query}
+          noOwner
+          noInstrumental
+          truncatable
+        />
       ) : (
-        <PlaylistEntryWidget entry={entry} truncatable />
+        <PlaylistEntryWidget entry={entry} query={query} truncatable />
       )}
     </ListingEntry>
   )

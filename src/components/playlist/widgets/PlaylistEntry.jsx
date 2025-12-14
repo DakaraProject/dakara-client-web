@@ -8,6 +8,7 @@ import { formatDateRelative } from 'utils'
 
 export default function PlaylistEntryWidget({
   entry,
+  query,
   truncatable,
   noOwner,
   noInstrumental,
@@ -58,13 +59,21 @@ export default function PlaylistEntryWidget({
     <div className={classNames('playlist-entry-widget', { truncatable })}>
       <SongWidget
         song={entry.song}
+        query={query}
         noRelations
         noDuration
         noTags
         truncatable
         {...songProps}
       />
-      {!noOwner && <UserWidget user={entry.owner} truncatable {...userProps} />}
+      {!noOwner && (
+        <UserWidget
+          user={entry.owner}
+          query={query}
+          truncatable
+          {...userProps}
+        />
+      )}
       {instrumental}
       {relativeDate}
     </div>
@@ -73,6 +82,7 @@ export default function PlaylistEntryWidget({
 
 PlaylistEntryWidget.propTypes = {
   entry: PropTypes.object.isRequired,
+  query: PropTypes.object,
   truncatable: PropTypes.bool,
   noOwner: PropTypes.bool,
   noInstrumental: PropTypes.bool,
