@@ -45,7 +45,7 @@ export default function PlayedList() {
   return (
     <div id="played">
       <SearchBox
-        placeholder="Search a song in passed playlist"
+        placeholder="Search a song played in the playlist"
         query={searchBoxQuery}
         setQuery={setSearchBoxQuery}
         help={{

@@ -73,7 +73,7 @@ export default function QueuingList() {
   return (
     <div id="queuing">
       <SearchBox
-        placeholder="Search a song in playlist"
+        placeholder="Search a song queued in the playlist"
         query={searchBoxQuery}
         setQuery={setSearchBoxQuery}
         help={{
