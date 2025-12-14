@@ -1,4 +1,4 @@
-import { setState } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router'
 
@@ -8,7 +8,7 @@ export default function Register() {
   const isLoggedIn = useSelector((state) => !!state.token)
   const serverSettings = useSelector((state) => state.internal.serverSettings)
 
-  const [created, setCreated] = setState(false)
+  const [created, setCreated] = useState(false)
 
   if (isLoggedIn) {
     return <Navigate to="/" replace />
