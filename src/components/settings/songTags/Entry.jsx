@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { clearAlteration } from 'actions/alterations'
 import { editSongTag } from 'actions/songTags'
 import { CheckboxField, FormInline, HueField } from 'components/generics/Form'
+import HighlighterQuery from 'components/generics/HighlighterQuery'
 import Notification, {
   NotifiableForTable,
 } from 'components/generics/Notification'
@@ -15,6 +16,7 @@ import { songTagPropType } from 'serverPropTypes/library'
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
 export default function SongTagsEntry({ tag, editable }) {
+  const query = useSelector((state) => state.settings.songTags.data.query)
   const responseOfEdit = useSelector(
     (state) => state.alterationsResponse.multiple.editSongTag?.[tag.id]
   )
@@ -167,7 +169,13 @@ export default function SongTagsEntry({ tag, editable }) {
           </CSSTransitionLazy>
         </NotifiableForTable>
       </td>
-      <td className="name">{tag.name}</td>
+      <td className="name">
+        <HighlighterQuery
+          query={query}
+          searchWords={(q) => q.remaining}
+          textToHighlight={tag.name}
+        />
+      </td>
       <td className={classNames('enableness', { 'controls-col': editable })}>
         {enablenessWidget}
       </td>

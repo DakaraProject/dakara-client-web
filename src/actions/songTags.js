@@ -1,3 +1,5 @@
+import queryString from 'query-string'
+
 import {
   ALTERATION_FAILURE,
   ALTERATION_REQUEST,
@@ -20,13 +22,19 @@ export const TAG_LIST_FAILURE = 'TAG_LIST_FAILURE'
  * Request to retrieve song tag list
  * @param page page to display
  */
-export const getSongTagList = (page = 1) => ({
-  [FETCH_API]: {
-    endpoint: `${baseUrl}/library/song-tags/?page=${page}`,
-    method: 'GET',
-    types: [TAG_LIST_REQUEST, TAG_LIST_SUCCESS, TAG_LIST_FAILURE],
-  },
-})
+export const loadSongTags = ({ page = 1, query }) => {
+  const queryStr = queryString.stringify({
+    page,
+    ...(query && { query }),
+  })
+  return {
+    [FETCH_API]: {
+      endpoint: `${baseUrl}/library/song-tags/?${queryStr}`,
+      method: 'GET',
+      types: [TAG_LIST_REQUEST, TAG_LIST_SUCCESS, TAG_LIST_FAILURE],
+    },
+  }
+}
 
 /**
  * Edit song tag
