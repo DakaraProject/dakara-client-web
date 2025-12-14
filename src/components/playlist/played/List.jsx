@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useSearchParams } from 'react-router'
+import { useOutletContext, useSearchParams } from 'react-router'
 
 import { loadPlaylistEntries } from 'actions/playlist'
 import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
+import SearchBox from 'components/library/SearchBox'
 import PlayedEntry from 'components/playlist/played/Entry'
 import { Status } from 'reducers/alterationsResponse'
 
@@ -21,6 +22,8 @@ export default function PlayedList() {
 
   const dispatch = useDispatch()
 
+  const [searchBoxQuery, setSearchBoxQuery] = useOutletContext()
+
   useEffect(
     () => {
       // refresh the played playlist immediately and if the page, the query, or
@@ -29,6 +32,7 @@ export default function PlayedList() {
         dispatch(
           loadPlaylistEntries('played', {
             page,
+            query,
           })
         )
       }
@@ -45,6 +49,11 @@ export default function PlayedList() {
 
   return (
     <div id="played">
+      <SearchBox
+        placeholder="Search a song in passed playlist"
+        query={searchBoxQuery}
+        setQuery={setSearchBoxQuery}
+      />
       <ListingList
         fetchStatus={playlistPlayedStatus}
         transitionObservable={playedEntriesHash}

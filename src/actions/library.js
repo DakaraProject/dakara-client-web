@@ -30,7 +30,7 @@ const fetchLibraryEntries = (url, libraryType, workType) => ({
  */
 export const loadLibraryEntries = (library, { query, page = 1, type } = {}) => {
   const queryStr = queryString.stringify({
-    ...(page && { page }),
+    page,
     ...(query && { query }),
     ...(type && { type }),
   })

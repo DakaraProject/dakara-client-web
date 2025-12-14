@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useSearchParams } from 'react-router'
+import { useOutletContext, useSearchParams } from 'react-router'
 
 import { loadPlaylistEntries } from 'actions/playlist'
 import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
+import SearchBox from 'components/library/SearchBox'
 import QueuingEntry from 'components/playlist/queuing/Entry'
 import { Status } from 'reducers/alterationsResponse'
 
@@ -21,6 +22,8 @@ export default function QueuingList() {
 
   const dispatch = useDispatch()
 
+  const [searchBoxQuery, setSearchBoxQuery] = useOutletContext()
+
   useEffect(
     () => {
       // refresh the queuing playlist immediately and if the page, the query,
@@ -29,6 +32,7 @@ export default function QueuingList() {
         dispatch(
           loadPlaylistEntries('queuing', {
             page,
+            query,
           })
         )
       }
@@ -73,6 +77,11 @@ export default function QueuingList() {
 
   return (
     <div id="queuing">
+      <SearchBox
+        placeholder="Search a song in playlist"
+        query={searchBoxQuery}
+        setQuery={setSearchBoxQuery}
+      />
       <ListingList
         fetchStatus={playlistQueuingStatus}
         transitionObservable={queuingEntriesHash}
