@@ -6,7 +6,7 @@ import { useOutletContext, useSearchParams } from 'react-router'
 import { loadLibraryEntries } from 'actions/library'
 import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
-import SearchBox from 'components/library/SearchBox'
+import SearchBox from 'components/generics/SearchBox'
 import SongEntry from 'components/library/song/Entry'
 
 export default function SongList() {

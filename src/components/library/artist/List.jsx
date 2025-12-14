@@ -5,8 +5,8 @@ import { useOutletContext, useSearchParams } from 'react-router'
 import { loadLibraryEntries } from 'actions/library'
 import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
+import SearchBox from 'components/generics/SearchBox'
 import ArtistEntry from 'components/library/artist/Entry'
-import SearchBox from 'components/library/SearchBox'
 
 export default function ArtistList() {
   const artistState = useSelector((state) => state.library.artist)

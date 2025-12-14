@@ -5,7 +5,7 @@ import { useOutletContext, useSearchParams } from 'react-router'
 import { loadPlaylistEntries } from 'actions/playlist'
 import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
-import SearchBox from 'components/library/SearchBox'
+import SearchBox from 'components/generics/SearchBox'
 import PlayedEntry from 'components/playlist/played/Entry'
 import { Status } from 'reducers/alterationsResponse'
 
