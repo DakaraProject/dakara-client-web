@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import queryString from 'query-string'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useSearchParams } from 'react-router'
+import { Link, useSearchParams } from 'react-router'
 
 import { clearAlteration } from 'actions/alterations'
 import { removeEntryFromPlaylist, reorderPlaylistEntry } from 'actions/playlist'
@@ -63,8 +63,6 @@ export default function QueuingEntry({ entry, positions }) {
 
   const dispatch = useDispatch()
 
-  const navigate = useNavigate()
-
   const [confirmDisplayed, setConfirmDisplayed] = useState(false)
 
   useEffect(
@@ -75,20 +73,6 @@ export default function QueuingEntry({ entry, positions }) {
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
-  )
-
-  const handleSearch = useCallback(
-    () => {
-      navigate({
-        pathname: '/library/song',
-        search: queryString.stringify({
-          query: `title:""${entry.song.title}""`,
-          expanded: entry.song.id,
-        }),
-      })
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [entry]
   )
 
   const cancelReorder = useCallback(
@@ -208,6 +192,24 @@ export default function QueuingEntry({ entry, positions }) {
   const expanded = reorderId === entry.id
   const inReorder = !(isNaN(reorderId) || isNaN(reorderIndex))
 
+  const controlSearch = (
+    <Link
+      key="search"
+      className="control square primary"
+      to={{
+        pathname: '/library/song',
+        search: queryString.stringify({
+          query: `title:""${entry.song.title}""`,
+          expanded: entry.song.id,
+        }),
+      }}
+    >
+      <span className="icon">
+        <i className="las la-search"></i>
+      </span>
+    </Link>
+  )
+
   const controlsExpanded = [
     <IsPlaylistManager user={user} key="reorder">
       <CSSTransitionLazy
@@ -238,17 +240,7 @@ export default function QueuingEntry({ entry, positions }) {
         className={inReorder ? 'la-ban' : 'la-arrows-alt-v'}
       />
     </IsPlaylistManager>,
-    <button
-      key="search"
-      className="control square primary"
-      onClick={() => {
-        handleSearch()
-      }}
-    >
-      <span className="icon">
-        <i className="las la-search"></i>
-      </span>
-    </button>,
+    controlSearch,
     <IsPlaylistManagerOrOwner user={user} object={entry} key="remove">
       <button
         className="control square danger"
@@ -290,17 +282,7 @@ export default function QueuingEntry({ entry, positions }) {
         </div>
       </CSSTransitionLazy>
     </IsPlaylistManager>,
-    <button
-      key="search"
-      className="control square primary"
-      onClick={() => {
-        handleSearch()
-      }}
-    >
-      <span className="icon">
-        <i className="las la-search"></i>
-      </span>
-    </button>,
+    controlSearch,
   ]
 
   const notifications = [

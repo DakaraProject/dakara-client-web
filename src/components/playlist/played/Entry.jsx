@@ -1,6 +1,6 @@
 import queryString from 'query-string'
 import { useSelector } from 'react-redux'
-import { useNavigate, useSearchParams } from 'react-router'
+import { Link, useSearchParams } from 'react-router'
 
 import { Details, DetailText } from 'components/generics/Details'
 import {
@@ -18,7 +18,6 @@ export default function PlayedEntry({ entry }) {
     (state) => state.playlist.digest.playerErrors
   )
 
-  const navigate = useNavigate()
   const [searchParams, _] = useSearchParams()
 
   const expanded = parseInt(searchParams.get('expanded')) === entry.id
@@ -39,22 +38,20 @@ export default function PlayedEntry({ entry }) {
   }
 
   const controls = (
-    <button
+    <Link
       className="control square primary"
-      onClick={() => {
-        navigate({
-          pathname: '/library/song',
-          search: queryString.stringify({
-            query: `title:""${entry.song.title}""`,
-            expanded: entry.song.id,
-          }),
-        })
+      to={{
+        pathname: '/library/song',
+        search: queryString.stringify({
+          query: `title:""${entry.song.title}""`,
+          expanded: entry.song.id,
+        }),
       }}
     >
       <span className="icon">
         <i className="las la-search"></i>
       </span>
-    </button>
+    </Link>
   )
 
   const entryExpanded = (

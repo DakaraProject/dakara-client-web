@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import queryString from 'query-string'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router'
+import { Link } from 'react-router'
 
 import {
   DetailLongText,
@@ -22,46 +22,42 @@ dayjs.extend(localizedFormat)
 export default function PlayerErrorsEntry({ playerError }) {
   const query = useSelector((state) => state.playlist.playerErrors.data.query)
 
-  const navigate = useNavigate()
-
   const {
     playlist_entry: entry,
     error_message: message,
     date_created: date,
   } = playerError
 
-  const controls = (
-    <button
+  const controlSearch = (
+    <Link
       key="search-song"
       className="control square primary"
-      onClick={() => {
-        navigate({
-          pathname: '/library/song',
-          search: queryString.stringify({
-            query: `title:""${entry.song.title}""`,
-            expanded: entry.song.id,
-          }),
-        })
+      to={{
+        pathname: '/library/song',
+        search: queryString.stringify({
+          query: `title:""${entry.song.title}""`,
+          expanded: entry.song.id,
+        }),
       }}
     >
       <span className="icon">
         <i className="las la-search"></i>
       </span>
-    </button>
+    </Link>
   )
 
+  const controls = [controlSearch]
+
   const controlsExpanded = [
-    <button
+    <Link
       key="search-entry"
       className="control square primary"
-      onClick={() => {
-        navigate({
-          pathname: '/playlist/played',
-          search: queryString.stringify({
-            query: `id:""${entry.id}""`,
-            expanded: entry.id,
-          }),
-        })
+      to={{
+        pathname: '/playlist/played',
+        search: queryString.stringify({
+          query: `id:""${entry.id}""`,
+          expanded: entry.id,
+        }),
       }}
     >
       <span className="icon with-sub-icon">
@@ -70,8 +66,8 @@ export default function PlayerErrorsEntry({ playerError }) {
           <i className="las la-list-ol"></i>
         </span>
       </span>
-    </button>,
-    controls,
+    </Link>,
+    controlSearch,
   ]
 
   const entryExpanded = (
