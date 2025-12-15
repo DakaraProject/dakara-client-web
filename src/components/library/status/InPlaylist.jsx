@@ -80,17 +80,17 @@ export default function InPlaylist({
       if (expanded) {
         if (playerStatus.paused) {
           message = (
-            <div className="message">
+            <span className="message">
               This song is requested by <UserWidget user={entry.owner} /> and is
               currently on pause
-            </div>
+            </span>
           )
         } else {
           message = (
-            <div className="message">
+            <span className="message">
               This song is requested by <UserWidget user={entry.owner} /> and is
               currently playing
-            </div>
+            </span>
           )
         }
       }
@@ -100,7 +100,7 @@ export default function InPlaylist({
       main = <Queuing entry={entry} />
       if (expanded) {
         message = (
-          <div className="message">
+          <span className="message">
             This song is requested by <UserWidget user={entry.owner} /> and{' '}
             <Link
               to={{
@@ -114,7 +114,7 @@ export default function InPlaylist({
               will play
             </Link>{' '}
             {formatDateRelative(entry.date_play)}
-          </div>
+          </span>
         )
       }
       break
