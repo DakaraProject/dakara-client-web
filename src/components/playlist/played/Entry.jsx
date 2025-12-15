@@ -27,13 +27,15 @@ export default function PlayedEntry({ entry }) {
   const extraExpanded = []
 
   // has an error
-  if (
-    playerErrorsDigestState.data.playerErrors.find(
-      (e) => e.playlist_entry.id === entry.id
+
+  const playerError = playerErrorsDigestState.data.playerErrors.find(
+    (e) => e.playlist_entry.id === entry.id
+  )
+  if (playerError) {
+    extra.push(<HasError playerError={playerError} key="has-error" />)
+    extraExpanded.push(
+      <HasError playerError={playerError} key="has-error" expanded />
     )
-  ) {
-    extra.push(<HasError key="has-error" />)
-    extraExpanded.push(<HasError key="has-error" expanded />)
   }
 
   const controls = (

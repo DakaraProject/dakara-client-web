@@ -1,11 +1,24 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router'
 
-export default function HasError({ expanded }) {
+import { playerErrorPropType } from 'serverPropTypes/playlist'
+
+export default function HasError({ playerError, expanded }) {
   let message
   if (expanded) {
     message = (
-      <span className="message">This playlist entry encountered an error.</span>
+      <span className="message">
+        This playlist entry encountered{' '}
+        <Link
+          to={{
+            pathname: '/playlist/player-errors',
+            search: `query=id:${playerError.id}&expanded=${playerError.id}`,
+          }}
+        >
+          an error
+        </Link>{' '}
+      </span>
     )
   }
   return (
@@ -24,4 +37,5 @@ export default function HasError({ expanded }) {
 
 HasError.propTypes = {
   expanded: PropTypes.bool,
+  playerError: playerErrorPropType.isRequired,
 }
