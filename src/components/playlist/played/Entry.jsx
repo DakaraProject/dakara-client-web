@@ -26,7 +26,6 @@ export default function PlayedEntry({ entry }) {
   const extraExpanded = []
 
   // has an error
-
   const playerError = playerErrorsDigestState.data.playerErrors.find(
     (e) => e.playlist_entry.id === entry.id
   )
