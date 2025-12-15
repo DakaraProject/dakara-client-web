@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
+import queryString from 'query-string'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router'
 
@@ -124,7 +125,10 @@ export default function InPlaylist({
             <Link
               to={{
                 pathname: '/playlist/played',
-                search: `query=id:${entry.id}&expanded=${entry.id}`,
+                search: queryString.stringify({
+                  query: `id:${entry.id}`,
+                  expanded: entry.id,
+                }),
               }}
             >
               played

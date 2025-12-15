@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
+import queryString from 'query-string'
 import { Link } from 'react-router'
 
 import { playerErrorPropType } from 'serverPropTypes/playlist'
@@ -13,7 +14,10 @@ export default function HasError({ playerError, expanded }) {
         <Link
           to={{
             pathname: '/playlist/player-errors',
-            search: `query=id:${playerError.id}&expanded=${playerError.id}`,
+            search: queryString.stringify({
+              query: `id:${playerError.id}`,
+              expanded: playerError.id,
+            }),
           }}
         >
           an error
