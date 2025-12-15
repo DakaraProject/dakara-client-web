@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router'
 
 import UserWidget from 'components/user/widgets/User'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
@@ -78,17 +79,17 @@ export default function InPlaylist({
       if (expanded) {
         if (playerStatus.paused) {
           message = (
-            <span className="message">
+            <div className="message">
               This song is requested by <UserWidget user={entry.owner} /> and is
               currently on pause
-            </span>
+            </div>
           )
         } else {
           message = (
-            <span className="message">
+            <div className="message">
               This song is requested by <UserWidget user={entry.owner} /> and is
               currently playing
-            </span>
+            </div>
           )
         }
       }
@@ -98,10 +99,18 @@ export default function InPlaylist({
       main = <Queuing entry={entry} />
       if (expanded) {
         message = (
-          <span className="message">
-            This song is requested by <UserWidget user={entry.owner} /> and will
-            play {formatDateRelative(entry.date_play)}
-          </span>
+          <div className="message">
+            This song is requested by <UserWidget user={entry.owner} /> and{' '}
+            <Link
+              to={{
+                pathname: '/playlist/queuing',
+                search: `query=id:${entry.id}&expanded=${entry.id}`,
+              }}
+            >
+              will play
+            </Link>{' '}
+            {formatDateRelative(entry.date_play)}
+          </div>
         )
       }
       break
@@ -110,10 +119,18 @@ export default function InPlaylist({
       main = <Played entry={entry} />
       if (expanded) {
         message = (
-          <span className="message">
-            This song was requested by <UserWidget user={entry.owner} /> and
-            played {formatDateRelative(entry.date_play)}
-          </span>
+          <div className="message">
+            This song was requested by <UserWidget user={entry.owner} /> and{' '}
+            <Link
+              to={{
+                pathname: '/playlist/played',
+                search: `query=id:${entry.id}&expanded=${entry.id}`,
+              }}
+            >
+              played
+            </Link>{' '}
+            {formatDateRelative(entry.date_play)}
+          </div>
         )
       }
   }
