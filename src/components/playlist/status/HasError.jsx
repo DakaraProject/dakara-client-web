@@ -15,7 +15,7 @@ export default function HasError({ playerError, expanded }) {
           to={{
             pathname: '/playlist/player-errors',
             search: queryString.stringify({
-              query: `id:${playerError.id}`,
+              query: `id:""${playerError.id}""`,
               expanded: playerError.id,
             }),
           }}

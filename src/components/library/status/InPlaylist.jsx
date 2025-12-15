@@ -105,7 +105,10 @@ export default function InPlaylist({
             <Link
               to={{
                 pathname: '/playlist/queuing',
-                search: `query=id:${entry.id}&expanded=${entry.id}`,
+                search: queryString.stringify({
+                  query: `id:""${entry.id}""`,
+                  expanded: entry.id,
+                }),
               }}
             >
               will play
@@ -126,7 +129,7 @@ export default function InPlaylist({
               to={{
                 pathname: '/playlist/played',
                 search: queryString.stringify({
-                  query: `id:${entry.id}`,
+                  query: `id:""${entry.id}""`,
                   expanded: entry.id,
                 }),
               }}
