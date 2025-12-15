@@ -123,7 +123,7 @@ export default function InPlaylist({
       main = <Played entry={entry} />
       if (expanded) {
         message = (
-          <div className="message">
+          <span className="message">
             This song was requested by <UserWidget user={entry.owner} /> and{' '}
             <Link
               to={{
@@ -137,7 +137,7 @@ export default function InPlaylist({
               played
             </Link>{' '}
             {formatDateRelative(entry.date_play)}
-          </div>
+          </span>
         )
       }
   }
