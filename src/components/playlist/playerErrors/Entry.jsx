@@ -32,6 +32,7 @@ export default function PlayerErrorsEntry({ playerError }) {
 
   const controls = (
     <button
+      key="search-song"
       className="control square primary"
       onClick={() => {
         navigate({
@@ -49,8 +50,32 @@ export default function PlayerErrorsEntry({ playerError }) {
     </button>
   )
 
+  const controlsExpanded = [
+    <button
+      key="search-entry"
+      className="control square primary"
+      onClick={() => {
+        navigate({
+          pathname: '/playlist/played',
+          search: queryString.stringify({
+            query: `id:""${entry.id}""`,
+            expanded: entry.id,
+          }),
+        })
+      }}
+    >
+      <span className="icon with-sub-icon">
+        <i style={{}} className="las la-search"></i>
+        <span className="sub-icon bottom-right">
+          <i className="las la-list-ol"></i>
+        </span>
+      </span>
+    </button>,
+    controls,
+  ]
+
   const entryExpanded = (
-    <ListingEntryExpanded controls={controls}>
+    <ListingEntryExpanded controls={controlsExpanded}>
       <Details>
         <DetailText icon="la-clock" name="Error at">
           {dayjs(date).format('L LTS')}
