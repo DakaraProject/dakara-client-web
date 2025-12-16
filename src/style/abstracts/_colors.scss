@@ -212,6 +212,10 @@ $neutral-502: color.adjust($neutral-500, $lightness: 0.05);
   }
   @if $color {
     color: $color;
+
+    a {
+      color: unset;
+    }
   }
 
   &::selection,
@@ -220,6 +224,12 @@ $neutral-502: color.adjust($neutral-500, $lightness: 0.05);
       background: $background-selection;
     }
     @if $color-selection {
+      color: $color-selection;
+    }
+  }
+
+  @if $color-selection {
+    a:hover {
       color: $color-selection;
     }
   }

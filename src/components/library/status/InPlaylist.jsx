@@ -1,6 +1,8 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
+import queryString from 'query-string'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router'
 
 import UserWidget from 'components/user/widgets/User'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
@@ -99,8 +101,19 @@ export default function InPlaylist({
       if (expanded) {
         message = (
           <span className="message">
-            This song is requested by <UserWidget user={entry.owner} /> and will
-            play {formatDateRelative(entry.date_play)}
+            This song is requested by <UserWidget user={entry.owner} /> and{' '}
+            <Link
+              to={{
+                pathname: '/playlist/queuing',
+                search: queryString.stringify({
+                  query: `id:""${entry.id}""`,
+                  expanded: entry.id,
+                }),
+              }}
+            >
+              will play
+            </Link>{' '}
+            {formatDateRelative(entry.date_play)}
           </span>
         )
       }
@@ -111,8 +124,19 @@ export default function InPlaylist({
       if (expanded) {
         message = (
           <span className="message">
-            This song was requested by <UserWidget user={entry.owner} /> and
-            played {formatDateRelative(entry.date_play)}
+            This song was requested by <UserWidget user={entry.owner} /> and{' '}
+            <Link
+              to={{
+                pathname: '/playlist/played',
+                search: queryString.stringify({
+                  query: `id:""${entry.id}""`,
+                  expanded: entry.id,
+                }),
+              }}
+            >
+              played
+            </Link>{' '}
+            {formatDateRelative(entry.date_play)}
           </span>
         )
       }

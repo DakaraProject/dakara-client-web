@@ -22,8 +22,13 @@
     position: absolute;
 
     &.top-right {
-      right: -0.6em;
-      top: -0.5em;
+      right: -0.7rem;
+      top: -0.7rem;
+    }
+
+    &.bottom-right {
+      bottom: -0.7rem;
+      right: -0.7rem;
     }
   }
 }
