@@ -30,7 +30,7 @@ export const WorkLinkName = Object.freeze({
  * Generators for library content
  */
 
-const generateDefaultLibrary = (libraryKey) => ({
+const generateLibraryDefaultState = (libraryKey) => ({
   status: null,
   data: {
     pagination: {
@@ -43,10 +43,9 @@ const generateDefaultLibrary = (libraryKey) => ({
   },
 })
 
-const generateLibraryReducer = (libraryType) => {
-  const defaultLibrary = generateDefaultLibrary(libraryType)
-
-  return (state = defaultLibrary, action) => {
+const generateLibraryReducer =
+  (libraryType, defaultState) =>
+  (state = defaultState, action) => {
     if (action.libraryType !== libraryType) {
       return state
     }
@@ -67,32 +66,33 @@ const generateLibraryReducer = (libraryType) => {
       case LIBRARY_FAILURE:
         return {
           status: Status.failed,
-          data: defaultLibrary.data,
+          data: defaultState.data,
         }
 
       default:
         return state
     }
   }
-}
 
 /**
  * Song library
  */
 
-const song = generateLibraryReducer('songs')
+const songLibraryDefaultState = generateLibraryDefaultState('songs')
+const song = generateLibraryReducer('songs', songLibraryDefaultState)
 
 /**
  * Artist library
  */
 
-const artist = generateLibraryReducer('artists')
+const artistLibraryDefaultState = generateLibraryDefaultState('artists')
+const artist = generateLibraryReducer('artists', artistLibraryDefaultState)
 
 /**
  * Work library
  */
 
-const defaultWork = generateDefaultLibrary('works')
+const defaultWork = generateLibraryDefaultState('works')
 
 function works(state = {}, action) {
   // create works when work types have been successfuly fetched
