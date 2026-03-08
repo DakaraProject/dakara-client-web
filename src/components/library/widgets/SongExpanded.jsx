@@ -154,7 +154,10 @@ export default function SongExpanded({ query, song }) {
         icon="la-align-left"
         name="Lyrics"
         onExpand={() => {
-          dispatch(loadSongLyrics(song.id))
+          // only fetch full lyrics if there is more to display
+          if (song.lyrics_preview.truncated) {
+            dispatch(loadSongLyrics(song.id))
+          }
         }}
       >
         {song.lyrics_preview.text}
