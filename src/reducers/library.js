@@ -4,6 +4,9 @@ import {
   LIBRARY_FAILURE,
   LIBRARY_REQUEST,
   LIBRARY_SUCCESS,
+  SONG_LYRICS_FAILURE,
+  SONG_LYRICS_REQUEST,
+  SONG_LYRICS_SUCCESS,
   WORK_TYPES_FAILURE,
   WORK_TYPES_REQUEST,
   WORK_TYPES_SUCCESS,
@@ -79,7 +82,47 @@ const generateLibraryReducer =
  */
 
 const songLibraryDefaultState = generateLibraryDefaultState('songs')
-const song = generateLibraryReducer('songs', songLibraryDefaultState)
+const songDefaultState = {
+  ...songLibraryDefaultState,
+  statusLyrics: null,
+}
+const songLibraryReducer = generateLibraryReducer('songs', songDefaultState)
+const song = (stateLibrary = songDefaultState, action) => {
+  const state = songLibraryReducer(stateLibrary, action)
+
+  switch (action.type) {
+    case SONG_LYRICS_REQUEST:
+      return {
+        ...state,
+        statusLyrics: Status.pending,
+      }
+
+    case SONG_LYRICS_SUCCESS: {
+      // add the lyrics to the corresponding song
+      const songs = window.structuredClone(state.data.songs)
+      const songId = songs.findIndex((song) => song.id === action.response.id)
+      songs[songId].lyrics_preview.text = action.response.lyrics
+
+      return {
+        ...state,
+        statusLyrics: Status.successful,
+        data: {
+          ...state.data,
+          songs,
+        },
+      }
+    }
+
+    case SONG_LYRICS_FAILURE:
+      return {
+        ...state,
+        statusLyrics: Status.failed,
+      }
+
+    default:
+      return state
+  }
+}
 
 /**
  * Artist library

@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
 import { useSearchParams } from 'react-router'
 
+import { loadSongLyrics } from 'actions/library'
 import {
   DetailAny,
   DetailLongText,
@@ -17,6 +19,7 @@ import { songPropType } from 'serverPropTypes/library'
 
 export default function SongExpanded({ query, song }) {
   const [_, setSearchParams] = useSearchParams()
+  const dispatch = useDispatch()
 
   // Method used by child components WorkEntry and ArtistsEnty to set new
   // search criteria
@@ -147,7 +150,13 @@ export default function SongExpanded({ query, song }) {
   let lyrics
   if (song.lyrics_preview) {
     lyrics = (
-      <DetailLongText icon="la-align-left" name="Lyrics">
+      <DetailLongText
+        icon="la-align-left"
+        name="Lyrics"
+        onExpand={() => {
+          dispatch(loadSongLyrics(song.id))
+        }}
+      >
         {song.lyrics_preview.text}
       </DetailLongText>
     )
