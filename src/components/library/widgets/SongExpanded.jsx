@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useSearchParams } from 'react-router'
 
 import { loadSongLyrics } from 'actions/library'
@@ -15,11 +15,15 @@ import ListingList from 'components/generics/listing/List'
 import SongTagList from 'components/library/SongTagList'
 import ArtistWidget from 'components/library/widgets/Artist'
 import WorkLinkWidget from 'components/library/widgets/WorkLink'
+import { Status } from 'reducers/alterationsResponse'
 import { songPropType } from 'serverPropTypes/library'
 
 export default function SongExpanded({ query, song }) {
   const [_, setSearchParams] = useSearchParams()
   const dispatch = useDispatch()
+  const statusLyrics = useSelector(
+    (state) => state.library.song.statusesLyrics[song.id]
+  )
 
   // Method used by child components WorkEntry and ArtistsEnty to set new
   // search criteria
@@ -154,8 +158,12 @@ export default function SongExpanded({ query, song }) {
         icon="la-align-left"
         name="Lyrics"
         onExpand={() => {
-          // only fetch full lyrics if there is more to display
-          if (song.lyrics_preview.truncated) {
+          // only fetch full lyrics if there is more to display, and if not
+          // fetched already
+          if (
+            song.lyrics_preview.truncated &&
+            statusLyrics !== Status.successful
+          ) {
             dispatch(loadSongLyrics(song.id))
           }
         }}

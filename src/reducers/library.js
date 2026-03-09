@@ -62,12 +62,14 @@ const generateLibraryReducer =
 
       case LIBRARY_SUCCESS:
         return {
+          ...state,
           status: Status.successful,
           data: updateData(action.response, libraryType),
         }
 
       case LIBRARY_FAILURE:
         return {
+          ...state,
           status: Status.failed,
           data: defaultState.data,
         }
@@ -84,7 +86,7 @@ const generateLibraryReducer =
 const songLibraryDefaultState = generateLibraryDefaultState('songs')
 const songDefaultState = {
   ...songLibraryDefaultState,
-  statusLyrics: null,
+  statusesLyrics: {},
 }
 const songLibraryReducer = generateLibraryReducer('songs', songDefaultState)
 const song = (stateLibrary = songDefaultState, action) => {
@@ -94,18 +96,24 @@ const song = (stateLibrary = songDefaultState, action) => {
     case SONG_LYRICS_REQUEST:
       return {
         ...state,
-        statusLyrics: Status.pending,
+        statusesLyrics: {
+          ...state.statusesLyrics,
+          [action.id]: Status.pending,
+        },
       }
 
     case SONG_LYRICS_SUCCESS: {
       // add the lyrics to the corresponding song
       const songs = window.structuredClone(state.data.songs)
-      const songId = songs.findIndex((song) => song.id === action.response.id)
+      const songId = songs.findIndex((song) => song.id === action.id)
       songs[songId].lyrics_preview.text = action.response.lyrics
 
       return {
         ...state,
-        statusLyrics: Status.successful,
+        statusesLyrics: {
+          ...state.statusesLyrics,
+          [action.id]: Status.successful,
+        },
         data: {
           ...state.data,
           songs,
@@ -116,8 +124,22 @@ const song = (stateLibrary = songDefaultState, action) => {
     case SONG_LYRICS_FAILURE:
       return {
         ...state,
-        statusLyrics: Status.failed,
+        statusesLyrics: {
+          ...state.statusesLyrics,
+          [action.id]: Status.failed,
+        },
       }
+
+    case LIBRARY_REQUEST:
+      if (action.libraryType === 'songs') {
+        // reset lyrics statuses as the list of songs is being fetched
+        return {
+          ...state,
+          statusesLyrics: [],
+        }
+      }
+
+      return state
 
     default:
       return state

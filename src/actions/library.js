@@ -59,6 +59,7 @@ export const loadSongLyrics = (id) => {
       method: 'GET',
       types: [SONG_LYRICS_REQUEST, SONG_LYRICS_SUCCESS, SONG_LYRICS_FAILURE],
     },
+    id,
   }
 }
 
