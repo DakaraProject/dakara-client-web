@@ -114,7 +114,7 @@
 
           &.reveal-enter-active {
             max-height: 10 * $height;
-            transition: max-height 300ms ease-out;
+            transition: max-height 600ms ease-out;
 
             .paragraph {
               -webkit-line-clamp: none;
