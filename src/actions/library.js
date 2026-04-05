@@ -41,6 +41,42 @@ export const loadLibraryEntries = (library, page = 1, query, type) => {
 }
 
 /**
+ * Get song lyrics
+ */
+
+export const SONG_LYRICS_REQUEST = 'SONG_LYRICS_REQUEST'
+export const SONG_LYRICS_SUCCESS = 'SONG_LYRICS_SUCCESS'
+export const SONG_LYRICS_FAILURE = 'SONG_LYRICS_FAILURE'
+
+/**
+ * Load song lyrics from the server
+ * @param id ID of the song to get lyrics from
+ */
+export const loadSongLyrics = (id) => ({
+  [FETCH_API]: {
+    endpoint: `${baseUrl}/library/songs/lyrics/${id}/`,
+    method: 'GET',
+    types: [SONG_LYRICS_REQUEST, SONG_LYRICS_SUCCESS, SONG_LYRICS_FAILURE],
+  },
+  id,
+})
+
+/**
+ * Clear song lyrics status
+ */
+
+export const SONG_LYRICS_STATUS_CLEAR = 'SONG_LYRICS_STATUS_CLEAR'
+
+/**
+ * Clear song lyrics status in state
+ * @param id ID of the song.
+ */
+export const clearSongLyricsStatus = (id) => ({
+  type: SONG_LYRICS_STATUS_CLEAR,
+  id,
+})
+
+/**
  * Get work types
  */
 

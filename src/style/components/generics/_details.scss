@@ -114,7 +114,7 @@
 
           &.reveal-enter-active {
             max-height: 10 * $height;
-            transition: max-height 300ms ease-out;
+            transition: max-height 600ms ease-out;
 
             .paragraph {
               -webkit-line-clamp: none;
@@ -138,6 +138,13 @@
           line-clamp: 4;
           overflow: hidden;
           white-space: pre-wrap;
+        }
+
+        .notified {
+          // display at the bottom of the field
+          bottom: 0;
+          height: $height;
+          top: unset;
         }
 
         > .controls {

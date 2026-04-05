@@ -4,6 +4,10 @@ import {
   LIBRARY_FAILURE,
   LIBRARY_REQUEST,
   LIBRARY_SUCCESS,
+  SONG_LYRICS_FAILURE,
+  SONG_LYRICS_REQUEST,
+  SONG_LYRICS_STATUS_CLEAR,
+  SONG_LYRICS_SUCCESS,
   WORK_TYPES_FAILURE,
   WORK_TYPES_REQUEST,
   WORK_TYPES_SUCCESS,
@@ -30,7 +34,7 @@ export const WorkLinkName = Object.freeze({
  * Generators for library content
  */
 
-const generateDefaultLibrary = (libraryKey) => ({
+const generateLibraryDefaultState = (libraryKey) => ({
   status: null,
   data: {
     pagination: {
@@ -43,10 +47,9 @@ const generateDefaultLibrary = (libraryKey) => ({
   },
 })
 
-const generateLibraryReducer = (libraryType) => {
-  const defaultLibrary = generateDefaultLibrary(libraryType)
-
-  return (state = defaultLibrary, action) => {
+const generateLibraryReducer =
+  (libraryType, defaultState) =>
+  (state = defaultState, action) => {
     if (action.libraryType !== libraryType) {
       return state
     }
@@ -60,39 +63,116 @@ const generateLibraryReducer = (libraryType) => {
 
       case LIBRARY_SUCCESS:
         return {
+          ...state,
           status: Status.successful,
           data: updateData(action.response, libraryType),
         }
 
       case LIBRARY_FAILURE:
         return {
+          ...state,
           status: Status.failed,
-          data: defaultLibrary.data,
+          data: defaultState.data,
         }
 
       default:
         return state
     }
   }
-}
 
 /**
  * Song library
  */
 
-const song = generateLibraryReducer('songs')
+const songLibraryDefaultState = generateLibraryDefaultState('songs')
+const songDefaultState = {
+  ...songLibraryDefaultState,
+  statusesLyrics: {},
+}
+const songLibraryReducer = generateLibraryReducer('songs', songDefaultState)
+const song = (stateLibrary = songDefaultState, action) => {
+  const state = songLibraryReducer(stateLibrary, action)
+
+  switch (action.type) {
+    case SONG_LYRICS_REQUEST:
+      return {
+        ...state,
+        statusesLyrics: {
+          ...state.statusesLyrics,
+          [action.id]: Status.pending,
+        },
+      }
+
+    case SONG_LYRICS_SUCCESS: {
+      // add the lyrics to the corresponding song
+      const songs = window.structuredClone(state.data.songs)
+      const songId = songs.findIndex((song) => song.id === action.id)
+      songs[songId].lyrics_preview.text = action.response.lyrics
+
+      return {
+        ...state,
+        statusesLyrics: {
+          ...state.statusesLyrics,
+          [action.id]: Status.successful,
+        },
+        data: {
+          ...state.data,
+          songs,
+        },
+      }
+    }
+
+    case SONG_LYRICS_FAILURE:
+      return {
+        ...state,
+        statusesLyrics: {
+          ...state.statusesLyrics,
+          [action.id]: Status.failed,
+        },
+      }
+
+    case SONG_LYRICS_STATUS_CLEAR:
+      // only clear a non successful status
+      if (state.statusesLyrics[action.id] === Status.successful) {
+        return state
+      } else {
+        return {
+          ...state,
+          statusesLyrics: {
+            ...state.statusesLyrics,
+            [action.id]: null,
+          },
+        }
+      }
+
+    case LIBRARY_REQUEST:
+      if (action.libraryType === 'songs') {
+        // reset lyrics statuses as the list of songs is being fetched
+        return {
+          ...state,
+          statusesLyrics: [],
+        }
+      }
+
+      return state
+
+    default:
+      return state
+  }
+}
 
 /**
  * Artist library
  */
 
-const artist = generateLibraryReducer('artists')
+const artistLibraryDefaultState = generateLibraryDefaultState('artists')
+const artist = generateLibraryReducer('artists', artistLibraryDefaultState)
 
 /**
  * Work library
  */
 
-const defaultWork = generateDefaultLibrary('works')
+const defaultWork = generateLibraryDefaultState('works')
 
 function works(state = {}, action) {
   // create works when work types have been successfuly fetched

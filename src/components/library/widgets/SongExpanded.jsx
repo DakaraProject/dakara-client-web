@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useSearchParams } from 'react-router'
 
+import { clearSongLyricsStatus, loadSongLyrics } from 'actions/library'
 import {
   DetailAny,
   DetailLongText,
@@ -10,19 +13,36 @@ import {
 import HighlighterQuery from 'components/generics/HighlighterQuery'
 import { ListingEntry } from 'components/generics/listing/Entry'
 import ListingList from 'components/generics/listing/List'
+import Notification from 'components/generics/Notification'
 import SongTagList from 'components/library/SongTagList'
 import ArtistWidget from 'components/library/widgets/Artist'
 import WorkLinkWidget from 'components/library/widgets/WorkLink'
+import { Status } from 'reducers/alterationsResponse'
 import { songPropType } from 'serverPropTypes/library'
 
 export default function SongExpanded({ query, song }) {
   const [_, setSearchParams] = useSearchParams()
+  const dispatch = useDispatch()
+  const statusLyrics = useSelector(
+    (state) => state.library.song.statusesLyrics[song.id]
+  )
 
   // Method used by child components WorkEntry and ArtistsEnty to set new
   // search criteria
   const setQuery = (query) => {
     setSearchParams({ query, page: 1 })
   }
+
+  // Clear song lyrics status on unmount to prevent re-displaying notification
+  useEffect(
+    () => {
+      return () => {
+        dispatch(clearSongLyricsStatus(song.id))
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
 
   // works
   let works
@@ -146,8 +166,36 @@ export default function SongExpanded({ query, song }) {
   // lyrics
   let lyrics
   if (song.lyrics_preview) {
+    const lyricsNotification = (
+      <Notification
+        alterationResponse={{
+          status: statusLyrics,
+          date: -1, // XXX There should be a valid date here
+        }}
+        pendingMessage={false}
+        successfulMessage={false}
+        failedMessage="Error fetching lyrics"
+        noDisplayOnMount
+      />
+    )
+
     lyrics = (
-      <DetailLongText icon="la-align-left" name="Lyrics">
+      <DetailLongText
+        icon="la-align-left"
+        name="Lyrics"
+        onExpand={() => {
+          // only fetch full lyrics if there is more to display, and if not
+          // fetched already
+          if (
+            song.lyrics_preview.truncated &&
+            statusLyrics !== Status.successful
+          ) {
+            dispatch(loadSongLyrics(song.id))
+          }
+        }}
+        notifications={lyricsNotification}
+        noDisplayOnMount
+      >
         {song.lyrics_preview.text}
       </DetailLongText>
     )
