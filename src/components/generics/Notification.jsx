@@ -47,6 +47,7 @@ export default function Notification({
     message: messageInState,
     fields: fieldsInState,
   } = alterationResponse || {}
+
   useEffect(() => {
     if (!status || !date) {
       return

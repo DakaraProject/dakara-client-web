@@ -6,6 +6,7 @@ import {
   LIBRARY_SUCCESS,
   SONG_LYRICS_FAILURE,
   SONG_LYRICS_REQUEST,
+  SONG_LYRICS_STATUS_CLEAR,
   SONG_LYRICS_SUCCESS,
   WORK_TYPES_FAILURE,
   WORK_TYPES_REQUEST,
@@ -128,6 +129,20 @@ const song = (stateLibrary = songDefaultState, action) => {
           ...state.statusesLyrics,
           [action.id]: Status.failed,
         },
+      }
+
+    case SONG_LYRICS_STATUS_CLEAR:
+      // only clear a non successful status
+      if (state.statusesLyrics[action.id] === Status.successful) {
+        return state
+      } else {
+        return {
+          ...state,
+          statusesLyrics: {
+            ...state.statusesLyrics,
+            [action.id]: null,
+          },
+        }
       }
 
     case LIBRARY_REQUEST:

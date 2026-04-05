@@ -140,6 +140,13 @@
           white-space: pre-wrap;
         }
 
+        .notified {
+          // display at the bottom of the field
+          bottom: 0;
+          height: $height;
+          top: unset;
+        }
+
         > .controls {
           align-self: end;
         }

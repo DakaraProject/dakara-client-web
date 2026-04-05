@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { CSSTransition } from 'react-transition-group'
 
+import { isDisplayable } from 'utils'
+
 export function Details({ children }) {
   return <div className="details">{children}</div>
 }
@@ -50,11 +52,23 @@ DetailText.propTypes = {
   name: PropTypes.string,
 }
 
-export function DetailLongText({ children, icon, name, onExpand }) {
+export function DetailLongText({
+  children,
+  icon,
+  name,
+  onExpand,
+  notifications,
+}) {
   const [revealed, setRevealed] = useState(false)
 
   return (
-    <DetailAny icon={icon} name={name} className="long-text">
+    <DetailAny
+      icon={icon}
+      name={name}
+      className={classNames('long-text', {
+        notifiable: isDisplayable(notifications),
+      })}
+    >
       <CSSTransition
         classNames="reveal"
         in={revealed}
@@ -83,6 +97,9 @@ export function DetailLongText({ children, icon, name, onExpand }) {
           </button>
         </div>
       )}
+      {isDisplayable(notifications) && (
+        <div className="notifications">{notifications}</div>
+      )}
     </DetailAny>
   )
 }
@@ -92,4 +109,8 @@ DetailLongText.propTypes = {
   icon: PropTypes.string,
   name: PropTypes.string,
   onExpand: PropTypes.func,
+  notifications: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
+  ]),
 }
