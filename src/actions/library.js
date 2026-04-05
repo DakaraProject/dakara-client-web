@@ -67,6 +67,10 @@ export const loadSongLyrics = (id) => ({
 
 export const SONG_LYRICS_STATUS_CLEAR = 'SONG_LYRICS_STATUS_CLEAR'
 
+/**
+ * Clear song lyrics status in state
+ * @param id ID of the song.
+ */
 export const clearSongLyricsStatus = (id) => ({
   type: SONG_LYRICS_STATUS_CLEAR,
   id,
