@@ -30,6 +30,10 @@
 
 ## Unreleased
 
+### Added
+
+- Allow to display full lyrics of a song.
+
 ### Changed
 
 - Allow any clickable element to focus.
