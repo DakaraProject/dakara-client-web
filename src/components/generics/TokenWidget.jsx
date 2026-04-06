@@ -33,7 +33,10 @@ export default function TokenWidget({ token }) {
         </button>
       </div>
       <Notification
-        alterationResponse={{ status: tokenCopyStatus }}
+        alterationResponse={{
+          status: tokenCopyStatus,
+          date: -1, // XXX There should be a valid date here
+        }}
         successfulMessage="Copied!"
         failedMessage="Error when copying to clipboard"
       />
