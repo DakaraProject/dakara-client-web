@@ -43,6 +43,7 @@
 ### Fixed
 
 - Fixed empty player token dialog if no player token exists.
+- Fixed incorrect form when creating a player token.
 
 ## 1.9.2 - 2025-03-22
 
