@@ -229,7 +229,7 @@ export const createPlayerToken = (karaokeId) => ({
   [FETCH_API]: {
     endpoint: `${baseUrl}/playlist/player-token/`,
     method: 'POST',
-    json: { karaoke: karaokeId },
+    json: { karaoke_id: karaokeId },
     types: [ALTERATION_REQUEST, ALTERATION_SUCCESS, ALTERATION_FAILURE],
     onSuccess: loadPlayerToken(karaokeId),
   },

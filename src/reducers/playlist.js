@@ -245,7 +245,7 @@ function karaoke(state = defaultKaraoke, action) {
 const defaultPlayerToken = {
   status: null,
   data: {
-    karaoke_id: null,
+    karaoke: null,
     key: null,
   },
 }
@@ -271,7 +271,7 @@ function playerToken(state = defaultPlayerToken, action) {
         return {
           status: Status.successful,
           data: {
-            token: null,
+            key: null,
           },
         }
       }
@@ -287,7 +287,7 @@ function playerToken(state = defaultPlayerToken, action) {
         return {
           status: Status.successful,
           data: {
-            token: null,
+            key: null,
           },
         }
       }
