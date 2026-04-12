@@ -34,15 +34,6 @@ function PlayerTokenBoxDisplay({ playerToken, karaoke }) {
     setConfirmDisplayed(false)
   }, [])
 
-  const doConfirm = useCallback(
-    () => {
-      clearConfirm()
-      dispatch(revokePlayerToken(karaoke.id))
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [karaoke]
-  )
-
   return (
     <div className="player-token-box-display flow">
       <TokenWidget token={playerToken.key} />
@@ -60,12 +51,17 @@ function PlayerTokenBoxDisplay({ playerToken, karaoke }) {
             exit: 150,
           }}
         >
-          <ConfirmationBar onConfirm={doConfirm} onCancel={clearConfirm} />
+          <ConfirmationBar
+            onConfirm={() => {
+              dispatch(revokePlayerToken(karaoke.id))
+            }}
+            onCancel={clearConfirm}
+          />
         </CSSTransitionLazy>
         <Notification
           alterationResponse={responseOfRevokePlayerToken}
-          pendingMessage={false}
-          successfulMessage={false}
+          pendingMessage={null}
+          successfulMessage={null}
           failedMessage="Unable to revoke player token"
         />
         <button className="control primary" onClick={displayConfirm}>
@@ -92,6 +88,12 @@ function PlayerTokenBoxCreate({ karaoke }) {
     <div className="player-token-box-create flow">
       <p>Create a token that can be used to authenticate the player.</p>
       <div className="controls notifiable">
+        <Notification
+          alterationResponse={responseOfCreatePlayerToken}
+          pendingMessage={null}
+          successfulMessage={null}
+          failedMessage="Unable to create player token"
+        />
         <button
           className="control primary"
           onClick={() => {
@@ -101,12 +103,6 @@ function PlayerTokenBoxCreate({ karaoke }) {
           Create player token
         </button>
       </div>
-      <Notification
-        alterationResponse={responseOfCreatePlayerToken}
-        pendingMessage={false}
-        successfulMessage={false}
-        failedMessage="Unable to create player token"
-      />
     </div>
   )
 }
@@ -230,16 +226,16 @@ export default function Tokens() {
               onCancel={clearConfirm}
             />
           </CSSTransitionLazy>
+          <Notification
+            alterationResponse={responseOfRevokeToken}
+            pendingMessage={null}
+            successfulMessage={null}
+            failedMessage="Unable to revoke token"
+          />
           <button className="control primary" onClick={displayConfirm}>
             Revoke token
           </button>
         </div>
-        <Notification
-          alterationResponse={responseOfRevokeToken}
-          pendingMessage={null}
-          successfulMessage={null}
-          failedMessage="Unable to revoke token"
-        />
       </div>
       <IsPlaylistManager user={user}>
         <PlayerTokenBox />
