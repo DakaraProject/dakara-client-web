@@ -14,34 +14,17 @@ import TokenWidget from 'components/generics/TokenWidget'
 import { IsLibraryManager } from 'permissions/components/Library'
 import { IsPlaylistManager } from 'permissions/components/Playlist'
 import { Status } from 'reducers/alterationsResponse'
+import { karaokePropType, playerTokenPropType } from 'serverPropTypes/playlist'
 import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
-function PlayerTokenBox() {
-  const playerTokenState = useSelector((state) => state.playlist.playerToken)
-  const responseOfCreatePlayerToken = useSelector(
-    (state) => state.alterationsResponse.unique.createPlayerToken
-  )
+function PlayerTokenBoxDisplay({ playerToken, karaoke }) {
   const responseOfRevokePlayerToken = useSelector(
     (state) => state.alterationsResponse.unique.revokePlayerToken
   )
-  const karaokeState = useSelector((state) => state.playlist.karaoke)
-
-  const [confirmDisplayed, setConfirmDisplayed] = useState(false)
 
   const dispatch = useDispatch()
 
-  const { data: karaoke } = karaokeState
-
-  useEffect(
-    () => {
-      // load player token as soon as the karaoke ID has been fetched
-      if (!playerTokenState.status && karaoke.id) {
-        dispatch(loadPlayerToken(karaoke.id))
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+  const [confirmDisplayed, setConfirmDisplayed] = useState(false)
 
   const displayConfirm = useCallback(() => {
     setConfirmDisplayed(true)
@@ -60,73 +43,106 @@ function PlayerTokenBox() {
     [karaoke]
   )
 
+  return (
+    <div className="player-token-box-display flow">
+      <TokenWidget token={playerToken.key} />
+      <div className="ribbon info copy-help">
+        <p className="message">
+          You can use this token to authenticate the player.
+        </p>
+      </div>
+      <div className="revoke controls notifiable">
+        <CSSTransitionLazy
+          in={confirmDisplayed}
+          classNames="notified"
+          timeout={{
+            enter: 300,
+            exit: 150,
+          }}
+        >
+          <ConfirmationBar onConfirm={doConfirm} onCancel={clearConfirm} />
+        </CSSTransitionLazy>
+        <Notification
+          alterationResponse={responseOfRevokePlayerToken}
+          pendingMessage={false}
+          successfulMessage={false}
+          failedMessage="Unable to revoke player token"
+        />
+        <button className="control primary" onClick={displayConfirm}>
+          Revoke player token
+        </button>
+      </div>
+    </div>
+  )
+}
+
+PlayerTokenBoxDisplay.propTypes = {
+  playerToken: playerTokenPropType.isRequired,
+  karaoke: karaokePropType.isRequired,
+}
+
+function PlayerTokenBoxCreate({ karaoke }) {
+  const responseOfCreatePlayerToken = useSelector(
+    (state) => state.alterationsResponse.unique.createPlayerToken
+  )
+
+  const dispatch = useDispatch()
+
+  return (
+    <div className="player-token-box-create flow">
+      <p>Create a token that can be used to authenticate the player.</p>
+      <div className="controls notifiable">
+        <button
+          className="control primary"
+          onClick={() => {
+            dispatch(createPlayerToken(karaoke.id))
+          }}
+        >
+          Create player token
+        </button>
+      </div>
+      <Notification
+        alterationResponse={responseOfCreatePlayerToken}
+        pendingMessage={false}
+        successfulMessage={false}
+        failedMessage="Unable to create player token"
+      />
+    </div>
+  )
+}
+
+PlayerTokenBoxCreate.propTypes = {
+  karaoke: karaokePropType.isRequired,
+}
+
+function PlayerTokenBox() {
+  const playerTokenState = useSelector((state) => state.playlist.playerToken)
+  const karaokeState = useSelector((state) => state.playlist.karaoke)
+
+  const dispatch = useDispatch()
+
+  const { data: karaoke } = karaokeState
+  const { id: karaokeId } = karaoke
+
   const { data: playerToken, status: playerTokenStatus } = playerTokenState
   const keyExists = !!playerToken.key
 
-  // NOTE If the token is not found, the state is still `successful` as this
+  useEffect(
+    () => {
+      // load player token as soon as the karaoke ID has been fetched
+      if (!playerTokenStatus && karaokeId) {
+        dispatch(loadPlayerToken(karaokeId))
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [playerTokenStatus, karaokeId]
+  )
+
+  // NOTE If the token is not found, the status is still `successful` as this
   // is a valid case. Check the reducer to see how this case is handled.
 
   let playerTokenBox
   if (playerTokenStatus === Status.successful) {
-    let playerTokenBoxContent
-    if (keyExists) {
-      // display token
-      playerTokenBoxContent = (
-        <>
-          <TokenWidget token={playerToken.key} />
-          <div className="ribbon info copy-help">
-            <p className="message">
-              You can use this token to authenticate the player.
-            </p>
-          </div>
-          <div className="revoke controls notifiable">
-            <CSSTransitionLazy
-              in={confirmDisplayed}
-              classNames="notified"
-              timeout={{
-                enter: 300,
-                exit: 150,
-              }}
-            >
-              <ConfirmationBar onConfirm={doConfirm} onCancel={clearConfirm} />
-            </CSSTransitionLazy>
-            <Notification
-              alterationResponse={responseOfRevokePlayerToken}
-              pendingMessage={null}
-              successfulMessage={null}
-              failedMessage="Unable to revoke player token"
-            />
-            <button className="control primary" onClick={displayConfirm}>
-              Revoke player token
-            </button>
-          </div>
-        </>
-      )
-    } else {
-      // display button to create token
-      playerTokenBoxContent = (
-        <>
-          <p>Create a token that can be used to authenticate the player.</p>
-          <div className="controls notifiable">
-            <button
-              className="control primary"
-              onClick={() => {
-                dispatch(createPlayerToken(karaoke.id))
-              }}
-            >
-              Create player token
-            </button>
-          </div>
-          <Notification
-            alterationResponse={responseOfCreatePlayerToken}
-            pendingMessage={null}
-            successfulMessage={null}
-            failedMessage="Unable to create player token"
-          />
-        </>
-      )
-    }
-
     playerTokenBox = (
       <CSSTransition
         in={keyExists}
@@ -136,13 +152,23 @@ function PlayerTokenBox() {
           exit: 150,
         }}
       >
-        {playerTokenBoxContent}
+        {keyExists ? (
+          <PlayerTokenBoxDisplay playerToken={playerToken} karaoke={karaoke} />
+        ) : (
+          <PlayerTokenBoxCreate karaoke={karaoke} />
+        )}
       </CSSTransition>
     )
   } else if (playerTokenStatus === Status.failed) {
     playerTokenBox = (
       <div className="ribbon danger">
         <p>Unable to get player token.</p>
+      </div>
+    )
+  } else {
+    playerTokenBox = (
+      <div className="ribbon">
+        <p>Pending…</p>
       </div>
     )
   }
