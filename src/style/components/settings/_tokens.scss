@@ -9,24 +9,30 @@
 
 #tokens {
   .token-box {
+    // approximate min and max height
+    $token-player-min-height: calc(
+      1.25em + sizes.$row-height + sizes.$gap-vertical
+    );
+    $token-player-max-height: calc(
+      3 * sizes.$row-height + 2 * sizes.$gap-vertical
+    );
+
     .token-player-enter {
-      // approximate min and max height
-      height: calc(2em + sizes.$row-height + sizes.$gap-vertical);
+      height: $token-player-min-height;
       overflow-y: hidden;
 
       &.token-player-enter-active {
-        height: 2 * sizes.$row-height + 2 * sizes.$gap-vertical;
+        height: $token-player-max-height;
         transition: height 300ms ease-out;
       }
     }
 
     .token-player-exit {
-      // approximate min and max height
-      height: 2 * sizes.$row-height + 2 * sizes.$gap-vertical;
+      height: $token-player-max-height;
       overflow-y: hidden;
 
       &.token-player-exit-active {
-        height: calc(2em + sizes.$row-height + sizes.$gap-vertical);
+        height: $token-player-min-height;
         transition: height 150ms ease-out;
       }
     }

@@ -44,6 +44,7 @@
 
 - Fixed empty player token dialog if no player token exists.
 - Fixed incorrect form when creating a player token.
+- Fixed player token box not displayed on page refresh.
 
 ## 1.9.2 - 2025-03-22
 
