@@ -1,7 +1,6 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { useState } from 'react'
-import { CSSTransition } from 'react-transition-group'
+import { useTransitionState } from 'react-transition-state'
 
 import { isDisplayable } from 'utils'
 
@@ -59,7 +58,9 @@ export function DetailLongText({
   onExpand,
   notifications,
 }) {
-  const [revealed, setRevealed] = useState(false)
+  const [transitionState, transitionToggle] = useTransitionState({
+    timeout: 300,
+  })
 
   return (
     <DetailAny
@@ -69,18 +70,10 @@ export function DetailLongText({
         notifiable: isDisplayable(notifications),
       })}
     >
-      <CSSTransition
-        classNames="reveal"
-        in={revealed}
-        timeout={{
-          enter: 300,
-        }}
-      >
-        <div className="border">
-          <p className="paragraph">{children}</p>
-        </div>
-      </CSSTransition>
-      {!revealed && (
+      <div className={`border ${transitionState.status}`}>
+        <p className="paragraph">{children}</p>
+      </div>
+      {!transitionState.isEnter && (
         <div className="controls">
           <button
             className="control neutral square"
@@ -88,7 +81,7 @@ export function DetailLongText({
               if (typeof onExpand === 'function') {
                 onExpand()
               }
-              setRevealed(true)
+              transitionToggle(true)
             }}
           >
             <span className="icon">

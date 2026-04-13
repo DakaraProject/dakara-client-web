@@ -112,7 +112,7 @@
           max-height: 4.6em;
           overflow: hidden;
 
-          &.reveal-enter-active {
+          &.entering {
             max-height: 10 * $height;
             transition: max-height 600ms ease-out;
 
@@ -121,7 +121,7 @@
             }
           }
 
-          &.reveal-enter-done {
+          &.entered {
             max-height: unset;
 
             .paragraph {
