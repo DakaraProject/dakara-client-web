@@ -17,5 +17,6 @@ export default {
       true,
       { ignorePseudoElements: ['/^range-/'] },
     ],
+    'selector-class-pattern': null,
   },
 }
