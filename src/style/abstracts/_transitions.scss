@@ -1,0 +1,66 @@
+//
+// Dakara Project
+//
+// Transitions style file
+//
+
+// helper for creating transition styles
+// @param $property name of the property to transition
+// @param $from value of the property before entered and after exiting
+// @param $to value of the property after entered and before exiting
+// @param $timeout-enter timing of the entering step
+// @param $timeout-exit timing of the exiting step
+// @param $pre-enter enable pre-enter step
+// @param $enter enable entering and entered steps
+// @param $exit enable exiting step
+// @param $exited enable exited step
+// @param $unmounted enable unmounted step
+// step
+@mixin make-transition(
+  $property,
+  $from,
+  $to,
+  $timeout-enter: 300ms,
+  $timeout-exit: 150ms,
+  $pre-enter: on,
+  $enter: on,
+  $exit: on,
+  $exited: off,
+  $unmounted: on
+) {
+  @if ($pre-enter) {
+    &.preEnter {
+      #{$property}: $from;
+    }
+  }
+
+  @if ($enter) {
+    &.entering {
+      #{$property}: $to;
+      transition: $property $timeout-enter ease-out;
+    }
+
+    &.entered {
+      #{$property}: $to;
+    }
+  }
+
+  @if ($exit) {
+    &.exiting {
+      #{$property}: $from;
+      transition: $property $timeout-exit ease-in;
+    }
+  }
+
+  @if ($unmounted) {
+    &.unmounted {
+      display: none;
+    }
+  }
+
+  @if ($exited) {
+    &.exited {
+      display: none;
+    }
+  }
+}
