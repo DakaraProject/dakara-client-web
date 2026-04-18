@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useSearchParams } from 'react-router'
 
-import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
+import { useDefaultTransitionState } from 'hooks/transitions'
 
 function SearchBoxHelp({ example, fields, withHash }) {
   return (
@@ -53,11 +53,11 @@ SearchBoxHelp.propTypes = {
  * Note that the query and its setter are owned by a parent component.
  */
 export default function SearchBox({ help, placeholder, query, setQuery }) {
-  const [displayHelp, setDisplayHelp] = useState(false)
-
   const [searchParams, setSearchParams] = useSearchParams()
 
   const queryFromParams = searchParams.get('query')
+
+  const [transitionState, transitionToggle] = useDefaultTransitionState()
 
   useEffect(
     () => {
@@ -79,7 +79,7 @@ export default function SearchBox({ help, placeholder, query, setQuery }) {
         className="control square transparent"
         type="button"
         onClick={() => {
-          setDisplayHelp(!displayHelp)
+          transitionToggle()
         }}
       >
         <span className="icon">
@@ -89,16 +89,9 @@ export default function SearchBox({ help, placeholder, query, setQuery }) {
     )
 
     helpBox = (
-      <CSSTransitionLazy
-        in={displayHelp}
-        classNames="help"
-        timeout={{
-          enter: 300,
-          exit: 150,
-        }}
-      >
+      <div className={`help ${transitionState.status}`}>
         <SearchBoxHelp {...help} />
-      </CSSTransitionLazy>
+      </div>
     )
   }
 

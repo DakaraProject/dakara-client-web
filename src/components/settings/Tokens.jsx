@@ -11,6 +11,7 @@ import { revokeToken } from 'actions/token'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import Notification from 'components/generics/Notification'
 import TokenWidget from 'components/generics/TokenWidget'
+import { useDefaultTransitionState } from 'hooks/transitions'
 import { IsLibraryManager } from 'permissions/components/Library'
 import { IsPlaylistManager } from 'permissions/components/Playlist'
 import { Status } from 'reducers/alterationsResponse'
@@ -47,8 +48,8 @@ function PlayerTokenBoxDisplay({ playerToken, karaoke }) {
           in={confirmDisplayed}
           classNames="notified"
           timeout={{
-            enter: 300,
-            exit: 150,
+            enter: 30000,
+            exit: 15000,
           }}
         >
           <ConfirmationBar
@@ -144,8 +145,8 @@ function PlayerTokenBox() {
         in={keyExists}
         classNames="token-player"
         timeout={{
-          enter: 300,
-          exit: 150,
+          enter: 30000,
+          exit: 15000,
         }}
       >
         {keyExists ? (
@@ -184,17 +185,9 @@ export default function Tokens() {
     (state) => state.alterationsResponse.unique.revokeToken
   )
 
-  const [confirmDisplayed, setConfirmDisplayed] = useState(false)
-
   const dispatch = useDispatch()
 
-  const displayConfirm = useCallback(() => {
-    setConfirmDisplayed(true)
-  }, [])
-
-  const clearConfirm = useCallback(() => {
-    setConfirmDisplayed(false)
-  }, [])
+  const [transitionState, transitionToggle] = useDefaultTransitionState()
 
   return (
     <div id="tokens" className="flow">
@@ -209,30 +202,30 @@ export default function Tokens() {
           </div>
         </IsLibraryManager>
         <div className="revoke controls notifiable">
-          <CSSTransitionLazy
-            in={confirmDisplayed}
-            classNames="notified"
-            timeout={{
-              enter: 300,
-              exit: 150,
-            }}
-          >
+          <div className={`notified ${transitionState.status}`}>
             <ConfirmationBar
               message="This will disconnect you from
                                 all your devices. Are you sure?"
               onConfirm={() => {
                 dispatch(revokeToken())
               }}
-              onCancel={clearConfirm}
+              onCancel={() => {
+                transitionToggle(false)
+              }}
             />
-          </CSSTransitionLazy>
+          </div>
           <Notification
             alterationResponse={responseOfRevokeToken}
             pendingMessage={null}
             successfulMessage={null}
             failedMessage="Unable to revoke token"
           />
-          <button className="control primary" onClick={displayConfirm}>
+          <button
+            className="control primary"
+            onClick={() => {
+              transitionToggle(true)
+            }}
+          >
             Revoke token
           </button>
         </div>

@@ -15,6 +15,7 @@ import {
 } from 'components/generics/listing/Entry'
 import Notification from 'components/generics/Notification'
 import PlaylistEntryWidget from 'components/playlist/widgets/PlaylistEntry'
+import { useDefaultTransitionState } from 'hooks/transitions'
 import {
   IsPlaylistManager,
   IsPlaylistManagerOrOwner,
@@ -210,31 +211,33 @@ export default function QueuingEntry({ entry, positions }) {
     </Link>
   )
 
+  const [reorderTransitionState, reorderTransitionToggle] =
+    useDefaultTransitionState()
+
+  useEffect(
+    () => {
+      reorderTransitionToggle(inReorder)
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [inReorder]
+  )
+
   const controlsExpanded = [
     <IsPlaylistManager user={user} key="reorder">
-      <CSSTransitionLazy
-        in={inReorder}
-        classNames="show-hide"
-        timeout={{
-          enter: 3000,
-          exit: 1500,
-        }}
-      >
-        <div className="reorder">
-          {!positions.isFirstPage && (
-            <ReorderButton
-              handleReorder={handleReorderFirst}
-              className="la-arrow-up overbar"
-            />
-          )}
-          {!positions.isLastPage && (
-            <ReorderButton
-              handleReorder={handleReorderLast}
-              className="la-arrow-down underbar"
-            />
-          )}
-        </div>
-      </CSSTransitionLazy>
+      <div className={`reorder ${reorderTransitionState.status}`}>
+        {!positions.isFirstPage && (
+          <ReorderButton
+            handleReorder={handleReorderFirst}
+            className="la-arrow-up overbar"
+          />
+        )}
+        {!positions.isLastPage && (
+          <ReorderButton
+            handleReorder={handleReorderLast}
+            className="la-arrow-down underbar"
+          />
+        )}
+      </div>
       <ReorderButton
         handleReorder={handleReorderToggle}
         className={inReorder ? 'la-ban' : 'la-arrows-alt-v'}
@@ -257,30 +260,21 @@ export default function QueuingEntry({ entry, positions }) {
 
   const controls = [
     <IsPlaylistManager user={user} key="reorder">
-      <CSSTransitionLazy
-        in={inReorder}
-        classNames="show-hide"
-        timeout={{
-          enter: 300,
-          exit: 150,
-        }}
-      >
-        <div className="reorder">
-          {reorderIndex > positions.position ? (
-            <ReorderButton
-              handleReorder={handleReorderUp}
-              className={inReorder ? 'la-arrow-up' : 'la-arrows-alt-v'}
-              id={reorderId}
-            />
-          ) : (
-            <ReorderButton
-              handleReorder={handleReorderDown}
-              className={inReorder ? 'la-arrow-down' : 'la-arrows-alt-v'}
-              id={reorderId}
-            />
-          )}
-        </div>
-      </CSSTransitionLazy>
+      <div className={`reorder ${reorderTransitionState.status}`}>
+        {reorderIndex > positions.position ? (
+          <ReorderButton
+            handleReorder={handleReorderUp}
+            className={inReorder ? 'la-arrow-up' : 'la-arrows-alt-v'}
+            id={reorderId}
+          />
+        ) : (
+          <ReorderButton
+            handleReorder={handleReorderDown}
+            className={inReorder ? 'la-arrow-down' : 'la-arrows-alt-v'}
+            id={reorderId}
+          />
+        )}
+      </div>
     </IsPlaylistManager>,
     controlSearch,
   ]
