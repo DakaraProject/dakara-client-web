@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { CSSTransition } from 'react-transition-group'
 
@@ -16,7 +16,6 @@ import { IsLibraryManager } from 'permissions/components/Library'
 import { IsPlaylistManager } from 'permissions/components/Playlist'
 import { Status } from 'reducers/alterationsResponse'
 import { karaokePropType, playerTokenPropType } from 'serverPropTypes/playlist'
-import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
 function PlayerTokenBoxDisplay({ playerToken, karaoke }) {
   const responseOfRevokePlayerToken = useSelector(
@@ -25,15 +24,7 @@ function PlayerTokenBoxDisplay({ playerToken, karaoke }) {
 
   const dispatch = useDispatch()
 
-  const [confirmDisplayed, setConfirmDisplayed] = useState(false)
-
-  const displayConfirm = useCallback(() => {
-    setConfirmDisplayed(true)
-  }, [])
-
-  const clearConfirm = useCallback(() => {
-    setConfirmDisplayed(false)
-  }, [])
+  const [transitionState, transitionToggle] = useDefaultTransitionState()
 
   return (
     <div className="player-token-box-display flow">
@@ -44,28 +35,23 @@ function PlayerTokenBoxDisplay({ playerToken, karaoke }) {
         </p>
       </div>
       <div className="revoke controls notifiable">
-        <CSSTransitionLazy
-          in={confirmDisplayed}
-          classNames="notified"
-          timeout={{
-            enter: 30000,
-            exit: 15000,
+        <ConfirmationBar
+          state={transitionState}
+          toggle={transitionToggle}
+          onConfirm={() => {
+            dispatch(revokePlayerToken(karaoke.id))
           }}
-        >
-          <ConfirmationBar
-            onConfirm={() => {
-              dispatch(revokePlayerToken(karaoke.id))
-            }}
-            onCancel={clearConfirm}
-          />
-        </CSSTransitionLazy>
+        />
         <Notification
           alterationResponse={responseOfRevokePlayerToken}
           pendingMessage={null}
           successfulMessage={null}
           failedMessage="Unable to revoke player token"
         />
-        <button className="control primary" onClick={displayConfirm}>
+        <button
+          className="control primary"
+          onClick={() => transitionToggle(true)}
+        >
           Revoke player token
         </button>
       </div>
@@ -202,18 +188,15 @@ export default function Tokens() {
           </div>
         </IsLibraryManager>
         <div className="revoke controls notifiable">
-          <div className={`notified ${transitionState.status}`}>
-            <ConfirmationBar
-              message="This will disconnect you from
-                                all your devices. Are you sure?"
-              onConfirm={() => {
-                dispatch(revokeToken())
-              }}
-              onCancel={() => {
-                transitionToggle(false)
-              }}
-            />
-          </div>
+          <ConfirmationBar
+            state={transitionState}
+            toggle={transitionToggle}
+            message="This will disconnect you from
+                              all your devices. Are you sure?"
+            onConfirm={() => {
+              dispatch(revokeToken())
+            }}
+          />
           <Notification
             alterationResponse={responseOfRevokeToken}
             pendingMessage={null}

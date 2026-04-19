@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router'
 
@@ -11,9 +11,9 @@ import Notification, {
 } from 'components/generics/Notification'
 import PermissionText from 'components/generics/PermissionText'
 import { Checkmark } from 'components/generics/Shapes'
+import { useDefaultTransitionState } from 'hooks/transitions'
 import { IsNotSelf, IsUsersManager } from 'permissions/components/Users'
 import { userPropType } from 'serverPropTypes/users'
-import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
 export default function UsersEntry({ user }) {
   const query = useSelector((state) => state.settings.users.list.data.query)
@@ -22,7 +22,7 @@ export default function UsersEntry({ user }) {
   )
   const authenticatedUser = useSelector((state) => state.authenticatedUser)
 
-  const [confirmDisplayed, setConfirmDisplayed] = useState(false)
+  const [transitionState, transitionToggle] = useDefaultTransitionState()
 
   const dispatch = useDispatch()
 
@@ -39,23 +39,13 @@ export default function UsersEntry({ user }) {
     <tr className="listing-entry user-listing-entry listable hoverizable">
       <td className="notification-col">
         <NotifiableForTable>
-          <CSSTransitionLazy
-            in={confirmDisplayed}
-            classNames="notified"
-            timeout={{
-              enter: 300,
-              exit: 150,
+          <ConfirmationBar
+            state={transitionState}
+            toggle={transitionToggle}
+            onConfirm={() => {
+              dispatch(deleteUser(user.id))
             }}
-          >
-            <ConfirmationBar
-              onConfirm={() => {
-                dispatch(deleteUser(user.id))
-              }}
-              onCancel={() => {
-                setConfirmDisplayed(false)
-              }}
-            />
-          </CSSTransitionLazy>
+          />
           <Notification
             alterationResponse={responseOfDelete}
             pendingMessage="Deleting…"
@@ -104,7 +94,7 @@ export default function UsersEntry({ user }) {
               <button
                 className="control square danger"
                 onClick={() => {
-                  setConfirmDisplayed(true)
+                  transitionToggle(true)
                 }}
               >
                 <span className="icon">

@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import queryString from 'query-string'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useSearchParams } from 'react-router'
 
@@ -21,7 +21,6 @@ import {
   IsPlaylistManagerOrOwner,
 } from 'permissions/components/Playlist'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
-import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 import { formatDateLong } from 'utils'
 
 function ReorderButton({ handleReorder, className, id }) {
@@ -63,8 +62,6 @@ export default function QueuingEntry({ entry, positions }) {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const dispatch = useDispatch()
-
-  const [confirmDisplayed, setConfirmDisplayed] = useState(false)
 
   useEffect(
     () => () => {
@@ -222,6 +219,9 @@ export default function QueuingEntry({ entry, positions }) {
     [inReorder]
   )
 
+  const [confirmTransitionState, confirmTransitionToggle] =
+    useDefaultTransitionState()
+
   const controlsExpanded = [
     <IsPlaylistManager user={user} key="reorder">
       <div className={`reorder ${reorderTransitionState.status}`}>
@@ -248,7 +248,7 @@ export default function QueuingEntry({ entry, positions }) {
       <button
         className="control square danger"
         onClick={() => {
-          setConfirmDisplayed(true)
+          confirmTransitionToggle(true)
         }}
       >
         <span className="icon">
@@ -280,24 +280,14 @@ export default function QueuingEntry({ entry, positions }) {
   ]
 
   const notifications = [
-    <CSSTransitionLazy
+    <ConfirmationBar
       key="remove"
-      in={confirmDisplayed}
-      classNames="notified"
-      timeout={{
-        enter: 300,
-        exit: 150,
+      state={confirmTransitionState}
+      toggle={confirmTransitionToggle}
+      onConfirm={() => {
+        dispatch(removeEntryFromPlaylist(entry.id))
       }}
-    >
-      <ConfirmationBar
-        onConfirm={() => {
-          dispatch(removeEntryFromPlaylist(entry.id))
-        }}
-        onCancel={() => {
-          setConfirmDisplayed(false)
-        }}
-      />
-    </CSSTransitionLazy>,
+    />,
     <Notification
       key="response-of-remove-entry"
       alterationResponse={responseOfRemoveEntry}

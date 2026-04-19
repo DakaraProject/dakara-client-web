@@ -2,17 +2,26 @@ import PropTypes from 'prop-types'
 
 export default function ConfirmationBar({
   message = 'Are you sure?',
+  state,
+  toggle,
   onCancel,
   onConfirm,
+  hideOnCancel = true,
+  hideOnConfirm = false,
 }) {
   return (
-    <div className="notified">
+    <div className={`confirmation-bar notified ${state.status}`}>
       <div className="notification warning">
         <div className="message">{message}</div>
         <div className="controls compact">
           <button
             onClick={() => {
-              onConfirm()
+              if (hideOnConfirm) {
+                toggle(false)
+              }
+              if (typeof onConfirm === 'function') {
+                onConfirm()
+              }
             }}
             className="control square success"
           >
@@ -22,7 +31,12 @@ export default function ConfirmationBar({
           </button>
           <button
             onClick={() => {
-              onCancel()
+              if (hideOnCancel) {
+                toggle(false)
+              }
+              if (typeof onCancel === 'function') {
+                onCancel()
+              }
             }}
             className="control square danger"
           >
@@ -38,6 +52,10 @@ export default function ConfirmationBar({
 
 ConfirmationBar.propTypes = {
   message: PropTypes.string,
-  onCancel: PropTypes.func.isRequired,
-  onConfirm: PropTypes.func.isRequired,
+  state: PropTypes.object.isRequired,
+  toggle: PropTypes.func.isRequired,
+  onCancel: PropTypes.func,
+  onConfirm: PropTypes.func,
+  hideOnCancel: PropTypes.bool,
+  hideOnConfirm: PropTypes.bool,
 }
