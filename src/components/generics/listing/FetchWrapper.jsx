@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 
 import Delayer from 'components/generics/Delayer'
-import Notification from 'components/generics/Notification'
+import NotificationBar from 'components/generics/NotificationBar'
 import { Status } from 'reducers/alterationsResponse'
 
 export default function FetchWrapper({ status, children }) {
@@ -19,7 +19,7 @@ export default function FetchWrapper({ status, children }) {
   return (
     <div className="listing-fetch-wrapper notifiable">
       {children}
-      <Notification
+      <NotificationBar
         alterationStatus={{ status }}
         pendingMessage={false}
         successfulMessage={false}

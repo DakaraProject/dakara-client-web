@@ -9,7 +9,7 @@ import {
 } from 'actions/playlist'
 import { revokeToken } from 'actions/token'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
-import Notification from 'components/generics/Notification'
+import NotificationBar from 'components/generics/NotificationBar'
 import TokenWidget from 'components/generics/TokenWidget'
 import { useDefaultTransitionState } from 'hooks/transitions'
 import { IsLibraryManager } from 'permissions/components/Library'
@@ -42,7 +42,7 @@ function PlayerTokenBoxDisplay({ playerToken, karaoke }) {
             dispatch(revokePlayerToken(karaoke.id))
           }}
         />
-        <Notification
+        <NotificationBar
           alterationResponse={responseOfRevokePlayerToken}
           pendingMessage={null}
           successfulMessage={null}
@@ -75,7 +75,7 @@ function PlayerTokenBoxCreate({ karaoke }) {
     <div className="player-token-box-create flow">
       <p>Create a token that can be used to authenticate the player.</p>
       <div className="controls notifiable">
-        <Notification
+        <NotificationBar
           alterationResponse={responseOfCreatePlayerToken}
           pendingMessage={null}
           successfulMessage={null}
@@ -197,7 +197,7 @@ export default function Tokens() {
               dispatch(revokeToken())
             }}
           />
-          <Notification
+          <NotificationBar
             alterationResponse={responseOfRevokeToken}
             pendingMessage={null}
             successfulMessage={null}

@@ -9,7 +9,7 @@ import {
   setAlterationValidationErrors,
   submitAlteration,
 } from 'actions/alterations'
-import Notification from 'components/generics/Notification'
+import NotificationBar from 'components/generics/NotificationBar'
 import {
   alterationResponsePropType,
   Status,
@@ -387,7 +387,7 @@ class FormBlock extends Form {
         {header}
         {fieldsSet}
         <div className="controls compact notifiable">
-          <Notification
+          <NotificationBar
             alterationResponse={alterationResponse}
             successfulMessage={successMessage}
             failedMessage={failedMessage}

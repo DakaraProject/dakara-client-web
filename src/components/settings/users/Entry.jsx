@@ -6,9 +6,9 @@ import { clearAlteration } from 'actions/alterations'
 import { deleteUser } from 'actions/users'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import HighlighterQuery from 'components/generics/HighlighterQuery'
-import Notification, {
+import NotificationBar, {
   NotifiableForTable,
-} from 'components/generics/Notification'
+} from 'components/generics/NotificationBar'
 import PermissionText from 'components/generics/PermissionText'
 import { Checkmark } from 'components/generics/Shapes'
 import { useDefaultTransitionState } from 'hooks/transitions'
@@ -46,7 +46,7 @@ export default function UsersEntry({ user }) {
               dispatch(deleteUser(user.id))
             }}
           />
-          <Notification
+          <NotificationBar
             alterationResponse={responseOfDelete}
             pendingMessage="Deleting…"
             successfulMessage="Successfuly deleted!"

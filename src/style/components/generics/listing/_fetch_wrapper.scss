@@ -19,7 +19,7 @@ $height: sizes.$row-height;
   position: relative;
 
   // error notification
-  > .notification-wrapper .notified {
+  > .notification-bar {
     height: $height;
   }
 
