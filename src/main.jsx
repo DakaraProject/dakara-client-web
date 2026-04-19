@@ -43,14 +43,18 @@ import delayMiddleware from 'middleware/delay'
 import fetchApiMiddleware from 'middleware/fetchApi'
 import reducer from 'reducers'
 
+const composeEnhancers =
+  // #if DEV
+  (typeof window !== 'undefined' &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+  // #endif
+  compose
+
 const store = createStore(
   reducer,
-  compose(
+  composeEnhancers(
     applyMiddleware(fetchApiMiddleware, thunk, delayMiddleware),
-    persistState('token'),
-    // #if DEV
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-    // #endif
+    persistState('token')
   )
 )
 
