@@ -8,6 +8,7 @@
 @use '~/abstracts/controls';
 @use '~/abstracts/sizes';
 @use '~/abstracts/support';
+@use '~/abstracts/transitions';
 
 // listing sizes
 $listing-entry-height: sizes.$row-height;
@@ -88,40 +89,17 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
       }
     }
 
-    // appearance transition
-    &.add-remove-enter {
-      max-height: 0;
-      min-height: initial;
+    .expansion {
       overflow: hidden;
 
-      &.add-remove-enter-active {
-        max-height: $listing-entry-height;
-        transition: max-height 300ms ease-out;
-      }
-    }
-
-    // disappearance transition
-    &.add-remove-exit {
-      max-height: $listing-entry-height;
-      min-height: initial;
-      overflow: hidden;
-
-      &.expanded {
-        max-height: 15 * sizes.$subrow-height;
-      }
-
-      &.add-remove-exit-active {
-        max-height: 0;
-        transition: max-height 150ms ease-in;
-
-        &.expanded {
-          transition: max-height 300ms ease-in;
-        }
-
-        &.delayed {
-          transition-delay: 500ms;
-        }
-      }
+      // appearance transition
+      @include transitions.make-transition(
+        max-height,
+        $from: 0,
+        $to: 10 * $listing-entry-height,
+        $entered: false,
+        $pre-exit: true
+      );
     }
 
     .extra {
