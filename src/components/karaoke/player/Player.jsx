@@ -28,12 +28,7 @@ export default function Player() {
 
   const { data: playerStatus } = playerStatusState
 
-  const [transitionState, transitionToggle] = useDefaultTransitionState({
-    timeout: { enter: 300, exit: 150 },
-    preEnter: true,
-    mountOnEnter: true,
-    unmountOnExit: true,
-  })
+  const [transitionState, transitionToggle] = useDefaultTransitionState()
   transitionToggle(isPlaylistManagerOrOwner(user, playerStatus.playlist_entry))
 
   const { playerErrors } = playerErrorsDigestState.data
@@ -78,63 +73,65 @@ export default function Player() {
           <CarouselEntryStats />
         </Carousel>
       )}
-      <div className={`controls ${transitionState.status}`}>
-        <ManageButton
-          responseOfManage={responseOfSendPlayerCommandsSafe.restart}
-          onClick={() => {
-            dispatch(sendPlayerCommand('restart'))
-          }}
-          disabled={controlDisabled}
-          error={fetchError}
-          icon="step-backward"
-        />
-        <ManageButton
-          responseOfManage={responseOfSendPlayerCommandsSafe.rewind}
-          onClick={() => {
-            dispatch(sendPlayerCommand('rewind'))
-          }}
-          disabled={controlDisabled}
-          error={fetchError}
-          icon="backward"
-        />
-        <ManageButton
-          responseOfManage={
-            playerStatus.paused
-              ? responseOfSendPlayerCommandsSafe.resume
-              : responseOfSendPlayerCommandsSafe.pause
-          }
-          onClick={() => {
-            if (!isPlaying) return
-
-            if (playerStatus.paused) {
-              dispatch(sendPlayerCommand('resume'))
-            } else {
-              dispatch(sendPlayerCommand('pause'))
+      {transitionState.isMounted && (
+        <div className={`controls ${transitionState.status}`}>
+          <ManageButton
+            responseOfManage={responseOfSendPlayerCommandsSafe.restart}
+            onClick={() => {
+              dispatch(sendPlayerCommand('restart'))
+            }}
+            disabled={controlDisabled}
+            error={fetchError}
+            icon="step-backward"
+          />
+          <ManageButton
+            responseOfManage={responseOfSendPlayerCommandsSafe.rewind}
+            onClick={() => {
+              dispatch(sendPlayerCommand('rewind'))
+            }}
+            disabled={controlDisabled}
+            error={fetchError}
+            icon="backward"
+          />
+          <ManageButton
+            responseOfManage={
+              playerStatus.paused
+                ? responseOfSendPlayerCommandsSafe.resume
+                : responseOfSendPlayerCommandsSafe.pause
             }
-          }}
-          disabled={controlDisabled}
-          error={fetchError}
-          icon={isPlaying ? (playerStatus.paused ? 'play' : 'pause') : 'stop'}
-        />
-        <ManageButton
-          responseOfManage={responseOfSendPlayerCommandsSafe.fast_forward}
-          onClick={() => {
-            dispatch(sendPlayerCommand('fast_forward'))
-          }}
-          disabled={controlDisabled}
-          error={fetchError}
-          icon="forward"
-        />
-        <ManageButton
-          responseOfManage={responseOfSendPlayerCommandsSafe.skip}
-          onClick={() => {
-            dispatch(sendPlayerCommand('skip', true))
-          }}
-          disabled={controlDisabled}
-          error={fetchError}
-          icon="step-forward"
-        />
-      </div>
+            onClick={() => {
+              if (!isPlaying) return
+
+              if (playerStatus.paused) {
+                dispatch(sendPlayerCommand('resume'))
+              } else {
+                dispatch(sendPlayerCommand('pause'))
+              }
+            }}
+            disabled={controlDisabled}
+            error={fetchError}
+            icon={isPlaying ? (playerStatus.paused ? 'play' : 'pause') : 'stop'}
+          />
+          <ManageButton
+            responseOfManage={responseOfSendPlayerCommandsSafe.fast_forward}
+            onClick={() => {
+              dispatch(sendPlayerCommand('fast_forward'))
+            }}
+            disabled={controlDisabled}
+            error={fetchError}
+            icon="forward"
+          />
+          <ManageButton
+            responseOfManage={responseOfSendPlayerCommandsSafe.skip}
+            onClick={() => {
+              dispatch(sendPlayerCommand('skip', true))
+            }}
+            disabled={controlDisabled}
+            error={fetchError}
+            icon="step-forward"
+          />
+        </div>
+      )}
       <progress
         className={classNames('progressbar', fetchError ? 'danger' : 'primary')}
         value={progress}

@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useSearchParams } from 'react-router'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
-import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
+import { useDefaultTransitionState } from 'hooks/transitions'
 import { isDisplayable } from 'utils'
 
 export function ListingEntry({
@@ -24,11 +24,21 @@ export function ListingEntry({
   // component
   const expanded = expandable && parseInt(searchParams.get('expanded')) === id
 
+  // TODO store the component expanded state in the transition instead
+  // this may resolve the transition flickering
+  const [transitionState, transitionToggle] = useDefaultTransitionState({
+    preExit: true,
+  })
+
   useEffect(
     () => {
-      if (onToggle) {
+      // manage on toggle callback if any
+      if (typeof onToggle === 'function') {
         onToggle(expanded)
       }
+
+      // manage transition animation
+      transitionToggle(expanded)
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [expanded]
@@ -93,16 +103,11 @@ export function ListingEntry({
           <div className="notifications">{notifications}</div>
         )}
       </div>
-      <CSSTransitionLazy
-        in={expanded}
-        classNames="expand-collapse"
-        timeout={{
-          enter: 600,
-          exit: 300,
-        }}
-      >
-        <>{entryExpanded}</>
-      </CSSTransitionLazy>
+      {transitionState.isMounted && (
+        <div className={`expansion ${transitionState.status}`}>
+          {entryExpanded}
+        </div>
+      )}
     </li>
   )
 }

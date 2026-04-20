@@ -211,6 +211,9 @@ export default function QueuingEntry({ entry, positions }) {
   const [reorderTransitionState, reorderTransitionToggle] =
     useDefaultTransitionState()
 
+  const [confirmTransitionState, confirmTransitionToggle] =
+    useDefaultTransitionState()
+
   useEffect(
     () => {
       reorderTransitionToggle(inReorder)
@@ -219,25 +222,24 @@ export default function QueuingEntry({ entry, positions }) {
     [inReorder]
   )
 
-  const [confirmTransitionState, confirmTransitionToggle] =
-    useDefaultTransitionState()
-
   const controlsExpanded = [
     <IsPlaylistManager user={user} key="reorder">
-      <div className={`reorder ${reorderTransitionState.status}`}>
-        {!positions.isFirstPage && (
-          <ReorderButton
-            handleReorder={handleReorderFirst}
-            className="la-arrow-up overbar"
-          />
-        )}
-        {!positions.isLastPage && (
-          <ReorderButton
-            handleReorder={handleReorderLast}
-            className="la-arrow-down underbar"
-          />
-        )}
-      </div>
+      {reorderTransitionState.isMounted && (
+        <div className={`reorder ${reorderTransitionState.status}`}>
+          {!positions.isFirstPage && (
+            <ReorderButton
+              handleReorder={handleReorderFirst}
+              className="la-arrow-up overbar"
+            />
+          )}
+          {!positions.isLastPage && (
+            <ReorderButton
+              handleReorder={handleReorderLast}
+              className="la-arrow-down underbar"
+            />
+          )}
+        </div>
+      )}
       <ReorderButton
         handleReorder={handleReorderToggle}
         className={inReorder ? 'la-ban' : 'la-arrows-alt-v'}

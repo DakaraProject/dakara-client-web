@@ -11,8 +11,10 @@
 // @param $timeout-enter timing of the entering step
 // @param $timeout-exit timing of the exiting step
 // @param $pre-enter enable pre-enter step
-// @param $enter enable entering and entered steps
-// @param $exit enable exiting step
+// @param $entering enable entering step
+// @param $entered enable entered step
+// @param $pre-exit enable pre-exit step
+// @param $exiting enable exiting step
 // @param $exited enable exited step
 // @param $unmounted enable unmounted step
 // step
@@ -22,30 +24,42 @@
   $to,
   $timeout-enter: 300ms,
   $timeout-exit: 150ms,
-  $pre-enter: on,
-  $enter: on,
-  $exit: on,
-  $exited: off,
-  $unmounted: on
+  $pre-enter: true,
+  $entering: true,
+  $entered: true,
+  $pre-exit: false,
+  $exiting: true,
+  $exited: false,
+  $unmounted: true
 ) {
   @if ($pre-enter) {
     &.preEnter {
       #{$property}: $from;
     }
+  } @else {
+    #{$property}: $from;
   }
 
-  @if ($enter) {
+  @if ($entering) {
     &.entering {
       #{$property}: $to;
       transition: $property $timeout-enter ease-out;
     }
+  }
 
+  @if ($entered) {
     &.entered {
       #{$property}: $to;
     }
   }
 
-  @if ($exit) {
+  @if ($pre-exit) {
+    &.preExit {
+      #{$property}: $to;
+    }
+  }
+
+  @if ($exiting) {
     &.exiting {
       #{$property}: $from;
       transition: $property $timeout-exit ease-in;
