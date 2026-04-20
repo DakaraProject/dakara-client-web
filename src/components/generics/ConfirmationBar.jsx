@@ -9,6 +9,10 @@ export default function ConfirmationBar({
   hideOnCancel = true,
   hideOnConfirm = false,
 }) {
+  if (!state.isMounted) {
+    return null
+  }
+
   return (
     <div className={`confirmation-bar notified ${state.status}`}>
       <div className="notification warning">

@@ -89,7 +89,7 @@ export default function NotificationBar({
 
   const notificationMessage = getMessage(alterationResponse)
 
-  if (notificationMessage) {
+  if (notificationMessage && state.isMounted) {
     return (
       <div className={`notification-bar notified ${state.status}`}>
         <div className={`notification non-hoverizable ${types[status] || ''}`}>

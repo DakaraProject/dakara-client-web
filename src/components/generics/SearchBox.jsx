@@ -88,11 +88,13 @@ export default function SearchBox({ help, placeholder, query, setQuery }) {
       </button>
     )
 
-    helpBox = (
-      <div className={`help ${transitionState.status}`}>
-        <SearchBoxHelp {...help} />
-      </div>
-    )
+    if (transitionState.isMounted) {
+      helpBox = (
+        <div className={`help ${transitionState.status}`}>
+          <SearchBoxHelp {...help} />
+        </div>
+      )
+    }
   }
 
   return (
