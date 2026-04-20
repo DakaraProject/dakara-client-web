@@ -66,14 +66,14 @@
     }
   }
 
-  @if ($unmounted) {
-    &.unmounted {
-      display: none;
+  @if ($exited) {
+    &.exited {
+      #{$property}: $from;
     }
   }
 
-  @if ($exited) {
-    &.exited {
+  @if ($unmounted) {
+    &.unmounted {
       display: none;
     }
   }

@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { CSSTransition } from 'react-transition-group'
 
 import {
   createPlayerToken,
@@ -121,26 +120,33 @@ function PlayerTokenBox() {
     [playerTokenStatus, karaokeId]
   )
 
+  const [tokenTransitionState, tokenTransitionToggle] =
+    useDefaultTransitionState({
+      mountOnEnter: false,
+      unmountOnExit: false,
+    })
+
+  useEffect(
+    () => {
+      tokenTransitionToggle(keyExists)
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [keyExists]
+  )
+
   // NOTE If the token is not found, the status is still `successful` as this
   // is a valid case. Check the reducer to see how this case is handled.
 
   let playerTokenBox
   if (playerTokenStatus === Status.successful) {
     playerTokenBox = (
-      <CSSTransition
-        in={keyExists}
-        classNames="token-player"
-        timeout={{
-          enter: 30000,
-          exit: 15000,
-        }}
-      >
+      <div className={`token-player flow ${tokenTransitionState.status}`}>
         {keyExists ? (
           <PlayerTokenBoxDisplay playerToken={playerToken} karaoke={karaoke} />
         ) : (
           <PlayerTokenBoxCreate karaoke={karaoke} />
         )}
-      </CSSTransition>
+      </div>
     )
   } else if (playerTokenStatus === Status.failed) {
     playerTokenBox = (
