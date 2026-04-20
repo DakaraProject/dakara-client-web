@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { clearAlteration } from 'actions/alterations'
@@ -11,9 +11,9 @@ import NotificationBar, {
   NotifiableForTable,
 } from 'components/generics/NotificationBar'
 import { Checkmark } from 'components/generics/Shapes'
+import { useDefaultTransitionState } from 'hooks/transitions'
 import { Status } from 'reducers/alterationsResponse'
 import { songTagPropType } from 'serverPropTypes/library'
-import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
 export default function SongTagsEntry({ tag, editable }) {
   const query = useSelector((state) => state.settings.songTags.data.query)
@@ -24,7 +24,8 @@ export default function SongTagsEntry({ tag, editable }) {
     (state) => state.alterationsResponse.multiple.editSongTagColor?.[tag.id]
   )
 
-  const [colorFormDisplayed, setColorFormDisplayed] = useState(false)
+  const [formTransitionState, formTransitionToggle] =
+    useDefaultTransitionState()
 
   const dispatch = useDispatch()
 
@@ -36,14 +37,6 @@ export default function SongTagsEntry({ tag, editable }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
-
-  const displayColorForm = useCallback(() => {
-    setColorFormDisplayed(true)
-  }, [])
-
-  const clearColorForm = useCallback(() => {
-    setColorFormDisplayed(false)
-  }, [])
 
   // enableness status
   const disabled = responseOfEdit && responseOfEdit.status === Status.pending
@@ -85,7 +78,7 @@ export default function SongTagsEntry({ tag, editable }) {
       <div className="controls">
         <button
           className="control square display-color"
-          onClick={displayColorForm}
+          onClick={() => formTransitionToggle(true)}
           style={{ filter: `hue-rotate(${tag.color_hue}deg)` }}
         >
           <span className="icon">
@@ -116,29 +109,16 @@ export default function SongTagsEntry({ tag, editable }) {
   )
 
   const cancelButton = (
-    <button onClick={clearColorForm} className="control square danger">
+    <button
+      onClick={() => {
+        formTransitionToggle(false)
+      }}
+      className="control square danger"
+    >
       <span className="icon">
         <i className="las la-times"></i>
       </span>
     </button>
-  )
-
-  const colorForm = (
-    <div className="notified color-form-notified">
-      <FormInline
-        action={`library/song-tags/${tag.id}/`}
-        method="PATCH"
-        submitText={submitText}
-        submitClass="square success"
-        alterationName="editSongTagColor"
-        elementId={tag.id}
-        noClearOnSuccess
-        onSuccess={clearColorForm}
-        extraControls={[cancelButton]}
-      >
-        <HueField id="color_hue" defaultValue={tag.color_hue} />
-      </FormInline>
-    </div>
   )
 
   return (
@@ -157,16 +137,27 @@ export default function SongTagsEntry({ tag, editable }) {
             pendingMessage={false}
             failedMessage="Error attempting to edit tag color"
           />
-          <CSSTransitionLazy
-            in={colorFormDisplayed}
-            classNames="notified"
-            timeout={{
-              enter: 300,
-              exit: 150,
-            }}
-          >
-            {colorForm}
-          </CSSTransitionLazy>
+          {formTransitionState.isMounted && (
+            <div
+              className={`notified color-form ${formTransitionState.status}`}
+            >
+              <FormInline
+                action={`library/song-tags/${tag.id}/`}
+                method="PATCH"
+                submitText={submitText}
+                submitClass="square success"
+                alterationName="editSongTagColor"
+                elementId={tag.id}
+                noClearOnSuccess
+                onSuccess={() => {
+                  formTransitionToggle(false)
+                }}
+                extraControls={[cancelButton]}
+              >
+                <HueField id="color_hue" defaultValue={tag.color_hue} />
+              </FormInline>
+            </div>
+          )}
         </NotifiableForTable>
       </td>
       <td className="name">
