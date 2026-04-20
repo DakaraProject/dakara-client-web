@@ -89,17 +89,40 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
       }
     }
 
-    .expansion {
+    // appearance transition
+    &.add-remove-enter {
+      max-height: 0;
+      min-height: initial;
       overflow: hidden;
 
-      // appearance transition
-      @include transitions.make-transition(
-        max-height,
-        $from: 0,
-        $to: 10 * $listing-entry-height,
-        $entered: false,
-        $pre-exit: true
-      );
+      &.add-remove-enter-active {
+        max-height: $listing-entry-height;
+        transition: max-height 300ms ease-out;
+      }
+    }
+
+    // disappearance transition
+    &.add-remove-exit {
+      max-height: $listing-entry-height;
+      min-height: initial;
+      overflow: hidden;
+
+      &.expanded {
+        max-height: 15 * sizes.$subrow-height;
+      }
+
+      &.add-remove-exit-active {
+        max-height: 0;
+        transition: max-height 150ms ease-in;
+
+        &.expanded {
+          transition: max-height 300ms ease-in;
+        }
+
+        &.delayed {
+          transition-delay: 500ms;
+        }
+      }
     }
 
     .extra {
@@ -179,32 +202,25 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
       }
     }
 
-    > .expanded {
-      @include sizes.make-gap(padding, vertical);
+    > .expansion {
+      overflow: hidden;
 
-      &.expand-collapse-enter {
-        max-height: 0;
-        overflow: hidden;
+      // appearance transition
+      @include transitions.make-transition(
+        max-height,
+        $from: 0,
+        $to: 10 * $listing-entry-height,
+        $entered: false,
+        $pre-exit: true
+      );
 
-        &.expand-collapse-enter-active {
-          max-height: 15 * sizes.$subrow-height;
-          transition: max-height 600ms ease-out;
+      > .expanded {
+        @include sizes.make-gap(padding, vertical);
+
+        // space between every element
+        & > * + * {
+          @include sizes.make-gap(margin, top);
         }
-      }
-
-      &.expand-collapse-exit {
-        max-height: 15 * sizes.$subrow-height;
-        overflow: hidden;
-
-        &.expand-collapse-exit-active {
-          max-height: 0;
-          transition: max-height 300ms ease-in;
-        }
-      }
-
-      // space between every element
-      & > * + * {
-        @include sizes.make-gap(margin, top);
       }
     }
   }
