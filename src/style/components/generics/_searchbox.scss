@@ -30,8 +30,8 @@
   .transition {
     margin: 0;
 
-    &.collapse-enter.collapse-enter-active,
-    &.collapse-exit:not(.collapse-exit-active) {
+    &.collapse-vertical-enter.collapse-vertical-enter-active,
+    &.collapse-vertical-exit:not(.collapse-vertical-exit-active) {
       max-height: 4 * sizes.$row-height;
     }
   }

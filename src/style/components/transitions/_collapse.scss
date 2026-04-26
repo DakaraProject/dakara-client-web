@@ -2,7 +2,7 @@
 @use '~/abstracts/sizes';
 
 @include transitions.make-transition(
-  'collapse',
+  'collapse-vertical',
   max-height,
   $from: 0,
   $to: calc(15 * sizes.$subrow-height),
@@ -10,8 +10,23 @@
 );
 
 .transition {
-  &.collapse-enter,
-  &.collapse-exit {
+  &.collapse-vertical-enter,
+  &.collapse-vertical-exit {
     overflow-y: hidden;
+  }
+}
+
+@include transitions.make-transition(
+  'collapse-horizontal',
+  max-width,
+  $from: 0,
+  $to: calc(sizes.$row-height),
+  $enter-done: false
+);
+
+.transition {
+  &.collapse-horizontal-enter,
+  &.collapse-horizontal-exit {
+    overflow-x: hidden;
   }
 }

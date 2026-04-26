@@ -15,12 +15,12 @@ import {
 } from 'components/generics/listing/Entry'
 import NotificationBar from 'components/generics/NotificationBar'
 import PlaylistEntryWidget from 'components/playlist/widgets/PlaylistEntry'
+import Collapse from 'components/transitions/Collapse'
 import {
   IsPlaylistManager,
   IsPlaylistManagerOrOwner,
 } from 'permissions/components/Playlist'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
-import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 import { formatDateLong } from 'utils'
 
 function ReorderButton({ handleReorder, className, id }) {
@@ -212,15 +212,8 @@ export default function QueuingEntry({ entry, positions }) {
 
   const controlsExpanded = [
     <IsPlaylistManager user={user} key="reorder">
-      <CSSTransitionLazy
-        in={inReorder}
-        classNames="show-hide"
-        timeout={{
-          enter: 3000,
-          exit: 1500,
-        }}
-      >
-        <div className="reorder">
+      <Collapse in={inReorder} horizontal>
+        <div className="transition reorder">
           {!positions.isFirstPage && (
             <ReorderButton
               handleReorder={handleReorderFirst}
@@ -234,7 +227,7 @@ export default function QueuingEntry({ entry, positions }) {
             />
           )}
         </div>
-      </CSSTransitionLazy>
+      </Collapse>
       <ReorderButton
         handleReorder={handleReorderToggle}
         className={inReorder ? 'la-ban' : 'la-arrows-alt-v'}
@@ -257,15 +250,8 @@ export default function QueuingEntry({ entry, positions }) {
 
   const controls = [
     <IsPlaylistManager user={user} key="reorder">
-      <CSSTransitionLazy
-        in={inReorder}
-        classNames="show-hide"
-        timeout={{
-          enter: 300,
-          exit: 150,
-        }}
-      >
-        <div className="reorder">
+      <Collapse in={inReorder} horizontal>
+        <div className="transition reorder">
           {reorderIndex > positions.position ? (
             <ReorderButton
               handleReorder={handleReorderUp}
@@ -280,7 +266,7 @@ export default function QueuingEntry({ entry, positions }) {
             />
           )}
         </div>
-      </CSSTransitionLazy>
+      </Collapse>
     </IsPlaylistManager>,
     controlSearch,
   ]
