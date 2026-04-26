@@ -1,8 +1,8 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { CSSTransition } from 'react-transitioning'
 
-import { useDefaultTransitionState } from 'hooks/transitions'
 import {
   alterationResponsePropType,
   Status,
@@ -23,7 +23,7 @@ export default function NotificationBar({
   successfulMessage = 'Success',
   noDisplayOnMount = false,
 }) {
-  const [state, toggle] = useDefaultTransitionState()
+  const [show, setShow] = useState(false)
 
   const durations = useMemo(
     () => ({
@@ -69,13 +69,13 @@ export default function NotificationBar({
     }
 
     // display if status and date changed and have a valid value
-    toggle(true)
+    setShow(true)
 
     // request to hide success or failure message only after a certain time
     let timeout
     if (status !== Status.pending && durations[status]) {
       timeout = setTimeout(() => {
-        toggle(false)
+        setShow(false)
       }, durations[status])
     }
 
@@ -89,17 +89,19 @@ export default function NotificationBar({
 
   const notificationMessage = getMessage(alterationResponse)
 
-  if (notificationMessage && state.isMounted) {
-    return (
-      <div className={`notification-bar notified ${state.status}`}>
-        <div className={`notification non-hoverizable ${types[status] || ''}`}>
-          <div className="message">{getMessage(alterationResponse)}</div>
-        </div>
-      </div>
-    )
+  if (!notificationMessage) {
+    return null
   }
 
-  return null
+  return (
+    <CSSTransition in={show} classNames="slide" duration="300">
+      <div className="notification-bar notified">
+        <div className={`notification non-hoverizable ${types[status] || ''}`}>
+          <div className="message">{notificationMessage}</div>
+        </div>
+      </div>
+    </CSSTransition>
+  )
 }
 
 NotificationBar.propTypes = {

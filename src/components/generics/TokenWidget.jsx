@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 
-import Notification from 'components/generics/Notification'
+import NotificationBar from 'components/generics/NotificationBar'
 import { Status } from 'reducers/alterationsResponse'
 
 export default function TokenWidget({ token }) {
@@ -32,7 +32,7 @@ export default function TokenWidget({ token }) {
           </span>
         </button>
       </div>
-      <Notification
+      <NotificationBar
         alterationResponse={{
           status: tokenCopyStatus,
           date: -1, // XXX There should be a valid date here

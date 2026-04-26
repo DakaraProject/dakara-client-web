@@ -7,9 +7,9 @@ import { clearAlteration } from 'actions/alterations'
 import { editSongTag } from 'actions/songTags'
 import { CheckboxField, FormInline, HueField } from 'components/generics/Form'
 import HighlighterQuery from 'components/generics/HighlighterQuery'
-import Notification, {
+import NotificationBar, {
   NotifiableForTable,
-} from 'components/generics/Notification'
+} from 'components/generics/NotificationBar'
 import { Checkmark } from 'components/generics/Shapes'
 import { Status } from 'reducers/alterationsResponse'
 import { songTagPropType } from 'serverPropTypes/library'
@@ -145,13 +145,13 @@ export default function SongTagsEntry({ tag, editable }) {
     <tr className="listing-entry listable hoverizable">
       <td className="notification-col color">
         <NotifiableForTable>
-          <Notification
+          <NotificationBar
             alterationResponse={responseOfEdit}
             failedMessage="Error attempting to edit tag"
             pendingMessage={false}
             successfulMessage={false}
           />
-          <Notification
+          <NotificationBar
             alterationResponse={responseOfEditColor}
             successfulMessage={false}
             pendingMessage={false}

@@ -6,9 +6,9 @@ import { clearAlteration } from 'actions/alterations'
 import { deleteUser } from 'actions/users'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import HighlighterQuery from 'components/generics/HighlighterQuery'
-import Notification, {
+import NotificationBar, {
   NotifiableForTable,
-} from 'components/generics/Notification'
+} from 'components/generics/NotificationBar'
 import PermissionText from 'components/generics/PermissionText'
 import { Checkmark } from 'components/generics/Shapes'
 import { IsNotSelf, IsUsersManager } from 'permissions/components/Users'
@@ -56,7 +56,7 @@ export default function UsersEntry({ user }) {
               }}
             />
           </CSSTransitionLazy>
-          <Notification
+          <NotificationBar
             alterationResponse={responseOfDelete}
             pendingMessage="Deleting…"
             successfulMessage="Successfuly deleted!"

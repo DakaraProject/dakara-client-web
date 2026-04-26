@@ -13,7 +13,7 @@ import {
   ListingEntry,
   ListingEntryExpanded,
 } from 'components/generics/listing/Entry'
-import Notification from 'components/generics/Notification'
+import NotificationBar from 'components/generics/NotificationBar'
 import PlaylistEntryWidget from 'components/playlist/widgets/PlaylistEntry'
 import {
   IsPlaylistManager,
@@ -304,7 +304,7 @@ export default function QueuingEntry({ entry, positions }) {
         }}
       />
     </CSSTransitionLazy>,
-    <Notification
+    <NotificationBar
       key="response-of-remove-entry"
       alterationResponse={responseOfRemoveEntry}
       pendingMessage="Removing…"
@@ -312,7 +312,7 @@ export default function QueuingEntry({ entry, positions }) {
       successfulDuration={null}
       failedMessage="Error attempting to remove song from playlist"
     />,
-    <Notification
+    <NotificationBar
       key="response-of-reorder-playlist-entry"
       alterationResponse={responseOfReorderPlaylistEntry}
       pendingMessage={false}

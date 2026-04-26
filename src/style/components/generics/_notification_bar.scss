@@ -7,7 +7,6 @@
 @use '~/abstracts/colors';
 @use '~/abstracts/sizes';
 @use '~/abstracts/support';
-@use '~/abstracts/transitions';
 
 // `notification` class:
 //
@@ -37,6 +36,28 @@
     position: absolute;
     top: 0;
     width: 100%;
+
+    // notification transition appearance
+    &.slide-appear,
+    &.slide-enter {
+      left: 100%;
+
+      &.slide-appear-active,
+      &.slide-enter-active {
+        left: 0;
+        transition: left 300ms ease-out;
+      }
+    }
+
+    // notification transition disappearance
+    &.slide-exit {
+      left: 0;
+
+      &.slide-exit-active {
+        left: 100%;
+        transition: left 150ms ease-out;
+      }
+    }
 
     .notification {
       display: flex;
