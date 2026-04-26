@@ -286,24 +286,14 @@ export default function QueuingEntry({ entry, positions }) {
   ]
 
   const notifications = [
-    <CSSTransitionLazy
+    <ConfirmationBar
       key="remove"
-      in={confirmDisplayed}
-      classNames="notified"
-      timeout={{
-        enter: 300,
-        exit: 150,
+      show={confirmDisplayed}
+      setShow={setConfirmDisplayed}
+      onConfirm={() => {
+        dispatch(removeEntryFromPlaylist(entry.id))
       }}
-    >
-      <ConfirmationBar
-        onConfirm={() => {
-          dispatch(removeEntryFromPlaylist(entry.id))
-        }}
-        onCancel={() => {
-          setConfirmDisplayed(false)
-        }}
-      />
-    </CSSTransitionLazy>,
+    />,
     <NotificationBar
       key="response-of-remove-entry"
       alterationResponse={responseOfRemoveEntry}
