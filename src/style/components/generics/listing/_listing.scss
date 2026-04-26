@@ -129,7 +129,7 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
       padding: 0;
     }
 
-    > .one-line {
+    .listing-entry-compact {
       display: flex;
 
       .expander {
@@ -201,28 +201,8 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
       }
     }
 
-    > .expanded {
+    .listing-entry-expanded {
       @include sizes.make-gap(padding, vertical);
-
-      &.expand-collapse-enter {
-        max-height: 0;
-        overflow: hidden;
-
-        &.expand-collapse-enter-active {
-          max-height: 15 * sizes.$subrow-height;
-          transition: max-height 600ms ease-out;
-        }
-      }
-
-      &.expand-collapse-exit {
-        max-height: 15 * sizes.$subrow-height;
-        overflow: hidden;
-
-        &.expand-collapse-exit-active {
-          max-height: 0;
-          transition: max-height 300ms ease-in;
-        }
-      }
 
       // space between every element
       & > * + * {

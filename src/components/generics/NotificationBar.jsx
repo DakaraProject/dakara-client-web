@@ -1,8 +1,8 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { CSSTransition } from 'react-transitioning'
 
+import Slide from 'components/transitions/Slide'
 import {
   alterationResponsePropType,
   Status,
@@ -94,13 +94,13 @@ export default function NotificationBar({
   }
 
   return (
-    <CSSTransition in={show} classNames="slide" duration="300">
-      <div className="notification-bar notified">
+    <Slide in={show}>
+      <div className="notification-bar notified transition">
         <div className={`notification non-hoverizable ${types[status] || ''}`}>
           <div className="message">{notificationMessage}</div>
         </div>
       </div>
-    </CSSTransition>
+    </Slide>
   )
 }
 

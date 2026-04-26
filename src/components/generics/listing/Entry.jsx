@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useSearchParams } from 'react-router'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
-import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
+import Collapse from 'components/transitions/Collapse'
 import { isDisplayable } from 'utils'
 
 export function ListingEntry({
@@ -67,7 +67,7 @@ export function ListingEntry({
   return (
     <li className={classNames('listing-entry listable', { expanded })}>
       <div
-        className={classNames('one-line', {
+        className={classNames('listing-entry-compact', {
           hoverizable: !noHoverizable,
           notifiable: isDisplayable(notifications),
         })}
@@ -93,16 +93,9 @@ export function ListingEntry({
           <div className="notifications">{notifications}</div>
         )}
       </div>
-      <CSSTransitionLazy
-        in={expanded}
-        classNames="expand-collapse"
-        timeout={{
-          enter: 600,
-          exit: 300,
-        }}
-      >
-        <>{entryExpanded}</>
-      </CSSTransitionLazy>
+      <Collapse in={expanded}>
+        <div className="transition">{entryExpanded}</div>
+      </Collapse>
     </li>
   )
 }
@@ -159,7 +152,7 @@ export function ListingEntryExpanded({
   notifications,
 }) {
   return (
-    <div className="expanded">
+    <div className="listing-entry-expanded">
       {isDisplayable(extra) && <ul className="extra">{extra}</ul>}
       <div className="main">{children}</div>
       {(isDisplayable(controls) || isDisplayable(notifications)) && (

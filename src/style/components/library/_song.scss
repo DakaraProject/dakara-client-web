@@ -10,7 +10,7 @@
 // `listing` module. It is aimed to stylize the specific elements of a list of
 // songs.
 //
-// The song can be represented in a compact, one-line view or in an expanded,
+// The song can be represented in a compact, listing-entry-compact view or in an expanded,
 // multi-lines view. More elements are present in the expanded view, which takes
 // usually more space and have larger margins compared to the compact view. The
 // compact view stays even if the expandes view is displayed, it only contains
@@ -20,7 +20,7 @@
 // This list entry is not hoverizable, in order to make only the compact view
 // react to hover.
 #song-library {
-  .one-line {
+  .listing-entry-compact {
     .main {
       position: relative;
 

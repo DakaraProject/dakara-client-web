@@ -1,0 +1,17 @@
+@use '~/abstracts/transitions';
+@use '~/abstracts/sizes';
+
+@include transitions.make-transition(
+  'collapse',
+  max-height,
+  $from: 0,
+  $to: calc(15 * sizes.$subrow-height),
+  $enter-done: false
+);
+
+.transition {
+  &.collapse-enter,
+  &.collapse-exit {
+    overflow-y: hidden;
+  }
+}

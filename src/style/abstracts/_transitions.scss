@@ -1,0 +1,77 @@
+//
+// Dakara Project
+//
+// Transitions style file
+//
+
+// helper for creating transition styles
+// @param $name name of the transitiion
+// @param $property property to transition
+// @param $from value of the property before entered and after exiting
+// @param $to value of the property after entered and before exiting
+// @param $duration-enter timing of the entering step
+// @param $duration-exit timing of the exiting step
+// @param $enter enable enter step
+// @param $enter-active enable enterActive step
+// @param $enter-done enable enterDone step
+// @param $exit enable exit step
+// @param $exit-active enable exitActive step
+// @param $exit-done enable exitDone step
+// step
+@mixin make-transition(
+  $name,
+  $property,
+  $from,
+  $to,
+  $duration-enter: 300ms,
+  $duration-exit: 150ms,
+  $enter: true,
+  $enter-active: true,
+  $enter-done: true,
+  $exit: true,
+  $exit-active: true,
+  $exit-done: true
+) {
+  .transition {
+    @if ($enter) {
+      &.#{$name}-appear,
+      &.#{$name}-enter {
+        #{$property}: $from;
+
+        @if ($enter-active) {
+          &.#{$name}-appear-active,
+          &.#{$name}-enter-active {
+            #{$property}: $to;
+            transition: $property $duration-enter ease-out;
+          }
+        }
+      }
+    }
+
+    @if ($enter-done) {
+      &.#{$name}-appear-done,
+      &.#{$name}-enter-done {
+        #{$property}: $to;
+      }
+    }
+
+    @if ($exit) {
+      &.#{$name}-exit {
+        #{$property}: $to;
+
+        @if ($exit-active) {
+          &.#{$name}-exit-active {
+            #{$property}: $from;
+            transition: $property $duration-exit ease-in;
+          }
+        }
+      }
+    }
+
+    @if ($exit-done) {
+      &.#{$name}-exit-done {
+        #{$property}: $from;
+      }
+    }
+  }
+}
