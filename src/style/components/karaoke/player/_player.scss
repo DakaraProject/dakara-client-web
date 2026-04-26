@@ -36,6 +36,18 @@ $player-progressbar-height: 0.4rem;
     }
   }
 
+  .transition {
+    &.collapse-enter.collapse-enter-active,
+    &.collapse-exit:not(.collapse-exit-active) {
+      max-height: $player-controls-height + sizes.$gap-vertical;
+
+      @include support.make-smartphone {
+        max-height: $player-controls-height-smartphone +
+          sizes.$gap-vertical-smartphone;
+      }
+    }
+  }
+
   // `controls` class: buttons to send commands to the player.
   .controls {
     @include sizes.make-gap(margin, bottom);
@@ -51,36 +63,6 @@ $player-progressbar-height: 0.4rem;
       align-items: center;
       display: flex;
       justify-content: flex-start;
-    }
-
-    &.expand-enter {
-      max-height: 0;
-      overflow-y: hidden;
-
-      &.expand-enter-active {
-        max-height: $player-controls-height + sizes.$gap-vertical;
-        transition: max-height 300ms ease-out;
-
-        @include support.make-smartphone {
-          max-height: $player-controls-height-smartphone +
-            sizes.$gap-vertical-smartphone;
-        }
-      }
-    }
-
-    &.expand-exit {
-      max-height: $player-controls-height + sizes.$gap-vertical;
-      overflow-y: hidden;
-
-      @include support.make-smartphone {
-        max-height: $player-controls-height-smartphone +
-          sizes.$gap-vertical-smartphone;
-      }
-
-      &.expand-exit-active {
-        max-height: 0;
-        transition: max-height 150ms ease-in;
-      }
     }
   }
 
