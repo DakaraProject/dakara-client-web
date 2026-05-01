@@ -7,8 +7,9 @@
 // helper for creating transition styles
 // @param $name name of the transitiion
 // @param $property property to transition
-// @param $from value of the property before entered and after exiting
+// @param $from value of the property before entered, and after exiting if $away is not set
 // @param $to value of the property after entered and before exiting
+// @param $away value of the property after exiting
 // @param $duration-enter timing of the entering step
 // @param $duration-exit timing of the exiting step
 // @param $enter enable enter step
@@ -23,6 +24,7 @@
   $property,
   $from,
   $to,
+  $away: false,
   $duration-enter: 300ms,
   $duration-exit: 150ms,
   $enter: true,
@@ -61,7 +63,11 @@
 
         @if ($exit-active) {
           &.#{$name}-exit-active {
-            #{$property}: $from;
+            @if ($away) {
+              #{$property}: $away;
+            } @else {
+              #{$property}: $from;
+            }
             transition: $property $duration-exit ease-in;
           }
         }
@@ -70,7 +76,11 @@
 
     @if ($exit-done) {
       &.#{$name}-exit-done {
-        #{$property}: $from;
+        @if ($away) {
+          #{$property}: $away;
+        } @else {
+          #{$property}: $from;
+        }
       }
     }
   }

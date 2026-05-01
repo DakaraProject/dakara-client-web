@@ -2,11 +2,11 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 
+import Swipe from 'components/transitions/Swipe'
 import {
   alterationResponsePropType,
   Status,
 } from 'reducers/alterationsResponse'
-import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
 /**
  * ManageButton class for a button connected to a player manage command
@@ -121,8 +121,7 @@ export default class ManageButton extends Component {
   }
 
   render() {
-    const { onClick, disabled, className, timeout, iconDisabled, error } =
-      this.props
+    const { onClick, disabled, className, iconDisabled, error } = this.props
 
     const onClickControlled = (e) => {
       // do not manage any other click during the transition
@@ -150,15 +149,11 @@ export default class ManageButton extends Component {
         onClick={onClickControlled}
         disabled={disabled}
       >
-        <CSSTransitionLazy
-          in={this.state.display}
-          classNames="managed"
-          timeout={timeout}
-        >
-          <div className="managed icon">
+        <Swipe in={this.state.display}>
+          <div className="managed icon transition">
             <i className={`las la-${icon}`}></i>
           </div>
-        </CSSTransitionLazy>
+        </Swipe>
       </button>
     )
   }
