@@ -42,7 +42,7 @@ export default function ListingList({
         {noTransition ? (
           entries
         ) : (
-          <TransitionGroup appear={false} enter={transition} exit={transition}>
+          <TransitionGroup enter={transition} exit={transition}>
             {entries.map((item) => (
               <Collapse key={item.key}>{item}</Collapse>
             ))}

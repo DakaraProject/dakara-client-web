@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { useContext, useEffect } from 'react'
 import { useSearchParams } from 'react-router'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { TransitionGroup } from 'react-transitioning'
 
 import Collapse from 'components/transitions/Collapse'
 import { ListingNoTransitionContext } from 'contexts/listing'
@@ -49,26 +49,6 @@ export function ListingEntry({
     setSearchParams(searchParams)
   }
 
-  /**
-   * Add transition to extra
-   */
-
-  let extraTransition
-  if (extra) {
-    extraTransition = [extra].flat().map((item, index) => (
-      <CSSTransition
-        key={index}
-        classNames="add-remove"
-        timeout={{
-          enter: 300,
-          exit: 150,
-        }}
-      >
-        {item}
-      </CSSTransition>
-    ))
-  }
-
   return (
     <li
       className={classNames('listing-entry listable', className, {
@@ -91,9 +71,15 @@ export function ListingEntry({
             <div className="main">{children}</div>
           )}
           {!expanded && (
-            <TransitionGroup className="extra" component="ul">
-              {extraTransition}
-            </TransitionGroup>
+            <ul className="extra">
+              <TransitionGroup enter={true} exit={true}>
+                {[extra].flat().map((item, index) => (
+                  <Collapse key={index} horizontal>
+                    {item}
+                  </Collapse>
+                ))}
+              </TransitionGroup>
+            </ul>
           )}
         </div>
         {!expanded && isDisplayable(controls) && (

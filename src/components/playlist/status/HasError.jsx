@@ -5,7 +5,7 @@ import { Link } from 'react-router'
 
 import { playerErrorPropType } from 'serverPropTypes/playlist'
 
-export default function HasError({ playerError, expanded }) {
+export default function HasError({ playerError, expanded, className }) {
   let message
   if (expanded) {
     message = (
@@ -27,7 +27,7 @@ export default function HasError({ playerError, expanded }) {
   }
   return (
     <li
-      className={classNames('status has-error danger', {
+      className={classNames('status has-error danger transition', className, {
         'expanded listable': expanded,
       })}
     >
@@ -42,4 +42,5 @@ export default function HasError({ playerError, expanded }) {
 HasError.propTypes = {
   expanded: PropTypes.bool,
   playerError: playerErrorPropType.isRequired,
+  className: PropTypes.string,
 }
