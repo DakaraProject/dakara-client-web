@@ -70,7 +70,7 @@ export default [
             ['^\\u0000'],
             ['^@?\\w'],
             [
-              '^(actions|components|contexts|eventManagers|middleware|permissions|reducers|serverPropTypes|style|thirdpartyExtensions|utils)',
+              '^(actions|components|contexts|eventManagers|middleware|permissions|reducers|serverPropTypes|style|utils)',
             ],
             ['^'],
             ['^\\.'],
