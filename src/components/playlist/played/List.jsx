@@ -55,11 +55,10 @@ export default function PlayedList() {
         }}
       />
       <ListingList
+        entries={playedComponent}
         fetchStatus={playlistPlayedStatus}
         transitionObservable={playedEntriesHash}
-      >
-        {playedComponent}
-      </ListingList>
+      />
       <Navigator
         count={count}
         pagination={pagination}

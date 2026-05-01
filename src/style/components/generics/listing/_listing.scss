@@ -88,42 +88,6 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
       }
     }
 
-    // appearance transition
-    &.add-remove-enter {
-      max-height: 0;
-      min-height: initial;
-      overflow: hidden;
-
-      &.add-remove-enter-active {
-        max-height: $listing-entry-height;
-        transition: max-height 300ms ease-out;
-      }
-    }
-
-    // disappearance transition
-    &.add-remove-exit {
-      max-height: $listing-entry-height;
-      min-height: initial;
-      overflow: hidden;
-
-      &.expanded {
-        max-height: 15 * sizes.$subrow-height;
-      }
-
-      &.add-remove-exit-active {
-        max-height: 0;
-        transition: max-height 150ms ease-in;
-
-        &.expanded {
-          transition: max-height 300ms ease-in;
-        }
-
-        &.delayed {
-          transition-delay: 500ms;
-        }
-      }
-    }
-
     .extra {
       // remove list left padding
       padding: 0;
@@ -201,6 +165,21 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
       }
     }
 
+    // transition for the entry
+    &.transition {
+      &.collapse-vertical-exit:not(.collapse-vertical-exit-active) {
+        max-height: 10 * sizes.$subrow-height;
+      }
+    }
+
+    // transition for the expanded entry
+    .transition {
+      &.collapse-vertical-enter.collapse-vertical-enter-active,
+      &.collapse-vertical-exit:not(.collapse-vertical-exit-active) {
+        max-height: 10 * sizes.$subrow-height;
+      }
+    }
+
     .listing-entry-expanded {
       @include sizes.make-gap(padding, vertical);
 
@@ -226,12 +205,16 @@ ul.listing {
   }
 
   .listing-entry {
-    min-height: $listing-entry-height;
+    .listing-entry-compact {
+      min-height: $listing-entry-height;
+    }
   }
 
   &.mini {
     .listing-entry {
-      min-height: sizes.$subrow-height;
+      .listing-entry-compact {
+        min-height: sizes.$subrow-height;
+      }
     }
   }
 }

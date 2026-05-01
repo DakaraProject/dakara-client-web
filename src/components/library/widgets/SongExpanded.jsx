@@ -93,9 +93,7 @@ export default function SongExpanded({ query, song }) {
           name={worksList.length > 1 ? workType.name_plural : workType.name}
           key={workTypeKey}
         >
-          <ListingList mini free>
-            {worksList}
-          </ListingList>
+          <ListingList mini free entries={worksList} />
         </DetailAny>
       )
     })
@@ -129,9 +127,7 @@ export default function SongExpanded({ query, song }) {
         icon="la-microphone-alt"
         name={song.artists.length > 1 ? 'Artists' : 'Artist'}
       >
-        <ListingList mini free>
-          {artistsList}
-        </ListingList>
+        <ListingList mini free entries={artistsList} />
       </DetailAny>
     )
   }

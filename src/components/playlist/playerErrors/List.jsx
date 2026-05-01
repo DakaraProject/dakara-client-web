@@ -55,11 +55,10 @@ export default function PlayerErrorsList() {
         }}
       />
       <ListingList
+        entries={errorsList}
         status={playerErrorsStatus}
         transitionObservable={playerErrorsHash}
-      >
-        {errorsList}
-      </ListingList>
+      />
       <Navigator
         count={count}
         pagination={pagination}

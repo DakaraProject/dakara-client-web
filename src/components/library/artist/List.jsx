@@ -46,9 +46,11 @@ export default function ArtistList() {
           example: 'artist',
         }}
       />
-      <ListingList fetchStatus={artistState.status} noTransition>
-        {libraryEntryArtistList}
-      </ListingList>
+      <ListingList
+        entries={libraryEntryArtistList}
+        fetchStatus={artistState.status}
+        noTransition
+      />
       <Navigator
         count={count}
         pagination={pagination}

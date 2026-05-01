@@ -5,11 +5,12 @@
   'collapse-vertical',
   max-height,
   $from: 0,
-  $to: calc(15 * sizes.$subrow-height),
+  $to: calc(sizes.$row-height),
   $enter-done: false
 );
 
 .transition {
+  &.collapse-vertical-appear,
   &.collapse-vertical-enter,
   &.collapse-vertical-exit {
     overflow-y: hidden;
@@ -25,6 +26,7 @@
 );
 
 .transition {
+  &.collapse-horizontal-appear,
   &.collapse-horizontal-enter,
   &.collapse-horizontal-exit {
     overflow-x: hidden;

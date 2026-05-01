@@ -6,7 +6,7 @@ import { ListingEntry } from 'components/generics/listing/Entry'
 import WorkWidget from 'components/library/widgets/Work'
 import { workPropType } from 'serverPropTypes/library'
 
-export default function WorkEntry({ work, workType, query }) {
+export default function WorkEntry({ work, workType, query, ...rest }) {
   const navigate = useNavigate()
 
   const controls = (
@@ -28,7 +28,7 @@ export default function WorkEntry({ work, workType, query }) {
   )
 
   return (
-    <ListingEntry id={work.id} controls={controls}>
+    <ListingEntry id={work.id} controls={controls} {...rest}>
       <WorkWidget work={work} query={query} noIcon truncatable />
     </ListingEntry>
   )

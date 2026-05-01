@@ -66,9 +66,11 @@ export default function SongList() {
           withHash: true,
         }}
       />
-      <ListingList fetchStatus={songState.status} noTransition>
-        {libraryEntrySongList}
-      </ListingList>
+      <ListingList
+        entries={libraryEntrySongList}
+        fetchStatus={songState.status}
+        noTransition
+      />
       <Navigator
         count={count}
         pagination={pagination}

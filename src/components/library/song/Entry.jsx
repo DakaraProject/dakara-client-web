@@ -22,7 +22,7 @@ import { CanAddToPlaylist } from 'permissions/components/Playlist'
 import { isPlaylistManager } from 'permissions/playlist'
 import { songPropType } from 'serverPropTypes/library'
 
-export default function SongEntry({ song, karaokeRemainingSeconds }) {
+export default function SongEntry({ song, karaokeRemainingSeconds, ...rest }) {
   const query = useSelector((state) => state.library.song.data.query)
   const responseOfAddSong = useSelector(
     (state) => state.alterationsResponse.multiple.addSongToPlaylist?.[song.id]
@@ -205,6 +205,7 @@ export default function SongEntry({ song, karaokeRemainingSeconds }) {
       notifications={notifications}
       entryExpanded={entryExpanded}
       onToggle={clearNotificationAlterations}
+      {...rest}
     >
       {isExpanded ? (
         <SongWidget song={song} query={query} noRelations noTags truncatable />

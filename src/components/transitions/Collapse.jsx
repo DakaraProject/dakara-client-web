@@ -6,6 +6,7 @@ export default function Collapse({
   duration = 300,
   horizontal = false,
   children,
+  ...rest
 }) {
   if (horizontal) {
     return (
@@ -13,6 +14,7 @@ export default function Collapse({
         in={inProp}
         classNames="collapse-horizontal"
         duration={duration}
+        {...rest}
       >
         {children}
       </CSSTransition>
@@ -24,6 +26,7 @@ export default function Collapse({
       in={inProp}
       classNames="collapse-vertical"
       duration={duration}
+      {...rest}
     >
       {children}
     </CSSTransition>
