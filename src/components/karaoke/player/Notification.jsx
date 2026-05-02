@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types'
 import { Component } from 'react'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { TransitionGroup } from 'react-transitioning'
 
+import Collapse from 'components/transitions/Collapse'
 import {
   alterationResponsePropType,
   Status,
@@ -128,25 +129,20 @@ export default class PlayerNotification extends Component {
     let notification
     if (message) {
       notification = (
-        <CSSTransition
-          classNames="player-notified"
-          timeout={{
-            enter: 300,
-            exit: 150,
-          }}
-          key={key}
-        >
-          <div className="player-notified">
+        <Collapse key={key}>
+          <div className="player-notified transition">
             <div className="notification listable danger error">{message}</div>
           </div>
-        </CSSTransition>
+        </Collapse>
       )
     }
 
     return (
-      <TransitionGroup className="player-notification">
-        {notification}
-      </TransitionGroup>
+      <div className="player-notification">
+        <TransitionGroup enter={true} exit={true}>
+          {notification}
+        </TransitionGroup>
+      </div>
     )
   }
 }
