@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { TransitionGroup } from 'react-transitioning'
 
 import {
   clearAlteration,
@@ -10,6 +10,7 @@ import {
   submitAlteration,
 } from 'actions/alterations'
 import NotificationBar from 'components/generics/NotificationBar'
+import Collapse from 'components/transitions/Collapse'
 import {
   alterationResponsePropType,
   Status,
@@ -568,15 +569,9 @@ class Field extends Component {
       ))
 
       fieldErrorMessages = (
-        <CSSTransition
-          classNames="error-container"
-          timeout={{
-            enter: 300,
-            exit: 150,
-          }}
-        >
-          <div className="error-container">{fieldErrorContent}</div>
-        </CSSTransition>
+        <Collapse>
+          <div className="error-container transition">{fieldErrorContent}</div>
+        </Collapse>
       )
     }
 
@@ -612,7 +607,9 @@ class Field extends Component {
         </label>
         <div className="input">
           {this.subRender(props)}
-          <TransitionGroup>{fieldErrorMessages}</TransitionGroup>
+          <TransitionGroup enter={true} exit={true}>
+            {fieldErrorMessages}
+          </TransitionGroup>
         </div>
       </div>
     )

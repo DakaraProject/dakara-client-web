@@ -158,24 +158,10 @@ $form-field-height: sizes.$row-height;
               @include sizes.make-vertical-row-padding(horizontal);
             }
 
-            &.error-container-enter {
-              max-height: 0;
-              overflow-y: hidden;
-
-              &.error-container-enter-active {
+            &.transitiion {
+              &.collapse-vertical-enter-active,
+              &.collapse-vertical-exit:not(.collapse-vertical-exit-active) {
                 max-height: calc(1em + #{sizes.$gap-vertical} * 2);
-                transition: max-height 300ms ease-out;
-              }
-            }
-
-            // notification transition disappearance
-            &.error-container-exit {
-              max-height: calc(1em + #{sizes.$gap-vertical} * 2);
-
-              &.error-container-exit-active {
-                max-height: 0;
-                overflow-y: hidden;
-                transition: max-height 100ms ease-out;
               }
             }
           }
