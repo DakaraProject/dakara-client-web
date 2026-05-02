@@ -108,24 +108,23 @@
 
         > .border {
           flex-grow: 1;
-          // hide after about 4 lines
-          max-height: 4.6em;
-          overflow: hidden;
 
-          &.reveal-enter-active {
-            max-height: 10 * $height;
-            transition: max-height 600ms ease-out;
-
-            .paragraph {
-              -webkit-line-clamp: none;
+          &.transition {
+            &.collapse-vertical-enter:not(.collapse-vertical-enter-active),
+            &.collapse-vertical-exit-done {
+              // hide after about 4 lines
+              max-height: 4.6em;
             }
-          }
 
-          &.reveal-enter-done {
-            max-height: unset;
+            &.collapse-vertical-enter-active {
+              max-height: 15 * $height;
+            }
 
-            .paragraph {
-              -webkit-line-clamp: none;
+            &.collapse-vertical-enter-active,
+            &.collapse-vertical-enter-done {
+              .paragraph {
+                -webkit-line-clamp: none;
+              }
             }
           }
         }

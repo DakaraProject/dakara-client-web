@@ -1,8 +1,8 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { useState } from 'react'
-import { CSSTransition } from 'react-transition-group'
 
+import Collapse from 'components/transitions/Collapse'
 import { isDisplayable } from 'utils'
 
 export function Details({ children }) {
@@ -69,17 +69,11 @@ export function DetailLongText({
         notifiable: isDisplayable(notifications),
       })}
     >
-      <CSSTransition
-        classNames="reveal"
-        in={revealed}
-        timeout={{
-          enter: 300,
-        }}
-      >
-        <div className="border">
+      <Collapse in={revealed} exit={false} alwaysMounted={true}>
+        <div className="border transition">
           <p className="paragraph">{children}</p>
         </div>
-      </CSSTransition>
+      </Collapse>
       {!revealed && (
         <div className="controls">
           <button
