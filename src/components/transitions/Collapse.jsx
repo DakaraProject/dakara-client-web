@@ -3,6 +3,7 @@ import { CSSTransition } from 'react-transitioning'
 
 export default function Collapse({
   in: inProp,
+  classNames = 'collapse',
   duration = 300,
   horizontal = false,
   children,
@@ -12,7 +13,7 @@ export default function Collapse({
     return (
       <CSSTransition
         in={inProp}
-        classNames="collapse-horizontal"
+        classNames={`${classNames}-horizontal`}
         duration={duration}
         {...rest}
       >
@@ -24,7 +25,7 @@ export default function Collapse({
   return (
     <CSSTransition
       in={inProp}
-      classNames="collapse-vertical"
+      classNames={`${classNames}-vertical`}
       duration={duration}
       {...rest}
     >
@@ -35,6 +36,7 @@ export default function Collapse({
 
 Collapse.propTypes = {
   in: PropTypes.bool,
+  classNames: PropTypes.string,
   duration: PropTypes.number,
   horizontal: PropTypes.bool,
   children: PropTypes.node,

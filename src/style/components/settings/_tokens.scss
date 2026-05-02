@@ -6,34 +6,24 @@
 
 @use '~/abstracts/controls';
 @use '~/abstracts/sizes';
+@use '~/abstracts/transitions';
 
 #tokens {
   .token-box {
-    // approximate min and max height
-    $token-player-min-height: calc(
-      1.25em + sizes.$row-height + sizes.$gap-vertical
+    @include transitions.make-transition(
+      'collapse-height-vertical',
+      height,
+      $from: calc(1.4em + sizes.$row-height + sizes.$gap-vertical),
+      $to: calc(0.15em + 3 * sizes.$row-height + 2 * sizes.$gap-vertical),
+      $enter-done: false,
+      $exit-done: false
     );
-    $token-player-max-height: calc(
-      3 * sizes.$row-height + 2 * sizes.$gap-vertical
-    );
 
-    .token-player-enter {
-      height: $token-player-min-height;
-      overflow-y: hidden;
-
-      &.token-player-enter-active {
-        height: $token-player-max-height;
-        transition: height 300ms ease-out;
-      }
-    }
-
-    .token-player-exit {
-      height: $token-player-max-height;
-      overflow-y: hidden;
-
-      &.token-player-exit-active {
-        height: $token-player-min-height;
-        transition: height 150ms ease-out;
+    .transition {
+      &.collapse-height-vertical-appear,
+      &.collapse-height-vertical-enter,
+      &.collapse-height-vertical-exit {
+        overflow-y: hidden;
       }
     }
   }

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { CSSTransition } from 'react-transition-group'
 
 import {
   createPlayerToken,
@@ -11,6 +10,7 @@ import { revokeToken } from 'actions/token'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import NotificationBar from 'components/generics/NotificationBar'
 import TokenWidget from 'components/generics/TokenWidget'
+import Collapse from 'components/transitions/Collapse'
 import { IsLibraryManager } from 'permissions/components/Library'
 import { IsPlaylistManager } from 'permissions/components/Playlist'
 import { Status } from 'reducers/alterationsResponse'
@@ -128,20 +128,22 @@ function PlayerTokenBox() {
   let playerTokenBox
   if (playerTokenStatus === Status.successful) {
     playerTokenBox = (
-      <CSSTransition
+      <Collapse
+        alwaysMounted={true}
         in={keyExists}
-        classNames="token-player"
-        timeout={{
-          enter: 300,
-          exit: 150,
-        }}
+        classNames="collapse-height"
       >
-        {keyExists ? (
-          <PlayerTokenBoxDisplay playerToken={playerToken} karaoke={karaoke} />
-        ) : (
-          <PlayerTokenBoxCreate karaoke={karaoke} />
-        )}
-      </CSSTransition>
+        <div className="flow transition">
+          {keyExists ? (
+            <PlayerTokenBoxDisplay
+              playerToken={playerToken}
+              karaoke={karaoke}
+            />
+          ) : (
+            <PlayerTokenBoxCreate karaoke={karaoke} />
+          )}
+        </div>
+      </Collapse>
     )
   } else if (playerTokenStatus === Status.failed) {
     playerTokenBox = (
