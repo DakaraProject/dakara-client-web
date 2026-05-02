@@ -140,28 +140,6 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
           position: absolute;
           right: 0;
         }
-
-        // appearance transition
-        .add-remove-enter {
-          max-width: 0;
-          overflow: hidden;
-
-          &.add-remove-enter-active {
-            max-width: $listing-entry-height;
-            transition: max-width 300ms ease-out;
-          }
-        }
-
-        // disappearance transition
-        .add-remove-exit {
-          max-width: $listing-entry-height;
-          overflow: hidden;
-
-          &.add-remove-exit-active {
-            max-width: 0;
-            transition: max-width 150ms ease-in;
-          }
-        }
       }
     }
 

@@ -3,7 +3,7 @@
   position: relative;
 
   // transition for error
-  &.managed-error .managed.swipe-enter {
+  &.managed-error .transition.swipe-enter {
     left: 100%;
   }
 
