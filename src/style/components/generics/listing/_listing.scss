@@ -145,8 +145,16 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
 
     // transition for the entry
     &.transition {
-      &.collapse-vertical-exit:not(.collapse-vertical-exit-active) {
-        max-height: 10 * sizes.$subrow-height;
+      &.expanded {
+        &.collapse-vertical-exit:not(.collapse-vertical-exit-active) {
+          max-height: 10 * sizes.$subrow-height;
+        }
+      }
+
+      &.collapse-vertical-appear,
+      &.collapse-vertical-enter,
+      &.collapse-vertical-exit {
+        min-height: unset;
       }
     }
 
@@ -183,16 +191,12 @@ ul.listing {
   }
 
   .listing-entry {
-    .listing-entry-compact {
-      min-height: $listing-entry-height;
-    }
+    min-height: $listing-entry-height;
   }
 
   &.mini {
     .listing-entry {
-      .listing-entry-compact {
-        min-height: sizes.$subrow-height;
-      }
+      min-height: sizes.$subrow-height;
     }
   }
 }
