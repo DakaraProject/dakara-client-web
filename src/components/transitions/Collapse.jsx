@@ -3,29 +3,16 @@ import { CSSTransition } from 'react-transitioning'
 
 export default function Collapse({
   in: inProp,
-  classNames = 'collapse',
   duration = 300,
   horizontal = false,
+  force = false,
   children,
   ...rest
 }) {
-  if (horizontal) {
-    return (
-      <CSSTransition
-        in={inProp}
-        classNames={`${classNames}-horizontal`}
-        duration={duration}
-        {...rest}
-      >
-        {children}
-      </CSSTransition>
-    )
-  }
-
   return (
     <CSSTransition
       in={inProp}
-      classNames={`${classNames}-vertical`}
+      classNames={`collapse-${force ? 'force-' : ''}${horizontal ? 'horizontal' : 'vertical'}`}
       duration={duration}
       {...rest}
     >
@@ -36,8 +23,8 @@ export default function Collapse({
 
 Collapse.propTypes = {
   in: PropTypes.bool,
-  classNames: PropTypes.string,
   duration: PropTypes.number,
   horizontal: PropTypes.bool,
+  force: PropTypes.bool,
   children: PropTypes.node,
 }

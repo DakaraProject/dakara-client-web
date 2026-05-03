@@ -6,24 +6,27 @@
 
 @use '~/abstracts/controls';
 @use '~/abstracts/sizes';
-@use '~/abstracts/transitions';
 
 #tokens {
   .token-box {
-    @include transitions.make-transition(
-      'collapse-height-vertical',
-      height,
-      $from: calc(1.4em + sizes.$row-height + sizes.$gap-vertical),
-      $to: calc(0.15em + 3 * sizes.$row-height + 2 * sizes.$gap-vertical),
-      $enter-done: false,
-      $exit-done: false
-    );
-
     .transition {
-      &.collapse-height-vertical-appear,
-      &.collapse-height-vertical-enter,
-      &.collapse-height-vertical-exit {
-        overflow-y: hidden;
+      // stylelint-disable @stylistic/indentation
+      &.collapse-force-vertical-enter:not(
+          .collapse-force-vertical-enter-active
+        ),
+      // stylelint-enable @stylistic/indentation
+      &.collapse-force-vertical-exit-active {
+        height: calc(1.4em + sizes.$row-height + sizes.$gap-vertical);
+      }
+
+      &.collapse-force-vertical-enter-done,
+      &.collapse-force-vertical-exit-done {
+        height: unset;
+      }
+
+      &.collapse-force-vertical-enter-active,
+      &.collapse-force-vertical-exit:not(.collapse-force-vertical-exit-active) {
+        height: calc(0.15em + 3 * sizes.$row-height + 2 * sizes.$gap-vertical);
       }
     }
   }
