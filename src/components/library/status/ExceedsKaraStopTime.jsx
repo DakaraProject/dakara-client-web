@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 
-export default function ExceedsKaraStopTime({ expanded }) {
+export default function ExceedsKaraStopTime({ expanded, className }) {
   let message
   if (expanded) {
     message = (
@@ -12,9 +12,13 @@ export default function ExceedsKaraStopTime({ expanded }) {
   }
   return (
     <li
-      className={classNames('status exceeds-kara-stop-time warning', {
-        'expanded listable': expanded,
-      })}
+      className={classNames(
+        'status exceeds-kara-stop-time warning transition',
+        className,
+        {
+          'expanded listable': expanded,
+        }
+      )}
     >
       <span className="icon">
         <i className="las la-clock"></i>
@@ -26,4 +30,5 @@ export default function ExceedsKaraStopTime({ expanded }) {
 
 ExceedsKaraStopTime.propTypes = {
   expanded: PropTypes.bool,
+  className: PropTypes.string,
 }

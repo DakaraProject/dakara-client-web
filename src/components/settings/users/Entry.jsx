@@ -6,14 +6,13 @@ import { clearAlteration } from 'actions/alterations'
 import { deleteUser } from 'actions/users'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
 import HighlighterQuery from 'components/generics/HighlighterQuery'
-import Notification, {
+import NotificationBar, {
   NotifiableForTable,
-} from 'components/generics/Notification'
+} from 'components/generics/NotificationBar'
 import PermissionText from 'components/generics/PermissionText'
 import { Checkmark } from 'components/generics/Shapes'
 import { IsNotSelf, IsUsersManager } from 'permissions/components/Users'
 import { userPropType } from 'serverPropTypes/users'
-import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
 export default function UsersEntry({ user }) {
   const query = useSelector((state) => state.settings.users.list.data.query)
@@ -39,24 +38,14 @@ export default function UsersEntry({ user }) {
     <tr className="listing-entry user-listing-entry listable hoverizable">
       <td className="notification-col">
         <NotifiableForTable>
-          <CSSTransitionLazy
-            in={confirmDisplayed}
-            classNames="notified"
-            timeout={{
-              enter: 300,
-              exit: 150,
+          <ConfirmationBar
+            show={confirmDisplayed}
+            setShow={setConfirmDisplayed}
+            onConfirm={() => {
+              dispatch(deleteUser(user.id))
             }}
-          >
-            <ConfirmationBar
-              onConfirm={() => {
-                dispatch(deleteUser(user.id))
-              }}
-              onCancel={() => {
-                setConfirmDisplayed(false)
-              }}
-            />
-          </CSSTransitionLazy>
-          <Notification
+          />
+          <NotificationBar
             alterationResponse={responseOfDelete}
             pendingMessage="Deleting…"
             successfulMessage="Successfuly deleted!"

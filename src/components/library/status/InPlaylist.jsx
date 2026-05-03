@@ -64,6 +64,7 @@ export default function InPlaylist({
   playingEntries,
   queuingEntries,
   expanded,
+  className,
 }) {
   const playerStatus = useSelector((state) => state.playlist.playerStatus.data)
   const { entry, position } = getMostPertinentEntry(
@@ -144,7 +145,7 @@ export default function InPlaylist({
 
   return (
     <li
-      className={classNames('status in-playlist info', {
+      className={classNames('status in-playlist info transition', className, {
         'expanded listable': expanded,
       })}
     >
@@ -159,4 +160,5 @@ InPlaylist.propTypes = {
   playingEntries: PropTypes.arrayOf(playlistEntryPropType),
   queuingEntries: PropTypes.arrayOf(playlistEntryPropType),
   expanded: PropTypes.bool,
+  className: PropTypes.string,
 }

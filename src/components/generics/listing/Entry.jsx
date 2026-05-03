@@ -1,14 +1,16 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { useSearchParams } from 'react-router'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { TransitionGroup } from 'react-transitioning'
 
-import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
+import Collapse from 'components/transitions/Collapse'
+import { ListingNoTransitionContext } from 'contexts/listing'
 import { isDisplayable } from 'utils'
 
 export function ListingEntry({
   children,
+  className,
   entryExpanded,
   extra,
   controls,
@@ -19,6 +21,8 @@ export function ListingEntry({
 }) {
   const [searchParams, setSearchParams] = useSearchParams()
 
+  const noTransition = useContext(ListingNoTransitionContext)
+
   const expandable = !!entryExpanded
   // expanded state is stored in the search parameters, not in the state of the
   // component
@@ -26,7 +30,8 @@ export function ListingEntry({
 
   useEffect(
     () => {
-      if (onToggle) {
+      // manage on toggle callback if any
+      if (typeof onToggle === 'function') {
         onToggle(expanded)
       }
     },
@@ -44,30 +49,15 @@ export function ListingEntry({
     setSearchParams(searchParams)
   }
 
-  /**
-   * Add transition to extra
-   */
-
-  let extraTransition
-  if (extra) {
-    extraTransition = [extra].flat().map((item, index) => (
-      <CSSTransition
-        key={index}
-        classNames="add-remove"
-        timeout={{
-          enter: 300,
-          exit: 150,
-        }}
-      >
-        {item}
-      </CSSTransition>
-    ))
-  }
-
   return (
-    <li className={classNames('listing-entry listable', { expanded })}>
+    <li
+      className={classNames('listing-entry listable', className, {
+        expanded,
+        transition: !noTransition,
+      })}
+    >
       <div
-        className={classNames('one-line', {
+        className={classNames('listing-entry-compact', {
           hoverizable: !noHoverizable,
           notifiable: isDisplayable(notifications),
         })}
@@ -81,9 +71,15 @@ export function ListingEntry({
             <div className="main">{children}</div>
           )}
           {!expanded && (
-            <TransitionGroup className="extra" component="ul">
-              {extraTransition}
-            </TransitionGroup>
+            <ul className="extra">
+              <TransitionGroup enter exit>
+                {[extra].flat().map((item, index) => (
+                  <Collapse key={index} horizontal>
+                    {item}
+                  </Collapse>
+                ))}
+              </TransitionGroup>
+            </ul>
           )}
         </div>
         {!expanded && isDisplayable(controls) && (
@@ -93,22 +89,16 @@ export function ListingEntry({
           <div className="notifications">{notifications}</div>
         )}
       </div>
-      <CSSTransitionLazy
-        in={expanded}
-        classNames="expand-collapse"
-        timeout={{
-          enter: 600,
-          exit: 300,
-        }}
-      >
-        <>{entryExpanded}</>
-      </CSSTransitionLazy>
+      <Collapse in={expanded}>
+        <div className="transition">{entryExpanded}</div>
+      </Collapse>
     </li>
   )
 }
 
 ListingEntry.propTypes = {
   children: PropTypes.node,
+  className: PropTypes.string,
   entryExpanded: PropTypes.element,
   extra: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.element),
@@ -159,7 +149,7 @@ export function ListingEntryExpanded({
   notifications,
 }) {
   return (
-    <div className="expanded">
+    <div className="listing-entry-expanded">
       {isDisplayable(extra) && <ul className="extra">{extra}</ul>}
       <div className="main">{children}</div>
       {(isDisplayable(controls) || isDisplayable(notifications)) && (

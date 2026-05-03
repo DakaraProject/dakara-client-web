@@ -88,48 +88,12 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
       }
     }
 
-    // appearance transition
-    &.add-remove-enter {
-      max-height: 0;
-      min-height: initial;
-      overflow: hidden;
-
-      &.add-remove-enter-active {
-        max-height: $listing-entry-height;
-        transition: max-height 300ms ease-out;
-      }
-    }
-
-    // disappearance transition
-    &.add-remove-exit {
-      max-height: $listing-entry-height;
-      min-height: initial;
-      overflow: hidden;
-
-      &.expanded {
-        max-height: 15 * sizes.$subrow-height;
-      }
-
-      &.add-remove-exit-active {
-        max-height: 0;
-        transition: max-height 150ms ease-in;
-
-        &.expanded {
-          transition: max-height 300ms ease-in;
-        }
-
-        &.delayed {
-          transition-delay: 500ms;
-        }
-      }
-    }
-
     .extra {
       // remove list left padding
       padding: 0;
     }
 
-    > .one-line {
+    .listing-entry-compact {
       display: flex;
 
       .expander {
@@ -176,53 +140,34 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
           position: absolute;
           right: 0;
         }
-
-        // appearance transition
-        .add-remove-enter {
-          max-width: 0;
-          overflow: hidden;
-
-          &.add-remove-enter-active {
-            max-width: $listing-entry-height;
-            transition: max-width 300ms ease-out;
-          }
-        }
-
-        // disappearance transition
-        .add-remove-exit {
-          max-width: $listing-entry-height;
-          overflow: hidden;
-
-          &.add-remove-exit-active {
-            max-width: 0;
-            transition: max-width 150ms ease-in;
-          }
-        }
       }
     }
 
-    > .expanded {
+    // transition for the entry
+    &.transition {
+      &.expanded {
+        &.collapse-vertical-exit:not(.collapse-vertical-exit-active) {
+          max-height: 10 * sizes.$subrow-height;
+        }
+      }
+
+      &.collapse-vertical-appear,
+      &.collapse-vertical-enter,
+      &.collapse-vertical-exit {
+        min-height: unset;
+      }
+    }
+
+    // transition for the expanded entry
+    .transition {
+      &.collapse-vertical-enter.collapse-vertical-enter-active,
+      &.collapse-vertical-exit:not(.collapse-vertical-exit-active) {
+        max-height: 10 * sizes.$subrow-height;
+      }
+    }
+
+    .listing-entry-expanded {
       @include sizes.make-gap(padding, vertical);
-
-      &.expand-collapse-enter {
-        max-height: 0;
-        overflow: hidden;
-
-        &.expand-collapse-enter-active {
-          max-height: 15 * sizes.$subrow-height;
-          transition: max-height 600ms ease-out;
-        }
-      }
-
-      &.expand-collapse-exit {
-        max-height: 15 * sizes.$subrow-height;
-        overflow: hidden;
-
-        &.expand-collapse-exit-active {
-          max-height: 0;
-          transition: max-height 300ms ease-in;
-        }
-      }
 
       // space between every element
       & > * + * {

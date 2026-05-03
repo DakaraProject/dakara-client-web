@@ -12,7 +12,7 @@ import {
   ListingEntry,
   ListingEntryExpanded,
 } from 'components/generics/listing/Entry'
-import Notification from 'components/generics/Notification'
+import NotificationBar from 'components/generics/NotificationBar'
 import ExceedsKaraStopTime from 'components/library/status/ExceedsKaraStopTime'
 import InPlaylist from 'components/library/status/InPlaylist'
 import MaskedByTag from 'components/library/status/MaskedByTag'
@@ -22,7 +22,7 @@ import { CanAddToPlaylist } from 'permissions/components/Playlist'
 import { isPlaylistManager } from 'permissions/playlist'
 import { songPropType } from 'serverPropTypes/library'
 
-export default function SongEntry({ song, karaokeRemainingSeconds }) {
+export default function SongEntry({ song, karaokeRemainingSeconds, ...rest }) {
   const query = useSelector((state) => state.library.song.data.query)
   const responseOfAddSong = useSelector(
     (state) => state.alterationsResponse.multiple.addSongToPlaylist?.[song.id]
@@ -169,7 +169,7 @@ export default function SongEntry({ song, karaokeRemainingSeconds }) {
   )
 
   const notifications = [
-    <Notification
+    <NotificationBar
       alterationResponse={responseOfAddSong}
       pendingMessage="Adding…"
       successfulMessage="Successfuly added!"
@@ -177,7 +177,7 @@ export default function SongEntry({ song, karaokeRemainingSeconds }) {
       noDisplayOnMount
       key="add-song"
     />,
-    <Notification
+    <NotificationBar
       alterationResponse={responseOfAddSongWithOptions}
       pendingMessage="Adding with options…"
       successfulMessage="Successfuly added with options!"
@@ -205,6 +205,7 @@ export default function SongEntry({ song, karaokeRemainingSeconds }) {
       notifications={notifications}
       entryExpanded={entryExpanded}
       onToggle={clearNotificationAlterations}
+      {...rest}
     >
       {isExpanded ? (
         <SongWidget song={song} query={query} noRelations noTags truncatable />

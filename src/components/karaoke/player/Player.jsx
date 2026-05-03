@@ -1,5 +1,4 @@
 import classNames from 'classnames'
-import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { sendPlayerCommand } from 'actions/playlist'
@@ -11,9 +10,9 @@ import {
 } from 'components/karaoke/player/Carousel'
 import ManageButton from 'components/karaoke/player/ManageButton'
 import PlayerNotification from 'components/karaoke/player/Notification'
+import Collapse from 'components/transitions/Collapse'
 import { isPlaylistManagerOrOwner } from 'permissions/playlist'
 import { Status } from 'reducers/alterationsResponse'
-import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
 export default function Player() {
   const user = useSelector((state) => state.authenticatedUser)
@@ -25,21 +24,13 @@ export default function Player() {
     (state) => state.alterationsResponse.multiple.sendPlayerCommands
   )
 
-  const [animationsEnabled, setAnimationsEnabled] = useState(false)
-
   const dispatch = useDispatch()
 
   const { data: playerStatus } = playerStatusState
-  const withControls = isPlaylistManagerOrOwner(
+  const hasControls = isPlaylistManagerOrOwner(
     user,
     playerStatus.playlist_entry
   )
-
-  useEffect(() => {
-    // enable animations if the user, the player status, or the possibility to
-    // use controls changes
-    setAnimationsEnabled(true)
-  }, [user, playerStatus, withControls])
 
   const { playerErrors } = playerErrorsDigestState.data
   const fetchError = playerStatusState.status === Status.failed
@@ -83,74 +74,69 @@ export default function Player() {
           <CarouselEntryStats />
         </Carousel>
       )}
-      <CSSTransitionLazy
-        in={withControls}
-        classNames="expand"
-        timeout={{
-          enter: 300,
-          exit: 150,
-        }}
-        enter={animationsEnabled}
-        exit={animationsEnabled}
-      >
-        <div className="controls">
-          <ManageButton
-            responseOfManage={responseOfSendPlayerCommandsSafe.restart}
-            onClick={() => {
-              dispatch(sendPlayerCommand('restart'))
-            }}
-            disabled={controlDisabled}
-            error={fetchError}
-            icon="step-backward"
-          />
-          <ManageButton
-            responseOfManage={responseOfSendPlayerCommandsSafe.rewind}
-            onClick={() => {
-              dispatch(sendPlayerCommand('rewind'))
-            }}
-            disabled={controlDisabled}
-            error={fetchError}
-            icon="backward"
-          />
-          <ManageButton
-            responseOfManage={
-              playerStatus.paused
-                ? responseOfSendPlayerCommandsSafe.resume
-                : responseOfSendPlayerCommandsSafe.pause
-            }
-            onClick={() => {
-              if (!isPlaying) return
-
-              if (playerStatus.paused) {
-                dispatch(sendPlayerCommand('resume'))
-              } else {
-                dispatch(sendPlayerCommand('pause'))
+      <Collapse in={hasControls}>
+        <div className="transition">
+          <div className="controls">
+            <ManageButton
+              responseOfManage={responseOfSendPlayerCommandsSafe.restart}
+              onClick={() => {
+                dispatch(sendPlayerCommand('restart'))
+              }}
+              disabled={controlDisabled}
+              error={fetchError}
+              icon="step-backward"
+            />
+            <ManageButton
+              responseOfManage={responseOfSendPlayerCommandsSafe.rewind}
+              onClick={() => {
+                dispatch(sendPlayerCommand('rewind'))
+              }}
+              disabled={controlDisabled}
+              error={fetchError}
+              icon="backward"
+            />
+            <ManageButton
+              responseOfManage={
+                playerStatus.paused
+                  ? responseOfSendPlayerCommandsSafe.resume
+                  : responseOfSendPlayerCommandsSafe.pause
               }
-            }}
-            disabled={controlDisabled}
-            error={fetchError}
-            icon={isPlaying ? (playerStatus.paused ? 'play' : 'pause') : 'stop'}
-          />
-          <ManageButton
-            responseOfManage={responseOfSendPlayerCommandsSafe.fast_forward}
-            onClick={() => {
-              dispatch(sendPlayerCommand('fast_forward'))
-            }}
-            disabled={controlDisabled}
-            error={fetchError}
-            icon="forward"
-          />
-          <ManageButton
-            responseOfManage={responseOfSendPlayerCommandsSafe.skip}
-            onClick={() => {
-              dispatch(sendPlayerCommand('skip', true))
-            }}
-            disabled={controlDisabled}
-            error={fetchError}
-            icon="step-forward"
-          />
+              onClick={() => {
+                if (!isPlaying) return
+
+                if (playerStatus.paused) {
+                  dispatch(sendPlayerCommand('resume'))
+                } else {
+                  dispatch(sendPlayerCommand('pause'))
+                }
+              }}
+              disabled={controlDisabled}
+              error={fetchError}
+              icon={
+                isPlaying ? (playerStatus.paused ? 'play' : 'pause') : 'stop'
+              }
+            />
+            <ManageButton
+              responseOfManage={responseOfSendPlayerCommandsSafe.fast_forward}
+              onClick={() => {
+                dispatch(sendPlayerCommand('fast_forward'))
+              }}
+              disabled={controlDisabled}
+              error={fetchError}
+              icon="forward"
+            />
+            <ManageButton
+              responseOfManage={responseOfSendPlayerCommandsSafe.skip}
+              onClick={() => {
+                dispatch(sendPlayerCommand('skip', true))
+              }}
+              disabled={controlDisabled}
+              error={fetchError}
+              icon="step-forward"
+            />
+          </div>
         </div>
-      </CSSTransitionLazy>
+      </Collapse>
       <progress
         className={classNames('progressbar', fetchError ? 'danger' : 'primary')}
         value={progress}

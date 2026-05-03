@@ -27,26 +27,17 @@
     }
   }
 
+  .transition {
+    margin: 0;
+
+    &.collapse-vertical-enter.collapse-vertical-enter-active,
+    &.collapse-vertical-exit:not(.collapse-vertical-exit-active) {
+      max-height: 4 * sizes.$row-height;
+    }
+  }
+
   .help {
-    &.help-enter {
-      max-height: 0;
-      overflow: hidden;
-
-      &.help-enter-active {
-        max-height: (3 * sizes.$row-height);
-        transition: max-height 300ms ease-out;
-      }
-    }
-
-    &.help-exit {
-      max-height: (3 * sizes.$row-height);
-      overflow: hidden;
-
-      &.help-exit-active {
-        max-height: 0;
-        transition: max-height 150ms ease-out;
-      }
-    }
+    @include sizes.make-gap(padding, top);
 
     q {
       &::before,

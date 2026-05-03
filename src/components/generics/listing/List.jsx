@@ -2,12 +2,14 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { TransitionGroup } from 'react-transitioning'
 
 import ListingFetchWrapper from 'components/generics/listing/FetchWrapper'
+import Collapse from 'components/transitions/Collapse'
+import { ListingNoTransitionContext } from 'contexts/listing'
 
 export default function ListingList({
-  children,
+  entries,
   fetchStatus,
   free,
   mini,
@@ -34,32 +36,21 @@ export default function ListingList({
     }
   }, [transitionObservable, transitionObservableInitial])
 
-  let content
-  if (noTransition) {
-    content = <ul className={className}>{children}</ul>
-  } else {
-    content = (
-      <TransitionGroup
-        className={className}
-        component="ul"
-        enter={transition}
-        exit={transition}
-      >
-        {children.map((item, index) => (
-          <CSSTransition
-            key={index}
-            classNames="add-remove"
-            timeout={{
-              enter: 300,
-              exit: 800,
-            }}
-          >
-            {item}
-          </CSSTransition>
-        ))}
-      </TransitionGroup>
-    )
-  }
+  const content = (
+    <ListingNoTransitionContext.Provider value={noTransition}>
+      <ul className={className}>
+        {noTransition ? (
+          entries
+        ) : (
+          <TransitionGroup enter={transition} exit={transition}>
+            {entries.map((item) => (
+              <Collapse key={item.key}>{item}</Collapse>
+            ))}
+          </TransitionGroup>
+        )}
+      </ul>
+    </ListingNoTransitionContext.Provider>
+  )
 
   if (fetchStatus) {
     return (
@@ -71,7 +62,7 @@ export default function ListingList({
 }
 
 ListingList.propTypes = {
-  children: PropTypes.node,
+  entries: PropTypes.arrayOf(PropTypes.node).isRequired,
   fetchStatus: PropTypes.symbol,
   free: PropTypes.bool,
   mini: PropTypes.bool,

@@ -10,6 +10,7 @@
   @include preboot.square($width);
 
   transform: translateX(-$width * 0.5) translateY(-$width * 0.5);
+  z-index: 100;
 }
 
 @mixin make-checkmark($background) {

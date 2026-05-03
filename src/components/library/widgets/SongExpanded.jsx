@@ -13,7 +13,7 @@ import {
 import HighlighterQuery from 'components/generics/HighlighterQuery'
 import { ListingEntry } from 'components/generics/listing/Entry'
 import ListingList from 'components/generics/listing/List'
-import Notification from 'components/generics/Notification'
+import NotificationBar from 'components/generics/NotificationBar'
 import SongTagList from 'components/library/SongTagList'
 import ArtistWidget from 'components/library/widgets/Artist'
 import WorkLinkWidget from 'components/library/widgets/WorkLink'
@@ -93,9 +93,7 @@ export default function SongExpanded({ query, song }) {
           name={worksList.length > 1 ? workType.name_plural : workType.name}
           key={workTypeKey}
         >
-          <ListingList mini free>
-            {worksList}
-          </ListingList>
+          <ListingList mini free entries={worksList} />
         </DetailAny>
       )
     })
@@ -129,9 +127,7 @@ export default function SongExpanded({ query, song }) {
         icon="la-microphone-alt"
         name={song.artists.length > 1 ? 'Artists' : 'Artist'}
       >
-        <ListingList mini free>
-          {artistsList}
-        </ListingList>
+        <ListingList mini free entries={artistsList} />
       </DetailAny>
     )
   }
@@ -167,7 +163,7 @@ export default function SongExpanded({ query, song }) {
   let lyrics
   if (song.lyrics_preview) {
     const lyricsNotification = (
-      <Notification
+      <NotificationBar
         alterationResponse={{
           status: statusLyrics,
           date: -1, // XXX There should be a valid date here

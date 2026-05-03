@@ -19,7 +19,7 @@ import { playerErrorPropType } from 'serverPropTypes/playlist'
 
 dayjs.extend(localizedFormat)
 
-export default function PlayerErrorsEntry({ playerError }) {
+export default function PlayerErrorsEntry({ playerError, ...rest }) {
   const query = useSelector((state) => state.playlist.playerErrors.data.query)
 
   const {
@@ -92,6 +92,7 @@ export default function PlayerErrorsEntry({ playerError }) {
       id={playerError.id}
       controls={controls}
       entryExpanded={entryExpanded}
+      {...rest}
     >
       <PlaylistEntryWidget entry={entry} query={query} truncatable />
     </ListingEntry>

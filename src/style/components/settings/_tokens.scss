@@ -9,31 +9,24 @@
 
 #tokens {
   .token-box {
-    // approximate min and max height
-    $token-player-min-height: calc(
-      1.25em + sizes.$row-height + sizes.$gap-vertical
-    );
-    $token-player-max-height: calc(
-      3 * sizes.$row-height + 2 * sizes.$gap-vertical
-    );
-
-    .token-player-enter {
-      height: $token-player-min-height;
-      overflow-y: hidden;
-
-      &.token-player-enter-active {
-        height: $token-player-max-height;
-        transition: height 300ms ease-out;
+    .transition {
+      // stylelint-disable @stylistic/indentation
+      &.collapse-force-vertical-enter:not(
+          .collapse-force-vertical-enter-active
+        ),
+      // stylelint-enable @stylistic/indentation
+      &.collapse-force-vertical-exit-active {
+        height: calc(1.4em + sizes.$row-height + sizes.$gap-vertical);
       }
-    }
 
-    .token-player-exit {
-      height: $token-player-max-height;
-      overflow-y: hidden;
+      &.collapse-force-vertical-enter-done,
+      &.collapse-force-vertical-exit-done {
+        height: unset;
+      }
 
-      &.token-player-exit-active {
-        height: $token-player-min-height;
-        transition: height 150ms ease-out;
+      &.collapse-force-vertical-enter-active,
+      &.collapse-force-vertical-exit:not(.collapse-force-vertical-exit-active) {
+        height: calc(0.15em + 3 * sizes.$row-height + 2 * sizes.$gap-vertical);
       }
     }
   }

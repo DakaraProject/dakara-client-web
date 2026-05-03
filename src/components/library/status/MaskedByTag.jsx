@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 
-export default function MaskedByTag({ expanded }) {
+export default function MaskedByTag({ expanded, className }) {
   let message
   if (expanded) {
     message = (
@@ -12,9 +12,13 @@ export default function MaskedByTag({ expanded }) {
   }
   return (
     <li
-      className={classNames('status masked-by-tag warning', {
-        'expanded listable': expanded,
-      })}
+      className={classNames(
+        'status masked-by-tag warning transition',
+        className,
+        {
+          'expanded listable': expanded,
+        }
+      )}
     >
       <span className="icon">
         <i className="las la-eye-slash"></i>
@@ -26,4 +30,5 @@ export default function MaskedByTag({ expanded }) {
 
 MaskedByTag.propTypes = {
   expanded: PropTypes.bool,
+  className: PropTypes.string,
 }

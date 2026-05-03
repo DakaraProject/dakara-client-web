@@ -7,13 +7,13 @@ import { clearAlteration } from 'actions/alterations'
 import { editSongTag } from 'actions/songTags'
 import { CheckboxField, FormInline, HueField } from 'components/generics/Form'
 import HighlighterQuery from 'components/generics/HighlighterQuery'
-import Notification, {
+import NotificationBar, {
   NotifiableForTable,
-} from 'components/generics/Notification'
+} from 'components/generics/NotificationBar'
 import { Checkmark } from 'components/generics/Shapes'
+import Slide from 'components/transitions/Slide'
 import { Status } from 'reducers/alterationsResponse'
 import { songTagPropType } from 'serverPropTypes/library'
-import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
 
 export default function SongTagsEntry({ tag, editable }) {
   const query = useSelector((state) => state.settings.songTags.data.query)
@@ -124,7 +124,7 @@ export default function SongTagsEntry({ tag, editable }) {
   )
 
   const colorForm = (
-    <div className="notified color-form-notified">
+    <div className="notified color-form-notified transition">
       <FormInline
         action={`library/song-tags/${tag.id}/`}
         method="PATCH"
@@ -145,28 +145,19 @@ export default function SongTagsEntry({ tag, editable }) {
     <tr className="listing-entry listable hoverizable">
       <td className="notification-col color">
         <NotifiableForTable>
-          <Notification
+          <NotificationBar
             alterationResponse={responseOfEdit}
             failedMessage="Error attempting to edit tag"
             pendingMessage={false}
             successfulMessage={false}
           />
-          <Notification
+          <NotificationBar
             alterationResponse={responseOfEditColor}
             successfulMessage={false}
             pendingMessage={false}
             failedMessage="Error attempting to edit tag color"
           />
-          <CSSTransitionLazy
-            in={colorFormDisplayed}
-            classNames="notified"
-            timeout={{
-              enter: 300,
-              exit: 150,
-            }}
-          >
-            {colorForm}
-          </CSSTransitionLazy>
+          <Slide in={colorFormDisplayed}>{colorForm}</Slide>
         </NotifiableForTable>
       </td>
       <td className="name">

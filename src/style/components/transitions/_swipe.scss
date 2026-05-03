@@ -1,0 +1,11 @@
+@use '~/abstracts/transitions';
+
+@include transitions.make-transition(
+  'swipe',
+  left,
+  $from: -100%,
+  $to: 0,
+  $away: 100%,
+  $duration-enter: 150ms,
+  $duration-exit: 150ms
+);

@@ -84,9 +84,11 @@ export default function WorkList() {
           example: workType.name.toLowerCase(),
         }}
       />
-      <ListingList fetchStatus={workState.status} noTransition>
-        {libraryEntryWorkList}
-      </ListingList>
+      <ListingList
+        entries={libraryEntryWorkList}
+        fetchStatus={workState.status}
+        noTransition
+      />
       <Navigator
         count={count}
         pagination={pagination}

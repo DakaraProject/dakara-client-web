@@ -6,7 +6,7 @@ import { ListingEntry } from 'components/generics/listing/Entry'
 import ArtistWidget from 'components/library/widgets/Artist'
 import { artistPropType } from 'serverPropTypes/library'
 
-export default function ArtistEntry({ artist, query }) {
+export default function ArtistEntry({ artist, query, ...rest }) {
   const navigate = useNavigate()
 
   const controls = (
@@ -27,7 +27,7 @@ export default function ArtistEntry({ artist, query }) {
   )
 
   return (
-    <ListingEntry id={artist.id} controls={controls}>
+    <ListingEntry id={artist.id} controls={controls} {...rest}>
       <ArtistWidget artist={artist} query={query} noIcon truncatable />
     </ListingEntry>
   )

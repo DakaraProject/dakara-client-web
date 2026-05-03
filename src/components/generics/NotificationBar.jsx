@@ -1,21 +1,21 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
+import Slide from 'components/transitions/Slide'
 import {
   alterationResponsePropType,
   Status,
 } from 'reducers/alterationsResponse'
 
-const notificationTypes = {
+const types = {
   [Status.pending]: 'success',
   [Status.successful]: 'success',
   [Status.failed]: 'danger',
 }
 
-export default function Notification({
-  alterationResponse,
+export default function NotificationBar({
+  alterationResponse = {},
   failedDuration = 5000,
   failedMessage = 'Failure',
   pendingMessage = 'Pending…',
@@ -23,7 +23,7 @@ export default function Notification({
   successfulMessage = 'Success',
   noDisplayOnMount = false,
 }) {
-  const [display, setDisplay] = useState(!noDisplayOnMount)
+  const [show, setShow] = useState(false)
 
   const durations = useMemo(
     () => ({
@@ -41,12 +41,27 @@ export default function Notification({
     [pendingMessage, successfulMessage, failedMessage]
   )
 
-  const {
-    status,
-    date,
-    message: messageInState,
-    fields: fieldsInState,
-  } = alterationResponse || {}
+  const { status, date } = alterationResponse
+
+  const getMessage = useCallback(
+    (alterationResponse) => {
+      const { status, fields, message } = alterationResponse
+
+      // specific case if the alteration response contains field errors
+      if (fields && Object.keys(fields).length) {
+        return 'There are field errors'
+      }
+
+      // specific case if the alteration contains a message
+      if (message) {
+        return message
+      }
+
+      // default to specified messages
+      return messages[status]
+    },
+    [messages]
+  )
 
   useEffect(() => {
     if (!status || !date) {
@@ -54,13 +69,13 @@ export default function Notification({
     }
 
     // display if status and date changed and have a valid value
-    setDisplay(true)
+    setShow(true)
 
     // request to hide success or failure message only after a certain time
     let timeout
     if (status !== Status.pending && durations[status]) {
       timeout = setTimeout(() => {
-        setDisplay(false)
+        setShow(false)
       }, durations[status])
     }
 
@@ -72,53 +87,24 @@ export default function Notification({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, date])
 
-  let notification
-  if (display && alterationResponse) {
-    // if there is a message in the state, keep it
-    // if there is a field in the state, consider there was an error with fields
-    // otherwise, use the messages passed to the compenent
-    let message
-    if (messageInState) {
-      message = messageInState
-    } else if (fieldsInState && Object.keys(fieldsInState).length > 0) {
-      message = 'There are field errors.'
-    } else {
-      message = messages[status]
-    }
+  const notificationMessage = getMessage(alterationResponse)
 
-    // if there is no message to display, do not show any notification
-    if (message) {
-      notification = (
-        <CSSTransition
-          classNames="notified"
-          timeout={{
-            enter: 300,
-            exit: 150,
-          }}
-        >
-          <div className="notified">
-            <div
-              className={classNames(
-                'notification non-hoverizable',
-                notificationTypes[status]
-              )}
-            >
-              <div className="message">{message}</div>
-            </div>
-          </div>
-        </CSSTransition>
-      )
-    }
+  if (!notificationMessage) {
+    return null
   }
 
   return (
-    <TransitionGroup className="notification-wrapper">
-      {notification}
-    </TransitionGroup>
+    <Slide in={show}>
+      <div className="notification-bar notified transition">
+        <div className={`notification non-hoverizable ${types[status] || ''}`}>
+          <div className="message">{notificationMessage}</div>
+        </div>
+      </div>
+    </Slide>
   )
 }
 
-Notification.propTypes = {
+NotificationBar.propTypes = {
   alterationResponse: alterationResponsePropType,
   failedDuration: PropTypes.number,
   failedMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),

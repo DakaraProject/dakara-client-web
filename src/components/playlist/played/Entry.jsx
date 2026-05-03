@@ -12,7 +12,7 @@ import PlaylistEntryWidget from 'components/playlist/widgets/PlaylistEntry'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
 import { formatDateLong } from 'utils'
 
-export default function PlayedEntry({ entry }) {
+export default function PlayedEntry({ entry, ...rest }) {
   const query = useSelector((state) => state.playlist.played.data.query)
   const playerErrorsDigestState = useSelector(
     (state) => state.playlist.digest.playerErrors
@@ -80,6 +80,7 @@ export default function PlayedEntry({ entry }) {
       controls={controls}
       extra={extra}
       entryExpanded={entryExpanded}
+      {...rest}
     >
       {expanded ? (
         <PlaylistEntryWidget

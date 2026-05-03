@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router'
 
-import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
+import Collapse from 'components/transitions/Collapse'
 
 function SearchBoxHelp({ example, fields, withHash }) {
   return (
@@ -53,11 +53,11 @@ SearchBoxHelp.propTypes = {
  * Note that the query and its setter are owned by a parent component.
  */
 export default function SearchBox({ help, placeholder, query, setQuery }) {
-  const [displayHelp, setDisplayHelp] = useState(false)
-
   const [searchParams, setSearchParams] = useSearchParams()
 
   const queryFromParams = searchParams.get('query')
+
+  const [displayed, setDisplayed] = useState(false)
 
   useEffect(
     () => {
@@ -79,7 +79,7 @@ export default function SearchBox({ help, placeholder, query, setQuery }) {
         className="control square transparent"
         type="button"
         onClick={() => {
-          setDisplayHelp(!displayHelp)
+          setDisplayed(!displayed)
         }}
       >
         <span className="icon">
@@ -89,16 +89,11 @@ export default function SearchBox({ help, placeholder, query, setQuery }) {
     )
 
     helpBox = (
-      <CSSTransitionLazy
-        in={displayHelp}
-        classNames="help"
-        timeout={{
-          enter: 300,
-          exit: 150,
-        }}
-      >
-        <SearchBoxHelp {...help} />
-      </CSSTransitionLazy>
+      <Collapse in={displayed}>
+        <div className="transition">
+          <SearchBoxHelp {...help} />
+        </div>
+      </Collapse>
     )
   }
 
