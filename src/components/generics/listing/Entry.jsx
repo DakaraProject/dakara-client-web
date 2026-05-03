@@ -72,7 +72,7 @@ export function ListingEntry({
           )}
           {!expanded && (
             <ul className="extra">
-              <TransitionGroup enter={true} exit={true}>
+              <TransitionGroup enter exit>
                 {[extra].flat().map((item, index) => (
                   <Collapse key={index} horizontal>
                     {item}

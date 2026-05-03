@@ -607,7 +607,7 @@ class Field extends Component {
         </label>
         <div className="input">
           {this.subRender(props)}
-          <TransitionGroup enter={true} exit={true}>
+          <TransitionGroup enter exit>
             {fieldErrorMessages}
           </TransitionGroup>
         </div>

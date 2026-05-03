@@ -139,7 +139,7 @@ export default class PlayerNotification extends Component {
 
     return (
       <div className="player-notification">
-        <TransitionGroup enter={true} exit={true}>
+        <TransitionGroup enter exit>
           {notification}
         </TransitionGroup>
       </div>

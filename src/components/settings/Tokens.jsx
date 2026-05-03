@@ -128,7 +128,7 @@ function PlayerTokenBox() {
   let playerTokenBox
   if (playerTokenStatus === Status.successful) {
     playerTokenBox = (
-      <Collapse in={keyExists} force alwaysMounted={true}>
+      <Collapse in={keyExists} force alwaysMounted>
         <div className="flow transition">
           {keyExists ? (
             <PlayerTokenBoxDisplay

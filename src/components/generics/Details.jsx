@@ -69,7 +69,7 @@ export function DetailLongText({
         notifiable: isDisplayable(notifications),
       })}
     >
-      <Collapse in={revealed} exit={false} alwaysMounted={true}>
+      <Collapse in={revealed} exit={false} alwaysMounted>
         <div className="border transition">
           <p className="paragraph">{children}</p>
         </div>
