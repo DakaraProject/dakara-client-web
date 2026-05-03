@@ -28,7 +28,7 @@ export const USER_LIST_FAILURE = 'USER_LIST_FAILURE'
  */
 const refreshUsersDelayed = (dispatch, getState) => {
   const page = getState().settings.users.list.data.pagination.current
-  return dispatch(delay(loadUsers({ page }), 3000))
+  return dispatch(delay(loadUsers(page), 3000))
 }
 
 /**
