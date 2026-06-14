@@ -25,6 +25,8 @@ export default function ListingList({
   // disable transition if the page changed
   const page = searchParams.get('page')
   useEffect(() => {
+    // TODO fix state modification within useEffect
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTransition(false)
   }, [page])
 
@@ -32,6 +34,8 @@ export default function ListingList({
   // initial value when mounted
   useEffect(() => {
     if (transitionObservable != transitionObservableInitial) {
+      // TODO fix state modification within useEffect
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTransition(true)
     }
   }, [transitionObservable, transitionObservableInitial])

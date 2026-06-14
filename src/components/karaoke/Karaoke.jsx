@@ -41,9 +41,13 @@ export default function Karaoke() {
   }
 
   // do not display anything until the digest has been loaded at least once
+  // TODO fix use of refs
+  // eslint-disable-next-line react-hooks/refs
   if (displayIsBlocked.current && karaokeStatus === Status.pending) {
     return null
   }
+  // TODO fix use of refs
+  // eslint-disable-next-line react-hooks/refs
   displayIsBlocked.current = false
 
   if (!karaoke.ongoing) {

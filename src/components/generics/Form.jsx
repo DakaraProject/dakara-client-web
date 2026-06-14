@@ -651,6 +651,7 @@ class Field extends Component {
  *
  * Extra properties are passed to the input tag.
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export class InputField extends Field {
   subRender = (args) => (
     <div className="text-input">
@@ -696,6 +697,7 @@ export class InputField extends Field {
  *
  * Extra properties are passed to the select tag.
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export class SelectField extends Field {
   static propTypes = {
     ...Field.propTypes,
@@ -785,6 +787,7 @@ export class SelectField extends Field {
  *
  * Extra properties are passed to the input tag.
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export class RadioField extends Field {
   static propTypes = {
     ...Field.propTypes,
@@ -879,6 +882,7 @@ export class RadioField extends Field {
  *
  * Extra properties are passed to the input tag.
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export class CheckboxField extends Field {
   static propTypes = {
     ...Field.propTypes,
@@ -950,6 +954,7 @@ export class CheckboxField extends Field {
  *
  * Extra properties are passed to the input tag.
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export class HueField extends Field {
   static propTypes = {
     ...Field.propTypes,

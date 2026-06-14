@@ -69,6 +69,8 @@ export default function NotificationBar({
     }
 
     // display if status and date changed and have a valid value
+    // TODO fix state modification within useEffect
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setShow(true)
 
     // request to hide success or failure message only after a certain time
