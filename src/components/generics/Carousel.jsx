@@ -29,7 +29,7 @@ export function Carousel({ children, className }) {
       </div>
       <div className="controls compact">
         <button
-          className="control square primary"
+          className="control smashed primary listable"
           onClick={() => emblaApi.scrollNext()}
         >
           <span className="icon">
@@ -37,7 +37,7 @@ export function Carousel({ children, className }) {
           </span>
         </button>
         <button
-          className="control square primary"
+          className="control smashed primary listable"
           onClick={() => emblaApi.scrollPrev()}
         >
           <span className="icon">
