@@ -5,6 +5,7 @@
 //
 
 @use '~/abstracts/sizes';
+@use '~/abstracts/support';
 
 // `make-controls` function:
 //
@@ -39,6 +40,15 @@
 
     .icon {
       font-size: calc($icon-size / $text-size * 1em);
+    }
+
+    .icon + .text {
+      font-size: 0.85em;
+      margin-left: 0.5em;
+
+      @include support.make-smartphone {
+        margin-left: 0.25em;
+      }
     }
   }
 }

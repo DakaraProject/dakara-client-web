@@ -51,7 +51,7 @@ export default function PlayerErrorsEntry({ playerError, ...rest }) {
   const controlsExpanded = [
     <Link
       key="search-entry"
-      className="control square primary"
+      className="control primary"
       to={{
         pathname: '/playlist/played',
         search: queryString.stringify({
@@ -60,12 +60,10 @@ export default function PlayerErrorsEntry({ playerError, ...rest }) {
         }),
       }}
     >
-      <span className="icon with-sub-icon">
-        <i style={{}} className="las la-search"></i>
-        <span className="sub-icon bottom-right">
-          <i className="las la-list-ol"></i>
-        </span>
+      <span className="icon">
+        <i className="las la-search"></i>
       </span>
+      <span className="text">Search entry</span>
     </Link>,
     controlSearch,
   ]
