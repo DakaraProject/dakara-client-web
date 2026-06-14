@@ -139,19 +139,17 @@ export default function SongEntry({ song, karaokeRemainingSeconds, ...rest }) {
       {song.has_instrumental && (
         <button
           disabled={!canAdd}
-          className="control square primary"
+          className="control primary"
           onClick={() => {
             dispatch(
               addSongToPlaylistWithOptions(song.id, /* instrumental = */ true)
             )
           }}
         >
-          <span className="icon with-sub-icon">
+          <span className="icon ">
             <i className="las la-plus"></i>
-            <span className="sub-icon top-right">
-              <i className="las la-microphone-slash"></i>
-            </span>
           </span>
+          <span className="text">Add instrumental</span>
         </button>
       )}
       <button
