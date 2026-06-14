@@ -387,7 +387,7 @@ class FormBlock extends Form {
       >
         {header}
         {fieldsSet}
-        <div className="controls compact notifiable">
+        <div className="controls notifiable">
           <NotificationBar
             alterationResponse={alterationResponse}
             successfulMessage={successMessage}
