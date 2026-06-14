@@ -30,6 +30,7 @@ export default function PlayedList() {
       // the hash changes
       if (playlistPlayedStatus !== Status.pending) {
         dispatch(loadPlaylistEntries('played', page, query))
+        setSearchBoxQuery(query || '')
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
