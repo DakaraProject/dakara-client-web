@@ -33,12 +33,13 @@
 ### Added
 
 - Allow to display full lyrics of a song.
+- Add a return button in user edit page.
 
 ### Changed
 
 - Allow any clickable element to focus.
 - Rework all colors. The client is now more accessible: it is compiliant with WCAG on almost all elements with a rating of AA. A better color logic is now used: any element with a clear background can be interacted with.
-- The playlist info bar is now replaced by a carousel that shows the current song, the next song, and stats about the playlist. The carousel is automatic and can be interacted with the mouse, the mouse wheel and by swiping. This makes the player box smaller.
+- The playlist info bar is now replaced by a carousel that shows the current song, the next song, and stats about the playlist. The carousel is automatic and can be interacted with the mouse, the mouse wheel, by swiping, and by using dedicated buttons. This makes the player box smaller.
 
 ### Fixed
 
