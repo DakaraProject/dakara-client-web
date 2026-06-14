@@ -1,7 +1,18 @@
+import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { Navigate, NavLink, useSearchParams } from 'react-router'
 
-import { FormBlock, InputField } from 'components/generics/Form'
+import { InputField } from 'components/generics/form/Fields'
+import { Form } from 'components/generics/form/Form'
+
+function ForgottenPasswordLink() {
+  return (
+    <span>
+      Or <NavLink to="/send-reset-password-link">reset your password</NavLink>{' '}
+      if you have forgotten it.
+    </span>
+  )
+}
 
 export default function Login() {
   const isLoggedIn = useSelector((state) => !!state.token)
@@ -9,21 +20,14 @@ export default function Login() {
 
   const [searchParams, _] = useSearchParams()
 
+  const {
+    register,
+    formState: { errors },
+    control,
+  } = useForm()
+
   if (isLoggedIn) {
     return <Navigate to={searchParams.get('from') || '/'} replace />
-  }
-
-  let forgottenPasswordLink
-  if (serverSettings?.email_enabled) {
-    forgottenPasswordLink = (
-      <span>
-        {' '}
-        Or <NavLink to="/send-reset-password-link">
-          reset your password
-        </NavLink>{' '}
-        if you have forgotten it.
-      </span>
-    )
   }
 
   return (
@@ -32,13 +36,7 @@ export default function Login() {
         <h2>Login</h2>
       </div>
       <div className="flow">
-        <FormBlock
-          action="accounts/login/"
-          submitText="Login"
-          alterationName="login"
-          successMessage={false}
-          pendingMessage={false}
-        >
+        <Form action="api/accounts/login/" submitText="Login" control={control}>
           <InputField
             id="login"
             label={
@@ -46,7 +44,9 @@ export default function Login() {
                 <i className="las la-user"></i>
               </span>
             }
-            required
+            register={register}
+            errors={errors}
+            validation={{ required: true }}
           />
           <InputField
             id="password"
@@ -56,12 +56,19 @@ export default function Login() {
               </span>
             }
             type="password"
-            required
+            register={register}
+            errors={errors}
+            validation={{ required: true }}
           />
-        </FormBlock>
+        </Form>
         <p className="links">
           New here? Create a <NavLink to="/register">new account</NavLink>.
-          {forgottenPasswordLink}
+          {serverSettings?.email_enabled && (
+            <>
+              {' '}
+              <ForgottenPasswordLink />
+            </>
+          )}
         </p>
       </div>
     </div>
