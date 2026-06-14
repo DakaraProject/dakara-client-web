@@ -17,13 +17,14 @@ export default function ArtistList() {
 
   const [searchParams, _] = useSearchParams()
 
-  const page = searchParams.get('page')
-  const query = searchParams.get('query')
+  const { page, query } = Object.fromEntries(searchParams.entries())
+
   useEffect(
     () => {
       // refresh immediately, or if moved to a different page, or if the search query
       // changed
       dispatch(loadLibraryEntries('artists', page, query))
+      setSearchBoxQuery(query || '')
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [page, query]

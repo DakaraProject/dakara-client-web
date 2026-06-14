@@ -30,6 +30,7 @@ export default function QueuingList() {
       // or the hash changes
       if (playlistQueuingStatus !== Status.pending) {
         dispatch(loadPlaylistEntries('queuing', page, query))
+        setSearchBoxQuery(query || '')
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

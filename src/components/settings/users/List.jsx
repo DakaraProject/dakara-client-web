@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useOutletContext, useSearchParams } from 'react-router'
 
@@ -23,19 +23,12 @@ export default function UsersList() {
 
   const [searchBoxQuery, setSearchBoxQuery] = useOutletContext()
 
-  const refreshEntries = useCallback(
-    () => {
-      dispatch(loadUsers(page, query))
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page, query]
-  )
-
   useEffect(
     () => {
       // refresh the users immediately and if the page changes
       if (listUsersStatus !== Status.pending) {
-        refreshEntries()
+        dispatch(loadUsers(page, query))
+        setSearchBoxQuery(query || '')
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -95,7 +88,7 @@ export default function UsersList() {
             action="users/"
             successMessage="User sucessfully created!"
             onSuccess={() => {
-              refreshEntries()
+              dispatch(loadUsers(page, query))
             }}
           >
             <InputField id="username" label="Username" required />
