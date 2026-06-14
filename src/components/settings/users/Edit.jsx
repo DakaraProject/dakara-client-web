@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation, useParams } from 'react-router'
+import { useLocation, useNavigate, useParams } from 'react-router'
 
 import { clearUser, getUser } from 'actions/users'
 import {
@@ -23,6 +23,7 @@ export default function UsersEdit() {
   const { userId } = params
 
   const location = useLocation()
+  const navigate = useNavigate()
 
   const dispatch = useDispatch()
 
@@ -89,6 +90,13 @@ export default function UsersEdit() {
     )
   }
 
+  // back button
+  const backButton = (
+    <button key="back" className="control primary" onClick={() => navigate(-1)}>
+      Return
+    </button>
+  )
+
   return (
     <div id="users-edit" className="flow">
       <FormBlock
@@ -99,6 +107,7 @@ export default function UsersEdit() {
         alterationName="updateUser"
         successMessage="User sucessfully updated!"
         noClearOnSuccess
+        extraControls={[backButton]}
       >
         <InputField
           id="username"
