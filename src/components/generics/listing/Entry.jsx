@@ -126,7 +126,7 @@ function Expander({ children, setExpanded }) {
       }}
     >
       <div className="controls">
-        <div className="control neutral square expand-button">
+        <div className="control neutral smashed">
           <span className="icon">
             <i className="las la-ellipsis-v"></i>
           </span>

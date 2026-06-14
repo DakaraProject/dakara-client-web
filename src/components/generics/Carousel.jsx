@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import { isDisplayable } from 'utils'
 
 export function Carousel({ children, className }) {
-  const [emblaRef] = useEmblaCarousel(
+  const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, duration: 20, skipSnaps: true },
     [
       Autoplay({
@@ -15,6 +15,7 @@ export function Carousel({ children, className }) {
         stopOnMouseEnter: true,
         stopOnFocusIn: true,
         stopOnInteraction: false,
+        rootNode: (emblaRoot) => emblaRoot.parentElement,
       }),
       WheelGesturesPlugin({
         forceWheelAxis: 'y',
@@ -23,8 +24,28 @@ export function Carousel({ children, className }) {
   )
 
   return (
-    <div className={classNames('carousel', className)} ref={emblaRef}>
-      <ul className="viewport">{children}</ul>
+    <div className={classNames('carousel', className)}>
+      <div className="structure" ref={emblaRef}>
+        <ul className="viewport">{children}</ul>
+      </div>
+      <div className="controls compact">
+        <button
+          className="control smashed primary listable"
+          onClick={() => emblaApi.scrollNext()}
+        >
+          <span className="icon">
+            <i className="las la-angle-right"></i>
+          </span>
+        </button>
+        <button
+          className="control smashed primary listable"
+          onClick={() => emblaApi.scrollPrev()}
+        >
+          <span className="icon">
+            <i className="las la-angle-left"></i>
+          </span>
+        </button>
+      </div>
     </div>
   )
 }

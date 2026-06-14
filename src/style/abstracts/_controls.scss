@@ -23,8 +23,18 @@
     font-size: $text-size;
     height: $height;
 
+    // square buttons are good for icons
     &.square {
       min-width: $height;
+    }
+
+    // smashed buttons are good when used on the borders of the page
+    &.smashed {
+      min-width: 0.5 * $height;
+
+      .icon {
+        font-size: calc($icon-size / $text-size * 0.85em);
+      }
     }
 
     .icon {

@@ -8,12 +8,22 @@
 @use '~/abstracts/support';
 
 .carousel {
+  display: flex;
   overflow: hidden;
 
-  .viewport {
-    display: flex;
-    list-style-type: none;
-    padding: 0;
+  .structure {
+    flex-grow: 1;
+    overflow: hidden;
+
+    .viewport {
+      display: flex;
+      list-style-type: none;
+      padding: 0;
+    }
+  }
+
+  .controls {
+    flex-direction: column;
   }
 
   .carousel-entry {

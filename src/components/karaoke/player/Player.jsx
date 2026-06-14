@@ -76,7 +76,7 @@ export default function Player() {
       )}
       <Collapse in={hasControls}>
         <div className="transition">
-          <div className="controls">
+          <div className="controls player">
             <ManageButton
               responseOfManage={responseOfSendPlayerCommandsSafe.restart}
               onClick={() => {

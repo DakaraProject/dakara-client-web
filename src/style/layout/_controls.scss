@@ -46,8 +46,8 @@
     padding: 0;
     text-decoration: none;
 
-    // non-square buttons have padding
-    &:not(.square) {
+    // non-square and non-smashed buttons have padding
+    &:not(.square):not(.smashed) {
       @include sizes.make-gap(padding, horizontal);
     }
 
