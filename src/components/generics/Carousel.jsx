@@ -15,6 +15,7 @@ export function Carousel({ children, className }) {
         stopOnMouseEnter: true,
         stopOnFocusIn: true,
         stopOnInteraction: false,
+        rootNode: (emblaRoot) => emblaRoot.parentElement,
       }),
       WheelGesturesPlugin({
         forceWheelAxis: 'y',
