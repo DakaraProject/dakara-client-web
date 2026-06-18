@@ -23,7 +23,9 @@ export default function NotificationBar({
   successfulMessage = 'Success',
   noDisplayOnMount = false,
 }) {
+  const [lastState, setLastState] = useState({ status: null, date: null })
   const [show, setShow] = useState(false)
+  const [hideTimeout, setHideTimeout] = useState(null)
 
   const durations = useMemo(
     () => ({
@@ -42,10 +44,46 @@ export default function NotificationBar({
   )
 
   const { status, date } = alterationResponse
+  if (
+    status &&
+    date &&
+    (status !== lastState.status || date !== lastState.date)
+  ) {
+    setLastState({ status, date })
+    setShow(true)
 
+    // schedule to hide the notification only when a non-pending status has
+    // been reached
+    const duration = durations[status]
+    if (status !== Status.pending && duration) {
+      setHideTimeout(
+        setTimeout(() => {
+          setShow(false)
+        }, duration)
+      )
+    }
+  }
+
+  // clear the schedule to hide the notification if it changes
+  useEffect(
+    () => () => {
+      if (hideTimeout) {
+        clearTimeout(hideTimeout)
+      }
+    },
+    [hideTimeout]
+  )
+
+  // get the correct message to display in the notification, depending on the
+  // alteration response and the component's values
   const getMessage = useCallback(
     (alterationResponse) => {
       const { status, fields, message } = alterationResponse
+
+      // leave early if blank alteration response
+      if (!status) {
+        return
+      }
 
       // specific case if the alteration response contains field errors
       if (fields && Object.keys(fields).length) {
@@ -63,45 +101,19 @@ export default function NotificationBar({
     [messages]
   )
 
-  useEffect(() => {
-    if (!status || !date) {
-      return
-    }
-
-    // display if status and date changed and have a valid value
-    // TODO fix state modification within useEffect
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setShow(true)
-
-    // request to hide success or failure message only after a certain time
-    let timeout
-    if (status !== Status.pending && durations[status]) {
-      timeout = setTimeout(() => {
-        setShow(false)
-      }, durations[status])
-    }
-
-    return () => {
-      if (timeout) {
-        clearTimeout(timeout)
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, date])
-
   const notificationMessage = getMessage(alterationResponse)
-
-  if (!notificationMessage) {
-    return null
-  }
 
   return (
     <Slide in={show}>
-      <div className="notification-bar notified transition">
-        <div className={`notification non-hoverizable ${types[status] || ''}`}>
-          <div className="message">{notificationMessage}</div>
+      {notificationMessage && (
+        <div className="notification-bar notified transition">
+          <div
+            className={`notification non-hoverizable ${types[status] || ''}`}
+          >
+            <div className="message">{notificationMessage}</div>
+          </div>
         </div>
-      </div>
+      )}
     </Slide>
   )
 }
