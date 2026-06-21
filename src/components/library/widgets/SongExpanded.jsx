@@ -35,13 +35,11 @@ export default function SongExpanded({ query, song }) {
 
   // Clear song lyrics status on unmount to prevent re-displaying notification
   useEffect(
-    () => {
-      return () => {
-        dispatch(clearSongLyricsStatus(song.id))
-      }
+    () => () => {
+      dispatch(clearSongLyricsStatus(song.id))
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [song.id]
   )
 
   // works

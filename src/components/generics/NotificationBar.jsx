@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import Slide from 'components/transitions/Slide'
 import {
@@ -23,29 +23,58 @@ export default function NotificationBar({
   successfulMessage = 'Success',
   noDisplayOnMount = false,
 }) {
-  const [show, setShow] = useState(false)
+  const [lastState, setLastState] = useState({
+    status: null,
+    date: null,
+    show: false,
+  })
+  let { show } = lastState
+  let hideTimeout = null
 
-  const durations = useMemo(
-    () => ({
-      [Status.successful]: successfulDuration,
-      [Status.failed]: failedDuration,
-    }),
-    [successfulDuration, failedDuration]
-  )
-  const messages = useMemo(
-    () => ({
-      [Status.pending]: pendingMessage,
-      [Status.successful]: successfulMessage,
-      [Status.failed]: failedMessage,
-    }),
-    [pendingMessage, successfulMessage, failedMessage]
-  )
+  const durations = {
+    [Status.successful]: successfulDuration,
+    [Status.failed]: failedDuration,
+  }
 
   const { status, date } = alterationResponse
+  if (
+    status &&
+    date &&
+    (status !== lastState.status || date !== lastState.date)
+  ) {
+    show = true
+    setLastState({ status, date, show })
 
+    // schedule to hide the notification only when a non-pending status has
+    // been reached
+    const duration = durations[status]
+    if (status !== Status.pending && duration) {
+      hideTimeout = setTimeout(() => {
+        setLastState((state) => ({ ...state, show: false }))
+      }, duration)
+    }
+  }
+
+  // clear the previous schedule to hide the notification if it changes
+  useEffect(
+    () => () => {
+      if (hideTimeout) {
+        clearTimeout(hideTimeout)
+      }
+    },
+    [hideTimeout]
+  )
+
+  // get the correct message to display in the notification, depending on the
+  // alteration response and the component's values
   const getMessage = useCallback(
     (alterationResponse) => {
       const { status, fields, message } = alterationResponse
+
+      // leave early if blank alteration response
+      if (!status) {
+        return
+      }
 
       // specific case if the alteration response contains field errors
       if (fields && Object.keys(fields).length) {
@@ -57,51 +86,31 @@ export default function NotificationBar({
         return message
       }
 
+      const messages = {
+        [Status.pending]: pendingMessage,
+        [Status.successful]: successfulMessage,
+        [Status.failed]: failedMessage,
+      }
+
       // default to specified messages
       return messages[status]
     },
-    [messages]
+    [pendingMessage, successfulMessage, failedMessage]
   )
-
-  useEffect(() => {
-    if (!status || !date) {
-      return
-    }
-
-    // display if status and date changed and have a valid value
-    // TODO fix state modification within useEffect
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setShow(true)
-
-    // request to hide success or failure message only after a certain time
-    let timeout
-    if (status !== Status.pending && durations[status]) {
-      timeout = setTimeout(() => {
-        setShow(false)
-      }, durations[status])
-    }
-
-    return () => {
-      if (timeout) {
-        clearTimeout(timeout)
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, date])
 
   const notificationMessage = getMessage(alterationResponse)
 
-  if (!notificationMessage) {
-    return null
-  }
-
   return (
     <Slide in={show}>
-      <div className="notification-bar notified transition">
-        <div className={`notification non-hoverizable ${types[status] || ''}`}>
-          <div className="message">{notificationMessage}</div>
+      {notificationMessage && (
+        <div className="notification-bar notified transition">
+          <div
+            className={`notification non-hoverizable ${types[status] || ''}`}
+          >
+            <div className="message">{notificationMessage}</div>
+          </div>
         </div>
-      </div>
+      )}
     </Slide>
   )
 }

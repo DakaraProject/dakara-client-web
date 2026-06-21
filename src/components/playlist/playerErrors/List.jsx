@@ -58,7 +58,7 @@ export default function PlayerErrorsList() {
       <ListingList
         entries={errorsList}
         status={playerErrorsStatus}
-        transitionObservable={playerErrorsHash}
+        hash={playerErrorsHash}
       />
       <Navigator
         count={count}

@@ -192,6 +192,11 @@ export default function QueuingEntry({ entry, positions, ...rest }) {
   const expanded = reorderId === entry.id
   const inReorder = !(isNaN(reorderId) || isNaN(reorderIndex))
 
+  // hide confirmation bar on collapse
+  if (!expanded && confirmDisplayed) {
+    setConfirmDisplayed(false)
+  }
+
   const controlSearch = (
     <Link
       key="search"

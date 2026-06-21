@@ -5,7 +5,10 @@ import NotificationBar from 'components/generics/NotificationBar'
 import { Status } from 'reducers/alterationsResponse'
 
 export default function TokenWidget({ token }) {
-  const [tokenCopyStatus, setTokenCopyStatus] = useState()
+  const [tokenCopyState, setTokenCopyState] = useState({
+    status: null,
+    date: null,
+  })
 
   return (
     <div className="token-widget notifiable">
@@ -16,13 +19,16 @@ export default function TokenWidget({ token }) {
           onClick={() => {
             // copy text to clipboard using the clipboard API and manage
             // success or failure of the operation
-            setTokenCopyStatus(Status.pending)
+            setTokenCopyState({ status: Status.pending, date: Date.now() })
             navigator.clipboard.writeText(token).then(
               () => {
-                setTokenCopyStatus(Status.successful)
+                setTokenCopyState({
+                  status: Status.successful,
+                  date: Date.now(),
+                })
               },
               () => {
-                setTokenCopyStatus(Status.failed)
+                setTokenCopyState({ status: Status.failed, date: Date.now() })
               }
             )
           }}
@@ -33,10 +39,7 @@ export default function TokenWidget({ token }) {
         </button>
       </div>
       <NotificationBar
-        alterationResponse={{
-          status: tokenCopyStatus,
-          date: -1, // XXX There should be a valid date here
-        }}
+        alterationResponse={tokenCopyState}
         successfulMessage="Copied!"
         failedMessage="Error when copying to clipboard"
       />
