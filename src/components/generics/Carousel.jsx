@@ -23,6 +23,8 @@ export function Carousel({ children, className }) {
     ]
   )
 
+  const controlsEnabled = emblaApi?.slideNodes().length > 1
+
   return (
     <div className={classNames('carousel', className)}>
       <div className="structure" ref={emblaRef}>
@@ -30,16 +32,28 @@ export function Carousel({ children, className }) {
       </div>
       <div className="controls compact">
         <button
-          className="control smashed primary listable"
-          onClick={() => emblaApi.scrollNext()}
+          className={classNames('control smashed primary listable', {
+            disabled: !controlsEnabled,
+          })}
+          onClick={() => {
+            if (controlsEnabled) {
+              emblaApi.scrollNext()
+            }
+          }}
         >
           <span className="icon">
             <i className="las la-angle-right"></i>
           </span>
         </button>
         <button
-          className="control smashed primary listable"
-          onClick={() => emblaApi.scrollPrev()}
+          className={classNames('control smashed primary listable', {
+            disabled: !controlsEnabled,
+          })}
+          onClick={() => {
+            if (controlsEnabled) {
+              emblaApi.scrollPrev()
+            }
+          }}
         >
           <span className="icon">
             <i className="las la-angle-left"></i>
