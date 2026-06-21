@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import Slide from 'components/transitions/Slide'
 import {
@@ -27,21 +27,10 @@ export default function NotificationBar({
   const [show, setShow] = useState(false)
   const [hideTimeout, setHideTimeout] = useState(null)
 
-  const durations = useMemo(
-    () => ({
-      [Status.successful]: successfulDuration,
-      [Status.failed]: failedDuration,
-    }),
-    [successfulDuration, failedDuration]
-  )
-  const messages = useMemo(
-    () => ({
-      [Status.pending]: pendingMessage,
-      [Status.successful]: successfulMessage,
-      [Status.failed]: failedMessage,
-    }),
-    [pendingMessage, successfulMessage, failedMessage]
-  )
+  const durations = {
+    [Status.successful]: successfulDuration,
+    [Status.failed]: failedDuration,
+  }
 
   const { status, date } = alterationResponse
   if (
@@ -95,10 +84,16 @@ export default function NotificationBar({
         return message
       }
 
+      const messages = {
+        [Status.pending]: pendingMessage,
+        [Status.successful]: successfulMessage,
+        [Status.failed]: failedMessage,
+      }
+
       // default to specified messages
       return messages[status]
     },
-    [messages]
+    [pendingMessage, successfulMessage, failedMessage]
   )
 
   const notificationMessage = getMessage(alterationResponse)
