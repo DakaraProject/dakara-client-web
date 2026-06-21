@@ -86,7 +86,7 @@ export default function QueuingList() {
       <ListingList
         entries={queuingComponents}
         fetchStatus={playlistQueuingStatus}
-        transitionObservable={queuingEntriesHash}
+        hash={queuingEntriesHash}
       />
       <Navigator
         count={count}

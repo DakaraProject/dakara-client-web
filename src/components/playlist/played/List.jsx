@@ -58,7 +58,7 @@ export default function PlayedList() {
       <ListingList
         entries={playedComponent}
         fetchStatus={playlistPlayedStatus}
-        transitionObservable={playedEntriesHash}
+        hash={playedEntriesHash}
       />
       <Navigator
         count={count}

@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types'
 import { CSSTransition } from 'react-transitioning'
 
+export const COLLAPSE_DURATION = 300
+
 export default function Collapse({
   in: inProp,
-  duration = 300,
+  duration = COLLAPSE_DURATION,
   horizontal = false,
   force = false,
   children,

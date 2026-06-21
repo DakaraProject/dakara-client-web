@@ -5,40 +5,95 @@ import { useSearchParams } from 'react-router'
 import { TransitionGroup } from 'react-transitioning'
 
 import ListingFetchWrapper from 'components/generics/listing/FetchWrapper'
-import Collapse from 'components/transitions/Collapse'
+import Collapse, { COLLAPSE_DURATION } from 'components/transitions/Collapse'
 import { ListingNoTransitionContext } from 'contexts/listing'
+import { Status } from 'reducers/alterationsResponse'
 
+// If requested, the animation of the items entering and exiting in this
+// component is touchy. Basically, I want to animate them on the same page,
+// when fetched, when a user (current one or another one) interacted with the
+// entries. But from the point of view of the store, it is difficult to track
+// such interaction: the entries change when changing the page, by instance.
+// What I can track is:
+//
+// - The entries (all entries, not only the ones in the page), through the hash,
+// (if the entries changed, there may be a transition);
+// - The page (if the page changed, there is no transition);
+// - If the entries have been fetched at least once (if this is the first time
+// the entries are displayed, there is no transition).
+//
+// So I came up with this component below, which has a quite alambicated logic.
+// I am still wondering if such gearing was necessary...
 export default function ListingList({
   entries,
   fetchStatus,
   free,
   mini,
   noTransition,
-  transitionObservable = null,
+  hash = null,
 }) {
   const className = classNames('listing', { free, mini })
 
-  const [transition, setTransition] = useState(false)
-  const [transitionObservableInitial, _] = useState(transitionObservable)
-  const [searchParams, __] = useSearchParams()
+  const [lastState, setLastState] = useState({
+    page: null,
+    hash: null,
+    firstLoad: true,
+    transition: false,
+  })
+  let { transition } = lastState
+  let transitionTimeout = null
 
-  // disable transition if the page changed
-  const page = searchParams.get('page')
-  useEffect(() => {
-    // TODO fix state modification within useEffect
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setTransition(false)
-  }, [page])
+  const [searchParams, _] = useSearchParams()
 
-  // enable transition if a given observable changed, and is different from its
-  // initial value when mounted
-  useEffect(() => {
-    if (transitionObservable != transitionObservableInitial) {
-      // TODO fix state modification within useEffect
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setTransition(true)
+  if (!noTransition) {
+    const page = searchParams.get('page')
+
+    // detect entries have been fetched once
+    let { firstLoad } = lastState
+    if (firstLoad) {
+      if (fetchStatus !== Status.pending) {
+        firstLoad = false
+      }
     }
-  }, [transitionObservable, transitionObservableInitial])
+
+    // allow transition evaluation if the page is the same, and the entries
+    // have been fetched once
+    if (page === lastState.page && !lastState.firstLoad) {
+      // allow transition if hash changed
+      if (hash !== lastState.hash) {
+        transition = true
+        // schedule to disable transition later
+        transitionTimeout = setTimeout(() => {
+          setLastState((state) => ({ ...state, transition: false }))
+        }, COLLAPSE_DURATION)
+      }
+    } else {
+      transition = false
+      // cancel the schedule to disable transition
+      transitionTimeout = null
+    }
+
+    // update the state selectively
+    const newState = { hash, page, firstLoad, transition }
+    if (
+      hash !== lastState.hash ||
+      page !== lastState.page ||
+      firstLoad !== lastState.firstLoad ||
+      transition !== lastState.transition
+    ) {
+      setLastState(newState)
+    }
+  }
+
+  // clear the previous schedule to disable transition if it changes
+  useEffect(
+    () => () => {
+      if (transitionTimeout) {
+        clearTimeout(transitionTimeout)
+      }
+    },
+    [transitionTimeout]
+  )
 
   const content = (
     <ListingNoTransitionContext.Provider value={noTransition}>
@@ -71,5 +126,5 @@ ListingList.propTypes = {
   free: PropTypes.bool,
   mini: PropTypes.bool,
   noTransition: PropTypes.bool,
-  transitionObservable: PropTypes.any,
+  hash: PropTypes.any,
 }
