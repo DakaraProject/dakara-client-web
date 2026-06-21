@@ -55,13 +55,12 @@ SearchBoxHelp.propTypes = {
 export default function SearchBox({ help, placeholder, query, setQuery }) {
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const queryFromParams = searchParams.get('query')
-
   const [displayed, setDisplayed] = useState(false)
 
   useEffect(
     () => {
       // update query from URL immediately
+      const queryFromParams = searchParams.get('query')
       if (queryFromParams !== null) {
         setQuery(queryFromParams)
       }

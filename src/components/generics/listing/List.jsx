@@ -73,7 +73,7 @@ export default function ListingList({
       transitionTimeout = null
     }
 
-    // update the state selectively
+    // update the state if needed
     const newState = { hash, page, firstLoad, transition }
     if (
       hash !== lastState.hash ||
