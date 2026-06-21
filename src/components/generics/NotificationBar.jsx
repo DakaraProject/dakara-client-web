@@ -23,9 +23,13 @@ export default function NotificationBar({
   successfulMessage = 'Success',
   noDisplayOnMount = false,
 }) {
-  const [lastState, setLastState] = useState({ status: null, date: null })
-  const [show, setShow] = useState(false)
-  const [hideTimeout, setHideTimeout] = useState(null)
+  const [lastState, setLastState] = useState({
+    status: null,
+    date: null,
+    show: false,
+  })
+  let { show } = lastState
+  let hideTimeout = null
 
   const durations = {
     [Status.successful]: successfulDuration,
@@ -38,22 +42,20 @@ export default function NotificationBar({
     date &&
     (status !== lastState.status || date !== lastState.date)
   ) {
-    setLastState({ status, date })
-    setShow(true)
+    show = true
+    setLastState({ status, date, show })
 
     // schedule to hide the notification only when a non-pending status has
     // been reached
     const duration = durations[status]
     if (status !== Status.pending && duration) {
-      setHideTimeout(
-        setTimeout(() => {
-          setShow(false)
-        }, duration)
-      )
+      hideTimeout = setTimeout(() => {
+        setLastState((state) => ({ ...state, show: false }))
+      }, duration)
     }
   }
 
-  // clear the schedule to hide the notification if it changes
+  // clear the previous schedule to hide the notification if it changes
   useEffect(
     () => () => {
       if (hideTimeout) {
