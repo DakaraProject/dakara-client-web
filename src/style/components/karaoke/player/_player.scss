@@ -28,7 +28,8 @@ $player-progressbar-height: 0.4rem;
   top: 0;
   z-index: 1000;
 
-  &:has(> .controls) {
+  // manage the folding of the controls too, if they are present
+  &:has(> .transition > .controls) {
     top: -$player-controls-height - sizes.$gap-vertical;
 
     @include support.make-smartphone {
