@@ -1,10 +1,8 @@
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
-import localizedFormat from 'dayjs/plugin/localizedFormat'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
 dayjs.extend(duration)
-dayjs.extend(localizedFormat)
 dayjs.extend(relativeTime)
 
 /**
@@ -59,9 +57,10 @@ export function formatDuration(seconds) {
  * Formats a date before 6 hours or after 12 hours in long form (date + time),
  * otherwise in short form (time only).
  * @param dateIso Date as a string in ISO format.
+ * @param seconds If true, also display seconds.
  * @returns Formatted date.
  */
-export function formatDateLong(dateIso) {
+export function formatDateLong(dateIso, seconds) {
   const date = dayjs(dateIso)
   const now = dayjs()
 
@@ -70,11 +69,17 @@ export function formatDateLong(dateIso) {
     date.isBefore(now.subtract(6, 'hour')) ||
     date.isAfter(now.add(12, 'hour'))
   ) {
-    return date.format('L LT')
+    if (seconds) {
+      return date.format('YYYY-MM-DD HH:mm:ss')
+    }
+    return date.format('YYYY-MM-DD HH:mm')
   }
 
   // short format otherwise
-  return date.format('LT')
+  if (seconds) {
+    return date.format('HH:mm:ss')
+  }
+  return date.format('HH:mm')
 }
 
 /**
@@ -99,7 +104,7 @@ export function formatDate(dateIso) {
   }
 
   // short format otherwise
-  return date.format('LT')
+  return date.format('HH:mm')
 }
 
 /**

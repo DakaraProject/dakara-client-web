@@ -42,20 +42,20 @@ describe('format date long', () => {
   })
 
   test('before more than 6 hours', () => {
-    expect(formatDateLong('1970-01-03T00:00:00')).toBe('01/03/1970 12:00 AM')
-    expect(formatDateLong('1970-01-04T18:29:00')).toBe('01/04/1970 6:29 PM')
+    expect(formatDateLong('1970-01-03T00:00:00')).toBe('1970-01-03 00:00')
+    expect(formatDateLong('1970-01-04T18:29:00')).toBe('1970-01-04 18:29')
   })
 
   test('after more than 12 hours', () => {
-    expect(formatDateLong('1970-01-07T00:00:00')).toBe('01/07/1970 12:00 AM')
-    expect(formatDateLong('1970-01-05T12:31:00')).toBe('01/05/1970 12:31 PM')
+    expect(formatDateLong('1970-01-07T00:00:00')).toBe('1970-01-07 00:00')
+    expect(formatDateLong('1970-01-05T12:31:00')).toBe('1970-01-05 12:31')
   })
 
   test('before less than 6 hours and after less than 12 hours', () => {
-    expect(formatDateLong('1970-01-05T00:35:00')).toBe('12:35 AM')
-    expect(formatDateLong('1970-01-05T00:25:00')).toBe('12:25 AM')
-    expect(formatDateLong('1970-01-04T18:30:00')).toBe('6:30 PM')
-    expect(formatDateLong('1970-01-05T12:29:00')).toBe('12:29 PM')
+    expect(formatDateLong('1970-01-05T00:35:00')).toBe('00:35')
+    expect(formatDateLong('1970-01-05T00:25:00')).toBe('00:25')
+    expect(formatDateLong('1970-01-04T18:30:00')).toBe('18:30')
+    expect(formatDateLong('1970-01-05T12:29:00')).toBe('12:29')
   })
 })
 
@@ -82,10 +82,10 @@ describe('format date', () => {
   })
 
   test('before less than 6 hours and after less than 12 hours', () => {
-    expect(formatDate('1970-01-05T00:35:00')).toBe('12:35 AM')
-    expect(formatDate('1970-01-05T00:25:00')).toBe('12:25 AM')
-    expect(formatDate('1970-01-04T18:30:00')).toBe('6:30 PM')
-    expect(formatDate('1970-01-05T12:29:00')).toBe('12:29 PM')
+    expect(formatDate('1970-01-05T00:35:00')).toBe('00:35')
+    expect(formatDate('1970-01-05T00:25:00')).toBe('00:25')
+    expect(formatDate('1970-01-04T18:30:00')).toBe('18:30')
+    expect(formatDate('1970-01-05T12:29:00')).toBe('12:29')
   })
 })
 
