@@ -1,5 +1,3 @@
-import dayjs from 'dayjs'
-import localizedFormat from 'dayjs/plugin/localizedFormat'
 import queryString from 'query-string'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router'
@@ -16,8 +14,7 @@ import {
 } from 'components/generics/listing/Entry'
 import PlaylistEntryWidget from 'components/playlist/widgets/PlaylistEntry'
 import { playerErrorPropType } from 'serverPropTypes/playlist'
-
-dayjs.extend(localizedFormat)
+import { formatDateLong } from 'utils'
 
 export default function PlayerErrorsEntry({ playerError, ...rest }) {
   const query = useSelector((state) => state.playlist.playerErrors.data.query)
@@ -72,7 +69,7 @@ export default function PlayerErrorsEntry({ playerError, ...rest }) {
     <ListingEntryExpanded controls={controlsExpanded}>
       <Details>
         <DetailText icon="la-clock" name="Error at">
-          {dayjs(date).format('L LTS')}
+          {formatDateLong(date, /* seconds = */ true)}
         </DetailText>
         <DetailLongText icon="la-file-alt" name="Error message">
           <HighlighterQuery
