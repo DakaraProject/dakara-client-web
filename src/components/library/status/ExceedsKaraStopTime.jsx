@@ -20,9 +20,11 @@ export default function ExceedsKaraStopTime({ expanded, className }) {
         }
       )}
     >
-      <span className="icon">
-        <i className="las la-clock"></i>
-      </span>
+      <div className="illustration">
+        <span className="icon">
+          <i className="las la-clock"></i>
+        </span>
+      </div>
       {message}
     </li>
   )

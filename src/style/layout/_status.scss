@@ -29,14 +29,17 @@
   }
 
   &.expanded {
-    min-height: sizes.$subrow-height;
+    .illustration {
+      align-items: inherit;
+      display: inherit;
+      min-height: sizes.$subrow-height;
+    }
 
     .message {
       @include sizes.make-vertical-row-padding(horizontal);
 
-      & {
-        padding-left: 0;
-      }
+      box-sizing: border-box;
+      padding-left: 0;
     }
   }
 

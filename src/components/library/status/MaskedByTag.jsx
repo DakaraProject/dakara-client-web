@@ -20,9 +20,11 @@ export default function MaskedByTag({ expanded, className }) {
         }
       )}
     >
-      <span className="icon">
-        <i className="las la-eye-slash"></i>
-      </span>
+      <div className="illustration">
+        <span className="icon">
+          <i className="las la-eye-slash"></i>
+        </span>
+      </div>
       {message}
     </li>
   )
