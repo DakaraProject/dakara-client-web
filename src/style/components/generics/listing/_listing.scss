@@ -170,7 +170,7 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
       .extra {
         @include sizes.make-gap(margin, top);
 
-        transition: margin 150ms ease-out;
+        transition: margin 100ms ease-out;
 
         &:empty {
           margin-top: 0;
