@@ -83,7 +83,7 @@ export default [
       'import/no-duplicates': 'error',
       'import/no-unresolved': [
         'error',
-        { ignore: ['unplugin-preprocessor-directives'] },
+        { ignore: ['unplugin-preprocessor-directives', 'react-router'] },
       ],
 
       quotes: ['error', 'single'],
