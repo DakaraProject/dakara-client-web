@@ -31,9 +31,11 @@ export default function HasError({ playerError, expanded, className }) {
         'expanded listable': expanded,
       })}
     >
-      <span className="icon">
-        <i className="las la-exclamation-triangle"></i>
-      </span>
+      <div className="illustration">
+        <span className="icon">
+          <i className="las la-exclamation-triangle"></i>
+        </span>
+      </div>
       {message}
     </li>
   )

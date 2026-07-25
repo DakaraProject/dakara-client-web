@@ -150,7 +150,15 @@ export function ListingEntryExpanded({
 }) {
   return (
     <div className="listing-entry-expanded">
-      {isDisplayable(extra) && <ul className="extra">{extra}</ul>}
+      <ul className="extra">
+        <TransitionGroup enter exit>
+          {[extra].flat().map((item, index) => (
+            <Collapse key={index} vertical>
+              {item}
+            </Collapse>
+          ))}
+        </TransitionGroup>
+      </ul>
       <div className="main">{children}</div>
       {(isDisplayable(controls) || isDisplayable(notifications)) && (
         <div className="notifiable">

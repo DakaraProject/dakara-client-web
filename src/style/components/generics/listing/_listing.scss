@@ -159,11 +159,22 @@ $listing-entry-control-icon-size: sizes.$row-icon-font-size;
     }
 
     .listing-entry-expanded {
-      @include sizes.make-gap(padding, vertical);
+      // the top-padding is done by extra or main
+      @include sizes.make-gap(padding, bottom);
 
       // space between every element
       & > * + * {
         @include sizes.make-gap(margin, top);
+      }
+
+      .extra {
+        @include sizes.make-gap(margin, top);
+
+        transition: margin 100ms ease-out;
+
+        &:empty {
+          margin-top: 0;
+        }
       }
     }
   }

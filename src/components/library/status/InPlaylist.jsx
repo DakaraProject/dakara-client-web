@@ -149,7 +149,7 @@ export default function InPlaylist({
         'expanded listable': expanded,
       })}
     >
-      {main}
+      <div className="illustration">{main}</div>
       {message}
     </li>
   )
