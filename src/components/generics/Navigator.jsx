@@ -15,6 +15,10 @@ function PaginatorLink({ page, icon, disabled }) {
   const [searchParams, _] = useSearchParams()
   searchParams.set('page', page)
 
+  // delete any known unwanted parameter when changing page
+  searchParams.delete('expanded')
+  searchParams.delete('reorder')
+
   return (
     <Link
       to={{ search: searchParams.toString() }}
