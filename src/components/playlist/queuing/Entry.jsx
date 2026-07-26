@@ -71,7 +71,7 @@ export default function QueuingEntry({ entry, positions, ...rest }) {
       dispatch(clearAlteration('removeEntryFromPlaylist', entry.id))
       dispatch(clearAlteration('reorderPlaylistEntry', entry.id))
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     []
   )
 
@@ -82,7 +82,7 @@ export default function QueuingEntry({ entry, positions, ...rest }) {
         setSearchParams(searchParams)
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     [searchParams]
   )
 
@@ -106,7 +106,7 @@ export default function QueuingEntry({ entry, positions, ...rest }) {
       // clean reorder mode
       cancelReorder()
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     [entry]
   )
 
@@ -130,7 +130,7 @@ export default function QueuingEntry({ entry, positions, ...rest }) {
       // clean reorder mode
       cancelReorder()
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     [entry]
   )
 
@@ -147,7 +147,7 @@ export default function QueuingEntry({ entry, positions, ...rest }) {
       // clean reorder mode
       cancelReorder()
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     [entry, positions]
   )
 
@@ -164,7 +164,7 @@ export default function QueuingEntry({ entry, positions, ...rest }) {
       // clean reorder mode
       cancelReorder()
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     [entry, positions]
   )
 
@@ -181,7 +181,7 @@ export default function QueuingEntry({ entry, positions, ...rest }) {
       searchParams.append('reorder', positions.position)
       setSearchParams(searchParams)
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     [searchParams, positions]
   )
 

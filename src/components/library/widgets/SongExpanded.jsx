@@ -38,7 +38,7 @@ export default function SongExpanded({ query, song }) {
     () => () => {
       dispatch(clearSongLyricsStatus(song.id))
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     [song.id]
   )
 

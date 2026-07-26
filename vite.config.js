@@ -1,9 +1,7 @@
-// eslint-disable-next-line import/no-unresolved
-import react from '@vitejs/plugin-react'
 import { dirname, resolve } from 'path'
-import preprocessorDirectives from 'unplugin-preprocessor-directives/vite'
 import { fileURLToPath } from 'url'
-// eslint-disable-next-line import/no-unresolved
+import react from '@vitejs/plugin-react'
+import preprocessorDirectives from 'unplugin-preprocessor-directives/vite'
 import { defineConfig } from 'vite'
 import jsconfigPaths from 'vite-jsconfig-paths'
 import eslint from 'vite-plugin-eslint'

@@ -33,7 +33,7 @@ export default function PlayedList() {
         setSearchBoxQuery(query || '')
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     [page, query, playedEntriesHash]
   )
 

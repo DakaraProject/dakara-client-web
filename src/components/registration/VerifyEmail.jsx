@@ -24,7 +24,7 @@ export default function VerifyEmail() {
       // send verify requerst immediately
       dispatch(verifyEmail(user_id, email, timestamp, signature))
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     [user_id, email, timestamp, signature]
   )
 

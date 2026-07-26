@@ -1,21 +1,19 @@
-import js from '@eslint/js'
-import importPlugin from 'eslint-plugin-import'
-import prettierPlugin from 'eslint-plugin-prettier/recommended'
-import reactPlugin from 'eslint-plugin-react'
-import reactHooksPlugin from 'eslint-plugin-react-hooks'
-import reactRefreshPlugin from 'eslint-plugin-react-refresh'
-import simpleImportSortPlugin from 'eslint-plugin-simple-import-sort'
+import eslintJs from '@eslint/js'
+import eslintPluginImport from 'eslint-plugin-import-x'
+import eslintPluginPrettier from 'eslint-plugin-prettier/recommended'
+import eslintPluginReact from '@eslint-react/eslint-plugin'
+import eslintPluginReactRefresh from 'eslint-plugin-react-refresh'
 import globals from 'globals'
 
 export default [
   {
     ignores: ['dist', 'node_modules'],
   },
-  js.configs.recommended,
-  importPlugin.flatConfigs.recommended,
-  reactPlugin.configs.flat.recommended,
-  reactPlugin.configs.flat['jsx-runtime'],
-  prettierPlugin,
+  eslintJs.configs.recommended,
+  // eslint-disable-next-line import-x/no-named-as-default-member
+  eslintPluginImport.flatConfigs.recommended,
+  eslintPluginReact.configs.recommended,
+  eslintPluginPrettier,
   {
     files: ['**/*.{js,jsx}'],
 
@@ -23,19 +21,22 @@ export default [
       globals: globals.browser,
       ecmaVersion: 'latest',
       sourceType: 'module',
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
     },
 
     plugins: {
-      'react-hooks': reactHooksPlugin,
-      'react-refresh': reactRefreshPlugin,
-      'simple-import-sort': simpleImportSortPlugin,
+      'react-refresh': eslintPluginReactRefresh,
     },
 
     settings: {
-      react: {
-        version: 'detect',
-      },
-      'import/resolver': {
+      // react: {
+      //   version: 'detect',
+      // },
+      'import-x/resolver': {
         node: {
           extensions: ['.js', '.jsx'],
           moduleDirectory: ['node_modules', 'src/'],
@@ -44,8 +45,6 @@ export default [
     },
 
     rules: {
-      ...reactHooksPlugin.configs.recommended.rules,
-
       'react-refresh/only-export-components': [
         'warn',
         {
@@ -63,25 +62,11 @@ export default [
         },
       ],
 
-      'simple-import-sort/imports': [
-        'warn',
-        {
-          groups: [
-            ['^\\u0000'],
-            ['^@?\\w'],
-            [
-              '^(actions|components|contexts|eventManagers|middleware|permissions|reducers|serverPropTypes|style|utils)',
-            ],
-            ['^'],
-            ['^\\.'],
-          ],
-        },
-      ],
-
-      'import/first': 'error',
-      'import/newline-after-import': 'error',
-      'import/no-duplicates': 'error',
-      'import/no-unresolved': [
+      'import-x/order': 'warn',
+      'import-x/first': 'error',
+      'import-x/newline-after-import': 'warn',
+      'import-x/no-duplicates': 'error',
+      'import-x/no-unresolved': [
         'error',
         { ignore: ['unplugin-preprocessor-directives'] },
       ],

@@ -1,3 +1,5 @@
+/* eslint-disable @eslint-react/no-set-state-in-component-did-mount */
+
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { Component } from 'react'

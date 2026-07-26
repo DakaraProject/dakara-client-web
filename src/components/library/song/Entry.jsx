@@ -46,7 +46,7 @@ export default function SongEntry({ song, karaokeRemainingSeconds, ...rest }) {
       dispatch(clearAlteration('addSongToPlaylist', song.id))
       dispatch(clearAlteration('addSongToPlaylistWithOptions', song.id))
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     [song.id]
   )
 
@@ -55,7 +55,7 @@ export default function SongEntry({ song, karaokeRemainingSeconds, ...rest }) {
       // clear alterations when component unmounts
       clearNotificationAlterations()
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     []
   )
 
@@ -119,7 +119,7 @@ export default function SongEntry({ song, karaokeRemainingSeconds, ...rest }) {
   }
 
   const controls = (
-    <CanAddToPlaylist user={user} karaoke={karaoke}>
+    <CanAddToPlaylist user={user} karaoke={karaoke} key="add-to-playlist">
       <button
         disabled={!canAdd}
         className="control square primary"

@@ -5,7 +5,7 @@ import {
   ALTERATION_FAILURE,
   ALTERATION_REQUEST,
   ALTERATION_SUCCESS,
-} from './alterations'
+} from 'actions/alterations'
 
 const { baseUrl } = params
 
