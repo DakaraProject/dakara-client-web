@@ -84,23 +84,33 @@ export default function UsersEntry({ user }) {
       <td className="controls-col">
         <IsUsersManager user={authenticatedUser}>
           <div className="controls compact">
-            <IsNotSelf user={authenticatedUser} other={user} disable>
-              <Link to={`${user.id}`} className="control square info">
-                <span className="icon">
-                  <i className="las la-pen"></i>
-                </span>
-              </Link>
-              <button
-                className="control square danger"
-                onClick={() => {
-                  setConfirmDisplayed(true)
-                }}
-              >
-                <span className="icon">
-                  <i className="las la-trash"></i>
-                </span>
-              </button>
-            </IsNotSelf>
+            <IsNotSelf
+              user={authenticatedUser}
+              other={user}
+              disablableChildren={(disabled) => (
+                <>
+                  <Link
+                    to={`${user.id}`}
+                    className="control square info"
+                    disabled={disabled}
+                  >
+                    <span className="icon">
+                      <i className="las la-pen"></i>
+                    </span>
+                  </Link>
+                  <button
+                    className="control square danger"
+                    onClick={() => {
+                      setConfirmDisplayed(true)
+                    }}
+                  >
+                    <span className="icon">
+                      <i className="las la-trash"></i>
+                    </span>
+                  </button>
+                </>
+              )}
+            />
           </div>
         </IsUsersManager>
       </td>

@@ -119,7 +119,7 @@ export default function SongEntry({ song, karaokeRemainingSeconds, ...rest }) {
   }
 
   const controls = (
-    <CanAddToPlaylist user={user} karaoke={karaoke}>
+    <CanAddToPlaylist user={user} karaoke={karaoke} key="add-to-playlist">
       <button
         disabled={!canAdd}
         className="control square primary"
