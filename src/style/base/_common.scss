@@ -51,7 +51,7 @@ h3 {
   font-size: 1.75em;
 }
 
-p {
+.text {
   @include fonts.make-long;
 
   margin: 0;
