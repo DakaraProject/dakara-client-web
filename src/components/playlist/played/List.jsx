@@ -67,6 +67,7 @@ export default function PlayedList() {
           singular: 'entry',
           plural: 'entries',
         }}
+        cleanupParams={['expanded']}
       />
     </div>
   )

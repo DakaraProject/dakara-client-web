@@ -67,6 +67,7 @@ export default function PlayerErrorsList() {
           singular: 'error',
           plural: 'errors',
         }}
+        cleanupParams={['expanded']}
       />
     </div>
   )
