@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { useContext, useEffect } from 'react'
+import { use, useEffect } from 'react'
 import { useSearchParams } from 'react-router'
 import { TransitionGroup } from 'react-transitioning'
 
@@ -21,7 +21,7 @@ export function ListingEntry({
 }) {
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const noTransition = useContext(ListingNoTransitionContext)
+  const noTransition = use(ListingNoTransitionContext)
 
   const expandable = !!entryExpanded
   // expanded state is stored in the search parameters, not in the state of the
@@ -35,7 +35,7 @@ export function ListingEntry({
         onToggle(expanded)
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     [expanded]
   )
 
@@ -73,11 +73,17 @@ export function ListingEntry({
           {!expanded && (
             <ul className="extra">
               <TransitionGroup enter exit>
-                {[extra].flat().map((item, index) => (
-                  <Collapse key={index} horizontal>
-                    {item}
-                  </Collapse>
-                ))}
+                {[extra].flat().map((item) => {
+                  if (!item) {
+                    return null
+                  }
+
+                  return (
+                    <Collapse key={item.key} horizontal>
+                      {item}
+                    </Collapse>
+                  )
+                })}
               </TransitionGroup>
             </ul>
           )}
@@ -152,11 +158,17 @@ export function ListingEntryExpanded({
     <div className="listing-entry-expanded">
       <ul className="extra">
         <TransitionGroup enter exit>
-          {[extra].flat().map((item, index) => (
-            <Collapse key={index} vertical>
-              {item}
-            </Collapse>
-          ))}
+          {[extra].flat().map((item) => {
+            if (!item) {
+              return null
+            }
+
+            return (
+              <Collapse key={item.key} vertical>
+                {item}
+              </Collapse>
+            )
+          })}
         </TransitionGroup>
       </ul>
       <div className="main">{children}</div>

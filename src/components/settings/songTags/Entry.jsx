@@ -33,7 +33,7 @@ export default function SongTagsEntry({ tag, editable }) {
       // clear alteration when component unmounts
       dispatch(clearAlteration('editSongTag', tag.id))
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     []
   )
 
@@ -54,7 +54,7 @@ export default function SongTagsEntry({ tag, editable }) {
         dispatch(editSongTag(tag.id, !value))
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     [disabled]
   )
 

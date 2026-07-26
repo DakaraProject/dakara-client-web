@@ -96,7 +96,7 @@ export default function ListingList({
   )
 
   const content = (
-    <ListingNoTransitionContext.Provider value={noTransition}>
+    <ListingNoTransitionContext value={noTransition}>
       <ul className={className}>
         {noTransition ? (
           entries
@@ -108,7 +108,7 @@ export default function ListingList({
           </TransitionGroup>
         )}
       </ul>
-    </ListingNoTransitionContext.Provider>
+    </ListingNoTransitionContext>
   )
 
   if (fetchStatus) {

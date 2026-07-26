@@ -22,7 +22,7 @@ export default function Main({ children }) {
       // load server settings immediately
       dispatch(loadServerSettings())
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     []
   )
 
@@ -35,7 +35,7 @@ export default function Main({ children }) {
         dispatch(loadWorkTypes())
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     [isLoggedIn]
   )
 

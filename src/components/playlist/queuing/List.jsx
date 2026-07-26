@@ -33,7 +33,7 @@ export default function QueuingList() {
         setSearchBoxQuery(query || '')
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     [page, query, queuingEntriesHash]
   )
 
@@ -46,7 +46,7 @@ export default function QueuingList() {
         setSearchParams(searchParams)
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     [playlistQueuingStatus, page]
   )
 

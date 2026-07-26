@@ -24,7 +24,7 @@ export default function VerifyRegistration() {
       // send verify registration immediately
       dispatch(verifyRegistration(user_id, timestamp, signature))
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     [user_id, timestamp, signature]
   )
 

@@ -45,7 +45,7 @@ export default function WorkList() {
       dispatch(loadLibraryEntries('works', page, query, workTypeQueryName))
       setSearchBoxQuery(query || '')
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     [page, query, workTypeQueryName, workTypeStatus]
   )
 

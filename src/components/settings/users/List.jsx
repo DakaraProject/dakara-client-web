@@ -31,7 +31,7 @@ export default function UsersList() {
         setSearchBoxQuery(query || '')
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
     [page, query]
   )
 
