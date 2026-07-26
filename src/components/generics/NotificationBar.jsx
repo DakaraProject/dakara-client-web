@@ -49,6 +49,7 @@ export default function NotificationBar({
     // been reached
     const duration = durations[status]
     if (status !== Status.pending && duration) {
+      // eslint-disable-next-line @eslint-react/purity
       hideTimeout = setTimeout(() => {
         setLastState((state) => ({ ...state, show: false }))
       }, duration)

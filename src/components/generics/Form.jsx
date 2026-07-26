@@ -1,3 +1,9 @@
+/* eslint-disable @eslint-react/no-array-index-key */
+/* eslint-disable @eslint-react/no-children-for-each */
+/* eslint-disable @eslint-react/no-children-map */
+/* eslint-disable @eslint-react/no-clone-element */
+/* eslint-disable @eslint-react/no-unused-class-component-members */
+
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'

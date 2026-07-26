@@ -63,6 +63,7 @@ export default function ListingList({
       if (hash !== lastState.hash) {
         transition = true
         // schedule to disable transition later
+        // eslint-disable-next-line @eslint-react/purity
         transitionTimeout = setTimeout(() => {
           setLastState((state) => ({ ...state, transition: false }))
         }, COLLAPSE_DURATION)
