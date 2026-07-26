@@ -62,21 +62,6 @@ export default [
         },
       ],
 
-      // 'simple-import-sort/imports': [
-      //   'warn',
-      //   {
-      //     groups: [
-      //       ['^\\u0000'],
-      //       ['^@?\\w'],
-      //       [
-      //         '^(actions|components|contexts|eventManagers|middleware|permissions|reducers|serverPropTypes|style|utils)',
-      //       ],
-      //       ['^'],
-      //       ['^\\.'],
-      //     ],
-      //   },
-      // ],
-
       'import-x/order': 'warn',
       'import-x/first': 'error',
       'import-x/newline-after-import': 'warn',
