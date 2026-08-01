@@ -30,7 +30,6 @@ export default function PlayerErrorsList() {
       // the hash changes
       if (playerErrorsStatus !== Status.pending) {
         dispatch(loadPlayerErrors(page, query))
-        setSearchBoxQuery(query || '')
       }
     },
     // eslint-disable-next-line @eslint-react/exhaustive-deps

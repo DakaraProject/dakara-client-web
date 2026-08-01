@@ -28,7 +28,6 @@ export default function UsersList() {
       // refresh the users immediately and if the page changes
       if (listUsersStatus !== Status.pending) {
         dispatch(loadUsers(page, query))
-        setSearchBoxQuery(query || '')
       }
     },
     // eslint-disable-next-line @eslint-react/exhaustive-deps

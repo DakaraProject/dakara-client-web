@@ -41,9 +41,9 @@ export default function WorkList() {
         return
       }
 
-      // load entries if the page, the query, the work type, or the work thype status changes
+      // load entries if the page, the query, the work type, or the work thype
+      // status changes
       dispatch(loadLibraryEntries('works', page, query, workTypeQueryName))
-      setSearchBoxQuery(query || '')
     },
     // eslint-disable-next-line @eslint-react/exhaustive-deps
     [page, query, workTypeQueryName, workTypeStatus]
