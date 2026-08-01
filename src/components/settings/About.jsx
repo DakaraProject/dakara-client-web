@@ -59,12 +59,12 @@ export default function About() {
   return (
     <div id="about" className="flow">
       <h3>About the project</h3>
-      <p className="text">
+      <p>
         <a href="https://github.com/DakaraProject">Dakara</a> is an open-source,
         self-hosted Karaoke project.
       </p>
       <h3>About the dependencies</h3>
-      <ul className="text">
+      <ul>
         {dependencies.map((item) => (
           <li key={item.name}>
             <a href={item.url}>{item.name}</a>

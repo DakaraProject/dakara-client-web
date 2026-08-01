@@ -9,19 +9,17 @@
 
 #footer {
   background: colors.$neutral-110;
-  color: colors.$neutral-410;
   text-align: right;
 
   h2 {
     @include sizes.make-gap(padding, horizontal);
 
-    & {
-      font-size: x-large;
-    }
+    font-size: x-large;
+    font-weight: 300;
 
     .version {
       font-size: 0.6em;
-      font-weight: 300;
+      font-weight: 400;
     }
   }
 

@@ -36,7 +36,7 @@ export default function Header() {
   }
 
   return (
-    <header id="header" className="box">
+    <header id="header" className="box neutral">
       <h1>
         <NavLink to="/">Dakara</NavLink>
       </h1>
