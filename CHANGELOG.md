@@ -34,6 +34,7 @@
 
 - Allow to display full lyrics of a song.
 - Add a return button in user edit page.
+- Fonts are now bundled with the release archive.
 
 ### Changed
 
