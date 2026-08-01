@@ -95,6 +95,7 @@ export default function QueuingList() {
           singular: 'entry',
           plural: 'entries',
         }}
+        paramsToCleanup={['expanded', 'reorder']}
       />
     </div>
   )

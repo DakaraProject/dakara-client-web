@@ -11,9 +11,16 @@ const paginationType = PropTypes.shape({
   last: PropTypes.number.isRequired,
 })
 
-function PaginatorLink({ page, icon, disabled }) {
+function PaginatorLink({ page, icon, disabled, paramsToCleanup }) {
   const [searchParams, _] = useSearchParams()
   searchParams.set('page', page)
+
+  // delete any known unwanted parameter when changing page
+  if (paramsToCleanup) {
+    paramsToCleanup.forEach((param) => {
+      searchParams.delete(param)
+    })
+  }
 
   return (
     <Link
@@ -33,9 +40,10 @@ PaginatorLink.propTypes = {
   page: PropTypes.number.isRequired,
   icon: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
+  paramsToCleanup: PropTypes.arrayOf(PropTypes.string),
 }
 
-function Paginator({ pagination }) {
+function Paginator({ pagination, ...rest }) {
   const { current, last } = pagination
 
   const hasNext = current < last
@@ -47,21 +55,25 @@ function Paginator({ pagination }) {
         page={1}
         icon="las la-angle-double-left"
         disabled={!hasPrevious}
+        {...rest}
       />
       <PaginatorLink
         page={current - 1}
         icon="las la-angle-left"
         disabled={!hasPrevious}
+        {...rest}
       />
       <PaginatorLink
         page={current + 1}
         icon="las la-angle-right"
         disabled={!hasNext}
+        {...rest}
       />
       <PaginatorLink
         page={last}
         icon="las la-angle-double-right"
         disabled={!hasNext}
+        {...rest}
       />
     </nav>
   )
@@ -87,10 +99,10 @@ Counter.propTypes = {
   count: PropTypes.number.isRequired,
 }
 
-export default function Navigator({ count, names, pagination }) {
+export default function Navigator({ count, names, pagination, ...rest }) {
   return (
     <div className="navigator">
-      {pagination && <Paginator pagination={pagination} />}
+      {pagination && <Paginator pagination={pagination} {...rest} />}
       {names && count >= 0 && <Counter names={names} count={count} />}
     </div>
   )
