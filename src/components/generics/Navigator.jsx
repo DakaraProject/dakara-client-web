@@ -11,13 +11,13 @@ const paginationType = PropTypes.shape({
   last: PropTypes.number.isRequired,
 })
 
-function PaginatorLink({ page, icon, disabled, cleanupParams }) {
+function PaginatorLink({ page, icon, disabled, paramsToCleanup }) {
   const [searchParams, _] = useSearchParams()
   searchParams.set('page', page)
 
   // delete any known unwanted parameter when changing page
-  if (cleanupParams) {
-    cleanupParams.forEach((param) => {
+  if (paramsToCleanup) {
+    paramsToCleanup.forEach((param) => {
       searchParams.delete(param)
     })
   }
@@ -40,7 +40,7 @@ PaginatorLink.propTypes = {
   page: PropTypes.number.isRequired,
   icon: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
-  cleanupParams: PropTypes.arrayOf(PropTypes.string),
+  paramsToCleanup: PropTypes.arrayOf(PropTypes.string),
 }
 
 function Paginator({ pagination, ...rest }) {

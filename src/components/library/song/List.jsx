@@ -79,7 +79,7 @@ export default function SongList() {
           singular: 'song',
           plural: 'songs',
         }}
-        cleanupParams={['expanded']}
+        paramsToCleanup={['expanded']}
       />
     </div>
   )
