@@ -199,12 +199,16 @@ $danger-502: color.adjust($danger-500, $lightness: 0.05);
 $info-502: color.adjust($info-500, $lightness: 0.05);
 $neutral-502: color.adjust($neutral-500, $lightness: 0.05);
 
-// create colors
-// $background: null,
-// $color: null,
-// $background-selection: null,
-// $color-selection: null,
-// $color-quote: null
+// helper to create colors
+// @param $background color of the background
+// @param $background-selection color of the background when selected or when
+// highlighted
+// @param $text color of normal text
+// @param $text-selection color of text when selected or when highlighted
+// @param $text-quote color of text in a quote
+// @param $link color of a normal link
+// @param $link-hover color of a hovered, non-focused link
+// @param $link-focus color of a focused link
 @mixin make-color(
   $background: null,
   $background-selection: null,
