@@ -18,6 +18,7 @@ export default function Settings() {
           name="Kara stop time"
         />
         <Tab to="/settings/tokens" iconName="user-circle" name="Tokens" />
+        <Tab to="/settings/about" iconName="info" name="About" />
       </TabBar>
       <Outlet context={[searchBoxQuery, setSearchBoxQuery]} />
     </div>

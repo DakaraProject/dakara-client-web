@@ -8,6 +8,7 @@ import { applyMiddleware, compose, createStore } from 'redux'
 import persistState from 'redux-localstorage'
 import { thunk } from 'redux-thunk'
 
+import SettingsAbout from 'components/settings/About'
 import ProtectedRoute from 'components/generics/ProtectedRoute'
 import Colors from 'components/lab/Colors'
 import Fields from 'components/lab/Fields'
@@ -105,6 +106,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                   element={<SettingsKaraDateStop />}
                 />
                 <Route path="tokens" element={<SettingsTokens />} />
+                <Route path="about" element={<SettingsAbout />} />
               </Route>
             </Route>
             {/* #if DEV */}

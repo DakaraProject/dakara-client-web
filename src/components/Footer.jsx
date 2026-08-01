@@ -9,7 +9,7 @@ export default function Footer() {
         <h2>
           Dakara client <span className="version">{version}</span>
         </h2>
-        <p className="contact">
+        <p className="contact text">
           Visit the <a href={projectHomepage}>project page</a>
           <br />
           Report a <a href={bugtracker}>bug</a>
