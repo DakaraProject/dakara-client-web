@@ -27,7 +27,6 @@ export default function SongTagsList() {
       // refresh song tags immediately and if the page changes
       if (songTagsStatus !== Status.pending) {
         dispatch(loadSongTags(page, query))
-        setSearchBoxQuery(query || '')
       }
     },
     // eslint-disable-next-line @eslint-react/exhaustive-deps

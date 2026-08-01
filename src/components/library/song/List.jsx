@@ -26,9 +26,9 @@ export default function SongList() {
 
   useEffect(
     () => {
-      // fetch songs from server immediately, and if the page or if the query changes
+      // fetch songs from server immediately, and if the page or if the query
+      // changes
       dispatch(loadLibraryEntries('songs', page, query))
-      setSearchBoxQuery(query || '')
     },
     // eslint-disable-next-line @eslint-react/exhaustive-deps
     [page, query]

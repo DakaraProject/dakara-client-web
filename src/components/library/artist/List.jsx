@@ -24,7 +24,6 @@ export default function ArtistList() {
       // refresh immediately, or if moved to a different page, or if the search query
       // changed
       dispatch(loadLibraryEntries('artists', page, query))
-      setSearchBoxQuery(query || '')
     },
     // eslint-disable-next-line @eslint-react/exhaustive-deps
     [page, query]
