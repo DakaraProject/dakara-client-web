@@ -200,44 +200,69 @@ $info-502: color.adjust($info-500, $lightness: 0.05);
 $neutral-502: color.adjust($neutral-500, $lightness: 0.05);
 
 // create colors
+// $background: null,
+// $color: null,
+// $background-selection: null,
+// $color-selection: null,
+// $color-quote: null
 @mixin make-color(
   $background: null,
-  $color: null,
   $background-selection: null,
-  $color-selection: null,
-  $color-quote: null
+  $text: null,
+  $text-selection: null,
+  $text-quote: null,
+  $link: null,
+  $link-hover: null,
+  $link-focus: null
 ) {
+  // background
   @if $background {
     background: $background;
   }
-  @if $color {
-    color: $color;
 
-    a {
-      color: unset;
-    }
-  }
-
-  &::selection,
-  ::selection {
-    @if $background-selection {
+  @if $background-selection {
+    &::selection,
+    ::selection,
+    mark {
       background: $background-selection;
     }
-    @if $color-selection {
-      color: $color-selection;
+  }
+
+  // text
+  @if $text {
+    color: $text;
+  }
+
+  @if $text-selection {
+    &::selection,
+    ::selection,
+    mark {
+      color: $text-selection;
     }
   }
 
-  @if $color-selection {
-    a:hover {
-      color: $color-selection;
+  @if $text-quote {
+    q {
+      color: $text-quote;
     }
   }
 
-  &q,
-  q {
-    @if $color-quote {
-      color: $color-quote;
+  // link
+  @if $link {
+    a {
+      color: $link;
+    }
+  }
+
+  @if $link-hover {
+    a:hover:not(:focus) {
+      color: $link-hover;
+    }
+  }
+
+  @if $link-focus {
+    a:focus {
+      color: $link-focus;
     }
   }
 }
