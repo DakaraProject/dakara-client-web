@@ -1,5 +1,7 @@
 # Dakara web client
 
+[![Tests status](https://github.com/DakaraProject/dakara-client-web/actions/workflows/ci.yaml/badge.svg)](https://github.com/DakaraProject/dakara-client-web/actions/workflows/ci.yaml)
+
 Web client for the Dakara project.
 
 ### Installation
