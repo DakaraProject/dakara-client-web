@@ -21,7 +21,7 @@ import {
   IsPlaylistManagerOrOwner,
 } from 'permissions/components/Playlist'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
-import { formatDateLong } from 'utils'
+import { DateTime } from 'components/generics/Timing'
 
 function ReorderButton({ handleReorder, className, id }) {
   return (
@@ -319,11 +319,11 @@ export default function QueuingEntry({ entry, positions, ...rest }) {
           </DetailText>
         )}
         <DetailText icon="la-clock" name="Requested at">
-          {formatDateLong(entry.date_created)}
+          <DateTime iso={entry.date_created} />
         </DetailText>
         {queuingEntryDigest && (
           <DetailText icon="la-clock" name="Should play at">
-            {formatDateLong(queuingEntryDigest.date_play)}
+            <DateTime iso={entry.date_play} />
           </DetailText>
         )}
       </Details>

@@ -6,7 +6,8 @@ import { Link } from 'react-router'
 
 import UserWidget from 'components/user/widgets/User'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
-import { formatDate, formatDateRelative, getMostPertinentEntry } from 'utils'
+import { getMostPertinentEntry } from 'utils'
+import { Time, TimeRelative } from 'components/generics/Timing'
 
 function Playing({ entry }) {
   const playerStatus = useSelector((state) => state.playlist.playerStatus.data)
@@ -35,7 +36,7 @@ function Queuing({ entry }) {
       <span className="icon">
         <i className="las la-chevron-right"></i>
       </span>
-      <time className="date">{formatDate(entry.date_play)}</time>
+      <Time iso={entry.date_play} />
     </div>
   )
 }
@@ -50,7 +51,7 @@ function Played({ entry }) {
       <span className="icon">
         <i className="las la-chevron-left"></i>
       </span>
-      <time className="date">{formatDate(entry.date_play)}</time>
+      <Time iso={entry.date_play} />
     </div>
   )
 }
@@ -114,7 +115,7 @@ export default function InPlaylist({
             >
               will play
             </Link>{' '}
-            {formatDateRelative(entry.date_play)}
+            <TimeRelative iso={entry.date_play} />
           </span>
         )
       }
@@ -137,7 +138,7 @@ export default function InPlaylist({
             >
               played
             </Link>{' '}
-            {formatDateRelative(entry.date_play)}
+            <TimeRelative iso={entry.date_play} />
           </span>
         )
       }

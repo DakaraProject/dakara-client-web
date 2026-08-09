@@ -2,9 +2,9 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import {
   differentiateEntries,
-  formatDate,
-  formatDateLong,
-  formatDateRelative,
+  formatTime,
+  formatDateTime,
+  formatTimeRelative,
   formatDuration,
   getEntriesHash,
   getMostPertinentEntry,
@@ -13,19 +13,19 @@ import {
 
 describe('format duration', () => {
   test('more than one day', () => {
-    expect(formatDuration(25 * 3600)).toBe('25:00:00')
+    expect(formatDuration(25 * 3600)).toStrictEqual(['P1DT1H', '25:00', ':00'])
   })
 
   test('more than one hour', () => {
-    expect(formatDuration(3600 + 20)).toBe('1:00:20')
+    expect(formatDuration(3600 + 20)).toStrictEqual(['PT1H20S', '1:00', ':20'])
   })
 
   test('less than one hour', () => {
-    expect(formatDuration(2 * 60 + 40)).toBe('2:40')
+    expect(formatDuration(2 * 60 + 40)).toStrictEqual(['PT2M40S', '2', ':40'])
   })
 
   test('less than one minute', () => {
-    expect(formatDuration(40)).toBe('0:40')
+    expect(formatDuration(40)).toStrictEqual(['PT40S', '0', ':40'])
   })
 })
 
@@ -42,20 +42,64 @@ describe('format date long', () => {
   })
 
   test('before more than 6 hours', () => {
-    expect(formatDateLong('1970-01-03T00:00:00')).toBe('1970-01-03 00:00')
-    expect(formatDateLong('1970-01-04T18:29:00')).toBe('1970-01-04 18:29')
+    expect(formatDateTime('1970-01-03T00:00:10')).toStrictEqual([
+      '1970-01-03 00:00',
+      null,
+    ])
+    expect(formatDateTime('1970-01-04T18:29:10')).toStrictEqual([
+      '1970-01-04 18:29',
+      null,
+    ])
+    expect(formatDateTime('1970-01-03T00:00:10', true)).toStrictEqual([
+      '1970-01-03 00:00',
+      ':10',
+    ])
+    expect(formatDateTime('1970-01-04T18:29:10', true)).toStrictEqual([
+      '1970-01-04 18:29',
+      ':10',
+    ])
   })
 
   test('after more than 12 hours', () => {
-    expect(formatDateLong('1970-01-07T00:00:00')).toBe('1970-01-07 00:00')
-    expect(formatDateLong('1970-01-05T12:31:00')).toBe('1970-01-05 12:31')
+    expect(formatDateTime('1970-01-07T00:00:10')).toStrictEqual([
+      '1970-01-07 00:00',
+      null,
+    ])
+    expect(formatDateTime('1970-01-05T12:31:10')).toStrictEqual([
+      '1970-01-05 12:31',
+      null,
+    ])
+    expect(formatDateTime('1970-01-07T00:00:10', true)).toStrictEqual([
+      '1970-01-07 00:00',
+      ':10',
+    ])
+    expect(formatDateTime('1970-01-05T12:31:10', true)).toStrictEqual([
+      '1970-01-05 12:31',
+      ':10',
+    ])
   })
 
   test('before less than 6 hours and after less than 12 hours', () => {
-    expect(formatDateLong('1970-01-05T00:35:00')).toBe('00:35')
-    expect(formatDateLong('1970-01-05T00:25:00')).toBe('00:25')
-    expect(formatDateLong('1970-01-04T18:30:00')).toBe('18:30')
-    expect(formatDateLong('1970-01-05T12:29:00')).toBe('12:29')
+    expect(formatDateTime('1970-01-05T00:35:10')).toStrictEqual(['00:35', null])
+    expect(formatDateTime('1970-01-05T00:25:10')).toStrictEqual(['00:25', null])
+    expect(formatDateTime('1970-01-04T18:30:10')).toStrictEqual(['18:30', null])
+    expect(formatDateTime('1970-01-05T12:29:10')).toStrictEqual(['12:29', null])
+    expect(formatDateTime('1970-01-05T00:35:10', true)).toStrictEqual([
+      '00:35',
+      ':10',
+    ])
+    expect(formatDateTime('1970-01-05T00:25:10', true)).toStrictEqual([
+      '00:25',
+      ':10',
+    ])
+    expect(formatDateTime('1970-01-04T18:30:10', true)).toStrictEqual([
+      '18:30',
+      ':10',
+    ])
+    expect(formatDateTime('1970-01-05T12:29:10', true)).toStrictEqual([
+      '12:29',
+      ':10',
+    ])
   })
 })
 
@@ -72,20 +116,20 @@ describe('format date', () => {
   })
 
   test('before more than 6 hours', () => {
-    expect(formatDate('1970-01-03T00:00:00')).toBe('long ago')
-    expect(formatDate('1970-01-04T18:29:00')).toBe('long ago')
+    expect(formatTime('1970-01-03T00:00:00')).toBe('long ago')
+    expect(formatTime('1970-01-04T18:29:00')).toBe('long ago')
   })
 
   test('after more than 12 hours', () => {
-    expect(formatDate('1970-01-07T00:00:00')).toBe('not soon')
-    expect(formatDate('1970-01-05T12:31:00')).toBe('not soon')
+    expect(formatTime('1970-01-07T00:00:00')).toBe('not soon')
+    expect(formatTime('1970-01-05T12:31:00')).toBe('not soon')
   })
 
   test('before less than 6 hours and after less than 12 hours', () => {
-    expect(formatDate('1970-01-05T00:35:00')).toBe('00:35')
-    expect(formatDate('1970-01-05T00:25:00')).toBe('00:25')
-    expect(formatDate('1970-01-04T18:30:00')).toBe('18:30')
-    expect(formatDate('1970-01-05T12:29:00')).toBe('12:29')
+    expect(formatTime('1970-01-05T00:35:00')).toBe('00:35')
+    expect(formatTime('1970-01-05T00:25:00')).toBe('00:25')
+    expect(formatTime('1970-01-04T18:30:00')).toBe('18:30')
+    expect(formatTime('1970-01-05T12:29:00')).toBe('12:29')
   })
 })
 
@@ -102,22 +146,22 @@ describe('format date relative', () => {
   })
 
   test('before more than 6 hours', () => {
-    expect(formatDateRelative('1970-01-03T00:00:00')).toBe('long ago')
-    expect(formatDateRelative('1970-01-04T18:29:00')).toBe('long ago')
+    expect(formatTimeRelative('1970-01-03T00:00:00')).toBe('long ago')
+    expect(formatTimeRelative('1970-01-04T18:29:00')).toBe('long ago')
   })
 
   test('after more than 12 hours', () => {
-    expect(formatDateRelative('1970-01-07T00:00:00')).toBe('not soon')
-    expect(formatDateRelative('1970-01-05T12:31:00')).toBe('not soon')
+    expect(formatTimeRelative('1970-01-07T00:00:00')).toBe('not soon')
+    expect(formatTimeRelative('1970-01-05T12:31:00')).toBe('not soon')
   })
 
   test('before less than 6 hours and after less than 12 hours', () => {
-    expect(formatDateRelative('1970-01-05T00:35:00')).toBe('in 5 minutes')
-    expect(formatDateRelative('1970-01-05T00:25:00')).toBe('5 minutes ago')
+    expect(formatTimeRelative('1970-01-05T00:35:00')).toBe('in 5 minutes')
+    expect(formatTimeRelative('1970-01-05T00:25:00')).toBe('5 minutes ago')
   })
 
   test('after less than 5 seconds', () => {
-    expect(formatDateRelative('1970-01-05T00:30:00')).toBe('in a few seconds')
+    expect(formatTimeRelative('1970-01-05T00:30:00')).toBe('in a few seconds')
   })
 })
 

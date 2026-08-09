@@ -1,13 +1,15 @@
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import duration from 'dayjs/plugin/duration'
 import queryString from 'query-string'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router'
 
 import { CarouselEntry } from 'components/generics/Carousel'
+import { Duration, Time } from 'components/generics/Timing'
 import PlaylistEntryWidget from 'components/playlist/widgets/PlaylistEntry'
-import { formatDate, formatDuration } from 'utils'
 
+dayjs.extend(duration)
 dayjs.extend(relativeTime)
 
 export function CarouselEntryCurrentSong() {
@@ -40,8 +42,12 @@ export function CarouselEntryCurrentSong() {
         />
       </Link>
       <div className="timing">
-        <div className="current">{formatDuration(timing)}</div>
-        <div className="duration">{formatDuration(entry.song.duration)}</div>
+        <div className="current">
+          <Duration duration={timing} />
+        </div>
+        <div className="duration">
+          <Duration duration={entry.song.duration} />
+        </div>
       </div>
     </CarouselEntry>
   )
@@ -147,7 +153,10 @@ export function CarouselEntryStats() {
   if (playlistEndDate && !karaokeEndDate) {
     end = (
       <li>
-        Playlist ends at <q>{formatDate(playlistEndDate)}</q>
+        Playlist ends at{' '}
+        <q>
+          <Time iso={playlistEndDate} />
+        </q>
       </li>
     )
     // only karaoke date end
@@ -156,10 +165,20 @@ export function CarouselEntryStats() {
       end = (
         <>
           <li>
-            Karaoke ends at <q>{formatDate(karaokeEndDate)}</q>
+            Karaoke ends at{' '}
+            <q>
+              <Time iso={karaokeEndDate} />
+            </q>
           </li>
           <li>
-            <q>{dayjs().to(karaokeEndDate, true)}</q> remaining
+            <q>
+              <time
+                dateTime={dayjs.duration(karaokeEndDate.diff()).toISOString()}
+              >
+                {dayjs().to(karaokeEndDate, true)}
+              </time>
+            </q>{' '}
+            remaining
           </li>
         </>
       )
@@ -173,10 +192,20 @@ export function CarouselEntryStats() {
       end = (
         <>
           <li>
-            Karaoke ends at <q>{formatDate(karaokeEndDate)}</q>
+            Karaoke ends at{' '}
+            <q>
+              <Time iso={karaokeEndDate} />
+            </q>
           </li>
           <li>
-            <q>{dayjs().to(karaokeEndDate, true)}</q> remaining
+            <q>
+              <time
+                dateTime={dayjs.duration(karaokeEndDate.diff()).toISOString()}
+              >
+                {dayjs().to(karaokeEndDate, true)}
+              </time>
+            </q>{' '}
+            remaining
           </li>
         </>
       )
@@ -186,7 +215,9 @@ export function CarouselEntryStats() {
         <>
           <li>
             Playlist should end after karaoke at{' '}
-            <q>{formatDate(playlistEndDate)}</q>
+            <q>
+              <Time iso={playlistEndDate} />
+            </q>
           </li>
           <li>Playlist exceeds karaoke scheduled end!</li>
         </>

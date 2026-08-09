@@ -14,7 +14,7 @@ import {
 } from 'components/generics/listing/Entry'
 import PlaylistEntryWidget from 'components/playlist/widgets/PlaylistEntry'
 import { playerErrorPropType } from 'serverPropTypes/playlist'
-import { formatDateLong } from 'utils'
+import { DateTime } from 'components/generics/Timing'
 
 export default function PlayerErrorsEntry({ playerError, ...rest }) {
   const query = useSelector((state) => state.playlist.playerErrors.data.query)
@@ -69,7 +69,7 @@ export default function PlayerErrorsEntry({ playerError, ...rest }) {
     <ListingEntryExpanded controls={controlsExpanded}>
       <Details>
         <DetailText icon="la-clock" name="Error at">
-          {formatDateLong(date, /* seconds = */ true)}
+          <DateTime iso={date} showSeconds />
         </DetailText>
         <DetailLongText icon="la-file-alt" name="Error message">
           <HighlighterQuery
