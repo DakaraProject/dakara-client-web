@@ -124,25 +124,33 @@ export function formatTime(dateIso) {
  * Formats a date before 6 hours or after 12 hours as "long ago" or "not soon",
  * otherwise in relative form.
  * @param dateIso Date as a string in ISO format.
+ * @param withoutSuffix If true, Dayjs will not display the suffix.
+ * @param withoutTimeTruncate If true, always display date in relative form.
  * @returns Formatted date.
  */
-export function formatTimeRelative(dateIso) {
+export function formatTimeRelative(
+  dateIso,
+  withoutSuffix,
+  withoutTimeTruncate
+) {
   const date = dayjs(dateIso)
   const now = dayjs()
 
-  // long ago if date is before one day
-  if (date.isBefore(now.subtract(6, 'hour'))) {
-    return 'long ago'
-  }
+  if (!withoutTimeTruncate) {
+    // long ago if date is before one day
+    if (date.isBefore(now.subtract(6, 'hour'))) {
+      return 'long ago'
+    }
 
-  // not soon if date is after one day
-  if (date.isAfter(now.add(12, 'hour'))) {
-    return 'not soon'
+    // not soon if date is after one day
+    if (date.isAfter(now.add(12, 'hour'))) {
+      return 'not soon'
+    }
   }
 
   // add 5 seconds to avoid displaying "will play in a few second ago" when
   // the date is within one minute
-  return date.add(5, 'second').fromNow()
+  return date.add(5, 'second').fromNow(withoutSuffix)
 }
 
 /**

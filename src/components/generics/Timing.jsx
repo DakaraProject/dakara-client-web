@@ -52,8 +52,12 @@ DateTime.propTypes = {
   showSeconds: PropTypes.bool,
 }
 
-export function TimeRelative({ iso }) {
-  const date = formatTimeRelative(iso)
+export function TimeRelative({
+  iso,
+  withoutSuffix = false,
+  withoutTimeTruncate = false,
+}) {
+  const date = formatTimeRelative(iso, withoutSuffix, withoutTimeTruncate)
 
   return (
     <time className="timing time-relative" dateTime={iso}>
@@ -64,4 +68,6 @@ export function TimeRelative({ iso }) {
 
 TimeRelative.propTypes = {
   iso: PropTypes.string.isRequired,
+  withoutSuffix: PropTypes.bool,
+  withoutTimeTruncate: PropTypes.bool,
 }

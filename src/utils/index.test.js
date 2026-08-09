@@ -145,23 +145,58 @@ describe('format date relative', () => {
     vi.useRealTimers()
   })
 
-  test('before more than 6 hours', () => {
-    expect(formatTimeRelative('1970-01-03T00:00:00')).toBe('long ago')
-    expect(formatTimeRelative('1970-01-04T18:29:00')).toBe('long ago')
+  describe('default', () => {
+    test('before more than 6 hours', () => {
+      expect(formatTimeRelative('1970-01-03T00:00:00')).toBe('long ago')
+      expect(formatTimeRelative('1970-01-04T18:29:00')).toBe('long ago')
+    })
+
+    test('after more than 12 hours', () => {
+      expect(formatTimeRelative('1970-01-07T00:00:00')).toBe('not soon')
+      expect(formatTimeRelative('1970-01-05T12:31:00')).toBe('not soon')
+    })
+
+    test('before less than 6 hours and after less than 12 hours', () => {
+      expect(formatTimeRelative('1970-01-05T00:35:00')).toBe('in 5 minutes')
+      expect(formatTimeRelative('1970-01-05T00:25:00')).toBe('5 minutes ago')
+    })
+
+    test('after less than 5 seconds', () => {
+      expect(formatTimeRelative('1970-01-05T00:30:00')).toBe('in a few seconds')
+    })
   })
 
-  test('after more than 12 hours', () => {
-    expect(formatTimeRelative('1970-01-07T00:00:00')).toBe('not soon')
-    expect(formatTimeRelative('1970-01-05T12:31:00')).toBe('not soon')
+  describe('without suffix', () => {
+    test('before less than 6 hours and after less than 12 hours', () => {
+      expect(formatTimeRelative('1970-01-05T00:35:00', true)).toBe('5 minutes')
+      expect(formatTimeRelative('1970-01-05T00:25:00', true)).toBe('5 minutes')
+    })
+
+    test('after less than 5 seconds', () => {
+      expect(formatTimeRelative('1970-01-05T00:30:00', true)).toBe(
+        'a few seconds'
+      )
+    })
   })
 
-  test('before less than 6 hours and after less than 12 hours', () => {
-    expect(formatTimeRelative('1970-01-05T00:35:00')).toBe('in 5 minutes')
-    expect(formatTimeRelative('1970-01-05T00:25:00')).toBe('5 minutes ago')
-  })
+  describe('without time truncate', () => {
+    test('before more than 6 hours', () => {
+      expect(formatTimeRelative('1970-01-03T00:00:00', false, true)).toBe(
+        '2 days ago'
+      )
+      expect(formatTimeRelative('1970-01-04T18:29:00', false, true)).toBe(
+        '6 hours ago'
+      )
+    })
 
-  test('after less than 5 seconds', () => {
-    expect(formatTimeRelative('1970-01-05T00:30:00')).toBe('in a few seconds')
+    test('after more than 12 hours', () => {
+      expect(formatTimeRelative('1970-01-07T00:00:00', false, true)).toBe(
+        'in 2 days'
+      )
+      expect(formatTimeRelative('1970-01-05T12:31:00', false, true)).toBe(
+        'in 12 hours'
+      )
+    })
   })
 })
 
