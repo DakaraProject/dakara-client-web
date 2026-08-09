@@ -41,7 +41,7 @@ export function CarouselEntryCurrentSong() {
           truncatable
         />
       </Link>
-      <div className="timing">
+      <div className="timer">
         <div className="current">
           <Duration duration={timing} />
         </div>
