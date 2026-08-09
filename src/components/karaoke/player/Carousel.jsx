@@ -199,14 +199,14 @@ export function CarouselEntryStats() {
           </li>
           <li>
             <q>
-              {/* XXX should be relative to the delta */}
               <TimeRelative
                 iso={karaokeDateStop}
+                relativeToIso={playlistDateEnd}
                 withoutSuffix
                 withoutTimeTruncate
               />
             </q>{' '}
-            remaining
+            remaining in playlist
           </li>
         </>
       )
