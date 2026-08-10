@@ -3,6 +3,7 @@ import eslintPluginImport from 'eslint-plugin-import-x'
 import eslintPluginPrettier from 'eslint-plugin-prettier/recommended'
 import eslintPluginReact from '@eslint-react/eslint-plugin'
 import eslintPluginReactRefresh from 'eslint-plugin-react-refresh'
+import eslintPluginYamllint from 'eslint-plugin-yamllint'
 import globals from 'globals'
 
 export default [
@@ -14,6 +15,7 @@ export default [
   eslintPluginImport.flatConfigs.recommended,
   eslintPluginReact.configs.recommended,
   eslintPluginPrettier,
+  ...eslintPluginYamllint.configs.recommended,
   {
     files: ['**/*.{js,jsx}'],
 
