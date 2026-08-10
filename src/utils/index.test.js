@@ -29,7 +29,7 @@ describe('format duration', () => {
   })
 })
 
-describe('format date long', () => {
+describe('format date time', () => {
   beforeEach(() => {
     vi.useFakeTimers()
 
@@ -103,7 +103,7 @@ describe('format date long', () => {
   })
 })
 
-describe('format date', () => {
+describe('format time', () => {
   beforeEach(() => {
     vi.useFakeTimers()
 
@@ -133,7 +133,7 @@ describe('format date', () => {
   })
 })
 
-describe('format date relative', () => {
+describe('format time relative', () => {
   beforeEach(() => {
     vi.useFakeTimers()
 
@@ -169,34 +169,34 @@ describe('format date relative', () => {
   describe('relative to', () => {
     test('before more than 6 hours', () => {
       expect(
-        formatTimeRelative('1970-01-03T00:00:00', '1970-01-05T00:30:00')
+        formatTimeRelative('1970-02-03T00:00:00', '1970-02-05T00:30:00')
       ).toBe('long ago')
       expect(
-        formatTimeRelative('1970-01-04T18:29:00', '1970-01-05T00:30:00')
+        formatTimeRelative('1970-02-04T18:29:00', '1970-02-05T00:30:00')
       ).toBe('long ago')
     })
 
     test('after more than 12 hours', () => {
       expect(
-        formatTimeRelative('1970-01-07T00:00:00', '1970-01-05T00:30:00')
+        formatTimeRelative('1970-02-07T00:00:00', '1970-02-05T00:30:00')
       ).toBe('not soon')
       expect(
-        formatTimeRelative('1970-01-05T12:31:00', '1970-01-05T00:30:00')
+        formatTimeRelative('1970-02-05T12:31:00', '1970-02-05T00:30:00')
       ).toBe('not soon')
     })
 
     test('before less than 6 hours and after less than 12 hours', () => {
       expect(
-        formatTimeRelative('1970-01-05T00:35:00', '1970-01-05T00:30:00')
+        formatTimeRelative('1970-02-05T00:35:00', '1970-02-05T00:30:00')
       ).toBe('in 5 minutes')
       expect(
-        formatTimeRelative('1970-01-05T00:25:00', '1970-01-05T00:30:00')
+        formatTimeRelative('1970-02-05T00:25:00', '1970-02-05T00:30:00')
       ).toBe('5 minutes ago')
     })
 
     test('after less than 5 seconds', () => {
       expect(
-        formatTimeRelative('1970-01-05T00:30:00', '1970-01-05T00:30:00')
+        formatTimeRelative('1970-02-05T00:30:00', '1970-02-05T00:30:00')
       ).toBe('in a few seconds')
     })
   })
