@@ -110,7 +110,7 @@ export function formatTime(dateIso) {
     return 'long ago'
   }
 
-  // not soon if date is after 12 hours
+  // not soon if date is after half a day
   if (date.isAfter(now.add(12, 'hour'))) {
     return 'not soon'
   }
@@ -139,12 +139,12 @@ export function formatTimeRelative(
   const now = dayjs(relativeToDateIso)
 
   if (!withoutTimeTruncate) {
-    // long ago if date is before one day
+    // long ago if date is before 6 hours
     if (date.isBefore(now.subtract(6, 'hour'))) {
       return 'long ago'
     }
 
-    // not soon if date is after one day
+    // not soon if date is after half a day
     if (date.isAfter(now.add(12, 'hour'))) {
       return 'not soon'
     }
