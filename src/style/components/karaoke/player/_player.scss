@@ -16,7 +16,7 @@
 // player sizes
 $player-controls-height: 6rem;
 $player-controls-height-smartphone: sizes.$row-height;
-$player-timing-height: 5.5rem;
+$player-timer-height: 5.5rem;
 $player-progressbar-height: 0.4rem;
 
 // `player` id:
@@ -254,8 +254,8 @@ $player-progressbar-height: 0.4rem;
         display: flex;
         overflow: hidden;
 
-        .timing {
-          // shrink the timing class element first when resizing, up to
+        .timer {
+          // shrink the timer class element first when resizing, up to
           // the width of the duration (4 digits plus one colon)
           font-feature-settings: 'tnum';
           margin-left: auto;
@@ -263,26 +263,26 @@ $player-progressbar-height: 0.4rem;
           overflow: hidden;
           text-align: right;
 
-          @mixin make-timing($factor) {
-            font-size: $player-timing-height * $factor;
-            line-height: $player-timing-height * $factor;
+          @mixin make-timer($factor) {
+            font-size: $player-timer-height * $factor;
+            line-height: $player-timer-height * $factor;
 
             @include support.make-smartphone {
-              font-size: $player-timing-height * $factor * 0.7;
-              line-height: $player-timing-height * $factor * 0.7;
+              font-size: $player-timer-height * $factor * 0.7;
+              line-height: $player-timer-height * $factor * 0.7;
             }
           }
 
-          .current {
+          > .current {
             font-weight: 200;
 
-            @include make-timing(0.7);
+            @include make-timer(0.7);
           }
 
-          .duration {
+          > .duration {
             letter-spacing: 0.25rem;
 
-            @include make-timing(0.3);
+            @include make-timer(0.3);
           }
         }
       }

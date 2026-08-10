@@ -6,7 +6,8 @@ import SongTagList from 'components/library/SongTagList'
 import ArtistWidget from 'components/library/widgets/Artist'
 import WorkLinkWidget from 'components/library/widgets/WorkLink'
 import { songPropType } from 'serverPropTypes/library'
-import { formatDuration, isDisplayable } from 'utils'
+import { isDisplayable } from 'utils'
+import { Duration } from 'components/generics/Timing'
 
 export default function SongWidget({
   song,
@@ -69,7 +70,7 @@ export default function SongWidget({
   // song duration
   let duration
   if (!noDuration) {
-    duration = <span className="duration">{formatDuration(song.duration)}</span>
+    duration = <Duration duration={song.duration} />
   }
 
   // song tags

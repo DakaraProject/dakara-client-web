@@ -10,7 +10,7 @@ import {
 import HasError from 'components/playlist/status/HasError'
 import PlaylistEntryWidget from 'components/playlist/widgets/PlaylistEntry'
 import { playlistEntryPropType } from 'serverPropTypes/playlist'
-import { formatDateLong } from 'utils'
+import { DateTime } from 'components/generics/Timing'
 
 export default function PlayedEntry({ entry, ...rest }) {
   const query = useSelector((state) => state.playlist.played.data.query)
@@ -65,10 +65,10 @@ export default function PlayedEntry({ entry, ...rest }) {
           </DetailText>
         )}
         <DetailText icon="la-clock" name="Requested at">
-          {formatDateLong(entry.date_created)}
+          <DateTime iso={entry.date_created} />
         </DetailText>
         <DetailText icon="la-clock" name="Played at">
-          {formatDateLong(entry.date_play)}
+          <DateTime iso={entry.date_play} />
         </DetailText>
       </Details>
     </ListingEntryExpanded>

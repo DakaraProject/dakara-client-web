@@ -1,14 +1,11 @@
 import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
 import queryString from 'query-string'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router'
 
 import { CarouselEntry } from 'components/generics/Carousel'
+import { Duration, Time, TimeRelative } from 'components/generics/Timing'
 import PlaylistEntryWidget from 'components/playlist/widgets/PlaylistEntry'
-import { formatDate, formatDuration } from 'utils'
-
-dayjs.extend(relativeTime)
 
 export function CarouselEntryCurrentSong() {
   const { data: playerStatus } = useSelector(
@@ -39,9 +36,13 @@ export function CarouselEntryCurrentSong() {
           truncatable
         />
       </Link>
-      <div className="timing">
-        <div className="current">{formatDuration(timing)}</div>
-        <div className="duration">{formatDuration(entry.song.duration)}</div>
+      <div className="timer">
+        <div className="current">
+          <Duration duration={timing} />
+        </div>
+        <div className="duration">
+          <Duration duration={entry.song.duration} />
+        </div>
       </div>
     </CarouselEntry>
   )
@@ -77,9 +78,11 @@ export function CarouselEntryNextSong() {
 }
 
 export function CarouselEntryStats() {
-  const { queuingEntries, playedEntries, dateEnd } = useSelector(
-    (state) => state.playlist.digest.entries.data
-  )
+  const {
+    queuingEntries,
+    playedEntries,
+    dateEnd: playlistDateEnd,
+  } = useSelector((state) => state.playlist.digest.entries.data)
   const { data: playerStatus } = useSelector(
     (state) => state.playlist.playerStatus
   )
@@ -136,57 +139,86 @@ export function CarouselEntryStats() {
    * well together. At least, the code is easy to understand.
    */
 
-  const playlistEndDate =
-    dateEnd && (countQueuingEntries || playerStatus.playlist_entry)
-      ? dayjs(dateEnd)
-      : null
-  const karaokeEndDate = karaokeDateStop ? dayjs(karaokeDateStop) : null
+  const karaokeHasDateStop = !!karaokeDateStop
+
+  // the playlist has a date end if a date end is calculated and either there
+  // are songs queuing or there is one song playing
+  const playlistHasDateEnd =
+    playlistDateEnd && (countQueuingEntries || playerStatus.playlist_entry)
 
   let end
   // only playlist date end
-  if (playlistEndDate && !karaokeEndDate) {
+  if (playlistHasDateEnd && !karaokeHasDateStop) {
     end = (
       <li>
-        Playlist ends at <q>{formatDate(playlistEndDate)}</q>
+        Playlist ends at{' '}
+        <q>
+          <Time iso={playlistDateEnd} />
+        </q>
       </li>
     )
-    // only karaoke date end
-  } else if (!playlistEndDate && karaokeEndDate) {
-    if (karaokeEndDate.isAfter()) {
+    // only karaoke date stop
+  } else if (!playlistHasDateEnd && karaokeHasDateStop) {
+    // if the the karaoke date stop is not passed
+    if (dayjs().isBefore(karaokeDateStop)) {
       end = (
         <>
           <li>
-            Karaoke ends at <q>{formatDate(karaokeEndDate)}</q>
+            Karaoke ends at{' '}
+            <q>
+              <Time iso={karaokeDateStop} />
+            </q>
           </li>
           <li>
-            <q>{dayjs().to(karaokeEndDate, true)}</q> remaining
+            <q>
+              <TimeRelative
+                iso={karaokeDateStop}
+                withoutSuffix
+                withoutTimeTruncate
+              />
+            </q>{' '}
+            remaining
           </li>
         </>
       )
+      // otherwise the karaoke is finished
     } else {
       end = <li>Karaoke ended</li>
     }
-    // both playlist date end and karaoke date end
-  } else if (playlistEndDate && karaokeEndDate) {
-    // karaoke date end is after playlist date end
-    if (karaokeEndDate.isAfter(playlistEndDate)) {
+    // both playlist date end and karaoke date stop
+  } else if (playlistHasDateEnd && karaokeHasDateStop) {
+    // karaoke date stop is after playlist date end
+    if (dayjs(playlistDateEnd).isBefore(karaokeDateStop)) {
       end = (
         <>
           <li>
-            Karaoke ends at <q>{formatDate(karaokeEndDate)}</q>
+            Karaoke ends at{' '}
+            <q>
+              <Time iso={karaokeDateStop} />
+            </q>
           </li>
           <li>
-            <q>{dayjs().to(karaokeEndDate, true)}</q> remaining
+            <q>
+              <TimeRelative
+                iso={karaokeDateStop}
+                relativeToIso={playlistDateEnd}
+                withoutSuffix
+                withoutTimeTruncate
+              />
+            </q>{' '}
+            remaining in playlist
           </li>
         </>
       )
-      // playlist date end is after karaoke date end
+      // playlist date end is after karaoke date stop
     } else {
       end = (
         <>
           <li>
             Playlist should end after karaoke at{' '}
-            <q>{formatDate(playlistEndDate)}</q>
+            <q>
+              <Time iso={playlistDateEnd} />
+            </q>
           </li>
           <li>Playlist exceeds karaoke scheduled end!</li>
         </>

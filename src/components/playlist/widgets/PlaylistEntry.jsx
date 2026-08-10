@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 
 import SongWidget from 'components/library/widgets/Song'
 import UserWidget from 'components/user/widgets/User'
-import { formatDateRelative } from 'utils'
+import { TimeRelative } from 'components/generics/Timing'
 
 export default function PlaylistEntryWidget({
   entry,
@@ -46,11 +46,7 @@ export default function PlaylistEntryWidget({
         <span className="icon">
           <i className="las la-clock"></i>
         </span>
-        {playlistEntry && (
-          <time className="date">
-            {formatDateRelative(playlistEntry.date_play)}
-          </time>
-        )}
+        {playlistEntry && <TimeRelative iso={playlistEntry.date_play} />}
       </span>
     )
   }

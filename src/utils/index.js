@@ -32,7 +32,8 @@ export function updateData(newData, resultsKey) {
  * Will format a duration less than one hour as `m:ss`, and more than one hour
  * as `h:mm:ss`.
  * @param seconds Duration in seconds.
- * @returns Formatted duration.
+ * @returns Array of 3 elements: the ISO duration representation, the hours (if
+ * any) and minutes, and the seconds.
  */
 export function formatDuration(seconds) {
   const duration = dayjs.duration(seconds, 'seconds')
@@ -40,27 +41,35 @@ export function formatDuration(seconds) {
   // for very long durations exceeding one day, express it in hours
   if (duration.days() > 0) {
     const hours = duration.asHours().toFixed()
-    return duration.format(`${hours}:mm:ss`)
+    return [
+      duration.toISOString(),
+      duration.format(`${hours}:mm`),
+      duration.format(':ss'),
+    ]
   }
 
   // display hours only if needed
   if (duration.hours() > 0) {
-    return duration.format('H:mm:ss')
+    return [
+      duration.toISOString(),
+      duration.format('H:mm'),
+      duration.format(':ss'),
+    ]
   }
 
   // default to minutes and seconds
-  return duration.format('m:ss')
+  return [duration.toISOString(), duration.format('m'), duration.format(':ss')]
 }
 
 /**
- * Smart formatting for a date.
+ * Smart formatting for a date and a time.
  * Formats a date before 6 hours or after 12 hours in long form (date + time),
  * otherwise in short form (time only).
  * @param dateIso Date as a string in ISO format.
- * @param seconds If true, also display seconds.
+ * @param showSeconds If true, also display seconds.
  * @returns Formatted date.
  */
-export function formatDateLong(dateIso, seconds) {
+export function formatDateTime(dateIso, showSeconds) {
   const date = dayjs(dateIso)
   const now = dayjs()
 
@@ -69,27 +78,30 @@ export function formatDateLong(dateIso, seconds) {
     date.isBefore(now.subtract(6, 'hour')) ||
     date.isAfter(now.add(12, 'hour'))
   ) {
-    if (seconds) {
-      return date.format('YYYY-MM-DD HH:mm:ss')
+    const format = date.format('YYYY-MM-DD HH:mm')
+    if (showSeconds) {
+      return [format, date.format(':ss')]
     }
-    return date.format('YYYY-MM-DD HH:mm')
+
+    return [format, null]
   }
 
   // short format otherwise
-  if (seconds) {
-    return date.format('HH:mm:ss')
+  const format = date.format('HH:mm')
+  if (showSeconds) {
+    return [format, date.format(':ss')]
   }
-  return date.format('HH:mm')
+  return [format, null]
 }
 
 /**
- * Smart formatting for a date.
+ * Smart formatting for a time.
  * Formats a date before 6 hours or after 12 hours as "long ago" or "not soon",
  * otherwise in short form.
  * @param dateIso Date as a string in ISO format.
  * @returns Formatted date.
  */
-export function formatDate(dateIso) {
+export function formatTime(dateIso) {
   const date = dayjs(dateIso)
   const now = dayjs()
 
@@ -98,7 +110,7 @@ export function formatDate(dateIso) {
     return 'long ago'
   }
 
-  // not soon if date is after 12 hours
+  // not soon if date is after half a day
   if (date.isAfter(now.add(12, 'hour'))) {
     return 'not soon'
   }
@@ -112,25 +124,35 @@ export function formatDate(dateIso) {
  * Formats a date before 6 hours or after 12 hours as "long ago" or "not soon",
  * otherwise in relative form.
  * @param dateIso Date as a string in ISO format.
+ * @param relativeToDateIso Reference date as a string in ISO format.
+ * @param withoutSuffix If true, Dayjs will not display the suffix.
+ * @param withoutTimeTruncate If true, always display date in relative form.
  * @returns Formatted date.
  */
-export function formatDateRelative(dateIso) {
+export function formatTimeRelative(
+  dateIso,
+  relativeToDateIso,
+  withoutSuffix,
+  withoutTimeTruncate
+) {
   const date = dayjs(dateIso)
-  const now = dayjs()
+  const now = dayjs(relativeToDateIso)
 
-  // long ago if date is before one day
-  if (date.isBefore(now.subtract(6, 'hour'))) {
-    return 'long ago'
-  }
+  if (!withoutTimeTruncate) {
+    // long ago if date is before 6 hours
+    if (date.isBefore(now.subtract(6, 'hour'))) {
+      return 'long ago'
+    }
 
-  // not soon if date is after one day
-  if (date.isAfter(now.add(12, 'hour'))) {
-    return 'not soon'
+    // not soon if date is after half a day
+    if (date.isAfter(now.add(12, 'hour'))) {
+      return 'not soon'
+    }
   }
 
   // add 5 seconds to avoid displaying "will play in a few second ago" when
   // the date is within one minute
-  return date.add(5, 'second').fromNow()
+  return date.add(5, 'second').from(now, withoutSuffix)
 }
 
 /**
