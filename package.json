@@ -56,12 +56,13 @@
     "@eslint/js": "^10.0.1",
     "@vitejs/plugin-react": "^6.0.2",
     "autoprefixer": "^10.5.0",
-    "eslint": "^10.8.0",
+    "eslint": "^10.8.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import-x": "^4.17.1",
     "eslint-plugin-prettier": "^5.5.6",
     "eslint-plugin-react-refresh": "^0.5.3",
     "eslint-plugin-simple-import-sort": "^13.0.0",
+    "eslint-plugin-yamllint": "^1.0.3",
     "globals": "^17.7.0",
     "normalize.css": "^8.0.1",
     "postcss": "^8.5.23",
@@ -79,6 +80,8 @@
     "vite-plugin-checker": "^0.14.1",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-stylelint": "^6.1.0",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.8",
+    "yaml-eslint-parser": "^2.1.0",
+    "yamllint-js": "^0.2.4"
   }
 }
