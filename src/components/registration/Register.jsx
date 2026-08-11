@@ -67,6 +67,7 @@ export default function Register() {
 
   return (
     <div id="register" className="box neutral">
+      <title>Dakara register</title>
       <div className="header primary">
         <h2>Create a new account</h2>
       </div>

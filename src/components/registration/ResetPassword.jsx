@@ -60,6 +60,7 @@ export default function ResetPassword() {
 
   return (
     <div id="reset-password" className="box neutral">
+      <title>Dakara reset password</title>
       <div className="header primary">
         <h2>Reset password</h2>
       </div>

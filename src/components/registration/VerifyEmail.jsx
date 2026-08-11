@@ -67,6 +67,7 @@ export default function VerifyEmail() {
 
   return (
     <div id="verify-email" className={classNames('box', className)}>
+      <title>Dakara verification</title>
       <div className="header">
         <h2>Email verification</h2>
       </div>

@@ -28,6 +28,7 @@ export default function Login() {
 
   return (
     <div id="login" className="box primary">
+      <title>Dakara login</title>
       <div className="header">
         <h2>Login</h2>
       </div>

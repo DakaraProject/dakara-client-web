@@ -71,6 +71,7 @@ export default function VerifyRegistration() {
 
   return (
     <div id="verify-registration" className={classNames('box', className)}>
+      <title>Dakara verification</title>
       <div className="header">
         <h2>Email verification</h2>
       </div>
