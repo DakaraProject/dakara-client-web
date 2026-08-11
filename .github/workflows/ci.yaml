@@ -45,7 +45,7 @@ jobs:
         run: npm run check-format
 
       - name: Check JS linting
-        run: npm run lint-js
+        run: npm run check-lint
 
       - name: Check CSS linting
-        run: npm run lint-css
+        run: npm run check-style
