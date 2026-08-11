@@ -25,6 +25,7 @@ export default function Library() {
 
   return (
     <div id="library" className="box neutral">
+      <title>Dakara library</title>
       <TabBar>
         <Tab
           to="/library/song"

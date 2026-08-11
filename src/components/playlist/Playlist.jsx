@@ -8,6 +8,7 @@ export default function Playlist() {
 
   return (
     <div id="playlist" className="box neutral">
+      <title>Dakara playlist</title>
       <TabBar>
         <Tab
           to="/playlist/queuing"

@@ -81,6 +81,7 @@ export default function User() {
 
   return (
     <div className="box neutral" id="user">
+      <title>Dakara user page</title>
       <div className="header primary">
         <div className="name">
           <h2>{user.username}</h2>

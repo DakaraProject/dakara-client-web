@@ -8,6 +8,7 @@ export default function Settings() {
 
   return (
     <div id="settings" className="box neutral">
+      <title>Dakara settings</title>
       <TabBar>
         <Tab to="/settings/users" iconName="users" name="Users" isDefault />
         <Tab to="/settings/song-tags" iconName="tags" name="Tags" />

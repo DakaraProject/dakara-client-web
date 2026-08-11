@@ -37,6 +37,7 @@ export default function SendResetPasswordLink() {
 
   return (
     <div id="send-reset-password-link" className="box neutral">
+      <title>Dakara reset password</title>
       <div className="header primary">
         <h2>Send reset password link</h2>
       </div>
