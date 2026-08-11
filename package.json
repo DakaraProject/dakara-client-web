@@ -14,19 +14,20 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --outDir dist/static --base /static",
+    "preview": "vite preview",
     "test": "vitest",
     "bench": "vitest bench",
-    "lint-js": "eslint . --max-warnings 0",
-    "lint-css": "stylelint ./src/style/**/*.{css,scss}",
-    "format": "prettier --write ./src",
-    "check-format": "prettier --check ./src",
-    "preview": "vite preview"
+    "format": "prettier --write .",
+    "lint": "eslint --fix .",
+    "check-format": "prettier --check .",
+    "check-lint": "eslint --max-warnings 0 .",
+    "check-style": "stylelint ./src/style/**/*.{css,scss}"
   },
   "pre-commit": [
     "test",
     "check-format",
-    "lint-js",
-    "lint-css"
+    "check-lint",
+    "check-style"
   ],
   "dependencies": {
     "@fontsource/roboto": "^5.3.0",

@@ -9,13 +9,13 @@ Web client for the Dakara project.
 To install Dakara completely, you have to get all the parts of the project.
 Installation guidelines are provided over here:
 
-* [Dakara server](https://github.com/DakaraProject/dakara-server/);
-* [Dakara feeder](https://github.com/DakaraProject/dakara-feeder/);
-* [Dakara player](https://github.com/DakaraProject/dakara-player/).
+- [Dakara server](https://github.com/DakaraProject/dakara-server/);
+- [Dakara feeder](https://github.com/DakaraProject/dakara-feeder/);
+- [Dakara player](https://github.com/DakaraProject/dakara-player/).
 
 #### System requirements
 
-* [NodeJS](https://nodejs.org/), to transpile the sources.
+- [NodeJS](https://nodejs.org/), to transpile the sources.
 
 On Linux, the NodeJS provided by your system may be out to date.
 It is advised to install the latest version with [nvm](http://nvm.sh/).
