@@ -50,12 +50,9 @@ export default function UsersEdit() {
 
   // render an error page if the current user has no right to display the page
   const fakeUser = { id: userId }
-  if (
-    !(
-      isUsersManager(authenticatedUser) &&
-      isNotSelf(authenticatedUser, fakeUser)
-    )
-  ) {
+  if (!(
+    isUsersManager(authenticatedUser) && isNotSelf(authenticatedUser, fakeUser)
+  )) {
     return <Forbidden location={location} />
   }
 

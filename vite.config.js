@@ -7,7 +7,7 @@ import jsconfigPaths from 'vite-jsconfig-paths'
 import eslint from 'vite-plugin-eslint'
 import stylelint from 'vite-plugin-stylelint'
 
-import packageJson from './package.json'
+import packageJson from './package.json' with { type: 'json' }
 
 // https://vitejs.dev/config/
 export default defineConfig({
