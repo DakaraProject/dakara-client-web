@@ -30,6 +30,8 @@
 
 ## Unreleased
 
+## 1.10.0 - 2026-08-13
+
 ### Update notes
 
 This release introduces a new visual style which is more more tuned, more coherent and more accessible.
