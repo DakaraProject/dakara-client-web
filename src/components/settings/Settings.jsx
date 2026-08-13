@@ -1,42 +1,27 @@
-import { Component } from 'react'
+import { useState } from 'react'
 import { Outlet } from 'react-router'
 
-import Tab from 'components/generics/Tab'
+import { Tab, TabBar } from 'components/generics/TabBar'
 
-export default class Settings extends Component {
+export default function Settings() {
+  const [searchBoxQuery, setSearchBoxQuery] = useState('')
 
-    render() {
-        return (
-            <div id="settings" className="box">
-                <nav className="tab-bar">
-                    <Tab
-                        to="/settings/users"
-                        iconName="users"
-                        name="Users"
-                    />
-                    <Tab
-                        to="/settings/song-tags"
-                        iconName="tags"
-                        name="Tags"
-                    />
-                    <Tab
-                        to="/settings/kara-status"
-                        iconName="play"
-                        name="Kara status"
-                    />
-                    <Tab
-                        to="/settings/kara-date-stop"
-                        iconName="clock"
-                        name="Kara stop time"
-                    />
-                    <Tab
-                        to="/settings/tokens"
-                        iconName="user-circle"
-                        name="Tokens"
-                    />
-                </nav>
-                <Outlet />
-            </div>
-        )
-    }
+  return (
+    <div id="settings" className="box neutral">
+      <title>Dakara settings</title>
+      <TabBar>
+        <Tab to="/settings/users" iconName="users" name="Users" isDefault />
+        <Tab to="/settings/song-tags" iconName="tags" name="Tags" />
+        <Tab to="/settings/kara-status" iconName="play" name="Kara status" />
+        <Tab
+          to="/settings/kara-date-stop"
+          iconName="clock"
+          name="Kara stop time"
+        />
+        <Tab to="/settings/tokens" iconName="user-circle" name="Tokens" />
+        <Tab to="/settings/about" iconName="info" name="About" />
+      </TabBar>
+      <Outlet context={[searchBoxQuery, setSearchBoxQuery]} />
+    </div>
+  )
 }

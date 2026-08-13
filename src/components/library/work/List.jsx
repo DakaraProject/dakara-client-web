@@ -1,129 +1,103 @@
-import PropTypes from 'prop-types'
-import { Component } from 'react'
-import { connect } from 'react-redux'
-import { withParams, withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
+import { useCallback, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useOutletContext, useParams, useSearchParams } from 'react-router'
 
 import { loadLibraryEntries } from 'actions/library'
-import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
+import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
-import SearchBox from 'components/library/SearchBox'
+import SearchBox from 'components/generics/SearchBox'
 import WorkEntry from 'components/library/work/Entry'
 import NotFound from 'components/navigation/NotFound'
 import { Status } from 'reducers/alterationsResponse'
-import { workStatePropType, workTypeStatePropType } from 'reducers/library'
 
-class WorkList extends Component {
-    static propTypes = {
-        params: PropTypes.object.isRequired,
-        searchParams: PropTypes.object.isRequired,
-        setSearchParams: PropTypes.func.isRequired,
-        workState: workStatePropType,
-        workTypeState: workTypeStatePropType.isRequired,
-        loadLibraryEntries: PropTypes.func.isRequired,
-    }
+export default function WorkList() {
+  const params = useParams()
+  const { workType: workTypeQueryName } = params
 
-    /**
-     * Fetch songs from server
-     */
-    refreshEntries = () => {
-        this.props.loadLibraryEntries('works', {
-            page: this.props.searchParams.get('page'),
-            query: this.props.searchParams.get('query'),
-            type: this.props.params.workType,
-        })
-    }
+  const workState = useSelector(
+    (state) => state.library.works[workTypeQueryName]
+  )
+  const workTypeState = useSelector((state) => state.library.workType)
 
-    componentDidMount() {
-        this.refreshEntries()
-    }
+  const dispatch = useDispatch()
 
-    componentDidUpdate(prevProps) {
-        if (
-            this.props.searchParams !== prevProps.searchParams ||
-            this.props.params !== prevProps.params
-        ) {
-            this.refreshEntries()
-        }
-    }
+  const [searchBoxQuery, setSearchBoxQuery] = useOutletContext()
 
-    render() {
-        /**
-         * Do not render anything if work types and work are not fetched
-         */
+  const [searchParams, _] = useSearchParams()
 
-        if (
-            this.props.workTypeState.status !== Status.successful ||
-            this.props.workState.status !== Status.successful
-        ) {
-            return null
-        }
+  const { page, query } = Object.fromEntries(searchParams.entries())
+  const { status: workTypeStatus } = workTypeState
 
-        const { workType: workTypeQueryName } = this.props.params
-        const workType = this.props.workTypeState.data.workTypes.find(
-            (workType) => workType.query_name === workTypeQueryName
-        )
-        const { works, count, pagination, query } = this.props.workState.data
+  // check if work types are fetched
+  const isReady = useCallback(
+    () => workTypeStatus === Status.successful,
+    [workTypeStatus]
+  )
 
-        /**
-         * Check the work type is valid
-         */
+  useEffect(
+    () => {
+      // do not load if not ready
+      if (!isReady()) {
+        return
+      }
 
-        if (!workType) {
-            return (
-                <NotFound embedded/>
-            )
-        }
+      // load entries if the page, the query, the work type, or the work thype
+      // status changes
+      dispatch(loadLibraryEntries('works', page, query, workTypeQueryName))
+    },
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
+    [page, query, workTypeQueryName, workTypeStatus]
+  )
 
-        /**
-         * Create the WorkEntry
-         */
+  // do not render anything if not ready
+  if (!isReady()) {
+    return null
+  }
 
-        const libraryEntryWorkList = works.map(work =>
-              <WorkEntry
-                key={work.id}
-                work={work}
-                workType={workTypeQueryName}
-                query={query}
-              />
-        )
+  const workType = workTypeState.data.workTypes.find(
+    (workType) => workType.query_name === workTypeQueryName
+  )
 
-        return (
-            <div id="work-library">
-                <SearchBox
-                    placeholder={`What ${workType.name.toLowerCase()} do you want?`}
-                />
-                <div className="work-list">
-                    <ListingFetchWrapper
-                        status={this.props.workState.status}
-                    >
-                        <ul className="library-list listing">
-                            {libraryEntryWorkList}
-                        </ul>
-                    </ListingFetchWrapper>
-                    <Navigator
-                        count={count}
-                        pagination={pagination}
-                        names={{
-                            singular: `${workType.name.toLowerCase()} found`,
-                            plural: `${workType.name_plural.toLowerCase()} found`
-                        }}
-                    />
-                </div>
-            </div>
-        )
-    }
+  // check work type is valid
+  if (!workType) {
+    return <NotFound embedded />
+  }
+
+  const { works, query: queryParsed, count, pagination } = workState.data
+
+  // create the WorkEntry for each work
+  const libraryEntryWorkList = works.map((work) => (
+    <WorkEntry
+      key={work.id}
+      work={work}
+      workType={workTypeQueryName}
+      query={queryParsed}
+    />
+  ))
+
+  return (
+    <div id="work-library">
+      <SearchBox
+        placeholder={`What ${workType.name.toLowerCase()} do you want?`}
+        query={searchBoxQuery}
+        setQuery={setSearchBoxQuery}
+        help={{
+          example: workType.name.toLowerCase(),
+        }}
+      />
+      <ListingList
+        entries={libraryEntryWorkList}
+        fetchStatus={workState.status}
+        noTransition
+      />
+      <Navigator
+        count={count}
+        pagination={pagination}
+        names={{
+          singular: workType.name.toLowerCase(),
+          plural: workType.name_plural.toLowerCase(),
+        }}
+      />
+    </div>
+  )
 }
-
-const mapStateToProps = (state, ownProps) => ({
-    workState: state.library.works[ownProps.params.workType],
-    workTypeState: state.library.workType,
-})
-
-WorkList = withSearchParams(withParams(connect(
-    mapStateToProps,
-    {
-        loadLibraryEntries,
-    }
-)(WorkList)))
-
-export default WorkList

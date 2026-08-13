@@ -1,110 +1,81 @@
-import PropTypes from 'prop-types'
-import queryString from 'query-string'
-import { Component } from 'react'
-import { connect } from 'react-redux'
-import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useOutletContext, useSearchParams } from 'react-router'
 
-import { clearAlteration } from 'actions/alterations'
-import { editSongTag, getSongTagList } from 'actions/songTags'
-import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
+import { loadSongTags } from 'actions/songTags'
+import ListingFetchWrapper from 'components/generics/listing/FetchWrapper'
 import Navigator from 'components/generics/Navigator'
+import SearchBox from 'components/generics/SearchBox'
 import SettingsSongTagsEntry from 'components/settings/songTags/Entry'
-import { alterationResponsePropType } from 'reducers/alterationsResponse'
-import { songTagsStatePropType } from 'reducers/songTags'
-import { userPropType } from 'serverPropTypes/users'
+import { isLibraryManager } from 'permissions/library'
+import { Status } from 'reducers/alterationsResponse'
 
-class SongTagsList extends Component {
-    static propTypes = {
-        authenticatedUser: userPropType.isRequired,
-        clearAlteration: PropTypes.func.isRequired,
-        editSongTag: PropTypes.func.isRequired,
-        getSongTagList: PropTypes.func.isRequired,
-        location: PropTypes.object.isRequired,
-        responseOfMultipleEdit: PropTypes.objectOf(alterationResponsePropType),
-        responseOfMultipleEditColor: PropTypes.objectOf(alterationResponsePropType),
-        songTagsState: songTagsStatePropType.isRequired,
-    }
+export default function SongTagsList() {
+  const songTagsState = useSelector((state) => state.settings.songTags)
+  const user = useSelector((state) => state.authenticatedUser)
+  const { status: songTagsStatus } = songTagsState
 
-    componentDidMount() {
-        this.refreshEntries()
-    }
+  const [searchParams, _] = useSearchParams()
+  const { page, query } = Object.fromEntries(searchParams.entries())
 
-    componentDidUpdate(prevProps) {
-        const queryObj = queryString.parse(this.props.location.search)
-        const prevqueryObj = queryString.parse(prevProps.location.search)
-        if (queryObj.page !== prevqueryObj.page) {
-            this.refreshEntries()
-        }
-    }
+  const dispatch = useDispatch()
 
-    refreshEntries = () => {
-        const queryObj = queryString.parse(this.props.location.search)
-        const pageNumber = queryObj.page
-        this.props.getSongTagList(pageNumber)
-    }
+  const [searchBoxQuery, setSearchBoxQuery] = useOutletContext()
 
-    render() {
-        const { editSongTag, clearAlteration, location, authenticatedUser,
-            responseOfMultipleEdit, responseOfMultipleEditColor } = this.props
-        const { songTags, pagination } = this.props.songTagsState.data
+  useEffect(
+    () => {
+      // refresh song tags immediately and if the page changes
+      if (songTagsStatus !== Status.pending) {
+        dispatch(loadSongTags(page, query))
+      }
+    },
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
+    [page, query]
+  )
 
-        const tagList = songTags.map((tag) => (
-            <SettingsSongTagsEntry
-                key={tag.id}
-                tag={tag}
-                responseOfEdit={responseOfMultipleEdit[tag.id]}
-                responseOfEditColor={responseOfMultipleEditColor[tag.id]}
-                editSongTag={editSongTag}
-                clearAlteration={clearAlteration}
-                authenticatedUser={authenticatedUser}
-            />
-        ))
+  const { songTags, pagination } = songTagsState.data
 
-        return (
-            <div id="song-tag-list">
-                <ListingFetchWrapper
-                    status={this.props.songTagsState.status}
-                >
-                    <div className="listing-table-container">
-                        <table className="listing song-tag-list-listing">
-                            <thead>
-                                <tr className="listing-header">
-                                    <th className="notification-col"></th>
-                                    <th className="name">Name</th>
-                                    <th className="enabled">Enabled</th>
-                                    <th className="color">Color</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {tagList}
-                            </tbody>
-                        </table>
-                    </div>
-                </ListingFetchWrapper>
-                <Navigator
-                    pagination={pagination}
-                    location={location}
-                />
-            </div>
-        )
-    }
+  const tagList = songTags.map((tag) => (
+    <SettingsSongTagsEntry
+      key={tag.id}
+      tag={tag}
+      editable={isLibraryManager(user)}
+    />
+  ))
+
+  return (
+    <div id="song-tag-list">
+      <SearchBox
+        placeholder="Search a song tag"
+        query={searchBoxQuery}
+        setQuery={setSearchBoxQuery}
+        help={{
+          example: 'tag',
+        }}
+      />
+      <ListingFetchWrapper status={songTagsState.status}>
+        <div className="listing-table-container">
+          <table className="listing song-tag-list-listing">
+            <thead>
+              <tr className="listing-header">
+                <th className="notification-col"></th>
+                <th className="name">Name</th>
+                <th className="enabled">Enabled</th>
+                <th className="color">Color</th>
+              </tr>
+            </thead>
+            <tbody>{tagList}</tbody>
+          </table>
+        </div>
+      </ListingFetchWrapper>
+      <Navigator
+        count={songTags.length}
+        pagination={pagination}
+        names={{
+          singular: 'tag',
+          plural: 'tags',
+        }}
+      />
+    </div>
+  )
 }
-
-const mapStateToProps = (state) => ({
-    songTagsState: state.settings.songTags,
-    responseOfMultipleEdit: state.alterationsResponse.multiple.editSongTag || {},
-    // eslint-disable-next-line max-len
-    responseOfMultipleEditColor: state.alterationsResponse.multiple.editSongTagColor || {},
-    authenticatedUser: state.authenticatedUser,
-})
-
-SongTagsList = withLocation(connect(
-    mapStateToProps,
-    {
-        getSongTagList,
-        editSongTag,
-        clearAlteration
-    }
-)(SongTagsList))
-
-export default SongTagsList

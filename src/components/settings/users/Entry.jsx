@@ -1,119 +1,123 @@
-import { IsNotSelf, IsUserManager } from 'permissions/Users'
-import PropTypes from 'prop-types'
-import { Component } from 'react'
-import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router'
 
+import { clearAlteration } from 'actions/alterations'
+import { deleteUser } from 'actions/users'
 import ConfirmationBar from 'components/generics/ConfirmationBar'
-import ControlLink from 'components/generics/ControlLink'
-import Notification, { NotifiableForTable } from 'components/generics/Notification'
-import { alterationResponsePropType } from 'reducers/alterationsResponse'
+import HighlighterQuery from 'components/generics/HighlighterQuery'
+import NotificationBar, {
+  NotifiableForTable,
+} from 'components/generics/NotificationBar'
+import PermissionText from 'components/generics/PermissionText'
+import { Checkmark } from 'components/generics/Shapes'
+import { IsNotSelf, IsUsersManager } from 'permissions/components/Users'
 import { userPropType } from 'serverPropTypes/users'
 
-import Marked from './Marked'
-import PermissionText from './PermissionText'
+export default function UsersEntry({ user }) {
+  const query = useSelector((state) => state.settings.users.list.data.query)
+  const responseOfDelete = useSelector(
+    (state) => state.alterationsResponse.multiple.deleteUser?.[user.id]
+  )
+  const authenticatedUser = useSelector((state) => state.authenticatedUser)
 
-export default class SettingsUsersEntry extends Component {
-    static propTypes = {
-        clearAlteration: PropTypes.func.isRequired,
-        deleteUser: PropTypes.func.isRequired,
-        user: userPropType.isRequired,
-        responseOfDelete: alterationResponsePropType,
-    }
+  const [confirmDisplayed, setConfirmDisplayed] = useState(false)
 
-    state = {
-        confirmDisplayed: false
-    }
+  const dispatch = useDispatch()
 
-    componentWillUnmount() {
-        this.props.clearAlteration('deleteUser', this.props.user.id)
-    }
+  useEffect(
+    () => () => {
+      // clean alteration when component unmounts
+      dispatch(clearAlteration('deleteUser', user.id))
+    },
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
+    []
+  )
 
-    displayConfirm = () => {
-        this.setState({confirmDisplayed: true})
-    }
+  return (
+    <tr className="listing-entry user-listing-entry listable hoverizable">
+      <td className="notification-col">
+        <NotifiableForTable>
+          <ConfirmationBar
+            show={confirmDisplayed}
+            setShow={setConfirmDisplayed}
+            onConfirm={() => {
+              dispatch(deleteUser(user.id))
+            }}
+          />
+          <NotificationBar
+            alterationResponse={responseOfDelete}
+            pendingMessage="Deleting…"
+            successfulMessage="Successfuly deleted!"
+            successfulDuration={null}
+            failedMessage="Error attempting to delete user"
+          />
+        </NotifiableForTable>
+      </td>
+      <td className="username">
+        <HighlighterQuery
+          query={query}
+          searchWords={(q) => q.remaining}
+          textToHighlight={user.username}
+        />
+      </td>
+      <IsUsersManager user={authenticatedUser}>
+        <td className="validated">
+          <Checkmark enabled={user.validated_by_email} />
+        </td>
+        <td className="validated">
+          <Checkmark enabled={user.validated_by_manager} />
+        </td>
+      </IsUsersManager>
+      <td className="superuser">
+        <Checkmark enabled={user.is_superuser} />
+      </td>
+      <td className="permission">
+        <PermissionText level={user.users_permission_level} truncatable />
+      </td>
+      <td className="permission">
+        <PermissionText level={user.library_permission_level} truncatable />
+      </td>
+      <td className="permission last">
+        <PermissionText level={user.playlist_permission_level} truncatable />
+      </td>
+      <td className="controls-col">
+        <IsUsersManager user={authenticatedUser}>
+          <div className="controls compact">
+            <IsNotSelf
+              user={authenticatedUser}
+              other={user}
+              disablableChildren={(disabled) => (
+                <>
+                  <Link
+                    to={`${user.id}`}
+                    className="control square info"
+                    disabled={disabled}
+                  >
+                    <span className="icon">
+                      <i className="las la-pen"></i>
+                    </span>
+                  </Link>
+                  <button
+                    className="control square danger"
+                    onClick={() => {
+                      setConfirmDisplayed(true)
+                    }}
+                  >
+                    <span className="icon">
+                      <i className="las la-trash"></i>
+                    </span>
+                  </button>
+                </>
+              )}
+            />
+          </div>
+        </IsUsersManager>
+      </td>
+    </tr>
+  )
+}
 
-    clearConfirm = () => {
-        this.setState({confirmDisplayed: false})
-    }
-
-    render() {
-        const { user, deleteUser } = this.props
-
-        return (
-            <tr className="listing-entry user-listing-entry hoverizable">
-                <td className="notification-col">
-                    <NotifiableForTable>
-                        <CSSTransitionLazy
-                            in={this.state.confirmDisplayed}
-                            classNames="notified"
-                            timeout={{
-                                enter: 300,
-                                exit: 150
-                            }}
-                        >
-                            <ConfirmationBar
-                                onConfirm={() => {deleteUser(user.id)}}
-                                onCancel={this.clearConfirm}
-                            />
-                        </CSSTransitionLazy>
-                        <Notification
-                            alterationResponse={this.props.responseOfDelete}
-                            pendingMessage="Deleting…"
-                            successfulMessage="Successfuly deleted!"
-                            successfulDuration={null}
-                            failedMessage="Error attempting to delete user"
-                        />
-                    </NotifiableForTable>
-                </td>
-                <td className="username">{user.username}</td>
-                <IsUserManager>
-                    <td className="validated">
-                        <Marked marked={user.validated_by_email}/>
-                    </td>
-                    <td className="validated">
-                        <Marked marked={user.validated_by_manager}/>
-                    </td>
-                </IsUserManager>
-                <td className="superuser">
-                    <Marked marked={user.is_superuser}/>
-                </td>
-                <td className="permission">
-                    <PermissionText level={user.users_permission_level}/>
-                </td>
-                <td className="permission">
-                    <PermissionText level={user.library_permission_level}/>
-                </td>
-                <td className="permission last">
-                    <PermissionText level={user.playlist_permission_level}/>
-                </td>
-                <td className="controls-col">
-                    <IsUserManager>
-                        <div className="controls">
-                            <IsNotSelf
-                                object={user}
-                                disable
-                            >
-                                <ControlLink
-                                    to={`${user.id}`}
-                                    className="control info"
-                                >
-                                    <span className="icon">
-                                        <i className="las la-pen"></i>
-                                    </span>
-                                </ControlLink>
-                                <button
-                                    className="control danger"
-                                    onClick={this.displayConfirm}
-                                >
-                                    <span className="icon">
-                                        <i className="las la-trash"></i>
-                                    </span>
-                                </button>
-                            </IsNotSelf>
-                        </div>
-                    </IsUserManager>
-                </td>
-            </tr>
-        )
-    }
+UsersEntry.propTypes = {
+  user: userPropType.isRequired,
 }

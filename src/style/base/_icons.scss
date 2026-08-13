@@ -5,11 +5,30 @@
 //
 
 .icon {
-    .underbar::before {
-        text-decoration: underline;
+  .underbar::before {
+    text-decoration: underline;
+  }
+
+  .overbar::before {
+    text-decoration: overline;
+  }
+
+  &.with-sub-icon {
+    position: relative;
+  }
+
+  .sub-icon {
+    font-size: 0.65em;
+    position: absolute;
+
+    &.top-right {
+      right: -0.7rem;
+      top: -0.7rem;
     }
 
-    .overbar::before {
-        text-decoration: overline;
+    &.bottom-right {
+      bottom: -0.7rem;
+      right: -0.7rem;
     }
+  }
 }

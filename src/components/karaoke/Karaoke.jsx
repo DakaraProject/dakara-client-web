@@ -1,96 +1,62 @@
-import classNames from 'classnames'
-import { IsPlaylistManager } from 'permissions/Playlist'
-import PropTypes from 'prop-types'
-import { Component } from 'react'
-import { connect } from 'react-redux'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { loadPlaylistDigest } from 'actions/playlistDigest'
 import KaraStatusNotification from 'components/karaoke/KaraStatusNotification'
 import Player from 'components/karaoke/player/Player'
-import PlaylistInfoBar from 'components/karaoke/PlaylistInfoBar'
+import { isPlaylistManager } from 'permissions/playlist'
 import { Status } from 'reducers/alterationsResponse'
-import { karaokeStatePropType } from 'reducers/playlist'
-import { userPropType } from 'serverPropTypes/users'
-import { params } from 'utils'
+import { params, setIntervalNow } from 'utils'
 
-class Karaoke extends Component {
-    static propTypes = {
-        loadPlaylistDigest: PropTypes.func.isRequired,
-        karaokeState: karaokeStatePropType.isRequired,
-        user: userPropType.isRequired,
-    }
+export default function Karaoke() {
+  const karaokeState = useSelector((state) => state.playlist.karaoke)
+  const user = useSelector((state) => state.authenticatedUser)
+  const { status: karaokeStatus } = karaokeState
 
-    state = {
-        playerWithControls: false
-    }
+  const dispatch = useDispatch()
 
-    /**
-     * Get evolution of the playlist periodically
-     */
-    pollPlaylistDigest = () => {
-        if (this.props.karaokeState.status !== Status.pending) {
-            this.props.loadPlaylistDigest()
+  useEffect(
+    () => {
+      // get evolution of the playlist periodically
+      const interval = setIntervalNow(() => {
+        if (karaokeStatus !== Status.pending) {
+          dispatch(loadPlaylistDigest())
         }
-        this.timeout = setTimeout(this.pollPlaylistDigest, params.pollInterval)
+      }, params.pollInterval)
+
+      return () => {
+        clearInterval(interval)
+      }
+    },
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
+    [karaokeStatus]
+  )
+
+  const { data: karaoke } = karaokeState
+  const [displayIsBlocked, setDisplayIsBlocked] = useState(true)
+
+  // do not display anything until first load of digest
+  if (!karaokeStatus) {
+    return null
+  }
+
+  // do not display anything until the digest has been loaded at least once
+  if (displayIsBlocked) {
+    if (karaokeStatus === Status.pending) {
+      return null
     }
 
-    /**
-     * Allow to tell if the player has controls activated
-     * This is used for the styles
-     */
-    setPlayerWithControls = (playerWithControls) => {
-        this.setState({playerWithControls})
+    setDisplayIsBlocked(false)
+    return null
+  }
+
+  if (!karaoke.ongoing) {
+    if (isPlaylistManager(user)) {
+      return <KaraStatusNotification />
     }
 
-    componentDidMount() {
-        // start polling server
-        this.pollPlaylistDigest()
-    }
+    return null
+  }
 
-    componentWillUnmount() {
-        // Stop polling server
-        clearTimeout(this.timeout)
-    }
-
-    render() {
-        const { data: karaoke } = this.props.karaokeState
-        const { playerWithControls } = this.state
-
-        if (!karaoke.ongoing) {
-            if (IsPlaylistManager.hasPermission(this.props.user)) {
-                return (
-                    <KaraStatusNotification/>
-                )
-            }
-
-            return null
-        }
-
-        return (
-            <div
-                id="karaoke"
-                className={classNames(
-                    'box',
-                    {'player-with-controls': playerWithControls}
-                )}
-            >
-                <Player setWithControls={this.setPlayerWithControls}/>
-                <PlaylistInfoBar/>
-            </div>
-        )
-    }
+  return <Player />
 }
-
-const mapStateToProps = (state) => ({
-    karaokeState: state.playlist.karaoke,
-    user: state.authenticatedUser,
-})
-
-Karaoke = connect(
-    mapStateToProps,
-    {
-        loadPlaylistDigest,
-    }
-)(Karaoke)
-
-export default Karaoke

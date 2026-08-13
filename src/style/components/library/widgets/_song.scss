@@ -1,0 +1,63 @@
+//
+// Dakara Project
+//
+// Song widget style file
+//
+
+@use '~/thirdparty/preboot';
+
+.song-widget {
+  column-gap: 0.5em;
+  display: inline-flex;
+  overflow: hidden;
+
+  .titling,
+  .relations,
+  .artists,
+  .works {
+    column-gap: 0.5em;
+    display: inline-flex;
+    overflow: hidden;
+  }
+
+  &.truncatable {
+    .title,
+    .version {
+      @include preboot.text-truncate();
+    }
+
+    .version {
+      // very easily shrinkable
+      flex-shrink: 10000;
+    }
+
+    .relations {
+      // easily shrinkable
+      flex-shrink: 2;
+    }
+  }
+
+  .version {
+    &::before {
+      content: '(';
+    }
+
+    &::after {
+      content: ')';
+    }
+  }
+
+  // `song-tag-list` subclass: tag songs.
+  // The subclass only specifes the location of the tags.
+  .song-tag-list {
+    font-size: 0.65em;
+    left: 0;
+    line-height: 1em;
+    position: absolute;
+    top: 0;
+
+    .tag {
+      font-size: inherit;
+    }
+  }
+}

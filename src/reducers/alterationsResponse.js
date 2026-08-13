@@ -2,11 +2,11 @@ import PropTypes from 'prop-types'
 import { combineReducers } from 'redux'
 
 import {
-    ALTERATION_FAILURE,
-    ALTERATION_REQUEST,
-    ALTERATION_RESPONSE_CLEAR,
-    ALTERATION_SUCCESS,
-    ALTERATION_VALIDATION_ERROR
+  ALTERATION_FAILURE,
+  ALTERATION_REQUEST,
+  ALTERATION_RESPONSE_CLEAR,
+  ALTERATION_SUCCESS,
+  ALTERATION_VALIDATION_ERROR,
 } from 'actions/alterations'
 
 /**
@@ -49,9 +49,9 @@ import {
  */
 
 export const Status = Object.freeze({
-    pending: Symbol('pending'),
-    successful: Symbol('successful'),
-    failed: Symbol('failed')
+  pending: Symbol('pending'),
+  successful: Symbol('successful'),
+  failed: Symbol('failed'),
 })
 
 /**
@@ -62,129 +62,129 @@ export const Status = Object.freeze({
  */
 
 export const alterationResponsePropType = PropTypes.shape({
-    status: PropTypes.symbol,
-    message: PropTypes.string,
-    fields: PropTypes.objectOf(
-        PropTypes.arrayOf(
-            PropTypes.string
-        )
-    ),
-    date: PropTypes.number,
+  status: PropTypes.symbol,
+  message: PropTypes.string,
+  fields: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
+  date: PropTypes.number,
 })
 
 function alteration(state, action) {
-    const { alterationDate } = action
-    switch (action.type) {
-        case ALTERATION_REQUEST:
-            return {
-                status: Status.pending,
-                date: alterationDate,
-                fields: {}
-            }
+  const { alterationDate } = action
+  switch (action.type) {
+    case ALTERATION_REQUEST:
+      return {
+        status: Status.pending,
+        date: alterationDate,
+        fields: {},
+      }
 
-        case ALTERATION_SUCCESS:
-            return {
-                status: Status.successful,
-                date: alterationDate,
-                fields: {}
-            }
+    case ALTERATION_SUCCESS:
+      return {
+        status: Status.successful,
+        date: alterationDate,
+        fields: {},
+      }
 
-        case ALTERATION_FAILURE:
-        case ALTERATION_VALIDATION_ERROR: {
-            const { message, non_field_errors, detail } = action.error
+    case ALTERATION_FAILURE:
+    case ALTERATION_VALIDATION_ERROR: {
+      const { message, non_field_errors, detail } = action.error
 
-            // fetch API error
-            if (message) {
-                return {
-                    status: Status.failed,
-                    message,
-                    fields: {},
-                    date: alterationDate,
-                }
-            }
-
-            // DRF global error
-            if (detail) {
-                return {
-                    status: Status.failed,
-                    message: detail,
-                    fields: {},
-                    date: alterationDate,
-                }
-            }
-
-            // DRF global form error or validation error
-            let globalMessage
-            if (non_field_errors) {
-                globalMessage = non_field_errors.join(' ')
-            }
-
-            // DRF field error or field validation errors
-            delete action.error.non_field_errors
-            const fields = action.error
-
-            // if no error have been caught
-            if (!globalMessage && Object.keys(fields).length === 0) {
-                return {
-                    status: Status.failed,
-                    fields: {},
-                    date: alterationDate,
-                }
-            }
-
-            return {
-                status: Status.failed,
-                message: globalMessage,
-                fields,
-                date: alterationDate,
-            }
+      // fetch API error
+      if (message) {
+        return {
+          status: Status.failed,
+          message,
+          fields: {},
+          date: alterationDate,
         }
+      }
 
-        case ALTERATION_RESPONSE_CLEAR:
-            return undefined
+      // DRF global error
+      if (detail) {
+        return {
+          status: Status.failed,
+          message: detail,
+          fields: {},
+          date: alterationDate,
+        }
+      }
 
-        default:
-            return state
+      // DRF global form error or validation error
+      let globalMessage
+      if (non_field_errors) {
+        globalMessage = non_field_errors.join(' ')
+      }
+
+      // DRF field error or field validation errors
+      delete action.error.non_field_errors
+      const fields = action.error
+
+      // if no error have been caught
+      if (!globalMessage && Object.keys(fields).length === 0) {
+        return {
+          status: Status.failed,
+          fields: {},
+          date: alterationDate,
+        }
+      }
+
+      return {
+        status: Status.failed,
+        message: globalMessage,
+        fields,
+        date: alterationDate,
+      }
     }
+
+    case ALTERATION_RESPONSE_CLEAR:
+      return undefined
+
+    default:
+      return state
+  }
 }
 
 function unique(state = {}, action) {
-    const { alterationName, elementId } = action
+  const { alterationName, elementId } = action
 
-    // treat alterations response of type unique only
-    if (typeof alterationName !== 'undefined' &&
-        typeof elementId === 'undefined') {
-        return {
-            ...state,
-            [alterationName]: alteration(state[alterationName], action)
-        }
+  // treat alterations response of type unique only
+  if (
+    typeof alterationName !== 'undefined' &&
+    typeof elementId === 'undefined'
+  ) {
+    return {
+      ...state,
+      [alterationName]: alteration(state[alterationName], action),
     }
+  }
 
-    return state
+  return state
 }
 
 function multiple(state = {}, action) {
-    const { alterationName, elementId } = action
+  const { alterationName, elementId } = action
 
-    // treat alterations response of type multiple only
-    if (typeof alterationName !== 'undefined' &&
-        typeof elementId !== 'undefined') {
-        const elements = state[alterationName] || {}
-        return {
-            ...state,
-            [alterationName]: {
-                ...elements,
-                [elementId]: alteration(elements[elementId], action)
-            }
-        }
+  // treat alterations response of type multiple only
+  if (
+    typeof alterationName !== 'undefined' &&
+    typeof elementId !== 'undefined'
+  ) {
+    const elements = state[alterationName] || {}
+    return {
+      ...state,
+      [alterationName]: {
+        ...elements,
+        [elementId]: alteration(elements[elementId], action),
+      },
     }
+  }
 
-    return state
+  return state
 }
 
 const alterationsResponse = combineReducers({
-    unique,
-    multiple,
+  unique,
+  multiple,
 })
 
 export default alterationsResponse

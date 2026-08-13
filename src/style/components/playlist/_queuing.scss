@@ -1,0 +1,24 @@
+//
+// Dakara Project
+//
+// Queuing playlist style file
+//
+
+@use '~/abstracts/sizes';
+
+#queuing {
+  .listing-entry {
+    .reorder {
+      display: inherit;
+      gap: inherit;
+      overflow: hidden;
+
+      &.transition {
+        &.collapse-horizontal-enter.collapse-horizontal-enter-active,
+        &.collapse-horizontal-exit:not(.collapse-horizontal-exit-active) {
+          max-width: calc(2 * sizes.$row-height + sizes.$gap-horizontal);
+        }
+      }
+    }
+  }
+}

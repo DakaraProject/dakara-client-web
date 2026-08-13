@@ -1,105 +1,73 @@
-import PropTypes from 'prop-types'
-import { Component } from 'react'
-import { connect } from 'react-redux'
-import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useOutletContext, useSearchParams } from 'react-router'
 
-import {
-    loadPlaylistEntries,
-} from 'actions/playlist'
-import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
+import { loadPlaylistEntries } from 'actions/playlist'
+import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
+import SearchBox from 'components/generics/SearchBox'
 import PlayedEntry from 'components/playlist/played/Entry'
-import { playedStatePropType } from 'reducers/playlist'
-import {
-    playlistEntriesStatePropType
-} from 'reducers/playlistDigest'
+import { Status } from 'reducers/alterationsResponse'
 
-class Played extends Component {
-    static propTypes = {
-        playlistEntriesState: playlistEntriesStatePropType.isRequired,
-        playlistPlayedState: playedStatePropType.isRequired,
-        loadPlaylistEntries: PropTypes.func.isRequired,
-        searchParams: PropTypes.object.isRequired,
-    }
+export default function PlayedList() {
+  const playlistEntriesDigestState = useSelector(
+    (state) => state.playlist.digest.entries
+  )
+  const playlistPlayedState = useSelector((state) => state.playlist.played)
+  const { playedEntriesHash } = playlistEntriesDigestState.data
+  const { status: playlistPlayedStatus } = playlistPlayedState
 
-    componentDidMount() {
-        this.refreshEntries()
-    }
+  const [searchParams, _] = useSearchParams()
+  const { page, query } = Object.fromEntries(searchParams.entries())
 
-    componentDidUpdate(prevProps) {
-        // refresh if moved to a different page
-        if (this.props.searchParams !== prevProps.searchParams) {
-            this.refreshEntries()
-        }
+  const dispatch = useDispatch()
 
-        // refresh if the playlist changed
-        if (this.props.playlistEntriesState !== prevProps.playlistEntriesState) {
-            const played = this.props.playlistEntriesState.data.playlistEntries.filter(
-                e => e.was_played
-            )
-            const prevPlayed = prevProps
-                .playlistEntriesState.data.playlistEntries.filter(
-                    e => e.was_played
-                )
-            if (played.length !== prevPlayed.length) {
-                this.refreshEntries()
-            }
-        }
-    }
+  const [searchBoxQuery, setSearchBoxQuery] = useOutletContext()
 
-    /**
-     * Fetch played playlist entries from server
-     */
-    refreshEntries = () => {
-        this.props.loadPlaylistEntries('played', {
-            page: this.props.searchParams.get('page'),
-        })
-    }
+  useEffect(
+    () => {
+      // refresh the played playlist immediately and if the page, the query, or
+      // the hash changes
+      if (playlistPlayedStatus !== Status.pending) {
+        dispatch(loadPlaylistEntries('played', page, query))
+      }
+    },
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
+    [page, query, playedEntriesHash]
+  )
 
-    render() {
-        const {
-            played: playlistEntries,
-            count,
-            pagination
-        } = this.props.playlistPlayedState.data
-        const { status } = this.props.playlistPlayedState
+  const { played, count, pagination } = playlistPlayedState.data
 
-        const playlistEntriesComponent = playlistEntries.map(entry => (
-            <PlayedEntry key={entry.id} entry={entry} />
-        ))
+  const playedComponent = played.map((entry) => (
+    <PlayedEntry key={entry.id} entry={entry} />
+  ))
 
-        return (
-            <div id="played">
-                <ListingFetchWrapper
-                    status={status}
-                >
-                    <ul className="listing">
-                        {playlistEntriesComponent}
-                    </ul>
-                </ListingFetchWrapper>
-                <Navigator
-                    count={count}
-                    pagination={pagination}
-                    names={{
-                        singular: 'entry',
-                        plural: 'entries'
-                    }}
-                />
-            </div>
-        )
-    }
+  return (
+    <div id="played">
+      <SearchBox
+        placeholder="Search a song played in the playlist"
+        query={searchBoxQuery}
+        setQuery={setSearchBoxQuery}
+        help={{
+          example: 'title',
+          fields: 'title, artist, work, owner',
+          withHash: true,
+        }}
+      />
+      <ListingList
+        entries={playedComponent}
+        fetchStatus={playlistPlayedStatus}
+        hash={playedEntriesHash}
+      />
+      <Navigator
+        count={count}
+        pagination={pagination}
+        names={{
+          singular: 'entry',
+          plural: 'entries',
+        }}
+        paramsToCleanup={['expanded']}
+      />
+    </div>
+  )
 }
-
-const mapStateToProps = (state) => ({
-    playlistEntriesState: state.playlist.digest.entries,
-    playlistPlayedState: state.playlist.played,
-})
-
-Played = withSearchParams(connect(
-    mapStateToProps,
-    {
-        loadPlaylistEntries,
-    }
-)(Played))
-
-export default Played

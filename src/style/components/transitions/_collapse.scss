@@ -1,0 +1,45 @@
+@use '~/abstracts/transitions';
+@use '~/abstracts/sizes';
+
+@include transitions.make-transition(
+  'collapse-vertical',
+  max-height,
+  $from: 0,
+  $to: calc(sizes.$row-height),
+  $enter-done: false
+);
+
+@include transitions.make-transition(
+  'collapse-force-vertical',
+  height,
+  $from: 0,
+  $to: calc(sizes.$row-height),
+  $enter-done: false
+);
+
+.transition {
+  &.collapse-vertical-appear,
+  &.collapse-vertical-enter,
+  &.collapse-vertical-exit,
+  &.collapse-force-vertical-appear,
+  &.collapse-force-vertical-enter,
+  &.collapse-force-vertical-exit {
+    overflow-y: hidden;
+  }
+}
+
+@include transitions.make-transition(
+  'collapse-horizontal',
+  max-width,
+  $from: 0,
+  $to: calc(sizes.$row-height),
+  $enter-done: false
+);
+
+.transition {
+  &.collapse-horizontal-appear,
+  &.collapse-horizontal-enter,
+  &.collapse-horizontal-exit {
+    overflow-x: hidden;
+  }
+}

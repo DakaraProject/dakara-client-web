@@ -14,13 +14,13 @@ export const LIBRARY_SUCCESS = 'LIBRARY_SUCCESS'
 export const LIBRARY_FAILURE = 'LIBRARY_FAILURE'
 
 const fetchLibraryEntries = (url, libraryType, workType) => ({
-    [FETCH_API]: {
-            endpoint: url,
-            method: 'GET',
-            types: [LIBRARY_REQUEST, LIBRARY_SUCCESS, LIBRARY_FAILURE]
-        },
-    libraryType,
-    workType
+  [FETCH_API]: {
+    endpoint: url,
+    method: 'GET',
+    types: [LIBRARY_REQUEST, LIBRARY_SUCCESS, LIBRARY_FAILURE],
+  },
+  libraryType,
+  workType,
 })
 
 /**
@@ -28,21 +28,53 @@ const fetchLibraryEntries = (url, libraryType, workType) => ({
  * @param libraryType precise type of library entries
  * @param params contains query and page number
  */
-export const loadLibraryEntries = (
-    library,
-    { query, page = 1, type } = {}
-) => {
-    const queryStr = queryString.stringify({
-        ...(page) && {page},
-        ...(query) && {query},
-        ...(type) && {type},
-    })
+export const loadLibraryEntries = (library, page = 1, query, type) => {
+  const queryStr = queryString.stringify({
+    page,
+    ...(query && { query }),
+    ...(type && { type }),
+  })
 
-    const url = `${baseUrl}/library/${library}/?${queryStr}`
+  const url = `${baseUrl}/library/${library}/?${queryStr}`
 
-    return fetchLibraryEntries(url, library, type)
+  return fetchLibraryEntries(url, library, type)
 }
 
+/**
+ * Get song lyrics
+ */
+
+export const SONG_LYRICS_REQUEST = 'SONG_LYRICS_REQUEST'
+export const SONG_LYRICS_SUCCESS = 'SONG_LYRICS_SUCCESS'
+export const SONG_LYRICS_FAILURE = 'SONG_LYRICS_FAILURE'
+
+/**
+ * Load song lyrics from the server
+ * @param id ID of the song to get lyrics from
+ */
+export const loadSongLyrics = (id) => ({
+  [FETCH_API]: {
+    endpoint: `${baseUrl}/library/songs/lyrics/${id}/`,
+    method: 'GET',
+    types: [SONG_LYRICS_REQUEST, SONG_LYRICS_SUCCESS, SONG_LYRICS_FAILURE],
+  },
+  id,
+})
+
+/**
+ * Clear song lyrics status
+ */
+
+export const SONG_LYRICS_STATUS_CLEAR = 'SONG_LYRICS_STATUS_CLEAR'
+
+/**
+ * Clear song lyrics status in state
+ * @param id ID of the song.
+ */
+export const clearSongLyricsStatus = (id) => ({
+  type: SONG_LYRICS_STATUS_CLEAR,
+  id,
+})
 
 /**
  * Get work types
@@ -56,23 +88,9 @@ export const WORK_TYPES_FAILURE = 'WORK_TYPES_FAILURE'
  * Load work types from the server
  */
 export const loadWorkTypes = () => ({
-    [FETCH_API]: {
-            endpoint: `${baseUrl}/library/work-types/`,
-            method: 'GET',
-            types: [WORK_TYPES_REQUEST, WORK_TYPES_SUCCESS, WORK_TYPES_FAILURE]
-        }
-})
-
-/**
- * Search box query
- */
-
-export const STORE_SEARCH_BOX = 'STORE_SEARCH_BOX'
-
-/**
- * Store search box query
- */
-export const storeSearchBox = (searchBox) => ({
-    type: STORE_SEARCH_BOX,
-    searchBox
+  [FETCH_API]: {
+    endpoint: `${baseUrl}/library/work-types/`,
+    method: 'GET',
+    types: [WORK_TYPES_REQUEST, WORK_TYPES_SUCCESS, WORK_TYPES_FAILURE],
+  },
 })

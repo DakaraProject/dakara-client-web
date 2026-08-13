@@ -4,67 +4,30 @@
 // Tokens settings style file
 //
 
-@use "~/abstracts/controls";
-@use "~/abstracts/sizes";
-
-// Sizes
-$tokens-control-size: sizes.$row-height;
-$ribbon-height: sizes.$row-height;
+@use '~/abstracts/controls';
+@use '~/abstracts/sizes';
 
 #tokens {
-    .token-box {
-        .create,
-        .created {
-            @include sizes.make-gap(margin, top, 0.5);
-        }
+  .token-box {
+    .transition {
+      // stylelint-disable @stylistic/indentation
+      &.collapse-force-vertical-enter:not(
+          .collapse-force-vertical-enter-active
+        ),
+      // stylelint-enable @stylistic/indentation
+      &.collapse-force-vertical-exit-active {
+        height: calc(1.4em + sizes.$row-height + sizes.$gap-vertical);
+      }
 
-        .copy-help,
-        .revoke {
-            @include sizes.make-gap(margin, top, 0.5);
-        }
+      &.collapse-force-vertical-enter-done,
+      &.collapse-force-vertical-exit-done {
+        height: unset;
+      }
 
-        .revoke {
-            &.controls {
-                @include controls.make-controls($height: $tokens-control-size);
-
-                display: flex;
-                justify-content: flex-end;
-
-                > .control {
-                    @include sizes.make-gap(padding, horizontal);
-                }
-
-                .notification .controls {
-                    @include controls.make-controls($height: $tokens-control-size, $square: true);
-                }
-            }
-        }
-
-        & + .token-box {
-            // create margin for following token boxes
-            @include sizes.make-gap(margin, top);
-        }
-
-        .created-enter {
-            // approximate min and max height
-            height: $ribbon-height + 1 * sizes.$gap-vertical;
-            overflow-y: hidden;
-
-            &.created-enter-active {
-                height: 2 * $ribbon-height + $tokens-control-size + 1 * sizes.$gap-vertical;
-                transition: height 300ms ease-out;
-            }
-        }
-
-        .created-exit {
-            // approximate min and max height
-            height: 2 * $ribbon-height + $tokens-control-size + 1 * sizes.$gap-vertical;
-            overflow-y: hidden;
-
-            &.created-exit-active {
-                height: $ribbon-height + 1 * sizes.$gap-vertical;
-                transition: height 150ms ease-out;
-            }
-        }
+      &.collapse-force-vertical-enter-active,
+      &.collapse-force-vertical-exit:not(.collapse-force-vertical-exit-active) {
+        height: calc(0.15em + 3 * sizes.$row-height + 2 * sizes.$gap-vertical);
+      }
     }
+  }
 }

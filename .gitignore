@@ -23,4 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
+# Archives
 /dakara*.zip
+
+# Caches
+/.stylelintcache

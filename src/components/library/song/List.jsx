@@ -1,146 +1,86 @@
 import dayjs from 'dayjs'
-import PropTypes from 'prop-types'
-import { Component } from 'react'
-import { connect } from 'react-redux'
-import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useOutletContext, useSearchParams } from 'react-router'
 
 import { loadLibraryEntries } from 'actions/library'
-import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
+import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
-import SearchBox from 'components/library/SearchBox'
+import SearchBox from 'components/generics/SearchBox'
 import SongEntry from 'components/library/song/Entry'
-import { songStatePropType } from 'reducers/library'
-import { karaokeStatePropType } from 'reducers/playlist'
 
-class SongList extends Component {
-    static propTypes = {
-        karaokeState: karaokeStatePropType.isRequired,
-        playlistDateEnd: PropTypes.string.isRequired,
-        searchParams: PropTypes.object.isRequired,
-        setSearchParams: PropTypes.func.isRequired,
-        songState: songStatePropType.isRequired,
-        loadLibraryEntries: PropTypes.func.isRequired,
-    }
+export default function SongList() {
+  const songState = useSelector((state) => state.library.song)
+  const playlistDateEnd = useSelector(
+    (state) => state.playlist.digest.entries.data.dateEnd
+  )
+  const karaokeState = useSelector((state) => state.playlist.karaoke)
 
-    /**
-     * Fetch songs from server
-     */
-    refreshEntries = () => {
-        this.props.loadLibraryEntries('songs', {
-            page: this.props.searchParams.get('page'),
-            query: this.props.searchParams.get('query'),
-        })
-    }
+  const dispatch = useDispatch()
 
-    componentDidMount() {
-        this.refreshEntries()
-    }
+  const [searchBoxQuery, setSearchBoxQuery] = useOutletContext()
 
-    componentDidUpdate(prevProps) {
-        if (this.props.searchParams !== prevProps.searchParams) {
-            this.refreshEntries()
-        }
-    }
+  const [searchParams, _] = useSearchParams()
 
-    render() {
-        const { songs, count, pagination } = this.props.songState.data
-        const { date_stop: karaokeDateStop } = this.props.karaokeState.data
-        const { playlistDateEnd } = this.props
+  const { page, query } = Object.fromEntries(searchParams.entries())
 
-        /**
-         * Compute remaining karoke time
-         */
+  useEffect(
+    () => {
+      // fetch songs from server immediately, and if the page or if the query
+      // changes
+      dispatch(loadLibraryEntries('songs', page, query))
+    },
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
+    [page, query]
+  )
 
-        let karaokeRemainingSeconds
-        if (karaokeDateStop) {
-            karaokeRemainingSeconds = dayjs(karaokeDateStop).diff(
-                playlistDateEnd,
-                'seconds'
-            )
-        }
+  const { songs, count, pagination } = songState.data
+  const { date_stop: karaokeDateStop } = karaokeState.data
 
-        /**
-         * Create SongEntry for each song
-         */
+  // compute remaining karoke time
+  let karaokeRemainingSeconds
+  if (karaokeDateStop) {
+    karaokeRemainingSeconds = dayjs(karaokeDateStop).diff(
+      playlistDateEnd,
+      'seconds'
+    )
+  }
 
-        const libraryEntrySongList = songs.map(song => (
-             <SongEntry
-                key={song.id}
-                song={song}
-                karaokeRemainingSeconds={karaokeRemainingSeconds}
-             />
-        ))
+  // create SongEntry for each song
+  const libraryEntrySongList = songs.map((song) => (
+    <SongEntry
+      key={song.id}
+      song={song}
+      karaokeRemainingSeconds={karaokeRemainingSeconds}
+    />
+  ))
 
-        return (
-            <div id="song-library">
-                <SearchBox
-                    placeholder="What will you sing?"
-                    help={(
-                        <>
-                            <p>
-                                You can obtain better results with the query search
-                                mini-language:
-                            </p>
-                            <ul>
-                                <li>
-                                    Quotes to group words: {' '}
-                                    <span className="example">
-                                        &quot;my artist&quot;
-                                    </span>
-                            </li>
-                                <li>
-                                    Prefix and quotes to search in a specific
-                                    field: {' '}
-                                    <span className="example">
-                                        artist:&quot;my artist&quot;
-                                    </span>
-                                </li>
-                                <li>
-                                    Prefix and doubled quotes to search a specific
-                                    field exactly: {' '}
-                                    <span className="example">
-                                        artist:&quot;&quot;my artist name&quot;&quot;
-                                    </span>
-                                </li>
-                                <li>
-                                    Hash tag to target tags: {' '}
-                                    <span className="example">#tag</span>
-                                </li>
-                            </ul>
-                        </>
-                    )}
-                />
-                <div className="song-list">
-                    <ListingFetchWrapper
-                        status={this.props.songState.status}
-                    >
-                        <ul className="library-list listing">
-                            {libraryEntrySongList}
-                        </ul>
-                    </ListingFetchWrapper>
-                    <Navigator
-                        count={count}
-                        pagination={pagination}
-                        names={{
-                            singular: 'song found',
-                            plural: 'songs found'
-                        }}
-                    />
-                </div>
-            </div>
-        )
-    }
+  return (
+    <div id="song-library">
+      <SearchBox
+        placeholder="What will you sing?"
+        query={searchBoxQuery}
+        setQuery={setSearchBoxQuery}
+        help={{
+          example: 'title',
+          fields: 'title, artist, work',
+          withHash: true,
+        }}
+      />
+      <ListingList
+        entries={libraryEntrySongList}
+        fetchStatus={songState.status}
+        noTransition
+      />
+      <Navigator
+        count={count}
+        pagination={pagination}
+        names={{
+          singular: 'song',
+          plural: 'songs',
+        }}
+        paramsToCleanup={['expanded']}
+      />
+    </div>
+  )
 }
-
-const mapStateToProps = (state) => ({
-    songState: state.library.song,
-    playlistDateEnd: state.playlist.digest.entries.data.dateEnd,
-    karaokeState: state.playlist.karaoke,
-})
-
-SongList = withSearchParams(connect(
-    mapStateToProps,
-    { loadLibraryEntries }
-)(SongList))
-
-export default SongList

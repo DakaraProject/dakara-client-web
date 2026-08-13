@@ -1,139 +1,99 @@
-import dayjs from 'dayjs'
-import localizedFormat from 'dayjs/plugin/localizedFormat'
-import PropTypes from 'prop-types'
 import queryString from 'query-string'
-import React, { Component } from 'react'
-import { withNavigate, withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
-import { CSSTransitionLazy } from 'thirdpartyExtensions/ReactTransitionGroup'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router'
 
-import PlaylistPositionInfo from 'components/song/PlaylistPositionInfo'
-import Song from 'components/song/Song'
+import {
+  DetailLongText,
+  Details,
+  DetailText,
+} from 'components/generics/Details'
+import HighlighterQuery from 'components/generics/HighlighterQuery'
+import {
+  ListingEntry,
+  ListingEntryExpanded,
+} from 'components/generics/listing/Entry'
+import PlaylistEntryWidget from 'components/playlist/widgets/PlaylistEntry'
 import { playerErrorPropType } from 'serverPropTypes/playlist'
+import { DateTime } from 'components/generics/Timing'
 
-dayjs.extend(localizedFormat)
+export default function PlayerErrorsEntry({ playerError, ...rest }) {
+  const query = useSelector((state) => state.playlist.playerErrors.data.query)
 
-class PlayerErrorsEntry extends Component {
-    static propTypes = {
-        playerError: playerErrorPropType.isRequired,
-        navigate: PropTypes.func.isRequired,
-        searchParams: PropTypes.object.isRequired,
-        setSearchParams: PropTypes.func.isRequired,
-    }
+  const {
+    playlist_entry: entry,
+    error_message: message,
+    date_created: date,
+  } = playerError
 
-    /**
-     * Search song associated to error playlist
-     */
-    handleSearch = () => {
-        const { song } = this.props.playerError.playlist_entry
-        const query = `title:""${song.title}""`
-        this.props.navigate({
-            pathname: '/library/song',
-            search: queryString.stringify({
-                query,
-                expanded: song.id
-            })
-        })
-    }
+  const controlSearch = (
+    <Link
+      key="search-song"
+      className="control square primary"
+      to={{
+        pathname: '/library/song',
+        search: queryString.stringify({
+          query: `title:""${entry.song.title}""`,
+          expanded: entry.song.id,
+        }),
+      }}
+    >
+      <span className="icon">
+        <i className="las la-search"></i>
+      </span>
+    </Link>
+  )
 
-    /**
-     * Toggle expanded view of error
-     */
-    setExpanded = (expanded) => {
-        if (expanded) {
-            this.props.searchParams.delete('expanded')
-            this.props.searchParams.append('expanded', expanded)
-        } else {
-            this.props.searchParams.delete('expanded')
-        }
+  const controls = [controlSearch]
 
-        this.props.setSearchParams(this.props.searchParams)
-    }
+  const controlsExpanded = [
+    <Link
+      key="search-entry"
+      className="control primary"
+      to={{
+        pathname: '/playlist/played',
+        search: queryString.stringify({
+          query: `id:""${entry.id}""`,
+          expanded: entry.id,
+        }),
+      }}
+    >
+      <span className="icon">
+        <i className="las la-search"></i>
+      </span>
+      <span className="text">Search entry</span>
+    </Link>,
+    controlSearch,
+  ]
 
-    render() {
-        const { playerError } = this.props
-        const {
-            playlist_entry: entry,
-            error_message: message,
-            date_created: date
-        } = playerError
-        const expanded = +this.props.searchParams.get('expanded') === playerError.id
+  const entryExpanded = (
+    <ListingEntryExpanded controls={controlsExpanded}>
+      <Details>
+        <DetailText icon="la-clock" name="Error at">
+          <DateTime iso={date} showSeconds />
+        </DetailText>
+        <DetailLongText icon="la-file-alt" name="Error message">
+          <HighlighterQuery
+            query={query}
+            searchWords={(q) => q.message.contains.concat(q.remaining)}
+            textToHighlight={message}
+          />
+        </DetailLongText>
+      </Details>
+    </ListingEntryExpanded>
+  )
 
-        return (
-            <li
-                className={
-                    'listing-entry ' +
-                    'library-entry library-entry-song ' +
-                    'player-error-entry'
-                }
-            >
-                <div
-                    className={
-                        'library-entry-song-compact player-errors-entry-song ' +
-                        'hoverizable'
-                    }
-                >
-                    <Song
-                        song={entry.song}
-                        handleClick={
-                            () => {
-                                expanded ?
-                                    this.setExpanded() :
-                                    this.setExpanded(playerError.id)
-                            }
-                        }
-                    />
-                    <div className="extra">
-                        <PlaylistPositionInfo
-                            entryPlayed={entry}
-                        />
-                    </div>
-                </div>
-                <CSSTransitionLazy
-                    in={expanded}
-                    classNames="expand-view"
-                    timeout={{
-                        enter: 600,
-                        exit: 300
-                    }}
-                >
-                    <div className='library-entry-song-expanded-wrapper'>
-                        <div className="library-entry-song-expanded-subcontainer">
-                            <div className="listing-details">
-                                <div className="date entry">
-                                    <h4 className="header">
-                                        <span className="icon">
-                                            <i className="las la-clock"></i>
-                                        </span>
-                                        <span className="name">Date</span>
-                                    </h4>
-                                    <div className="content">
-                                        <div className="text">
-                                            {dayjs(date).format('L LTS')}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="date entry">
-                                    <h4 className="header">
-                                        <span className="icon">
-                                            <i className="las la-file-alt"></i>
-                                        </span>
-                                        <span className="name">Error message</span>
-                                    </h4>
-                                    <div className="content">
-                                        <div className="text">
-                                            {message}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </CSSTransitionLazy>
-            </li>
-        )
-    }
+  return (
+    <ListingEntry
+      id={playerError.id}
+      controls={controls}
+      entryExpanded={entryExpanded}
+      {...rest}
+    >
+      <PlaylistEntryWidget entry={entry} query={query} truncatable />
+    </ListingEntry>
+  )
 }
 
-PlayerErrorsEntry = withNavigate(withSearchParams(PlayerErrorsEntry))
-
-export default PlayerErrorsEntry
+PlayerErrorsEntry.propTypes = {
+  playerError: playerErrorPropType.isRequired,
+}

@@ -4,5 +4,13 @@
 // Third party style file
 //
 
-@use "normalize.css/normalize.css";
-@use "preboot";
+@forward 'normalize.css/normalize.css';
+
+@forward '@fontsource/roboto/200.css';
+@forward '@fontsource/roboto/300.css';
+@forward '@fontsource/roboto/400.css';
+@forward '@fontsource/roboto/700.css';
+
+@forward 'line-awesome/dist/line-awesome/css/line-awesome.min.css';
+
+@use 'preboot';

@@ -1,0 +1,60 @@
+//
+// Dakara Project
+//
+// Song status style file
+//
+
+@use '~/abstracts/sizes';
+@use '~/abstracts/support';
+
+.status {
+  align-items: center;
+  align-self: stretch;
+  display: flex;
+  flex-shrink: 0;
+
+  &:not(.expanded) {
+    justify-content: center;
+
+    @include support.make-smartphone {
+      padding: 0 sizes.$gap-horizontal;
+
+      .icon {
+        font-size: 0.65em !important;
+        height: unset;
+        line-height: 1em;
+        width: unset;
+      }
+    }
+  }
+
+  &.expanded {
+    .illustration {
+      align-items: inherit;
+      display: inherit;
+      min-height: sizes.$subrow-height;
+    }
+
+    .message {
+      @include sizes.make-vertical-row-padding(horizontal);
+
+      box-sizing: border-box;
+      padding-left: 0;
+    }
+  }
+
+  .icon {
+    display: inline-block;
+    font-size: 1.25em;
+    text-align: center;
+    width: sizes.$row-height;
+  }
+
+  .message {
+    flex: 1;
+
+    .icon {
+      width: unset;
+    }
+  }
+}

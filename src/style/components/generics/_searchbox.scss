@@ -1,0 +1,49 @@
+//
+// Dakara project
+//
+// Searchbox style file
+//
+
+@use '~/abstracts/colors';
+@use '~/abstracts/controls';
+@use '~/abstracts/sizes';
+
+// `searchbox` class:
+//
+// Query box for searching items in a library.
+.searchbox {
+  .set {
+    .field {
+      flex: 1;
+
+      .fake {
+        display: flex;
+        padding-right: 0;
+
+        .faked {
+          flex: 1;
+        }
+      }
+    }
+  }
+
+  .transition {
+    margin: 0;
+
+    &.collapse-vertical-enter.collapse-vertical-enter-active,
+    &.collapse-vertical-exit:not(.collapse-vertical-exit-active) {
+      max-height: 4 * sizes.$row-height;
+    }
+  }
+
+  .help {
+    @include sizes.make-gap(padding, top);
+
+    q {
+      &::before,
+      &::after {
+        content: '';
+      }
+    }
+  }
+}

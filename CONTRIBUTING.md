@@ -1,5 +1,23 @@
 # Contributing
 
+## Tests
+
+Unit tests are managed with [Vitest](https://vitest.dev/).
+Run the tests during development with:
+
+```sh
+npm run test
+```
+
+## Benchmarks
+
+Some performance critical functions are benchmarked with [Vitest](https://vitest.dev/).
+Run the benchmarks during development with:
+
+```sh
+npm run bench
+```
+
 ## Release
 
 1. Move to the `develop` branch and pull.

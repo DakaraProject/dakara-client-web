@@ -4,29 +4,32 @@
 // Main div style file
 //
 
-@use "~/thirdparty/preboot";
+@use '~/thirdparty/preboot';
 
-@use "~/abstracts/sizes";
-@use "~/abstracts/support";
+@use '~/abstracts/sizes';
+@use '~/abstracts/support';
 
 #main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  > .column {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    flex-grow: 1;
 
-    > .column {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
+    // separation margin on desktop only
+    @include support.make-desktop {
+      @include preboot.center-block();
 
-        @include support.make-desktop {
-            @include preboot.center-block();
+      gap: sizes.$gap-vertical;
+      width: sizes.$page-width-max;
 
-            width: sizes.$page-width-max;
-        }
-
-        > .content {
-            flex-grow: 1;
-        }
+      // make last child pushed at the bottom
+      > *:last-child {
+        margin-top: auto;
+      }
     }
+  }
 }

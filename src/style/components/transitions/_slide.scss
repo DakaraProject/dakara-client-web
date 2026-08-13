@@ -1,0 +1,3 @@
+@use '~/abstracts/transitions';
+
+@include transitions.make-transition('slide', left, $from: 100%, $to: 0);

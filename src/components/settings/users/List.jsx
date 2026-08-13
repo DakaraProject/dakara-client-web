@@ -1,158 +1,127 @@
-import { IsUserManager } from 'permissions/Users'
-import PropTypes from 'prop-types'
-import queryString from 'query-string'
-import { Component } from 'react'
-import { connect } from 'react-redux'
-import { withLocation } from 'thirdpartyExtensions/ReactRouterDom'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useOutletContext, useSearchParams } from 'react-router'
 
-import { clearAlteration } from 'actions/alterations'
-import { deleteUser, getUsers } from 'actions/users'
+import { loadUsers } from 'actions/users'
 import { FormBlock, InputField } from 'components/generics/Form'
-import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
+import ListingFetchWrapper from 'components/generics/listing/FetchWrapper'
 import Navigator from 'components/generics/Navigator'
-import SettingsUserEntry from 'components/settings/users/Entry'
-import { listUsersStatePropType } from 'reducers/users'
+import SearchBox from 'components/generics/SearchBox'
+import UserEntry from 'components/settings/users/Entry'
+import { IsUsersManager } from 'permissions/components/Users'
+import { Status } from 'reducers/alterationsResponse'
 
-class UsersList extends Component {
-    static propTypes = {
-        clearAlteration: PropTypes.func.isRequired,
-        deleteUser: PropTypes.func.isRequired,
-        getUsers: PropTypes.func.isRequired,
-        listUsersState: listUsersStatePropType.isRequired,
-        location: PropTypes.object.isRequired,
-        responseOfMultipleDeleteUser: PropTypes.object,
-    }
+export default function UsersList() {
+  const listUsersState = useSelector((state) => state.settings.users.list)
+  const user = useSelector((state) => state.authenticatedUser)
+  const { status: listUsersStatus } = listUsersState
 
-    componentDidMount() {
-        this.refreshEntries()
-    }
+  const [searchParams, _] = useSearchParams()
+  const { page, query } = Object.fromEntries(searchParams.entries())
 
-    componentDidUpdate(prevProps) {
-        const queryObj = queryString.parse(this.props.location.search)
-        const prevQueryObj = queryString.parse(prevProps.location.search)
-        if (queryObj.page !== prevQueryObj.page) {
-            this.refreshEntries()
-        }
-    }
+  const dispatch = useDispatch()
 
-    refreshEntries = () => {
-        const queryObj = queryString.parse(this.props.location.search)
-        const pageNumber = queryObj.page
-        this.props.getUsers(pageNumber)
-    }
+  const [searchBoxQuery, setSearchBoxQuery] = useOutletContext()
 
-    render() {
-        const { deleteUser, clearAlteration, location,
-            responseOfMultipleDeleteUser } = this.props
-        const { users, pagination } = this.props.listUsersState.data
+  useEffect(
+    () => {
+      // refresh the users immediately and if the page changes
+      if (listUsersStatus !== Status.pending) {
+        dispatch(loadUsers(page, query))
+      }
+    },
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
+    [page, query]
+  )
 
-        const userList = users.map((user) => (
-            <SettingsUserEntry
-                key={user.id}
-                user={user}
-                responseOfDelete={responseOfMultipleDeleteUser[user.id]}
-                deleteUser={deleteUser}
-                clearAlteration={clearAlteration}
+  const { users, pagination } = listUsersState.data
+
+  const userList = users.map((user) => <UserEntry key={user.id} user={user} />)
+
+  return (
+    <div id="users-list">
+      <SearchBox
+        placeholder="Search a user"
+        query={searchBoxQuery}
+        setQuery={setSearchBoxQuery}
+        help={{
+          example: 'user',
+        }}
+      />
+      <ListingFetchWrapper status={listUsersStatus}>
+        <div className="listing-table-container">
+          <table className="listing users-list notifiable">
+            <thead>
+              <tr className="listing-header">
+                <th className="notification-col"></th>
+                <th className="username">User&shy;name</th>
+                <IsUsersManager user={user}>
+                  <th className="validated">Email check</th>
+                  <th className="validated">Manager check</th>
+                </IsUsersManager>
+                <th className="superuser">Super&shy;user</th>
+                <th className="permission">Users rights</th>
+                <th className="permission">Library rights</th>
+                <th className="permission">Playlist rights</th>
+                <th className="controls-col"></th>
+              </tr>
+            </thead>
+            <tbody>{userList}</tbody>
+          </table>
+        </div>
+      </ListingFetchWrapper>
+      <Navigator
+        count={users.length}
+        pagination={pagination}
+        names={{
+          singular: 'user',
+          plural: 'users',
+        }}
+      />
+      <IsUsersManager user={user}>
+        <div className="create-user flow">
+          <FormBlock
+            title="Create user"
+            submitText="Create"
+            alterationName="createUser"
+            action="users/"
+            successMessage="User sucessfully created!"
+            onSuccess={() => {
+              dispatch(loadUsers(page, query))
+            }}
+          >
+            <InputField id="username" label="Username" required />
+            <InputField
+              id="email"
+              label="Email"
+              required
+              validate={(value) => {
+                if (!/\S+@\S+\.\S+/.test(value.toLowerCase())) {
+                  return ['This should be a valid email address.']
+                }
+              }}
             />
-        ))
-
-        return (
-            <div id="users-list">
-                <ListingFetchWrapper
-                    status={this.props.listUsersState.status}
-                >
-                    <div className="listing-table-container">
-                        <table className="listing users-list notifiable">
-                            <thead>
-                                <tr className="listing-header">
-                                    <th className="notification-col"></th>
-                                    <th className="username">User&shy;name</th>
-                                    <IsUserManager>
-                                        <th className="validated">Email check</th>
-                                        <th className="validated">Manager check</th>
-                                    </IsUserManager>
-                                    <th className="superuser">Super&shy;user</th>
-                                    <th className="permission">Users rights</th>
-                                    <th className="permission">Library rights</th>
-                                    <th className="permission">Playlist rights</th>
-                                    <th className="controls-col"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {userList}
-                            </tbody>
-                        </table>
-                    </div>
-                </ListingFetchWrapper>
-                <Navigator
-                    pagination={pagination}
-                    location={location}
-                />
-                <IsUserManager>
-                    <div className="create-user">
-                        <FormBlock
-                            title="Create user"
-                            submitText="Create"
-                            alterationName="createUser"
-                            action="users/"
-                            successMessage="User sucessfully created!"
-                            onSuccess={this.refreshEntries}
-                        >
-                            <InputField
-                                id="username"
-                                label="Username"
-                                required
-                            />
-                            <InputField
-                                id="email"
-                                label="Email"
-                                required
-                                validate={(value) => {
-                                    if(!/\S+@\S+\.\S+/.test(value.toLowerCase())) {
-                                        return ['This should be a valid email address.']
-                                    }
-                                }}
-                            />
-                            <InputField
-                                id="password"
-                                type="password"
-                                label="Password"
-                                required
-                            />
-                            <InputField
-                                id="confirm_password"
-                                type="password"
-                                label="Confirm password"
-                                required
-                                validate={(value, values) => {
-                                    if (values.password !== value) {
-                                        return [
-                                            'This field should match password field.'
-                                        ]
-                                    }
-                                }}
-                                ignore
-                            />
-                        </FormBlock>
-                    </div>
-                </IsUserManager>
-            </div>
-        )
-    }
+            <InputField
+              id="password"
+              type="password"
+              label="Password"
+              required
+            />
+            <InputField
+              id="confirm_password"
+              type="password"
+              label="Confirm password"
+              required
+              validate={(value, values) => {
+                if (values.password !== value) {
+                  return ['This field should match password field.']
+                }
+              }}
+              ignore
+            />
+          </FormBlock>
+        </div>
+      </IsUsersManager>
+    </div>
+  )
 }
-
-const mapStateToProps = (state) => ({
-    listUsersState: state.settings.users.list,
-    responseOfMultipleDeleteUser: state.alterationsResponse.multiple.deleteUser || {}
-})
-
-UsersList = withLocation(connect(
-    mapStateToProps,
-    {
-        deleteUser,
-        getUsers,
-        clearAlteration
-    }
-)(UsersList))
-
-export default UsersList

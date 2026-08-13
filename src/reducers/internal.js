@@ -7,13 +7,13 @@ import { SERVER_SETTINGS_SUCCESS } from 'actions/internal'
  */
 
 function serverSettings(state = null, action) {
-    switch (action.type) {
-        case SERVER_SETTINGS_SUCCESS:
-            return action.response
+  switch (action.type) {
+    case SERVER_SETTINGS_SUCCESS:
+      return action.response
 
-        default:
-            return state
-    }
+    default:
+      return state
+  }
 }
 
 export default combineReducers({ serverSettings })

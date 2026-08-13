@@ -4,36 +4,44 @@
 // Header style file
 //
 
-@use "~/abstracts/colors";
-@use "~/abstracts/sizes";
-@use "~/abstracts/support";
+@use '~/abstracts/colors';
+@use '~/abstracts/sizes';
+@use '~/abstracts/support';
 
 // header sizes
 $header-height: sizes.$row-height;
 
 #header {
-    background: colors.$neutral-mid-dark;
-    display: flex;
-    height: $header-height;
-    justify-content: space-between;
-    position: relative;
-    z-index: 1200;
+  background: colors.$neutral-110;
+  display: flex;
+  height: $header-height;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1200;
 
-    h1 {
-        @include sizes.make-gap(padding, horizontal);
+  h1 {
+    @include sizes.make-gap(padding, horizontal);
 
-        & {
-            font-size: xx-large;
-            line-height: $header-height * 0.9;
-        }
-
-        @include support.make-smartphone {
-            font-size: x-large;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
+    & {
+      font-size: xx-large;
+      line-height: $header-height;
     }
+
+    @include support.make-smartphone {
+      font-size: x-large;
+    }
+
+    a {
+      color: colors.$neutral-410;
+      text-decoration: none;
+
+      &:hover:not(:focus) {
+        color: colors.$neutral-412;
+      }
+
+      &:focus {
+        color: colors.$neutral-413;
+      }
+    }
+  }
 }

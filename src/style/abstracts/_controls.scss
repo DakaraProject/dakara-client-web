@@ -4,7 +4,8 @@
 // Controls style file
 //
 
-@use "~/abstracts/sizes";
+@use '~/abstracts/sizes';
+@use '~/abstracts/support';
 
 // `make-controls` function:
 //
@@ -12,23 +13,42 @@
 //
 // Arguments:
 //      $height: heigth of the control box.
-//      $square: if `true`, set the width of the control box equal to its height.
 //      $text-size: size of the text of the control.
 //      $icon-size: size of the icon of the control, normalized by `text-size`.
-@mixin make-controls($height: sizes.$row-height, $square: false, $text-size: 1.25em, $icon-size: 1.5em) {
-    > .control,
-    .subcontrols > .control {
-        font-size: $text-size;
-        height: $height;
-        min-width: $height;
+@mixin make-controls(
+  $height: sizes.$row-height,
+  $text-size: 1.25em,
+  $icon-size: 1.5em
+) {
+  .control {
+    font-size: $text-size;
+    height: $height;
 
-        @if $square {
-            width: $height;
-        }
-
-        .icon {
-            font-size: calc($icon-size / $text-size * 1em);
-        }
+    // square buttons are good for icons
+    &.square {
+      min-width: $height;
     }
-}
 
+    // smashed buttons are good when used on the borders of the page
+    &.smashed {
+      min-width: 0.5 * $height;
+
+      .icon {
+        font-size: calc($icon-size / $text-size * 0.85em);
+      }
+    }
+
+    .icon {
+      font-size: calc($icon-size / $text-size * 1em);
+    }
+
+    .icon + .text {
+      font-size: 0.85em;
+      margin-left: 0.5em;
+
+      @include support.make-smartphone {
+        margin-left: 0.25em;
+      }
+    }
+  }
+}

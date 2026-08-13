@@ -4,194 +4,175 @@
 // Box style file
 //
 
-@use "sass:color";
+@use 'sass:color';
 
-@use "~/abstracts/colors";
-@use "~/abstracts/controls";
-@use "~/abstracts/sizes";
-@use "~/abstracts/support";
-
-// box sizes
-$ribbon-control-height: sizes.$row-height;
+@use '~/abstracts/colors';
+@use '~/abstracts/controls';
+@use '~/abstracts/sizes';
+@use '~/abstracts/support';
 
 // `box` class:
 //
-// This class is aimed to style a generic box container in the layout. It can
-// be subclassed to be of a specific color (`primary`, `success`, `warning`,
-// `danger`, or `info`). The box has direct child classes corresponding to its
-// different parts: a `header`, a `footer`, and a `content`. All of them are
-// optional. The `header` and the `footer` have a primary color by default and
-// have their own vertical gaps. The `content` has no color. In case of color
-// subclass, all elements are of the same requested color. The `content`
-// creates vertical gaps to isolate its elements. If the box has a color
-// subclass, top gap of the `content`, respectively bottom gap, is deactivated
-// if a `header` immediately precedes it, respectively if a `footer`
-// immediately succeeds it. The content can have a ribbon.
+// This class is aimed to style a generic box container in the layout. It
+// should be subclassed with a color (`primary`, `success`, `warning`,
+// `danger`, `info`, or `neutral`), as it has no colors by default. The box
+// has direct child classes corresponding to its different parts: a `header`,
+// a `footer`, and a `flow`. All of them are optional. The `header` and the
+// `footer` should be subclassed with a color, as they have no color by
+// default. In this case, they have their own vertical gaps, otherwise only a
+// top gap for the `header`, and a bottom gap for the `footer`. The `flow`
+// has no color. The `flow` creates vertical gaps to isolate its elements.
+// The `flow` can have a ribbon for emphasis.
 //
-// Example without color subclass, with header and footer:
+// Example without color subclass, with header and footer with color subclass:
 // +-------------------+
-// |                   |
+// |                   | < gap
 // | Header            |
-// |                   |
-// + - - - - - - - - - +
-// |                   | < gap
-// | Content           |
 // |                   | < gap
 // + - - - - - - - - - +
-// |                   |
+// |                   | < gap
+// | Flow              |
+// |                   | < gap
+// + - - - - - - - - - +
+// |                   | < gap
 // | Footer            |
-// |                   |
-// +-------------------+
-//
-// Example without color subclass, with header and no footer:
-// +-------------------+
-// |                   |
-// | Header            |
-// |                   |
-// + - - - - - - - - - +
-// |                   | < gap
-// | Content           |
 // |                   | < gap
 // +-------------------+
 //
-// Example with no color subclass and ribbon:
+// Example without color subclass, with header with color subclass:
 // +-------------------+
-// |                   |
+// |                   | < gap
 // | Header            |
-// |                   |
+// |                   | < gap
 // + - - - - - - - - - +
 // |                   | < gap
+// | Flow              |
+// |                   | < gap
+// +-------------------+
+//
+// Example without color subclass, with header and footer with color subclass, and flow with a ribbon:
+// +-------------------+
+// |                   | < gap
+// | Header            |
+// |                   | < gap
+// + - - - - - - - - - +
+// |                   | < gap
+// | Flow              |
 // |/Ribbon////////////|
-// | Content           |
 // |                   | < gap
 // + - - - - - - - - - +
-// |                   |
+// |                   | < gap
 // | Footer            |
-// |                   |
-// +-------------------+
-//
-// Example with color subclass, with header and footer:
-// +-------------------+
-// |                   |
-// | Header            |
-// |                   |
-// | Content           | < no extra gap
-// |                   |
-// | Footer            |
-// |                   |
-// +-------------------+
-//
-// Example with color subclass, with header and no footer:
-// +-------------------+
-// |                   |
-// | Header            |
-// |                   |
-// | Content           | < no extra gap
 // |                   | < gap
 // +-------------------+
 //
-// Example with color subclass, with header, no footer and another element:
+// Example with color subclass, with header and footer without color subclass:
 // +-------------------+
-// |                   |
+// |                   | < gap
 // | Header            |
-// |                   |
+// |                   | < gap (only 1)
+// | Flow              |
+// |                   | < gap (only 1)
+// | Footer            |
+// |                   | < gap
+// +-------------------+
+//
+// Example with color subclass, with header without color subclass and no footer:
+// +-------------------+
+// |                   | < gap
+// | Header            |
+// |                   | < gap (only 1)
+// | Flow              |
+// |                   | < gap
+// +-------------------+
+//
+// Example with color subclass, with header without color subclass, no footer and another element:
+// +-------------------+
+// |                   | < gap
+// | Header            |
 // | Other             |
-// |                   | < gap
-// | Content           |
-// |                   | < gap
+// |                   | < gap of flow
+// | Flow              |
+// |                   | < gap of flow
 // +-------------------+
 .box {
-    // separation margin on desktop only
-    @include support.make-desktop {
-        margin-bottom: sizes.$gap-vertical;
-    }
+  // shadow if not embedded
+  &:not(.embedded) {
+    box-shadow: 0 0 2rem color.change(black, $alpha: 0.5);
+  }
 
-    // if not embedded
-    &:not(.embedded) {
-        box-shadow: 0 0 2rem color.change(black, $alpha: 0.5);
-    }
+  > .header {
+    @include sizes.make-gap(padding, top);
 
-    // if not subclassed
-    &:not(.primary):not(.success):not(.warning):not(.danger):not(.info) {
-        background: colors.$neutral-mid-darker;
-
-        > .header,
-        > .footer {
-            @include sizes.make-gap(padding, vertical);
-
-            & {
-                background: colors.$brand-primary-darker;
-                color: colors.$brand-primary-light;
-            }
-        }
-    }
-
-    // if subclassed
     &.primary,
     &.success,
     &.warning,
     &.danger,
     &.info {
-        > .header {
-            @include sizes.make-gap(padding, top);
-        }
-
-        > .footer {
-            @include sizes.make-gap(padding, bottom);
-        }
+      @include sizes.make-gap(padding, bottom);
     }
 
-    > .header {
-        > h2 {
-            @include sizes.make-gap(padding, horizontal);
-        }
+    > h2 {
+      @include sizes.make-gap(margin, horizontal);
+    }
+  }
+
+  > .footer {
+    @include sizes.make-gap(padding, bottom);
+
+    &.primary,
+    &.success,
+    &.warning,
+    &.danger,
+    &.info {
+      @include sizes.make-gap(padding, top);
+    }
+  }
+
+  .flow {
+    &:not(.compact) {
+      @include sizes.make-gap(padding, vertical);
+
+      // immediately nested flows do not have vertical padding
+      > .flow {
+        padding: 0;
+      }
     }
 
-    > .content {
-        @include sizes.make-gap(padding, vertical);
-
-        // `ribbon` class:
-        //
-        // The ribbon is a colored sub-content used for emphasis. It can
-        // contain a button that will be aligned on the right.
-        .ribbon {
-            @include sizes.make-gap(padding, vertical, 0.5);
-
-            & {
-                align-items: center;
-                display: flex;
-            }
-
-            .message {
-                flex: 1;
-            }
-
-            // subclass the controls with `free` to freely control their style
-            .controls:not(.free) {
-                @include controls.make-controls($height: $ribbon-control-height, $square: true);
-            }
-        }
-
-        h3,
-        h4,
-        h5,
-        h6 {
-            @include sizes.make-gap(padding, horizontal);
-        }
-
+    // any elewent within a flow has vertical spacing
+    > * + * {
+      @include sizes.make-gap(margin, top);
     }
 
-    // > .footer {
-    // }
+    // `ribbon` class:
+    //
+    // The ribbon is a colored layout used for emphasis. It should have a
+    // color sub-class.
+    .ribbon {
+      @include sizes.make-gap(padding, vertical, 0.5);
+
+      & {
+        align-items: center;
+        display: flex;
+      }
+    }
+
+    h3,
+    h4,
+    h5,
+    h6 {
+      @include sizes.make-gap(margin, horizontal);
+    }
 
     p,
     ul {
-        @include sizes.make-gap(margin, horizontal);
+      @include sizes.make-gap(margin, horizontal);
 
-        // paragraphs have margin between them
-        + p,
-        + ul {
-            margin-top: 0.5em;
-        }
+      // paragraphs have margin between them
+      + p,
+      + ul {
+        margin-top: 0.5em;
+      }
     }
+  }
 }

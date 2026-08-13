@@ -1,0 +1,30 @@
+//
+// Dakara Project
+//
+// Artist widget style file
+//
+
+@use '~/thirdparty/preboot';
+
+// `artist-widget` class:
+//
+// This module is used to style artists.
+.artist-widget {
+  column-gap: 0.5em;
+  display: inline-flex;
+  overflow: hidden;
+
+  &.truncatable {
+    .name {
+      @include preboot.text-truncate();
+    }
+  }
+
+  .count {
+    white-space: nowrap;
+
+    .icon + .value {
+      margin-left: 0.25em;
+    }
+  }
+}

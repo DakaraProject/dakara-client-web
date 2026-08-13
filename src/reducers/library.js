@@ -1,22 +1,18 @@
-import PropTypes from 'prop-types'
 import { combineReducers } from 'redux'
 
 import {
-    LIBRARY_FAILURE,
-    LIBRARY_REQUEST,
-    LIBRARY_SUCCESS,
-    STORE_SEARCH_BOX,
-    WORK_TYPES_FAILURE,
-    WORK_TYPES_REQUEST,
-    WORK_TYPES_SUCCESS
+  LIBRARY_FAILURE,
+  LIBRARY_REQUEST,
+  LIBRARY_SUCCESS,
+  SONG_LYRICS_FAILURE,
+  SONG_LYRICS_REQUEST,
+  SONG_LYRICS_STATUS_CLEAR,
+  SONG_LYRICS_SUCCESS,
+  WORK_TYPES_FAILURE,
+  WORK_TYPES_REQUEST,
+  WORK_TYPES_SUCCESS,
 } from 'actions/library'
 import { Status } from 'reducers/alterationsResponse'
-import {
-    artistPropType,
-    songPropType,
-    workPropType,
-    workTypePropType
-} from 'serverPropTypes/library'
 import { updateData } from 'utils'
 
 /**
@@ -28,219 +24,252 @@ import { updateData } from 'utils'
  */
 
 export const WorkLinkName = Object.freeze({
-    OP: 'Opening',
-    ED: 'Ending',
-    IN: 'Insert song',
-    IS: 'Image song',
+  OP: 'Opening',
+  ED: 'Ending',
+  IN: 'Insert song',
+  IS: 'Image song',
 })
 
 /**
  * Generators for library content
  */
 
-const generateLibraryPropType = (libraryEntryPropType, libraryKey) => (
-    PropTypes.shape({
-        status: PropTypes.symbol,
-        data: PropTypes.shape({
-            pagination: PropTypes.shape({
-                current: PropTypes.number.isRequired,
-                last: PropTypes.number.isRequired,
-            }).isRequired,
-            count: PropTypes.number.isRequired,
-            query: PropTypes.object,
-            [libraryKey]: PropTypes.arrayOf(libraryEntryPropType).isRequired,
-        }),
-    })
-)
-
-const generateDefaultLibrary = (libraryKey) => ({
-    status: null,
-    data: {
-        pagination: {
-            current: 1,
-            last: 1,
-        },
-        count: 0,
-        query: {},
-        [libraryKey]: []
+const generateLibraryDefaultState = (libraryKey) => ({
+  status: null,
+  data: {
+    pagination: {
+      current: 1,
+      last: 1,
     },
+    count: 0,
+    query: {},
+    [libraryKey]: [],
+  },
 })
 
-const generateLibraryReducer = libraryType => {
-    const defaultLibrary = generateDefaultLibrary(libraryType)
-
-    return (state = defaultLibrary, action) => {
-        if (action.libraryType !== libraryType) {
-            return state
-        }
-
-        switch (action.type) {
-            case LIBRARY_REQUEST:
-                return {
-                    ...state,
-                    status: Status.pending,
-                }
-
-            case LIBRARY_SUCCESS:
-                return {
-                    status: Status.successful,
-                    data: updateData(action.response, libraryType),
-                }
-
-            case LIBRARY_FAILURE:
-                return {
-                    status: Status.failed,
-                    data: defaultLibrary.data,
-                }
-
-            default:
-                return state
-        }
+const generateLibraryReducer =
+  (libraryType, defaultState) =>
+  (state = defaultState, action) => {
+    if (action.libraryType !== libraryType) {
+      return state
     }
-}
+
+    switch (action.type) {
+      case LIBRARY_REQUEST:
+        return {
+          ...state,
+          status: Status.pending,
+        }
+
+      case LIBRARY_SUCCESS:
+        return {
+          ...state,
+          status: Status.successful,
+          data: updateData(action.response, libraryType),
+        }
+
+      case LIBRARY_FAILURE:
+        return {
+          ...state,
+          status: Status.failed,
+          data: defaultState.data,
+        }
+
+      default:
+        return state
+    }
+  }
 
 /**
  * Song library
  */
 
-export const songStatePropType = generateLibraryPropType(songPropType, 'songs')
-const song = generateLibraryReducer('songs')
+const songLibraryDefaultState = generateLibraryDefaultState('songs')
+const songDefaultState = {
+  ...songLibraryDefaultState,
+  statusesLyrics: {},
+}
+const songLibraryReducer = generateLibraryReducer('songs', songDefaultState)
+const song = (stateLibrary = songDefaultState, action) => {
+  const state = songLibraryReducer(stateLibrary, action)
+
+  switch (action.type) {
+    case SONG_LYRICS_REQUEST:
+      return {
+        ...state,
+        statusesLyrics: {
+          ...state.statusesLyrics,
+          [action.id]: Status.pending,
+        },
+      }
+
+    case SONG_LYRICS_SUCCESS: {
+      // add the lyrics to the corresponding song
+      const songs = window.structuredClone(state.data.songs)
+      const songId = songs.findIndex((song) => song.id === action.id)
+      songs[songId].lyrics_preview.text = action.response.lyrics
+
+      return {
+        ...state,
+        statusesLyrics: {
+          ...state.statusesLyrics,
+          [action.id]: Status.successful,
+        },
+        data: {
+          ...state.data,
+          songs,
+        },
+      }
+    }
+
+    case SONG_LYRICS_FAILURE:
+      return {
+        ...state,
+        statusesLyrics: {
+          ...state.statusesLyrics,
+          [action.id]: Status.failed,
+        },
+      }
+
+    case SONG_LYRICS_STATUS_CLEAR:
+      // only clear a non successful status
+      if (state.statusesLyrics[action.id] === Status.successful) {
+        return state
+      } else {
+        return {
+          ...state,
+          statusesLyrics: {
+            ...state.statusesLyrics,
+            [action.id]: null,
+          },
+        }
+      }
+
+    case LIBRARY_REQUEST:
+      if (action.libraryType === 'songs') {
+        // reset lyrics statuses as the list of songs is being fetched
+        return {
+          ...state,
+          statusesLyrics: [],
+        }
+      }
+
+      return state
+
+    default:
+      return state
+  }
+}
 
 /**
  * Artist library
  */
 
-export const artistStatePropType = generateLibraryPropType(artistPropType, 'artists')
-const artist = generateLibraryReducer('artists')
+const artistLibraryDefaultState = generateLibraryDefaultState('artists')
+const artist = generateLibraryReducer('artists', artistLibraryDefaultState)
 
 /**
  * Work library
  */
 
-export const workStatePropType = generateLibraryPropType(workPropType, 'works')
-const defaultWork = generateDefaultLibrary('works')
+const defaultWork = generateLibraryDefaultState('works')
 
 function works(state = {}, action) {
-    // create works when work types have been successfuly fetched
-    if (action.type === WORK_TYPES_SUCCESS) {
-        let newState = {...state}
-        for (let type of action.response.results) {
-            const name = type.query_name
-            if (typeof newState[name] === 'undefined') {
-                newState[name] = defaultWork
-            }
-        }
-
-        return newState
+  // create works when work types have been successfuly fetched
+  if (action.type === WORK_TYPES_SUCCESS) {
+    let newState = { ...state }
+    for (let type of action.response.results) {
+      const name = type.query_name
+      if (typeof newState[name] === 'undefined') {
+        newState[name] = defaultWork
+      }
     }
 
-    if (action.libraryType !== 'works') {
-        return state
-    }
+    return newState
+  }
 
-    const workType = action.workType
+  if (action.libraryType !== 'works') {
+    return state
+  }
 
-    switch (action.type) {
-        case LIBRARY_REQUEST:
-            return {
-                ...state,
-                [workType]: {
-                    ...state[workType],
-                    status: Status.pending,
-                }
-            }
+  const workType = action.workType
 
-        case LIBRARY_SUCCESS:
-            return {
-                ...state,
-                [workType]: {
-                    status: Status.successful,
-                    data: updateData(action.response, 'works'),
-                }
-            }
+  switch (action.type) {
+    case LIBRARY_REQUEST:
+      return {
+        ...state,
+        [workType]: {
+          ...state[workType],
+          status: Status.pending,
+        },
+      }
 
-        case LIBRARY_FAILURE:
-            return {
-                ...state,
-                [workType]: {
-                    status: Status.failed,
-                    data: defaultWork.data,
-                }
-            }
+    case LIBRARY_SUCCESS:
+      return {
+        ...state,
+        [workType]: {
+          status: Status.successful,
+          data: updateData(action.response, 'works'),
+        },
+      }
 
-        default:
-            return state
-    }
+    case LIBRARY_FAILURE:
+      return {
+        ...state,
+        [workType]: {
+          status: Status.failed,
+          data: defaultWork.data,
+        },
+      }
+
+    default:
+      return state
+  }
 }
 
 /**
  * Work Types
  */
 
-export const workTypeStatePropType = PropTypes.shape({
-    status: PropTypes.symbol,
-    data: PropTypes.shape({
-        workTypes: PropTypes.arrayOf(workTypePropType).isRequired,
-    }).isRequired,
-})
-
-const defaultWorkType =  {
-    status: null,
-    data: {
-        workTypes: []
-    },
+const defaultWorkType = {
+  status: null,
+  data: {
+    workTypes: [],
+  },
 }
 
 function workType(state = defaultWorkType, action) {
-    switch (action.type) {
-        case WORK_TYPES_REQUEST:
-            return {
-                ...state,
-                status: Status.pending,
-            }
+  switch (action.type) {
+    case WORK_TYPES_REQUEST:
+      return {
+        ...state,
+        status: Status.pending,
+      }
 
-        case WORK_TYPES_SUCCESS:
-            return {
-                status: Status.successful,
-                data: updateData(action.response, 'workTypes')
-            }
+    case WORK_TYPES_SUCCESS:
+      return {
+        status: Status.successful,
+        data: updateData(action.response, 'workTypes'),
+      }
 
-        case WORK_TYPES_FAILURE:
-            return {
-                status: Status.failed,
-                data: defaultWorkType.data,
-            }
+    case WORK_TYPES_FAILURE:
+      return {
+        status: Status.failed,
+        data: defaultWorkType.data,
+      }
 
-        default:
-            return state
-    }
+    default:
+      return state
+  }
 }
-
-/**
- * Search box
- */
-
-function searchBox(state = {query: ''}, action) {
-    switch (action.type) {
-        case STORE_SEARCH_BOX:
-            return {
-                ...action.searchBox
-            }
-
-        default:
-            return state
-    }
-}
-
 
 /**
  * Library
  */
 
 export default combineReducers({
-    song,
-    artist,
-    works,
-    workType,
-    searchBox,
+  song,
+  artist,
+  works,
+  workType,
 })

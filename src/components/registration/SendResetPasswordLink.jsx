@@ -1,76 +1,49 @@
-import PropTypes from 'prop-types'
-import { Component } from 'react'
-import { connect } from 'react-redux'
+import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router'
 
 import { FormBlock, InputField } from 'components/generics/Form'
 
-class SendResetPasswordLink extends Component {
-    static propTypes = {
-        isLoggedIn: PropTypes.bool.isRequired,
-    }
+export default function SendResetPasswordLink() {
+  const isLoggedIn = useSelector((state) => !!state.token)
 
-    state = {
-       emailSent: false
-    }
+  const [emailSent, setEmailSent] = useState(false)
 
-    render() {
-        const { isLoggedIn } = this.props
+  if (isLoggedIn) {
+    return <Navigate to="/" replace />
+  }
 
-        if (isLoggedIn) {
-            return (
-                <Navigate to="/" replace/>
-            )
-        }
+  const sendResetPasswordLinkForm = (
+    <FormBlock
+      action="accounts/send-reset-password-link/"
+      submitText="Send reset password link"
+      alterationName="sendResetPasswordLink"
+      successMessage={false}
+      pendingMessage={false}
+      onSuccess={() => {
+        setEmailSent(true)
+      }}
+    >
+      <InputField id="login" label="Username or email" required />
+    </FormBlock>
+  )
 
-        const sendResetPasswordLinkForm = (
-            <FormBlock
-                action="accounts/send-reset-password-link/"
-                submitText="Send reset password link"
-                alterationName="sendResetPasswordLink"
-                successMessage={false}
-                pendingMessage={false}
-                onSuccess={() => this.setState({emailSent: true})}
-            >
-                <InputField
-                    id="login"
-                    label="Login"
-                    placeholder="Username or email..."
-                    required
-                />
-            </FormBlock>
-        )
+  const emailSentMessage = (
+    <p>
+      An email containing a link to reset your password has been sent
+      successfully, please check your email.
+    </p>
+  )
 
-        const emailSentMessage = (
-            <p>
-                An email containing a link to reset your password has been sent
-                successfully, please check your email.
-            </p>
-        )
-
-        return (
-            <div id="send-reset-password-link" className="box">
-                <div className="header">
-                    <h2>Send reset password link</h2>
-                </div>
-                <div className="content">
-                    {
-                        this.state.emailSent ?
-                            emailSentMessage :
-                            sendResetPasswordLinkForm
-                    }
-                </div>
-            </div>
-        )
-    }
+  return (
+    <div id="send-reset-password-link" className="box neutral">
+      <title>Dakara reset password</title>
+      <div className="header primary">
+        <h2>Send reset password link</h2>
+      </div>
+      <div className="flow">
+        {emailSent ? emailSentMessage : sendResetPasswordLinkForm}
+      </div>
+    </div>
+  )
 }
-
-const mapStateToProps = (state) => ({
-    isLoggedIn: !!state.token,
-})
-
-SendResetPasswordLink = connect(
-    mapStateToProps,
-)(SendResetPasswordLink)
-
-export default SendResetPasswordLink

@@ -1,104 +1,73 @@
-import PropTypes from 'prop-types'
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withSearchParams } from 'thirdpartyExtensions/ReactRouterDom'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useOutletContext, useSearchParams } from 'react-router'
 
 import { loadPlayerErrors } from 'actions/playlist'
-import ListingFetchWrapper from 'components/generics/ListingFetchWrapper'
+import ListingList from 'components/generics/listing/List'
 import Navigator from 'components/generics/Navigator'
+import SearchBox from 'components/generics/SearchBox'
 import PlayerErrorsEntry from 'components/playlist/playerErrors/Entry'
 import { Status } from 'reducers/alterationsResponse'
-import {
-    playerErrorsStatePropType
-} from 'reducers/playlist'
-import {
-    playerErrorsDigestStatePropType
-} from 'reducers/playlistDigest'
 
-class PlayerErrorsList extends Component {
-    static propTypes = {
-        playerErrorsDigestState: playerErrorsDigestStatePropType.isRequired,
-        playerErrorsState: playerErrorsStatePropType.isRequired,
-        loadPlayerErrors: PropTypes.func.isRequired,
-        searchParams: PropTypes.object.isRequired,
-    }
+export default function PlayerErrorsList() {
+  const playerErrorsDigestState = useSelector(
+    (state) => state.playlist.digest.playerErrors
+  )
+  const playerErrorsState = useSelector((state) => state.playlist.playerErrors)
+  const { playerErrorsHash } = playerErrorsDigestState.data
+  const { status: playerErrorsStatus } = playerErrorsState
 
-    componentDidMount() {
-        this.refreshEntries()
-    }
+  const [searchParams, _] = useSearchParams()
+  const { page, query } = Object.fromEntries(searchParams.entries())
 
-    componentDidUpdate(prevProps) {
-        // refresh if moved to a different page
-        if (this.props.searchParams !== prevProps.searchParams) {
-            this.refreshEntries()
-        }
+  const dispatch = useDispatch()
 
-        // refresh if the digest player errors changed
-        const { playerErrorsState } = this.props
-        const { playerErrorsDigestState } = this.props
-        const { playerErrorsDigestState: prevPlayerErrorsDigestState } = prevProps
-        if (
-            playerErrorsDigestState !== prevPlayerErrorsDigestState &&
-            playerErrorsState.status !== Status.pending
-        ) {
-            const errorIds = playerErrorsDigestState.data.map(e => e.id)
-            const prevErrorIds = prevPlayerErrorsDigestState.data.map(e => e.id)
-            if (errorIds.length !== prevErrorIds.length) {
-                this.refreshEntries()
-            }
-        }
-    }
+  const [searchBoxQuery, setSearchBoxQuery] = useOutletContext()
 
-    refreshEntries = () => {
-        this.props.loadPlayerErrors({
-            page: this.props.searchParams.get('page') || 1
-        })
-    }
+  useEffect(
+    () => {
+      // refresh the player errors immediately and if the page, the query, or
+      // the hash changes
+      if (playerErrorsStatus !== Status.pending) {
+        dispatch(loadPlayerErrors(page, query))
+      }
+    },
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
+    [page, query, playerErrorsHash]
+  )
 
-    render() {
-        const {
-            playerErrors,
-            count,
-            pagination,
-        } = this.props.playerErrorsState.data
+  const { playerErrors, count, pagination } = playerErrorsState.data
 
-        const playerErrorsList = playerErrors.map((playerError) => (
-            <PlayerErrorsEntry
-                key={playerError.id}
-                playerError={playerError}
-            />
-        ))
+  const errorsList = playerErrors.map((playerError) => (
+    <PlayerErrorsEntry key={playerError.id} playerError={playerError} />
+  ))
 
-        return (
-            <div id="player-errors-list">
-                <ListingFetchWrapper
-                    status={this.props.playerErrorsState.status}
-                >
-                    <ul className="player-errors-list listing">
-                        {playerErrorsList}
-                    </ul>
-                </ListingFetchWrapper>
-                <Navigator
-                    count={count}
-                    pagination={pagination}
-                    names={{
-                        singular: 'error',
-                        plural: 'errors'
-                    }}
-                />
-            </div>
-        )
-    }
+  return (
+    <div id="player-errors">
+      <SearchBox
+        placeholder="Search a song that failed to play"
+        query={searchBoxQuery}
+        setQuery={setSearchBoxQuery}
+        help={{
+          example: 'title',
+          fields: 'title, artist, work, owner, message',
+          withHash: true,
+        }}
+      />
+      <ListingList
+        entries={errorsList}
+        status={playerErrorsStatus}
+        hash={playerErrorsHash}
+      />
+      <Navigator
+        count={count}
+        pagination={pagination}
+        names={{
+          singular: 'error',
+          plural: 'errors',
+        }}
+        paramsToCleanup={['expanded']}
+      />
+    </div>
+  )
 }
-
-const mapStateToProps = (state) => ({
-    playerErrorsDigestState: state.playlist.digest.playerErrors,
-    playerErrorsState: state.playlist.playerErrors,
-})
-
-PlayerErrorsList = withSearchParams(connect(
-    mapStateToProps,
-    { loadPlayerErrors }
-)(PlayerErrorsList))
-
-export default PlayerErrorsList

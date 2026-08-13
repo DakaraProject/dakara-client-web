@@ -1,0 +1,14 @@
+//
+// Dakara Project
+//
+// Song expanded style file
+//
+
+@use '~/abstracts/sizes';
+
+.song-expanded-widget {
+  .artist-widget,
+  .work-link-widget {
+    align-items: center;
+  }
+}

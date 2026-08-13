@@ -1,0 +1,249 @@
+import PropTypes from 'prop-types'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useSearchParams } from 'react-router'
+
+import { clearSongLyricsStatus, loadSongLyrics } from 'actions/library'
+import {
+  DetailAny,
+  DetailLongText,
+  Details,
+  DetailText,
+} from 'components/generics/Details'
+import HighlighterQuery from 'components/generics/HighlighterQuery'
+import { ListingEntry } from 'components/generics/listing/Entry'
+import ListingList from 'components/generics/listing/List'
+import NotificationBar from 'components/generics/NotificationBar'
+import SongTagList from 'components/library/SongTagList'
+import ArtistWidget from 'components/library/widgets/Artist'
+import WorkLinkWidget from 'components/library/widgets/WorkLink'
+import { Status } from 'reducers/alterationsResponse'
+import { songPropType } from 'serverPropTypes/library'
+
+export default function SongExpanded({ query, song }) {
+  const [_, setSearchParams] = useSearchParams()
+  const dispatch = useDispatch()
+  const statusLyrics = useSelector(
+    (state) => state.library.song.statusesLyrics[song.id]
+  )
+
+  // Method used by child components WorkEntry and ArtistsEnty to set new
+  // search criteria
+  const setQuery = (query) => {
+    setSearchParams({ query, page: 1 })
+  }
+
+  // Clear song lyrics status on unmount to prevent re-displaying notification
+  useEffect(
+    () => () => {
+      dispatch(clearSongLyricsStatus(song.id))
+    },
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
+    [song.id]
+  )
+
+  // works
+  let works
+  if (song.works.length > 0) {
+    // group works per work type
+    const worksByType = Object.groupBy(
+      song.works,
+      (workItem) => workItem.work.work_type.query_name
+    )
+
+    // create one detail per work type
+    works = Object.keys(worksByType).map((workTypeKey) => {
+      const worksOfType = worksByType[workTypeKey]
+      const workType = worksOfType[0].work.work_type
+
+      const worksList = worksOfType.map((workLink) => {
+        const controls = (
+          <button
+            className="control square primary"
+            onClick={() => {
+              setQuery(
+                `${workLink.work.work_type.query_name}:""${workLink.work.title}""`
+              )
+            }}
+          >
+            <span className="icon">
+              <i className="las la-search"></i>
+            </span>
+          </button>
+        )
+        return (
+          <ListingEntry controls={controls} noHoverizable key={workLink.id}>
+            <WorkLinkWidget
+              workLink={workLink}
+              query={query}
+              longLinkType
+              workProps={{
+                noIcon: true,
+              }}
+            />
+          </ListingEntry>
+        )
+      })
+
+      return (
+        <DetailAny
+          icon={`la-${workType.icon_name}`}
+          name={worksList.length > 1 ? workType.name_plural : workType.name}
+          key={workTypeKey}
+        >
+          <ListingList mini free entries={worksList} />
+        </DetailAny>
+      )
+    })
+  }
+
+  // artists
+  let artists
+  if (song.artists.length > 0) {
+    const artistsList = song.artists.map((artist) => {
+      const controls = (
+        <button
+          className="control square primary"
+          onClick={() => {
+            setQuery(`artist:""${artist.name}""`)
+          }}
+        >
+          <span className="icon">
+            <i className="las la-search"></i>
+          </span>
+        </button>
+      )
+      return (
+        <ListingEntry controls={controls} noHoverizable key={artist.id}>
+          <ArtistWidget artist={artist} query={query} noIcon noCount />
+        </ListingEntry>
+      )
+    })
+
+    artists = (
+      <DetailAny
+        icon="la-microphone-alt"
+        name={song.artists.length > 1 ? 'Artists' : 'Artist'}
+      >
+        <ListingList mini free entries={artistsList} />
+      </DetailAny>
+    )
+  }
+
+  // details
+  let detailSong
+  if (song.detail) {
+    detailSong = (
+      <DetailText icon="la-file-alt" name="Music details">
+        <HighlighterQuery
+          query={query}
+          searchWords={(q) => q.remaining}
+          textToHighlight={song.detail}
+        />
+      </DetailText>
+    )
+  }
+
+  let detailVideo
+  if (song.detail_video) {
+    detailVideo = (
+      <DetailText icon="la-file-alt" name="Video details">
+        <HighlighterQuery
+          query={query}
+          searchWords={(q) => q.remaining}
+          textToHighlight={song.detail_video}
+        />
+      </DetailText>
+    )
+  }
+
+  // lyrics
+  let lyrics
+  if (song.lyrics_preview) {
+    const lyricsNotification = (
+      <NotificationBar
+        alterationResponse={{
+          status: statusLyrics,
+          date: -1, // XXX There should be a valid date here
+        }}
+        pendingMessage={false}
+        successfulMessage={false}
+        failedMessage="Error fetching lyrics"
+        noDisplayOnMount
+      />
+    )
+
+    lyrics = (
+      <DetailLongText
+        icon="la-align-left"
+        name="Lyrics"
+        onExpand={() => {
+          // only fetch full lyrics if there is more to display, and if not
+          // fetched already
+          if (
+            song.lyrics_preview.truncated &&
+            statusLyrics !== Status.successful
+          ) {
+            dispatch(loadSongLyrics(song.id))
+          }
+        }}
+        notifications={lyricsNotification}
+        noDisplayOnMount
+      >
+        {song.lyrics_preview.text}
+      </DetailLongText>
+    )
+  }
+
+  // instrumental
+  let instrumental
+  if (song.has_instrumental) {
+    instrumental = (
+      <DetailText icon="la-microphone-slash" name="Instrumental">
+        Has an instrumental version
+      </DetailText>
+    )
+  }
+
+  // tags
+  let tags
+  if (song.tags.length > 0) {
+    tags = (
+      <DetailAny icon="la-tags" name="Tags">
+        <SongTagList tags={song.tags} setQuery={setQuery} />
+      </DetailAny>
+    )
+  }
+
+  if (
+    artists ||
+    works ||
+    detailSong ||
+    detailVideo ||
+    lyrics ||
+    instrumental ||
+    tags
+  ) {
+    return (
+      <div className="song-expanded">
+        <Details>
+          {artists}
+          {works}
+          {detailSong}
+          {detailVideo}
+          {lyrics}
+          {instrumental}
+          {tags}
+        </Details>
+      </div>
+    )
+  }
+
+  // return nothing if empty
+  return null
+}
+
+SongExpanded.propTypes = {
+  query: PropTypes.object,
+  song: songPropType.isRequired,
+}

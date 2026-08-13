@@ -1,0 +1,109 @@
+import classNames from 'classnames'
+import PropTypes from 'prop-types'
+
+import HighlighterQuery from 'components/generics/HighlighterQuery'
+import SongTagList from 'components/library/SongTagList'
+import ArtistWidget from 'components/library/widgets/Artist'
+import WorkLinkWidget from 'components/library/widgets/WorkLink'
+import { songPropType } from 'serverPropTypes/library'
+import { isDisplayable } from 'utils'
+import { Duration } from 'components/generics/Timing'
+
+export default function SongWidget({
+  song,
+  query,
+  noRelations,
+  noDuration,
+  noTags,
+  truncatable,
+  workLinkProps,
+  artistProps,
+}) {
+  // song version
+  let version
+  if (song.version) {
+    version = (
+      <HighlighterQuery
+        query={query}
+        className="version"
+        searchWords={(q) => q.remaining}
+        textToHighlight={song.version}
+      />
+    )
+  }
+
+  // relations (artists and works)
+  let relations
+  if (!noRelations) {
+    const works = song.works.map((work) => (
+      <WorkLinkWidget
+        key={work.id}
+        workLink={work}
+        query={query}
+        noEpisodes
+        truncatable={truncatable}
+        {...workLinkProps}
+      />
+    ))
+
+    const artists = song.artists.map((artist) => (
+      <ArtistWidget
+        artist={artist}
+        query={query}
+        key={artist.id}
+        noCount
+        truncatable={truncatable}
+        {...artistProps}
+      />
+    ))
+
+    if (isDisplayable(artists) || isDisplayable(works)) {
+      relations = (
+        <span className="relations">
+          {isDisplayable(artists) && <span className="artists">{artists}</span>}
+          {isDisplayable(works) && <span className="works">{works}</span>}
+        </span>
+      )
+    }
+  }
+
+  // song duration
+  let duration
+  if (!noDuration) {
+    duration = <Duration duration={song.duration} />
+  }
+
+  // song tags
+  let tags
+  if (!noTags && song.tags.length > 0) {
+    tags = <SongTagList tags={song.tags} query={query} noClick />
+  }
+
+  return (
+    <div className={classNames('song-widget', { truncatable })}>
+      <span className="titling">
+        <HighlighterQuery
+          query={query}
+          className="title"
+          searchWords={(q) => q.title.contains.concat(q.remaining)}
+          textToHighlight={song.title}
+        />
+        {version}
+      </span>
+      {relations}
+      {duration}
+      {tags}
+    </div>
+  )
+}
+
+SongWidget.propTypes = {
+  noRelations: PropTypes.bool,
+  noDuration: PropTypes.bool,
+  noTags: PropTypes.bool,
+  query: PropTypes.object,
+  song: songPropType.isRequired,
+  truncatable: PropTypes.bool,
+  workLinkProps: PropTypes.object,
+  artistProps: PropTypes.object,
+}

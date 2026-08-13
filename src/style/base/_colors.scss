@@ -4,24 +4,141 @@
 // Colors style file
 //
 
-@use "~/abstracts/colors";
+@use '~/abstracts/colors';
+
+.neutral {
+  // note that some colors are from the primary set
+  @include colors.make-color(
+    $background: colors.$neutral-100,
+    $background-selection: colors.$primary-200,
+    $text: colors.$neutral-400,
+    $text-selection: colors.$primary-500,
+    $text-quote: colors.$neutral-500,
+    $link: colors.$primary-400,
+    $link-hover: colors.$primary-402,
+    $link-focus: colors.$primary-403
+  );
+}
 
 .primary {
-    @include colors.make-color(colors.$brand-primary-darker, colors.$brand-primary-light, colors.$brand-primary);
+  @include colors.make-color(
+    $background: colors.$primary-100,
+    $background-selection: colors.$primary-200,
+    $text: colors.$primary-400,
+    $text-selection: colors.$primary-500,
+    $text-quote: colors.$primary-500,
+    $link: colors.$primary-400,
+    $link-hover: colors.$primary-402,
+    $link-focus: colors.$primary-403
+  );
 }
 
 .success {
-    @include colors.make-color(colors.$brand-success-darker, colors.$brand-success-light, colors.$brand-success);
+  @include colors.make-color(
+    $background: colors.$success-100,
+    $background-selection: colors.$success-200,
+    $text: colors.$success-400,
+    $text-selection: colors.$success-500,
+    $text-quote: colors.$success-500,
+    $link: colors.$success-400,
+    $link-hover: colors.$success-402,
+    $link-focus: colors.$success-403
+  );
 }
 
 .warning {
-    @include colors.make-color(colors.$brand-warning-darker, colors.$brand-warning-light, colors.$brand-warning);
+  @include colors.make-color(
+    $background: colors.$warning-100,
+    $background-selection: colors.$warning-200,
+    $text: colors.$warning-400,
+    $text-selection: colors.$warning-500,
+    $text-quote: colors.$warning-500,
+    $link: colors.$warning-400,
+    $link-hover: colors.$warning-402,
+    $link-focus: colors.$warning-403
+  );
 }
 
 .danger {
-    @include colors.make-color(colors.$brand-danger-darker, colors.$brand-danger-light, colors.$brand-danger);
+  @include colors.make-color(
+    $background: colors.$danger-100,
+    $background-selection: colors.$danger-200,
+    $text: colors.$danger-400,
+    $text-selection: colors.$danger-500,
+    $text-quote: colors.$danger-500,
+    $link: colors.$danger-400,
+    $link-hover: colors.$danger-402,
+    $link-focus: colors.$danger-403
+  );
 }
 
 .info {
-    @include colors.make-color(colors.$brand-info-darker, colors.$brand-info-light, colors.$brand-info);
+  @include colors.make-color(
+    $background: colors.$info-100,
+    $background-selection: colors.$info-200,
+    $text: colors.$info-400,
+    $text-selection: colors.$info-500,
+    $text-quote: colors.$info-500,
+    $link: colors.$info-400,
+    $link-hover: colors.$info-402,
+    $link-focus: colors.$info-403
+  );
+}
+
+// lighten listable with color on even line, or color in closest listable on
+// even line
+.listable:nth-child(even) {
+  &.primary,
+  &:not(:has(.listable)) .primary {
+    @include colors.make-color($background: colors.$primary-101);
+  }
+
+  &.success,
+  &:not(:has(.listable)) .success {
+    @include colors.make-color($background: colors.$success-101);
+  }
+
+  &.warning,
+  &:not(:has(.listable)) .warning {
+    @include colors.make-color($background: colors.$warning-101);
+  }
+
+  &.danger,
+  &:not(:has(.listable)) .danger {
+    @include colors.make-color($background: colors.$danger-101);
+  }
+
+  &.info,
+  &:not(:has(.listable)) .info {
+    @include colors.make-color($background: colors.$info-101);
+  }
+}
+
+// lighten hoverizable with color on hover, or color in closest hoverizable on
+// hover
+.hoverizable:hover {
+  &.primary,
+  &:not(:has(.hoverizable)) :not(.non-hoverizable).primary {
+    @include colors.make-color($background: colors.$primary-102);
+  }
+
+  &.succees,
+  &:not(:has(.hoverizable)) :not(.non-hoverizable).success {
+    @include colors.make-color($background: colors.$success-102);
+  }
+
+  &.warning,
+  &:not(:has(.hoverizable)) :not(.non-hoverizable).warning {
+    @include colors.make-color($background: colors.$warning-102);
+  }
+
+  &.danger,
+  &:not(:has(.hoverizable)) :not(.non-hoverizable).danger {
+    @include colors.make-color($background: colors.$danger-102);
+  }
+
+  &.info,
+  &:not(:has(.hoverizable)) :not(.non-hoverizable).info {
+    @include colors.make-color($background: colors.$info-102);
+  }
 }

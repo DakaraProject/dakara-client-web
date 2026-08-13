@@ -1,55 +1,65 @@
-import 'style/main.scss';
+import 'style/main.scss'
 
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
-import { applyMiddleware, compose, createStore } from 'redux';
-import persistState from 'redux-localstorage';
-import { thunk } from 'redux-thunk';
-import version from 'version'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { Provider } from 'react-redux'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
+import { applyMiddleware, compose, createStore } from 'redux'
+import persistState from 'redux-localstorage'
+import { thunk } from 'redux-thunk'
 
-import ProtectedRoute from 'components/generics/Router';
-import LibraryArtist from 'components/library/artist/List';
-import Library from 'components/library/Library';
-import LibrarySong from 'components/library/song/List';
-import LibraryWork from 'components/library/work/List';
-import Main from 'components/Main';
-import NotFound from 'components/navigation/NotFound';
-import PlaylistPlayed from 'components/playlist/played/List';
-import PlayerErrors from 'components/playlist/playerErrors/List';
-import Playlist from 'components/playlist/Playlist';
-import PlaylistQueueing from 'components/playlist/queueing/List';
-import Login from 'components/registration/Login';
-import Logout from 'components/registration/Logout';
-import Register from 'components/registration/Register';
-import ResetPassword from 'components/registration/ResetPassword';
-import SendResetPasswordLink from 'components/registration/SendResetPasswordLink';
-import VerifyEmail from 'components/registration/VerifyEmail';
-import VerifyRegistration from 'components/registration/VerifyRegistration';
-import SettingsKaraDateStop from 'components/settings/KaraDateStop';
-import SettingsKaraStatus from 'components/settings/KaraStatus';
-import Settings from 'components/settings/Settings';
-import SettingsSongTagsList from 'components/settings/songTags/List';
-import SettingsTokens from 'components/settings/Tokens';
-import SettingsUsersEdit from 'components/settings/users/Edit';
-import SettingsUsersList from 'components/settings/users/List';
-import TestColors from 'components/TestColors.jsx';
-import User from 'components/user/User';
-import manageStorageEvent from 'eventManagers/storage';
-import delayMiddleware from 'middleware/delay';
-import fetchApiMiddleware from 'middleware/fetchApi';
-import reducer from 'reducers';
+import SettingsAbout from 'components/settings/About'
+import ProtectedRoute from 'components/generics/ProtectedRoute'
+import Colors from 'components/lab/Colors'
+import Fields from 'components/lab/Fields'
+import Lab from 'components/lab/Lab'
+import Shapes from 'components/lab/Shapes'
+import LibraryArtist from 'components/library/artist/List'
+import Library from 'components/library/Library'
+import LibrarySong from 'components/library/song/List'
+import LibraryWork from 'components/library/work/List'
+import Main from 'components/Main'
+import NotFound from 'components/navigation/NotFound'
+import PlaylistPlayed from 'components/playlist/played/List'
+import PlayerErrors from 'components/playlist/playerErrors/List'
+import Playlist from 'components/playlist/Playlist'
+import PlaylistQueuing from 'components/playlist/queuing/List'
+import Login from 'components/registration/Login'
+import Logout from 'components/registration/Logout'
+import Register from 'components/registration/Register'
+import ResetPassword from 'components/registration/ResetPassword'
+import SendResetPasswordLink from 'components/registration/SendResetPasswordLink'
+import VerifyEmail from 'components/registration/VerifyEmail'
+import VerifyRegistration from 'components/registration/VerifyRegistration'
+import SettingsKaraDateStop from 'components/settings/KaraDateStop'
+import SettingsKaraStatus from 'components/settings/KaraStatus'
+import Settings from 'components/settings/Settings'
+import SettingsSongTagsList from 'components/settings/songTags/List'
+import SettingsTokens from 'components/settings/Tokens'
+import SettingsUsersEdit from 'components/settings/users/Edit'
+import SettingsUsersList from 'components/settings/users/List'
+import User from 'components/user/User'
+import manageStorageEvent from 'eventManagers/storage'
+import delayMiddleware from 'middleware/delay'
+import fetchApiMiddleware from 'middleware/fetchApi'
+import reducer from 'reducers'
+
+const composeEnhancers =
+  // #if DEV
+  (typeof window !== 'undefined' &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+  // #endif
+  compose
 
 const store = createStore(
   reducer,
-  compose(
+  composeEnhancers(
     applyMiddleware(fetchApiMiddleware, thunk, delayMiddleware),
     persistState('token')
   )
-);
+)
 
-manageStorageEvent(store);
+manageStorageEvent(store)
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -80,8 +90,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <Route path=":workType" element={<LibraryWork />} />
               </Route>
               <Route path="playlist" element={<Playlist />}>
-                <Route index element={<Navigate to="queueing" replace />} />
-                <Route path="queueing" element={<PlaylistQueueing />} />
+                <Route index element={<Navigate to="queuing" replace />} />
+                <Route path="queuing" element={<PlaylistQueuing />} />
                 <Route path="played" element={<PlaylistPlayed />} />
                 <Route path="player-errors" element={<PlayerErrors />} />
               </Route>
@@ -96,18 +106,21 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                   element={<SettingsKaraDateStop />}
                 />
                 <Route path="tokens" element={<SettingsTokens />} />
+                <Route path="about" element={<SettingsAbout />} />
               </Route>
             </Route>
-            {
-              // only display in dev mode
-              version.prerelease.length > 0 ? (
-                <Route path="test-colors" element={<TestColors />} />
-              ) : null
-            }
+            {/* #if DEV */}
+            <Route path="lab" element={<Lab />}>
+              <Route index element={<Navigate to="colors" replace />} />
+              <Route path="colors" element={<Colors />} />
+              <Route path="fields" element={<Fields />} />
+              <Route path="shapes" element={<Shapes />} />
+            </Route>
+            {/* #endif */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Main>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>
-);
+)

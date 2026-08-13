@@ -1,0 +1,45 @@
+//
+// Dakara project
+//
+// Shapes style file
+//
+
+@use '~/thirdparty/preboot';
+
+@mixin make-shape($width) {
+  @include preboot.square($width);
+
+  transform: translateX(-$width * 0.5) translateY(-$width * 0.5);
+  z-index: 100;
+}
+
+@mixin make-checkmark($background) {
+  background: $background;
+  clip-path: polygon(
+    0% 0%,
+    30% 0%,
+    50% 20%,
+    70% 0%,
+    100% 0%,
+    100% 30%,
+    80% 50%,
+    100% 70%,
+    100% 100%,
+    70% 100%,
+    50% 80%,
+    30% 100%,
+    0% 100%,
+    0% 70%,
+    20% 50%,
+    0% 30%
+  );
+  content: '';
+  position: absolute;
+}
+
+@mixin make-triangle-down($background) {
+  background: $background;
+  clip-path: polygon(0% 6.7%, 100% 6.7%, 50% 93.3%);
+  content: '';
+  position: absolute;
+}

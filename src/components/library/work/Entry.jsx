@@ -1,64 +1,41 @@
 import PropTypes from 'prop-types'
 import queryString from 'query-string'
-import { Component } from 'react'
-import { withNavigate } from 'thirdpartyExtensions/ReactRouterDom'
+import { useNavigate } from 'react-router'
 
-import HighlighterQuery from 'components/generics/HighlighterQuery'
+import { ListingEntry } from 'components/generics/listing/Entry'
+import WorkWidget from 'components/library/widgets/Work'
 import { workPropType } from 'serverPropTypes/library'
 
-class WorkEntry extends Component {
-    static propTypes = {
-        navigate: PropTypes.func.isRequired,
-        query: PropTypes.object,
-        work: workPropType.isRequired,
-        workType: PropTypes.string.isRequired,
-    }
+export default function WorkEntry({ work, workType, query, ...rest }) {
+  const navigate = useNavigate()
 
-    /**
-     * Search songs associated with the work
-     */
-    handleSearch = () => {
-        const query = `${this.props.workType}:""${this.props.work.title}""`
-        this.props.navigate({
-            pathname: '/library/song',
-            search: queryString.stringify({query})
+  const controls = (
+    <button
+      className="control square primary"
+      onClick={() => {
+        navigate({
+          pathname: '/library/song',
+          search: queryString.stringify({
+            query: `${workType}:""${work.title}""`,
+          }),
         })
-    }
+      }}
+    >
+      <span className="icon">
+        <i className="las la-search"></i>
+      </span>
+    </button>
+  )
 
-    render() {
-        const { title, subtitle, song_count } = this.props.work
-        return (
-            <li
-                className="library-entry listing-entry library-entry-work hoverizable"
-            >
-                <div className="library-entry-work-artist-display">
-                    <div className="header">
-                        <HighlighterQuery
-                            query={this.props.query}
-                            className="title"
-                            searchWords={(q) => (q.remaining)}
-                            textToHighlight={title}
-                        />
-                        <span className="subtitle">
-                            {subtitle}
-                        </span>
-                    </div>
-                    <div className="songs-amount">
-                        {song_count}
-                    </div>
-                </div>
-                <div className="controls">
-                    <button className="control primary" onClick={this.handleSearch}>
-                        <span className="icon">
-                            <i className="las la-search"></i>
-                        </span>
-                    </button>
-                </div>
-            </li>
-        )
-    }
+  return (
+    <ListingEntry id={work.id} controls={controls} {...rest}>
+      <WorkWidget work={work} query={query} noIcon truncatable />
+    </ListingEntry>
+  )
 }
 
-WorkEntry = withNavigate(WorkEntry)
-
-export default WorkEntry
+WorkEntry.propTypes = {
+  work: workPropType.isRequired,
+  workType: PropTypes.string.isRequired,
+  query: PropTypes.object,
+}
