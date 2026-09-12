@@ -80,7 +80,7 @@
     "vite-plugin-checker": "^0.14.5",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-stylelint": "^6.3.0",
-    "vitest": "^4.1.10",
+    "vitest": "^4.1.11",
     "yaml-eslint-parser": "^2.1.0",
     "yamllint-js": "^0.2.4"
   }
